@@ -1,16 +1,19 @@
-#notepad-java
-notepad-langのJava実装です。メモ帳やプラグイン無しのEmacsやVimでも書けるくらいに
+#notepad-java(仮)
+notepad-langのJava実装です。メモ帳やプラグイン無しのEmacsやVimでも書けるくらい  
 シンプルでパワフルな言語を目指しています。
 
 特徴としては以下の通りです。  
 
 - インデントなし(空行区切りのスコープ)
 - 静的型付け
-- インタプリタのような実行方法
+- 補完やシンタックスハイライトが無い事を最大限に考慮した文法
+ 
 
 #Hello World
 
     println "Hello world!"
+
+#notepad-java 言語仕様
 
 #型
 
@@ -29,20 +32,23 @@ notepad-langのJava実装です。メモ帳やプラグイン無しのEmacsやVi
     i = 10    //Int
     f = 1.0   //Float
     
-#####注意:`Float`は他の一般的な言語の`Double`と同等の精度を持ちます。なので`Double`型は存在しません。気持ち悪く感じる場合は、少し後に説明する*Alias Type*を使って別名にしましょう
+#####注意:`Float`は他の一般的な言語の`Double`と同等の精度を持ちます。なので`Double`型は存在しません。気持ち悪く感じる場合は、少し後に説明する*Alias Type*を使って別名にしましょう。*恐らく*期待通りに動作します。
+見かけ上も、実際の実装でも数値は`Num`型で表現され、動作します。表示や計算される際は後述する型演算子によって表現されうる最も適当であると判断された型で処理されます。
+
+    
 
 ##`String`
 
     str = "String literal"
 
 ##`Boolean`,`True`,`False`
-主に条件式での分岐で用いることが出来ます。
 
 ##`Array`
 *Variablename* = [ Element1 | Element2... ]
 
     array = [ "hoge" | "fuga" | "piyo" ]
     println array[0] //hoge
+    println array    // hoge | fuga | piyo
 
 ##`Alias Type`
 type *NewTypeName* = *ExistsTypeName*
@@ -50,7 +56,7 @@ type *NewTypeName* = *ExistsTypeName*
     type URL = String
     
 ##`Function`
-func *#FuncNameLabel* args
+func *#FunctionNameLabel* args
 statement
 
     func #usefulFunction
@@ -74,7 +80,7 @@ statement
     functionArguments functionWithArg //Hoge
 
 
-##Pair
+##`Pair`
 *VariableName* = (*Expr1*,*Expr2*)
 
 ##`Dictionary`
@@ -136,6 +142,49 @@ NG
 
 ##`/* comment */`,`// line comment`
 
+##`#ラベル`
+`#`の直後(スペースなどの区切りを入れてはいけません)に任意の文字列をつなげるとラベルが宣言できます。
+
+    #labelName
+
+##`jump` to
+`jump` to *ExistingLabelName* (Arguments)<sub>opt</sub>
+
+
+    #labelName
+    println "Hello"
+    
+    jump to labelName //Infinite loop
+    
+    #labelName arg
+    println arg
+    
+    jump to labelName "Hello World" //Infinite loop
+    
+##`overwrite` to
+
+`overwritable`修飾子とラベルを付与した行は実行中に`overwrite` toを用いることで  
+その行のコード自体を書き換える事が可能です。  
+
+    overwritable #outputStr str = "Hello World"
+    println str //Hello World
+    overwrite to outputStr str = "Hello notepad"
+    println str //Hello notepad
+    
+##`check`
+`check` *Expression* "ErrorMessage"  
+`check`は直後の式を評価し、`True`以外が返る場合にコンパイルエラーまたは実行時エラーを発生させます。  
+どちらの場合でも、エラーが発生すると"ErrorMessage"が表示されます。
+次のコードは、0が渡されるとエラーが発生するコードです。コード中で0が渡されている文が存在する場合は、
+コンパイルエラーが発生します。
+
+    func #functionWithErrorCheck arg
+    check arg == Positive or Negative
+    println arg
+     
+    functionWithErrorCheck 2 //2
+    functionWithErrorCheck 0 //Compile time error
+    
 #式
 
 ##`if`
@@ -175,35 +224,13 @@ statement2
 
 ##`loop`
 
-    loop 1..5
-    
-##`jump`=`
-
-    #labelName
-    println "Hello"
-    
-    jump labelName //Infinite loop
-    
-    #labelName arg
-    println arg
-    
-    jump labelName "Hello World" //Infinite loop
-    
-##`overwriteTo`
-
-`overwritable`修飾子とラベルを付与した行は実行中に`overwriteTo`を用いることで  
-その行のコード自体を書き換える事が可能です。  
-
-    overwritable #outputStr str = "Hello World"
-    println str //Hello World
-    overwriteTo outputStr str = "Hello notepad"
-    println str //Hello notepad
+    loop 1..5    
 
 #演算子
 ##`=`
 他の一般的な言語と同じく、変数への代入や変数の初期化に用いることができます。  
 `=`を使用する際には変数名と式の間に半角のスペース` `を挿入することが推奨されますが、  
-そのように書かなくても動きます。
+そのように書かなくても動きます。例えば、次のパターンはコンパイル可能で、期待どおりに動作します。
 
 *Variable*=*Expr*
   
@@ -219,11 +246,17 @@ statement2
 
 *Variable*=statement
 
+##`to`
+キーワードと識別子を連結するために使用します。
+
+    jump to ...
+    overwrite to ...
+
 ##`or`
 
     orResult1 = True or False //True
     orResult2 = False or False //False
-    
+        
 ##`and`
     
     andResult1 = True and True //True
@@ -243,7 +276,15 @@ statement2
     i = 10    //Int or Positive or Num
     f = 1.0   //Float or Positive or Num
 
-他の型へのキャストは、このリスト演算子で推論される範囲内のみ可能です。`Int`として受け取った後に
-演算によって(例えば割り算)`Float`へ変化する場合、動的に型が`Num`の範囲内で暗黙キャストされます。
+演算子で接続される型の集まりの名前は型リストとします。  
+例えば、上の`p`に割り当てられている型は`Positive`と`Int`と`Num`ですが、  
+この3つの型を総称して型リストと呼び、型同士は`or`演算子によって接続されています。
+
+元の型と異なる型へのキャストは、この演算子で推論される範囲内のみ可能です。  
+`Int`として受け取った後に演算によって(例えば割り算)`Float`へ変化する場合、  
+動的に型が`Num`の範囲内で暗黙的にキャストされます。
 誤差が生じにくくなりますが、返り値の型の不整合などに注意してください。
 
+    num = 10 //Positive or Int or Num
+    
+    
