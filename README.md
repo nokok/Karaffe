@@ -16,12 +16,15 @@ notepad-langのJava実装です。メモ帳やプラグイン無しのEmacsやVi
 #notepad-java 言語仕様
 
 #型
+##定義
+<sub>opt</sub>は省略可能なトークンであることを表します。    
+...は1回以上の繰り返しが可能であることを表します。
 
 ##`Num`
 
     n = 1
     result = n isPositive
-    println result // True
+    println result //True
 
 ####Subtype
 `Positive`,`Negative`,`Zero`,`Int`,`Float`
@@ -33,9 +36,6 @@ notepad-langのJava実装です。メモ帳やプラグイン無しのEmacsやVi
     f = 1.0   //Float
     
 #####注意:`Float`は他の一般的な言語の`Double`と同等の精度を持ちます。なので`Double`型は存在しません。気持ち悪く感じる場合は、少し後に説明する*Alias Type*を使って別名にしましょう。*恐らく*期待通りに動作します。
-見かけ上も、実際の実装でも数値は`Num`型で表現され、動作します。表示や計算される際は後述する型演算子によって表現されうる最も適当であると判断された型で処理されます。
-
-    
 
 ##`String`
 
@@ -51,12 +51,12 @@ notepad-langのJava実装です。メモ帳やプラグイン無しのEmacsやVi
     println array    // hoge | fuga | piyo
 
 ##`Alias Type`
-type *NewTypeName* = *ExistsTypeName*
+type *NewTypeName* = *ExistingTypeName*
 
     type URL = String
     
 ##`Function`
-func *#FunctionNameLabel* args
+func *#FunctionNameLabel* Argument1<sub>opt</sub> ...  
 statement
 
     func #usefulFunction
@@ -81,32 +81,35 @@ statement
 
 
 ##`Pair`
-*VariableName* = (*Expr1*,*Expr2*)
+*VariableName* = (*Expr1*,*Expr2*)  
+*Expr1*と*Expr2*は同じ型である必要はありません。  
+文が渡された時にコンパイルエラーが発生します。
+    
+    pair = ("Key","Value")
+    
+    println pair       //("Key", "Value")
+    println pair left  //"Key"
+    println pair right //"Value"
 
 ##`Dictionary`
-*VariableName* = [ *Pair1* | *Pair2* | ...]
+Dictionary(Mapとも言います)は、Pairの配列で表現されます。
+渡されるPairの型は、左右それぞれで統一されてなければなりません。
+ただし、左右で同じ型である必要はありません。
+
+*VariableName* = [ *Pair1* | *Pair2* | ... ]
 
     dic = [ ("Hoge",1) | ("Fuga",2)]   
     dic[0] is Pair         //True 
-    println dic[0]         //("Hoge",1)
+    println dic[0]         //("Hoge", 1)
     println dic["Hoge"]    //1
+    
+    invalid = [ ("key", "value") | (2, 1)] //Pair type must be unified.
 
 ##`Optional`
-
+仕様策定中
     
 
 #文法
-##変数の宣言
-変数の宣言は以下のように行います。
-
-*VariableName* = *VariableInitializer*
-
-初期化は必須です。
-
-    varName //wrong
-
-    variableName = variableInitializer //OK!
-
 ##スコープの規則
 スコープは関数ごと、または空行を挟むことで区切られます。  
 同じ関数内でも途中で空行を挟むと別スコープになります。  
@@ -127,11 +130,13 @@ NG
     println str //not found: str
 
     hoge = ...
+    println hoge
     hoge = ... //duplicate variable
 
-`global`修飾子を使用することで、ファイル内でスコープが有効になります。  
+`global`修飾子が付与された変数はファイル内全域で利用可能になります。  
 変数では、全ファイルからアクセスできるようなスコープは作成出来ません。  
-`jump`命令で使用する`#`で始まるラベルは標準で`global`修飾子を付与した時と同じ動作をします。
+`jump`命令で使用する`#`で始まるラベルは標準で`global`修飾子を付与した時と同じ動作をします。  
+衝突を防止するため、`global`修飾子が付与された変数は全て大文字かつスネークケースで命名することを推奨します。
 
 `global`修飾子
 
@@ -140,16 +145,34 @@ NG
     println GLOBAL_VARIABLE //App Name
     GLOBAL_VARIABLE = ... //duplicate variable
 
+
+##変数の宣言
+変数の宣言は以下のように行います。
+
+*VariableName* = *VariableInitializer*
+
+初期化は必須です。
+
+    invalidVariable //Variable initializer is required.
+
+    variableName = variableInitializer //OK!
+
 ##`/* comment */`,`// line comment`
+プログラム中にコメントを付ける事ができます。
 
 ##`#ラベル`
-`#`の直後(スペースなどの区切りを入れてはいけません)に任意の文字列をつなげるとラベルが宣言できます。
+`#`の直後に任意の文字列をつなげるとラベルが宣言できます。
 
     #labelName
+    
+##`to`
+キーワードと識別子を連結するために使用します。
+
+    jump to ...
+    overwrite to ...
 
 ##`jump` to
-`jump` to *ExistingLabelName* (Arguments)<sub>opt</sub>
-
+`jump` to *ExistingLabelName* Arguments<sub>opt</sub>
 
     #labelName
     println "Hello"
@@ -179,7 +202,7 @@ NG
 コンパイルエラーが発生します。
 
     func #functionWithErrorCheck arg
-    check arg == Positive or Negative
+    check arg equals Positive or Negative
     println arg
      
     functionWithErrorCheck 2 //2
@@ -227,30 +250,28 @@ statement2
     loop 1..5    
 
 #演算子
+*LeftExpression* *Operator* *RightExpression*
+
+*Expression1* *Operator*  
+*Expression2*
+
+*Expression1*  
+*Operator* *Expression2*
+
 ##`=`
 他の一般的な言語と同じく、変数への代入や変数の初期化に用いることができます。  
-`=`を使用する際には変数名と式の間に半角のスペース` `を挿入することが推奨されますが、  
-そのように書かなくても動きます。例えば、次のパターンはコンパイル可能で、期待どおりに動作します。
+`=`を使用する際には変数名と式の間に半角のスペース` `を挿入することが推奨されます。
 
-*Variable*=*Expr*
-  
-*Variable* = *Expr*  
+##算術演算子
+##`+`,`-`,`*`,`\`,`%`
 
-*Variable*=  
-*Expr*  
+    println 1 + 2 //3
+    println 2 - 1 //1
+    println 3 * 3 //9
+    println 3 / 2 //1.5
+    println 5 % 3 //2
 
-*Variable*  
-=*Expr*
-
-以下の文法はコンパイルエラーが発生します。
-
-*Variable*=statement
-
-##`to`
-キーワードと識別子を連結するために使用します。
-
-    jump to ...
-    overwrite to ...
+##比較演算子
 
 ##`or`
 
@@ -267,6 +288,9 @@ statement2
 
     notResult1 = not True //False
     notResult2 = not True and False //True
+
+##`equals`
+
     
 ##型演算子
 
@@ -287,4 +311,11 @@ statement2
 
     num = 10 //Positive or Int or Num
     
-    
+#標準API
+`println`などは、標準APIとしてあらかじめ宣言され、どこでも、準備なしで使用できます。  
+
+標準で利用出来るAPI  
+
+| API側の宣言 | 動作 |
+|---|---|
+|`func #println arg`| 渡された引数の内容を表示します |
