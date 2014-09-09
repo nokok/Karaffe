@@ -257,6 +257,10 @@ NG
     functionWithErrorCheck 2 //2
     functionWithErrorCheck 0 //エラー: check文の条件が成立しないパラメータです Positive or Negative
     
+##`return`
+return *Expression*  
+*Expression*の結果を外側のスコープまたは式などに制御を移します。
+
 #式
 
 ##`if`
