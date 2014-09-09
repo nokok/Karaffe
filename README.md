@@ -5,20 +5,45 @@ notepad-langのJava実装です。メモ帳やプラグイン無しのEmacsやVi
 特徴としては以下の通りです。  
 
 - インデントなし(空行区切りのスコープ)
-- 静的型付け
-- 補完やシンタックスハイライトが無い事を最大限に考慮した文法
- 
+- 静的型付け + **強力な**コンパイル時エラーチェック
+- 補完やシンタックスハイライト、オートインデントが無いエディタを最大限に考慮した文法
 
 #Hello World
 
     println "Hello world!"
+    
+#フィボナッチ数
+
+    func #fib n
+    check n equals Num
+    if n equals 0
+    return n
+    else if n equals 1
+    return n
+    else
+    return fib n - 1 + fib n - 2
+
+    println fib 5
+
+※インデントを付与した以下のコードでも同様の動作をします。
+
+    func #fib n
+      check n equals Num
+      if n equals 0
+        return n
+      else if n equals 1
+        return 1
+      else
+        return fib n - 1 + fib n - 2
+
+    println fib 5
 
 #notepad-java 言語仕様
 
 #型
 ##定義
-<sub>opt</sub>は省略可能なトークンであることを表します。    
-...は1回以上の繰り返しが可能であることを表します。
+<sub>opt</sub>は省略可能なトークンであることを表します。  
+...は直前の同じ式または文などが1回以上繰り返し可能であることを表します。
 
 ##`Num`
 
@@ -51,12 +76,25 @@ notepad-langのJava実装です。メモ帳やプラグイン無しのEmacsやVi
     println array    // hoge | fuga | piyo
 
 ##`Alias Type`
-type *NewTypeName* = *ExistingTypeName*
+Alias Typeを使用すると、既存の型に別名を付与することが出来ます。  
+また、作成した新しい型に対して`check`文を使用すると、  
+(可能な場合)コンパイル時チェックが出来ます。  
+`check`文で用いることの出来るメソッドは元の型*ExistingType*で利用可能なメソッドに限られ、  
+変数は暗黙的に宣言されます。  
+
+type *NewTypeName* = *ExistingTypeName*  
+check *Expression*
+...
 
     type URL = String
+    check startsWith "https" or "http"
+
+    url = "http://google.com"
     
 ##`Function`
-func *#FunctionNameLabel* Argument1<sub>opt</sub> ...  
+`Function`を用いることで、特定の処理をまとめておくことが出来ます。  
+性質上、ラベルに対して暗黙的に`global`が付与されます。  
+func *#FunctionNameLabel* ArgumentName1<sub>opt</sub> ...  
 statement
 
     func #usefulFunction
@@ -92,9 +130,9 @@ statement
     println pair right //"Value"
 
 ##`Dictionary`
-Dictionary(Mapとも言います)は、Pairの配列で表現されます。
-渡されるPairの型は、左右それぞれで統一されてなければなりません。
-ただし、左右で同じ型である必要はありません。
+Dictionary(Mapとも言います)は、Pairの配列で表現されます。  
+渡されるPairの型は、左右それぞれで統一されてなければなりませんが、  
+左右で同じ型である必要はありません。  
 
 *VariableName* = [ *Pair1* | *Pair2* | ... ]
 
@@ -150,12 +188,19 @@ NG
 変数の宣言は以下のように行います。
 
 *VariableName* = *VariableInitializer*
+*VariableName* : *ExistingTypeName* = *VariableInitializer*
 
 初期化は必須です。
 
     invalidVariable //Variable initializer is required.
+    invalid
 
     variableName = variableInitializer //OK!
+    
+    type URL = String
+    
+    variableWithType : URL = "http://google.com"
+    
 
 ##`/* comment */`,`// line comment`
 プログラム中にコメントを付ける事ができます。
@@ -248,6 +293,9 @@ statement2
 ##`loop`
 
     loop 1..5    
+
+##入れ子の式
+
 
 #演算子
 *LeftExpression* *Operator* *RightExpression*
