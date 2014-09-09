@@ -51,7 +51,7 @@ notepad-langのJava実装です。メモ帳やプラグイン無しのEmacsやVi
     result = n isPositive
     println result //True
 
-####Subtype
+####Type Alias
 `Positive`,`Negative`,`Zero`,`Int`,`Float`
 
     p = 1     //Positive
