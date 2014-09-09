@@ -291,11 +291,45 @@ statement2
     
     println result //TrueCond 
     
+##`..`
+右辺以下の範囲の任意の`Num`型配列を展開する式です。
+
+*Expr1* .. *Expr2*  
+*Expr1* .. *Expr2* *Step Expr*<sub>opt</sub>  
+*Expr1*、*Expr2*、*Step Expr*は`Num`型である必要があります。  
+*Step Expr*で増/減分を指定することが出来ます。  
+省略した場合、`1`が暗黙的に指定されます。
+
+    1..5    //[ 1 | 2 | 3 | 4 | 5 ]
+    2..10 2 //[ 2 | 4 | 6 | 8 | 10 ]
+    10..8   //[ 10 | 9 | 8 ]
+    
+##`.<`
+右辺の数を含まない範囲の`Num`型配列を展開する式です。
+
+    1.<5    //[ 1 | 2 | 3 | 4 ]
+    1.<10 2 //[ 2 | 4 | 6 | 8 ]
 
 ##`loop`
+loop *Expression*  
+statement<sub>opt</sub>  
+*Expression*は`Array`型である必要があります。そうでない場合、コンパイルエラーが発生します。
+*Expression*で評価された配列は、配列の先頭から最後まで取り出されます。
+取り出された要素は、通常、`_`が暗黙的に`Num`型で宣言され、利用することが出来ます。  
+statementは省略することが出来ます。  
+`loop`式は変数へ代入をすることで特定の回数処理を行う`Function`が利用できます。  
 
-    loop 1..5    
-
+    loop 1..5
+    println "Hello World" + _
+    
+    func #loopBody arg
+    println arg
+    
+    global l = loop 1..5
+    l println "Hello World" //Hello Worldが5回出力される
+    
+    l loopBody
+    
 ##入れ子の式
 
 
