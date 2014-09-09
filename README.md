@@ -400,6 +400,7 @@ statementは省略することが出来ます。
 
 標準で利用出来るAPI  
 
-| API側の宣言 | 動作 |
-|---|---|
-|`func #println arg`| 渡された引数の内容を表示します |
+| API側の宣言 |返り値| 動作 |
+|---|---|---|
+|`func #println arg`|`voidk`| 渡された引数の内容を表示します |
+|`func #typeName` arg` |`String`| 渡された引数の型を文字列表現にします | 
