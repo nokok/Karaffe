@@ -90,6 +90,7 @@ check *Expression*
     check startsWith "https" or "http"
 
     url = "http://google.com"
+    invalidURL = "Hoge" //コンパイルエラーです。なぜならば、文字列"Hoge"が"http"や"https"から始まっていません。
     
 ##`Function`
 `Function`を用いることで、特定の処理をまとめておくことが出来ます。  
@@ -100,22 +101,22 @@ statement
     func #usefulFunction
     println "Function called."
 
-    usefulFunction //Function called.
+    usefulFunction                          //Function called.
     
     func #functionWithArg arg
     println arg
     
-    functionWithArg "Hello World" //Hello World  
+    functionWithArg "Hello World"           //Hello World  
     
     var func #function
     println "hello"
     
-    func //Hello
+    func                                    //Hello
     
     func #functionArguments f
     f "Hoge"
     
-    functionArguments functionWithArg //Hoge
+    functionArguments functionWithArg       //Hoge
 
 
 ##`Pair`
@@ -141,7 +142,7 @@ Dictionary(Mapとも言います)は、Pairの配列で表現されます。
     println dic[0]         //("Hoge", 1)
     println dic["Hoge"]    //1
     
-    invalid = [ ("key", "value") | (2, 1)] //Pair type must be unified.
+    invalid = [ ("key", "value") | (2, 1)] //Pairの型は同じでなければなりません。(String,String)を期待していますが、(Num,Num)が渡されました。
 
 ##`Optional`
 仕様策定中
@@ -156,20 +157,20 @@ Dictionary(Mapとも言います)は、Pairの配列で表現されます。
 OK
 
     str = "Hello World"
-    println str //Hello World
+    println str                            //Hello World
 
     str = "Other Hello world"
-    println str //Other Hello world
+    println str                            //Other Hello world
 
 NG
 
     str = "Hello World"
 
-    println str //not found: str
+    println str                            //見つかりません: str
 
     hoge = ...
     println hoge
-    hoge = ... //duplicate variable
+    hoge = ...                             //変数が重複しています: hoge
 
 `global`修飾子が付与された変数はファイル内全域で利用可能になります。  
 変数では、全ファイルからアクセスできるようなスコープは作成出来ません。  
@@ -180,8 +181,8 @@ NG
 
     global GLOBAL_VARIABLE = "App Name"
     
-    println GLOBAL_VARIABLE //App Name
-    GLOBAL_VARIABLE = ... //duplicate variable
+    println GLOBAL_VARIABLE    //App Name
+    GLOBAL_VARIABLE = ...      //変数が重複しています: global GLOBAL_VARIABLE
 
 
 ##変数の宣言
@@ -192,7 +193,7 @@ NG
 
 初期化は必須です。
 
-    invalidVariable //Variable initializer is required.
+    invalidVariable //エラー: 変数の初期化は必須です。
     invalid
 
     variableName = variableInitializer //OK!
@@ -251,7 +252,7 @@ NG
     println arg
      
     functionWithErrorCheck 2 //2
-    functionWithErrorCheck 0 //Compile time error
+    functionWithErrorCheck 0 //エラー: check文の条件が成立しないパラメータです Positive or Negative
     
 #式
 
@@ -280,8 +281,6 @@ statement2
     println "FalseCond"
     
     //OR 
-    
-    if Expr /* do something */ else /* do something */ 
     
     isTrue = True
     
@@ -316,7 +315,7 @@ statement2
     println 1 + 2 //3
     println 2 - 1 //1
     println 3 * 3 //9
-    println 3 / 2 //1.5
+    println 3 / 2 //1.5 (Num/NumはFloatへ自動キャストされる場合があります。)
     println 5 % 3 //2
 
 ##比較演算子
