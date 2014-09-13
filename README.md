@@ -190,7 +190,7 @@ NG
 ##変数の宣言
 変数の宣言は以下のように行います。
 
-*VariableName* = *VariableInitializer*
+*VariableName* = *VariableInitializer*  
 *VariableName* : *ExistingTypeName* = *VariableInitializer*
 
 初期化は必須です。
