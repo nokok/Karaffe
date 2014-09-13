@@ -1,3 +1,5 @@
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.2.0/css/bootstrap.min.css">
+
 #notepad-java(仮)
 notepad-langのJava実装です。メモ帳やプラグイン無しのEmacsやVimでも書けるくらい  
 シンプルでパワフルな言語を目指しています。
