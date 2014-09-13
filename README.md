@@ -75,8 +75,8 @@ notepad-langのJava実装です。メモ帳やプラグイン無しのEmacsやVi
     println array[0] //hoge
     println array    // hoge | fuga | piyo
 
-##`Alias Type`
-Alias Typeを使用すると、既存の型に別名を付与することが出来ます。  
+##`Type Alias`
+Type Aliasを使用すると、既存の型に別名を付与することが出来ます。  
 また、作成した新しい型に対して`check`文を使用すると、  
 (可能な場合)コンパイル時チェックが出来ます。  
 `check`文で用いることの出来るメソッドは元の型*ExistingType*で利用可能なメソッドに限られ、  
