@@ -408,5 +408,5 @@ statementは省略することが出来ます。
 
 | API側の宣言 |返り値| 動作 |
 |---|---|---|
-|`func #println arg`|`voidk`| 渡された引数の内容を表示します |
+|`func #println arg`|`void`| 渡された引数の内容を表示します |
 |`func #typeName` arg` |`String`| 渡された引数の型を文字列表現にします | 
