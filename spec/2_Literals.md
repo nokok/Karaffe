@@ -77,7 +77,7 @@ println typeOf a //Type[Void to String]
 b  : Void to Boolean = true
 b1 : Void to Boolean = [] to true
 
-c : Int Int to Int = [a b] to + a b
+c  : Int Int to Int = [a b] to a + b
 ```
 
 ##型

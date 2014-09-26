@@ -12,7 +12,7 @@
 
     x : Num = 10
     y : Num = 3
-    value = / x y 
+    value = x / y 
     println typeName x     //Num
     println typeName y     //Num
     println typeName value //Num
@@ -29,14 +29,14 @@
    
     x : Num = 10
     y : Num = 3
-    result = / x y
+    result = x / y
     println
     printInt result //コンパイルエラー。valueはFloatとなるため。FloatからIntへの暗黙変換は不可。
     printInt intValueFrom result //3
     
     x : Num = 10
     y : Num = 2
-    value = / x y
+    value = x / y
     printInt value //変換が発生しないため、コンパイル・実行可能
     
 文字を実行時に読み込む場合で、型のチェックされない場合はコンパイルエラーとなります。  
