@@ -1,22 +1,14 @@
-#
-	
+#Karaffe Programming Language
 ---
-notepad-langのJava実装です。メモ帳でなんの問題も無く書ける  
-シンプルでパワフルな言語を目指しています。  
-
-###特徴  
-
-* 静的型付け + **強力な**コンパイル時エラーチェック
-* 補完やシンタックスハイライト、オートインデントが無いエディタを最大限に考慮した文法
-* 遅延評価構文による遅延評価
+メモ帳でなんの問題も無く書けるシンプルでパワフルな言語を目指しています。  
 
 #Hello World
 ---
 ```
 println "Hello world!"
 ``` 
-#notepad-java 言語仕様(中途半端)
-
+#Karaffe 言語仕様(中途半端)
+---
 [はじめに](spec/1_Introduction.md)  
 [リテラル](spec/2_Literals.md)  
 [構文](spec/3_Syntax.md)  

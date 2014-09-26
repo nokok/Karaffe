@@ -1,4 +1,4 @@
-#notepad-java APIDoc
+#Karaffe APIDoc
 
 
 これらの関数は標準であらかじめ自動で宣言され、importなどの準備無しで使用出来ます。  
