@@ -1,4 +1,4 @@
-#Karaffe Programming Language
+#![Logo](logo/Karaffe_Logo.png) Karaffe Programming Language
 ---
 メモ帳でなんの問題も無く書けるシンプルでパワフルな言語を目指しています。  
 
