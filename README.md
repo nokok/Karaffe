@@ -26,3 +26,13 @@ Hello World!
 [ユニットテスト](spec/8_Testing.md)  
 [互換性ポリシー](spec/9_Compatibility.md)  
 [変更履歴](ReleaseNote.md)
+#Karaffeロゴについて
+
+##配色
+
+| 配置 | 色 | 
+| --- | ---|
+|枠線|`#36251e`
+|左|`#7b5544`  
+|右| `#4c352a`  
+|中央|`#855d49`  
