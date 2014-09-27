@@ -17,7 +17,7 @@
 宣言
 ```
 type Num = Any
-check numValue
+check isNum
 ```
 
 | 変数名 | 型 | 動作 |
@@ -30,7 +30,7 @@ check numValue
 宣言
 ```
 type String = Any
-check stringValue
+check isString
 ```
 
 ##Boolean
