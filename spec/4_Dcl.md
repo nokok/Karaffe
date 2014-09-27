@@ -1,17 +1,9 @@
 #宣言
 
-##定数の宣言
+##変数宣言
 seffect<sub>opt</sub> VariableName : *ExistingTypeName*<sub>opt</sub> = Initializer  
-seffect<sub>opt</sub> VariableName : *StructureName*<sub>opt</sub> = *StructureName* *Argument*:Initializer ...  
 seffect<sub>opt</sub> VariableName : *ExistingTypeName(Argument)* to *ExistingTypeName(Return)* = FunctionBody  
-seffect<sub>opt</sub> VariableName : *ExistingTypeName*
-
-制約:
-
- * 既に宣言されている変数への再代入の禁止。ただしseffect修飾子を使用した場合のみ許可
- * 外側のスコープで宣言されている変数名と同名の変数宣言の禁止
- * 使用しない変数宣言の禁止
- * 型のマッチしない初期化を禁止
+seffect<sub>opt</sub> VariableName : *ExistingTypeName(Argument)* to *ExistingTypeExpression(Return)* = FunctionBody  
 
 例
 
@@ -19,6 +11,12 @@ seffect<sub>opt</sub> VariableName : *ExistingTypeName*
     b : Num = 0
     
     a : Float = 0 //コンパイルエラー
+    
+    seffect v = 0
+    println v //0
+    v = v + 1
+    println v //1
+    
     
 引数がある場合、先頭から順番に`$0`、`$1`...`$n`としてアクセス出来ます。  
 
@@ -30,6 +28,13 @@ seffect<sub>opt</sub> VariableName : *ExistingTypeName*
     
     add 1 2  //3
     div 10 5 //2
+
+* 大文字から始まる変数宣言はできません。
+* 初期化を省略した場合コンパイルエラーとなります
+* `seffect`修飾子を付与した場合、再代入可能な変数として宣言されます。デフォルトで再代入できません。  
+* 外側のスコープで宣言されている変数名と同じ名前で再宣言することはできません。
+* 使用しない変数宣言はできません。
+* 型が合致しない初期化はできません。
 
 ##構造体宣言
 構造体とは、複数の変数をまとめて一つのオブジェクトとして扱うことが可能です。  
