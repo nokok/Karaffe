@@ -6,10 +6,10 @@
 最上位の型です。  
 このドキュメントで定義されている型は全てこの型からType Aliasを用いて再宣言されています。  
 
-| 変数名 | 宣言 | 動作 |
+| 変数名 | 型 | 動作 |
 |---|---|---|
-|value| `value : Void to String` | オブジェクトの文字列表現を取得する
-|hash|`hash : Void to Int` | オブジェクトのハッシュ
+|value| `Void to String` | オブジェクトの文字列表現を取得する
+|hash|`Void to Int` | オブジェクトのハッシュ
 
 ##Num
 数値を格納する型です。  
@@ -20,10 +20,10 @@ type Num = Any
 check numValue
 ```
 
-| 変数名 | 宣言 | 動作 |
+| 変数名 | 型 | 動作 |
 |---|---|---|
-|value| `value : Void to String` | 数値の文字列表現を取得する
-|hash | `hash : Void to Int` | 数値をそのまま返す。実数の場合は四捨五入を行う
+|value| `Void to String` | 数値の文字列表現を取得する
+|hash | `Void to Int` | 数値をそのまま返す。実数の場合は四捨五入を行う
 
 ##String
 文字列を格納する型です。  
