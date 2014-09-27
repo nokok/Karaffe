@@ -20,31 +20,32 @@ println 1.<5 //[ 1 2 3 4 ]
 println 0..10 3 //[0 3 6 9]
 println 0.5..5.0 0.5 [0.5 1.0 1.5 2.0 2.5 3.0 3.5 4.0 4.5 5.0]
 ```
+##switch式
+sw RenameVariables<sub>opt</sub>  
+Expression = statement  
+...  
+\_<sub>opt</sub> = defaultstmt
 
-##if式
-if Expression statement1  
-if Expression statement1 else statement2  
+switch式は渡された引数によって処理を分岐します。  
+switch式は1つの変数のみから分岐が可能です。  
+この変数は`$0`が暗黙的に宣言され、statement及びdefaultstmtで利用できます。  
+Expressionの部分には型、式、数値、文字列、`Boolean`型を返す関数が置けます。  
+RenameVariablesで`$0`〜`$n`に別名を付与することが可能です。  
 
-最初にExpressionが評価されます  
-Expressionで演算子は使用できず、ただひとつの変数または関数のみが使用できます。  
-Expressionでは`Boolean`型または`Optional`型を返す関数または変数が使用できます。  
-評価結果が`True`の場合statement1が実行されます  
-評価結果が`False`の場合かつstatement2が存在する場合、statement2が実行されます。  
-Expressionが`Optional`型の場合、アンラップを試みます。  
-アンラップ成功した場合、statement1が実行され、if式を終了します。  
-アンラップ失敗した場合、かつstatement2が存在する場合、statement2が実行されます。  
-アンラップ失敗した場合、かつstatement2が存在しない場合、if式を終了します。  
-statementが返り値を持つ場合、返してif式の実行を終了します。  
-statementが返り値を持たない場合、Expessionの評価結果を返してif式を終了します。  
+コード例
+```
+global judge = sw
+isZero  = println "Zero"
+isInt   = println "Int"
+isFloat = println "Float"
+_          = println "Other"
 
-##unless式
-unless Expression statement1  
-unless Expression statement2 else statement2
+judge 400    //Int
+judge 0.3    //Float
+judge 0      //Zero
+judge "hoge" //Other
 
-Expressionにnot演算子を付与した状態で評価を行います。評価前後の動作はif式と同様です。  
-
-##case match式
-仕様策定中
+```
     
 ##コメント
 `/*`, `*/`で囲むと囲んだ部分全てがコメントになります。  
