@@ -1,12 +1,19 @@
 #![Logo](logo/Karaffe_Logo.png) Karaffe Programming Language
 ---
-メモ帳でなんの問題も無く書けるシンプルでパワフルな言語を目指しています。  
+「メモ帳でもなんの問題も無く書けるシンプルでパワフルな言語」を目指しています。  
 
-#Hello World
----
+#検査と実行
+`krfc`コマンドでコンパイルを行います。
 ```
-println "Hello world!"
-``` 
+% ls
+HelloWorld._np
+% krfc HelloWorld._np -o HelloWorld.out
+% ls
+HelloWorld._np HelloWorld
+% krfrun HelloWorld.out
+Hello World!
+```
+
 #Karaffe 言語仕様(中途半端)
 ---
 [はじめに](spec/1_Introduction.md)  
