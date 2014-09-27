@@ -38,8 +38,10 @@ seffect<sub>opt</sub> VariableName : *ExistingTypeName(Argument)* to *ExistingTy
 
 ##構造体宣言
 構造体とは、複数の変数をまとめて一つのオブジェクトとして扱うことが可能です。  
+構造体は型として利用可能です。  
 `type`宣言直後に変数宣言を続けると構造体宣言となります。  
 変数宣言時と同じく、Initializerの指定は必須となります。  
+小文字で始まる構造体名は宣言できません
 
 ```
 type Point = Any
