@@ -2,14 +2,14 @@
 ---
 「メモ帳で書けるとにかくシンプルで現代的な機能を持つ言語」を目指しています。  
 
-#検査と実行
-`krfc`コマンドでコンパイルを行います。
+#コンパイルと実行
+`krfc`コマンドでコンパイルを行い、`krfrun`コマンドで実行します。
 ```
 % ls
 HelloWorld.krf
 % krfc HelloWorld.krf -o HelloWorld.okrf
 % ls
-HelloWorld.okrf HelloWorld
+HelloWorld.okrf HelloWorld.krf
 % krfrun HelloWorld.okrf
 Hello World!
 ```
