@@ -6,11 +6,11 @@
 `krfc`コマンドでコンパイルを行います。
 ```
 % ls
-HelloWorld._np
-% krfc HelloWorld._np -o HelloWorld.out
+HelloWorld.krf
+% krfc HelloWorld.krf -o HelloWorld.okrf
 % ls
-HelloWorld._np HelloWorld
-% krfrun HelloWorld.out
+HelloWorld.okrf HelloWorld
+% krfrun HelloWorld.okrf
 Hello World!
 ```
 

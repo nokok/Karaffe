@@ -100,12 +100,12 @@ invalid : URL = "hoge" //コンパイルエラー
 以下のファイル構成の場合
 
 ```
-{ProjectRoot}/Main._np
-{ProjectRoot}/Collections._np
-{ProjectRoot}/A/B._np
+{ProjectRoot}/Main.krf
+{ProjectRoot}/Collections.krf
+{ProjectRoot}/A/B.krf
 ```
 
-Collections._np
+Collections.krf
 ```
 ...
 type SimpleDictionary = Any
@@ -115,7 +115,7 @@ global delete: Any to Any     = [key] ...
 ...
 ```
 
-Main._np
+Main.krf
 ```
 import Collections
 
@@ -146,8 +146,8 @@ println a + b //これはコンパイルエラーになります。コンパイ�
 
 ###詳細なアクセス制御
 ソースコード中の変数などのアクセス制御は、アクセス制御を行いたいソースファイルと  
-同じディレクトリに`_AC_._np`という名前のファイルを作成します。  
-※`_AC_._np`ファイルを今後アクセス制御ファイルと呼びます。  
+同じディレクトリに`_AC_.krf`という名前のファイルを作成します。  
+※`_AC_.krf`ファイルを今後アクセス制御ファイルと呼びます。  
 このファイルにアクセス制御情報を記述します。  
 アクセス制御ファイルは無くてもコンパイル可能です。  
 このファイルの有無に問わずglobal演算子は定義通り正しく動作します。  
