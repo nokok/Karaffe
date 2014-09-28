@@ -38,7 +38,7 @@ global judge = sw
 isZero  = println "Zero"
 isInt   = println "Int"
 isFloat = println "Float"
-_          = println "Other"
+_       = println "Other"
 
 judge 400    //Int
 judge 0.3    //Float

@@ -53,6 +53,11 @@ check isArray
 ##Function
 関数を格納する型です。
 
+```
+type Function[A to B] = Any
+
+```
+
 ##Enum
 列挙型を格納する型です。  
 宣言
