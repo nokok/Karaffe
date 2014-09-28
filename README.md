@@ -25,6 +25,7 @@ Hello World!
 [APIDoc](spec/7_APIDoc.md)  
 [ユニットテスト](spec/8_Testing.md)  
 [互換性ポリシー](spec/9_Compatibility.md)  
+[その他](spec/10_Other.md)  
 [変更履歴](ReleaseNote.md)
 #Karaffeロゴについて
 
