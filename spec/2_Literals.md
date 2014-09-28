@@ -69,19 +69,33 @@
 * `[a] to * a 2`
 * `[a b] to + a b`
 
-※:関数を格納する変数の型が引数を取らない場合もしくは`$0`などの暗黙宣言される変数名に別名を付与しない場合、`[]`及び`[変数名...]`を省略可能です。  
+※:関数を格納する変数の型が引数を取らない場合(`Void to`で始まる型宣言)  
+もしくは`$0`などの暗黙宣言される変数名に別名を付与しない場合、`[]`、`[変数名...]`が省略可能です。  
 
+制限
+
+* `Void to`から始まる型宣言の場合、`$0`などの変数を用いると宣言されていないためエラーとなります。  
+* `Void to`から始まる型宣言の場合、`[]`中で変数宣言を行うとエラーとなります。
+ 
 コード例
 ```
 //型推論が働く例
 a = [] to "hoge"
-println typeOf a //Type[Void to String]
+println typeof a //Type[Void to String]
+b = [a] to a * 2
+println typeof b //Type[Num to Num]
+
+//型推論が働かない例
+a = true
+println typeof a //Type[Boolean]
 
 //型を明示的に指定する例(推奨)
 b  : Void to Boolean = true
 b1 : Void to Boolean = [] to true
 
 c  : Int Int to Int = [a b] to a + b
+c1 : Int Int to Int = $0 + $1
+
 ```
 
 関連する型:`Type[A to A]`,`Type[A to B]`
