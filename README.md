@@ -1,5 +1,4 @@
 #![Logo](logo/Karaffe_Logo.png) Karaffe Programming Language
----
 「メモ帳で書けるとにかくシンプルで現代的な機能を持つ言語」を目指しています。  
 
 #コンパイルと実行
@@ -15,7 +14,6 @@ Hello World!
 ```
 
 #Karaffe 言語仕様(中途半端)
----
 [はじめに](spec/1_Introduction.md)  
 [リテラル](spec/2_Literals.md)  
 [構文](spec/3_Syntax.md)  
