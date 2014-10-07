@@ -1,9 +1,12 @@
 #宣言
 
-##変数宣言
+##変数と関数の宣言
 seffect<sub>opt</sub> VariableName : *ExistingTypeName*<sub>opt</sub> = Initializer  
 seffect<sub>opt</sub> VariableName : *ExistingTypeName(Argument)* to *ExistingTypeName(Return)* = FunctionBody  
 seffect<sub>opt</sub> VariableName : *ExistingTypeName(Argument)* to *ExistingTypeExpression(Return)* = FunctionBody  
+
+`Any`や`Int`、`Type[Int Int to Int]`などで宣言されたものは変数扱い、  
+`Any to Void`や`Int to Float`、`Int Int to Num`などで宣言されたものは関数扱いになります。  
 
 例
 
