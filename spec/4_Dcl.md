@@ -26,7 +26,7 @@ seffect<sub>opt</sub> VariableName : *ExistingTypeName(Argument)* to *ExistingTy
     global add : Int Int to Int = $0 + $1
     global div : Int Int to Int = $0 / $1
     
-    global sum5 : Int Int Int Int Int to Int = $0 + $1 + $2 + $3 + $4 + $5
+    global sum5   : Int Int Int Int Int to Int = $0 + $1 + $2 + $3 + $4 + $5
     global sum5_1 : Int Int Int Int Int to Int = [a b c d e] to a + b + c + d + e
     
     add 1 2  //3
