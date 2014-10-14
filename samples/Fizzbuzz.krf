@@ -6,4 +6,4 @@ n % 5  == 0 = "Buzz"
 _           = n toString
 
 n = readInt from:Console sysIn
-[1..n] mapEach map:fizzbuzz each:println
+1..n mapEach map:fizzbuzz each:println

@@ -12,14 +12,23 @@ Any型で宣言されている変数は型の特性に合わせて適切に動�
 |value| `Void to String` | オブジェクトの文字列表現を取得する
 |hash|`Void to Int` | オブジェクトのハッシュ
 
+##Int
+整数を格納する型です。  
+
+##Float
+実数を格納する型です。
+
 ##Num
-数値を格納する型です。  
+数値を格納する型です。型推論ではこの型の優先度は`Int`または  
+`Float`よりも割り当て優先度が低くなります。  
+コンパイラはまず最初に`Int`または`Float`どちらか片方のみで表現可能か検査し、  
+片方のみでの表現が不可能な場合のみ`Num`を利用します。
 
 宣言
 ```
 type Num = Any
 check isNum
-```
+```\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\
 
 | 変数/関数名 | 型 | 動作 |
 |---|---|---|
@@ -28,39 +37,21 @@ check isNum
 
 ##String
 文字列を格納する型です。  
-宣言
-```
-type String = Any
-check isString
-```
+
+コード例
 
 ##Boolean
 論理型です。  
 宣言
-```
-type Boolean = Any
-check isBoolean
-```
 
 ##Array
 配列です。  
-宣言
-```
-type Array = Any
-check isArray
-```
 
 ##Function
 関数を格納する型です。
 
-```
-type Function[A to B] = Any
-
-```
 
 ##Enum
 列挙型を格納する型です。  
-宣言
-```
-type Enum = Any
-```
+
+##Optional

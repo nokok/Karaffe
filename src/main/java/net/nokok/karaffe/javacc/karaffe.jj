@@ -1,0 +1,76 @@
+
+options{
+    DEBUG_PARSER = true;
+    STATIC = false;
+}
+
+PARSER_BEGIN(KaraffeParser)
+package net.nokok.karaffe.javacc;
+
+public class KaraffeParser {
+    public static void main(String[] args) throws ParseException{
+        KaraffeParser parser = null;
+        if(args.length == 0){
+            parser = new KaraffeParser(System.in);
+        }else if(args.length == 1){
+            parser = new KaraffeParser(new java.io.StringReader(args[0]));
+        }else{
+            System.out.println("Too many arguments.");
+            System.exit(-1);
+        }
+        parser.enable_tracing();
+        parser.start();
+    }
+
+}
+PARSER_END(KaraffeParser)
+
+SKIP:
+{
+    " " 
+    | "\t"
+}
+
+SPECIAL_TOKEN:
+{
+      < SingleLineComment : "//" (~["\n","\r"])* <NewLine> >
+    | < BlockComment : "/*" (~["*"])* "*" ("*" | ~["*","/"] (~["*"])* "*")* "/">
+}
+
+TOKEN:
+{
+      < Statement : <Declaration> | <NewLine> >
+    | < Declaration : <VariableDeclaration> >
+    | < VariableDeclaration : <Identifier> <EqualToken> <Expr> >
+    | < Expr : <Identifier> 
+             | <FunctionCall> >
+    | < FunctionCall : <VariableId> (<Arguments>)* >
+    | < Arguments : <ConstArgument> >
+    | < ConstArgument : <Identifier> ":" <TypeId> >
+    | < Identifier : <VariableId> >
+    | < VariableId : <Lower> (<Alphabet>)* >
+    | < TypeId : <Upper> (<Alphabet>)* >
+}
+
+/* Operator */
+TOKEN:
+{
+    < EqualToken : "=" >
+}
+
+TOKEN:
+{
+    < NonZero : "[1-9]" >
+    | < Zero : "0" >
+    | < Digit : <NonZero> (<Zero> | <NonZero>)+ >
+    | < Alphabet : <Upper> | <Lower> >
+    | < Upper : ["A"-"Z"] >
+    | < Lower : ["a"-"z"] >
+    | < NewLine : "\n" | "\r" | "\r\n" >
+}
+
+void start(): {} {
+    (<Statement>)*
+}
+
+

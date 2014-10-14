@@ -32,10 +32,16 @@
 
 関連する型:`Float`,`Num`
 
+##文字
+文字を扱うリテラルです。厳密な定義は未確定です
+
+* `'a'`
+* `'3'`
+
 ##文字列
 文字列を扱うリテラルです。  
-文字リテラルは存在しません。  
 文字列リテラルの例を以下に示します。厳密な定義は未確定です。  
+文字列は文字の配列として表現されます。  
 
  * `"string"`
  * `"string\nwith \"escape sequence\""`
@@ -65,6 +71,11 @@
 * `[1..]`
 
 関連する型:`A[]`
+
+##辞書
+キーと値を保持する
+
+
 ##関数
 関数リテラルの例を以下に示します。厳密な定義は未確定です。  
 
@@ -110,9 +121,12 @@ c1 : Int Int to Int = $0 + $1
 * `Type[1]`
 * `Type[0.4]`
 * `Type[1..5]`
-* `Type[T]`
+* `Type[a]`
 * `Type[Int]`
 * `Type[Int to Float]`
+* `Java[int]`
+* `Java[java.lang.Integer]`
+* `Java[java.lang.Integer java.lang.Integer to java.lang.Integer]`
 
 コード例
 ```

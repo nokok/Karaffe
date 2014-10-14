@@ -14,12 +14,13 @@ Karaffeでは空白文字(型名に限り空白文字と`:`)などでトーク�
 |false|論理型の偽|
 |global|ファイル内スコープ宣言|
 |is|インスタンスの型チェック
+|native|Java実装コード|
 |seffect| 再代入を許す変数宣言| 
-|switch|switch文
+|switch|switch文|
 |type|Alias Type,構造体の宣言|
 |to|引数の型と戻り値の型の連結|
 |true|論理型の真|
-
+|undefined|未定義動作|
 厳密な識別子の定義は決定していませんが、次の形式が識別子となる予定です。
 
 * a

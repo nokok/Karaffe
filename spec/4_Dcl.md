@@ -42,9 +42,8 @@ seffect<sub>opt</sub> VariableName : *ExistingTypeName(Argument)* to *ExistingTy
 ##構造体宣言
 構造体とは、複数の変数をまとめて一つのオブジェクトとして扱うことが可能です。  
 構造体は型として利用可能です。  
-`type`宣言直後に変数宣言を続けると構造体宣言となります。  
-変数宣言時と同じく、Initializerの指定は必須となります。  
-小文字で始まる構造体名は宣言できません
+`type`宣言直後に変数宣言を続けると構造体宣言になります。  
+小文字で始まる構造体名は宣言できません。  
 
 ```
 type Point = Any
@@ -84,6 +83,14 @@ check startsWith "http" or "https"
 
 valid :URL = "http://google.com"
 invalid : URL = "hoge" //コンパイルエラー
+```
+
+##ジェネリクス[未確定]
+型宣言時に小文字から始まる型指定を行うと型パラメータとして利用できます。  
+
+```
+type : a = Any
+value : a = initializer
 ```
 
 #アクセス
@@ -139,7 +146,7 @@ println a + b //3
 a = 2 //コンパイルエラーにはなりません。1行目のaは既に破棄されています。
 
 b = 2
-println a + b //これはコンパイルエラーになります。コンパイラはaを見つけられません。
+println a + b //コンパイルエラーになります。コンパイラはaを見つけられません。
 
 ```
 
