@@ -1,76 +1,143 @@
 
 options{
-    DEBUG_PARSER = true;
     STATIC = false;
+    IGNORE_CASE = false;
 }
 
 PARSER_BEGIN(KaraffeParser)
 package net.nokok.karaffe.javacc;
 
 public class KaraffeParser {
-    public static void main(String[] args) throws ParseException{
-        KaraffeParser parser = null;
-        if(args.length == 0){
-            parser = new KaraffeParser(System.in);
-        }else if(args.length == 1){
-            parser = new KaraffeParser(new java.io.StringReader(args[0]));
-        }else{
-            System.out.println("Too many arguments.");
-            System.exit(-1);
-        }
+    public final TypePool typePool = new TypePool();
+    
+    public void start(String sourceCode) throws ParseException {
+        KaraffeParser parser = new KaraffeParser(new java.io.StringReader(sourceCode));
+        parser.start();
+    }
+    
+    public void debug(String sourceCode) throws ParseException {
+        KaraffeParser parser = new KaraffeParser(new java.io.StringReader(sourceCode));
         parser.enable_tracing();
         parser.start();
+    }
+
+    public TypePool getTypePool(){
+        return typePool;
     }
 
 }
 PARSER_END(KaraffeParser)
 
-SKIP:
+TOKEN_MGR_DECLS:
 {
-    " " 
-    | "\t"
+    public static int commentNestCount = 0;
 }
 
-SPECIAL_TOKEN:
+
+
+SKIP: 
+{   
+      " " { CompileLog.print("Space");}
+    | "\t" { CompileLog.print("Tab");}
+    | < "//" (~["\n"])* <NewLine> > { CompileLog.print("//"); }
+    | < "/*" > {
+         commentNestCount++;
+         CompileLog.print("/* : level " + commentNestCount);
+         SwitchTo(InComment);
+    }
+} 
+
+<InComment> SKIP:
 {
-      < SingleLineComment : "//" (~["\n","\r"])* <NewLine> >
-    | < BlockComment : "/*" (~["*"])* "*" ("*" | ~["*","/"] (~["*"])* "*")* "/">
+    "/*" {
+        commentNestCount++;
+    }
+    | "*/" {
+        CompileLog.print("*/ : level " + commentNestCount);
+        commentNestCount--;
+        if(commentNestCount == 0){
+            CompileLog.print("End Blockcomment");
+            SwitchTo(DEFAULT);
+        }
+    }
+}
+
+<InComment> MORE:
+{
+    <~[]> {CompileLog.print("InComment MORE");}
 }
 
 TOKEN:
 {
-      < Statement : <Declaration> | <NewLine> >
-    | < Declaration : <VariableDeclaration> >
-    | < VariableDeclaration : <Identifier> <EqualToken> <Expr> >
-    | < Expr : <Identifier> 
-             | <FunctionCall> >
-    | < FunctionCall : <VariableId> (<Arguments>)* >
-    | < Arguments : <ConstArgument> >
-    | < ConstArgument : <Identifier> ":" <TypeId> >
-    | < Identifier : <VariableId> >
-    | < VariableId : <Lower> (<Alphabet>)* >
-    | < TypeId : <Upper> (<Alphabet>)* >
+      < Type : "type" > {CompileLog.print("type");}
+    | < SideEffect : "seffect" > {CompileLog.print("seffect");}
+    | < Bool : <True>              
+             | <False> > {CompileLog.print("Bool");}
+    | < True : "true" 
+             | "True" > {CompileLog.print("True");}
+    | < False : "false" 
+              | "False"> {CompileLog.print("False");}
+    | < Switch : "switch" > {CompileLog.print("switch");}
+    | < Check : "check" > {CompileLog.print("check");}
+    | < GlobalScope : "global" > {CompileLog.print("global");}
+    | < Native : "native" > {CompileLog.print("native");}
+    | < Unary : "unary" > {CompileLog.print("unary");}
+    | < Undefined : "undefined" > {CompileLog.print("undefined");}
 }
 
-/* Operator */
+TOKEN: //Operators
+{
+      < Assign : "=" >  {CompileLog.print("=");}
+    | < LBracket : "[" > {CompileLog.print("[");}
+    | < RBracket : "]" > {CompileLog.print(":");}
+    | < Range : ".." > {CompileLog.print("..");}
+    | < ClosedRange : ".<" > {CompileLog.print(".<");}
+}
+
 TOKEN:
 {
-    < EqualToken : "=" >
+      < VariableId : <Lower> (<Alphabet> | <Digit>)* > {CompileLog.print("VariableId");}
+    | < Digit : <NonZero> (<Zero>)* > {CompileLog.print("Digit");}
+    | < Zero : "0" > {CompileLog.print("0");}
+    | < NonZero : ["1"-"9"] > {CompileLog.print("1~9");}
+    | < TypeId : <Upper> (<Alphabet>)* > {CompileLog.print("TypeId");}
+    | < Alphabet : <Upper> 
+                 | <Lower> > {CompileLog.print("A~z");}
+    | < Upper : ["A"-"Z"] > {CompileLog.print("A~Z");}
+    | < Lower : ["a"-"z"] > {CompileLog.print("a~z");}
+    | < NewLine : "\n" 
+                | "\r" 
+                | "\r\n" > {CompileLog.print("NewLine");}
 }
-
-TOKEN:
+void start():
+{}
 {
-    < NonZero : "[1-9]" >
-    | < Zero : "0" >
-    | < Digit : <NonZero> (<Zero> | <NonZero>)+ >
-    | < Alphabet : <Upper> | <Lower> >
-    | < Upper : ["A"-"Z"] >
-    | < Lower : ["a"-"z"] >
-    | < NewLine : "\n" | "\r" | "\r\n" >
+    (statement())*
 }
 
-void start(): {} {
-    (<Statement>)*
+void statement():
+{}
+{
+    typeAlias()
 }
 
+TypePool typeAlias():
+{Token line;Token newTypeName;Token existingTypeName = null;}
+{
+
+    line = <Type> newTypeName = <TypeId> (<Assign> existingTypeName = <TypeId>)? <NewLine> {
+        if(newTypeName.image != "Any" && existingTypeName == null){
+            //新しい型がAny型でなく、元の型が省略された場合、Any型として宣言する
+            existingTypeName = new Token(KaraffeParserConstants.TypeId,"Any"); 
+            typePool.addType(newTypeName);
+        }
+        if(!typePool.hasType(existingTypeName)){
+            throw new RuntimeException(CompileErrorMessage.TYPE_NOT_FOUND.toString() + existingTypeName);
+        }
+        if(typePool.hasType(newTypeName)){
+            //既存の型にメソッドを追加する操作
+        }
+        return typePool;
+    }
+}
 

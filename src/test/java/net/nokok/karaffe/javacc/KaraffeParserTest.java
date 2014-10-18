@@ -1,44 +1,67 @@
 package net.nokok.karaffe.javacc;
 
 import java.io.StringReader;
-import static org.junit.Assert.fail;
 import org.junit.Test;
 
 public class KaraffeParserTest {
 
     @Test
-    public void singleLineComment() {
-        runKaraffeParserWithSource("//hooge\n");
-    }
-
-    @Test(expected = TokenMgrError.class)
-    public void invalidSingleLineComment() {
-        runKaraffeParserWithSource("/hoge\n");
-    }
-
-    @Test(expected = TokenMgrError.class)
-    public void invalidBlockComment() {
-        runKaraffeParserWithSource("/*\n\n\n\n\n/");
+    public void testSingleLineComment() throws Exception {
+        runKaraffeParserWithSource("// type hogehoge = hogehogehoge\n");
     }
 
     @Test
-    public void blockComment() {
-        runKaraffeParserWithSource("/**/");
-        runKaraffeParserWithSource("/* hogehoge */");
-        runKaraffeParserWithSource("/****/");
-        runKaraffeParserWithSource("/*\n\n\n\n\n\n\n*/");
-        runKaraffeParserWithSource("/*\r\r\r\r\r\r\r*/");
-        runKaraffeParserWithSource("/*\r\n\r\n\r\r\n*/");
+    public void testBlockComment() throws Exception {
+        runKaraffeParserWithSource("/* \n"
+                                   + "type Hoge = Hogehoge\n"
+                                   + "*/\n");
     }
 
-    private void runKaraffeParserWithSource(String karaffeSrc) {
+    @Test
+    public void testBlockComment1() throws Exception {
+        runKaraffeParserWithSource("/* */");
+        runKaraffeParserWithSource("/* */ /* */");
+    }
+
+    @Test
+    public void testNestedBlockComment() throws Exception {
+        runKaraffeParserWithSource("/* /* */ */ ");
+        runKaraffeParserWithSource("/********/");
+        runKaraffeParserWithSource("/* /* /*/*/* /*/*/* /*/*/* ** */ * / */*/*/*/ */*/*/ */*/*/");
+    }
+
+    @Test
+    public void testTypeAlias() throws Exception {
+        runKaraffeParserWithSource("type Any\ntype Hoge\n");
+        runKaraffeParserWithSource("type Any\ntype      Hoge\n");
+    }
+
+    @Test
+    public void testTypeAliasWithBaseType() throws Exception {
+        runKaraffeParserWithSource("type Any\ntype Base\n"
+                                   + "type FooBar = Base\n");
+    }
+
+    @Test
+    public void testTypeAliasWithoutSpace() throws Exception {
+        runKaraffeParserWithSource("type Any\n"
+                                   + "type Base=Any\n");
+    }
+
+    @Test(expected = RuntimeException.class)
+    public void testNotFoundType() throws Exception {
+        runKaraffeParserWithSource("type Foo = InvalidTypename\n");
+    }
+
+    @Test(expected = ParseException.class)
+    public void testMissingNewLine() throws Exception {
+        runKaraffeParserWithSource("type Foo type Hoge\n");
+        //                                  ^ missing newline
+    }
+
+    private void runKaraffeParserWithSource(String karaffeSrc) throws Exception {
         KaraffeParser parser = new KaraffeParser(new StringReader(karaffeSrc));
-        try {
-            parser.enable_tracing();
-            parser.start();
-        } catch (ParseException ex) {
-            fail(ex.getMessage());
-        }
+        parser.debug(karaffeSrc);
     }
 
 }
