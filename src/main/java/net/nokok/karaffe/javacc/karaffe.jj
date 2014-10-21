@@ -89,7 +89,7 @@ TOKEN: //Operators
 {
       < Assign : "=" >  {CompileLog.print("=");}
     | < LBracket : "[" > {CompileLog.print("[");}
-    | < RBracket : "]" > {CompileLog.print(":");}
+    | < RBracket : "]" > {CompileLog.print("]");}
     | < Range : ".." > {CompileLog.print("..");}
     | < ClosedRange : ".<" > {CompileLog.print(".<");}
 }
