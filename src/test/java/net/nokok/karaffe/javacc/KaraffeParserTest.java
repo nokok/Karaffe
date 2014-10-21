@@ -32,30 +32,37 @@ public class KaraffeParserTest {
 
     @Test
     public void testTypeAlias() throws Exception {
-        runKaraffeParserWithSource("type Any\ntype Hoge\n");
-        runKaraffeParserWithSource("type Any\ntype      Hoge\n");
+        runKaraffeParserWithSource("type Any\n\ntype Hoge\n\n");
+        runKaraffeParserWithSource("type Any\n\ntype      Hoge\n\n");
     }
 
     @Test
     public void testTypeAliasWithBaseType() throws Exception {
-        runKaraffeParserWithSource("type Any\ntype Base\n"
-                                   + "type FooBar = Base\n");
+        runKaraffeParserWithSource("type Any\n\n"
+                                   + "type Base\n\n"
+                                   + "type FooBar = Base\n\n");
     }
 
     @Test
     public void testTypeAliasWithoutSpace() throws Exception {
-        runKaraffeParserWithSource("type Any\n"
-                                   + "type Base=Any\n");
+        runKaraffeParserWithSource("type Any\n\n"
+                                   + "type Base=Any\n\n");
     }
 
     @Test(expected = RuntimeException.class)
     public void testNotFoundType() throws Exception {
-        runKaraffeParserWithSource("type Foo = InvalidTypename\n");
+        runKaraffeParserWithSource("type Foo = InvalidTypename\n\n");
     }
 
     @Test(expected = ParseException.class)
-    public void testMissingNewLine() throws Exception {
-        runKaraffeParserWithSource("type Foo type Hoge\n");
+    public void testMissingNewLine1() throws Exception {
+        runKaraffeParserWithSource("type Foo type Hoge\n\n");
+        //                                  ^ missing newline
+    }
+
+    @Test(expected = ParseException.class)
+    public void testMissingNewLine2() throws Exception {
+        runKaraffeParserWithSource("type Foo\n type Hoge\n\n");
         //                                  ^ missing newline
     }
 
