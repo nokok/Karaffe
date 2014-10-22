@@ -50,6 +50,7 @@ SKIP:
 <InComment> SKIP:
 {
     "/*" {
+        CompileLog.print("/* : level" + commentNestCount);
         commentNestCount++;
     }
     | "*/" {
