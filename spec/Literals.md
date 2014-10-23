@@ -8,7 +8,8 @@ literal = boolean_lit |
           float_lit |
           char_lit |
           string_lit | 
-          type_lit | 
+          type_lit |
+          func_lit | 
           "undefined"
           
 ```
@@ -122,6 +123,27 @@ array_element = literal | type_name | identifier
 ※1 コンパイル時に`[ 3 5 7 ]`の配列になります。  
 
 
+##型
+```
+type_lit = "Type" "[" type_name "]"
+```
+
+* `Type[Int]`
+* `Type[Int Int to Int]`
+
+##関数
+```
+func_lit       = argument_array "to" function_body
+argument_array = "[" {argument ":" type_name} "]" 
+```
+
+* `[a] to println a`※1
+* `[a:Int] to println a`
+* `[key:String value:Int] to map set key:key value:value`
+
+
+※1 コンパイル時に型推論が有効な文法の場合のみこの記述が可能です
+
 ##undefined
 undefinedは未定義動作であることを示す特殊なオブジェクトです。  
 undefinedは全ての型に代入可能です。  
@@ -130,10 +152,5 @@ undefinedに対する操作は全てundefinedとなります。
 コンパイル時にundefinedに対して操作をすると警告が生成されます。  
 型を省略した場合、`Any`で宣言されます。  
 
-##型
-```
-type_lit = "Type" "[" type_name "]"
-```
-
-* `Type[Int]`
-* `Type[]`
+* `value : Int to Int = undefined`
+* ``
