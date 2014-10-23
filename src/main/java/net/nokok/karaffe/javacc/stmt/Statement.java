@@ -1,4 +1,4 @@
-package net.nokok.karaffe.javacc;
+package net.nokok.karaffe.javacc.stmt;
 
 public interface Statement {
 
