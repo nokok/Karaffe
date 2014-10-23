@@ -49,8 +49,16 @@ public class KaraffeParserTest {
         assertThat(statements.get(2).getType(), is(StatementType.TYPE_ALIAS));
         assertThat(statements.get(3).getType(), is(StatementType.SCOPE_SPLITTER));
 
-        statements = runKaraffeParserWithSource("type Any\n\ntype      Hoge\n\n");
+    }
+
+    @Test
+    public void testTypeAliasWithSpace() throws Exception {
+        Statements statements = runKaraffeParserWithSource("type Any\n\ntype      Hoge\n\n");
         assertThat(statements.size(), is(4));
+        assertThat(statements.get(0).getType(), is(StatementType.TYPE_ALIAS));
+        assertThat(statements.get(1).getType(), is(StatementType.SCOPE_SPLITTER));
+        assertThat(statements.get(2).getType(), is(StatementType.TYPE_ALIAS));
+        assertThat(statements.get(3).getType(), is(StatementType.SCOPE_SPLITTER));
     }
 
     @Test
