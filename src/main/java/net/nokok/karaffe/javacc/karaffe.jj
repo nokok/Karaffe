@@ -73,6 +73,7 @@ SKIP:
 TOKEN:
 {
       < Type : "type" > {CompileLog.print("type");}
+    | < This : "this" > {CompileLog.print("this");}
     | < SideEffect : "seffect" > {CompileLog.print("seffect");}
     | < Bool : <True>              
              | <False> > {CompileLog.print("Bool");}
@@ -90,7 +91,7 @@ TOKEN:
     | < Undefined : "undefined" > {CompileLog.print("undefined");}
 }
 
-TOKEN: //Operators
+TOKEN: 
 {
       < Assign : "=" >  {CompileLog.print("=");}
     | < LBracket : "[" > {CompileLog.print("[");}
@@ -114,35 +115,31 @@ TOKEN:
                 | "\r" 
                 | "\r\n" > {CompileLog.print("NewLine");}
 }
-void start():
+Program start():
 {}
 {
-    (statement())*
+    (statement())*  {return program;}
 }
 
 void statement():
-{}
+{Statement s;}
 {
-    typeAlias()
+     s = typeAlias() {program.addStatement(s);}
 }
 
-TypePool typeAlias():
-{Token line;Token newTypeName;Token existingTypeName = null;}
+/**
+TypeAliasの宣言
+*/
+Statement typeAlias():
+{Token newTypeName;Token existingTypeName = null;}
 {
 
-    line = <Type> newTypeName = <TypeId> (<Assign> existingTypeName = <TypeId>)? <NewLine> {
+    <Type> newTypeName = <TypeId> (<Assign> existingTypeName = <TypeId>)? <NewLine>{
         if(newTypeName.image != "Any" && existingTypeName == null){
             //新しい型がAny型でなく、元の型が省略された場合、Any型として宣言する
             existingTypeName = new Token(KaraffeParserConstants.TypeId,"Any"); 
-            typePool.addType(newTypeName);
         }
-        if(!typePool.hasType(existingTypeName)){
-            throw new RuntimeException(CompileErrorMessage.TYPE_NOT_FOUND.toString() + existingTypeName);
-        }
-        if(typePool.hasType(newTypeName)){
-            //既存の型にメソッドを追加する操作
-        }
-        return typePool;
+        return new TypeDeclaration(new Type(existingTypeName.image),new Type(newTypeName.image));
     }
 }
 
