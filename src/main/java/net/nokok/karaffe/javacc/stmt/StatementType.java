@@ -1,10 +1,21 @@
-package net.nokok.karaffe.javacc;
+package net.nokok.karaffe.javacc.stmt;
 
 public enum StatementType {
 
+    /**
+     * 改行ステートメント
+     */
     NEWLINE,
+    /**
+     * 改行が2つ存在する、スコープ区切りのステートメント
+     */
     SCOPE_SPLITTER,
-    COMMENT,
+    /**
+     * 型宣言ステートメント
+     */
     STRUCT,
-    TYPE_DECLARATION,
+    /**
+     * Type Aliasステートメント
+     */
+    TYPE_ALIAS,
 }
