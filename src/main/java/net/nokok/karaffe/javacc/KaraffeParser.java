@@ -5,8 +5,7 @@ package net.nokok.karaffe.javacc;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
-import net.nokok.karaffe.javacc.stmt.Statement;
-import net.nokok.karaffe.javacc.stmt.TypeAliasStatement;
+import net.nokok.karaffe.javacc.stmt.*;
 
 public class KaraffeParser implements KaraffeParserConstants {
 
@@ -74,6 +73,18 @@ public class KaraffeParser implements KaraffeParserConstants {
         {
             if ( "" != null ) {
                 return new TypeAliasStatement(new Type(existingTypeName.image), new Type(newTypeName.image));
+            }
+        }
+        throw new Error("Missing return statement in function");
+    }
+
+    final public Statement seffectTypeAlias() throws ParseException {
+        Statement t;
+        jj_consume_token(SideEffect);
+        t = typeAlias();
+        {
+            if ( "" != null ) {
+                return new MutableTypeAliasStatement((TypeAliasStatement) t);
             }
         }
         throw new Error("Missing return statement in function");
