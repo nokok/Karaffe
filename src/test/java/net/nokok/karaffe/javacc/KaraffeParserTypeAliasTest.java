@@ -1,44 +1,12 @@
 package net.nokok.karaffe.javacc;
 
+import static net.nokok.karaffe.javacc.KaraffeParserCommentTest.runKaraffeParserWithSource;
 import net.nokok.karaffe.javacc.stmt.*;
 import static org.hamcrest.CoreMatchers.is;
 import static org.junit.Assert.assertThat;
 import org.junit.Test;
 
-public class KaraffeParserTest {
-
-    @Test
-    public void testSingleLineComment() throws Exception {
-        Statements statements = runKaraffeParserWithSource("// type hogehoge = hogehogehoge\n");
-        assertThat(statements.size(), is(0));
-    }
-
-    @Test
-    public void testBlockComment() throws Exception {
-        Statements program = runKaraffeParserWithSource("/* \n"
-                                                        + " * type Hoge = Hogehoge\n"
-                                                        + "*/\n");
-        //最後の改行でNewLineStatementとなっている
-        assertThat(program.size(), is(1));
-        assertThat(program.get(0).getType(), is(StatementType.SCOPE_SPLITTER));
-    }
-
-    @Test
-    public void testBlockComment1() throws Exception {
-        runKaraffeParserWithSource("/* */");
-        Statements statements = runKaraffeParserWithSource("/* */ /* */");
-        assertThat(statements.size(), is(0));
-    }
-
-    @Test
-    public void testNestedBlockComment() throws Exception {
-        Statements statements = runKaraffeParserWithSource("/* /* */ */ ");
-        assertThat(statements.size(), is(0));
-        statements = runKaraffeParserWithSource("/********/");
-        assertThat(statements.size(), is(0));
-        statements = runKaraffeParserWithSource("/* /* /*/*/* /*/*/* /*/*/* ** */ * / */*/*/*/ */*/*/ */*/*/");
-        assertThat(statements.size(), is(0));
-    }
+public class KaraffeParserTypeAliasTest {
 
     @Test
     public void testTypeAlias() throws Exception {
@@ -63,9 +31,16 @@ public class KaraffeParserTest {
 
     @Test
     public void testTypeAliasWithBaseType() throws Exception {
-        runKaraffeParserWithSource("type Any\n\n"
-                                   + "type Base\n\n"
-                                   + "type FooBar = Base\n\n");
+        Statements statements = runKaraffeParserWithSource("type Any\n\n"
+                                                           + "type Base\n\n"
+                                                           + "type FooBar = Base\n\n");
+        assertThat(statements.size(), is(6));
+        assertThat(statements.get(0).getType(), is(StatementType.TYPE_ALIAS));
+        assertThat(statements.get(1).getType(), is(StatementType.SCOPE_SPLITTER));
+        assertThat(statements.get(2).getType(), is(StatementType.TYPE_ALIAS));
+        assertThat(statements.get(3).getType(), is(StatementType.SCOPE_SPLITTER));
+        assertThat(statements.get(4).getType(), is(StatementType.TYPE_ALIAS));
+        assertThat(statements.get(5).getType(), is(StatementType.SCOPE_SPLITTER));
     }
 
     @Test
@@ -85,11 +60,4 @@ public class KaraffeParserTest {
         //                                                          ^ missing newline
         assertThat(statements.size(), is(3));
     }
-
-    private Statements runKaraffeParserWithSource(String karaffeSrc) throws Exception {
-        KaraffeParser parser = KaraffeParser.createParser(karaffeSrc);
-        parser.enable_tracing();
-        return parser.start();
-    }
-
 }
