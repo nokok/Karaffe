@@ -2,7 +2,8 @@ package net.nokok.karaffe.javacc;
 
 public enum CompileErrorMessage {
 
-    TYPE_NOT_FOUND("次の型が見つかりません "),;
+    TYPE_NOT_FOUND("型が見つかりません "),
+    TYPENAME_MUST_BE_START_WITH_UPPER_CASE("型名は大文字から始める必要があります"),;
 
     private final String message;
 
