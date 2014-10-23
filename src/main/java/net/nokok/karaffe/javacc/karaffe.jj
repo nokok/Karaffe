@@ -49,6 +49,7 @@ SKIP:
         CompileLog.print("/* : level" + commentNestCount);
         commentNestCount++;
     }
+    | <NewLine1 : <NewLine> > {CompileLog.print("NewLine in comment");}
     | "*/" {
         CompileLog.print("*/ : level " + commentNestCount);
         commentNestCount--;
@@ -110,15 +111,18 @@ TOKEN:
                 | "\r\n" > {CompileLog.print("NewLine");}
 }
 Statements start():
-{}
-{
-    (statement())*  {return statements;}
-}
-
-void statement():
 {Statement s;}
 {
-     s = typeAlias() {statements.addStatement(s);}
+    (s = statement() {statements.addStatement(s);} )* 
+    <EOF> {return statements;}
+}
+
+Statement statement():
+{Statement t;}
+{
+     t = typeAlias() {return t;}
+     | t = seffectTypeAlias() {return t;}
+     | <NewLine> {return new NewLineStatement();}
 }
 
 /**
@@ -133,7 +137,8 @@ Statement typeAlias():
             //新しい型がAny型でなく、元の型が省略された場合、Any型として宣言する
             existingTypeName = new Token(KaraffeParserConstants.TypeId,"Any"); 
         }
-        return new TypeAliasStatement(new Type(existingTypeName.image),new Type(newTypeName.image));
+        TypeAliasStatement statement = new TypeAliasStatement(new Type(existingTypeName.image),new Type(newTypeName.image));
+        return statement;
     }
 }
 
@@ -144,3 +149,4 @@ Statement seffectTypeAlias():
         return new MutableTypeAliasStatement((TypeAliasStatement)t);
     }
 }
+

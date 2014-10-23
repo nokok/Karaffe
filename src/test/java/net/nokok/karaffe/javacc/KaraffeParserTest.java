@@ -1,20 +1,24 @@
 package net.nokok.karaffe.javacc;
 
+import static org.hamcrest.CoreMatchers.is;
+import static org.junit.Assert.assertThat;
 import org.junit.Test;
 
 public class KaraffeParserTest {
 
     @Test
     public void testSingleLineComment() throws Exception {
-        runKaraffeParserWithSource("// type hogehoge = hogehogehoge\n");
+        Statements statements = runKaraffeParserWithSource("// type hogehoge = hogehogehoge\n");
+        assertThat(statements.size(), is(0));
     }
 
     @Test
     public void testBlockComment() throws Exception {
         Statements program = runKaraffeParserWithSource("/* \n"
-                                                        + "type Hoge = Hogehoge\n"
+                                                        + " * type Hoge = Hogehoge\n"
                                                         + "*/\n");
-        program.size()
+        //最後の改行でNewLineStatementとなっている
+        assertThat(program.size(), is(1));
     }
 
     @Test
@@ -32,8 +36,10 @@ public class KaraffeParserTest {
 
     @Test
     public void testTypeAlias() throws Exception {
-        runKaraffeParserWithSource("type Any\n\ntype Hoge\n\n");
-        runKaraffeParserWithSource("type Any\n\ntype      Hoge\n\n");
+        Statements statements = runKaraffeParserWithSource("type Any\n\ntype Hoge\n\n");
+        assertThat(statements.size(), is(4));
+        statements = runKaraffeParserWithSource("type Any\n\ntype      Hoge\n\n");
+        assertThat(statements.size(), is(4));
     }
 
     @Test
@@ -62,6 +68,7 @@ public class KaraffeParserTest {
 
     private Statements runKaraffeParserWithSource(String karaffeSrc) throws Exception {
         KaraffeParser parser = KaraffeParser.createParser(karaffeSrc);
+        parser.enable_tracing();
         return parser.start();
     }
 
