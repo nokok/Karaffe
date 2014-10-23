@@ -12,8 +12,9 @@ public class KaraffeParserTest {
     @Test
     public void testBlockComment() throws Exception {
         Statements program = runKaraffeParserWithSource("/* \n"
-                                                     + "type Hoge = Hogehoge\n"
-                                                     + "*/\n");
+                                                        + "type Hoge = Hogehoge\n"
+                                                        + "*/\n");
+        program.size()
     }
 
     @Test

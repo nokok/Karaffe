@@ -22,7 +22,7 @@ public class Statements implements Iterable<Statement> {
         return statements.iterator();
     }
 
-    public int programSize() {
+    public int size() {
         return statements.size();
     }
 }
