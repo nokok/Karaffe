@@ -10,7 +10,7 @@ public class MutableTypeAliasStatement implements Statement {
 
     @Override
     public StatementType getType() {
-        return statement.getType();
+        return StatementType.S_TYPE_ALIAS;
     }
 
     @Override

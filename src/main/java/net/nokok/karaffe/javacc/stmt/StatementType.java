@@ -14,4 +14,8 @@ public enum StatementType {
      * Type Aliasステートメント
      */
     TYPE_ALIAS,
+    /**
+     * seffect修飾子付きType Aliasステートメント
+     */
+    S_TYPE_ALIAS,
 }
