@@ -86,7 +86,7 @@ TOKEN:
     | < Native : "native" > {CompileLog.print("native");}
     | < Unary : "unary" > {CompileLog.print("unary");}
     | < To : "to" > {CompileLog.print("to");}
-    | < Colon : ":" > {CompileLog.print(":")}
+    | < Colon : ":" > {CompileLog.print(":");}
     | < Undefined : "undefined" > {CompileLog.print("undefined");}
 }
 
