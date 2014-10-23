@@ -7,22 +7,24 @@ options{
 PARSER_BEGIN(KaraffeParser)
 package net.nokok.karaffe.javacc;
 
-public class KaraffeParser {
-    public final TypePool typePool = new TypePool();
-    
-    public void start(String sourceCode) throws ParseException {
-        KaraffeParser parser = new KaraffeParser(new java.io.StringReader(sourceCode));
-        parser.start();
-    }
-    
-    public void debug(String sourceCode) throws ParseException {
-        KaraffeParser parser = new KaraffeParser(new java.io.StringReader(sourceCode));
-        parser.enable_tracing();
-        parser.start();
-    }
+import java.util.Arrays;
+import java.util.List;
+import java.util.ArrayList;
 
-    public TypePool getTypePool(){
-        return typePool;
+public class KaraffeParser {
+    public final Program program = new Program();
+    public final StructPool structPool = new StructPool();
+    public static final List codeList = new ArrayList(); //List<String>
+   
+    public static KaraffeParser createParser(String sourceCode) {
+        KaraffeParser parser = new KaraffeParser(new java.io.StringReader(sourceCode));
+        codeList.clear();
+        codeList.addAll(Arrays.asList(sourceCode.split("\n")));
+        return parser;
+    }
+ 
+    public StructPool getStructPool(){
+        return structPool;
     }
 
 }
