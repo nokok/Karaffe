@@ -24,7 +24,8 @@ public class KaraffeParserTest {
     @Test
     public void testBlockComment1() throws Exception {
         runKaraffeParserWithSource("/* */");
-        runKaraffeParserWithSource("/* */ /* */");
+        Statements statements = runKaraffeParserWithSource("/* */ /* */");
+        assertThat(statements.size(), is(0));
     }
 
     @Test
@@ -62,8 +63,9 @@ public class KaraffeParserTest {
 
     @Test(expected = ParseException.class)
     public void testMissingNewLine1() throws Exception {
-        runKaraffeParserWithSource("type Foo type Hoge\n\n");
-        //                                  ^ missing newline
+        Statements statements = runKaraffeParserWithSource("type Foo type Hoge\n\n");
+        //                                                          ^ missing newline
+        assertThat(statements.size(), is(3));
     }
 
     private Statements runKaraffeParserWithSource(String karaffeSrc) throws Exception {

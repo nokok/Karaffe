@@ -120,8 +120,8 @@ Statements start():
 Statement statement():
 {Statement t;}
 {
-     t = typeAlias() {return t;}
-     | t = seffectTypeAlias() {return t;}
+     t = typeAlias() <NewLine> {return t;}
+     | t = seffectTypeAlias() <NewLine>{return t;}
      | <NewLine> {return new NewLineStatement();}
 }
 
@@ -132,7 +132,7 @@ Statement typeAlias():
 {Token newTypeName;Token existingTypeName = null;}
 {
 
-    <Type> newTypeName = <TypeId> (<Assign> existingTypeName = <TypeId>)? <NewLine>{
+    <Type> newTypeName = <TypeId> (<Assign> existingTypeName = <TypeId>)? {
         if(newTypeName.image != "Any" && existingTypeName == null){
             //新しい型がAny型でなく、元の型が省略された場合、Any型として宣言する
             existingTypeName = new Token(KaraffeParserConstants.TypeId,"Any"); 

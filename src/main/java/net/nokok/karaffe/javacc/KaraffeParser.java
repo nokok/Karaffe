@@ -51,6 +51,7 @@ public class KaraffeParser implements KaraffeParserConstants {
         switch ( (jj_ntk == -1) ? jj_ntk_f() : jj_ntk ) {
             case Type: {
                 t = typeAlias();
+                jj_consume_token(NewLine);
                 {
                     if ( "" != null ) {
                         return t;
@@ -60,6 +61,7 @@ public class KaraffeParser implements KaraffeParserConstants {
             }
             case SideEffect: {
                 t = seffectTypeAlias();
+                jj_consume_token(NewLine);
                 {
                     if ( "" != null ) {
                         return t;
@@ -102,7 +104,6 @@ public class KaraffeParser implements KaraffeParserConstants {
                 jj_la1[2] = jj_gen;
                 ;
         }
-        jj_consume_token(NewLine);
         if ( newTypeName.image != "Any" && existingTypeName == null ) {
             //新しい型がAny型でなく、元の型が省略された場合、Any型として宣言する
             existingTypeName = new Token(KaraffeParserConstants.TypeId, "Any");
