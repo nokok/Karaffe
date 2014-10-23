@@ -7,6 +7,7 @@ public class Type {
     private final Name name;
 
     private final boolean isTypeParameter;
+    private final boolean isInterface;
 
     public Type(Name name) {
         requireNonNull(name);
@@ -22,6 +23,7 @@ public class Type {
             isTypeParameter = false;
         }
         this.name = name;
+        this.isInterface = name.startsWith("I");
     }
 
     public Type(String name) {
@@ -30,6 +32,10 @@ public class Type {
 
     public boolean isTypeParameter() {
         return isTypeParameter;
+    }
+
+    public boolean isInterface() {
+        return isInterface;
     }
 
     public Name getTypeName() {

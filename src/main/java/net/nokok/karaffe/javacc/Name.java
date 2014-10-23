@@ -10,6 +10,10 @@ public class Name {
         this.name = requireNonNull(name);
     }
 
+    public boolean startsWith(String s) {
+        return name.startsWith(s);
+    }
+
     @Override
     public String toString() {
         return name;

@@ -15,12 +15,20 @@ public class TypeTest {
     public void testIsTypeParameter() {
         Type t = new Type(new Name("a"));
         assertThat(t.isTypeParameter(), is(true));
+        assertThat(t.isInterface(), is(false));
     }
 
     @Test
     public void testIsNotTypeParameter() {
         Type t = new Type(new Name("HogeType"));
         assertThat(t.isTypeParameter(), is(false));
+        assertThat(t.isInterface(), is(false));
+    }
+
+    @Test
+    public void testIsInterface() {
+        Type t = new Type(new Name("IHoge"));
+        assertThat(t.isInterface(), is(true));
     }
 
 }
