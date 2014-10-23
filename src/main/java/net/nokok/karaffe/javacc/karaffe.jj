@@ -1,0 +1,145 @@
+
+options{
+    STATIC = false;
+    IGNORE_CASE = false;
+}
+
+PARSER_BEGIN(KaraffeParser)
+package net.nokok.karaffe.javacc;
+
+import java.util.Arrays;
+import java.util.List;
+import java.util.ArrayList;
+
+public class KaraffeParser {
+    public final Program program = new Program();
+    public final StructPool structPool = new StructPool();
+    public static final List codeList = new ArrayList(); //List<String>
+   
+    public static KaraffeParser createParser(String sourceCode) {
+        KaraffeParser parser = new KaraffeParser(new java.io.StringReader(sourceCode));
+        codeList.clear();
+        codeList.addAll(Arrays.asList(sourceCode.split("\n")));
+        return parser;
+    }
+ 
+    public StructPool getStructPool(){
+        return structPool;
+    }
+
+}
+PARSER_END(KaraffeParser)
+
+TOKEN_MGR_DECLS:
+{
+    public static int commentNestCount = 0;
+}
+
+
+
+SKIP: 
+{   
+      " " { CompileLog.print("Space");}
+    | "\t" { CompileLog.print("Tab");}
+    | < "//" (~["\n"])* <NewLine> > { CompileLog.print("//"); }
+    | < "/*" > {
+         commentNestCount++;
+         CompileLog.print("/* : level " + commentNestCount);
+         SwitchTo(InComment);
+    }
+} 
+
+<InComment> SKIP:
+{
+    "/*" {
+        CompileLog.print("/* : level" + commentNestCount);
+        commentNestCount++;
+    }
+    | "*/" {
+        CompileLog.print("*/ : level " + commentNestCount);
+        commentNestCount--;
+        if(commentNestCount == 0){
+            CompileLog.print("End Blockcomment");
+            SwitchTo(DEFAULT);
+        }
+    }
+}
+
+<InComment> MORE:
+{
+    <~[]> {CompileLog.print("InComment MORE");}
+}
+
+TOKEN:
+{
+      < Type : "type" > {CompileLog.print("type");}
+    | < This : "this" > {CompileLog.print("this");}
+    | < SideEffect : "seffect" > {CompileLog.print("seffect");}
+    | < Bool : <True>              
+             | <False> > {CompileLog.print("Bool");}
+    | < True : "true" 
+             | "True" > {CompileLog.print("True");}
+    | < False : "false" 
+              | "False"> {CompileLog.print("False");}
+    | < Switch : "switch" > {CompileLog.print("switch");}
+    | < Check : "check" > {CompileLog.print("check");}
+    | < GlobalScope : "global" > {CompileLog.print("global");}
+    | < Native : "native" > {CompileLog.print("native");}
+    | < Unary : "unary" > {CompileLog.print("unary");}
+    | < To : "to" > {CompileLog.print("to");}
+    | < Colon : ":" > {CompileLog.print(":");}
+    | < Undefined : "undefined" > {CompileLog.print("undefined");}
+}
+
+TOKEN: 
+{
+      < Assign : "=" >  {CompileLog.print("=");}
+    | < LBracket : "[" > {CompileLog.print("[");}
+    | < RBracket : "]" > {CompileLog.print("]");}
+    | < Range : ".." > {CompileLog.print("..");}
+    | < ClosedRange : ".<" > {CompileLog.print(".<");}
+}
+
+TOKEN:
+{
+      < VariableId : <Lower> (<Alphabet> | <Digit>)* > {CompileLog.print("VariableId");}
+    | < Digit : <NonZero> (<Zero>)* > {CompileLog.print("Digit");}
+    | < Zero : "0" > {CompileLog.print("0");}
+    | < NonZero : ["1"-"9"] > {CompileLog.print("1~9");}
+    | < TypeId : <Upper> (<Alphabet>)* > {CompileLog.print("TypeId");}
+    | < Alphabet : <Upper> 
+                 | <Lower> > {CompileLog.print("A~z");}
+    | < Upper : ["A"-"Z"] > {CompileLog.print("A~Z");}
+    | < Lower : ["a"-"z"] > {CompileLog.print("a~z");}
+    | < NewLine : "\n" 
+                | "\r" 
+                | "\r\n" > {CompileLog.print("NewLine");}
+}
+Program start():
+{}
+{
+    (statement())*  {return program;}
+}
+
+void statement():
+{Statement s;}
+{
+     s = typeAlias() {program.addStatement(s);}
+}
+
+/**
+TypeAliasの宣言
+*/
+Statement typeAlias():
+{Token newTypeName;Token existingTypeName = null;}
+{
+
+    <Type> newTypeName = <TypeId> (<Assign> existingTypeName = <TypeId>)? <NewLine>{
+        if(newTypeName.image != "Any" && existingTypeName == null){
+            //新しい型がAny型でなく、元の型が省略された場合、Any型として宣言する
+            existingTypeName = new Token(KaraffeParserConstants.TypeId,"Any"); 
+        }
+        return new TypeDeclaration(new Type(existingTypeName.image),new Type(newTypeName.image));
+    }
+}
+
