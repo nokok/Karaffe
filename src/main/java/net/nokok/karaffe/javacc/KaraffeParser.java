@@ -5,11 +5,12 @@ package net.nokok.karaffe.javacc;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+import net.nokok.karaffe.javacc.stmt.Statement;
+import net.nokok.karaffe.javacc.stmt.TypeAliasStatement;
 
 public class KaraffeParser implements KaraffeParserConstants {
 
-    public final Program program = new Program();
-    public final StructPool structPool = new StructPool();
+    public final Statements statements = new Statements();
     public static final List codeList = new ArrayList(); //List<String>
 
     public static KaraffeParser createParser(String sourceCode) {
@@ -19,11 +20,7 @@ public class KaraffeParser implements KaraffeParserConstants {
         return parser;
     }
 
-    public StructPool getStructPool() {
-        return structPool;
-    }
-
-    final public Program start() throws ParseException {
+    final public Statements start() throws ParseException {
         label_1:
         while ( true ) {
             switch ( (jj_ntk == -1) ? jj_ntk_f() : jj_ntk ) {
@@ -39,7 +36,7 @@ public class KaraffeParser implements KaraffeParserConstants {
         }
         {
             if ( "" != null ) {
-                return program;
+                return statements;
             }
         }
         throw new Error("Missing return statement in function");
@@ -48,7 +45,7 @@ public class KaraffeParser implements KaraffeParserConstants {
     final public void statement() throws ParseException {
         Statement s;
         s = typeAlias();
-        program.addStatement(s);
+        statements.addStatement(s);
     }
 
     /**
@@ -76,7 +73,7 @@ public class KaraffeParser implements KaraffeParserConstants {
         }
         {
             if ( "" != null ) {
-                return new TypeDeclaration(new Type(existingTypeName.image), new Type(newTypeName.image));
+                return new TypeAliasStatement(new Type(existingTypeName.image), new Type(newTypeName.image));
             }
         }
         throw new Error("Missing return statement in function");

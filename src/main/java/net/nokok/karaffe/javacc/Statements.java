@@ -1,10 +1,11 @@
 package net.nokok.karaffe.javacc;
 
+import net.nokok.karaffe.javacc.stmt.Statement;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 
-public class Program implements Iterable<Statement> {
+public class Statements implements Iterable<Statement> {
 
     private final List<Statement> statements = new ArrayList<>();
 

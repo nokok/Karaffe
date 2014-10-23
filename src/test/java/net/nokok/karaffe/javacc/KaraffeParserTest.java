@@ -11,7 +11,7 @@ public class KaraffeParserTest {
 
     @Test
     public void testBlockComment() throws Exception {
-        Program program = runKaraffeParserWithSource("/* \n"
+        Statements program = runKaraffeParserWithSource("/* \n"
                                                      + "type Hoge = Hogehoge\n"
                                                      + "*/\n");
     }
@@ -59,7 +59,7 @@ public class KaraffeParserTest {
         //                                  ^ missing newline
     }
 
-    private Program runKaraffeParserWithSource(String karaffeSrc) throws Exception {
+    private Statements runKaraffeParserWithSource(String karaffeSrc) throws Exception {
         KaraffeParser parser = KaraffeParser.createParser(karaffeSrc);
         return parser.start();
     }
