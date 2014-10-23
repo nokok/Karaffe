@@ -7,11 +7,11 @@ import org.junit.Test;
 
 public class TypePoolTest {
 
-    private TypePool pool;
+    private StructPool pool;
 
     @Before
     public void setUp() {
-        pool = new TypePool();
+        pool = new StructPool();
     }
 
     @Test
