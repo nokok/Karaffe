@@ -1,27 +1,43 @@
 package net.nokok.karaffe.javacc;
 
-import java.util.ArrayList;
-import java.util.List;
+import static java.util.Objects.requireNonNull;
 
 public class Type {
 
-    private final Name typeName;
-    private final List<Function> functions = new ArrayList<>();
-    private final List<Variable> fields = new ArrayList<>();
-    private final List<Function> globalFunctions = new ArrayList<>();
-    private final List<Variable> globalFields = new ArrayList<>();
+    private final Name name;
+
+    private final boolean isTypeParameter;
 
     public Type(Name name) {
-        this.typeName = name;
+        requireNonNull(name);
+        String typeName = name.toString();
+        char head = typeName.charAt(0);
+        boolean isLowerCaseHead = Character.isLowerCase(head);
+        int nameLength = typeName.length();
+        if ( isLowerCaseHead && nameLength == 1 ) {
+            isTypeParameter = true;
+        } else if ( isLowerCaseHead && nameLength > 1 ) {
+            throw new RuntimeException(CompileErrorMessage.TYPENAME_MUST_BE_START_WITH_UPPER_CASE.toString());
+        } else {
+            isTypeParameter = false;
+        }
+        this.name = name;
     }
 
-    public String getName() {
-        return typeName.toString();
+    public Type(String name) {
+        this(new Name(name));
     }
 
-    public void resetScope() {
-        functions.clear();
-        fields.clear();
+    public boolean isTypeParameter() {
+        return isTypeParameter;
     }
 
+    public Name getTypeName() {
+        return name;
+    }
+
+    @Override
+    public String toString() {
+        return name.toString();
+    }
 }
