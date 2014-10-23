@@ -4,7 +4,7 @@ public class NewLineStatement implements Statement {
 
     @Override
     public StatementType getType() {
-        return StatementType.SCOPE_SPLITTER;
+        return StatementType.NEWLINE;
     }
 
     @Override
