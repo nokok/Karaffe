@@ -1,6 +1,5 @@
 package net.nokok.karaffe.javacc;
 
-import java.io.StringReader;
 import org.junit.Test;
 
 public class KaraffeParserTest {
@@ -12,9 +11,9 @@ public class KaraffeParserTest {
 
     @Test
     public void testBlockComment() throws Exception {
-        runKaraffeParserWithSource("/* \n"
-                                   + "type Hoge = Hogehoge\n"
-                                   + "*/\n");
+        Program program = runKaraffeParserWithSource("/* \n"
+                                                     + "type Hoge = Hogehoge\n"
+                                                     + "*/\n");
     }
 
     @Test
@@ -49,7 +48,7 @@ public class KaraffeParserTest {
                                    + "type Base=Any\n\n");
     }
 
-    @Test(expected = RuntimeException.class)
+    @Test
     public void testNotFoundType() throws Exception {
         runKaraffeParserWithSource("type Foo = InvalidTypename\n\n");
     }
@@ -60,15 +59,9 @@ public class KaraffeParserTest {
         //                                  ^ missing newline
     }
 
-    @Test(expected = ParseException.class)
-    public void testMissingNewLine2() throws Exception {
-        runKaraffeParserWithSource("type Foo\n type Hoge\n\n");
-        //                                  ^ missing newline
-    }
-
-    private void runKaraffeParserWithSource(String karaffeSrc) throws Exception {
-        KaraffeParser parser = new KaraffeParser(new StringReader(karaffeSrc));
-        parser.debug(karaffeSrc);
+    private Program runKaraffeParserWithSource(String karaffeSrc) throws Exception {
+        KaraffeParser parser = KaraffeParser.createParser(karaffeSrc);
+        return parser.start();
     }
 
 }
