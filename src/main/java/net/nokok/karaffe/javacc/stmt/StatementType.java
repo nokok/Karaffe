@@ -3,11 +3,7 @@ package net.nokok.karaffe.javacc.stmt;
 public enum StatementType {
 
     /**
-     * 改行ステートメント
-     */
-    NEWLINE,
-    /**
-     * 改行が2つ存在する、スコープ区切りのステートメント
+     * 空行
      */
     SCOPE_SPLITTER,
     /**

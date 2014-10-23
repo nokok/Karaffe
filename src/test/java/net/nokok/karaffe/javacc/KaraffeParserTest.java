@@ -1,5 +1,6 @@
 package net.nokok.karaffe.javacc;
 
+import net.nokok.karaffe.javacc.stmt.*;
 import static org.hamcrest.CoreMatchers.is;
 import static org.junit.Assert.assertThat;
 import org.junit.Test;
@@ -19,6 +20,7 @@ public class KaraffeParserTest {
                                                         + "*/\n");
         //最後の改行でNewLineStatementとなっている
         assertThat(program.size(), is(1));
+        assertThat(program.get(0).getType(), is(StatementType.SCOPE_SPLITTER));
     }
 
     @Test
@@ -30,15 +32,23 @@ public class KaraffeParserTest {
 
     @Test
     public void testNestedBlockComment() throws Exception {
-        runKaraffeParserWithSource("/* /* */ */ ");
-        runKaraffeParserWithSource("/********/");
-        runKaraffeParserWithSource("/* /* /*/*/* /*/*/* /*/*/* ** */ * / */*/*/*/ */*/*/ */*/*/");
+        Statements statements = runKaraffeParserWithSource("/* /* */ */ ");
+        assertThat(statements.size(), is(0));
+        statements = runKaraffeParserWithSource("/********/");
+        assertThat(statements.size(), is(0));
+        statements = runKaraffeParserWithSource("/* /* /*/*/* /*/*/* /*/*/* ** */ * / */*/*/*/ */*/*/ */*/*/");
+        assertThat(statements.size(), is(0));
     }
 
     @Test
     public void testTypeAlias() throws Exception {
         Statements statements = runKaraffeParserWithSource("type Any\n\ntype Hoge\n\n");
         assertThat(statements.size(), is(4));
+        assertThat(statements.get(0).getType(), is(StatementType.TYPE_ALIAS));
+        assertThat(statements.get(1).getType(), is(StatementType.SCOPE_SPLITTER));
+        assertThat(statements.get(2).getType(), is(StatementType.TYPE_ALIAS));
+        assertThat(statements.get(3).getType(), is(StatementType.SCOPE_SPLITTER));
+
         statements = runKaraffeParserWithSource("type Any\n\ntype      Hoge\n\n");
         assertThat(statements.size(), is(4));
     }
