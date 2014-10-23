@@ -11,11 +11,14 @@ import net.nokok.karaffe.javacc.Type;
  * Type AliasはbaseTypeの関数を引き継ぐ。
  * Type Aliasを用いると継承のように動作するが、seffect修飾子を付与した場合、
  * 元の型とは完全に別の型として扱われ、代入互換性を失う。関数のオーバーライドが可能であるため。
+ * seffect修飾子が付与されたステートメントは{@link MutableTypeAliasStatement}クラスが扱う。
  *
  * 実際のソースコードの構文例
  * {@code type newType = baseType}
  *
  * baseType : ベースタイプ。関数を引き継ぐ元の型
+ *
+ * @see MutableTypeAliasStatement
  */
 public class TypeAliasStatement implements Statement {
 
@@ -50,7 +53,7 @@ public class TypeAliasStatement implements Statement {
      */
     @Override
     public boolean isAllowingSideEffectModifier() {
-        return true;
+        return false;
     }
 
     /**
