@@ -72,10 +72,8 @@ TOKEN:
     | < SideEffect : "seffect" > {CompileLog.print("seffect");}
     | < Bool : <True>              
              | <False> > {CompileLog.print("Bool");}
-    | < True : "true" 
-             | "True" > {CompileLog.print("True");}
-    | < False : "false" 
-              | "False"> {CompileLog.print("False");}
+    | < True : "true" > {CompileLog.print("True");}
+    | < False : "false" > {CompileLog.print("False");}
     | < Switch : "switch" > {CompileLog.print("switch");}
     | < Check : "check" > {CompileLog.print("check");}
     | < GlobalScope : "global" > {CompileLog.print("global");}
