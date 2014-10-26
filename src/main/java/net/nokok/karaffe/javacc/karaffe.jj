@@ -80,6 +80,7 @@ TOKEN:
     | < To : "to" > {CompileLog.print("to");}
     | < Colon : ":" > {CompileLog.print(":");}
     | < Undefined : "undefined" > {CompileLog.print("undefined");}
+    | < Void : "Void" > {CompileLog.print("Void");}
 }
 
 TOKEN: 
