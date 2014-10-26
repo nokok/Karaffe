@@ -157,5 +157,10 @@ TypeId typeId():
     token = <TypeId> { return new TypeId(token.image);}
 }
 
+VariableId variableId():
+{Token token;}
+{
+    token = <VariableId> { return new VariableId(token.image);}
+}
 }
 
