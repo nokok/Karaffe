@@ -141,14 +141,17 @@ TypeAliasの宣言
 */
 Statement typeAlias():
 {
+Token seffect = null;
 TypeId newType;
 TypeId existingTypeName = net.nokok.karaffe.javacc.identifier.TypeId.Any;
 }
 {
-
-    <Type> newType = typeId() (<Assign> existingTypeName = typeId())? {
-        TypeAliasStatement statement = new TypeAliasStatement(existingTypeName, newType);
-        return statement;
+    (seffect = <SideEffect>)? <Type> newType = typeId() (<Assign> existingTypeName = typeId())? {
+        if(seffect == null){
+            return new TypeAliasStatement(existingTypeName, newType);
+        }else{
+            return new MutableTypeAliasStatement(existingTypeName,newType);
+        }
     }
 }
 

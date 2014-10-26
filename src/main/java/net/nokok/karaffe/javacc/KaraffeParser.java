@@ -30,6 +30,7 @@ public class KaraffeParser implements KaraffeParserConstants {
         while ( true ) {
             switch ( (jj_ntk == -1) ? jj_ntk_f() : jj_ntk ) {
                 case Type:
+                case SideEffect:
                 case NewLine: {
                     ;
                     break;
@@ -53,7 +54,8 @@ public class KaraffeParser implements KaraffeParserConstants {
     final public Statement statement() throws ParseException {
         Statement t;
         switch ( (jj_ntk == -1) ? jj_ntk_f() : jj_ntk ) {
-            case Type: {
+            case Type:
+            case SideEffect: {
                 t = typeAlias();
                 jj_consume_token(NewLine);
                 {
@@ -84,8 +86,18 @@ public class KaraffeParser implements KaraffeParserConstants {
      * TypeAliasの宣言
      */
     final public Statement typeAlias() throws ParseException {
+        Token seffect = null;
         TypeId newType;
         TypeId existingTypeName = net.nokok.karaffe.javacc.identifier.TypeId.Any;
+        switch ( (jj_ntk == -1) ? jj_ntk_f() : jj_ntk ) {
+            case SideEffect: {
+                seffect = jj_consume_token(SideEffect);
+                break;
+            }
+            default:
+                jj_la1[2] = jj_gen;
+                ;
+        }
         jj_consume_token(Type);
         newType = typeId();
         switch ( (jj_ntk == -1) ? jj_ntk_f() : jj_ntk ) {
@@ -95,19 +107,26 @@ public class KaraffeParser implements KaraffeParserConstants {
                 break;
             }
             default:
-                jj_la1[2] = jj_gen;
+                jj_la1[3] = jj_gen;
                 ;
         }
-        TypeAliasStatement statement = new TypeAliasStatement(existingTypeName, newType);
-        {
-            if ( "" != null ) {
-                return statement;
+        if ( seffect == null ) {
+            {
+                if ( "" != null ) {
+                    return new TypeAliasStatement(existingTypeName, newType);
+                }
+            }
+        } else {
+            {
+                if ( "" != null ) {
+                    return new MutableTypeAliasStatement(existingTypeName, newType);
+                }
             }
         }
         throw new Error("Missing return statement in function");
     }
 
-    final public Expression body() throws ParseException {
+    final public Expression expr() throws ParseException {
         Expression body;
         body = literals();
         {
@@ -164,7 +183,7 @@ public class KaraffeParser implements KaraffeParserConstants {
                 break;
             }
             default:
-                jj_la1[3] = jj_gen;
+                jj_la1[4] = jj_gen;
                 jj_consume_token(-1);
                 throw new ParseException();
         }
@@ -195,7 +214,7 @@ public class KaraffeParser implements KaraffeParserConstants {
                         break;
                     }
                     default:
-                        jj_la1[4] = jj_gen;
+                        jj_la1[5] = jj_gen;
                         ;
                 }
                 nonZero = jj_consume_token(NonZero);
@@ -227,7 +246,7 @@ public class KaraffeParser implements KaraffeParserConstants {
                 break;
             }
             default:
-                jj_la1[5] = jj_gen;
+                jj_la1[6] = jj_gen;
                 jj_consume_token(-1);
                 throw new ParseException();
         }
@@ -249,7 +268,7 @@ public class KaraffeParser implements KaraffeParserConstants {
     public Token jj_nt;
     private int jj_ntk;
     private int jj_gen;
-    final private int[] jj_la1 = new int[6];
+    final private int[] jj_la1 = new int[7];
     static private int[] jj_la1_0;
     static private int[] jj_la1_1;
 
@@ -259,11 +278,11 @@ public class KaraffeParser implements KaraffeParserConstants {
     }
 
     private static void jj_la1_init_0() {
-        jj_la1_0 = new int[]{ 0x200, 0x200, 0x400000, 0x10100000, 0x10000000, 0x10000000, };
+        jj_la1_0 = new int[]{ 0xa00, 0xa00, 0x800, 0x400000, 0x10100000, 0x10000000, 0x10000000, };
     }
 
     private static void jj_la1_init_1() {
-        jj_la1_1 = new int[]{ 0x100, 0x100, 0x0, 0xc, 0x0, 0xc, };
+        jj_la1_1 = new int[]{ 0x100, 0x100, 0x0, 0x0, 0xc, 0x0, 0xc, };
     }
 
     /**
@@ -286,7 +305,7 @@ public class KaraffeParser implements KaraffeParserConstants {
         token = new Token();
         jj_ntk = -1;
         jj_gen = 0;
-        for ( int i = 0; i < 6; i++ ) {
+        for ( int i = 0; i < 7; i++ ) {
             jj_la1[i] = -1;
         }
     }
@@ -311,7 +330,7 @@ public class KaraffeParser implements KaraffeParserConstants {
         token = new Token();
         jj_ntk = -1;
         jj_gen = 0;
-        for ( int i = 0; i < 6; i++ ) {
+        for ( int i = 0; i < 7; i++ ) {
             jj_la1[i] = -1;
         }
     }
@@ -325,7 +344,7 @@ public class KaraffeParser implements KaraffeParserConstants {
         token = new Token();
         jj_ntk = -1;
         jj_gen = 0;
-        for ( int i = 0; i < 6; i++ ) {
+        for ( int i = 0; i < 7; i++ ) {
             jj_la1[i] = -1;
         }
     }
@@ -339,7 +358,7 @@ public class KaraffeParser implements KaraffeParserConstants {
         token = new Token();
         jj_ntk = -1;
         jj_gen = 0;
-        for ( int i = 0; i < 6; i++ ) {
+        for ( int i = 0; i < 7; i++ ) {
             jj_la1[i] = -1;
         }
     }
@@ -352,7 +371,7 @@ public class KaraffeParser implements KaraffeParserConstants {
         token = new Token();
         jj_ntk = -1;
         jj_gen = 0;
-        for ( int i = 0; i < 6; i++ ) {
+        for ( int i = 0; i < 7; i++ ) {
             jj_la1[i] = -1;
         }
     }
@@ -365,7 +384,7 @@ public class KaraffeParser implements KaraffeParserConstants {
         token = new Token();
         jj_ntk = -1;
         jj_gen = 0;
-        for ( int i = 0; i < 6; i++ ) {
+        for ( int i = 0; i < 7; i++ ) {
             jj_la1[i] = -1;
         }
     }
@@ -438,7 +457,7 @@ public class KaraffeParser implements KaraffeParserConstants {
             la1tokens[jj_kind] = true;
             jj_kind = -1;
         }
-        for ( int i = 0; i < 6; i++ ) {
+        for ( int i = 0; i < 7; i++ ) {
             if ( jj_la1[i] == jj_gen ) {
                 for ( int j = 0; j < 32; j++ ) {
                     if ( (jj_la1_0[i] & (1 << j)) != 0 ) {
