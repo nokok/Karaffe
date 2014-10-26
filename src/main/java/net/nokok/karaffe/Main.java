@@ -16,8 +16,4 @@ public class Main {
         KaraffeParser parser = KaraffeParser.createParser("type Any\ntype Hoge");
         Statements program = parser.start();
     }
-
-    public static String usage() {
-        return "";
-    }
 }
