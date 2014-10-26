@@ -70,10 +70,8 @@ TOKEN:
       < Type : "type" > {CompileLog.print("type");}
     | < This : "this" > {CompileLog.print("this");}
     | < SideEffect : "seffect" > {CompileLog.print("seffect");}
-    | < Bool : <True>              
-             | <False> > {CompileLog.print("Bool");}
-    | < True : "true" > {CompileLog.print("True");}
-    | < False : "false" > {CompileLog.print("False");}
+    | < Bool : "true" 
+             | "false" > {CompileLog.print("Bool");}
     | < Switch : "switch" > {CompileLog.print("switch");}
     | < Check : "check" > {CompileLog.print("check");}
     | < GlobalScope : "global" > {CompileLog.print("global");}
