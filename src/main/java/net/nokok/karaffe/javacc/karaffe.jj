@@ -90,6 +90,12 @@ TOKEN:
     | < RBracket : "]" > {CompileLog.print("]");}
     | < Range : ".." > {CompileLog.print("..");}
     | < ClosedRange : ".<" > {CompileLog.print(".<");}
+    | < AddOp : "+" > {CompileLog.print("+");}
+    | < SubOp : "-" > {CompileLog.print("-");}
+    | < MulOp : "*" > {CompileLog.print("*");}
+    | < DivOp : "/" > {CompileLog.print("/");}
+    | < RemOp : "%" > {CompileLog.print("%");}
+    
 }
 
 TOKEN:
