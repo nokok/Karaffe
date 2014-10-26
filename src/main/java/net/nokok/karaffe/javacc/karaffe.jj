@@ -10,6 +10,11 @@ package net.nokok.karaffe.javacc;
 import java.util.Arrays;
 import java.util.List;
 import java.util.ArrayList;
+import net.nokok.karaffe.javacc.expr.*;
+import net.nokok.karaffe.javacc.identifier.TypeId;
+import net.nokok.karaffe.javacc.identifier.VariableId;
+import net.nokok.karaffe.javacc.literal.IntLiteral;
+import net.nokok.karaffe.javacc.literal.UndefinedLiteral;
 import net.nokok.karaffe.javacc.stmt.*;
 
 public class KaraffeParser {
