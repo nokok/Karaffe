@@ -136,15 +136,11 @@ Statement statement():
 TypeAliasの宣言
 */
 Statement typeAlias():
-{Token newTypeName;Token existingTypeName = null;}
+{TypeId newType;TypeId existingTypeName = net.nokok.karaffe.javacc.identifier.TypeId.Any;}
 {
 
-    <Type> newTypeName = <TypeId> (<Assign> existingTypeName = <TypeId>)? {
-        if(newTypeName.image != "Any" && existingTypeName == null){
-            //新しい型がAny型でなく、元の型が省略された場合、Any型として宣言する
-            existingTypeName = new Token(KaraffeParserConstants.TypeId,"Any"); 
-        }
-        TypeAliasStatement statement = new TypeAliasStatement(new Type(existingTypeName.image),new Type(newTypeName.image));
+    <Type> newType = typeId() (<Assign> existingTypeName = typeId())? {
+        TypeAliasStatement statement = new TypeAliasStatement(existingTypeName, newType);
         return statement;
     }
 }
