@@ -5,6 +5,11 @@ package net.nokok.karaffe.javacc;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+import net.nokok.karaffe.javacc.expr.*;
+import net.nokok.karaffe.javacc.identifier.TypeId;
+import net.nokok.karaffe.javacc.identifier.VariableId;
+import net.nokok.karaffe.javacc.literal.IntLiteral;
+import net.nokok.karaffe.javacc.literal.UndefinedLiteral;
 import net.nokok.karaffe.javacc.stmt.*;
 
 public class KaraffeParser implements KaraffeParserConstants {
@@ -25,7 +30,6 @@ public class KaraffeParser implements KaraffeParserConstants {
         while ( true ) {
             switch ( (jj_ntk == -1) ? jj_ntk_f() : jj_ntk ) {
                 case Type:
-                case SideEffect:
                 case NewLine: {
                     ;
                     break;
@@ -59,16 +63,6 @@ public class KaraffeParser implements KaraffeParserConstants {
                 }
                 break;
             }
-            case SideEffect: {
-                t = seffectTypeAlias();
-                jj_consume_token(NewLine);
-                {
-                    if ( "" != null ) {
-                        return t;
-                    }
-                }
-                break;
-            }
             case NewLine: {
                 jj_consume_token(NewLine);
                 {
@@ -90,25 +84,21 @@ public class KaraffeParser implements KaraffeParserConstants {
      * TypeAliasの宣言
      */
     final public Statement typeAlias() throws ParseException {
-        Token newTypeName;
-        Token existingTypeName = null;
+        TypeId newType;
+        TypeId existingTypeName = net.nokok.karaffe.javacc.identifier.TypeId.Any;
         jj_consume_token(Type);
-        newTypeName = jj_consume_token(TypeId);
+        newType = typeId();
         switch ( (jj_ntk == -1) ? jj_ntk_f() : jj_ntk ) {
             case Assign: {
                 jj_consume_token(Assign);
-                existingTypeName = jj_consume_token(TypeId);
+                existingTypeName = typeId();
                 break;
             }
             default:
                 jj_la1[2] = jj_gen;
                 ;
         }
-        if ( newTypeName.image != "Any" && existingTypeName == null ) {
-            //新しい型がAny型でなく、元の型が省略された場合、Any型として宣言する
-            existingTypeName = new Token(KaraffeParserConstants.TypeId, "Any");
-        }
-        TypeAliasStatement statement = new TypeAliasStatement(new Type(existingTypeName.image), new Type(newTypeName.image));
+        TypeAliasStatement statement = new TypeAliasStatement(existingTypeName, newType);
         {
             if ( "" != null ) {
                 return statement;
@@ -117,14 +107,121 @@ public class KaraffeParser implements KaraffeParserConstants {
         throw new Error("Missing return statement in function");
     }
 
-    final public Statement seffectTypeAlias() throws ParseException {
-        Statement t;
-        jj_consume_token(SideEffect);
-        t = typeAlias();
+    final public Expression body() throws ParseException {
+        Expression body;
+        body = literals();
         {
             if ( "" != null ) {
-                return new MutableTypeAliasStatement((TypeAliasStatement) t);
+                return body;
             }
+        }
+        throw new Error("Missing return statement in function");
+    }
+
+    final public TypeId typeId() throws ParseException {
+        Token token;
+        token = jj_consume_token(TypeId);
+        {
+            if ( "" != null ) {
+                return new TypeId(token.image);
+            }
+        }
+        throw new Error("Missing return statement in function");
+    }
+
+    final public VariableId variableId() throws ParseException {
+        Token token;
+        token = jj_consume_token(VariableId);
+        {
+            if ( "" != null ) {
+                return new VariableId(token.image);
+            }
+        }
+        throw new Error("Missing return statement in function");
+    }
+
+    final public Expression literals() throws ParseException {
+        Expression expr;
+        switch ( (jj_ntk == -1) ? jj_ntk_f() : jj_ntk ) {
+            case Undefined: {
+                expr = undefined();
+                {
+                    if ( "" != null ) {
+                        return expr;
+                    }
+                }
+                break;
+            }
+            case Zero:
+            case NonZero: {
+                expr = intLiteral();
+                {
+                    if ( "" != null ) {
+                        return expr;
+                    }
+                }
+                break;
+            }
+            default:
+                jj_la1[3] = jj_gen;
+                jj_consume_token(-1);
+                throw new ParseException();
+        }
+        throw new Error("Missing return statement in function");
+    }
+
+    final public Expression undefined() throws ParseException {
+        jj_consume_token(Undefined);
+        {
+            if ( "" != null ) {
+                return new UndefinedLiteral();
+            }
+        }
+        throw new Error("Missing return statement in function");
+    }
+
+    final public Expression intLiteral() throws ParseException {
+        Token a;
+        Token b;
+        List tokenList = new ArrayList();
+        switch ( (jj_ntk == -1) ? jj_ntk_f() : jj_ntk ) {
+            case NonZero: {
+                a = jj_consume_token(NonZero);
+                b = jj_consume_token(Digit);
+                tokenList.add(b);
+                if ( tokenList.isEmpty() ) {
+                    {
+                        if ( "" != null ) {
+                            return new IntLiteral(Integer.parseInt(a.image));
+                        }
+                    }
+                }
+                StringBuilder sb = new StringBuilder();
+                sb.append(a.image);
+                for ( Object obj : tokenList ) {
+                    Token t = (Token) obj;
+                    sb.append(t.image);
+                }
+                {
+                    if ( "" != null ) {
+                        return new IntLiteral(Integer.parseInt(sb.toString()));
+                    }
+                }
+                break;
+            }
+            case Zero: {
+                a = jj_consume_token(Zero);
+                {
+                    if ( "" != null ) {
+                        return new IntLiteral(Integer.parseInt(a.image));
+                    }
+                }
+                break;
+            }
+            default:
+                jj_la1[4] = jj_gen;
+                jj_consume_token(-1);
+                throw new ParseException();
         }
         throw new Error("Missing return statement in function");
     }
@@ -144,7 +241,7 @@ public class KaraffeParser implements KaraffeParserConstants {
     public Token jj_nt;
     private int jj_ntk;
     private int jj_gen;
-    final private int[] jj_la1 = new int[3];
+    final private int[] jj_la1 = new int[5];
     static private int[] jj_la1_0;
     static private int[] jj_la1_1;
 
@@ -154,11 +251,11 @@ public class KaraffeParser implements KaraffeParserConstants {
     }
 
     private static void jj_la1_init_0() {
-        jj_la1_0 = new int[]{ 0xa00, 0xa00, 0x800000, };
+        jj_la1_0 = new int[]{ 0x200, 0x200, 0x400000, 0x100000, 0x0, };
     }
 
     private static void jj_la1_init_1() {
-        jj_la1_1 = new int[]{ 0x10, 0x10, 0x0, };
+        jj_la1_1 = new int[]{ 0x100, 0x100, 0x0, 0xc, 0xc, };
     }
 
     /**
@@ -181,7 +278,7 @@ public class KaraffeParser implements KaraffeParserConstants {
         token = new Token();
         jj_ntk = -1;
         jj_gen = 0;
-        for ( int i = 0; i < 3; i++ ) {
+        for ( int i = 0; i < 5; i++ ) {
             jj_la1[i] = -1;
         }
     }
@@ -206,7 +303,7 @@ public class KaraffeParser implements KaraffeParserConstants {
         token = new Token();
         jj_ntk = -1;
         jj_gen = 0;
-        for ( int i = 0; i < 3; i++ ) {
+        for ( int i = 0; i < 5; i++ ) {
             jj_la1[i] = -1;
         }
     }
@@ -220,7 +317,7 @@ public class KaraffeParser implements KaraffeParserConstants {
         token = new Token();
         jj_ntk = -1;
         jj_gen = 0;
-        for ( int i = 0; i < 3; i++ ) {
+        for ( int i = 0; i < 5; i++ ) {
             jj_la1[i] = -1;
         }
     }
@@ -234,7 +331,7 @@ public class KaraffeParser implements KaraffeParserConstants {
         token = new Token();
         jj_ntk = -1;
         jj_gen = 0;
-        for ( int i = 0; i < 3; i++ ) {
+        for ( int i = 0; i < 5; i++ ) {
             jj_la1[i] = -1;
         }
     }
@@ -247,7 +344,7 @@ public class KaraffeParser implements KaraffeParserConstants {
         token = new Token();
         jj_ntk = -1;
         jj_gen = 0;
-        for ( int i = 0; i < 3; i++ ) {
+        for ( int i = 0; i < 5; i++ ) {
             jj_la1[i] = -1;
         }
     }
@@ -260,7 +357,7 @@ public class KaraffeParser implements KaraffeParserConstants {
         token = new Token();
         jj_ntk = -1;
         jj_gen = 0;
-        for ( int i = 0; i < 3; i++ ) {
+        for ( int i = 0; i < 5; i++ ) {
             jj_la1[i] = -1;
         }
     }
@@ -328,12 +425,12 @@ public class KaraffeParser implements KaraffeParserConstants {
      */
     public ParseException generateParseException() {
         jj_expentries.clear();
-        boolean[] la1tokens = new boolean[37];
+        boolean[] la1tokens = new boolean[41];
         if ( jj_kind >= 0 ) {
             la1tokens[jj_kind] = true;
             jj_kind = -1;
         }
-        for ( int i = 0; i < 3; i++ ) {
+        for ( int i = 0; i < 5; i++ ) {
             if ( jj_la1[i] == jj_gen ) {
                 for ( int j = 0; j < 32; j++ ) {
                     if ( (jj_la1_0[i] & (1 << j)) != 0 ) {
@@ -345,7 +442,7 @@ public class KaraffeParser implements KaraffeParserConstants {
                 }
             }
         }
-        for ( int i = 0; i < 37; i++ ) {
+        for ( int i = 0; i < 41; i++ ) {
             if ( la1tokens[i] ) {
                 jj_expentry = new int[1];
                 jj_expentry[0] = i;
