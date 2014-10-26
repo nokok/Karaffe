@@ -167,5 +167,9 @@ VariableId variableId():
 {
     token = <VariableId> { return new VariableId(token.image);}
 }
+Expression undefined():
+{}
+{
+    <Undefined> { return new UndefinedLiteral();}
 }
 
