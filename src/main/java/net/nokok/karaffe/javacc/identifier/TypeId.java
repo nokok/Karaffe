@@ -1,15 +1,20 @@
-package net.nokok.karaffe.javacc;
+package net.nokok.karaffe.javacc.identifier;
 
 import static java.util.Objects.requireNonNull;
+import net.nokok.karaffe.javacc.CompileErrorMessage;
+import net.nokok.karaffe.javacc.Name;
+import net.nokok.karaffe.javacc.Token;
 
-public class Type {
+public class TypeId extends Identifier {
 
-    private final Name name;
+    public static final TypeId Any = new TypeId("Any");
 
     private final boolean isTypeParameter;
     private final boolean isInterface;
+    private final boolean isAny;
 
-    public Type(Name name) {
+    public TypeId(Name name) {
+        super(name);
         requireNonNull(name);
         String typeName = name.toString();
         char head = typeName.charAt(0);
@@ -22,12 +27,16 @@ public class Type {
         } else {
             isTypeParameter = false;
         }
-        this.name = name;
         this.isInterface = name.startsWith("I");
+        this.isAny = name.toString().equals("Any");
     }
 
-    public Type(String name) {
+    public TypeId(String name) {
         this(new Name(name));
+    }
+
+    public TypeId(Token token) {
+        this(new Name(token.image));
     }
 
     public boolean isTypeParameter() {
@@ -36,6 +45,10 @@ public class Type {
 
     public boolean isInterface() {
         return isInterface;
+    }
+
+    public boolean isAny() {
+        return isAny;
     }
 
     public Name getTypeName() {

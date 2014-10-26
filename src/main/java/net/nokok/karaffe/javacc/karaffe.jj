@@ -151,5 +151,11 @@ Statement seffectTypeAlias():
     <SideEffect> t = typeAlias() {
         return new MutableTypeAliasStatement((TypeAliasStatement)t);
     }
+TypeId typeId():
+{Token token;}
+{
+    token = <TypeId> { return new TypeId(token.image);}
+}
+
 }
 
