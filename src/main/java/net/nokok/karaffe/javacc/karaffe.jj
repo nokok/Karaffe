@@ -119,14 +119,18 @@ TOKEN:
                 | "\r\n" > {CompileLog.print("NewLine");}
 }
 Statements start():
-{Statement s;}
+{
+Statement s;
+}
 {
     (s = statement() {statements.addStatement(s);} )* 
     <EOF> {return statements;}
 }
 
 Statement statement():
-{Statement t;}
+{
+Statement t;
+}
 {
      t = typeAlias() <NewLine> {return t;}
      | <NewLine> {return new NewLineStatement();}
@@ -136,7 +140,10 @@ Statement statement():
 TypeAliasの宣言
 */
 Statement typeAlias():
-{TypeId newType;TypeId existingTypeName = net.nokok.karaffe.javacc.identifier.TypeId.Any;}
+{
+TypeId newType;
+TypeId existingTypeName = net.nokok.karaffe.javacc.identifier.TypeId.Any;
+}
 {
 
     <Type> newType = typeId() (<Assign> existingTypeName = typeId())? {
@@ -146,25 +153,33 @@ Statement typeAlias():
 }
 
 Expression body():
-{Expression body;}
+{
+Expression body;
+}
 {
     body = literals() {return body;}
 }
 
 TypeId typeId():
-{Token token;}
+{
+Token token;
+}
 {
     token = <TypeId> { return new TypeId(token.image);}
 }
 
 VariableId variableId():
-{Token token;}
+{
+Token token;
+}
 {
     token = <VariableId> { return new VariableId(token.image);}
 }
 
 Expression literals():
-{Expression expr;}
+{
+Expression expr;
+}
 {
       expr = undefined() {return expr;}
     | expr = intLiteral() {return expr;}
@@ -177,7 +192,11 @@ Expression undefined():
 }
 
 Expression intLiteral():
-{Token a;Token b;List tokenList = new ArrayList();}
+{
+Token a;
+Token b;
+List tokenList = new ArrayList();
+}
 {
     a = <NonZero> (b = <Digit> {tokenList.add(b);}) {
         if(tokenList.isEmpty()){
