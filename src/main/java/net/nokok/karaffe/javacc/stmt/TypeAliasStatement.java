@@ -25,6 +25,10 @@ public class TypeAliasStatement implements Statement {
     private final TypeId baseType;
     private final TypeId newType;
 
+    public TypeAliasStatement(TypeId newType) {
+        this(TypeId.Any, newType);
+    }
+
     /**
      * Type Aliasステートメントを生成する。
      *
