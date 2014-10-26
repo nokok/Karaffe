@@ -155,7 +155,7 @@ TypeId existingTypeName = net.nokok.karaffe.javacc.identifier.TypeId.Any;
     }
 }
 
-Expression body():
+Expression expr():
 {
 Expression body;
 }
