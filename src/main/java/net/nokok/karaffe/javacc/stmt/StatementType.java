@@ -18,4 +18,8 @@ public enum StatementType {
      * seffect修飾子付きType Aliasステートメント
      */
     S_TYPE_ALIAS,
+    /**
+     * 関数宣言
+     */
+    FUNCTION_DECLARATION,
 }
