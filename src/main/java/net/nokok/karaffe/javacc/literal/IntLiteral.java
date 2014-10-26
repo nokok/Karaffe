@@ -1,8 +1,6 @@
 package net.nokok.karaffe.javacc.literal;
 
-import net.nokok.karaffe.runtime.type.Int;
-
-public class IntLiteral implements Literal<Int> {
+public class IntLiteral implements Literal<Integer> {
 
     private final Integer value;
 
@@ -11,8 +9,8 @@ public class IntLiteral implements Literal<Int> {
     }
 
     @Override
-    public Int eval(Void arg) {
-        return new Int(value);
+    public Integer eval(Void arg) {
+        return value;
     }
 
     @Override
