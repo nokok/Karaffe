@@ -173,3 +173,22 @@ Expression undefined():
     <Undefined> { return new UndefinedLiteral();}
 }
 
+Expression intLiteral():
+{Token a;Token b;List tokenList = new ArrayList();}
+{
+    a = <NonZero> (b = <Digit> {tokenList.add(b);}) {
+        if(tokenList.isEmpty()){
+            return new IntLiteral(Integer.parseInt(a.image));
+        }
+        StringBuilder sb = new StringBuilder();
+        sb.append(a.image);
+        for(Object obj : tokenList){
+            Token t = (Token)obj;
+            sb.append(t.image);
+        }
+        return new IntLiteral(Integer.parseInt(sb.toString()));
+    }
+    | a = <Zero> {
+        return new IntLiteral(Integer.parseInt(a.image));
+    }
+}
