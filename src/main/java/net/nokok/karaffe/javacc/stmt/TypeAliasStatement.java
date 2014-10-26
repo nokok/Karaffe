@@ -1,7 +1,7 @@
 package net.nokok.karaffe.javacc.stmt;
 
 import net.nokok.karaffe.javacc.CompileErrorMessage;
-import net.nokok.karaffe.javacc.Type;
+import net.nokok.karaffe.javacc.identifier.TypeId;
 
 /**
  * このクラスはType Aliasの構文を表現する。
@@ -22,8 +22,8 @@ import net.nokok.karaffe.javacc.Type;
  */
 public class TypeAliasStatement implements Statement {
 
-    private final Type baseType;
-    private final Type newType;
+    private final TypeId baseType;
+    private final TypeId newType;
 
     /**
      * Type Aliasステートメントを生成する。
@@ -31,7 +31,7 @@ public class TypeAliasStatement implements Statement {
      * @param baseType
      * @param newType
      */
-    public TypeAliasStatement(Type baseType, Type newType) {
+    public TypeAliasStatement(TypeId baseType, TypeId newType) {
         if ( baseType.isTypeParameter() || newType.isTypeParameter() ) {
             throw new IllegalArgumentException(CompileErrorMessage.TYPE_ALIAS_TYPE_PARAMETER.toString());
         }
@@ -59,14 +59,14 @@ public class TypeAliasStatement implements Statement {
     /**
      * @return 元の型
      */
-    public Type baseType() {
+    public TypeId baseType() {
         return baseType;
     }
 
     /**
      * @return 新しい型
      */
-    public Type newType() {
+    public TypeId newType() {
         return newType;
     }
 
