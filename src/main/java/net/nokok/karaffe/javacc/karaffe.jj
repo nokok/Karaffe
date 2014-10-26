@@ -193,24 +193,25 @@ Expression undefined():
 
 Expression intLiteral():
 {
-Token a;
-Token b;
+Token nonZero;
+Token digit;
+Token minus = null;
 List tokenList = new ArrayList();
 }
 {
-    a = <NonZero> (b = <Digit> {tokenList.add(b);}) {
-        if(tokenList.isEmpty()){
-            return new IntLiteral(Integer.parseInt(a.image));
-        }
+    (minus = <SubOp>)? nonZero = <NonZero> (digit = <Digit> {tokenList.add(digit);}) {
         StringBuilder sb = new StringBuilder();
-        sb.append(a.image);
+        if(minus != null){
+            sb.append(minus.image);
+        }
+        sb.append(nonZero.image);
         for(Object obj : tokenList){
             Token t = (Token)obj;
             sb.append(t.image);
         }
         return new IntLiteral(Integer.parseInt(sb.toString()));
     }
-    | a = <Zero> {
-        return new IntLiteral(Integer.parseInt(a.image));
+    | digit = <Zero> {
+        return new IntLiteral(Integer.parseInt(digit.image));
     }
 }

@@ -152,6 +152,7 @@ public class KaraffeParser implements KaraffeParserConstants {
                 }
                 break;
             }
+            case SubOp:
             case Zero:
             case NonZero: {
                 expr = intLiteral();
@@ -181,23 +182,30 @@ public class KaraffeParser implements KaraffeParserConstants {
     }
 
     final public Expression intLiteral() throws ParseException {
-        Token a;
-        Token b;
+        Token nonZero;
+        Token digit;
+        Token minus = null;
         List tokenList = new ArrayList();
         switch ( (jj_ntk == -1) ? jj_ntk_f() : jj_ntk ) {
+            case SubOp:
             case NonZero: {
-                a = jj_consume_token(NonZero);
-                b = jj_consume_token(Digit);
-                tokenList.add(b);
-                if ( tokenList.isEmpty() ) {
-                    {
-                        if ( "" != null ) {
-                            return new IntLiteral(Integer.parseInt(a.image));
-                        }
+                switch ( (jj_ntk == -1) ? jj_ntk_f() : jj_ntk ) {
+                    case SubOp: {
+                        minus = jj_consume_token(SubOp);
+                        break;
                     }
+                    default:
+                        jj_la1[4] = jj_gen;
+                        ;
                 }
+                nonZero = jj_consume_token(NonZero);
+                digit = jj_consume_token(Digit);
+                tokenList.add(digit);
                 StringBuilder sb = new StringBuilder();
-                sb.append(a.image);
+                if ( minus != null ) {
+                    sb.append(minus.image);
+                }
+                sb.append(nonZero.image);
                 for ( Object obj : tokenList ) {
                     Token t = (Token) obj;
                     sb.append(t.image);
@@ -210,16 +218,16 @@ public class KaraffeParser implements KaraffeParserConstants {
                 break;
             }
             case Zero: {
-                a = jj_consume_token(Zero);
+                digit = jj_consume_token(Zero);
                 {
                     if ( "" != null ) {
-                        return new IntLiteral(Integer.parseInt(a.image));
+                        return new IntLiteral(Integer.parseInt(digit.image));
                     }
                 }
                 break;
             }
             default:
-                jj_la1[4] = jj_gen;
+                jj_la1[5] = jj_gen;
                 jj_consume_token(-1);
                 throw new ParseException();
         }
@@ -241,7 +249,7 @@ public class KaraffeParser implements KaraffeParserConstants {
     public Token jj_nt;
     private int jj_ntk;
     private int jj_gen;
-    final private int[] jj_la1 = new int[5];
+    final private int[] jj_la1 = new int[6];
     static private int[] jj_la1_0;
     static private int[] jj_la1_1;
 
@@ -251,11 +259,11 @@ public class KaraffeParser implements KaraffeParserConstants {
     }
 
     private static void jj_la1_init_0() {
-        jj_la1_0 = new int[]{ 0x200, 0x200, 0x400000, 0x100000, 0x0, };
+        jj_la1_0 = new int[]{ 0x200, 0x200, 0x400000, 0x10100000, 0x10000000, 0x10000000, };
     }
 
     private static void jj_la1_init_1() {
-        jj_la1_1 = new int[]{ 0x100, 0x100, 0x0, 0xc, 0xc, };
+        jj_la1_1 = new int[]{ 0x100, 0x100, 0x0, 0xc, 0x0, 0xc, };
     }
 
     /**
@@ -278,7 +286,7 @@ public class KaraffeParser implements KaraffeParserConstants {
         token = new Token();
         jj_ntk = -1;
         jj_gen = 0;
-        for ( int i = 0; i < 5; i++ ) {
+        for ( int i = 0; i < 6; i++ ) {
             jj_la1[i] = -1;
         }
     }
@@ -303,7 +311,7 @@ public class KaraffeParser implements KaraffeParserConstants {
         token = new Token();
         jj_ntk = -1;
         jj_gen = 0;
-        for ( int i = 0; i < 5; i++ ) {
+        for ( int i = 0; i < 6; i++ ) {
             jj_la1[i] = -1;
         }
     }
@@ -317,7 +325,7 @@ public class KaraffeParser implements KaraffeParserConstants {
         token = new Token();
         jj_ntk = -1;
         jj_gen = 0;
-        for ( int i = 0; i < 5; i++ ) {
+        for ( int i = 0; i < 6; i++ ) {
             jj_la1[i] = -1;
         }
     }
@@ -331,7 +339,7 @@ public class KaraffeParser implements KaraffeParserConstants {
         token = new Token();
         jj_ntk = -1;
         jj_gen = 0;
-        for ( int i = 0; i < 5; i++ ) {
+        for ( int i = 0; i < 6; i++ ) {
             jj_la1[i] = -1;
         }
     }
@@ -344,7 +352,7 @@ public class KaraffeParser implements KaraffeParserConstants {
         token = new Token();
         jj_ntk = -1;
         jj_gen = 0;
-        for ( int i = 0; i < 5; i++ ) {
+        for ( int i = 0; i < 6; i++ ) {
             jj_la1[i] = -1;
         }
     }
@@ -357,7 +365,7 @@ public class KaraffeParser implements KaraffeParserConstants {
         token = new Token();
         jj_ntk = -1;
         jj_gen = 0;
-        for ( int i = 0; i < 5; i++ ) {
+        for ( int i = 0; i < 6; i++ ) {
             jj_la1[i] = -1;
         }
     }
@@ -430,7 +438,7 @@ public class KaraffeParser implements KaraffeParserConstants {
             la1tokens[jj_kind] = true;
             jj_kind = -1;
         }
-        for ( int i = 0; i < 5; i++ ) {
+        for ( int i = 0; i < 6; i++ ) {
             if ( jj_la1[i] == jj_gen ) {
                 for ( int j = 0; j < 32; j++ ) {
                     if ( (jj_la1_0[i] & (1 << j)) != 0 ) {
