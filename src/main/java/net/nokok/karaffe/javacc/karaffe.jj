@@ -129,7 +129,6 @@ Statement statement():
 {Statement t;}
 {
      t = typeAlias() <NewLine> {return t;}
-     | t = seffectTypeAlias() <NewLine>{return t;}
      | <NewLine> {return new NewLineStatement();}
 }
 
@@ -150,12 +149,12 @@ Statement typeAlias():
     }
 }
 
-Statement seffectTypeAlias():
-{Statement t;}
+Expression body():
+{Expression body;}
 {
-    <SideEffect> t = typeAlias() {
-        return new MutableTypeAliasStatement((TypeAliasStatement)t);
-    }
+    body = literals() {return body;}
+}
+
 TypeId typeId():
 {Token token;}
 {
