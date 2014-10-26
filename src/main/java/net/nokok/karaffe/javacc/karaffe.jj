@@ -99,6 +99,8 @@ TOKEN:
     | < MulOp : "*" > {CompileLog.print("*");}
     | < DivOp : "/" > {CompileLog.print("/");}
     | < RemOp : "%" > {CompileLog.print("%");}
+    | < Dot : "." > {CompileLog.print(".");}
+    | < Exp : "e" | "E" > {CompileLog.print("Exp");}
     
 }
 
