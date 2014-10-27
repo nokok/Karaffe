@@ -1,11 +1,8 @@
 package net.nokok.karaffe.javacc.stmt;
 
-public interface Statement {
+import net.nokok.karaffe.javacc.ast.Node;
 
-    /**
-     * @return ステートメントの種類
-     */
-    public StatementType getType();
+public interface Statement extends Node<StatementType> {
 
     /**
      * @return seffect演算子を許可する場合true
