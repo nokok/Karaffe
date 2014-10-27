@@ -8,6 +8,10 @@ public class IntLiteral implements Literal<Integer> {
         this.value = value;
     }
 
+    public IntLiteral(String value) {
+        this(Integer.parseInt(value));
+    }
+
     @Override
     public Integer eval(Void arg) {
         return value;
