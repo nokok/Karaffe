@@ -145,6 +145,17 @@ Statement t;
      | <NewLine> {return new NewLineStatement();}
 }
 
+Expression literals():
+{
+Expression expr;
+}
+{
+      expr = undefined() {return expr;}
+      | expr = boolLiteral() {return expr;}
+      | expr = intLiteral() {return expr;}
+      | expr = floatLiteral() {return expr;}
+}
+
 /**
 TypeAliasの宣言
 */
@@ -186,17 +197,6 @@ Token token;
 }
 {
     token = <VariableId> { return new VariableId(token.image);}
-}
-
-Expression literals():
-{
-Expression expr;
-}
-{
-      expr = undefined() {return expr;}
-      | expr = boolLiteral() {return expr;}
-      | expr = intLiteral() {return expr;}
-      | expr = floatLiteral() {return expr;}
 }
 
 Expression undefined():
