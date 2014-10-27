@@ -8,7 +8,7 @@ import java.util.List;
 import net.nokok.karaffe.javacc.expr.*;
 import net.nokok.karaffe.javacc.identifier.TypeId;
 import net.nokok.karaffe.javacc.identifier.VariableId;
-import net.nokok.karaffe.javacc.literal.IntLiteral;
+import net.nokok.karaffe.javacc.literal.BoolLiteral;
 import net.nokok.karaffe.javacc.literal.UndefinedLiteral;
 import net.nokok.karaffe.javacc.stmt.*;
 
@@ -25,37 +25,43 @@ public class KaraffeParser implements KaraffeParserConstants {
     }
 
     final public Statements start() throws ParseException {
-        Statement s;
-        label_1:
-        while ( true ) {
-            switch ( (jj_ntk == -1) ? jj_ntk_f() : jj_ntk ) {
-                case Type:
-                case SideEffect:
-                case NewLine: {
-                    ;
-                    break;
+        trace_call("start");
+        try {
+            Statement s;
+            label_1:
+            while ( true ) {
+                switch ( (jj_ntk == -1) ? jj_ntk_f() : jj_ntk ) {
+                    case Type:
+                    case SideEffect:
+                    case VariableId:
+                    case NewLine: {
+                        ;
+                        break;
+                    }
+                    default:
+                        jj_la1[0] = jj_gen;
+                        break label_1;
                 }
-                default:
-                    jj_la1[0] = jj_gen;
-                    break label_1;
+                s = statement();
+                statements.addStatement(s);
             }
-            s = statement();
-            statements.addStatement(s);
-        }
-        jj_consume_token(0);
-        {
-            if ( "" != null ) {
-                return statements;
+            jj_consume_token(0);
+            {
+                if ( "" != null ) {
+                    return statements;
+                }
             }
+            throw new Error("Missing return statement in function");
+        } finally {
+            trace_return("start");
         }
-        throw new Error("Missing return statement in function");
     }
 
     final public Statement statement() throws ParseException {
-        Statement t;
-        switch ( (jj_ntk == -1) ? jj_ntk_f() : jj_ntk ) {
-            case Type:
-            case SideEffect: {
+        trace_call("statement");
+        try {
+            Statement t;
+            if ( jj_2_1(2) ) {
                 t = typeAlias();
                 jj_consume_token(NewLine);
                 {
@@ -63,194 +69,392 @@ public class KaraffeParser implements KaraffeParserConstants {
                         return t;
                     }
                 }
-                break;
-            }
-            case NewLine: {
+            } else if ( jj_2_2(2) ) {
+                t = variableDeclaration();
                 jj_consume_token(NewLine);
                 {
                     if ( "" != null ) {
-                        return new NewLineStatement();
+                        return t;
                     }
                 }
-                break;
+            } else {
+                switch ( (jj_ntk == -1) ? jj_ntk_f() : jj_ntk ) {
+                    case NewLine: {
+                        jj_consume_token(NewLine);
+                        {
+                            if ( "" != null ) {
+                                return new NewLineStatement();
+                            }
+                        }
+                        break;
+                    }
+                    default:
+                        jj_la1[1] = jj_gen;
+                        jj_consume_token(-1);
+                        throw new ParseException();
+                }
             }
-            default:
-                jj_la1[1] = jj_gen;
-                jj_consume_token(-1);
-                throw new ParseException();
+            throw new Error("Missing return statement in function");
+        } finally {
+            trace_return("statement");
         }
-        throw new Error("Missing return statement in function");
     }
 
     /**
      * TypeAliasの宣言
      */
     final public Statement typeAlias() throws ParseException {
-        Token seffect = null;
-        TypeId newType;
-        TypeId existingTypeName = net.nokok.karaffe.javacc.identifier.TypeId.Any;
-        switch ( (jj_ntk == -1) ? jj_ntk_f() : jj_ntk ) {
-            case SideEffect: {
-                seffect = jj_consume_token(SideEffect);
-                break;
+        trace_call("typeAlias");
+        try {
+            Token seffect = null;
+            TypeId newType;
+            TypeId existingTypeName = net.nokok.karaffe.javacc.identifier.TypeId.Any;
+            switch ( (jj_ntk == -1) ? jj_ntk_f() : jj_ntk ) {
+                case SideEffect: {
+                    seffect = jj_consume_token(SideEffect);
+                    break;
+                }
+                default:
+                    jj_la1[2] = jj_gen;
+                    ;
             }
-            default:
-                jj_la1[2] = jj_gen;
-                ;
-        }
-        jj_consume_token(Type);
-        newType = typeId();
-        switch ( (jj_ntk == -1) ? jj_ntk_f() : jj_ntk ) {
-            case Assign: {
-                jj_consume_token(Assign);
-                existingTypeName = typeId();
-                break;
+            jj_consume_token(Type);
+            newType = typeId();
+            switch ( (jj_ntk == -1) ? jj_ntk_f() : jj_ntk ) {
+                case Assign: {
+                    jj_consume_token(Assign);
+                    existingTypeName = typeId();
+                    break;
+                }
+                default:
+                    jj_la1[3] = jj_gen;
+                    ;
             }
-            default:
-                jj_la1[3] = jj_gen;
-                ;
-        }
-        if ( seffect == null ) {
-            {
-                if ( "" != null ) {
-                    return new TypeAliasStatement(existingTypeName, newType);
+            if ( seffect == null ) {
+                {
+                    if ( "" != null ) {
+                        return new TypeAliasStatement(existingTypeName, newType);
+                    }
+                }
+            } else {
+                {
+                    if ( "" != null ) {
+                        return new MutableTypeAliasStatement(existingTypeName, newType);
+                    }
                 }
             }
-        } else {
-            {
-                if ( "" != null ) {
-                    return new MutableTypeAliasStatement(existingTypeName, newType);
-                }
-            }
+            throw new Error("Missing return statement in function");
+        } finally {
+            trace_return("typeAlias");
         }
-        throw new Error("Missing return statement in function");
     }
 
     final public Expression expr() throws ParseException {
-        Expression body;
-        body = literals();
-        {
-            if ( "" != null ) {
-                return body;
+        trace_call("expr");
+        try {
+            Expression body;
+            body = literals();
+            {
+                if ( "" != null ) {
+                    return body;
+                }
             }
+            throw new Error("Missing return statement in function");
+        } finally {
+            trace_return("expr");
         }
-        throw new Error("Missing return statement in function");
     }
 
     final public TypeId typeId() throws ParseException {
-        Token token;
-        token = jj_consume_token(TypeId);
-        {
-            if ( "" != null ) {
-                return new TypeId(token.image);
+        trace_call("typeId");
+        try {
+            Token token;
+            token = jj_consume_token(TypeId);
+            {
+                if ( "" != null ) {
+                    return new TypeId(token.image);
+                }
             }
+            throw new Error("Missing return statement in function");
+        } finally {
+            trace_return("typeId");
         }
-        throw new Error("Missing return statement in function");
     }
 
     final public VariableId variableId() throws ParseException {
-        Token token;
-        token = jj_consume_token(VariableId);
-        {
-            if ( "" != null ) {
-                return new VariableId(token.image);
+        trace_call("variableId");
+        try {
+            Token token;
+            token = jj_consume_token(VariableId);
+            {
+                if ( "" != null ) {
+                    return new VariableId(token.image);
+                }
             }
+            throw new Error("Missing return statement in function");
+        } finally {
+            trace_return("variableId");
         }
-        throw new Error("Missing return statement in function");
     }
 
     final public Expression literals() throws ParseException {
-        Expression expr;
-        switch ( (jj_ntk == -1) ? jj_ntk_f() : jj_ntk ) {
-            case Undefined: {
-                expr = undefined();
-                {
-                    if ( "" != null ) {
-                        return expr;
+        trace_call("literals");
+        try {
+            Expression expr;
+            switch ( (jj_ntk == -1) ? jj_ntk_f() : jj_ntk ) {
+                case Undefined: {
+                    expr = undefined();
+                    {
+                        if ( "" != null ) {
+                            return expr;
+                        }
                     }
+                    break;
                 }
-                break;
-            }
-            case SubOp:
-            case Zero:
-            case NonZero: {
-                expr = intLiteral();
-                {
-                    if ( "" != null ) {
-                        return expr;
+                case Bool: {
+                    expr = boolLiteral();
+                    {
+                        if ( "" != null ) {
+                            return expr;
+                        }
                     }
+                    break;
                 }
-                break;
+                default:
+                    jj_la1[4] = jj_gen;
+                    jj_consume_token(-1);
+                    throw new ParseException();
             }
-            default:
-                jj_la1[4] = jj_gen;
-                jj_consume_token(-1);
-                throw new ParseException();
+            throw new Error("Missing return statement in function");
+        } finally {
+            trace_return("literals");
         }
-        throw new Error("Missing return statement in function");
     }
 
     final public Expression undefined() throws ParseException {
-        jj_consume_token(Undefined);
-        {
-            if ( "" != null ) {
-                return new UndefinedLiteral();
+        trace_call("undefined");
+        try {
+            jj_consume_token(Undefined);
+            {
+                if ( "" != null ) {
+                    return new UndefinedLiteral();
+                }
             }
+            throw new Error("Missing return statement in function");
+        } finally {
+            trace_return("undefined");
         }
-        throw new Error("Missing return statement in function");
     }
 
-    final public Expression intLiteral() throws ParseException {
-        Token nonZero;
-        Token digit;
-        Token minus = null;
-        List tokenList = new ArrayList();
-        switch ( (jj_ntk == -1) ? jj_ntk_f() : jj_ntk ) {
-            case SubOp:
-            case NonZero: {
-                switch ( (jj_ntk == -1) ? jj_ntk_f() : jj_ntk ) {
-                    case SubOp: {
-                        minus = jj_consume_token(SubOp);
-                        break;
-                    }
-                    default:
-                        jj_la1[5] = jj_gen;
-                        ;
+    final public Expression boolLiteral() throws ParseException {
+        trace_call("boolLiteral");
+        try {
+            Expression expr;
+            Token token;
+            token = jj_consume_token(Bool);
+            {
+                if ( "" != null ) {
+                    return new BoolLiteral(token.image);
                 }
-                nonZero = jj_consume_token(NonZero);
-                digit = jj_consume_token(Digit);
-                tokenList.add(digit);
-                StringBuilder sb = new StringBuilder();
-                if ( minus != null ) {
-                    sb.append(minus.image);
-                }
-                sb.append(nonZero.image);
-                for ( Object obj : tokenList ) {
-                    Token t = (Token) obj;
-                    sb.append(t.image);
-                }
-                {
-                    if ( "" != null ) {
-                        return new IntLiteral(Integer.parseInt(sb.toString()));
-                    }
-                }
-                break;
             }
-            case Zero: {
-                digit = jj_consume_token(Zero);
-                {
-                    if ( "" != null ) {
-                        return new IntLiteral(Integer.parseInt(digit.image));
-                    }
-                }
-                break;
-            }
-            default:
-                jj_la1[6] = jj_gen;
-                jj_consume_token(-1);
-                throw new ParseException();
+            throw new Error("Missing return statement in function");
+        } finally {
+            trace_return("boolLiteral");
         }
-        throw new Error("Missing return statement in function");
+    }
+
+    final public Statement variableDeclaration() throws ParseException {
+        trace_call("variableDeclaration");
+        try {
+            Token seffect = null;
+            VariableId name;
+            TypeId type = null;
+            Expression expr;
+            switch ( (jj_ntk == -1) ? jj_ntk_f() : jj_ntk ) {
+                case SideEffect: {
+                    seffect = jj_consume_token(SideEffect);
+                    break;
+                }
+                default:
+                    jj_la1[5] = jj_gen;
+                    ;
+            }
+            name = variableId();
+            switch ( (jj_ntk == -1) ? jj_ntk_f() : jj_ntk ) {
+                case Colon: {
+                    jj_consume_token(Colon);
+                    type = typeId();
+                    break;
+                }
+                default:
+                    jj_la1[6] = jj_gen;
+                    ;
+            }
+            jj_consume_token(Assign);
+            expr = expr();
+            if ( type == null ) {
+                type = net.nokok.karaffe.javacc.identifier.TypeId.Inference;
+            }
+            if ( seffect == null ) {
+                {
+                    if ( "" != null ) {
+                        return new VariableDeclaration(name, type, expr);
+                    }
+                }
+            } else {
+                {
+                    if ( "" != null ) {
+                        return new MutableVariableDeclaration(name, type, expr);
+                    }
+                }
+            }
+            throw new Error("Missing return statement in function");
+        } finally {
+            trace_return("variableDeclaration");
+        }
+    }
+
+    private boolean jj_2_1(int xla) {
+        jj_la = xla;
+        jj_lastpos = jj_scanpos = token;
+        try {
+            return !jj_3_1();
+        } catch (LookaheadSuccess ls) {
+            return true;
+        } finally {
+            jj_save(0, xla);
+        }
+    }
+
+    private boolean jj_2_2(int xla) {
+        jj_la = xla;
+        jj_lastpos = jj_scanpos = token;
+        try {
+            return !jj_3_2();
+        } catch (LookaheadSuccess ls) {
+            return true;
+        } finally {
+            jj_save(1, xla);
+        }
+    }
+
+    private boolean jj_3R_3() {
+        if ( !jj_rescan ) {
+            trace_call("variableDeclaration(LOOKING AHEAD...)");
+        }
+        Token xsp;
+        xsp = jj_scanpos;
+        if ( jj_scan_token(11) ) {
+            jj_scanpos = xsp;
+        }
+        if ( jj_3R_5() ) {
+            if ( !jj_rescan ) {
+                trace_return("variableDeclaration(LOOKAHEAD FAILED)");
+            }
+            return true;
+        }
+        xsp = jj_scanpos;
+        if ( jj_3R_6() ) {
+            jj_scanpos = xsp;
+        }
+        if ( jj_scan_token(Assign) ) {
+            if ( !jj_rescan ) {
+                trace_return("variableDeclaration(LOOKAHEAD FAILED)");
+            }
+            return true;
+        }
+        {
+            if ( !jj_rescan ) {
+                trace_return("variableDeclaration(LOOKAHEAD SUCCEEDED)");
+            }
+            return false;
+        }
+    }
+
+    private boolean jj_3R_4() {
+        if ( !jj_rescan ) {
+            trace_call("typeId(LOOKING AHEAD...)");
+        }
+        if ( jj_scan_token(TypeId) ) {
+            if ( !jj_rescan ) {
+                trace_return("typeId(LOOKAHEAD FAILED)");
+            }
+            return true;
+        }
+        {
+            if ( !jj_rescan ) {
+                trace_return("typeId(LOOKAHEAD SUCCEEDED)");
+            }
+            return false;
+        }
+    }
+
+    private boolean jj_3R_2() {
+        if ( !jj_rescan ) {
+            trace_call("typeAlias(LOOKING AHEAD...)");
+        }
+        Token xsp;
+        xsp = jj_scanpos;
+        if ( jj_scan_token(11) ) {
+            jj_scanpos = xsp;
+        }
+        if ( jj_scan_token(Type) ) {
+            if ( !jj_rescan ) {
+                trace_return("typeAlias(LOOKAHEAD FAILED)");
+            }
+            return true;
+        }
+        if ( jj_3R_4() ) {
+            if ( !jj_rescan ) {
+                trace_return("typeAlias(LOOKAHEAD FAILED)");
+            }
+            return true;
+        }
+        {
+            if ( !jj_rescan ) {
+                trace_return("typeAlias(LOOKAHEAD SUCCEEDED)");
+            }
+            return false;
+        }
+    }
+
+    private boolean jj_3_2() {
+        if ( jj_3R_3() ) {
+            return true;
+        }
+        return false;
+    }
+
+    private boolean jj_3R_5() {
+        if ( !jj_rescan ) {
+            trace_call("variableId(LOOKING AHEAD...)");
+        }
+        if ( jj_scan_token(VariableId) ) {
+            if ( !jj_rescan ) {
+                trace_return("variableId(LOOKAHEAD FAILED)");
+            }
+            return true;
+        }
+        {
+            if ( !jj_rescan ) {
+                trace_return("variableId(LOOKAHEAD SUCCEEDED)");
+            }
+            return false;
+        }
+    }
+
+    private boolean jj_3_1() {
+        if ( jj_3R_2() ) {
+            return true;
+        }
+        return false;
+    }
+
+    private boolean jj_3R_6() {
+        if ( jj_scan_token(Colon) ) {
+            return true;
+        }
+        return false;
     }
 
     /**
@@ -267,6 +471,8 @@ public class KaraffeParser implements KaraffeParserConstants {
      */
     public Token jj_nt;
     private int jj_ntk;
+    private Token jj_scanpos, jj_lastpos;
+    private int jj_la;
     private int jj_gen;
     final private int[] jj_la1 = new int[7];
     static private int[] jj_la1_0;
@@ -278,12 +484,15 @@ public class KaraffeParser implements KaraffeParserConstants {
     }
 
     private static void jj_la1_init_0() {
-        jj_la1_0 = new int[]{ 0xa00, 0xa00, 0x800, 0x400000, 0x10100000, 0x10000000, 0x10000000, };
+        jj_la1_0 = new int[]{ 0xa00, 0x0, 0x800, 0x800000, 0x101000, 0x800, 0x80000, };
     }
 
     private static void jj_la1_init_1() {
-        jj_la1_1 = new int[]{ 0x100, 0x100, 0x0, 0x0, 0xc, 0x0, 0xc, };
+        jj_la1_1 = new int[]{ 0x808, 0x800, 0x0, 0x0, 0x0, 0x0, 0x0, };
     }
+    final private JJCalls[] jj_2_rtns = new JJCalls[2];
+    private boolean jj_rescan = false;
+    private int jj_gc = 0;
 
     /**
      * Constructor with InputStream.
@@ -307,6 +516,9 @@ public class KaraffeParser implements KaraffeParserConstants {
         jj_gen = 0;
         for ( int i = 0; i < 7; i++ ) {
             jj_la1[i] = -1;
+        }
+        for ( int i = 0; i < jj_2_rtns.length; i++ ) {
+            jj_2_rtns[i] = new JJCalls();
         }
     }
 
@@ -333,6 +545,9 @@ public class KaraffeParser implements KaraffeParserConstants {
         for ( int i = 0; i < 7; i++ ) {
             jj_la1[i] = -1;
         }
+        for ( int i = 0; i < jj_2_rtns.length; i++ ) {
+            jj_2_rtns[i] = new JJCalls();
+        }
     }
 
     /**
@@ -346,6 +561,9 @@ public class KaraffeParser implements KaraffeParserConstants {
         jj_gen = 0;
         for ( int i = 0; i < 7; i++ ) {
             jj_la1[i] = -1;
+        }
+        for ( int i = 0; i < jj_2_rtns.length; i++ ) {
+            jj_2_rtns[i] = new JJCalls();
         }
     }
 
@@ -361,6 +579,9 @@ public class KaraffeParser implements KaraffeParserConstants {
         for ( int i = 0; i < 7; i++ ) {
             jj_la1[i] = -1;
         }
+        for ( int i = 0; i < jj_2_rtns.length; i++ ) {
+            jj_2_rtns[i] = new JJCalls();
+        }
     }
 
     /**
@@ -373,6 +594,9 @@ public class KaraffeParser implements KaraffeParserConstants {
         jj_gen = 0;
         for ( int i = 0; i < 7; i++ ) {
             jj_la1[i] = -1;
+        }
+        for ( int i = 0; i < jj_2_rtns.length; i++ ) {
+            jj_2_rtns[i] = new JJCalls();
         }
     }
 
@@ -387,6 +611,9 @@ public class KaraffeParser implements KaraffeParserConstants {
         for ( int i = 0; i < 7; i++ ) {
             jj_la1[i] = -1;
         }
+        for ( int i = 0; i < jj_2_rtns.length; i++ ) {
+            jj_2_rtns[i] = new JJCalls();
+        }
     }
 
     private Token jj_consume_token(int kind) throws ParseException {
@@ -399,11 +626,62 @@ public class KaraffeParser implements KaraffeParserConstants {
         jj_ntk = -1;
         if ( token.kind == kind ) {
             jj_gen++;
+            if ( ++jj_gc > 100 ) {
+                jj_gc = 0;
+                for ( int i = 0; i < jj_2_rtns.length; i++ ) {
+                    JJCalls c = jj_2_rtns[i];
+                    while ( c != null ) {
+                        if ( c.gen < jj_gen ) {
+                            c.first = null;
+                        }
+                        c = c.next;
+                    }
+                }
+            }
+            trace_token(token, "");
             return token;
         }
         token = oldToken;
         jj_kind = kind;
         throw generateParseException();
+    }
+
+    @SuppressWarnings("serial")
+    static private final class LookaheadSuccess extends java.lang.Error {
+    }
+    final private LookaheadSuccess jj_ls = new LookaheadSuccess();
+
+    private boolean jj_scan_token(int kind) {
+        if ( jj_scanpos == jj_lastpos ) {
+            jj_la--;
+            if ( jj_scanpos.next == null ) {
+                jj_lastpos = jj_scanpos = jj_scanpos.next = token_source.getNextToken();
+            } else {
+                jj_lastpos = jj_scanpos = jj_scanpos.next;
+            }
+        } else {
+            jj_scanpos = jj_scanpos.next;
+        }
+        if ( jj_rescan ) {
+            int i = 0;
+            Token tok = token;
+            while ( tok != null && tok != jj_scanpos ) {
+                i++;
+                tok = tok.next;
+            }
+            if ( tok != null ) {
+                jj_add_error_token(kind, i);
+            }
+        } else {
+            trace_scan(jj_scanpos, kind);
+        }
+        if ( jj_scanpos.kind != kind ) {
+            return true;
+        }
+        if ( jj_la == 0 && jj_scanpos == jj_lastpos ) {
+            throw jj_ls;
+        }
+        return false;
     }
 
     /**
@@ -417,6 +695,7 @@ public class KaraffeParser implements KaraffeParserConstants {
         }
         jj_ntk = -1;
         jj_gen++;
+        trace_token(token, " (in getNextToken)");
         return token;
     }
 
@@ -446,13 +725,45 @@ public class KaraffeParser implements KaraffeParserConstants {
     private java.util.List<int[]> jj_expentries = new java.util.ArrayList<int[]>();
     private int[] jj_expentry;
     private int jj_kind = -1;
+    private int[] jj_lasttokens = new int[100];
+    private int jj_endpos;
+
+    private void jj_add_error_token(int kind, int pos) {
+        if ( pos >= 100 ) {
+            return;
+        }
+        if ( pos == jj_endpos + 1 ) {
+            jj_lasttokens[jj_endpos++] = kind;
+        } else if ( jj_endpos != 0 ) {
+            jj_expentry = new int[jj_endpos];
+            for ( int i = 0; i < jj_endpos; i++ ) {
+                jj_expentry[i] = jj_lasttokens[i];
+            }
+            jj_entries_loop:
+            for ( java.util.Iterator<?> it = jj_expentries.iterator(); it.hasNext(); ) {
+                int[] oldentry = (int[]) (it.next());
+                if ( oldentry.length == jj_expentry.length ) {
+                    for ( int i = 0; i < jj_expentry.length; i++ ) {
+                        if ( oldentry[i] != jj_expentry[i] ) {
+                            continue jj_entries_loop;
+                        }
+                    }
+                    jj_expentries.add(jj_expentry);
+                    break jj_entries_loop;
+                }
+            }
+            if ( pos != 0 ) {
+                jj_lasttokens[(jj_endpos = pos) - 1] = kind;
+            }
+        }
+    }
 
     /**
      * Generate ParseException.
      */
     public ParseException generateParseException() {
         jj_expentries.clear();
-        boolean[] la1tokens = new boolean[41];
+        boolean[] la1tokens = new boolean[44];
         if ( jj_kind >= 0 ) {
             la1tokens[jj_kind] = true;
             jj_kind = -1;
@@ -469,13 +780,16 @@ public class KaraffeParser implements KaraffeParserConstants {
                 }
             }
         }
-        for ( int i = 0; i < 41; i++ ) {
+        for ( int i = 0; i < 44; i++ ) {
             if ( la1tokens[i] ) {
                 jj_expentry = new int[1];
                 jj_expentry[0] = i;
                 jj_expentries.add(jj_expentry);
             }
         }
+        jj_endpos = 0;
+        jj_rescan_token();
+        jj_add_error_token(0, 0);
         int[][] exptokseq = new int[jj_expentries.size()][];
         for ( int i = 0; i < jj_expentries.size(); i++ ) {
             exptokseq[i] = jj_expentries.get(i);
@@ -483,16 +797,115 @@ public class KaraffeParser implements KaraffeParserConstants {
         return new ParseException(token, exptokseq, tokenImage);
     }
 
+    private int trace_indent = 0;
+    private boolean trace_enabled = true;
+
     /**
      * Enable tracing.
      */
     final public void enable_tracing() {
+        trace_enabled = true;
     }
 
     /**
      * Disable tracing.
      */
     final public void disable_tracing() {
+        trace_enabled = false;
+    }
+
+    private void trace_call(String s) {
+        if ( trace_enabled ) {
+            for ( int i = 0; i < trace_indent; i++ ) {
+                System.out.print(" ");
+            }
+            System.out.println("Call:   " + s);
+        }
+        trace_indent = trace_indent + 2;
+    }
+
+    private void trace_return(String s) {
+        trace_indent = trace_indent - 2;
+        if ( trace_enabled ) {
+            for ( int i = 0; i < trace_indent; i++ ) {
+                System.out.print(" ");
+            }
+            System.out.println("Return: " + s);
+        }
+    }
+
+    private void trace_token(Token t, String where) {
+        if ( trace_enabled ) {
+            for ( int i = 0; i < trace_indent; i++ ) {
+                System.out.print(" ");
+            }
+            System.out.print("Consumed token: <" + tokenImage[t.kind]);
+            if ( t.kind != 0 && !tokenImage[t.kind].equals("\"" + t.image + "\"") ) {
+                System.out.print(": \"" + t.image + "\"");
+            }
+            System.out.println(" at line " + t.beginLine + " column " + t.beginColumn + ">" + where);
+        }
+    }
+
+    private void trace_scan(Token t1, int t2) {
+        if ( trace_enabled ) {
+            for ( int i = 0; i < trace_indent; i++ ) {
+                System.out.print(" ");
+            }
+            System.out.print("Visited token: <" + tokenImage[t1.kind]);
+            if ( t1.kind != 0 && !tokenImage[t1.kind].equals("\"" + t1.image + "\"") ) {
+                System.out.print(": \"" + t1.image + "\"");
+            }
+            System.out.println(" at line " + t1.beginLine + " column " + t1.beginColumn + ">; Expected token: <" + tokenImage[t2] + ">");
+        }
+    }
+
+    private void jj_rescan_token() {
+        jj_rescan = true;
+        for ( int i = 0; i < 2; i++ ) {
+            try {
+                JJCalls p = jj_2_rtns[i];
+                do {
+                    if ( p.gen > jj_gen ) {
+                        jj_la = p.arg;
+                        jj_lastpos = jj_scanpos = p.first;
+                        switch ( i ) {
+                            case 0:
+                                jj_3_1();
+                                break;
+                            case 1:
+                                jj_3_2();
+                                break;
+                        }
+                    }
+                    p = p.next;
+                } while ( p != null );
+            } catch (LookaheadSuccess ls) {
+            }
+        }
+        jj_rescan = false;
+    }
+
+    private void jj_save(int index, int xla) {
+        JJCalls p = jj_2_rtns[index];
+        while ( p.gen > jj_gen ) {
+            if ( p.next == null ) {
+                p = p.next = new JJCalls();
+                break;
+            }
+            p = p.next;
+        }
+        p.gen = jj_gen + xla - jj_la;
+        p.first = token;
+        p.arg = xla;
+    }
+
+    static final class JJCalls {
+
+        int gen;
+        Token first;
+        int arg;
+        JJCalls next;
     }
 
 }
