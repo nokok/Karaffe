@@ -88,6 +88,7 @@ TOKEN:
     | < Colon : ":" > {CompileLog.print(":");}
     | < Undefined : "undefined" > {CompileLog.print("undefined");}
     | < Void : "Void" > {CompileLog.print("Void");}
+    | < IntLiteral : (<SubOp>)? <NonZero> (<Zero> | <NonZero>)* > {CompileLog.print("intLiteral");}
 }
 
 TOKEN: 
