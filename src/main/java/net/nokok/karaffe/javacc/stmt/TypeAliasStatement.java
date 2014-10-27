@@ -44,6 +44,11 @@ public class TypeAliasStatement implements Statement {
     }
 
     @Override
+    public Object accept(StatementListener listener) {
+        return listener.onTypeAliasStatement(this);
+    }
+
+    @Override
     public StatementType getType() {
         return StatementType.TYPE_ALIAS;
     }

@@ -1,5 +1,7 @@
 package net.nokok.karaffe.javacc.literal;
 
+import net.nokok.karaffe.javacc.stmt.*;
+
 public class IntLiteral implements Literal<Integer> {
 
     private final Integer value;
@@ -10,6 +12,11 @@ public class IntLiteral implements Literal<Integer> {
 
     public IntLiteral(String value) {
         this(Integer.parseInt(value));
+    }
+
+    @Override
+    public Object accept(StatementListener listener) {
+        return listener.onIntLiteral(this);
     }
 
     @Override

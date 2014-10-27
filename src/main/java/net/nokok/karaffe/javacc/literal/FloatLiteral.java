@@ -1,6 +1,7 @@
 package net.nokok.karaffe.javacc.literal;
 
 import net.nokok.karaffe.javacc.Token;
+import net.nokok.karaffe.javacc.stmt.*;
 
 public class FloatLiteral implements Literal<Double> {
 
@@ -16,6 +17,11 @@ public class FloatLiteral implements Literal<Double> {
 
     public FloatLiteral(Token value) {
         this(Double.parseDouble(value.image));
+    }
+
+    @Override
+    public Object accept(StatementListener listener) {
+        return listener.onFloatLiteral(this);
     }
 
     @Override

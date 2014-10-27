@@ -16,6 +16,11 @@ public class FuncDefStatement implements Statement {
     }
 
     @Override
+    public Object accept(StatementListener listener) {
+        return listener.onFuncDefStatement(this);
+    }
+
+    @Override
     public StatementType getType() {
         return StatementType.FUNCTION_DECLARATION;
     }

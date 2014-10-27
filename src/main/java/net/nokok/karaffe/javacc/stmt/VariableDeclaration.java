@@ -17,6 +17,11 @@ public class VariableDeclaration implements Statement {
     }
 
     @Override
+    public Object accept(StatementListener listener) {
+        return listener.onVariableDeclaration(this);
+    }
+
+    @Override
     public StatementType getType() {
         return StatementType.VARIABLE_DECLARATION;
     }

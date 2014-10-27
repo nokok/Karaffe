@@ -15,6 +15,11 @@ public class MutableTypeAliasStatement implements Statement {
     }
 
     @Override
+    public Object accept(StatementListener listener) {
+        return listener.onMutableTypeAliasStatement(this);
+    }
+
+    @Override
     public StatementType getType() {
         return StatementType.S_TYPE_ALIAS;
     }

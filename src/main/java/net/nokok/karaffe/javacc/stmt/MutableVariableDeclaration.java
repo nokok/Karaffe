@@ -13,6 +13,11 @@ public class MutableVariableDeclaration implements Statement {
     }
 
     @Override
+    public Object accept(StatementListener listener) {
+        return listener.onMutableVariableDeclaration(this);
+    }
+
+    @Override
     public StatementType getType() {
         return StatementType.S_VARIABLE_DECLARATION;
     }
