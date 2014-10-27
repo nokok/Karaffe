@@ -89,6 +89,7 @@ TOKEN:
     | < Undefined : "undefined" > {CompileLog.print("undefined");}
     | < Void : "Void" > {CompileLog.print("Void");}
     | < IntLiteral : (<SubOp>)? <NonZero> (<Zero> | <NonZero>)* > {CompileLog.print("intLiteral");}
+    | < Hexadecimal : (<SubOp>)? ("0x" | "0X") (<HexDigit>)+> 
     | < FloatLiteral : (<SubOp>)? (<Zero> | <IntLiteral>) <Dot> ((<Zero>)+ <IntLiteral>| <IntLiteral>) (<Exp> <IntLiteral>)? > {CompileLog.print("floatLiteral");}
 }
 
@@ -111,10 +112,11 @@ TOKEN:
 
 TOKEN:
 {
-      < VariableId : <Lower> (<Alphabet> | <Digit>)* > {CompileLog.print("VariableId");}
-    | < Digit : <NonZero> (<Zero>)* > {CompileLog.print("Digit");}
+      < VariableId : <Lower> (<Alphabet> | <Digits>)* > {CompileLog.print("VariableId");}
+    | < Digits : <NonZero> (<Zero>)* > {CompileLog.print("Digits");}
     | < Zero : "0" > {CompileLog.print("0");}
     | < NonZero : ["1"-"9"] > {CompileLog.print("1~9");}
+    | < HexDigit : <Zero> | <NonZero> | ["A"-"F","a"-"f"] > {CompileLog.print("HexDigit");}
     | < TypeId : <Upper> (<Alphabet>)* > {CompileLog.print("TypeId");}
     | < Alphabet : <Upper> 
                  | <Lower> > {CompileLog.print("A~z");}
@@ -224,6 +226,15 @@ Token t;
     }
     | t = <Zero> {
         return new IntLiteral(0);
+    }
+    | t = <Hexadecimal> {
+        String hexNum;
+        if(t.image.startsWith("-")){
+            hexNum = t.image.substring(3,t.image.length());
+        }else{
+            hexNum = t.image.substring(2,t.image.length());
+        }
+        return new IntLiteral(hexNum,16);
     }
 }
 

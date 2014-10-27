@@ -102,6 +102,60 @@ public class KaraffeParser implements KaraffeParserConstants {
         }
     }
 
+    final public Expression literals() throws ParseException {
+        trace_call("literals");
+        try {
+            Expression expr;
+            switch ( (jj_ntk == -1) ? jj_ntk_f() : jj_ntk ) {
+                case Undefined: {
+                    expr = undefined();
+                    {
+                        if ( "" != null ) {
+                            return expr;
+                        }
+                    }
+                    break;
+                }
+                case Bool: {
+                    expr = boolLiteral();
+                    {
+                        if ( "" != null ) {
+                            return expr;
+                        }
+                    }
+                    break;
+                }
+                case IntLiteral:
+                case Hexadecimal:
+                case Zero: {
+                    expr = intLiteral();
+                    {
+                        if ( "" != null ) {
+                            return expr;
+                        }
+                    }
+                    break;
+                }
+                case FloatLiteral: {
+                    expr = floatLiteral();
+                    {
+                        if ( "" != null ) {
+                            return expr;
+                        }
+                    }
+                    break;
+                }
+                default:
+                    jj_la1[2] = jj_gen;
+                    jj_consume_token(-1);
+                    throw new ParseException();
+            }
+            throw new Error("Missing return statement in function");
+        } finally {
+            trace_return("literals");
+        }
+    }
+
     /**
      * TypeAliasの宣言
      */
@@ -117,7 +171,7 @@ public class KaraffeParser implements KaraffeParserConstants {
                     break;
                 }
                 default:
-                    jj_la1[2] = jj_gen;
+                    jj_la1[3] = jj_gen;
                     ;
             }
             jj_consume_token(Type);
@@ -129,7 +183,7 @@ public class KaraffeParser implements KaraffeParserConstants {
                     break;
                 }
                 default:
-                    jj_la1[3] = jj_gen;
+                    jj_la1[4] = jj_gen;
                     ;
             }
             if ( seffect == null ) {
@@ -199,59 +253,6 @@ public class KaraffeParser implements KaraffeParserConstants {
         }
     }
 
-    final public Expression literals() throws ParseException {
-        trace_call("literals");
-        try {
-            Expression expr;
-            switch ( (jj_ntk == -1) ? jj_ntk_f() : jj_ntk ) {
-                case Undefined: {
-                    expr = undefined();
-                    {
-                        if ( "" != null ) {
-                            return expr;
-                        }
-                    }
-                    break;
-                }
-                case Bool: {
-                    expr = boolLiteral();
-                    {
-                        if ( "" != null ) {
-                            return expr;
-                        }
-                    }
-                    break;
-                }
-                case IntLiteral:
-                case Zero: {
-                    expr = intLiteral();
-                    {
-                        if ( "" != null ) {
-                            return expr;
-                        }
-                    }
-                    break;
-                }
-                case FloatLiteral: {
-                    expr = floatLiteral();
-                    {
-                        if ( "" != null ) {
-                            return expr;
-                        }
-                    }
-                    break;
-                }
-                default:
-                    jj_la1[4] = jj_gen;
-                    jj_consume_token(-1);
-                    throw new ParseException();
-            }
-            throw new Error("Missing return statement in function");
-        } finally {
-            trace_return("literals");
-        }
-    }
-
     final public Expression undefined() throws ParseException {
         trace_call("undefined");
         try {
@@ -303,6 +304,21 @@ public class KaraffeParser implements KaraffeParserConstants {
                     {
                         if ( "" != null ) {
                             return new IntLiteral(0);
+                        }
+                    }
+                    break;
+                }
+                case Hexadecimal: {
+                    t = jj_consume_token(Hexadecimal);
+                    String hexNum;
+                    if ( t.image.startsWith("-") ) {
+                        hexNum = t.image.substring(3, t.image.length());
+                    } else {
+                        hexNum = t.image.substring(2, t.image.length());
+                    }
+                    {
+                        if ( "" != null ) {
+                            return new IntLiteral(hexNum, 16);
                         }
                     }
                     break;
@@ -555,11 +571,11 @@ public class KaraffeParser implements KaraffeParserConstants {
     }
 
     private static void jj_la1_init_0() {
-        jj_la1_0 = new int[]{ 0xa00, 0x0, 0x800, 0x1000000, 0xd01000, 0x400000, 0x800, 0x80000, };
+        jj_la1_0 = new int[]{ 0xa00, 0x0, 0x1d01000, 0x800, 0x2000000, 0xc00000, 0x800, 0x80000, };
     }
 
     private static void jj_la1_init_1() {
-        jj_la1_1 = new int[]{ 0x1010, 0x1000, 0x0, 0x0, 0x40, 0x40, 0x0, 0x0, };
+        jj_la1_1 = new int[]{ 0x4020, 0x4000, 0x80, 0x0, 0x0, 0x80, 0x0, 0x0, };
     }
     final private JJCalls[] jj_2_rtns = new JJCalls[2];
     private boolean jj_rescan = false;
@@ -834,7 +850,7 @@ public class KaraffeParser implements KaraffeParserConstants {
      */
     public ParseException generateParseException() {
         jj_expentries.clear();
-        boolean[] la1tokens = new boolean[45];
+        boolean[] la1tokens = new boolean[47];
         if ( jj_kind >= 0 ) {
             la1tokens[jj_kind] = true;
             jj_kind = -1;
@@ -851,7 +867,7 @@ public class KaraffeParser implements KaraffeParserConstants {
                 }
             }
         }
-        for ( int i = 0; i < 45; i++ ) {
+        for ( int i = 0; i < 47; i++ ) {
             if ( la1tokens[i] ) {
                 jj_expentry = new int[1];
                 jj_expentry[0] = i;

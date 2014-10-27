@@ -14,6 +14,10 @@ public class IntLiteral implements Literal<Integer> {
         this(Integer.parseInt(value));
     }
 
+    public IntLiteral(String value, int radix) {
+        this(Integer.parseInt(value, radix));
+    }
+
     @Override
     public Object accept(StatementListener listener) {
         return listener.onIntLiteral(this);
