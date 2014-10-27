@@ -8,6 +8,7 @@ import net.nokok.karaffe.javacc.Token;
 public class TypeId extends Identifier {
 
     public static final TypeId Any = new TypeId("Any");
+    public static final TypeId Inference = new TypeId("__None__");
 
     private final boolean isTypeParameter;
     private final boolean isInterface;
