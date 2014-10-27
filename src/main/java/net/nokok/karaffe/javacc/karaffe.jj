@@ -136,7 +136,8 @@ Statement statement():
 Statement t;
 }
 {
-     t = typeAlias() <NewLine> {return t;}
+     LOOKAHEAD(2) t = typeAlias() <NewLine> {return t;}
+     | LOOKAHEAD(2) t = variableDeclaration() <NewLine> {return t;}
      | <NewLine> {return new NewLineStatement();}
 }
 
@@ -189,7 +190,7 @@ Expression expr;
 }
 {
       expr = undefined() {return expr;}
-    | expr = intLiteral() {return expr;}
+      | expr = boolLiteral() {return expr;}
 }
 
 Expression undefined():
@@ -198,27 +199,33 @@ Expression undefined():
     <Undefined> { return new UndefinedLiteral();}
 }
 
-Expression intLiteral():
+Expression boolLiteral():
 {
-Token nonZero;
-Token digit;
-Token minus = null;
-List tokenList = new ArrayList();
+Expression expr;
+Token token;
 }
 {
-    (minus = <SubOp>)? nonZero = <NonZero> (digit = <Digit> {tokenList.add(digit);}) {
-        StringBuilder sb = new StringBuilder();
-        if(minus != null){
-            sb.append(minus.image);
-        }
-        sb.append(nonZero.image);
-        for(Object obj : tokenList){
-            Token t = (Token)obj;
-            sb.append(t.image);
-        }
-        return new IntLiteral(Integer.parseInt(sb.toString()));
+    token = <Bool> {
+        return new BoolLiteral(token.image);
     }
-    | digit = <Zero> {
-        return new IntLiteral(Integer.parseInt(digit.image));
+}
+
+Statement variableDeclaration():
+{
+Token seffect = null;
+VariableId name;
+TypeId type = null;
+Expression expr;
+}
+{
+    (seffect = <SideEffect>)? name = variableId() (<Colon> type = typeId())? <Assign> expr = expr() {
+        if(type == null){
+            //型推論を行う
+        }
+        if(seffect == null){
+            return new VariableDeclaration(name,type,expr);
+        } else {
+            return new MutableVariableDeclaration(name,type,expr);
+        }
     }
 }
