@@ -89,6 +89,7 @@ TOKEN:
     | < Undefined : "undefined" > {CompileLog.print("undefined");}
     | < Void : "Void" > {CompileLog.print("Void");}
     | < IntLiteral : (<SubOp>)? <NonZero> (<Zero> | <NonZero>)* > {CompileLog.print("intLiteral");}
+    | < FloatLiteral : (<SubOp>)? (<Zero> | <IntLiteral>) <Dot> ((<Zero>)+ <IntLiteral>| <IntLiteral>) (<Exp> <IntLiteral>)? > {CompileLog.print("floatLiteral");}
 }
 
 TOKEN: 
@@ -193,6 +194,7 @@ Expression expr;
       expr = undefined() {return expr;}
       | expr = boolLiteral() {return expr;}
       | expr = intLiteral() {return expr;}
+      | expr = floatLiteral() {return expr;}
 }
 
 Expression undefined():
@@ -222,6 +224,16 @@ Token t;
     }
     | t = <Zero> {
         return new IntLiteral(0);
+    }
+}
+
+Expression floatLiteral():
+{
+Token t;
+}
+{
+    t = <FloatLiteral> {
+        return new FloatLiteral(t.image);
     }
 }
 

@@ -9,6 +9,7 @@ import net.nokok.karaffe.javacc.expr.*;
 import net.nokok.karaffe.javacc.identifier.TypeId;
 import net.nokok.karaffe.javacc.identifier.VariableId;
 import net.nokok.karaffe.javacc.literal.BoolLiteral;
+import net.nokok.karaffe.javacc.literal.FloatLiteral;
 import net.nokok.karaffe.javacc.literal.IntLiteral;
 import net.nokok.karaffe.javacc.literal.UndefinedLiteral;
 import net.nokok.karaffe.javacc.stmt.*;
@@ -231,6 +232,15 @@ public class KaraffeParser implements KaraffeParserConstants {
                     }
                     break;
                 }
+                case FloatLiteral: {
+                    expr = floatLiteral();
+                    {
+                        if ( "" != null ) {
+                            return expr;
+                        }
+                    }
+                    break;
+                }
                 default:
                     jj_la1[4] = jj_gen;
                     jj_consume_token(-1);
@@ -308,6 +318,22 @@ public class KaraffeParser implements KaraffeParserConstants {
         }
     }
 
+    final public Expression floatLiteral() throws ParseException {
+        trace_call("floatLiteral");
+        try {
+            Token t;
+            t = jj_consume_token(FloatLiteral);
+            {
+                if ( "" != null ) {
+                    return new FloatLiteral(t.image);
+                }
+            }
+            throw new Error("Missing return statement in function");
+        } finally {
+            trace_return("floatLiteral");
+        }
+    }
+
     final public Statement variableDeclaration() throws ParseException {
         trace_call("variableDeclaration");
         try {
@@ -380,39 +406,6 @@ public class KaraffeParser implements KaraffeParserConstants {
             return true;
         } finally {
             jj_save(1, xla);
-        }
-    }
-
-    private boolean jj_3R_3() {
-        if ( !jj_rescan ) {
-            trace_call("variableDeclaration(LOOKING AHEAD...)");
-        }
-        Token xsp;
-        xsp = jj_scanpos;
-        if ( jj_scan_token(11) ) {
-            jj_scanpos = xsp;
-        }
-        if ( jj_3R_5() ) {
-            if ( !jj_rescan ) {
-                trace_return("variableDeclaration(LOOKAHEAD FAILED)");
-            }
-            return true;
-        }
-        xsp = jj_scanpos;
-        if ( jj_3R_6() ) {
-            jj_scanpos = xsp;
-        }
-        if ( jj_scan_token(Assign) ) {
-            if ( !jj_rescan ) {
-                trace_return("variableDeclaration(LOOKAHEAD FAILED)");
-            }
-            return true;
-        }
-        {
-            if ( !jj_rescan ) {
-                trace_return("variableDeclaration(LOOKAHEAD SUCCEEDED)");
-            }
-            return false;
         }
     }
 
@@ -502,6 +495,39 @@ public class KaraffeParser implements KaraffeParserConstants {
         return false;
     }
 
+    private boolean jj_3R_3() {
+        if ( !jj_rescan ) {
+            trace_call("variableDeclaration(LOOKING AHEAD...)");
+        }
+        Token xsp;
+        xsp = jj_scanpos;
+        if ( jj_scan_token(11) ) {
+            jj_scanpos = xsp;
+        }
+        if ( jj_3R_5() ) {
+            if ( !jj_rescan ) {
+                trace_return("variableDeclaration(LOOKAHEAD FAILED)");
+            }
+            return true;
+        }
+        xsp = jj_scanpos;
+        if ( jj_3R_6() ) {
+            jj_scanpos = xsp;
+        }
+        if ( jj_scan_token(Assign) ) {
+            if ( !jj_rescan ) {
+                trace_return("variableDeclaration(LOOKAHEAD FAILED)");
+            }
+            return true;
+        }
+        {
+            if ( !jj_rescan ) {
+                trace_return("variableDeclaration(LOOKAHEAD SUCCEEDED)");
+            }
+            return false;
+        }
+    }
+
     /**
      * Generated Token Manager.
      */
@@ -529,11 +555,11 @@ public class KaraffeParser implements KaraffeParserConstants {
     }
 
     private static void jj_la1_init_0() {
-        jj_la1_0 = new int[]{ 0xa00, 0x0, 0x800, 0x800000, 0x501000, 0x400000, 0x800, 0x80000, };
+        jj_la1_0 = new int[]{ 0xa00, 0x0, 0x800, 0x1000000, 0xd01000, 0x400000, 0x800, 0x80000, };
     }
 
     private static void jj_la1_init_1() {
-        jj_la1_1 = new int[]{ 0x808, 0x800, 0x0, 0x0, 0x20, 0x20, 0x0, 0x0, };
+        jj_la1_1 = new int[]{ 0x1010, 0x1000, 0x0, 0x0, 0x40, 0x40, 0x0, 0x0, };
     }
     final private JJCalls[] jj_2_rtns = new JJCalls[2];
     private boolean jj_rescan = false;
@@ -808,7 +834,7 @@ public class KaraffeParser implements KaraffeParserConstants {
      */
     public ParseException generateParseException() {
         jj_expentries.clear();
-        boolean[] la1tokens = new boolean[44];
+        boolean[] la1tokens = new boolean[45];
         if ( jj_kind >= 0 ) {
             la1tokens[jj_kind] = true;
             jj_kind = -1;
@@ -825,7 +851,7 @@ public class KaraffeParser implements KaraffeParserConstants {
                 }
             }
         }
-        for ( int i = 0; i < 44; i++ ) {
+        for ( int i = 0; i < 45; i++ ) {
             if ( la1tokens[i] ) {
                 jj_expentry = new int[1];
                 jj_expentry[0] = i;

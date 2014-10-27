@@ -74,87 +74,91 @@ public interface KaraffeParserConstants {
     /**
      * RegularExpression Id.
      */
-    int Assign = 23;
+    int FloatLiteral = 23;
     /**
      * RegularExpression Id.
      */
-    int LBracket = 24;
+    int Assign = 24;
     /**
      * RegularExpression Id.
      */
-    int RBracket = 25;
+    int LBracket = 25;
     /**
      * RegularExpression Id.
      */
-    int Range = 26;
+    int RBracket = 26;
     /**
      * RegularExpression Id.
      */
-    int ClosedRange = 27;
+    int Range = 27;
     /**
      * RegularExpression Id.
      */
-    int AddOp = 28;
+    int ClosedRange = 28;
     /**
      * RegularExpression Id.
      */
-    int SubOp = 29;
+    int AddOp = 29;
     /**
      * RegularExpression Id.
      */
-    int MulOp = 30;
+    int SubOp = 30;
     /**
      * RegularExpression Id.
      */
-    int DivOp = 31;
+    int MulOp = 31;
     /**
      * RegularExpression Id.
      */
-    int RemOp = 32;
+    int DivOp = 32;
     /**
      * RegularExpression Id.
      */
-    int Dot = 33;
+    int RemOp = 33;
     /**
      * RegularExpression Id.
      */
-    int Exp = 34;
+    int Dot = 34;
     /**
      * RegularExpression Id.
      */
-    int VariableId = 35;
+    int Exp = 35;
     /**
      * RegularExpression Id.
      */
-    int Digits = 36;
+    int VariableId = 36;
     /**
      * RegularExpression Id.
      */
-    int Zero = 37;
+    int Digits = 37;
     /**
      * RegularExpression Id.
      */
-    int NonZero = 38;
+    int Zero = 38;
     /**
      * RegularExpression Id.
      */
-    int TypeId = 39;
+    int NonZero = 39;
     /**
      * RegularExpression Id.
      */
-    int Alphabet = 40;
+    int TypeId = 40;
     /**
      * RegularExpression Id.
      */
-    int Upper = 41;
+    int Alphabet = 41;
     /**
      * RegularExpression Id.
      */
-    int Lower = 42;
+    int Upper = 42;
     /**
      * RegularExpression Id.
      */
-    int NewLine = 43;
+    int Lower = 43;
+    /**
+     * RegularExpression Id.
+     */
+    int NewLine = 44;
 
     /**
      * Lexical state.
@@ -192,6 +196,7 @@ public interface KaraffeParserConstants {
         "\"undefined\"",
         "\"Void\"",
         "<IntLiteral>",
+        "<FloatLiteral>",
         "\"=\"",
         "\"[\"",
         "\"]\"",
