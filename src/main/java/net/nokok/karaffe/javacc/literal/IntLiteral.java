@@ -18,4 +18,9 @@ public class IntLiteral implements Literal<Integer> {
         return LiteralType.INT;
     }
 
+    @Override
+    public String toString() {
+        return value.toString();
+    }
+
 }
