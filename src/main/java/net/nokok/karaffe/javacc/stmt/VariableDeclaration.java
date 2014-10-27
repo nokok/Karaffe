@@ -39,6 +39,10 @@ public class VariableDeclaration implements Statement {
         return type;
     }
 
+    public boolean isNeedTypeInference() {
+        return type.equals(TypeId.Inference);
+    }
+
     public Object evalExpr() {
         return expr.eval(null);
     }
