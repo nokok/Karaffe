@@ -29,6 +29,9 @@ public class KaraffeParserTokenManager implements KaraffeParserConstants {
                 if ( (active0 & 0x80000010L) != 0L ) {
                     return 0;
                 }
+                if ( (active0 & 0x20000000L) != 0L ) {
+                    return 15;
+                }
                 if ( (active0 & 0x200000L) != 0L ) {
                     jjmatchedKind = 39;
                     return 29;
@@ -36,10 +39,6 @@ public class KaraffeParserTokenManager implements KaraffeParserConstants {
                 if ( (active0 & 0x40600L) != 0L ) {
                     jjmatchedKind = 35;
                     return 8;
-                }
-                if ( (active0 & 0x2000000000L) != 0L ) {
-                    jjmatchedKind = 22;
-                    return -1;
                 }
                 if ( (active0 & 0x13e800L) != 0L ) {
                     jjmatchedKind = 35;
@@ -153,7 +152,7 @@ public class KaraffeParserTokenManager implements KaraffeParserConstants {
             case 43:
                 return jjStopAtPos(0, 28);
             case 45:
-                return jjStopAtPos(0, 29);
+                return jjStartNfaWithStates_0(0, 29, 15);
             case 46:
                 jjmatchedKind = 33;
                 return jjMoveStringLiteralDfa1_0(0xc000000L);
@@ -161,7 +160,7 @@ public class KaraffeParserTokenManager implements KaraffeParserConstants {
                 jjmatchedKind = 31;
                 return jjMoveStringLiteralDfa1_0(0x10L);
             case 48:
-                return jjStopAtPos(0, 22);
+                return jjStopAtPos(0, 37);
             case 58:
                 return jjStopAtPos(0, 19);
             case 61:
@@ -590,26 +589,24 @@ public class KaraffeParserTokenManager implements KaraffeParserConstants {
                             }
                             break;
                         case 5:
-                            if ( (0x3ff000000000000L & l) != 0L ) {
+                            if ( (0x3fe000000000000L & l) != 0L ) {
                                 if ( kind > 22 ) {
                                     kind = 22;
+                                }
+                                {
+                                    jjCheckNAddTwoStates(16, 23);
                                 }
                             } else if ( (0x2400L & l) != 0L ) {
                                 if ( kind > 43 ) {
                                     kind = 43;
                                 }
+                            } else if ( curChar == 45 ) {
+                                jjstateSet[jjnewStateCnt++] = 15;
                             } else if ( curChar == 47 ) {
                                 jjstateSet[jjnewStateCnt++] = 0;
                             }
-                            if ( (0x3fe000000000000L & l) != 0L ) {
-                                if ( kind > 36 ) {
-                                    kind = 36;
-                                }
-                                {
-                                    jjCheckNAddTwoStates(21, 23);
-                                }
-                            } else if ( curChar == 13 ) {
-                                jjstateSet[jjnewStateCnt++] = 18;
+                            if ( curChar == 13 ) {
+                                jjstateSet[jjnewStateCnt++] = 20;
                             }
                             break;
                         case 0:
@@ -638,56 +635,56 @@ public class KaraffeParserTokenManager implements KaraffeParserConstants {
                             }
                             break;
                         case 14:
-                            if ( (0x3ff000000000000L & l) != 0L && kind > 22 ) {
-                                kind = 22;
+                            if ( curChar == 45 ) {
+                                jjstateSet[jjnewStateCnt++] = 15;
                             }
                             break;
-                        case 17:
+                        case 15:
+                            if ( (0x3fe000000000000L & l) == 0L ) {
+                                break;
+                            }
+                            if ( kind > 22 ) {
+                                kind = 22;
+                            }
+                             {
+                                jjCheckNAdd(16);
+                            }
+                            break;
+                        case 16:
+                            if ( (0x3ff000000000000L & l) == 0L ) {
+                                break;
+                            }
+                            if ( kind > 22 ) {
+                                kind = 22;
+                            }
+                             {
+                                jjCheckNAdd(16);
+                            }
+                            break;
+                        case 19:
                             if ( (0x2400L & l) != 0L && kind > 43 ) {
                                 kind = 43;
                             }
                             break;
-                        case 18:
+                        case 20:
                             if ( curChar == 10 && kind > 43 ) {
                                 kind = 43;
                             }
                             break;
-                        case 19:
-                            if ( curChar == 13 ) {
-                                jjstateSet[jjnewStateCnt++] = 18;
-                            }
-                            break;
-                        case 20:
-                            if ( (0x3fe000000000000L & l) == 0L ) {
-                                break;
-                            }
-                            if ( kind > 36 ) {
-                                kind = 36;
-                            }
-                             {
-                                jjCheckNAddTwoStates(21, 23);
-                            }
-                            break;
                         case 21:
-                            if ( (0x3fe000000000000L & l) == 0L ) {
-                                break;
-                            }
-                            if ( kind > 22 ) {
-                                kind = 22;
-                            }
-                             {
-                                jjCheckNAdd(22);
+                            if ( curChar == 13 ) {
+                                jjstateSet[jjnewStateCnt++] = 20;
                             }
                             break;
                         case 22:
-                            if ( curChar != 48 ) {
+                            if ( (0x3fe000000000000L & l) == 0L ) {
                                 break;
                             }
                             if ( kind > 22 ) {
                                 kind = 22;
                             }
                              {
-                                jjCheckNAdd(22);
+                                jjCheckNAddTwoStates(16, 23);
                             }
                             break;
                         case 23:
@@ -815,12 +812,12 @@ public class KaraffeParserTokenManager implements KaraffeParserConstants {
                                 jjstateSet[jjnewStateCnt++] = 12;
                             }
                             break;
-                        case 15:
+                        case 17:
                             if ( (0x2000000020L & l) != 0L && kind > 34 ) {
                                 kind = 34;
                             }
                             break;
-                        case 16:
+                        case 18:
                             if ( (0x7fffffe07fffffeL & l) != 0L && kind > 40 ) {
                                 kind = 40;
                             }
@@ -1187,30 +1184,30 @@ public class KaraffeParserTokenManager implements KaraffeParserConstants {
             { 2 },
             { 3 },
             { 4 },
-            { 5, 9, 13, 14, 15, 16, 17, 19, 20, 24, 28, },
+            { 5, 9, 13, 14, 17, 18, 19, 21, 22, 24, 28, },
             { 6 },
             { 7 },
             { 8, 25, 27, },
-            { 5, 9, 13, 14, 15, 16, 17, 19, 20, 24, 28, },
+            { 5, 9, 13, 14, 17, 18, 19, 21, 22, 24, 28, },
             { 10 },
             { 11 },
             { 12 },
-            { 5, 9, 13, 14, 15, 16, 17, 19, 20, 24, 28, },
-            { 5, 9, 13, 14, 15, 16, 17, 19, 20, 24, 28, },
-            { 5, 9, 13, 14, 15, 16, 17, 19, 20, 24, 28, },
-            { 5, 9, 13, 14, 15, 16, 17, 19, 20, 24, 28, },
-            { 5, 9, 13, 14, 15, 16, 17, 19, 20, 24, 28, },
-            { 18 },
-            { 5, 9, 13, 14, 15, 16, 17, 19, 20, 24, 28, },
-            { 5, 9, 13, 14, 15, 16, 17, 19, 20, 24, 28, },
-            { 21 },
-            { 22 },
+            { 5, 9, 13, 14, 17, 18, 19, 21, 22, 24, 28, },
+            { 5, 9, 13, 14, 17, 18, 19, 21, 22, 24, 28, },
+            { 15 },
+            { 16 },
+            { 5, 9, 13, 14, 17, 18, 19, 21, 22, 24, 28, },
+            { 5, 9, 13, 14, 17, 18, 19, 21, 22, 24, 28, },
+            { 5, 9, 13, 14, 17, 18, 19, 21, 22, 24, 28, },
+            { 20 },
+            { 5, 9, 13, 14, 17, 18, 19, 21, 22, 24, 28, },
+            { 5, 9, 13, 14, 17, 18, 19, 21, 22, 24, 28, },
             { 23 },
-            { 5, 9, 13, 14, 15, 16, 17, 19, 20, 24, 28, },
+            { 5, 9, 13, 14, 17, 18, 19, 21, 22, 24, 28, },
             { 25, 27, },
             { 26 },
             { 25, 27, },
-            { 5, 9, 13, 14, 15, 16, 17, 19, 20, 24, 28, },
+            { 5, 9, 13, 14, 17, 18, 19, 21, 22, 24, 28, },
             { 29 },
             { 25, 27, }, },
         {
@@ -1234,13 +1231,13 @@ public class KaraffeParserTokenManager implements KaraffeParserConstants {
             12,
             12,
             22,
+            22,
+            22,
             34,
             40,
             43,
             43,
             43,
-            22,
-            22,
             22,
             36,
             35,
@@ -1429,7 +1426,7 @@ public class KaraffeParserTokenManager implements KaraffeParserConstants {
                 break;
             case 22:
                 image.append(input_stream.GetSuffix(jjimageLen + (lengthOfMatch = jjmatchedPos + 1)));
-                CompileLog.print("IntLiteral");
+                CompileLog.print("intLiteral");
                 break;
             case 23:
                 image.append(jjstrLiteralImages[23]);

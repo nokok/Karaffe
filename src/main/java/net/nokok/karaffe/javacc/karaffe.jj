@@ -192,6 +192,7 @@ Expression expr;
 {
       expr = undefined() {return expr;}
       | expr = boolLiteral() {return expr;}
+      | expr = intLiteral() {return expr;}
 }
 
 Expression undefined():
@@ -208,6 +209,19 @@ Token token;
 {
     token = <Bool> {
         return new BoolLiteral(token.image);
+    }
+}
+
+Expression intLiteral():
+{
+Token t;
+}
+{
+      t = <IntLiteral> {
+        return new IntLiteral(t.image);
+    }
+    | t = <Zero> {
+        return new IntLiteral(0);
     }
 }
 
