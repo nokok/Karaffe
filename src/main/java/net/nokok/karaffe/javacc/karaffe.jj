@@ -14,10 +14,10 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.ArrayList;
 import net.nokok.karaffe.javacc.expr.*;
-import net.nokok.karaffe.javacc.identifier.TypeId;
-import net.nokok.karaffe.javacc.identifier.VariableId;
+import net.nokok.karaffe.javacc.identifier.*;
 import net.nokok.karaffe.javacc.literal.*;
 import net.nokok.karaffe.javacc.stmt.*;
+import net.nokok.karaffe.javacc.operator.*;
 
 public class KaraffeParser {
     public final Statements statements = new Statements();
