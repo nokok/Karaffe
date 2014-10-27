@@ -35,4 +35,37 @@ public class KaraffeParserLiteralVariableDeclarationTest {
         assertThat(statements.size(), is(1));
         assertThat(statements.get(0).getType(), is(StatementType.VARIABLE_DECLARATION));
     }
+
+    @Test
+    public void testVariableName() throws Exception {
+        runKaraffeParserWithSource("a = undefined\n");
+        runKaraffeParserWithSource("abcdefghijklmnopqrstuvwxyz = undefined\n");
+        runKaraffeParserWithSource("a1 = undefined\n");
+        runKaraffeParserWithSource("b101010 = undefined\n");
+    }
+
+    @Test(expected = TokenMgrError.class)
+    public void testInvalidVariableName1() throws Exception {
+        runKaraffeParserWithSource("_ = undefined\n");
+    }
+
+    /**
+     * 変数名は小文字のa〜zではじめなければならない
+     *
+     * @throws Exception
+     */
+    @Test(expected = ParseException.class)
+    public void testInvalidVariableName2() throws Exception {
+        runKaraffeParserWithSource("1 = undefined\n");
+    }
+
+    /**
+     * 大文字の変数は宣言できない
+     *
+     * @throws Exception
+     */
+    @Test(expected = ParseException.class)
+    public void testInvalidVariableName3() throws Exception {
+        runKaraffeParserWithSource("Hoge = undefined\n");
+    }
 }
