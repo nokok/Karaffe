@@ -220,7 +220,7 @@ Expression expr;
 {
     (seffect = <SideEffect>)? name = variableId() (<Colon> type = typeId())? <Assign> expr = expr() {
         if(type == null){
-            //型推論を行う
+            type = net.nokok.karaffe.javacc.identifier.TypeId.Inference;
         }
         if(seffect == null){
             return new VariableDeclaration(name,type,expr);
