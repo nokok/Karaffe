@@ -4,5 +4,6 @@ public enum LiteralType {
 
     UNDEFINED,
     INT,
+    FLOAT,
     BOOL,
 }
