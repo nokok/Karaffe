@@ -11,8 +11,6 @@ public interface StatementListener {
 
     public Object onFloatLiteral(FloatLiteral statement);
 
-    public Object onFuncDefStatement(FuncDefStatement statement);
-
     public Object onIntLiteral(IntLiteral statement);
 
     public Object onNewLineStatement(NewLineStatement statement);
