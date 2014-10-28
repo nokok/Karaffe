@@ -13,8 +13,6 @@ public interface StatementListener {
 
     public Object onFuncDefStatement(FuncDefStatement statement);
 
-    public Object onFunctionCallStatement(FunctionCallStatement aThis);
-
     public Object onIntLiteral(IntLiteral statement);
 
     public Object onNewLineStatement(NewLineStatement statement);
