@@ -181,6 +181,26 @@ Expression body;
     body = literals() {return body;}
 }
 
+Set modifiers():
+{
+Set modifiers = new HashSet(); //Set<Modifier>
+Modifier modifier;
+}
+{
+    (modifier = modifier() {modifiers.add(modifier);})* {return modifiers;}
+}
+
+Modifier modifier():
+{}
+{
+    <SideEffect> {
+        return Modifier.SEFFECT;
+    }
+    | <GlobalScope> {
+        return Modifier.GLOBAL;
+    }
+}
+
 TypeId typeId():
 {
 Token token;
