@@ -6,10 +6,6 @@ public enum UndefinedLiteral implements Literal<UndefinedLiteral> {
 
     VALUE,;
 
-    private UndefinedLiteral() {
-
-    }
-
     @Override
     public Object accept(StatementListener listener) {
         return listener.onUndefinedLiteral(this);
