@@ -1,9 +1,14 @@
 package net.nokok.karaffe.javacc.literal;
 
 import net.nokok.karaffe.javacc.stmt.*;
-import net.nokok.karaffe.javacc.type.UndefinedValue;
 
-public class UndefinedLiteral implements Literal<UndefinedValue> {
+public enum UndefinedLiteral implements Literal<UndefinedLiteral> {
+
+    VALUE,;
+
+    private UndefinedLiteral() {
+
+    }
 
     @Override
     public Object accept(StatementListener listener) {
@@ -11,8 +16,8 @@ public class UndefinedLiteral implements Literal<UndefinedValue> {
     }
 
     @Override
-    public UndefinedValue eval(Void arg) {
-        return UndefinedValue.VALUE;
+    public UndefinedLiteral eval(Void arg) {
+        return VALUE;
     }
 
     @Override

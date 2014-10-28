@@ -217,7 +217,7 @@ Token token;
 Expression undefined():
 {}
 {
-    <Undefined> { return new UndefinedLiteral();}
+    <Undefined> { return UndefinedLiteral.VALUE;}
 }
 
 Expression boolLiteral():

@@ -311,7 +311,7 @@ public class KaraffeParser implements KaraffeParserConstants {
             jj_consume_token(Undefined);
             {
                 if ( "" != null ) {
-                    return new UndefinedLiteral();
+                    return UndefinedLiteral.VALUE;
                 }
             }
             throw new Error("Missing return statement in function");
