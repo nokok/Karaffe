@@ -12,7 +12,7 @@ public class KaraffeParserSideEffectTypeAliasTest {
     public void testSideEffectTypeAlias() throws Exception {
         Statements statements = runKaraffeParserWithSource("seffect type Any\n\ntype Hoge\n\n");
         assertThat(statements.size(), is(4));
-        assertThat(statements.get(0).getType(), is(StatementType.S_TYPE_ALIAS));
+        assertThat(statements.get(0).getType(), is(StatementType.TYPE_ALIAS));
         assertThat(statements.get(1).getType(), is(StatementType.SCOPE_SPLITTER));
         assertThat(statements.get(2).getType(), is(StatementType.TYPE_ALIAS));
         assertThat(statements.get(3).getType(), is(StatementType.SCOPE_SPLITTER));

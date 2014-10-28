@@ -16,6 +16,7 @@ import net.nokok.karaffe.javacc.identifier.*;
 import net.nokok.karaffe.javacc.literal.*;
 import net.nokok.karaffe.javacc.stmt.*;
 import net.nokok.karaffe.javacc.operator.*;
+import net.nokok.karaffe.javacc.modifier.*;
 
 public class KaraffeParser {
     public final Statements statements = new Statements();
@@ -159,17 +160,13 @@ TypeAliasの宣言
 */
 Statement typeAlias():
 {
-Token seffect = null;
+Set modifiers;
 TypeId newType;
 TypeId existingTypeName = net.nokok.karaffe.javacc.identifier.TypeId.Any;
 }
 {
-    (seffect = <SideEffect>)? <Type> newType = typeId() (<Assign> existingTypeName = typeId())? {
-        if(seffect == null){
-            return new TypeAliasStatement(existingTypeName, newType);
-        }else{
-            return new MutableTypeAliasStatement(existingTypeName,newType);
-        }
+    modifiers = modifiers() <Type> newType = typeId() (<Assign> existingTypeName = typeId())? {
+        return new TypeAliasStatement(modifiers,existingTypeName,newType);
     }
 }
 
@@ -268,20 +265,16 @@ Token t;
 
 Statement variableDeclaration():
 {
-Token seffect = null;
+Set modifiers;
 VariableId name;
 TypeId type = null;
 Expression expr;
 }
 {
-    (seffect = <SideEffect>)? name = variableId() (<Colon> type = typeId())? <Assign> expr = expr() {
+    modifiers = modifiers() name = variableId() (<Colon> type = typeId())? <Assign> expr = expr() {
         if(type == null){
             type = net.nokok.karaffe.javacc.identifier.TypeId.Inference;
         }
-        if(seffect == null){
-            return new VariableDeclaration(name,type,expr);
-        } else {
-            return new MutableVariableDeclaration(name,type,expr);
-        }
+        return new VariableDeclaration(modifiers,name,type,expr);
     }
 }

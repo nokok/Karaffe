@@ -12,9 +12,4 @@ public class NewLineStatement implements Statement {
         return StatementType.SCOPE_SPLITTER;
     }
 
-    @Override
-    public boolean isAllowingSideEffectModifier() {
-        return false;
-    }
-
 }

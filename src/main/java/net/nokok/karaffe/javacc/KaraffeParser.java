@@ -4,7 +4,9 @@ package net.nokok.karaffe.javacc;
 
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 import net.nokok.karaffe.javacc.expr.*;
 import net.nokok.karaffe.javacc.identifier.TypeId;
 import net.nokok.karaffe.javacc.identifier.VariableId;
@@ -12,6 +14,7 @@ import net.nokok.karaffe.javacc.literal.BoolLiteral;
 import net.nokok.karaffe.javacc.literal.FloatLiteral;
 import net.nokok.karaffe.javacc.literal.IntLiteral;
 import net.nokok.karaffe.javacc.literal.UndefinedLiteral;
+import net.nokok.karaffe.javacc.modifier.*;
 import net.nokok.karaffe.javacc.stmt.*;
 
 public class KaraffeParser implements KaraffeParserConstants {
@@ -35,6 +38,7 @@ public class KaraffeParser implements KaraffeParserConstants {
                 switch ( (jj_ntk == -1) ? jj_ntk_f() : jj_ntk ) {
                     case Type:
                     case SideEffect:
+                    case GlobalScope:
                     case VariableId:
                     case NewLine: {
                         ;
@@ -162,18 +166,10 @@ public class KaraffeParser implements KaraffeParserConstants {
     final public Statement typeAlias() throws ParseException {
         trace_call("typeAlias");
         try {
-            Token seffect = null;
+            Set modifiers;
             TypeId newType;
             TypeId existingTypeName = net.nokok.karaffe.javacc.identifier.TypeId.Any;
-            switch ( (jj_ntk == -1) ? jj_ntk_f() : jj_ntk ) {
-                case SideEffect: {
-                    seffect = jj_consume_token(SideEffect);
-                    break;
-                }
-                default:
-                    jj_la1[3] = jj_gen;
-                    ;
-            }
+            modifiers = modifiers();
             jj_consume_token(Type);
             newType = typeId();
             switch ( (jj_ntk == -1) ? jj_ntk_f() : jj_ntk ) {
@@ -183,20 +179,12 @@ public class KaraffeParser implements KaraffeParserConstants {
                     break;
                 }
                 default:
-                    jj_la1[4] = jj_gen;
+                    jj_la1[3] = jj_gen;
                     ;
             }
-            if ( seffect == null ) {
-                {
-                    if ( "" != null ) {
-                        return new TypeAliasStatement(existingTypeName, newType);
-                    }
-                }
-            } else {
-                {
-                    if ( "" != null ) {
-                        return new MutableTypeAliasStatement(existingTypeName, newType);
-                    }
+            {
+                if ( "" != null ) {
+                    return new TypeAliasStatement(modifiers, existingTypeName, newType);
                 }
             }
             throw new Error("Missing return statement in function");
@@ -218,6 +206,70 @@ public class KaraffeParser implements KaraffeParserConstants {
             throw new Error("Missing return statement in function");
         } finally {
             trace_return("expr");
+        }
+    }
+
+    final public Set modifiers() throws ParseException {
+        trace_call("modifiers");
+        try {
+            Set modifiers = new HashSet(); //Set<Modifier>
+            Modifier modifier;
+            label_2:
+            while ( true ) {
+                switch ( (jj_ntk == -1) ? jj_ntk_f() : jj_ntk ) {
+                    case SideEffect:
+                    case GlobalScope: {
+                        ;
+                        break;
+                    }
+                    default:
+                        jj_la1[4] = jj_gen;
+                        break label_2;
+                }
+                modifier = modifier();
+                modifiers.add(modifier);
+            }
+            {
+                if ( "" != null ) {
+                    return modifiers;
+                }
+            }
+            throw new Error("Missing return statement in function");
+        } finally {
+            trace_return("modifiers");
+        }
+    }
+
+    final public Modifier modifier() throws ParseException {
+        trace_call("modifier");
+        try {
+            switch ( (jj_ntk == -1) ? jj_ntk_f() : jj_ntk ) {
+                case SideEffect: {
+                    jj_consume_token(SideEffect);
+                    {
+                        if ( "" != null ) {
+                            return Modifier.SEFFECT;
+                        }
+                    }
+                    break;
+                }
+                case GlobalScope: {
+                    jj_consume_token(GlobalScope);
+                    {
+                        if ( "" != null ) {
+                            return Modifier.GLOBAL;
+                        }
+                    }
+                    break;
+                }
+                default:
+                    jj_la1[5] = jj_gen;
+                    jj_consume_token(-1);
+                    throw new ParseException();
+            }
+            throw new Error("Missing return statement in function");
+        } finally {
+            trace_return("modifier");
         }
     }
 
@@ -324,7 +376,7 @@ public class KaraffeParser implements KaraffeParserConstants {
                     break;
                 }
                 default:
-                    jj_la1[5] = jj_gen;
+                    jj_la1[6] = jj_gen;
                     jj_consume_token(-1);
                     throw new ParseException();
             }
@@ -353,19 +405,11 @@ public class KaraffeParser implements KaraffeParserConstants {
     final public Statement variableDeclaration() throws ParseException {
         trace_call("variableDeclaration");
         try {
-            Token seffect = null;
+            Set modifiers;
             VariableId name;
             TypeId type = null;
             Expression expr;
-            switch ( (jj_ntk == -1) ? jj_ntk_f() : jj_ntk ) {
-                case SideEffect: {
-                    seffect = jj_consume_token(SideEffect);
-                    break;
-                }
-                default:
-                    jj_la1[6] = jj_gen;
-                    ;
-            }
+            modifiers = modifiers();
             name = variableId();
             switch ( (jj_ntk == -1) ? jj_ntk_f() : jj_ntk ) {
                 case Colon: {
@@ -382,17 +426,9 @@ public class KaraffeParser implements KaraffeParserConstants {
             if ( type == null ) {
                 type = net.nokok.karaffe.javacc.identifier.TypeId.Inference;
             }
-            if ( seffect == null ) {
-                {
-                    if ( "" != null ) {
-                        return new VariableDeclaration(name, type, expr);
-                    }
-                }
-            } else {
-                {
-                    if ( "" != null ) {
-                        return new MutableVariableDeclaration(name, type, expr);
-                    }
+            {
+                if ( "" != null ) {
+                    return new VariableDeclaration(modifiers, name, type, expr);
                 }
             }
             throw new Error("Missing return statement in function");
@@ -425,32 +461,59 @@ public class KaraffeParser implements KaraffeParserConstants {
         }
     }
 
-    private boolean jj_3R_4() {
-        if ( !jj_rescan ) {
-            trace_call("typeId(LOOKING AHEAD...)");
-        }
-        if ( jj_scan_token(TypeId) ) {
-            if ( !jj_rescan ) {
-                trace_return("typeId(LOOKAHEAD FAILED)");
-            }
+    private boolean jj_3R_12() {
+        if ( jj_scan_token(GlobalScope) ) {
             return true;
+        }
+        return false;
+    }
+
+    private boolean jj_3R_11() {
+        if ( jj_scan_token(SideEffect) ) {
+            return true;
+        }
+        return false;
+    }
+
+    private boolean jj_3R_10() {
+        if ( !jj_rescan ) {
+            trace_call("modifier(LOOKING AHEAD...)");
+        }
+        Token xsp;
+        xsp = jj_scanpos;
+        if ( jj_3R_11() ) {
+            jj_scanpos = xsp;
+            if ( jj_3R_12() ) {
+                if ( !jj_rescan ) {
+                    trace_return("modifier(LOOKAHEAD FAILED)");
+                }
+                return true;
+            }
         }
         {
             if ( !jj_rescan ) {
-                trace_return("typeId(LOOKAHEAD SUCCEEDED)");
+                trace_return("modifier(LOOKAHEAD SUCCEEDED)");
             }
             return false;
         }
     }
 
-    private boolean jj_3R_2() {
+    private boolean jj_3_2() {
+        if ( jj_3R_4() ) {
+            return true;
+        }
+        return false;
+    }
+
+    private boolean jj_3R_3() {
         if ( !jj_rescan ) {
             trace_call("typeAlias(LOOKING AHEAD...)");
         }
-        Token xsp;
-        xsp = jj_scanpos;
-        if ( jj_scan_token(11) ) {
-            jj_scanpos = xsp;
+        if ( jj_3R_5() ) {
+            if ( !jj_rescan ) {
+                trace_return("typeAlias(LOOKAHEAD FAILED)");
+            }
+            return true;
         }
         if ( jj_scan_token(Type) ) {
             if ( !jj_rescan ) {
@@ -458,7 +521,7 @@ public class KaraffeParser implements KaraffeParserConstants {
             }
             return true;
         }
-        if ( jj_3R_4() ) {
+        if ( jj_3R_6() ) {
             if ( !jj_rescan ) {
                 trace_return("typeAlias(LOOKAHEAD FAILED)");
             }
@@ -472,14 +535,7 @@ public class KaraffeParser implements KaraffeParserConstants {
         }
     }
 
-    private boolean jj_3_2() {
-        if ( jj_3R_3() ) {
-            return true;
-        }
-        return false;
-    }
-
-    private boolean jj_3R_5() {
+    private boolean jj_3R_7() {
         if ( !jj_rescan ) {
             trace_call("variableId(LOOKING AHEAD...)");
         }
@@ -498,27 +554,60 @@ public class KaraffeParser implements KaraffeParserConstants {
     }
 
     private boolean jj_3_1() {
-        if ( jj_3R_2() ) {
+        if ( jj_3R_3() ) {
             return true;
         }
         return false;
+    }
+
+    private boolean jj_3R_9() {
+        if ( jj_3R_10() ) {
+            return true;
+        }
+        return false;
+    }
+
+    private boolean jj_3R_5() {
+        if ( !jj_rescan ) {
+            trace_call("modifiers(LOOKING AHEAD...)");
+        }
+        Token xsp;
+        while ( true ) {
+            xsp = jj_scanpos;
+            if ( jj_3R_9() ) {
+                jj_scanpos = xsp;
+                break;
+            }
+        }
+        {
+            if ( !jj_rescan ) {
+                trace_return("modifiers(LOOKAHEAD SUCCEEDED)");
+            }
+            return false;
+        }
     }
 
     private boolean jj_3R_6() {
-        if ( jj_scan_token(Colon) ) {
+        if ( !jj_rescan ) {
+            trace_call("typeId(LOOKING AHEAD...)");
+        }
+        if ( jj_scan_token(TypeId) ) {
+            if ( !jj_rescan ) {
+                trace_return("typeId(LOOKAHEAD FAILED)");
+            }
             return true;
         }
-        return false;
+        {
+            if ( !jj_rescan ) {
+                trace_return("typeId(LOOKAHEAD SUCCEEDED)");
+            }
+            return false;
+        }
     }
 
-    private boolean jj_3R_3() {
+    private boolean jj_3R_4() {
         if ( !jj_rescan ) {
             trace_call("variableDeclaration(LOOKING AHEAD...)");
-        }
-        Token xsp;
-        xsp = jj_scanpos;
-        if ( jj_scan_token(11) ) {
-            jj_scanpos = xsp;
         }
         if ( jj_3R_5() ) {
             if ( !jj_rescan ) {
@@ -526,8 +615,15 @@ public class KaraffeParser implements KaraffeParserConstants {
             }
             return true;
         }
+        if ( jj_3R_7() ) {
+            if ( !jj_rescan ) {
+                trace_return("variableDeclaration(LOOKAHEAD FAILED)");
+            }
+            return true;
+        }
+        Token xsp;
         xsp = jj_scanpos;
-        if ( jj_3R_6() ) {
+        if ( jj_3R_8() ) {
             jj_scanpos = xsp;
         }
         if ( jj_scan_token(Assign) ) {
@@ -542,6 +638,13 @@ public class KaraffeParser implements KaraffeParserConstants {
             }
             return false;
         }
+    }
+
+    private boolean jj_3R_8() {
+        if ( jj_scan_token(Colon) ) {
+            return true;
+        }
+        return false;
     }
 
     /**
@@ -571,11 +674,11 @@ public class KaraffeParser implements KaraffeParserConstants {
     }
 
     private static void jj_la1_init_0() {
-        jj_la1_0 = new int[]{ 0xa00, 0x0, 0x1d01000, 0x800, 0x2000000, 0xc00000, 0x800, 0x80000, };
+        jj_la1_0 = new int[]{ 0x8a00, 0x0, 0x1d01000, 0x2000000, 0x8800, 0x8800, 0xc00000, 0x80000, };
     }
 
     private static void jj_la1_init_1() {
-        jj_la1_1 = new int[]{ 0x4020, 0x4000, 0x80, 0x0, 0x0, 0x80, 0x0, 0x0, };
+        jj_la1_1 = new int[]{ 0x4020, 0x4000, 0x80, 0x0, 0x0, 0x0, 0x80, 0x0, };
     }
     final private JJCalls[] jj_2_rtns = new JJCalls[2];
     private boolean jj_rescan = false;

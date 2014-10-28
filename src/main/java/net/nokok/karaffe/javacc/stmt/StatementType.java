@@ -15,23 +15,15 @@ public enum StatementType {
      */
     TYPE_ALIAS,
     /**
-     * seffect修飾子付きType Aliasステートメント
-     */
-    S_TYPE_ALIAS,
-    /**
      * 関数宣言
      */
     FUNCTION_DECLARATION,
-    /**
-     * seffect修飾子付き関数宣言
-     */
-    S_FUNCTION_DECLARATION,
     /**
      * 変数宣言
      */
     VARIABLE_DECLARATION,
     /**
-     * seffect修飾子付き変数宣言
+     * Voidを返す関数の呼び出し
      */
-    S_VARIABLE_DECLARATION,
+    FUNCTION_CALL,
 }
