@@ -10,9 +10,7 @@ options{
 PARSER_BEGIN(KaraffeParser)
 package net.nokok.karaffe.javacc;
 
-import java.util.Arrays;
-import java.util.List;
-import java.util.ArrayList;
+import java.util.*;
 import net.nokok.karaffe.javacc.expr.*;
 import net.nokok.karaffe.javacc.identifier.*;
 import net.nokok.karaffe.javacc.literal.*;
