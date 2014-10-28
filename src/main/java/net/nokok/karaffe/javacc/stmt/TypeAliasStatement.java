@@ -54,11 +54,9 @@ public class TypeAliasStatement implements Statement {
     }
 
     /**
-     * Type Aliasステートメントでは、seffect修飾子を許可する。
-     * 付与した場合:関数のオーバーライドを許可する
-     * 付与しなかった場合:関数のオーバーライドを許可しない(同名の関数を定義できない)
+     * Type Aliasステートメントでは、seffect修飾子を許可しない。
      *
-     * @return True
+     * @return False
      */
     @Override
     public boolean isAllowingSideEffectModifier() {
