@@ -1,0 +1,132 @@
+//Karaffe Javacc file
+
+options {
+    STATIC = false;
+    IGNORE_CASE = false;
+}
+
+PARSER_BEGIN(KaraffeParser)
+package net.nokok.karaffe.javacc.ast;
+
+public class KaraffeParser{
+
+    private final Program program = new Program();
+
+    public KaraffeParser(){
+
+    }
+}
+
+
+PARSER_END(KaraffeParser)
+
+TOKEN_MGR_DECLS:
+{
+    public static int commentNestLevel = 0;
+}
+
+/*
+コメントの処理
+*/
+SKIP:
+{
+    " "
+    | "\t"
+    | < "//" (~["\n"])* <NewLine> >
+    | "/*" {
+        commentNestLevel++;
+        SwitchTo(InComment);
+    }
+}
+
+<InComment> SKIP:
+{
+    "/*" {
+        commentNestLevel++;
+    }
+    | <EndOfLine : <NewLine>> 
+    | "*/" {
+        commentNestLevel--;
+        if(commentNestLevel == 0){
+            SwitchTo(DEFAULT);
+        }
+    }
+}
+
+TOKEN:
+{
+    /*リテラル*/
+      < BoolLiteral : "true"
+                    | "false" >
+    | < IntLiteral : (<Minus>)? <NonZero> (<Digits>)?  >
+    | < Hexiadecimal : ("0x" | "0X") <HexDigits> >
+    | < FloatLiteral : (<Minus>)? (<Zero> | <IntLiteral>) <Dot> ((<Zero>)+ <IntLiteral> | <IntLiteral>) (<Exp> <IntLiteral>)? >
+    | < StringLiteral : "\"" (<UnicodeValue>)* "\"" >
+   
+
+    | < Plus : "+" >
+    | < Minus : "-" >
+    | < Star : "*" >
+    | < Slash : "/" >
+    | < Percent : "%" >
+    | < Tilde : "~" >
+    | < Ampersand : "&" >
+    | < VerticalBar : "|" >
+    | < Exclamation : "!" >
+    | < LessThan : "<" >
+    | < EqualSign : "=" >
+    | < GreaterThan : ">" >
+   
+    /*Unicode*/
+    | < UnicodeValue : <UnicodeChar>
+                     | <EscapedChar> >
+    | < UnicodeChar : >
+    | < EscapedChar : "\\" ("b" | "n" | "r" | "t" | "v" | "\\" | "'" | "\"") >
+    
+    /*その他トークン*/
+    | < Dot : "." >
+    | < NumberSign : "#" >
+    | < DollarSign : "$" >
+    | < Question : "?" >
+    | < Underscore : "_" >
+    | < LeftBracket : "[" >
+    | < RightBracket : "]" >
+    | < Range : ".." > 
+    | < ClosedRange : ".<" >
+    | < Colon : ":" >
+    | < Exp : "e" | "E" >
+    | < Digits : (<Digit>)+ >
+    | < HexDigits : (<HexDigit>)+ >
+    | < Digit : <Zero> 
+              | <NonZero> >
+    | < HexDigit : <Digit> | ["A"-"F","a"-"z"] >
+    | < Zero : "0" >
+    | < NonZero : ["1"-"9"] >
+    | < Alphabet : <Upper>
+                 | <Lower> >
+    | < Upper : ["A"-"Z"] >
+    | < Lower : ["a"-"z"] >
+    | < NewLine : "\n"
+                | "\r"
+                | "\r\n" >
+}
+
+Expression boolLiteral():
+{
+    Token t;
+}
+{
+    t = <BoolLiteral> {
+        return new BoolLiteral(t.image);
+    }
+}
+
+Expression intLiteral():
+{
+    Token t;
+}
+{
+    t = <IntLiteral> {
+        return new IntLiteral(t.image);
+    }
+}
