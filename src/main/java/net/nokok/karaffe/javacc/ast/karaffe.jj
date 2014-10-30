@@ -115,6 +115,27 @@ TOKEN:
                 | "\r\n" >
 }
 
+Expression expr():
+{
+    Expression e;
+}
+{
+    e = literals() { return e; }
+}
+
+Expression literals():
+{
+    Expression l;
+}
+{
+    l = boolLiteral() { return l; }
+    | l = intLiteral() { return l; }
+    | l = floatLiteral() { return l; }
+    | l = stringLiteral() { return l; }
+    | l = arrayLiteral() { return l; }
+    | l = javaTypeLiteral() { return l; }
+}
+
 Expression boolLiteral():
 {
     Token t;
@@ -137,6 +158,73 @@ Expression intLiteral():
         return new IntLiteral(Integer.parseInt(t.image,16));
     }
 }
+
+Expression floatLiteral():
+{
+    Token t;
+}
+{
+    t = <FloatLiteral> {
+        return new FloatLiteral(Double.parseDouble(t.image));
+    }
+}
+
+Expression stringLiteral():
+{
+    Token t;
+}
+{
+    t = <StringLiteral> {
+        return new StringLiteral(t.image);
+    }
+}
+
+Expression arrayLiteral():
+{
+    ArrayElements elements = ArrayElements.EMPTY;
+}
+{
+    <LeftBracket> (elements = arrayElements())? <RightBracket> {
+        return new FixedSizeArrayLiteral(elements,elements.getHeadElementType());
+    }
+}
+
+ArrayElements arrayElements():
+{
+    ArrayElements elements = new ArrayElements();
+    ArrayElement element;
+}
+{
+    (element = arrayElement(){ elements.addElement(element);})+ {
+        return elements;
+    }
+}
+
+ArrayElement arrayElement():
+{
+    Expression expr;
+}
+{
+    expr = expr() {
+        return new ArrayElement(expr);
+    }
+}
+
+Expression javaTypeLiteral():
+{
+    Expression expr;
+    Token token;
+}
+{
+    "Java" <LeftBracket> token = javaFQCN() <RightBracket> {
+        try{
+            return new JavaTypeLiteral(Class.forName(token.image));
+        }catch(ClassNotFoundException e){
+            return new MissingJavaType(token.image,e);
+        }
+    }
+}
+
 Token javaFQCN():
 {
     Token t;
