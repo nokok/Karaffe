@@ -81,8 +81,9 @@ TOKEN:
     /*Unicode*/
     | < UnicodeValue : <UnicodeChar>
                      | <EscapedChar> >
-    | < UnicodeChar : >
+    | < UnicodeChar : ["\u0000"-"\uffff"]>
     | < EscapedChar : "\\" ("b" | "n" | "r" | "t" | "v" | "\\" | "'" | "\"") >
+    | < UnicodeEscape : "\\u" <HexDigit> <HexDigit> <HexDigit> <HexDigit> >
     
     /*その他トークン*/
     | < Dot : "." >
