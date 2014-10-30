@@ -130,9 +130,13 @@ Expression intLiteral():
     Token t;
 }
 {
-    t = <IntLiteral> {
+    t = <Decimal> {
         return new IntLiteral(Integer.parseInt(t.image));
     }
+    | t = <Hexiadecimal> {
+        return new IntLiteral(Integer.parseInt(t.image,16));
+    }
+}
 Token javaFQCN():
 {
     Token t;
