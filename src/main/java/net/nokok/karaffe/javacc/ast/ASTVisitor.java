@@ -2,6 +2,10 @@ package net.nokok.karaffe.javacc.ast;
 
 public interface ASTVisitor {
 
+    public Object onArrayElement(ArrayElement aThis);
+
+    public Object onArrayElements(ArrayElements aThis);
+
     public Object onBoolLiteral(BoolLiteral aThis);
 
     public Object onFixedSizeArrayLiteral(FixedSizeArrayLiteral aThis);
@@ -15,6 +19,8 @@ public interface ASTVisitor {
     public Object onJavaTypeLiteral(JavaTypeLiteral aThis);
 
     public Object onKaraffeTypeLiteral(KaraffeTypeLiteral aThis);
+
+    public Object onMissingJavaType(MissingJavaType aThis);
 
     public Object onProgram(Program aThis);
 
