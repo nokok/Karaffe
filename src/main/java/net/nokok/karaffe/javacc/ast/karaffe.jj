@@ -63,8 +63,6 @@ TOKEN:
     | < Hexiadecimal : ("0x" | "0X") <HexDigits> >
     | < FloatLiteral : (<Minus>)? (<Zero> | <IntLiteral>) <Dot> ((<Zero>)+ <IntLiteral> | <IntLiteral>) (<Exp> <IntLiteral>)? >
     | < StringLiteral : "\"" (<UnicodeValue>)* "\"" >
-   
-
     | < Plus : "+" >
     | < Minus : "-" >
     | < Star : "*" >
