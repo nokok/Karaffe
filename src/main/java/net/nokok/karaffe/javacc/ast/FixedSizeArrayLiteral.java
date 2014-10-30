@@ -1,9 +1,12 @@
 package net.nokok.karaffe.javacc.ast;
 
-public class FixedSizeArrayLiteral extends Literal<Object[]> {
+public class FixedSizeArrayLiteral extends Literal<ArrayElements> {
 
-    public FixedSizeArrayLiteral(Object[] value) {
+    private final Class<?> arrayType;
+
+    public FixedSizeArrayLiteral(ArrayElements value, Class<?> arrayType) {
         super(value);
+        this.arrayType = arrayType;
     }
 
     @Override
@@ -11,4 +14,14 @@ public class FixedSizeArrayLiteral extends Literal<Object[]> {
         return visitor.onFixedSizeArrayLiteral(this);
     }
 
+    public boolean isValidArrayType() {
+        if ( value.getArrayLength() == 0 ) {
+            return true;
+        }
+        Class<?> headElementType = value.getHeadElementType();
+        for ( ArrayElement obj : value ) {
+
+        }
+        return true;
+    }
 }
