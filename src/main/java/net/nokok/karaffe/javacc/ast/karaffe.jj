@@ -119,7 +119,7 @@ Expression boolLiteral():
 }
 {
     t = <BoolLiteral> {
-        return new BoolLiteral(t.image);
+        return new BoolLiteral(Boolean.parseBoolean(t.image));
     }
 }
 
@@ -129,6 +129,6 @@ Expression intLiteral():
 }
 {
     t = <IntLiteral> {
-        return new IntLiteral(t.image);
+        return new IntLiteral(Integer.parseInt(t.image));
     }
 }
