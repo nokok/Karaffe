@@ -87,6 +87,7 @@ TOKEN:
     | < UnicodeEscape : "\\u" <HexDigit> <HexDigit> <HexDigit> <HexDigit> >
     
     /*その他トークン*/
+    | < JavaFQCN : ((<Alphabet> | <Underscore> | <DollarSign>)+ <Dot> )((<Alphabet> | <Underscore> | <DollarSign> | <Digit>))* (<Alphabet> | <Underscore> | <DollarSign> | <Digit>)* >
     | < Dot : "." >
     | < NumberSign : "#" >
     | < DollarSign : "$" >
@@ -132,4 +133,10 @@ Expression intLiteral():
     t = <IntLiteral> {
         return new IntLiteral(Integer.parseInt(t.image));
     }
+Token javaFQCN():
+{
+    Token t;
+}
+{
+    t = <JavaFQCN> { return t; }
 }
