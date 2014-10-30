@@ -1,11 +1,26 @@
 package net.nokok.karaffe.javacc.ast;
 
-import java.util.function.Function;
+public class FunctionLiteral extends Literal<Expression<?, ?>> {
 
-public class FunctionLiteral extends Literal<Function<?, ?>> {
+    private final VariableIdTypePairs varIdPairs;
+    private final VariableList varList;
 
-    public FunctionLiteral(Function<?, ?> value) {
+    public FunctionLiteral(Expression<?, ?> value) {
         super(value);
+        varIdPairs = null;
+        varList = null;
+    }
+
+    FunctionLiteral(VariableIdTypePairs varIdPairs, Expression<?, ?> expr) {
+        super(expr);
+        this.varIdPairs = varIdPairs;
+        this.varList = null;
+    }
+
+    FunctionLiteral(VariableList varList, Expression<?, ?> expr) {
+        super(expr);
+        this.varList = varList;
+        this.varIdPairs = null;
     }
 
     @Override
