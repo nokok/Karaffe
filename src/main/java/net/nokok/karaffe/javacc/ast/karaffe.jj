@@ -59,9 +59,10 @@ TOKEN:
     /*リテラル*/
       < BoolLiteral : "true"
                     | "false" >
-    | < IntLiteral : (<Minus>)? <NonZero> (<Digits>)?  >
+    | < IntLiteral : (<Minus>)? <Hexiadecimal> | <Decimal> > 
+    | < Decimal : <NonZero> (<Digits>)? >
     | < Hexiadecimal : ("0x" | "0X") <HexDigits> >
-    | < FloatLiteral : (<Minus>)? (<Zero> | <IntLiteral>) <Dot> ((<Zero>)+ <IntLiteral> | <IntLiteral>) (<Exp> <IntLiteral>)? >
+    | < FloatLiteral : (<Minus>)? (<Zero> | <Decimal>) <Dot> ((<Zero>)+ <Decimal> | <Decimal>) (<Exp> (<Minus>)? <Decimal>)? >
     | < StringLiteral : "\"" (<UnicodeValue>)* "\"" >
     | < Plus : "+" >
     | < Minus : "-" >
