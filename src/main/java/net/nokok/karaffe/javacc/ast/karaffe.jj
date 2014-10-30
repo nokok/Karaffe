@@ -86,7 +86,17 @@ TOKEN:
     | < UnicodeChar : ["\u0000"-"\uffff"]>
     | < EscapedChar : "\\" ("b" | "n" | "r" | "t" | "v" | "\\" | "'" | "\"") >
     | < UnicodeEscape : "\\u" <HexDigit> <HexDigit> <HexDigit> <HexDigit> >
-    
+
+    /*識別子*/
+    | < Identifier : <TypeId> 
+                   | <VariableId> >
+    | < TypeId : <TypeIdHead> (<IdentifierCharacter>)* >
+    | < VariableId : <VariableIdHead> (<IdentifierCharacter>)* >
+    | < TypeIdHead : <Upper> >
+    | < VariableIdHead : <Lower> >
+    | < IdentifierCharacter : <Alphabet>
+                            | <Underscore> 
+                            | <Digit>>
     /*その他トークン*/
     | < JavaFQCN : ((<Alphabet> | <Underscore> | <DollarSign>)+ <Dot> )((<Alphabet> | <Underscore> | <DollarSign> | <Digit>))* (<Alphabet> | <Underscore> | <DollarSign> | <Digit>)* >
     | < Dot : "." >
