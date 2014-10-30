@@ -200,6 +200,71 @@ Expression arrayLiteral():
     }
 }
 
+Expression javaTypeLiteral():
+{
+    Expression expr;
+    Token token;
+}
+{
+    "Java" <LeftBracket> token = <JavaFQCN> <RightBracket> {
+        try{
+            return new JavaTypeLiteral(Class.forName(token.image));
+        }catch(ClassNotFoundException e){
+            return new MissingJavaType(token.image,e);
+        }
+    }
+}
+
+Expression functionLiteral():
+{
+    VariableList varList = null;
+    VariableIdTypePairs varIdPairs = null;
+    Expression expr;
+}
+{
+    <LeftBracket> (LOOKAHEAD(2) varList = varList() | varIdPairs = varIdTypePairs())? <RightBracket> <To> expr = expr() {
+        if(varList == null && varIdPairs == null){
+            return new FunctionLiteral(expr);
+        }else if(varList == null && varIdPairs != null){
+            return new FunctionLiteral(varIdPairs,expr);
+        }else if(varList != null && varIdPairs == null){
+            return new FunctionLiteral(varList,expr);
+        }
+    }
+}
+
+VariableList varList():
+{
+    Token t;
+    VariableList list = new VariableList();
+}
+{
+    ( (t = <VariableId>) { list.addVariableElement(new VariableId(t.image));} )+ {
+        return list;
+    }
+}
+
+VariableIdTypePair varIdTypePair():
+{
+    VariableId varId;
+    TypeId typeId;
+}
+{
+    varId = variableId() <Colon> typeId = typeId() {
+        return new VariableIdTypePair(varId,typeId);
+    }
+}
+
+VariableIdTypePairs varIdTypePairs():
+{
+    VariableIdTypePair pair;
+    VariableIdTypePairs pairs = new VariableIdTypePairs();
+}
+{
+    (pair = varIdTypePair() {pairs.addPair(pair);} )+ {
+        return pairs;
+    }
+}
 ArrayElements arrayElements():
 {
     ArrayElements elements = new ArrayElements();
@@ -221,18 +286,22 @@ ArrayElement arrayElement():
     }
 }
 
-Expression javaTypeLiteral():
+VariableId variableId():
 {
-    Expression expr;
-    Token token;
+    Token t;
 }
 {
-    "Java" <LeftBracket> token = <JavaFQCN> <RightBracket> {
-        try{
-            return new JavaTypeLiteral(Class.forName(token.image));
-        }catch(ClassNotFoundException e){
-            return new MissingJavaType(token.image,e);
-        }
+    t = <VariableId> {
+        return new VariableId(t.image);
     }
 }
 
+TypeId typeId():
+{
+    Token t;
+}
+{
+    t = <TypeId> { 
+        return new TypeId(t.image);
+    }
+}
