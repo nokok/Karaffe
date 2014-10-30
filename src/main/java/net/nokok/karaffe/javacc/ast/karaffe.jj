@@ -216,7 +216,7 @@ Expression javaTypeLiteral():
     Token token;
 }
 {
-    "Java" <LeftBracket> token = javaFQCN() <RightBracket> {
+    "Java" <LeftBracket> token = <JavaFQCN> <RightBracket> {
         try{
             return new JavaTypeLiteral(Class.forName(token.image));
         }catch(ClassNotFoundException e){
@@ -225,10 +225,3 @@ Expression javaTypeLiteral():
     }
 }
 
-Token javaFQCN():
-{
-    Token t;
-}
-{
-    t = <JavaFQCN> { return t; }
-}
