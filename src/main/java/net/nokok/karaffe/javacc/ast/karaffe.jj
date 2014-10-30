@@ -77,6 +77,8 @@ TOKEN:
     | < LessThan : "<" >
     | < EqualSign : "=" >
     | < GreaterThan : ">" >
+    | < LessThanEqualTo : "<=" >
+    | < GreaterThanEqualTo : ">=" >
    
     /*Unicode*/
     | < UnicodeValue : <UnicodeChar>
