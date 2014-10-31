@@ -1,4 +1,4 @@
-package net.nokok.karaffe.javacc.ast;
+package net.nokok.karaffe.javacc;
 
 import net.nokok.karaffe.javacc.stmt.*;
 
