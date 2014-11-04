@@ -51,6 +51,8 @@ public class SimpleVariableDeclarationTest {
         assertThat(nodes.size(), is(2));
         assertThat(nodes.get(0).getClass(), is(VariableDeclaration.class.getClass()));
         assertThat(nodes.get(1).getClass(), is(EndOfFileStatement.class.getClass()));
+        VariableDeclaration d = (VariableDeclaration) nodes.get(0);
+        assertThat(d.getNameString(), is("hogehogehogehogehogehogehogehogehogehogehogehoge"));
     }
 
 }
