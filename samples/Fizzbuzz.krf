@@ -1,9 +1,9 @@
 global fizzbuzz : Int to String =
-sw n
-n % 15 == 0 = "FizzBuzz"
-n % 3  == 0 = "Fizz"
-n % 5  == 0 = "Buzz"
-_           = n toString
+switch n
+n % 15 == 0 is "FizzBuzz"
+n % 3  == 0 is "Fizz"
+n % 5  == 0 is "Buzz"
+default     is n toString
 
 n = readInt from:Console sysIn
 1..n mapEach map:fizzbuzz each:println
