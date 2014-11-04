@@ -40,6 +40,8 @@ public interface ASTVisitor {
 
     public Object onVaraibleId(VariableId aThis);
 
+    public Object onVariableDeclaration(VariableDeclaration aThis);
+
     public Object onVariableIdTypePair(VariableIdTypePair aThis);
 
     public Object onVariableIdTypePairs(VariableIdTypePairs aThis);
