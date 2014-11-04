@@ -121,6 +121,30 @@ TOKEN:
     | < UnicodeEscape : "\\u" <HexDigit> <HexDigit> <HexDigit> <HexDigit> >
     
 }
+
+Program parse():
+{
+    Program p = new Program();
+    ASTNode node;
+}
+{
+    (node = programElement() { p.addElement(node); })* <EOF> {
+        p.addElement(new EndOfFileStatement());
+        return p;
+    }
+}
+
+ASTNode programElement():
+{
+    ASTNode node;
+}
+{
+    node = expr() {
+        return node;
+    }
+    | node = statement(){
+        return node;
+    }
 }
 
 Expression expr():
@@ -129,6 +153,16 @@ Expression expr():
 }
 {
     e = literals() { return e; }
+}
+
+Statement statement():
+{
+    Statement s;
+}
+{
+    s = variableDeclaration(){
+        return s;
+    }
 }
 
 Expression literals():
@@ -159,7 +193,10 @@ Expression intLiteral():
     Token t;
 }
 {
-    t = <Decimal> {
+    t = <Zero> {
+        return new IntLiteral(0);
+    }
+    | t = <Decimal> {
         return new IntLiteral(Integer.parseInt(t.image));
     }
     | t = <Hexiadecimal> {
@@ -187,6 +224,12 @@ Expression stringLiteral():
     }
 }
 
+/**
+    ArrayLiteral
+    ArrayLiteral  = "[" ArrayElements "]"
+    ArrayElements = ArrayElement*
+    ArrayElement  = expr
+*/
 Expression arrayLiteral():
 {
     ArrayElements elements = ArrayElements.EMPTY;
@@ -197,13 +240,20 @@ Expression arrayLiteral():
     }
 }
 
+/**
+    JavaTypeLiteral
+    JavaTypeLiteral = "Java" "[" JavaFQCN "]"
+    e.g.
+    - Java[java.lang.Integer]
+    - Java[java.util.ArrayList]
+*/
 Expression javaTypeLiteral():
 {
     Expression expr;
     Token token;
 }
 {
-    "Java" <LeftBracket> token = <JavaFQCN> <RightBracket> {
+    <Java> <LeftBracket> token = <JavaFQCN> <RightBracket> {
         try{
             return new JavaTypeLiteral(Class.forName(token.image));
         }catch(ClassNotFoundException e){
@@ -212,6 +262,11 @@ Expression javaTypeLiteral():
     }
 }
 
+/**
+    FunctionLiteral
+    FunctionLiteral = "[" VariableList "]" "to" FunctionBody
+    FunctionBody = Expression
+*/
 Expression functionLiteral():
 {
     VariableList varList = null;
@@ -262,6 +317,7 @@ VariableIdTypePairs varIdTypePairs():
         return pairs;
     }
 }
+
 ArrayElements arrayElements():
 {
     ArrayElements elements = new ArrayElements();
@@ -283,6 +339,10 @@ ArrayElement arrayElement():
     }
 }
 
+/**
+    VariableId
+    VariableId = VariableIdHead IdentifierCharacter*
+*/
 VariableId variableId():
 {
     Token t;
@@ -293,6 +353,10 @@ VariableId variableId():
     }
 }
 
+/**
+    TypeId
+    TypeId = TypeIdHead IdentifierCharacter*
+*/
 TypeId typeId():
 {
     Token t;
@@ -302,3 +366,19 @@ TypeId typeId():
         return new TypeId(t.image);
     }
 }
+
+Statement variableDeclaration():
+{
+    VariableId name = null;
+    TypeId typeId = null;
+    ASTNode node = null;
+}
+{
+    name = variableId() (<Colon> typeId = typeId())? <EqualSign> node = expr(){
+        if(typeId == null){
+            typeId = net.nokok.karaffe.javacc.ast.TypeId.UNKNOWN_TYPE;
+        }
+        return new VariableDeclaration(name,typeId,node);
+    }
+}
+
