@@ -12,10 +12,11 @@ package net.nokok.karaffe.javacc.ast;
 public class KaraffeParser{
 
     private final Program program = new Program();
-
-    public KaraffeParser(){
-
+    
+    public KaraffeParser(String sourceCode){
+        this(new java.io.StringReader(sourceCode));
     }
+
 }
 
 
