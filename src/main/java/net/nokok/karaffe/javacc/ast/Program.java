@@ -11,4 +11,10 @@ public class Program implements ASTNode {
     public String nodeIdentifier() {
         return "Program";
     }
+
+    @Override
+    public String toString() {
+        return "Program";
+    }
+
 }
