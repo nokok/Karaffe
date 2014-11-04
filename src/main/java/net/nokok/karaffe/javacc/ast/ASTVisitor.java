@@ -8,6 +8,8 @@ public interface ASTVisitor {
 
     public Object onBoolLiteral(BoolLiteral aThis);
 
+    public Object onEndOfFileStatement(EndOfFileStatement aThis);
+
     public Object onFixedSizeArrayLiteral(FixedSizeArrayLiteral aThis);
 
     public Object onFloatLiteral(FloatLiteral aThis);
