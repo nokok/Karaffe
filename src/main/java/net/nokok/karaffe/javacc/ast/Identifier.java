@@ -13,4 +13,9 @@ public abstract class Identifier implements ASTNode {
     public String getName() {
         return name;
     }
+
+    @Override
+    public String toString() {
+        return name;
+    }
 }
