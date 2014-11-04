@@ -2,6 +2,8 @@ package net.nokok.karaffe.javacc.ast;
 
 public class TypeId extends Identifier implements ASTNode {
 
+    public static final TypeId UNKNOWN_TYPE = new TypeId("[UnknownType]");
+
     public TypeId(String name) {
         super(name);
     }
