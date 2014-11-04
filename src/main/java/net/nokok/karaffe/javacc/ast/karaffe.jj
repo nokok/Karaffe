@@ -57,9 +57,22 @@ SKIP:
 
 TOKEN:
 {
-    /*リテラル*/
-      < BoolLiteral : "true"
+
+      < Underscore : "_" >
+    | < To : "to" >
+    | < Java : "Java" >
+    | < Zero : "0" >
+    | < TypeId : <TypeIdHead> (<IdentifierCharacter>)* >
+    | < VariableId : <VariableIdHead> (<IdentifierCharacter>)* >
+    | < BoolLiteral : "true"
                     | "false" >
+    | < Range : ".." > 
+    | < ClosedRange : ".<" >
+    | < TypeIdHead : <Upper> >
+    | < VariableIdHead : <Lower> >
+    | < IdentifierCharacter : <Alphabet>
+                            | <Underscore> 
+                            | <Digit>>
     | < IntLiteral : (<Minus>)? <Hexiadecimal> | <Decimal> > 
     | < Decimal : <NonZero> (<Digits>)? >
     | < Hexiadecimal : ("0x" | "0X") <HexDigits> >
@@ -79,44 +92,20 @@ TOKEN:
     | < GreaterThan : ">" >
     | < LessThanEqualTo : "<=" >
     | < GreaterThanEqualTo : ">=" >
-    | < To : "to" >
-   
-    /*Unicode*/
-    | < UnicodeValue : <UnicodeChar>
-                     | <EscapedChar> >
-    | < UnicodeChar : ["\u0000"-"\uffff"]>
-    | < EscapedChar : "\\" ("b" | "n" | "r" | "t" | "v" | "\\" | "'" | "\"") >
-    | < UnicodeEscape : "\\u" <HexDigit> <HexDigit> <HexDigit> <HexDigit> >
-
-    /*識別子*/
-    | < Identifier : <TypeId> 
-                   | <VariableId> >
-    | < TypeId : <TypeIdHead> (<IdentifierCharacter>)* >
-    | < VariableId : <VariableIdHead> (<IdentifierCharacter>)* >
-    | < TypeIdHead : <Upper> >
-    | < VariableIdHead : <Lower> >
-    | < IdentifierCharacter : <Alphabet>
-                            | <Underscore> 
-                            | <Digit>>
-    /*その他トークン*/
-    | < JavaFQCN : ((<Alphabet> | <Underscore> | <DollarSign>)+ <Dot> )((<Alphabet> | <Underscore> | <DollarSign> | <Digit>))* (<Alphabet> | <Underscore> | <DollarSign> | <Digit>)* >
     | < Dot : "." >
     | < NumberSign : "#" >
     | < DollarSign : "$" >
     | < Question : "?" >
-    | < Underscore : "_" >
     | < LeftBracket : "[" >
     | < RightBracket : "]" >
-    | < Range : ".." > 
-    | < ClosedRange : ".<" >
     | < Colon : ":" >
     | < Exp : "e" | "E" >
+    | < JavaFQCN : ((<Alphabet> | <Underscore> | <DollarSign>)+ <Dot> )((<Alphabet> | <Underscore> | <DollarSign> | <Digit>))* (<Alphabet> | <Underscore> | <DollarSign> | <Digit>)* >
     | < Digits : (<Digit>)+ >
     | < HexDigits : (<HexDigit>)+ >
-    | < Digit : <Zero> 
+    | < Digit : "0"
               | <NonZero> >
     | < HexDigit : <Digit> | ["A"-"F","a"-"z"] >
-    | < Zero : "0" >
     | < NonZero : ["1"-"9"] >
     | < Alphabet : <Upper>
                  | <Lower> >
@@ -125,6 +114,13 @@ TOKEN:
     | < NewLine : "\n"
                 | "\r"
                 | "\r\n" >
+    | < UnicodeValue : <UnicodeChar>
+                     | <EscapedChar> >
+    | < UnicodeChar : ["\u0000"-"\uffff"]>
+    | < EscapedChar : "\\" ("b" | "n" | "r" | "t" | "v" | "\\" | "'" | "\"") >
+    | < UnicodeEscape : "\\u" <HexDigit> <HexDigit> <HexDigit> <HexDigit> >
+    
+}
 }
 
 Expression expr():
