@@ -11,4 +11,9 @@ public class StringLiteral extends Literal<String> {
         return visitor.onStringLiteral(this);
     }
 
+    @Override
+    public String nodeIdentifier() {
+        return "StringLiteral";
+    }
+
 }

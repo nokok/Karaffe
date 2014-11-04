@@ -17,4 +17,9 @@ public class VariableId extends Identifier {
         return visitor.onVaraibleId(this);
     }
 
+    @Override
+    public String nodeIdentifier() {
+        return "VariableId";
+    }
+
 }

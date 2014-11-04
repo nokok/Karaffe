@@ -24,4 +24,9 @@ public class FixedSizeArrayLiteral extends Literal<ArrayElements> {
         }
         return true;
     }
+
+    @Override
+    public String nodeIdentifier() {
+        return "FixedSizeArrayLiteral";
+    }
 }

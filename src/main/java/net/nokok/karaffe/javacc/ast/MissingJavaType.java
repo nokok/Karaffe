@@ -24,4 +24,9 @@ public class MissingJavaType extends Literal<Exception> implements ErrorNode {
     public String missingFQCN() {
         return missingFQCN;
     }
+
+    @Override
+    public String nodeIdentifier() {
+        return "MissingJavaTypeLiteral";
+    }
 }

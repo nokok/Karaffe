@@ -11,4 +11,9 @@ public class TypeParameterId extends Identifier {
         return visitor.onTypeParameterId(this);
     }
 
+    @Override
+    public String nodeIdentifier() {
+        return "TypeParameterId";
+    }
+
 }

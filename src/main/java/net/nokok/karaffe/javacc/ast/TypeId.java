@@ -11,4 +11,9 @@ public class TypeId extends Identifier implements ASTNode {
         return visitor.onTypeId(this);
     }
 
+    @Override
+    public String nodeIdentifier() {
+        return "TypeId";
+    }
+
 }

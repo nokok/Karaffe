@@ -11,4 +11,9 @@ public class FloatLiteral extends Literal<Double> {
         return visitor.onFloatLiteral(this);
     }
 
+    @Override
+    public String nodeIdentifier() {
+        return "FloatLiteral";
+    }
+
 }

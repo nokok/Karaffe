@@ -7,4 +7,8 @@ public class Program implements ASTNode {
         return visitor.onProgram(this);
     }
 
+    @Override
+    public String nodeIdentifier() {
+        return "Program";
+    }
 }

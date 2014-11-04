@@ -11,4 +11,9 @@ public class KaraffeTypeLiteral extends Literal<Object> {
         return visitor.onKaraffeTypeLiteral(this);
     }
 
+    @Override
+    public String nodeIdentifier() {
+        return "KaraffeTypeLiteral";
+    }
+
 }

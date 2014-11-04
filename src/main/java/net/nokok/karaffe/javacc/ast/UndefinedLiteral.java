@@ -11,4 +11,9 @@ public class UndefinedLiteral extends Literal<UndefinedValue> {
         return visitor.onUndefinedLiteral(this);
     }
 
+    @Override
+    public String nodeIdentifier() {
+        return "Undefined";
+    }
+
 }

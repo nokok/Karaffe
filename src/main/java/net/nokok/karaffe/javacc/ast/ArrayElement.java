@@ -11,4 +11,9 @@ public class ArrayElement extends Literal<Expression<?, ?>> {
         return visitor.onArrayElement(this);
     }
 
+    @Override
+    public String nodeIdentifier() {
+        return "ArrayElement";
+    }
+
 }

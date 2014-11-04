@@ -19,4 +19,9 @@ public class VariableIdTypePair extends Statement {
     public Object accept(ASTVisitor visitor) {
         return visitor.onVariableIdTypePair(this);
     }
+
+    @Override
+    public String nodeIdentifier() {
+        return "VariableIdTypePair";
+    }
 }

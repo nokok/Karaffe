@@ -7,4 +7,9 @@ public class TypeParameters extends Statement {
         return visitor.onTypeParameters(this);
     }
 
+    @Override
+    public String nodeIdentifier() {
+        return "TypeParameters";
+    }
+
 }

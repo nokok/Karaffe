@@ -11,4 +11,9 @@ public class BoolLiteral extends Literal<Boolean> {
         return visitor.onBoolLiteral(this);
     }
 
+    @Override
+    public String nodeIdentifier() {
+        return "BoolLiteral";
+    }
+
 }

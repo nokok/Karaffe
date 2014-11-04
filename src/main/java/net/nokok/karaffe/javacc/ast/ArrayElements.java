@@ -45,4 +45,9 @@ public class ArrayElements extends Literal<List<ArrayElement>> implements Iterab
     public Iterator<ArrayElement> iterator() {
         return value.iterator();
     }
+
+    @Override
+    public String nodeIdentifier() {
+        return "ArrayElements";
+    }
 }

@@ -28,4 +28,9 @@ public class VariableList extends Literal<List<VariableId>> implements Iterable<
         value.add(variableId);
     }
 
+    @Override
+    public String nodeIdentifier() {
+        return "VariableList";
+    }
+
 }

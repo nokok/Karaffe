@@ -30,4 +30,9 @@ public class FunctionLiteral extends Literal<Expression<?, ?>> {
         return visitor.onFunctionLiteral(this);
     }
 
+    @Override
+    public String nodeIdentifier() {
+        return "FunctionLiteral";
+    }
+
 }

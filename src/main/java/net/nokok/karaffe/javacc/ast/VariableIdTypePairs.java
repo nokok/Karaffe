@@ -22,4 +22,9 @@ public class VariableIdTypePairs extends Literal<List<VariableIdTypePair>> {
         value.add(pair);
     }
 
+    @Override
+    public String nodeIdentifier() {
+        return "VariableIdTypePairs";
+    }
+
 }

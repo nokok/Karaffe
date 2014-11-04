@@ -11,4 +11,9 @@ public class IntLiteral extends Literal<Integer> {
         return visitor.onIntLiteral(this);
     }
 
+    @Override
+    public String nodeIdentifier() {
+        return "IntLiteral";
+    }
+
 }

@@ -11,4 +11,9 @@ public class JavaTypeLiteral extends Literal<Class<?>> {
         return visitor.onJavaTypeLiteral(this);
     }
 
+    @Override
+    public String nodeIdentifier() {
+        return "JavaTypeLiteral";
+    }
+
 }

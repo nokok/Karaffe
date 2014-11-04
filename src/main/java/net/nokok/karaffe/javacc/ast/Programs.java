@@ -20,6 +20,11 @@ public class Programs implements ASTNode {
         return programs.contains(p);
     }
 
+    @Override
+    public String nodeIdentifier() {
+        return "Programs";
+    }
+
     public int size() {
         return programs.size();
     }
