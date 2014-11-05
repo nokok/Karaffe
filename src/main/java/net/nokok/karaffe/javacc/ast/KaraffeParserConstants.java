@@ -18,111 +18,111 @@ public interface KaraffeParserConstants {
     /**
      * RegularExpression Id.
      */
-    int Underscore = 8;
+    int Check = 8;
     /**
      * RegularExpression Id.
      */
-    int To = 9;
+    int Public = 9;
     /**
      * RegularExpression Id.
      */
-    int Java = 10;
+    int SideEffect = 10;
     /**
      * RegularExpression Id.
      */
-    int Zero = 11;
+    int Switch = 11;
     /**
      * RegularExpression Id.
      */
-    int TypeId = 12;
+    int To = 12;
     /**
      * RegularExpression Id.
      */
-    int VariableId = 13;
+    int Type = 13;
     /**
      * RegularExpression Id.
      */
-    int BoolLiteral = 14;
+    int Undefined = 14;
     /**
      * RegularExpression Id.
      */
-    int Range = 15;
+    int BoolLiteral = 15;
     /**
      * RegularExpression Id.
      */
-    int ClosedRange = 16;
+    int IntLiteral = 16;
     /**
      * RegularExpression Id.
      */
-    int TypeIdHead = 17;
+    int Hexadecimal = 17;
     /**
      * RegularExpression Id.
      */
-    int VariableIdHead = 18;
+    int HexDigit = 18;
     /**
      * RegularExpression Id.
      */
-    int IdentifierCharacter = 19;
+    int FloatLiteral = 19;
     /**
      * RegularExpression Id.
      */
-    int IntLiteral = 20;
+    int Minus = 20;
     /**
      * RegularExpression Id.
      */
-    int Decimal = 21;
+    int Zero = 21;
     /**
      * RegularExpression Id.
      */
-    int Hexiadecimal = 22;
+    int NonZero = 22;
     /**
      * RegularExpression Id.
      */
-    int FloatLiteral = 23;
+    int Dot = 23;
     /**
      * RegularExpression Id.
      */
-    int StringLiteral = 24;
+    int Exp = 24;
     /**
      * RegularExpression Id.
      */
-    int Plus = 25;
+    int StringLiteral = 25;
     /**
      * RegularExpression Id.
      */
-    int Minus = 26;
+    int StringCharacter = 26;
     /**
      * RegularExpression Id.
      */
-    int Star = 27;
+    int StringEscapeSeq = 27;
     /**
      * RegularExpression Id.
      */
-    int Slash = 28;
+    int UnicodeEscape = 28;
     /**
      * RegularExpression Id.
      */
-    int Percent = 29;
+    int Identifier = 29;
     /**
      * RegularExpression Id.
      */
-    int Tilde = 30;
+    int IdentifierHead = 30;
     /**
      * RegularExpression Id.
      */
-    int Ampersand = 31;
+    int IdentifierCharacter = 31;
     /**
      * RegularExpression Id.
      */
-    int VerticalBar = 32;
+    int LeftBracket = 32;
     /**
      * RegularExpression Id.
      */
-    int Exclamation = 33;
+    int RightBracket = 33;
     /**
      * RegularExpression Id.
      */
-    int LessThan = 34;
+    int Colon = 34;
     /**
      * RegularExpression Id.
      */
@@ -130,103 +130,7 @@ public interface KaraffeParserConstants {
     /**
      * RegularExpression Id.
      */
-    int GreaterThan = 36;
-    /**
-     * RegularExpression Id.
-     */
-    int LessThanEqualTo = 37;
-    /**
-     * RegularExpression Id.
-     */
-    int GreaterThanEqualTo = 38;
-    /**
-     * RegularExpression Id.
-     */
-    int Dot = 39;
-    /**
-     * RegularExpression Id.
-     */
-    int NumberSign = 40;
-    /**
-     * RegularExpression Id.
-     */
-    int DollarSign = 41;
-    /**
-     * RegularExpression Id.
-     */
-    int Question = 42;
-    /**
-     * RegularExpression Id.
-     */
-    int LeftBracket = 43;
-    /**
-     * RegularExpression Id.
-     */
-    int RightBracket = 44;
-    /**
-     * RegularExpression Id.
-     */
-    int Colon = 45;
-    /**
-     * RegularExpression Id.
-     */
-    int Exp = 46;
-    /**
-     * RegularExpression Id.
-     */
-    int JavaFQCN = 47;
-    /**
-     * RegularExpression Id.
-     */
-    int Digits = 48;
-    /**
-     * RegularExpression Id.
-     */
-    int HexDigits = 49;
-    /**
-     * RegularExpression Id.
-     */
-    int Digit = 50;
-    /**
-     * RegularExpression Id.
-     */
-    int HexDigit = 51;
-    /**
-     * RegularExpression Id.
-     */
-    int NonZero = 52;
-    /**
-     * RegularExpression Id.
-     */
-    int Alphabet = 53;
-    /**
-     * RegularExpression Id.
-     */
-    int Upper = 54;
-    /**
-     * RegularExpression Id.
-     */
-    int Lower = 55;
-    /**
-     * RegularExpression Id.
-     */
-    int NewLine = 56;
-    /**
-     * RegularExpression Id.
-     */
-    int UnicodeValue = 57;
-    /**
-     * RegularExpression Id.
-     */
-    int UnicodeChar = 58;
-    /**
-     * RegularExpression Id.
-     */
-    int EscapedChar = 59;
-    /**
-     * RegularExpression Id.
-     */
-    int UnicodeEscape = 60;
+    int NewLine = 36;
 
     /**
      * Lexical state.
@@ -249,58 +153,34 @@ public interface KaraffeParserConstants {
         "\"/*\"",
         "<EndOfLine>",
         "\"*/\"",
-        "\"_\"",
+        "\"check\"",
+        "\"public\"",
+        "\"seffect\"",
+        "\"switch\"",
         "\"to\"",
-        "\"Java\"",
-        "\"0\"",
-        "<TypeId>",
-        "<VariableId>",
+        "\"type\"",
+        "\"undefined\"",
         "<BoolLiteral>",
-        "\"..\"",
-        "\".<\"",
-        "<TypeIdHead>",
-        "<VariableIdHead>",
-        "<IdentifierCharacter>",
         "<IntLiteral>",
-        "<Decimal>",
-        "<Hexiadecimal>",
+        "<Hexadecimal>",
+        "<HexDigit>",
         "<FloatLiteral>",
-        "<StringLiteral>",
-        "\"+\"",
         "\"-\"",
-        "\"*\"",
-        "\"/\"",
-        "\"%\"",
-        "\"~\"",
-        "\"&\"",
-        "\"|\"",
-        "\"!\"",
-        "\"<\"",
-        "\"=\"",
-        "\">\"",
-        "\"<=\"",
-        "\">=\"",
+        "\"0\"",
+        "<NonZero>",
         "\".\"",
-        "\"#\"",
-        "\"$\"",
-        "\"?\"",
+        "<Exp>",
+        "<StringLiteral>",
+        "<StringCharacter>",
+        "<StringEscapeSeq>",
+        "<UnicodeEscape>",
+        "<Identifier>",
+        "<IdentifierHead>",
+        "<IdentifierCharacter>",
         "\"[\"",
         "\"]\"",
         "\":\"",
-        "<Exp>",
-        "<JavaFQCN>",
-        "<Digits>",
-        "<HexDigits>",
-        "<Digit>",
-        "<HexDigit>",
-        "<NonZero>",
-        "<Alphabet>",
-        "<Upper>",
-        "<Lower>",
-        "<NewLine>",
-        "<UnicodeValue>",
-        "<UnicodeChar>",
-        "<EscapedChar>",
-        "<UnicodeEscape>", };
+        "\"=\"",
+        "<NewLine>", };
 
 }

@@ -10,20 +10,30 @@ public class KaraffeParser implements KaraffeParserConstants {
         this(new java.io.StringReader(sourceCode));
     }
 
+    public int getCurrentTokenBeginColumn() {
+        return jj_input_stream.getBeginColumn();
+    }
+
+    public int getCurrentTokenEndColumn() {
+        return jj_input_stream.getEndColumn();
+    }
+
+    public int getCurrentLine() {
+        return jj_input_stream.getEndLine();
+    }
+
     final public Program parse() throws ParseException {
         Program p = new Program();
         ASTNode node;
         label_1:
         while ( true ) {
             switch ( (jj_ntk == -1) ? jj_ntk_f() : jj_ntk ) {
-                case Java:
-                case Zero:
-                case VariableId:
                 case BoolLiteral:
-                case Decimal:
-                case Hexiadecimal:
+                case IntLiteral:
+                case Hexadecimal:
                 case FloatLiteral:
                 case StringLiteral:
+                case Identifier:
                 case LeftBracket: {
                     ;
                     break;
@@ -48,11 +58,9 @@ public class KaraffeParser implements KaraffeParserConstants {
     final public ASTNode programElement() throws ParseException {
         ASTNode node;
         switch ( (jj_ntk == -1) ? jj_ntk_f() : jj_ntk ) {
-            case Java:
-            case Zero:
             case BoolLiteral:
-            case Decimal:
-            case Hexiadecimal:
+            case IntLiteral:
+            case Hexadecimal:
             case FloatLiteral:
             case StringLiteral:
             case LeftBracket: {
@@ -64,7 +72,7 @@ public class KaraffeParser implements KaraffeParserConstants {
                 }
                 break;
             }
-            case VariableId: {
+            case Identifier: {
                 node = statement();
                 {
                     if ( "" != null ) {
@@ -115,9 +123,8 @@ public class KaraffeParser implements KaraffeParserConstants {
                 }
                 break;
             }
-            case Zero:
-            case Decimal:
-            case Hexiadecimal: {
+            case IntLiteral:
+            case Hexadecimal: {
                 l = intLiteral();
                 {
                     if ( "" != null ) {
@@ -153,15 +160,6 @@ public class KaraffeParser implements KaraffeParserConstants {
                 }
                 break;
             }
-            case Java: {
-                l = javaTypeLiteral();
-                {
-                    if ( "" != null ) {
-                        return l;
-                    }
-                }
-                break;
-            }
             default:
                 jj_la1[2] = jj_gen;
                 jj_consume_token(-1);
@@ -184,17 +182,8 @@ public class KaraffeParser implements KaraffeParserConstants {
     final public Expression intLiteral() throws ParseException {
         Token t;
         switch ( (jj_ntk == -1) ? jj_ntk_f() : jj_ntk ) {
-            case Zero: {
-                t = jj_consume_token(Zero);
-                {
-                    if ( "" != null ) {
-                        return new IntLiteral(0);
-                    }
-                }
-                break;
-            }
-            case Decimal: {
-                t = jj_consume_token(Decimal);
+            case IntLiteral: {
+                t = jj_consume_token(IntLiteral);
                 {
                     if ( "" != null ) {
                         return new IntLiteral(Integer.parseInt(t.image));
@@ -202,11 +191,11 @@ public class KaraffeParser implements KaraffeParserConstants {
                 }
                 break;
             }
-            case Hexiadecimal: {
-                t = jj_consume_token(Hexiadecimal);
+            case Hexadecimal: {
+                t = jj_consume_token(Hexadecimal);
                 {
                     if ( "" != null ) {
-                        return new IntLiteral(Integer.parseInt(t.image, 16));
+                        return new IntLiteral(Integer.parseInt(t.image.replaceFirst("0[xX]", ""), 16));
                     }
                 }
                 break;
@@ -251,11 +240,9 @@ public class KaraffeParser implements KaraffeParserConstants {
         ArrayElements elements = ArrayElements.EMPTY;
         jj_consume_token(LeftBracket);
         switch ( (jj_ntk == -1) ? jj_ntk_f() : jj_ntk ) {
-            case Java:
-            case Zero:
             case BoolLiteral:
-            case Decimal:
-            case Hexiadecimal:
+            case IntLiteral:
+            case Hexadecimal:
             case FloatLiteral:
             case StringLiteral:
             case LeftBracket: {
@@ -276,36 +263,6 @@ public class KaraffeParser implements KaraffeParserConstants {
     }
 
     /**
-     * JavaTypeLiteral
-     * JavaTypeLiteral = "Java" "[" JavaFQCN "]"
-     * e.g.
-     * - Java[java.lang.Integer]
-     * - Java[java.util.ArrayList]
-     */
-    final public Expression javaTypeLiteral() throws ParseException {
-        Expression expr;
-        Token token;
-        jj_consume_token(Java);
-        jj_consume_token(LeftBracket);
-        token = jj_consume_token(JavaFQCN);
-        jj_consume_token(RightBracket);
-        try {
-            {
-                if ( "" != null ) {
-                    return new JavaTypeLiteral(Class.forName(token.image));
-                }
-            }
-        } catch (ClassNotFoundException e) {
-            {
-                if ( "" != null ) {
-                    return new MissingJavaType(token.image, e);
-                }
-            }
-        }
-        throw new Error("Missing return statement in function");
-    }
-
-    /**
      * FunctionLiteral
      * FunctionLiteral = "[" VariableList "]" "to" FunctionBody
      * FunctionBody = Expression
@@ -316,12 +273,12 @@ public class KaraffeParser implements KaraffeParserConstants {
         Expression expr;
         jj_consume_token(LeftBracket);
         switch ( (jj_ntk == -1) ? jj_ntk_f() : jj_ntk ) {
-            case VariableId: {
+            case Identifier: {
                 if ( jj_2_1(2) ) {
                     varList = varList();
                 } else {
                     switch ( (jj_ntk == -1) ? jj_ntk_f() : jj_ntk ) {
-                        case VariableId: {
+                        case Identifier: {
                             varIdPairs = varIdTypePairs();
                             break;
                         }
@@ -363,14 +320,14 @@ public class KaraffeParser implements KaraffeParserConstants {
     }
 
     final public VariableList varList() throws ParseException {
-        Token t;
+        VariableId var;
         VariableList list = new VariableList();
         label_2:
         while ( true ) {
-            t = jj_consume_token(VariableId);
-            list.addVariableElement(new VariableId(t.image));
+            var = variableId();
+            list.addVariableElement(var);
             switch ( (jj_ntk == -1) ? jj_ntk_f() : jj_ntk ) {
-                case VariableId: {
+                case Identifier: {
                     ;
                     break;
                 }
@@ -409,7 +366,7 @@ public class KaraffeParser implements KaraffeParserConstants {
             pair = varIdTypePair();
             pairs.addPair(pair);
             switch ( (jj_ntk == -1) ? jj_ntk_f() : jj_ntk ) {
-                case VariableId: {
+                case Identifier: {
                     ;
                     break;
                 }
@@ -434,11 +391,9 @@ public class KaraffeParser implements KaraffeParserConstants {
             element = arrayElement();
             elements.addElement(element);
             switch ( (jj_ntk == -1) ? jj_ntk_f() : jj_ntk ) {
-                case Java:
-                case Zero:
                 case BoolLiteral:
-                case Decimal:
-                case Hexiadecimal:
+                case IntLiteral:
+                case Hexadecimal:
                 case FloatLiteral:
                 case StringLiteral:
                 case LeftBracket: {
@@ -475,7 +430,7 @@ public class KaraffeParser implements KaraffeParserConstants {
      */
     final public VariableId variableId() throws ParseException {
         Token t;
-        t = jj_consume_token(VariableId);
+        t = jj_consume_token(Identifier);
         {
             if ( "" != null ) {
                 return new VariableId(t.image);
@@ -490,7 +445,7 @@ public class KaraffeParser implements KaraffeParserConstants {
      */
     final public TypeId typeId() throws ParseException {
         Token t;
-        t = jj_consume_token(TypeId);
+        t = jj_consume_token(Identifier);
         {
             if ( "" != null ) {
                 return new TypeId(t.image);
@@ -500,9 +455,9 @@ public class KaraffeParser implements KaraffeParserConstants {
     }
 
     final public Statement variableDeclaration() throws ParseException {
-        VariableId name = null;
-        TypeId typeId = null;
-        ASTNode node = null;
+        VariableId name;
+        TypeId typeId = net.nokok.karaffe.javacc.ast.TypeId.UNKNOWN_TYPE;
+        ASTNode node;
         name = variableId();
         switch ( (jj_ntk == -1) ? jj_ntk_f() : jj_ntk ) {
             case Colon: {
@@ -516,9 +471,6 @@ public class KaraffeParser implements KaraffeParserConstants {
         }
         jj_consume_token(EqualSign);
         node = expr();
-        if ( typeId == null ) {
-            typeId = net.nokok.karaffe.javacc.ast.TypeId.UNKNOWN_TYPE;
-        }
         {
             if ( "" != null ) {
                 return new VariableDeclaration(name, typeId, node);
@@ -539,13 +491,6 @@ public class KaraffeParser implements KaraffeParserConstants {
         }
     }
 
-    private boolean jj_3R_6() {
-        if ( jj_scan_token(VariableId) ) {
-            return true;
-        }
-        return false;
-    }
-
     private boolean jj_3R_5() {
         Token xsp;
         if ( jj_3R_6() ) {
@@ -563,6 +508,20 @@ public class KaraffeParser implements KaraffeParserConstants {
 
     private boolean jj_3_1() {
         if ( jj_3R_5() ) {
+            return true;
+        }
+        return false;
+    }
+
+    private boolean jj_3R_7() {
+        if ( jj_scan_token(Identifier) ) {
+            return true;
+        }
+        return false;
+    }
+
+    private boolean jj_3R_6() {
+        if ( jj_3R_7() ) {
             return true;
         }
         return false;
@@ -595,11 +554,11 @@ public class KaraffeParser implements KaraffeParserConstants {
     }
 
     private static void jj_la1_init_0() {
-        jj_la1_0 = new int[]{ 0x1e06c00, 0x1e06c00, 0x1e04c00, 0x600800, 0x1e04c00, 0x2000, 0x2000, 0x2000, 0x2000, 0x1e04c00, 0x0, };
+        jj_la1_0 = new int[]{ 0x220b8000, 0x220b8000, 0x20b8000, 0x30000, 0x20b8000, 0x20000000, 0x20000000, 0x20000000, 0x20000000, 0x20b8000, 0x0, };
     }
 
     private static void jj_la1_init_1() {
-        jj_la1_1 = new int[]{ 0x800, 0x800, 0x800, 0x0, 0x800, 0x0, 0x0, 0x0, 0x0, 0x800, 0x2000, };
+        jj_la1_1 = new int[]{ 0x1, 0x1, 0x1, 0x0, 0x1, 0x0, 0x0, 0x0, 0x0, 0x1, 0x4, };
     }
     final private JJCalls[] jj_2_rtns = new JJCalls[1];
     private boolean jj_rescan = false;
@@ -870,7 +829,7 @@ public class KaraffeParser implements KaraffeParserConstants {
      */
     public ParseException generateParseException() {
         jj_expentries.clear();
-        boolean[] la1tokens = new boolean[61];
+        boolean[] la1tokens = new boolean[37];
         if ( jj_kind >= 0 ) {
             la1tokens[jj_kind] = true;
             jj_kind = -1;
@@ -887,7 +846,7 @@ public class KaraffeParser implements KaraffeParserConstants {
                 }
             }
         }
-        for ( int i = 0; i < 61; i++ ) {
+        for ( int i = 0; i < 37; i++ ) {
             if ( la1tokens[i] ) {
                 jj_expentry = new int[1];
                 jj_expentry[0] = i;
