@@ -5,12 +5,12 @@ import static org.hamcrest.CoreMatchers.is;
 import static org.junit.Assert.assertThat;
 import org.junit.Test;
 
-public class SimpleVariableDeclarationTest {
+public class SimpleVariableDeclarationParserTest {
 
     private final Program program;
     private final List<ASTNode> nodes;
 
-    public SimpleVariableDeclarationTest() throws ParseException {
+    public SimpleVariableDeclarationParserTest() throws ParseException {
         program = new KaraffeParser("x = 0").parse();
         nodes = program.getNodes();
     }

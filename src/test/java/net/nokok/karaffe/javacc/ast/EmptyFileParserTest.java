@@ -2,7 +2,7 @@ package net.nokok.karaffe.javacc.ast;
 
 import org.junit.Test;
 
-public class EmptyFileTest {
+public class EmptyFileParserTest {
 
     @Test
     public void testEmptyFile() throws Exception {
