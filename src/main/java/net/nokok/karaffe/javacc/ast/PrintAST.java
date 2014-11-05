@@ -2,42 +2,44 @@ package net.nokok.karaffe.javacc.ast;
 
 public class PrintAST implements ASTVisitor {
 
-    public static int depth = 0;
-
     @Override
     public Object onArrayElement(ArrayElement aThis) {
-        printIdentifier(aThis);
-        return null;
+        System.out.println("onArrayElement");
+        return aThis.eval(null);
     }
 
     @Override
     public Object onArrayElements(ArrayElements aThis) {
-        printIdentifier(aThis);
-        return null;
+        System.out.println("onArrayElements");
+        return aThis.accept(this);
     }
 
     @Override
     public Object onBoolLiteral(BoolLiteral aThis) {
-        printIdentifier(aThis);
-        return null;
+        System.out.println("onBoolLiteral");
+        return aThis.eval(null);
     }
 
     @Override
     public Object onEndOfFileStatement(EndOfFileStatement aThis) {
-        printIdentifier(aThis);
+        System.out.println("-EOF-");
+        System.out.println("");
         return null;
     }
 
     @Override
     public Object onFixedSizeArrayLiteral(FixedSizeArrayLiteral aThis) {
-        printIdentifier(aThis);
-        return null;
+        System.out.println("onFixedSizeArrayLiteral");
+        for ( ArrayElement element : aThis.value ) {
+
+        }
+        return aThis.eval(null);
     }
 
     @Override
     public Object onFloatLiteral(FloatLiteral aThis) {
-        printIdentifier(aThis);
-        return null;
+        System.out.println("onFloatLiteral");
+        return aThis.eval(null);
     }
 
     @Override
@@ -48,8 +50,8 @@ public class PrintAST implements ASTVisitor {
 
     @Override
     public Object onIntLiteral(IntLiteral aThis) {
-        printIdentifier(aThis);
-        return null;
+        System.out.println("onIntLiteral");
+        return aThis.eval(null);
     }
 
     @Override
@@ -72,10 +74,8 @@ public class PrintAST implements ASTVisitor {
 
     @Override
     public Object onProgram(Program aThis) {
-        printIdentifier(aThis);
-        for ( ASTNode node : aThis.getNodes() ) {
-            node.accept(this);
-        }
+        System.out.println("onProgram");
+        aThis.getNodes().forEach(n -> n.accept(this));
         return null;
     }
 
@@ -87,8 +87,8 @@ public class PrintAST implements ASTVisitor {
 
     @Override
     public Object onStringLiteral(StringLiteral aThis) {
-        printIdentifier(aThis);
-        return null;
+        System.out.println("onStringLiteral");
+        return aThis.eval(null);
     }
 
     @Override
@@ -123,7 +123,10 @@ public class PrintAST implements ASTVisitor {
 
     @Override
     public Object onVariableDeclaration(VariableDeclaration aThis) {
-        printIdentifier(aThis);
+        output("onVariableDeclaration");
+        output("name = ", aThis.getNameString());
+        output("type = ", aThis.getTypeString());
+        output(aThis.getNode().accept(this).toString());
         return null;
     }
 
@@ -147,14 +150,17 @@ public class PrintAST implements ASTVisitor {
 
     private void printIdentifier(ASTNode node) {
         StringBuilder stringBuilder = new StringBuilder();
-        for ( int i = 0; i < depth; i++ ) {
-            stringBuilder.append(' ');
-        }
         stringBuilder.append(node.nodeIdentifier());
         stringBuilder.append(":");
         stringBuilder.append(node.toString());
-        stringBuilder.append("\n");
         System.out.println(stringBuilder.toString());
-        depth++;
+    }
+
+    private void output(String... values) {
+        StringBuilder sb = new StringBuilder();
+        for ( String value : values ) {
+            sb.append(value);
+        }
+        System.out.println(sb.toString());
     }
 }
