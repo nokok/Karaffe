@@ -17,6 +17,18 @@ public class KaraffeParser{
         this(new java.io.StringReader(sourceCode));
     }
 
+
+    public int getCurrentTokenBeginColumn(){
+        return jj_input_stream.getBeginColumn();
+    }
+
+    public int getCurrentTokenEndColumn(){
+        return jj_input_stream.getEndColumn();
+    }
+
+    public int getCurrentLine(){
+        return jj_input_stream.getEndLine();
+    }
 }
 
 
@@ -55,72 +67,83 @@ SKIP:
     }
 }
 
+/**
+    Reserved keywords 
+*/
 TOKEN:
 {
-
-      < Underscore : "_" >
+      < Check : "check" >
+    | < Public : "public" >
+    | < SideEffect : "seffect" >
+    | < Switch : "switch" >
     | < To : "to" >
-    | < Java : "Java" >
-    | < Zero : "0" >
-    | < TypeId : <TypeIdHead> (<IdentifierCharacter>)* >
-    | < VariableId : <VariableIdHead> (<IdentifierCharacter>)* >
-    | < BoolLiteral : "true"
+    | < Type : "type" >
+    | < Undefined : "undefined" >
+}
+
+/**
+    Literals
+*/
+TOKEN:
+{
+      < BoolLiteral : "true"
                     | "false" >
-    | < Range : ".." > 
-    | < ClosedRange : ".<" >
-    | < TypeIdHead : <Upper> >
-    | < VariableIdHead : <Lower> >
-    | < IdentifierCharacter : <Alphabet>
-                            | <Underscore> 
-                            | <Digit>>
-    | < IntLiteral : (<Minus>)? <Hexiadecimal> | <Decimal> > 
-    | < Decimal : <NonZero> (<Digits>)? >
-    | < Hexiadecimal : ("0x" | "0X") <HexDigits> >
-    | < FloatLiteral : (<Minus>)? (<Zero> | <Decimal>) <Dot> ((<Zero>)+ <Decimal> | <Decimal>) (<Exp> (<Minus>)? <Decimal>)? >
-    | < StringLiteral : "\"" (<UnicodeValue>)* "\"" >
-    | < Plus : "+" >
-    | < Minus : "-" >
-    | < Star : "*" >
-    | < Slash : "/" >
-    | < Percent : "%" >
-    | < Tilde : "~" >
-    | < Ampersand : "&" >
-    | < VerticalBar : "|" >
-    | < Exclamation : "!" >
-    | < LessThan : "<" >
-    | < EqualSign : "=" >
-    | < GreaterThan : ">" >
-    | < LessThanEqualTo : "<=" >
-    | < GreaterThanEqualTo : ">=" >
-    | < Dot : "." >
-    | < NumberSign : "#" >
-    | < DollarSign : "$" >
-    | < Question : "?" >
-    | < LeftBracket : "[" >
+    | < IntLiteral : <Zero> | (<Minus>)? <NonZero> (<Zero> | <NonZero>)* >
+    | < Hexadecimal : (<Minus>)? "0" ["x","X"] (<HexDigit>)+ >
+    | < #HexDigit : ["0"-"9" , "A"-"F" , "a"-"f"] > 
+    | < FloatLiteral : (<Minus>)? (<Zero> | <IntLiteral>) <Dot> (<Zero> | <NonZero>)+ (<Exp> <IntLiteral> )? >
+    | < #Minus : "-" >
+    | < #Zero : "0" >
+    | < #NonZero : ["1"-"9"] >
+    | < #Dot : "." >
+    | < #Exp : "e" | "E" >
+    | < StringLiteral : "\"" (<StringCharacter>)* "\"" >
+    | < #StringCharacter : (~["\"","\\","\n","\r"]) 
+                         | <StringEscapeSeq> 
+                         | <UnicodeEscape> >
+    | < StringEscapeSeq : "\\" ["b","t","n","f","r","\"","\\","\'"] >
+    | < UnicodeEscape : "\\u" <HexDigit> <HexDigit> <HexDigit> <HexDigit> >
+}
+
+/**
+    Identifiers
+*/
+TOKEN:
+{
+      < Identifier : <IdentifierHead> (<IdentifierHead> | <IdentifierCharacter>)* >
+    | < #IdentifierHead :      [
+                                    "\u0041"-"\u005A", //A-Z
+                                    "\u0061"-"\u007A"  //a-z
+                               ]  >
+    | < #IdentifierCharacter : [
+                                    "\u0030"-"\u0039", //0-9
+                                    "\u0041"-"\u005A", //A-Z
+                                    "\u0061"-"\u007A", //a-z
+                                    "\u005F" //_
+                               ] >
+}
+
+/**
+    Separators
+*/
+TOKEN:
+{
+      < LeftBracket : "[" >
     | < RightBracket : "]" >
     | < Colon : ":" >
-    | < Exp : "e" | "E" >
-    | < JavaFQCN : ((<Alphabet> | <Underscore> | <DollarSign>)+ <Dot> )((<Alphabet> | <Underscore> | <DollarSign> | <Digit>))* (<Alphabet> | <Underscore> | <DollarSign> | <Digit>)* >
-    | < Digits : (<Digit>)+ >
-    | < HexDigits : (<HexDigit>)+ >
-    | < Digit : "0"
-              | <NonZero> >
-    | < HexDigit : <Digit> | ["A"-"F","a"-"z"] >
-    | < NonZero : ["1"-"9"] >
-    | < Alphabet : <Upper>
-                 | <Lower> >
-    | < Upper : ["A"-"Z"] >
-    | < Lower : ["a"-"z"] >
-    | < NewLine : "\n"
-                | "\r"
-                | "\r\n" >
-    | < UnicodeValue : <UnicodeChar>
-                     | <EscapedChar> >
-    | < UnicodeChar : ["\u0000"-"\uffff"]>
-    | < EscapedChar : "\\" ("b" | "n" | "r" | "t" | "v" | "\\" | "'" | "\"") >
-    | < UnicodeEscape : "\\u" <HexDigit> <HexDigit> <HexDigit> <HexDigit> >
-    
+    | < EqualSign : "=" >
 }
+
+/**
+    Other tokens
+*/
+TOKEN:
+{
+      < NewLine : "\r"
+                | "\n" 
+                | "\r\n" >
+}
+
 
 Program parse():
 {
@@ -175,7 +198,6 @@ Expression literals():
     | l = floatLiteral() { return l; }
     | l = stringLiteral() { return l; }
     | l = arrayLiteral() { return l; }
-    | l = javaTypeLiteral() { return l; }
 }
 
 Expression boolLiteral():
@@ -193,14 +215,11 @@ Expression intLiteral():
     Token t;
 }
 {
-    t = <Zero> {
-        return new IntLiteral(0);
-    }
-    | t = <Decimal> {
+      t = <IntLiteral> {
         return new IntLiteral(Integer.parseInt(t.image));
     }
-    | t = <Hexiadecimal> {
-        return new IntLiteral(Integer.parseInt(t.image,16));
+    | t = <Hexadecimal> {
+        return new IntLiteral(Integer.parseInt(t.image.replaceFirst("0[xX]",""),16));
     }
 }
 
@@ -241,28 +260,6 @@ Expression arrayLiteral():
 }
 
 /**
-    JavaTypeLiteral
-    JavaTypeLiteral = "Java" "[" JavaFQCN "]"
-    e.g.
-    - Java[java.lang.Integer]
-    - Java[java.util.ArrayList]
-*/
-Expression javaTypeLiteral():
-{
-    Expression expr;
-    Token token;
-}
-{
-    <Java> <LeftBracket> token = <JavaFQCN> <RightBracket> {
-        try{
-            return new JavaTypeLiteral(Class.forName(token.image));
-        }catch(ClassNotFoundException e){
-            return new MissingJavaType(token.image,e);
-        }
-    }
-}
-
-/**
     FunctionLiteral
     FunctionLiteral = "[" VariableList "]" "to" FunctionBody
     FunctionBody = Expression
@@ -287,11 +284,11 @@ Expression functionLiteral():
 
 VariableList varList():
 {
-    Token t;
+    VariableId var;
     VariableList list = new VariableList();
 }
 {
-    ( (t = <VariableId>) { list.addVariableElement(new VariableId(t.image));} )+ {
+    ( (var = variableId()) { list.addVariableElement(var);} )+ {
         return list;
     }
 }
@@ -348,7 +345,7 @@ VariableId variableId():
     Token t;
 }
 {
-    t = <VariableId> {
+    t = <Identifier> {
         return new VariableId(t.image);
     }
 }
@@ -362,22 +359,19 @@ TypeId typeId():
     Token t;
 }
 {
-    t = <TypeId> { 
+    t = <Identifier> { 
         return new TypeId(t.image);
     }
 }
 
 Statement variableDeclaration():
 {
-    VariableId name = null;
-    TypeId typeId = null;
-    ASTNode node = null;
+    VariableId name;
+    TypeId typeId = net.nokok.karaffe.javacc.ast.TypeId.UNKNOWN_TYPE;
+    ASTNode node;
 }
 {
     name = variableId() (<Colon> typeId = typeId())? <EqualSign> node = expr(){
-        if(typeId == null){
-            typeId = net.nokok.karaffe.javacc.ast.TypeId.UNKNOWN_TYPE;
-        }
         return new VariableDeclaration(name,typeId,node);
     }
 }
