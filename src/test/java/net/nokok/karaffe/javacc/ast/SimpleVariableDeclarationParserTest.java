@@ -11,7 +11,7 @@ public class SimpleVariableDeclarationParserTest {
     private final List<ASTNode> nodes;
 
     public SimpleVariableDeclarationParserTest() throws ParseException {
-        program = new KaraffeParser("x = 0").parse();
+        program = new KaraffeParser("x = 0\n").parse();
         nodes = program.getNodes();
     }
 
@@ -46,7 +46,7 @@ public class SimpleVariableDeclarationParserTest {
 
     @Test
     public void testLongVariableName() throws Exception {
-        Program p = new KaraffeParser("hogehogehogehogehogehogehogehogehogehogehogehoge = 0").parse();
+        Program p = new KaraffeParser("hogehogehogehogehogehogehogehogehogehogehogehoge = 0\n").parse();
         List<ASTNode> nodes = p.getNodes();
         assertThat(nodes.size(), is(2));
         assertThat(nodes.get(0).getClass(), is(VariableDeclaration.class.getClass()));

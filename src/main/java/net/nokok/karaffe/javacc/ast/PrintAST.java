@@ -30,7 +30,7 @@ public class PrintAST implements ASTVisitor {
     @Override
     public Object onFixedSizeArrayLiteral(FixedSizeArrayLiteral aThis) {
         System.out.println("onFixedSizeArrayLiteral");
-        for ( ArrayElement element : aThis.value ) {
+        for (ArrayElement element : aThis.value) {
 
         }
         return aThis.eval(null);
@@ -70,6 +70,11 @@ public class PrintAST implements ASTVisitor {
     public Object onMissingJavaType(MissingJavaType aThis) {
         printIdentifier(aThis);
         return null;
+    }
+
+    @Override
+    public Object onNewLineToken(NewLineToken aThis) {
+        return "<Nl>";
     }
 
     @Override
@@ -158,7 +163,7 @@ public class PrintAST implements ASTVisitor {
 
     private void output(String... values) {
         StringBuilder sb = new StringBuilder();
-        for ( String value : values ) {
+        for (String value : values) {
             sb.append(value);
         }
         System.out.println(sb.toString());

@@ -9,7 +9,7 @@ public class EmptyFileParserTest {
         Program p = new KaraffeParser("").parse();
     }
 
-    @Test(expected = ParseException.class)
+    @Test
     public void testNewLineFile() throws Exception {
         Program p = new KaraffeParser("\n").parse();
     }

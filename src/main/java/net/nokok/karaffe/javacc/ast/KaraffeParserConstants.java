@@ -7,143 +7,75 @@ package net.nokok.karaffe.javacc.ast;
  */
 public interface KaraffeParserConstants {
 
-    /**
-     * End of File.
-     */
+    /** End of File. */
     int EOF = 0;
-    /**
-     * RegularExpression Id.
-     */
+    /** RegularExpression Id. */
     int EndOfLine = 6;
-    /**
-     * RegularExpression Id.
-     */
+    /** RegularExpression Id. */
     int Check = 8;
-    /**
-     * RegularExpression Id.
-     */
+    /** RegularExpression Id. */
     int Public = 9;
-    /**
-     * RegularExpression Id.
-     */
+    /** RegularExpression Id. */
     int SideEffect = 10;
-    /**
-     * RegularExpression Id.
-     */
+    /** RegularExpression Id. */
     int Switch = 11;
-    /**
-     * RegularExpression Id.
-     */
+    /** RegularExpression Id. */
     int To = 12;
-    /**
-     * RegularExpression Id.
-     */
+    /** RegularExpression Id. */
     int Type = 13;
-    /**
-     * RegularExpression Id.
-     */
+    /** RegularExpression Id. */
     int Undefined = 14;
-    /**
-     * RegularExpression Id.
-     */
+    /** RegularExpression Id. */
     int BoolLiteral = 15;
-    /**
-     * RegularExpression Id.
-     */
+    /** RegularExpression Id. */
     int IntLiteral = 16;
-    /**
-     * RegularExpression Id.
-     */
+    /** RegularExpression Id. */
     int Hexadecimal = 17;
-    /**
-     * RegularExpression Id.
-     */
+    /** RegularExpression Id. */
     int HexDigit = 18;
-    /**
-     * RegularExpression Id.
-     */
+    /** RegularExpression Id. */
     int FloatLiteral = 19;
-    /**
-     * RegularExpression Id.
-     */
+    /** RegularExpression Id. */
     int Minus = 20;
-    /**
-     * RegularExpression Id.
-     */
+    /** RegularExpression Id. */
     int Zero = 21;
-    /**
-     * RegularExpression Id.
-     */
+    /** RegularExpression Id. */
     int NonZero = 22;
-    /**
-     * RegularExpression Id.
-     */
+    /** RegularExpression Id. */
     int Dot = 23;
-    /**
-     * RegularExpression Id.
-     */
+    /** RegularExpression Id. */
     int Exp = 24;
-    /**
-     * RegularExpression Id.
-     */
+    /** RegularExpression Id. */
     int StringLiteral = 25;
-    /**
-     * RegularExpression Id.
-     */
+    /** RegularExpression Id. */
     int StringCharacter = 26;
-    /**
-     * RegularExpression Id.
-     */
+    /** RegularExpression Id. */
     int StringEscapeSeq = 27;
-    /**
-     * RegularExpression Id.
-     */
+    /** RegularExpression Id. */
     int UnicodeEscape = 28;
-    /**
-     * RegularExpression Id.
-     */
+    /** RegularExpression Id. */
     int Identifier = 29;
-    /**
-     * RegularExpression Id.
-     */
+    /** RegularExpression Id. */
     int IdentifierHead = 30;
-    /**
-     * RegularExpression Id.
-     */
+    /** RegularExpression Id. */
     int IdentifierCharacter = 31;
-    /**
-     * RegularExpression Id.
-     */
+    /** RegularExpression Id. */
     int LeftBracket = 32;
-    /**
-     * RegularExpression Id.
-     */
+    /** RegularExpression Id. */
     int RightBracket = 33;
-    /**
-     * RegularExpression Id.
-     */
+    /** RegularExpression Id. */
     int Colon = 34;
-    /**
-     * RegularExpression Id.
-     */
+    /** RegularExpression Id. */
     int EqualSign = 35;
-    /**
-     * RegularExpression Id.
-     */
+    /** RegularExpression Id. */
     int NewLine = 36;
 
-    /**
-     * Lexical state.
-     */
+    /** Lexical state. */
     int DEFAULT = 0;
-    /**
-     * Lexical state.
-     */
+    /** Lexical state. */
     int InComment = 1;
 
-    /**
-     * Literal token values.
-     */
+    /** Literal token values. */
     String[] tokenImage = {
         "<EOF>",
         "\" \"",
@@ -181,6 +113,6 @@ public interface KaraffeParserConstants {
         "\"]\"",
         "\":\"",
         "\"=\"",
-        "<NewLine>", };
+        "<NewLine>",};
 
 }

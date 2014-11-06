@@ -1,14 +1,20 @@
 package net.nokok.karaffe.javacc.ast;
 
-public class ArrayElement extends Literal<Expression<?, ?>> {
+import java.nio.charset.Charset;
 
-    public ArrayElement(Expression<?, ?> value) {
+public class ArrayElement extends Literal<ASTNode> {
+
+    public ArrayElement(ASTNode value) {
         super(value);
     }
 
     @Override
     public Object accept(ASTVisitor visitor) {
         return visitor.onArrayElement(this);
+    }
+
+    public String elementTypeHash() {
+        return "AryElmentType_" + value.nodeIdentifier().getBytes(Charset.forName("UTF-8"));
     }
 
     @Override

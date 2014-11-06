@@ -14,15 +14,8 @@ public class FixedSizeArrayLiteral extends Literal<ArrayElements> {
         return visitor.onFixedSizeArrayLiteral(this);
     }
 
-    public boolean isValidArrayType() {
-        if ( value.getArrayLength() == 0 ) {
-            return true;
-        }
-        Class<?> headElementType = value.getHeadElementType();
-        for ( ArrayElement obj : value ) {
-
-        }
-        return true;
+    public ArrayElements getElements() {
+        return value;
     }
 
     @Override

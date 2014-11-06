@@ -24,6 +24,8 @@ public interface ASTVisitor {
 
     public Object onMissingJavaType(MissingJavaType aThis);
 
+    public Object onNewLineToken(NewLineToken aThis);
+
     public Object onProgram(Program aThis);
 
     public Object onPrograms(Programs aThis);

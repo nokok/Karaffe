@@ -1,5 +1,7 @@
 package net.nokok.karaffe.javacc.ast;
 
+import java.nio.charset.Charset;
+
 public class VariableDeclaration extends Statement {
 
     private final VariableId name;
@@ -26,8 +28,32 @@ public class VariableDeclaration extends Statement {
         return name.getName();
     }
 
+    public String getJavaName() {
+        StringBuilder sb = new StringBuilder();
+        sb.append("varName_");
+        for (byte b : getNameString().getBytes(Charset.forName("UTF-8"))) {
+            sb.append(b);
+        }
+        return sb.toString();
+    }
+
     public String getTypeString() {
         return type.getName();
+    }
+
+    public String getJavaType() {
+        try {
+            String fqcl = "karaffe.lang." + getTypeString();
+            Class.forName(fqcl);
+            return fqcl;
+        } catch (ClassNotFoundException ex) {
+            StringBuilder sb = new StringBuilder();
+            sb.append("TypeName_");
+            for (byte b : getTypeString().getBytes(Charset.forName("UTF-8"))) {
+                sb.append(b);
+            }
+            return sb.toString();
+        }
     }
 
     public ASTNode getNode() {

@@ -31,7 +31,7 @@ public class Programs implements ASTNode {
 
     @Override
     public boolean equals(Object obj) {
-        if ( obj == null ) {
+        if (obj == null) {
             return false;
         }
         return obj.hashCode() == this.hashCode();
@@ -46,9 +46,9 @@ public class Programs implements ASTNode {
     public String toString() {
         StringBuilder sb = new StringBuilder();
         programs
-            .stream()
-            .map(p -> p.toString())
-            .forEach(sb::append);
+                .stream()
+                .map(p -> p.toString())
+                .forEach(sb::append);
         return sb.toString();
     }
 }

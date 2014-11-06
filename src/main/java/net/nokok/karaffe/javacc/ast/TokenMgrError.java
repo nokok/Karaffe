@@ -2,9 +2,7 @@
 /* JavaCCOptions: */
 package net.nokok.karaffe.javacc.ast;
 
-/**
- * Token Manager Error.
- */
+/** Token Manager Error. */
 public class TokenMgrError extends Error {
 
     /**
@@ -50,8 +48,8 @@ public class TokenMgrError extends Error {
     protected static final String addEscapes(String str) {
         StringBuffer retval = new StringBuffer();
         char ch;
-        for ( int i = 0; i < str.length(); i++ ) {
-            switch ( str.charAt(i) ) {
+        for (int i = 0; i < str.length(); i++) {
+            switch (str.charAt(i)) {
                 case 0:
                     continue;
                 case '\b':
@@ -79,7 +77,7 @@ public class TokenMgrError extends Error {
                     retval.append("\\\\");
                     continue;
                 default:
-                    if ( (ch = str.charAt(i)) < 0x20 || ch > 0x7e ) {
+                    if ((ch = str.charAt(i)) < 0x20 || ch > 0x7e) {
                         String s = "0000" + Integer.toString(ch, 16);
                         retval.append("\\u" + s.substring(s.length() - 4, s.length()));
                     } else {
@@ -95,12 +93,12 @@ public class TokenMgrError extends Error {
      * Returns a detailed message for the Error when it is thrown by the
      * token manager to indicate a lexical error.
      * Parameters :
-     * EOFSeen : indicates if EOF caused the lexical error
-     * curLexState : lexical state in which this error occurred
-     * errorLine : line number when the error occurred
-     * errorColumn : column number when the error occurred
-     * errorAfter : prefix that was seen before this error occurred
-     * curchar : the offending character
+     *    EOFSeen     : indicates if EOF caused the lexical error
+     *    curLexState : lexical state in which this error occurred
+     *    errorLine   : line number when the error occurred
+     *    errorColumn : column number when the error occurred
+     *    errorAfter  : prefix that was seen before this error occurred
+     *    curchar     : the offending character
      * Note: You can customize the lexical error message by modifying this method.
      */
     protected static String LexicalError(boolean EOFSeen, int lexState, int errorLine, int errorColumn, String errorAfter, char curChar) {
@@ -116,7 +114,7 @@ public class TokenMgrError extends Error {
      * For example, cases like LOOP_DETECTED and INVALID_LEXICAL_STATE are not
      * of end-users concern, so you can return something like :
      *
-     * "Internal Error : Please file a bug report .... "
+     *     "Internal Error : Please file a bug report .... "
      *
      * from this method for such cases in the release version of your parser.
      */
@@ -127,23 +125,17 @@ public class TokenMgrError extends Error {
     /*
      * Constructors of various flavors follow.
      */
-    /**
-     * No arg constructor.
-     */
+    /** No arg constructor. */
     public TokenMgrError() {
     }
 
-    /**
-     * Constructor with message and reason.
-     */
+    /** Constructor with message and reason. */
     public TokenMgrError(String message, int reason) {
         super(message);
         errorCode = reason;
     }
 
-    /**
-     * Full Constructor.
-     */
+    /** Full Constructor. */
     public TokenMgrError(boolean EOFSeen, int lexState, int errorLine, int errorColumn, String errorAfter, char curChar, int reason) {
         this(LexicalError(EOFSeen, lexState, errorLine, errorColumn, errorAfter, curChar), reason);
     }

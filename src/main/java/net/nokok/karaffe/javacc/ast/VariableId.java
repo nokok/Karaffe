@@ -6,7 +6,7 @@ public class VariableId extends Identifier {
 
     public VariableId(String name) {
         super(name);
-        if ( name.isEmpty() ) {
+        if (name.isEmpty()) {
             throw new EmptyIdentifierException();
         }
     }

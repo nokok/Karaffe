@@ -8,7 +8,7 @@ public class TypeId extends Identifier implements ASTNode {
 
     public TypeId(String name) {
         super(name);
-        if ( name.isEmpty() ) {
+        if (name.isEmpty()) {
             throw new EmptyIdentifierException();
         }
     }

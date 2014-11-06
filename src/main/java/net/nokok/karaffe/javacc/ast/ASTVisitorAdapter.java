@@ -58,6 +58,11 @@ public class ASTVisitorAdapter implements ASTVisitor {
     }
 
     @Override
+    public Object onNewLineToken(NewLineToken aThis) {
+        return "\n";
+    }
+
+    @Override
     public Object onProgram(Program aThis) {
         return null;
     }

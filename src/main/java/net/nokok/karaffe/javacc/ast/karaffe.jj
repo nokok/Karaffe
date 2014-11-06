@@ -110,7 +110,7 @@ TOKEN:
 */
 TOKEN:
 {
-      < Identifier : <IdentifierHead> (<IdentifierHead> | <IdentifierCharacter>)* >
+      < Identifier : <IdentifierHead> (<IdentifierHead> | <IdentifierCharacter>)* ("[" "]")?>
     | < #IdentifierHead :      [
                                     "\u0041"-"\u005A", //A-Z
                                     "\u0061"-"\u007A"  //a-z
@@ -119,7 +119,7 @@ TOKEN:
                                     "\u0030"-"\u0039", //0-9
                                     "\u0041"-"\u005A", //A-Z
                                     "\u0061"-"\u007A", //a-z
-                                    "\u005F" //_
+                                    "\u005F"  //_
                                ] >
 }
 
@@ -168,6 +168,9 @@ ASTNode programElement():
     | node = statement(){
         return node;
     }
+    | <NewLine> {
+        return new NewLineToken();
+    }
 }
 
 Expression expr():
@@ -183,7 +186,7 @@ Statement statement():
     Statement s;
 }
 {
-    s = variableDeclaration(){
+    s = variableDeclaration() {
         return s;
     }
 }
@@ -371,7 +374,7 @@ Statement variableDeclaration():
     ASTNode node;
 }
 {
-    name = variableId() (<Colon> typeId = typeId())? <EqualSign> node = expr(){
+    name = variableId() (<Colon> typeId = typeId())? <EqualSign> node = expr() <NewLine> {
         return new VariableDeclaration(name,typeId,node);
     }
 }

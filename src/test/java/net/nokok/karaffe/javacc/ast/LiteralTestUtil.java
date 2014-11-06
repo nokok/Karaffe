@@ -3,7 +3,7 @@ package net.nokok.karaffe.javacc.ast;
 public class LiteralTestUtil {
 
     public static Program createProgramFromValue(String value) throws ParseException {
-        Program program = new KaraffeParser("x = " + value).parse();
+        Program program = new KaraffeParser("x = " + value + "\n").parse();
         return program;
     }
 

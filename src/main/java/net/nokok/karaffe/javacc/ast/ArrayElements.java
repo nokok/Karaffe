@@ -26,11 +26,15 @@ public class ArrayElements extends Literal<List<ArrayElement>> implements Iterab
     }
 
     public Class<?> getHeadElementType() {
-        if ( value.isEmpty() ) {
+        if (value.isEmpty()) {
             return UndefinedValue.class;
         } else {
             return value.get(0).getClass();
         }
+    }
+
+    public String getHeadElementTypeHash() {
+        return HashGenerator.javaIdentifier(this.getHeadElementType());
     }
 
     public int getArrayLength() {
