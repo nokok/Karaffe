@@ -29,6 +29,7 @@ public class Main {
      * @param args
      */
     public static void main(String[] args) {
+        final String OUTPUT_FILENAME = "Krf_Main.java";
         for (String path : args) {
             try {
                 byte[] lines = Files.readAllBytes(new File(path).toPath());
@@ -36,9 +37,9 @@ public class Main {
                 try {
                     Program program = parser.parse();
                     String code = (String) program.accept(new Java8CodeGenerator());
-                    Path filePath = new File("Krf_Main.java").toPath();
+                    Path filePath = new File(OUTPUT_FILENAME).toPath();
                     Files.write(filePath, code.getBytes(), StandardOpenOption.WRITE, StandardOpenOption.CREATE_NEW);
-                    ProcessBuilder builder = new ProcessBuilder("javac", "-cp", "Karaffe-Lang-0.1.0.jar", "Krf_Main.java");
+                    ProcessBuilder builder = new ProcessBuilder("javac", "-cp", "Karaffe-Lang-0.1.0.jar", OUTPUT_FILENAME);
                     builder.redirectErrorStream(true);
                     Process process = builder.start();
                     InputStream errorStream = process.getErrorStream();
@@ -49,16 +50,16 @@ public class Main {
                     System.out.println("File Not Found:" + e.getMessage());
                 } catch (ParseException ex) {
                     Token token = ex.currentToken;
-                    System.out.println("Syntax error in line : " + token.beginLine + " column : " + token.endColumn);
+                    System.out.println("Syntax error : " + token.beginLine + " column : " + token.endColumn);
                     printErrorInfomation(byteArrayToLines(lines), ex.currentToken);
                 } catch (TokenMgrError e) {
                     Token token = parser.token;
-                    System.out.println("Can not generate token. in line : " + token.beginLine + " column : " + token.endColumn);
+                    System.out.println("Token error : " + token.beginLine + " column : " + token.endColumn);
                     printErrorInfomation(byteArrayToLines(lines), parser.token);
                 }
             } catch (IOException e) {
                 if (e instanceof FileAlreadyExistsException) {
-                    System.out.println("File already exists Krf_Main.java");
+                    System.out.println("File already exists " + OUTPUT_FILENAME);
                     return;
                 }
                 System.out.println("IOError:" + e);
