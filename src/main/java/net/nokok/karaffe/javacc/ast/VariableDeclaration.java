@@ -1,7 +1,5 @@
 package net.nokok.karaffe.javacc.ast;
 
-import java.nio.charset.Charset;
-
 public class VariableDeclaration extends Statement {
 
     private final VariableId name;
@@ -29,12 +27,7 @@ public class VariableDeclaration extends Statement {
     }
 
     public String getJavaName() {
-        StringBuilder sb = new StringBuilder();
-        sb.append("varName_");
-        for (byte b : getNameString().getBytes(Charset.forName("UTF-8"))) {
-            sb.append(b);
-        }
-        return sb.toString();
+        return name.javaIdentifier();
     }
 
     public String getTypeString() {
@@ -47,12 +40,7 @@ public class VariableDeclaration extends Statement {
             Class.forName(fqcl);
             return fqcl;
         } catch (ClassNotFoundException ex) {
-            StringBuilder sb = new StringBuilder();
-            sb.append("TypeName_");
-            for (byte b : getTypeString().getBytes(Charset.forName("UTF-8"))) {
-                sb.append(b);
-            }
-            return sb.toString();
+            return type.javaIdentifier();
         }
     }
 

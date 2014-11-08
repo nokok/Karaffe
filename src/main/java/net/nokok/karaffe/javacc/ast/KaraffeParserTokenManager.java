@@ -372,6 +372,12 @@ public class KaraffeParserTokenManager implements KaraffeParserConstants {
     static final long[] jjbitVec2 = {
         0x0L, 0x0L, 0xffffffffffffffffL, 0xffffffffffffffffL
     };
+    static final long[] jjbitVec3 = {
+        0x0L, 0xffffffffffffc000L, 0xffffffffL, 0x0L
+    };
+    static final long[] jjbitVec4 = {
+        0x0L, 0xffffffffffffffffL, 0xffffffffffffffffL, 0xffffffffffffffffL
+    };
 
     private int jjMoveNfa_0(int startState, int curPos) {
         int startsAt = 0;
@@ -919,6 +925,40 @@ public class KaraffeParserTokenManager implements KaraffeParserConstants {
                 long l2 = 1L << (curChar & 077);
                 do {
                     switch (jjstateSet[--i]) {
+                        case 8:
+                        case 34:
+                            if (!jjCanMove_1(hiByte, i1, i2, l1, l2)) {
+                                break;
+                            }
+                            if (kind > 29) {
+                                kind = 29;
+                            }
+                             {
+                                jjCheckNAddTwoStates(34, 35);
+                            }
+                            break;
+                        case 5:
+                            if (!jjCanMove_1(hiByte, i1, i2, l1, l2)) {
+                                break;
+                            }
+                            if (kind > 29) {
+                                kind = 29;
+                            }
+                             {
+                                jjCheckNAddTwoStates(34, 35);
+                            }
+                            break;
+                        case 59:
+                            if (!jjCanMove_1(hiByte, i1, i2, l1, l2)) {
+                                break;
+                            }
+                            if (kind > 29) {
+                                kind = 29;
+                            }
+                             {
+                                jjCheckNAddTwoStates(34, 35);
+                            }
+                            break;
                         case 1:
                             if (jjCanMove_0(hiByte, i1, i2, l1, l2)) {
                                 jjAddStates(12, 14);
@@ -1090,6 +1130,18 @@ public class KaraffeParserTokenManager implements KaraffeParserConstants {
                 return ((jjbitVec2[i2] & l2) != 0L);
             default:
                 if ((jjbitVec0[i1] & l1) != 0L) {
+                    return true;
+                }
+                return false;
+        }
+    }
+
+    private static final boolean jjCanMove_1(int hiByte, int i1, int i2, long l1, long l2) {
+        switch (hiByte) {
+            case 48:
+                return ((jjbitVec4[i2] & l2) != 0L);
+            default:
+                if ((jjbitVec3[i1] & l1) != 0L) {
                     return true;
                 }
                 return false;
