@@ -17,4 +17,8 @@ public class String extends Any {
     public String(Any value) {
 
     }
+
+    public String(java.lang.String value) {
+
+    }
 }
