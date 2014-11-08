@@ -1,5 +1,0 @@
-type Any = Java[java.lang.Object]
-equals    : Any to Boolean = [that] to this == that
-notEquals : Any to Boolean = [that] to this != that
-hashCode  : Void to Int = undefined
-toString  : Void to String = undefined
