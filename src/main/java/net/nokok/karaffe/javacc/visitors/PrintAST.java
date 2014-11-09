@@ -1,4 +1,31 @@
-package net.nokok.karaffe.javacc.ast;
+package net.nokok.karaffe.javacc.visitors;
+
+import net.nokok.karaffe.javacc.ast.ASTNode;
+import net.nokok.karaffe.javacc.ast.ASTVisitor;
+import net.nokok.karaffe.javacc.ast.ArrayElement;
+import net.nokok.karaffe.javacc.ast.ArrayElements;
+import net.nokok.karaffe.javacc.ast.BoolLiteral;
+import net.nokok.karaffe.javacc.ast.EndOfFileStatement;
+import net.nokok.karaffe.javacc.ast.FixedSizeArrayLiteral;
+import net.nokok.karaffe.javacc.ast.FloatLiteral;
+import net.nokok.karaffe.javacc.ast.FunctionLiteral;
+import net.nokok.karaffe.javacc.ast.IntLiteral;
+import net.nokok.karaffe.javacc.ast.JavaTypeLiteral;
+import net.nokok.karaffe.javacc.ast.KaraffeTypeLiteral;
+import net.nokok.karaffe.javacc.ast.MissingJavaType;
+import net.nokok.karaffe.javacc.ast.NewLineToken;
+import net.nokok.karaffe.javacc.ast.Program;
+import net.nokok.karaffe.javacc.ast.Programs;
+import net.nokok.karaffe.javacc.ast.StringLiteral;
+import net.nokok.karaffe.javacc.ast.TypeId;
+import net.nokok.karaffe.javacc.ast.TypeParameterId;
+import net.nokok.karaffe.javacc.ast.TypeParameters;
+import net.nokok.karaffe.javacc.ast.UndefinedLiteral;
+import net.nokok.karaffe.javacc.ast.VariableDeclaration;
+import net.nokok.karaffe.javacc.ast.VariableId;
+import net.nokok.karaffe.javacc.ast.VariableIdTypePair;
+import net.nokok.karaffe.javacc.ast.VariableIdTypePairs;
+import net.nokok.karaffe.javacc.ast.VariableList;
 
 public class PrintAST implements ASTVisitor {
 
@@ -30,7 +57,7 @@ public class PrintAST implements ASTVisitor {
     @Override
     public Object onFixedSizeArrayLiteral(FixedSizeArrayLiteral aThis) {
         System.out.println("onFixedSizeArrayLiteral");
-        for (ArrayElement element : aThis.value) {
+        for (ArrayElement element : aThis.getValue()) {
 
         }
         return aThis.eval(null);

@@ -14,7 +14,7 @@ import java.nio.file.StandardOpenOption;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Stream;
-import net.nokok.karaffe.javacc.ast.Java8CodeGenerator;
+import net.nokok.karaffe.javacc.visitors.Java8CodeGenerator;
 import net.nokok.karaffe.javacc.ast.KaraffeParser;
 import net.nokok.karaffe.javacc.ast.ParseException;
 import net.nokok.karaffe.javacc.ast.Program;

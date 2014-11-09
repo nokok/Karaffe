@@ -1,6 +1,18 @@
-package net.nokok.karaffe.javacc.ast;
+package net.nokok.karaffe.javacc.visitors;
 
 import java.util.Iterator;
+import net.nokok.karaffe.javacc.ast.ASTNode;
+import net.nokok.karaffe.javacc.ast.ASTVisitorAdapter;
+import net.nokok.karaffe.javacc.ast.ArrayElement;
+import net.nokok.karaffe.javacc.ast.ArrayElements;
+import net.nokok.karaffe.javacc.ast.EndOfFileStatement;
+import net.nokok.karaffe.javacc.ast.FixedSizeArrayLiteral;
+import net.nokok.karaffe.javacc.ast.FloatLiteral;
+import net.nokok.karaffe.javacc.ast.IntLiteral;
+import net.nokok.karaffe.javacc.ast.NewLineToken;
+import net.nokok.karaffe.javacc.ast.Program;
+import net.nokok.karaffe.javacc.ast.StringLiteral;
+import net.nokok.karaffe.javacc.ast.VariableDeclaration;
 
 public class Java8CodeGenerator extends ASTVisitorAdapter {
 
@@ -82,7 +94,7 @@ public class Java8CodeGenerator extends ASTVisitorAdapter {
 
     @Override
     public Object onArrayElement(ArrayElement aThis) {
-        return aThis.value.accept(this);
+        return aThis.getValue().accept(this);
     }
 
     @Override
