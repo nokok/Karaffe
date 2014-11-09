@@ -22,4 +22,8 @@ public class FixedSizeArrayLiteral extends Literal<ArrayElements> {
     public String nodeIdentifier() {
         return "FixedSizeArrayLiteral";
     }
+
+    public ArrayElements getValue() {
+        return value;
+    }
 }

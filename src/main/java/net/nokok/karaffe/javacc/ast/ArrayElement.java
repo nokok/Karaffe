@@ -22,4 +22,8 @@ public class ArrayElement extends Literal<ASTNode> {
         return "ArrayElement";
     }
 
+    public ASTNode getValue() {
+        return value;
+    }
+
 }
