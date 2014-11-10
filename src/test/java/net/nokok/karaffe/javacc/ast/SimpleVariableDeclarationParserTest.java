@@ -3,6 +3,7 @@ package net.nokok.karaffe.javacc.ast;
 import java.util.List;
 import static org.hamcrest.CoreMatchers.is;
 import static org.junit.Assert.assertThat;
+import static org.junit.Assert.assertTrue;
 import org.junit.Test;
 
 public class SimpleVariableDeclarationParserTest {
@@ -22,8 +23,8 @@ public class SimpleVariableDeclarationParserTest {
 
     @Test
     public void testTreeClass() {
-        assertThat(nodes.get(0).getClass(), is(VariableDeclaration.class.getClass()));
-        assertThat(nodes.get(1).getClass(), is(EndOfFileStatement.class.getClass()));
+        assertTrue(nodes.get(0) instanceof VariableDeclaration);
+        assertTrue(nodes.get(1) instanceof EndOfFileStatement);
     }
 
     @Test
@@ -41,7 +42,7 @@ public class SimpleVariableDeclarationParserTest {
     @Test
     public void testVariableNode() {
         VariableDeclaration node = (VariableDeclaration) nodes.get(0);
-        assertThat(node.getNode().getClass(), is(IntLiteral.class.getClass()));
+        assertTrue(node.getNode() instanceof IntLiteral);
     }
 
     @Test
@@ -49,10 +50,10 @@ public class SimpleVariableDeclarationParserTest {
         Program p = new KaraffeParser("hogehogehogehogehogehogehogehogehogehogehogehoge = 0\n").parse();
         List<ASTNode> nodes = p.getNodes();
         assertThat(nodes.size(), is(2));
-        assertThat(nodes.get(0).getClass(), is(VariableDeclaration.class.getClass()));
-        assertThat(nodes.get(1).getClass(), is(EndOfFileStatement.class.getClass()));
+        assertTrue(nodes.get(0) instanceof VariableDeclaration);
         VariableDeclaration d = (VariableDeclaration) nodes.get(0);
         assertThat(d.getNameString(), is("hogehogehogehogehogehogehogehogehogehogehogehoge"));
+        assertTrue(nodes.get(1) instanceof EndOfFileStatement);
     }
 
 }
