@@ -38,41 +38,71 @@ public interface KaraffeParserConstants {
     /** RegularExpression Id. */
     int FloatLiteral = 20;
     /** RegularExpression Id. */
-    int Minus = 21;
+    int Zero = 21;
     /** RegularExpression Id. */
-    int Zero = 22;
+    int NonZero = 22;
     /** RegularExpression Id. */
-    int NonZero = 23;
+    int Exp = 23;
     /** RegularExpression Id. */
-    int Exp = 24;
+    int StringLiteral = 24;
     /** RegularExpression Id. */
-    int StringLiteral = 25;
+    int StringCharacter = 25;
     /** RegularExpression Id. */
-    int StringCharacter = 26;
+    int StringEscapeSeq = 26;
     /** RegularExpression Id. */
-    int StringEscapeSeq = 27;
+    int UnicodeEscape = 27;
     /** RegularExpression Id. */
-    int UnicodeEscape = 28;
+    int Identifier = 28;
     /** RegularExpression Id. */
-    int Identifier = 29;
+    int IdentifierHead = 29;
     /** RegularExpression Id. */
-    int IdentifierHead = 30;
+    int IdentifierCharacter = 30;
     /** RegularExpression Id. */
-    int IdentifierCharacter = 31;
+    int TypeParameter = 31;
     /** RegularExpression Id. */
-    int TypeParameter = 32;
+    int LeftBracket = 32;
     /** RegularExpression Id. */
-    int LeftBracket = 33;
+    int RightBracket = 33;
     /** RegularExpression Id. */
-    int RightBracket = 34;
+    int LeftBrace = 34;
     /** RegularExpression Id. */
-    int Colon = 35;
+    int RightBrace = 35;
     /** RegularExpression Id. */
-    int EqualSign = 36;
+    int Colon = 36;
     /** RegularExpression Id. */
     int Dot = 37;
     /** RegularExpression Id. */
-    int NewLine = 38;
+    int EqualSign = 38;
+    /** RegularExpression Id. */
+    int Lt = 39;
+    /** RegularExpression Id. */
+    int Gt = 40;
+    /** RegularExpression Id. */
+    int Plus = 41;
+    /** RegularExpression Id. */
+    int Minus = 42;
+    /** RegularExpression Id. */
+    int Star = 43;
+    /** RegularExpression Id. */
+    int Slash = 44;
+    /** RegularExpression Id. */
+    int Rem = 45;
+    /** RegularExpression Id. */
+    int Tilde = 46;
+    /** RegularExpression Id. */
+    int Bang = 47;
+    /** RegularExpression Id. */
+    int And = 48;
+    /** RegularExpression Id. */
+    int Or = 49;
+    /** RegularExpression Id. */
+    int Hat = 50;
+    /** RegularExpression Id. */
+    int Hook = 51;
+    /** RegularExpression Id. */
+    int Arrow = 52;
+    /** RegularExpression Id. */
+    int NewLine = 53;
 
     /** Lexical state. */
     int DEFAULT = 0;
@@ -102,7 +132,6 @@ public interface KaraffeParserConstants {
         "<Hexadecimal>",
         "<HexDigit>",
         "<FloatLiteral>",
-        "\"-\"",
         "\"0\"",
         "<NonZero>",
         "<Exp>",
@@ -116,9 +145,25 @@ public interface KaraffeParserConstants {
         "<TypeParameter>",
         "\"[\"",
         "\"]\"",
+        "\"{\"",
+        "\"}\"",
         "\":\"",
-        "\"=\"",
         "\".\"",
+        "\"=\"",
+        "\"<\"",
+        "\">\"",
+        "\"+\"",
+        "\"-\"",
+        "\"*\"",
+        "\"/\"",
+        "\"%\"",
+        "\"~\"",
+        "\"!\"",
+        "\"&\"",
+        "\"|\"",
+        "\"^\"",
+        "\"?\"",
+        "\"=>\"",
         "<NewLine>",};
 
 }

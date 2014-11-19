@@ -93,7 +93,6 @@ TOKEN:
     | < Hexadecimal : (<Minus>)? "0" ["x","X"] (<HexDigit>)+ >
     | < #HexDigit : ["0"-"9" , "A"-"F" , "a"-"f"] > 
     | < FloatLiteral : (<Minus>)? (<Zero> | <IntLiteral>) <Dot> (<Zero> | <NonZero>)+ (<Exp> <IntLiteral> )? >
-    | < #Minus : "-" >
     | < #Zero : "0" >
     | < #NonZero : ["1"-"9"] >
     | < #Exp : "e" | "E" >
@@ -137,9 +136,34 @@ TOKEN:
 {
       < LeftBracket : "[" >
     | < RightBracket : "]" >
+    | < LeftBrace : "{" >
+    | < RightBrace : "}" >
     | < Colon : ":" >
-    | < EqualSign : "=" >
     | < Dot : "." >
+}
+
+/**
+    Operators
+ */
+TOKEN:
+{
+
+    < EqualSign : "=" >
+    | < Lt : "<" >
+    | < Gt : ">" >
+    | < Plus : "+" >
+    | < Minus : "-" >
+    | < Star : "*" >
+    | < Slash : "/" >
+    | < Rem : "%" >
+    | < Tilde : "~" >
+    | < Bang : "!" >
+    | < And : "&" > 
+    | < Or : "|" >
+    | < Hat : "^" >
+    | < Hook : "?" >
+    | < Arrow : "=>" >
+
 }
 
 /**
@@ -153,7 +177,7 @@ TOKEN:
 }
 
 /**
- * CompileUnit = Declaration
+ * CompileUnit = (Statement)* EOF
  */
 public ASTCompileUnit CompileUnit():
 {
@@ -180,68 +204,46 @@ void Statement():
 
 /**
  Declaration = TypeDcl
-             | TypeAliasDcl
-             | InheritanceDcl
              | InterfaceDcl
-             | TopLevelFunctionDcl
-             | TopLevelVariableDcl
  */
 void Declaration():
 {}
 {
      LOOKAHEAD(3) TypeDcl()
-     | TypeAliasDcl()
+     | InterfaceDcl()
+     | VariableDcl()
 }
 
 /**
-    NestDeclaration = "." Declaration
- */
-void NestDeclaration():
-{}
-{
-    <Dot> Declaration() NewLine()
-}
-
-/**
-    TypeDcl = "type" NewTypeName TypeParameters? NewLine NestDeclaration
-    TypeParameters = "[" TypeParameter1 TypeParameter2 ... "]"
-
+    TypeDcl         = SimpleTypeDcl 
+                    | TypeAlias
+                    | Inheritance
+    SimpleTypeDcl   = "type" Identifier TypeParameters?
+    TypeAlias       = SimpleTypeDcl "=" (Identifier TypeParameters?)+
+    Inheritance     = SimpleTypeDcl "<" (Identifier TypeParameters?)+
+    
     e.g.
     type Foo 
-    . dcl
 
     type Bar[A]
-    . dcl
 
     type Baz[A B C]
-    . dcl
+
+    //TypeAlias
+    type Foo = Bar
+
+    type Foo[A] = Bar[A]
+
+    //Inheritance
+    type Foo < Bar
+
+    type Foo[A] < Bar[A]
+
  */
 void TypeDcl():
 {}
 {
-    <Type> Identifier() (TypeParameters())? NewLine() (NestDeclaration())*
-}
-
-/**
-    TypeAliasDcl = "type" NewTypeName TypeParameters? "=" ExistingTypeName TypeParameters? NewLine NestDeclaration
-
-    e.g.
-    type Foo = Any
-    . dcl
-
-    type Foo[A] = Any
-    . dcl
-
-    type Foo = Bar[A]
-    . dcl
-
-    type Foo[A] = Bar[A]
-    . dcl
- */
-void TypeAliasDcl():
-{}
-{
-    <Type> Identifier() (TypeParameters())? EqualOperator() Identifier() (TypeParameters())? NewLine() (NestDeclaration())*
+    <Type> Identifier() (TypeParameters())? (Declaration())* ((EqualOperator() | LessThanOperator()) (Identifier() (TypeParameters())?)*)* NewLine()
 }
 
 /**
@@ -249,10 +251,8 @@ void TypeAliasDcl():
 
     e.g.
     interface Foo
-    . dcl
 
     interface Foo[A]
-    . dcl
  */
 void InterfaceDcl():
 {}
@@ -261,20 +261,23 @@ void InterfaceDcl():
 }
 
 /**
-    TopLevelFunctionDcl = TopLevelExplicitTypeFunctionDcl
-                        | TopLevelFunctionLiteralDcl
+    VariableDcl     = Identifier VariableTypeDcl? "=" Expression NewLine
+    VariableTypeDcl = VariableType
+                    | FunctionType
  */
-
-/**
-    TopLevelExplicitTypeFunctionDcl = Identifier ":" Identifiers "to" Identifier Expression
-
-    e.g.
-    bar : TypeName to TypeName =
- */
-void TopLevelExplicitTypeFunctionDcl():
+void VariableDcl():
 {}
 {
-    Identifier() ":" Identifier() <To> Identifier() EqualOperator() Expression()
+    Identifier() (<Colon> VariableTypeDcl())? EqualOperator() Expression() NewLine()
+}
+
+/**
+    VariableTypeDcl = (Identifier TypeParameters?)+ ("to" Identifier TypeParameters?)? 
+ */
+void VariableTypeDcl():
+{}
+{
+    (Identifier() (TypeParameters())?)+ (<To> Identifier() TypeParameters())? 
 }
 
 /**
@@ -283,7 +286,7 @@ void TopLevelExplicitTypeFunctionDcl():
 void TypeParameters():
 {}
 {
-    "[" (TypeParameter())+ "]"
+    "[" (Identifier())+ "]"
 }
 
 //Expressions
@@ -298,6 +301,12 @@ void Expression():
 }
 
 
+/**
+    Literal = BoolLiteral
+            | IntLiteral
+            | FloatLiteral
+            | StringLiteral
+ */
 void Literal():
 {
     Token t;
@@ -315,6 +324,36 @@ void Literal():
     | t = <StringLiteral> {
         jjtThis.jjtSetValue(t);
     }
+    | FunctionLiteral()
+}
+
+/**
+    FunctionLiteral = "[" FunctionVariableBinding "]" "=>" "{"? Expression "}"?
+
+    e.g.
+
+    [] => {...}
+ */
+void FunctionLiteral():
+{}
+{
+    <LeftBracket> (FunctionVariableBinding())* <RightBracket> ArrowOperator() <LeftBrace> Expression() <RightBrace>
+}
+
+/**
+    FunctionVariableBinding = Identifier
+                            | DefaultValueBinding
+                            | ExplicitTypeBinding
+                            | ExplicitTypeDefaultBinding
+    DefaultValueBinding     = Identifier "=" Literal
+    ExplicitTypeBinding     = Identifier ":" Identifier
+    ExplicitTypeDefaultBinding = ExplicitTypeBinding "=" Literal
+
+ */
+void FunctionVariableBinding():
+{}
+{
+    Identifier() (<Colon> Identifier() EqualOperator() Literal())?
 }
 
 //Identifiers
@@ -332,20 +371,39 @@ void Identifier():
     }
 }
 
-void TypeParameter():
-{
-    Token t;
-}
-{
-    t = <TypeParameter> {
-        jjtThis.jjtSetValue(t);
-    }
-}
-
 void EqualOperator():
 {}
 {
     <EqualSign>
+}
+
+void LessThanOperator():
+{}
+{
+    <Lt>
+}
+
+void GreaterThanOperator():
+{}
+{
+    <Gt>
+}
+
+void Plus():
+{}
+{
+    <Plus>
+}
+
+void Minus():
+{}
+{
+    <Minus>
+}
+void ArrowOperator():
+{}
+{
+    <Arrow>
 }
 
 void NewLine():

@@ -97,7 +97,6 @@ TOKEN:
     | < Hexadecimal : (<Minus>)? "0" ["x","X"] (<HexDigit>)+ >
     | < #HexDigit : ["0"-"9" , "A"-"F" , "a"-"f"] > 
     | < FloatLiteral : (<Minus>)? (<Zero> | <IntLiteral>) <Dot> (<Zero> | <NonZero>)+ (<Exp> <IntLiteral> )? >
-    | < #Minus : "-" >
     | < #Zero : "0" >
     | < #NonZero : ["1"-"9"] >
     | < #Exp : "e" | "E" >
@@ -141,9 +140,34 @@ TOKEN:
 {
       < LeftBracket : "[" >
     | < RightBracket : "]" >
+    | < LeftBrace : "{" >
+    | < RightBrace : "}" >
     | < Colon : ":" >
-    | < EqualSign : "=" >
     | < Dot : "." >
+}
+
+/**
+    Operators
+ */
+TOKEN:
+{
+
+    < EqualSign : "=" >
+    | < Lt : "<" >
+    | < Gt : ">" >
+    | < Plus : "+" >
+    | < Minus : "-" >
+    | < Star : "*" >
+    | < Slash : "/" >
+    | < Rem : "%" >
+    | < Tilde : "~" >
+    | < Bang : "!" >
+    | < And : "&" > 
+    | < Or : "|" >
+    | < Hat : "^" >
+    | < Hook : "?" >
+    | < Arrow : "=>" >
+
 }
 
 /**
@@ -157,7 +181,7 @@ TOKEN:
 }
 
 /**
- * CompileUnit = Declaration
+ * CompileUnit = (Statement)* EOF
  */
 public ASTCompileUnit CompileUnit():
 {/*@bgen(jjtree) CompileUnit */
@@ -241,11 +265,7 @@ void Statement():
 
 /**
  Declaration = TypeDcl
-             | TypeAliasDcl
-             | InheritanceDcl
              | InterfaceDcl
-             | TopLevelFunctionDcl
-             | TopLevelVariableDcl
  */
 void Declaration():
 {/*@bgen(jjtree) Declaration */
@@ -257,7 +277,8 @@ void Declaration():
      try {
 /*@egen*/
      LOOKAHEAD(3) TypeDcl()
-     | TypeAliasDcl()/*@bgen(jjtree)*/
+     | InterfaceDcl()
+     | VariableDcl()/*@bgen(jjtree)*/
      } catch (Throwable jjte000) {
        if (jjtc000) {
          jjtree.clearNodeScope(jjtn000);
@@ -281,53 +302,30 @@ void Declaration():
 }
 
 /**
-    NestDeclaration = "." Declaration
- */
-void NestDeclaration():
-{/*@bgen(jjtree) NestDeclaration */
-  ASTNestDeclaration jjtn000 = new ASTNestDeclaration(JJTNESTDECLARATION);
-  boolean jjtc000 = true;
-  jjtree.openNodeScope(jjtn000);
-/*@egen*/}
-{/*@bgen(jjtree) NestDeclaration */
-    try {
-/*@egen*/
-    <Dot> Declaration() NewLine()/*@bgen(jjtree)*/
-    } catch (Throwable jjte000) {
-      if (jjtc000) {
-        jjtree.clearNodeScope(jjtn000);
-        jjtc000 = false;
-      } else {
-        jjtree.popNode();
-      }
-      if (jjte000 instanceof RuntimeException) {
-        throw (RuntimeException)jjte000;
-      }
-      if (jjte000 instanceof ParseException) {
-        throw (ParseException)jjte000;
-      }
-      throw (Error)jjte000;
-    } finally {
-      if (jjtc000) {
-        jjtree.closeNodeScope(jjtn000, true);
-      }
-    }
-/*@egen*/
-}
-
-/**
-    TypeDcl = "type" NewTypeName TypeParameters? NewLine NestDeclaration
-    TypeParameters = "[" TypeParameter1 TypeParameter2 ... "]"
-
+    TypeDcl         = SimpleTypeDcl 
+                    | TypeAlias
+                    | Inheritance
+    SimpleTypeDcl   = "type" Identifier TypeParameters?
+    TypeAlias       = SimpleTypeDcl "=" (Identifier TypeParameters?)+
+    Inheritance     = SimpleTypeDcl "<" (Identifier TypeParameters?)+
+    
     e.g.
     type Foo 
-    . dcl
 
     type Bar[A]
-    . dcl
 
     type Baz[A B C]
-    . dcl
+
+    //TypeAlias
+    type Foo = Bar
+
+    type Foo[A] = Bar[A]
+
+    //Inheritance
+    type Foo < Bar
+
+    type Foo[A] < Bar[A]
+
  */
 void TypeDcl():
 {/*@bgen(jjtree) TypeDcl */
@@ -338,55 +336,7 @@ void TypeDcl():
 {/*@bgen(jjtree) TypeDcl */
     try {
 /*@egen*/
-    <Type> Identifier() (TypeParameters())? NewLine() (NestDeclaration())*/*@bgen(jjtree)*/
-    } catch (Throwable jjte000) {
-      if (jjtc000) {
-        jjtree.clearNodeScope(jjtn000);
-        jjtc000 = false;
-      } else {
-        jjtree.popNode();
-      }
-      if (jjte000 instanceof RuntimeException) {
-        throw (RuntimeException)jjte000;
-      }
-      if (jjte000 instanceof ParseException) {
-        throw (ParseException)jjte000;
-      }
-      throw (Error)jjte000;
-    } finally {
-      if (jjtc000) {
-        jjtree.closeNodeScope(jjtn000, true);
-      }
-    }
-/*@egen*/
-}
-
-/**
-    TypeAliasDcl = "type" NewTypeName TypeParameters? "=" ExistingTypeName TypeParameters? NewLine NestDeclaration
-
-    e.g.
-    type Foo = Any
-    . dcl
-
-    type Foo[A] = Any
-    . dcl
-
-    type Foo = Bar[A]
-    . dcl
-
-    type Foo[A] = Bar[A]
-    . dcl
- */
-void TypeAliasDcl():
-{/*@bgen(jjtree) TypeAliasDcl */
-  ASTTypeAliasDcl jjtn000 = new ASTTypeAliasDcl(JJTTYPEALIASDCL);
-  boolean jjtc000 = true;
-  jjtree.openNodeScope(jjtn000);
-/*@egen*/}
-{/*@bgen(jjtree) TypeAliasDcl */
-    try {
-/*@egen*/
-    <Type> Identifier() (TypeParameters())? EqualOperator() Identifier() (TypeParameters())? NewLine() (NestDeclaration())*/*@bgen(jjtree)*/
+    <Type> Identifier() (TypeParameters())? (Declaration())* ((EqualOperator() | LessThanOperator()) (Identifier() (TypeParameters())?)*)* NewLine()/*@bgen(jjtree)*/
     } catch (Throwable jjte000) {
       if (jjtc000) {
         jjtree.clearNodeScope(jjtn000);
@@ -414,10 +364,8 @@ void TypeAliasDcl():
 
     e.g.
     interface Foo
-    . dcl
 
     interface Foo[A]
-    . dcl
  */
 void InterfaceDcl():
 {/*@bgen(jjtree) InterfaceDcl */
@@ -452,26 +400,20 @@ void InterfaceDcl():
 }
 
 /**
-    TopLevelFunctionDcl = TopLevelExplicitTypeFunctionDcl
-                        | TopLevelFunctionLiteralDcl
+    VariableDcl     = Identifier VariableTypeDcl? "=" Expression NewLine
+    VariableTypeDcl = VariableType
+                    | FunctionType
  */
-
-/**
-    TopLevelExplicitTypeFunctionDcl = Identifier ":" Identifiers "to" Identifier Expression
-
-    e.g.
-    bar : TypeName to TypeName =
- */
-void TopLevelExplicitTypeFunctionDcl():
-{/*@bgen(jjtree) TopLevelExplicitTypeFunctionDcl */
-  ASTTopLevelExplicitTypeFunctionDcl jjtn000 = new ASTTopLevelExplicitTypeFunctionDcl(JJTTOPLEVELEXPLICITTYPEFUNCTIONDCL);
+void VariableDcl():
+{/*@bgen(jjtree) VariableDcl */
+  ASTVariableDcl jjtn000 = new ASTVariableDcl(JJTVARIABLEDCL);
   boolean jjtc000 = true;
   jjtree.openNodeScope(jjtn000);
 /*@egen*/}
-{/*@bgen(jjtree) TopLevelExplicitTypeFunctionDcl */
+{/*@bgen(jjtree) VariableDcl */
     try {
 /*@egen*/
-    Identifier() ":" Identifier() <To> Identifier() EqualOperator() Expression()/*@bgen(jjtree)*/
+    Identifier() (<Colon> VariableTypeDcl())? EqualOperator() Expression() NewLine()/*@bgen(jjtree)*/
     } catch (Throwable jjte000) {
       if (jjtc000) {
         jjtree.clearNodeScope(jjtn000);
@@ -495,6 +437,41 @@ void TopLevelExplicitTypeFunctionDcl():
 }
 
 /**
+    VariableTypeDcl = (Identifier TypeParameters?)+ ("to" Identifier TypeParameters?)? 
+ */
+void VariableTypeDcl():
+{/*@bgen(jjtree) VariableTypeDcl */
+  ASTVariableTypeDcl jjtn000 = new ASTVariableTypeDcl(JJTVARIABLETYPEDCL);
+  boolean jjtc000 = true;
+  jjtree.openNodeScope(jjtn000);
+/*@egen*/}
+{/*@bgen(jjtree) VariableTypeDcl */
+    try {
+/*@egen*/
+    (Identifier() (TypeParameters())?)+ (<To> Identifier() TypeParameters())?/*@bgen(jjtree)*/
+    } catch (Throwable jjte000) {
+      if (jjtc000) {
+        jjtree.clearNodeScope(jjtn000);
+        jjtc000 = false;
+      } else {
+        jjtree.popNode();
+      }
+      if (jjte000 instanceof RuntimeException) {
+        throw (RuntimeException)jjte000;
+      }
+      if (jjte000 instanceof ParseException) {
+        throw (ParseException)jjte000;
+      }
+      throw (Error)jjte000;
+    } finally {
+      if (jjtc000) {
+        jjtree.closeNodeScope(jjtn000, true);
+      }
+    }
+/*@egen*/ 
+}
+
+/**
     TypeParameters = "[" TypeParameter1 TypeParameter2 ... "]"
  */
 void TypeParameters():
@@ -506,7 +483,7 @@ void TypeParameters():
 {/*@bgen(jjtree) TypeParameters */
     try {
 /*@egen*/
-    "[" (TypeParameter())+ "]"/*@bgen(jjtree)*/
+    "[" (Identifier())+ "]"/*@bgen(jjtree)*/
     } catch (Throwable jjte000) {
       if (jjtc000) {
         jjtree.clearNodeScope(jjtn000);
@@ -567,6 +544,12 @@ void Expression():
 }
 
 
+/**
+    Literal = BoolLiteral
+            | IntLiteral
+            | FloatLiteral
+            | StringLiteral
+ */
 void Literal():
 {/*@bgen(jjtree) Literal */
     ASTLiteral jjtn000 = new ASTLiteral(JJTLITERAL);
@@ -609,12 +592,108 @@ void Literal():
                           }
 /*@egen*/ {
         jjtn000.jjtSetValue(t);
-    }/*@bgen(jjtree)*/
+    }
+    | FunctionLiteral()/*@bgen(jjtree)*/
+      } catch (Throwable jjte000) {
+        if (jjtc000) {
+          jjtree.clearNodeScope(jjtn000);
+          jjtc000 = false;
+        } else {
+          jjtree.popNode();
+        }
+        if (jjte000 instanceof RuntimeException) {
+          throw (RuntimeException)jjte000;
+        }
+        if (jjte000 instanceof ParseException) {
+          throw (ParseException)jjte000;
+        }
+        throw (Error)jjte000;
       } finally {
         if (jjtc000) {
           jjtree.closeNodeScope(jjtn000, true);
         }
       }
+/*@egen*/
+}
+
+/**
+    FunctionLiteral = "[" FunctionVariableBinding "]" "=>" "{"? Expression "}"?
+
+    e.g.
+
+    [] => {...}
+ */
+void FunctionLiteral():
+{/*@bgen(jjtree) FunctionLiteral */
+  ASTFunctionLiteral jjtn000 = new ASTFunctionLiteral(JJTFUNCTIONLITERAL);
+  boolean jjtc000 = true;
+  jjtree.openNodeScope(jjtn000);
+/*@egen*/}
+{/*@bgen(jjtree) FunctionLiteral */
+    try {
+/*@egen*/
+    <LeftBracket> (FunctionVariableBinding())* <RightBracket> ArrowOperator() <LeftBrace> Expression() <RightBrace>/*@bgen(jjtree)*/
+    } catch (Throwable jjte000) {
+      if (jjtc000) {
+        jjtree.clearNodeScope(jjtn000);
+        jjtc000 = false;
+      } else {
+        jjtree.popNode();
+      }
+      if (jjte000 instanceof RuntimeException) {
+        throw (RuntimeException)jjte000;
+      }
+      if (jjte000 instanceof ParseException) {
+        throw (ParseException)jjte000;
+      }
+      throw (Error)jjte000;
+    } finally {
+      if (jjtc000) {
+        jjtree.closeNodeScope(jjtn000, true);
+      }
+    }
+/*@egen*/
+}
+
+/**
+    FunctionVariableBinding = Identifier
+                            | DefaultValueBinding
+                            | ExplicitTypeBinding
+                            | ExplicitTypeDefaultBinding
+    DefaultValueBinding     = Identifier "=" Literal
+    ExplicitTypeBinding     = Identifier ":" Identifier
+    ExplicitTypeDefaultBinding = ExplicitTypeBinding "=" Literal
+
+ */
+void FunctionVariableBinding():
+{/*@bgen(jjtree) FunctionVariableBinding */
+  ASTFunctionVariableBinding jjtn000 = new ASTFunctionVariableBinding(JJTFUNCTIONVARIABLEBINDING);
+  boolean jjtc000 = true;
+  jjtree.openNodeScope(jjtn000);
+/*@egen*/}
+{/*@bgen(jjtree) FunctionVariableBinding */
+    try {
+/*@egen*/
+    Identifier() (<Colon> Identifier() EqualOperator() Literal())?/*@bgen(jjtree)*/
+    } catch (Throwable jjte000) {
+      if (jjtc000) {
+        jjtree.clearNodeScope(jjtn000);
+        jjtc000 = false;
+      } else {
+        jjtree.popNode();
+      }
+      if (jjte000 instanceof RuntimeException) {
+        throw (RuntimeException)jjte000;
+      }
+      if (jjte000 instanceof ParseException) {
+        throw (ParseException)jjte000;
+      }
+      throw (Error)jjte000;
+    } finally {
+      if (jjtc000) {
+        jjtree.closeNodeScope(jjtn000, true);
+      }
+    }
 /*@egen*/
 }
 
@@ -650,33 +729,6 @@ void Identifier():
 /*@egen*/
 }
 
-void TypeParameter():
-{/*@bgen(jjtree) TypeParameter */
-    ASTTypeParameter jjtn000 = new ASTTypeParameter(JJTTYPEPARAMETER);
-    boolean jjtc000 = true;
-    jjtree.openNodeScope(jjtn000);
-/*@egen*/
-    Token t;
-}
-{/*@bgen(jjtree) TypeParameter */
-    try {
-/*@egen*/
-    t = <TypeParameter>/*@bgen(jjtree)*/
-                        {
-                          jjtree.closeNodeScope(jjtn000, true);
-                          jjtc000 = false;
-                        }
-/*@egen*/ {
-        jjtn000.jjtSetValue(t);
-    }/*@bgen(jjtree)*/
-    } finally {
-      if (jjtc000) {
-        jjtree.closeNodeScope(jjtn000, true);
-      }
-    }
-/*@egen*/
-}
-
 void EqualOperator():
 {/*@bgen(jjtree) EqualOperator */
   ASTEqualOperator jjtn000 = new ASTEqualOperator(JJTEQUALOPERATOR);
@@ -687,6 +739,95 @@ void EqualOperator():
     try {
 /*@egen*/
     <EqualSign>/*@bgen(jjtree)*/
+    } finally {
+      if (jjtc000) {
+        jjtree.closeNodeScope(jjtn000, true);
+      }
+    }
+/*@egen*/
+}
+
+void LessThanOperator():
+{/*@bgen(jjtree) LessThanOperator */
+  ASTLessThanOperator jjtn000 = new ASTLessThanOperator(JJTLESSTHANOPERATOR);
+  boolean jjtc000 = true;
+  jjtree.openNodeScope(jjtn000);
+/*@egen*/}
+{/*@bgen(jjtree) LessThanOperator */
+    try {
+/*@egen*/
+    <Lt>/*@bgen(jjtree)*/
+    } finally {
+      if (jjtc000) {
+        jjtree.closeNodeScope(jjtn000, true);
+      }
+    }
+/*@egen*/
+}
+
+void GreaterThanOperator():
+{/*@bgen(jjtree) GreaterThanOperator */
+  ASTGreaterThanOperator jjtn000 = new ASTGreaterThanOperator(JJTGREATERTHANOPERATOR);
+  boolean jjtc000 = true;
+  jjtree.openNodeScope(jjtn000);
+/*@egen*/}
+{/*@bgen(jjtree) GreaterThanOperator */
+    try {
+/*@egen*/
+    <Gt>/*@bgen(jjtree)*/
+    } finally {
+      if (jjtc000) {
+        jjtree.closeNodeScope(jjtn000, true);
+      }
+    }
+/*@egen*/
+}
+
+void Plus():
+{/*@bgen(jjtree) Plus */
+  ASTPlus jjtn000 = new ASTPlus(JJTPLUS);
+  boolean jjtc000 = true;
+  jjtree.openNodeScope(jjtn000);
+/*@egen*/}
+{/*@bgen(jjtree) Plus */
+    try {
+/*@egen*/
+    <Plus>/*@bgen(jjtree)*/
+    } finally {
+      if (jjtc000) {
+        jjtree.closeNodeScope(jjtn000, true);
+      }
+    }
+/*@egen*/
+}
+
+void Minus():
+{/*@bgen(jjtree) Minus */
+  ASTMinus jjtn000 = new ASTMinus(JJTMINUS);
+  boolean jjtc000 = true;
+  jjtree.openNodeScope(jjtn000);
+/*@egen*/}
+{/*@bgen(jjtree) Minus */
+    try {
+/*@egen*/
+    <Minus>/*@bgen(jjtree)*/
+    } finally {
+      if (jjtc000) {
+        jjtree.closeNodeScope(jjtn000, true);
+      }
+    }
+/*@egen*/
+}
+void ArrowOperator():
+{/*@bgen(jjtree) ArrowOperator */
+  ASTArrowOperator jjtn000 = new ASTArrowOperator(JJTARROWOPERATOR);
+  boolean jjtc000 = true;
+  jjtree.openNodeScope(jjtn000);
+/*@egen*/}
+{/*@bgen(jjtree) ArrowOperator */
+    try {
+/*@egen*/
+    <Arrow>/*@bgen(jjtree)*/
     } finally {
       if (jjtc000) {
         jjtree.closeNodeScope(jjtn000, true);

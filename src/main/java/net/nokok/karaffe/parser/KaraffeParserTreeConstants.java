@@ -6,34 +6,44 @@ public interface KaraffeParserTreeConstants {
     public int JJTCOMPILEUNIT = 0;
     public int JJTSTATEMENT = 1;
     public int JJTDECLARATION = 2;
-    public int JJTNESTDECLARATION = 3;
-    public int JJTTYPEDCL = 4;
-    public int JJTTYPEALIASDCL = 5;
-    public int JJTINTERFACEDCL = 6;
-    public int JJTTOPLEVELEXPLICITTYPEFUNCTIONDCL = 7;
-    public int JJTTYPEPARAMETERS = 8;
-    public int JJTEXPRESSION = 9;
-    public int JJTLITERAL = 10;
-    public int JJTIDENTIFIER = 11;
-    public int JJTTYPEPARAMETER = 12;
+    public int JJTTYPEDCL = 3;
+    public int JJTINTERFACEDCL = 4;
+    public int JJTVARIABLEDCL = 5;
+    public int JJTVARIABLETYPEDCL = 6;
+    public int JJTTYPEPARAMETERS = 7;
+    public int JJTEXPRESSION = 8;
+    public int JJTLITERAL = 9;
+    public int JJTFUNCTIONLITERAL = 10;
+    public int JJTFUNCTIONVARIABLEBINDING = 11;
+    public int JJTIDENTIFIER = 12;
     public int JJTEQUALOPERATOR = 13;
-    public int JJTNEWLINE = 14;
+    public int JJTLESSTHANOPERATOR = 14;
+    public int JJTGREATERTHANOPERATOR = 15;
+    public int JJTPLUS = 16;
+    public int JJTMINUS = 17;
+    public int JJTARROWOPERATOR = 18;
+    public int JJTNEWLINE = 19;
 
     public String[] jjtNodeName = {
         "CompileUnit",
         "Statement",
         "Declaration",
-        "NestDeclaration",
         "TypeDcl",
-        "TypeAliasDcl",
         "InterfaceDcl",
-        "TopLevelExplicitTypeFunctionDcl",
+        "VariableDcl",
+        "VariableTypeDcl",
         "TypeParameters",
         "Expression",
         "Literal",
+        "FunctionLiteral",
+        "FunctionVariableBinding",
         "Identifier",
-        "TypeParameter",
         "EqualOperator",
+        "LessThanOperator",
+        "GreaterThanOperator",
+        "Plus",
+        "Minus",
+        "ArrowOperator",
         "NewLine",};
 }
-/* JavaCC - OriginalChecksum=e23f00daa70b59ff6f4b5238ca81f72e (do not edit this line) */
+/* JavaCC - OriginalChecksum=cfdccf09d8581bd035174c8755ff7d66 (do not edit this line) */
