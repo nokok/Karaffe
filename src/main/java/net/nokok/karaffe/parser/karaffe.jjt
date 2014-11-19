@@ -1,0 +1,356 @@
+//Karaffe Javacc file
+
+options {
+    STATIC = false;
+    IGNORE_CASE = false;
+    UNICODE_INPUT = true;
+    MULTI = true;
+    VISITOR = true;
+    VISITOR_EXCEPTION = "net.nokok.karaffe.parser.excptn.KaraffeParserException";
+}
+
+PARSER_BEGIN(KaraffeParser)
+package net.nokok.karaffe.parser;
+
+public class KaraffeParser{
+
+    public KaraffeParser(String sourceCode){
+        this(new java.io.StringReader(sourceCode));
+    }
+
+    public int getCurrentTokenBeginColumn(){
+        return jj_input_stream.getBeginColumn();
+    }
+
+    public int getCurrentTokenEndColumn(){
+        return jj_input_stream.getEndColumn();
+    }
+
+    public int getCurrentLine(){
+        return jj_input_stream.getEndLine();
+    }
+}
+
+
+PARSER_END(KaraffeParser)
+
+TOKEN_MGR_DECLS:
+{
+    public static int commentNestLevel = 0;
+}
+
+/*
+コメントの処理
+*/
+SKIP:
+{
+    " "
+    | "\t"
+    | < "//" (~["\n"])* <NewLine> >
+    | "/*" {
+        commentNestLevel++;
+        SwitchTo(InComment);
+    }
+}
+
+<InComment> SKIP:
+{
+    "/*" {
+        commentNestLevel++;
+    }
+    | <EndOfLine : <NewLine>> 
+    | "*/" {
+        commentNestLevel--;
+        if(commentNestLevel == 0){
+            SwitchTo(DEFAULT);
+        }
+    }
+}
+
+/**
+    Reserved keywords 
+*/
+TOKEN:
+{
+      < Check : "check" >
+    | < Interface : "interface" >
+    | < Public : "public" >
+    | < SideEffect : "seffect" >
+    | < Switch : "switch" >
+    | < To : "to" >
+    | < Type : "type" >
+    | < Undefined : "undefined" >
+}
+
+/**
+    Literals
+*/
+TOKEN:
+{
+      < BoolLiteral : "true"
+                    | "false" >
+    | < IntLiteral : <Zero> | (<Minus>)? <NonZero> (<Zero> | <NonZero>)* >
+    | < Hexadecimal : (<Minus>)? "0" ["x","X"] (<HexDigit>)+ >
+    | < #HexDigit : ["0"-"9" , "A"-"F" , "a"-"f"] > 
+    | < FloatLiteral : (<Minus>)? (<Zero> | <IntLiteral>) <Dot> (<Zero> | <NonZero>)+ (<Exp> <IntLiteral> )? >
+    | < #Minus : "-" >
+    | < #Zero : "0" >
+    | < #NonZero : ["1"-"9"] >
+    | < #Exp : "e" | "E" >
+    | < StringLiteral : "\"" (<StringCharacter>)* "\"" >
+    | < #StringCharacter : (~["\"","\\","\n","\r"]) 
+                         | <StringEscapeSeq> 
+                         | <UnicodeEscape> >
+    | < StringEscapeSeq : "\\" ["b","t","n","f","r","\"","\\","\'"] >
+    | < UnicodeEscape : "\\u" <HexDigit> <HexDigit> <HexDigit> <HexDigit> >
+}
+
+/**
+    Identifiers
+*/
+TOKEN:
+{
+      < Identifier : <IdentifierHead> (<IdentifierHead> | <IdentifierCharacter>)* ("[" "]")?>
+    | < #IdentifierHead :      [
+                                    "\u0041"-"\u005A", //A-Z
+                                    "\u0061"-"\u007A", //a-z
+                                    "\u3040"-"\u309F", //ひらがな Hiragana
+                                    "\u30A0"-"\u30FF", //カタカナ Katakana
+                                    "\u4E00"-"\u9FFF"  //漢字     CJK Unified Ideographs
+                               ]  >
+    | < #IdentifierCharacter : [
+                                    "\u0030"-"\u0039", //0-9
+                                    "\u0041"-"\u005A", //A-Z
+                                    "\u0061"-"\u007A", //a-z
+                                    "\u005F",          //_
+                                    "\u3040"-"\u309F", //ひらがな Hiragana
+                                    "\u30A0"-"\u30FF", //カタカナ Katakana
+                                    "\u4E00"-"\u9FFF"  //漢字     CJK Unified Ideographs
+                               ] >
+    | < TypeParameter : ["\u0041"-"\u005A"] > //A-Z
+}
+
+/**
+    Separators
+*/
+TOKEN:
+{
+      < LeftBracket : "[" >
+    | < RightBracket : "]" >
+    | < Colon : ":" >
+    | < EqualSign : "=" >
+    | < Dot : "." >
+}
+
+/**
+    Other tokens
+*/
+TOKEN:
+{
+      < NewLine : "\r"
+                | "\n" 
+                | "\r\n" >
+}
+
+/**
+ * CompileUnit = Declaration
+ */
+public ASTCompileUnit CompileUnit():
+{
+}
+{
+    (Statement())* <EOF> {
+        return jjtThis;
+    }
+}
+
+//Statement
+
+/**
+    Statement = Declaration
+ */
+void Statement():
+{}
+{
+    Declaration()
+}
+
+
+// Declaration
+
+/**
+ Declaration = TypeDcl
+             | TypeAliasDcl
+             | InheritanceDcl
+             | InterfaceDcl
+             | TopLevelFunctionDcl
+             | TopLevelVariableDcl
+ */
+void Declaration():
+{}
+{
+     LOOKAHEAD(3) TypeDcl()
+     | TypeAliasDcl()
+}
+
+/**
+    NestDeclaration = "." Declaration
+ */
+void NestDeclaration():
+{}
+{
+    <Dot> Declaration() NewLine()
+}
+
+/**
+    TypeDcl = "type" NewTypeName TypeParameters? NewLine NestDeclaration
+    TypeParameters = "[" TypeParameter1 TypeParameter2 ... "]"
+
+    e.g.
+    type Foo 
+    . dcl
+
+    type Bar[A]
+    . dcl
+
+    type Baz[A B C]
+    . dcl
+ */
+void TypeDcl():
+{}
+{
+    <Type> Identifier() (TypeParameters())? NewLine() (NestDeclaration())*
+}
+
+/**
+    TypeAliasDcl = "type" NewTypeName TypeParameters? "=" ExistingTypeName TypeParameters? NewLine NestDeclaration
+
+    e.g.
+    type Foo = Any
+    . dcl
+
+    type Foo[A] = Any
+    . dcl
+
+    type Foo = Bar[A]
+    . dcl
+
+    type Foo[A] = Bar[A]
+    . dcl
+ */
+void TypeAliasDcl():
+{}
+{
+    <Type> Identifier() (TypeParameters())? EqualOperator() Identifier() (TypeParameters())? NewLine() (NestDeclaration())*
+}
+
+/**
+    InterfaceDcl = "interface" InterfaceName TypeParameters? NewLine NestDeclaration
+
+    e.g.
+    interface Foo
+    . dcl
+
+    interface Foo[A]
+    . dcl
+ */
+void InterfaceDcl():
+{}
+{
+    <Interface> Identifier() NewLine()
+}
+
+/**
+    TopLevelFunctionDcl = TopLevelExplicitTypeFunctionDcl
+                        | TopLevelFunctionLiteralDcl
+ */
+
+/**
+    TopLevelExplicitTypeFunctionDcl = Identifier ":" Identifiers "to" Identifier Expression
+
+    e.g.
+    bar : TypeName to TypeName =
+ */
+void TopLevelExplicitTypeFunctionDcl():
+{}
+{
+    Identifier() ":" Identifier() <To> Identifier() EqualOperator() Expression()
+}
+
+/**
+    TypeParameters = "[" TypeParameter1 TypeParameter2 ... "]"
+ */
+void TypeParameters():
+{}
+{
+    "[" (TypeParameter())+ "]"
+}
+
+//Expressions
+
+/**
+    Expression = Literal
+ */
+void Expression():
+{}
+{
+    Literal()
+}
+
+
+void Literal():
+{
+    Token t;
+}
+{
+      t = <BoolLiteral> {
+        jjtThis.jjtSetValue(t);
+    }
+    | t = <IntLiteral> {
+        jjtThis.jjtSetValue(t);
+    }
+    | t = <FloatLiteral> {
+        jjtThis.jjtSetValue(t);
+    }
+    | t = <StringLiteral> {
+        jjtThis.jjtSetValue(t);
+    }
+}
+
+//Identifiers
+
+/**
+    Identifier = IdentifierHead IdentifierCharacter
+ */
+void Identifier():
+{
+    Token t;
+}
+{
+    t = <Identifier> {
+        jjtThis.jjtSetValue(t);
+    }
+}
+
+void TypeParameter():
+{
+    Token t;
+}
+{
+    t = <TypeParameter> {
+        jjtThis.jjtSetValue(t);
+    }
+}
+
+void EqualOperator():
+{}
+{
+    <EqualSign>
+}
+
+void NewLine():
+{}
+{
+    <NewLine>
+}
+
