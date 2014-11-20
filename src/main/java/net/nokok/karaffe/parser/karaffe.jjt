@@ -243,7 +243,7 @@ void Declaration():
 void TypeDcl():
 {}
 {
-    <Type> Identifier() (TypeParameters())? (Declaration())* ((EqualOperator() | LessThanOperator()) (Identifier() (TypeParameters())?)*)* NewLine()
+    <Type> Identifier() (TypeParameters())? ((EqualOperator() | LessThanOperator()) (Identifier() (TypeParameters())?)*)* NewLine()
 }
 
 /**
