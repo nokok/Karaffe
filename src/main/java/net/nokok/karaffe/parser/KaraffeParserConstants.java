@@ -68,41 +68,57 @@ public interface KaraffeParserConstants {
     /** RegularExpression Id. */
     int RightBrace = 35;
     /** RegularExpression Id. */
-    int Colon = 36;
+    int LeftParen = 36;
     /** RegularExpression Id. */
-    int Dot = 37;
+    int RightParen = 37;
     /** RegularExpression Id. */
-    int EqualSign = 38;
+    int Colon = 38;
     /** RegularExpression Id. */
-    int Lt = 39;
+    int Dot = 39;
     /** RegularExpression Id. */
-    int Gt = 40;
+    int EqualSign = 40;
     /** RegularExpression Id. */
-    int Plus = 41;
+    int Lt = 41;
     /** RegularExpression Id. */
-    int Minus = 42;
+    int LtE = 42;
     /** RegularExpression Id. */
-    int Star = 43;
+    int Gt = 43;
     /** RegularExpression Id. */
-    int Slash = 44;
+    int GtE = 44;
     /** RegularExpression Id. */
-    int Percent = 45;
+    int Plus = 45;
     /** RegularExpression Id. */
-    int Tilde = 46;
+    int Minus = 46;
     /** RegularExpression Id. */
-    int Bang = 47;
+    int Star = 47;
     /** RegularExpression Id. */
-    int And = 48;
+    int Slash = 48;
     /** RegularExpression Id. */
-    int Or = 49;
+    int SafeDiv = 49;
     /** RegularExpression Id. */
-    int Hat = 50;
+    int Percent = 50;
     /** RegularExpression Id. */
-    int Question = 51;
+    int SafeRem = 51;
     /** RegularExpression Id. */
-    int Arrow = 52;
+    int Tilde = 52;
     /** RegularExpression Id. */
-    int NewLine = 53;
+    int Bang = 53;
+    /** RegularExpression Id. */
+    int And = 54;
+    /** RegularExpression Id. */
+    int Or = 55;
+    /** RegularExpression Id. */
+    int Hat = 56;
+    /** RegularExpression Id. */
+    int Question = 57;
+    /** RegularExpression Id. */
+    int Arrow = 58;
+    /** RegularExpression Id. */
+    int EqualTo = 59;
+    /** RegularExpression Id. */
+    int NotEqualTo = 60;
+    /** RegularExpression Id. */
+    int NewLine = 61;
 
     /** Lexical state. */
     int DEFAULT = 0;
@@ -147,16 +163,22 @@ public interface KaraffeParserConstants {
         "\"]\"",
         "\"{\"",
         "\"}\"",
+        "\"(\"",
+        "\")\"",
         "\":\"",
         "\".\"",
         "\"=\"",
         "\"<\"",
+        "\"<=\"",
         "\">\"",
+        "\">=\"",
         "\"+\"",
         "\"-\"",
         "\"*\"",
         "\"/\"",
+        "\"/?\"",
         "\"%\"",
+        "\"%?\"",
         "\"~\"",
         "\"!\"",
         "\"&\"",
@@ -164,6 +186,8 @@ public interface KaraffeParserConstants {
         "\"^\"",
         "\"?\"",
         "\"=>\"",
+        "\"==\"",
+        "\"!=\"",
         "<NewLine>",};
 
 }

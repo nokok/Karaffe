@@ -13,32 +13,49 @@ public interface KaraffeParserTreeConstants {
     public int JJTTYPEPARAMETERS = 7;
     public int JJTTYPEPARAMETER = 8;
     public int JJTEXPRESSION = 9;
-    public int JJTLITERAL = 10;
-    public int JJTFUNCTIONLITERAL = 11;
-    public int JJTFUNCTIONVARIABLEBINDING = 12;
-    public int JJTIDENTIFIER = 13;
-    public int JJTLEFTBRACKET = 14;
-    public int JJTRIGHTBRACKET = 15;
-    public int JJTLEFTBRACE = 16;
-    public int JJTRIGHTBRACE = 17;
-    public int JJTCOLON = 18;
-    public int JJTDOT = 19;
-    public int JJTEQUALOPERATOR = 20;
-    public int JJTLESSTHANOPERATOR = 21;
-    public int JJTGREATERTHANOPERATOR = 22;
-    public int JJTPLUS = 23;
-    public int JJTMINUS = 24;
-    public int JJTSTAROPERATOR = 25;
-    public int JJTSLASHOPERATOR = 26;
-    public int JJTPERCENTOPERATOR = 27;
-    public int JJTTILDEOPERATOR = 28;
-    public int JJTBANGOPERATOR = 29;
-    public int JJTANDOPERATOR = 30;
-    public int JJTOROPERATOR = 31;
-    public int JJTHATOPERATOR = 32;
-    public int JJTQUESTIONOPERATOR = 33;
-    public int JJTARROWOPERATOR = 34;
-    public int JJTNEWLINE = 35;
+    public int JJTASSIGNEXPR = 10;
+    public int JJTOROPERATOREXPR = 11;
+    public int JJTANDOPERATOREXPR = 12;
+    public int JJTEQUALITYOPERATOREXPR = 13;
+    public int JJTCOMPARISONOPERATOREXPR = 14;
+    public int JJTADDITIVEOPERATOREXPR = 15;
+    public int JJTMULTIPLYOPERATOREXPR = 16;
+    public int JJTUNARYOPERATOREXPR = 17;
+    public int JJTFUNCTIONAPPLY = 18;
+    public int JJTLITERAL = 19;
+    public int JJTFUNCTIONLITERAL = 20;
+    public int JJTFUNCTIONVARIABLEBINDING = 21;
+    public int JJTIDENTIFIER = 22;
+    public int JJTLEFTBRACKET = 23;
+    public int JJTRIGHTBRACKET = 24;
+    public int JJTLEFTBRACE = 25;
+    public int JJTRIGHTPAREN = 26;
+    public int JJTLEFTPAREN = 27;
+    public int JJTRIGHTBRACE = 28;
+    public int JJTCOLON = 29;
+    public int JJTDOT = 30;
+    public int JJTEQUALOPERATOR = 31;
+    public int JJTLESSTHANOPERATOR = 32;
+    public int JJTLESSTHANEQUALTOOPERATOR = 33;
+    public int JJTGREATERTHANOPERATOR = 34;
+    public int JJTGREATERTHANEQUALTOOPERATOR = 35;
+    public int JJTPLUS = 36;
+    public int JJTMINUS = 37;
+    public int JJTSTAROPERATOR = 38;
+    public int JJTSLASHOPERATOR = 39;
+    public int JJTPERCENTOPERATOR = 40;
+    public int JJTTILDEOPERATOR = 41;
+    public int JJTBANGOPERATOR = 42;
+    public int JJTANDOPERATOR = 43;
+    public int JJTOROPERATOR = 44;
+    public int JJTHATOPERATOR = 45;
+    public int JJTQUESTIONOPERATOR = 46;
+    public int JJTARROWOPERATOR = 47;
+    public int JJTEQUALTO = 48;
+    public int JJTNOTEQUALTO = 49;
+    public int JJTSAFEDIV = 50;
+    public int JJTSAFEREM = 51;
+    public int JJTNEWLINE = 52;
 
     public String[] jjtNodeName = {
         "CompileUnit",
@@ -51,6 +68,15 @@ public interface KaraffeParserTreeConstants {
         "TypeParameters",
         "TypeParameter",
         "Expression",
+        "AssignExpr",
+        "OrOperatorExpr",
+        "AndOperatorExpr",
+        "EqualityOperatorExpr",
+        "ComparisonOperatorExpr",
+        "AdditiveOperatorExpr",
+        "MultiplyOperatorExpr",
+        "UnaryOperatorExpr",
+        "FunctionApply",
         "Literal",
         "FunctionLiteral",
         "FunctionVariableBinding",
@@ -58,12 +84,16 @@ public interface KaraffeParserTreeConstants {
         "LeftBracket",
         "RightBracket",
         "LeftBrace",
+        "RightParen",
+        "LeftParen",
         "RightBrace",
         "Colon",
         "Dot",
         "EqualOperator",
         "LessThanOperator",
+        "LessThanEqualToOperator",
         "GreaterThanOperator",
+        "GreaterThanEqualToOperator",
         "Plus",
         "Minus",
         "StarOperator",
@@ -76,6 +106,10 @@ public interface KaraffeParserTreeConstants {
         "HatOperator",
         "QuestionOperator",
         "ArrowOperator",
+        "EqualTo",
+        "NotEqualTo",
+        "SafeDiv",
+        "SafeRem",
         "NewLine",};
 }
-/* JavaCC - OriginalChecksum=4610f168aaae799b4d27a1fe663d1a8f (do not edit this line) */
+/* JavaCC - OriginalChecksum=6774630608094a9d401d71916eade39a (do not edit this line) */

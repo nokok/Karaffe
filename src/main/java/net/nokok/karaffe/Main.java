@@ -16,7 +16,12 @@ public class Main {
      * @param args
      */
     public static void main(String... args) throws FileNotFoundException, ParseException, KaraffeParserException {
-        String source = "type Hoge\nx:Int=2\nfunc = [x] => {1}\n";
+        String source = "type Hoge\n"
+                + "x:Int=2\n"
+                + "func = [x] => {1}\n"
+                + "hoge = \"hoge\"\n"
+                + "hoge = -\"hogehoge\"\n"
+                + "hoge = 1 - 2 * 3 + ( 2 + 3 )\n";
         System.out.println(source);
         KaraffeParser parser = new KaraffeParser(source);
         ASTCompileUnit compileUnit = parser.CompileUnit();

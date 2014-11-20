@@ -34,7 +34,8 @@ public class KaraffeParser/*@bgen(jjtree)*/ implements KaraffeParserTreeConstant
                 switch ((jj_ntk == -1) ? jj_ntk_f() : jj_ntk) {
                     case Interface:
                     case Type:
-                    case Identifier: {
+                    case Identifier:
+                    case NewLine: {
                         ;
                         break;
                     }
@@ -42,7 +43,22 @@ public class KaraffeParser/*@bgen(jjtree)*/ implements KaraffeParserTreeConstant
                         jj_la1[0] = jj_gen;
                         break label_1;
                 }
-                Statement();
+                switch ((jj_ntk == -1) ? jj_ntk_f() : jj_ntk) {
+                    case Interface:
+                    case Type:
+                    case Identifier: {
+                        Statement();
+                        break;
+                    }
+                    case NewLine: {
+                        NewLine();
+                        break;
+                    }
+                    default:
+                        jj_la1[1] = jj_gen;
+                        jj_consume_token(-1);
+                        throw new ParseException();
+                }
             }
             jj_consume_token(0);
             jjtree.closeNodeScope(jjtn000, true);
@@ -135,7 +151,6 @@ public class KaraffeParser/*@bgen(jjtree)*/ implements KaraffeParserTreeConstant
      Declaration = TypeDcl
      | InterfaceDcl
      | VariableDcl
-     | FunctionDcl
      */
     final public void Declaration() throws ParseException {/*@bgen(jjtree) Declaration */
 
@@ -156,7 +171,7 @@ public class KaraffeParser/*@bgen(jjtree)*/ implements KaraffeParserTreeConstant
                         break;
                     }
                     default:
-                        jj_la1[1] = jj_gen;
+                        jj_la1[2] = jj_gen;
                         jj_consume_token(-1);
                         throw new ParseException();
                 }
@@ -234,7 +249,7 @@ public class KaraffeParser/*@bgen(jjtree)*/ implements KaraffeParserTreeConstant
                     break;
                 }
                 default:
-                    jj_la1[2] = jj_gen;
+                    jj_la1[3] = jj_gen;
                     ;
             }
             label_2:
@@ -246,7 +261,7 @@ public class KaraffeParser/*@bgen(jjtree)*/ implements KaraffeParserTreeConstant
                         break;
                     }
                     default:
-                        jj_la1[3] = jj_gen;
+                        jj_la1[4] = jj_gen;
                         break label_2;
                 }
                 switch ((jj_ntk == -1) ? jj_ntk_f() : jj_ntk) {
@@ -259,7 +274,7 @@ public class KaraffeParser/*@bgen(jjtree)*/ implements KaraffeParserTreeConstant
                         break;
                     }
                     default:
-                        jj_la1[4] = jj_gen;
+                        jj_la1[5] = jj_gen;
                         jj_consume_token(-1);
                         throw new ParseException();
                 }
@@ -271,7 +286,7 @@ public class KaraffeParser/*@bgen(jjtree)*/ implements KaraffeParserTreeConstant
                             break;
                         }
                         default:
-                            jj_la1[5] = jj_gen;
+                            jj_la1[6] = jj_gen;
                             break label_3;
                     }
                     Identifier();
@@ -281,7 +296,7 @@ public class KaraffeParser/*@bgen(jjtree)*/ implements KaraffeParserTreeConstant
                             break;
                         }
                         default:
-                            jj_la1[6] = jj_gen;
+                            jj_la1[7] = jj_gen;
                             ;
                     }
                 }
@@ -384,7 +399,15 @@ public class KaraffeParser/*@bgen(jjtree)*/ implements KaraffeParserTreeConstant
 
      functionName : TypeName to TypeName = Expr
 
-     functionname[T]
+     functionName[T] : T to T = Expr
+
+     funcName[T < Num] : T to T = Expr
+
+     funcName[A B] : A to B = Expr
+
+     funcName[A > Num] : A to A = Expr
+
+     funcName[A < Num B] : A to B = Expr
 
      */
     final public void VariableDcl() throws ParseException {/*@bgen(jjtree) VariableDcl */
@@ -400,7 +423,7 @@ public class KaraffeParser/*@bgen(jjtree)*/ implements KaraffeParserTreeConstant
                     break;
                 }
                 default:
-                    jj_la1[7] = jj_gen;
+                    jj_la1[8] = jj_gen;
                     ;
             }
             switch ((jj_ntk == -1) ? jj_ntk_f() : jj_ntk) {
@@ -410,21 +433,27 @@ public class KaraffeParser/*@bgen(jjtree)*/ implements KaraffeParserTreeConstant
                     break;
                 }
                 default:
-                    jj_la1[8] = jj_gen;
+                    jj_la1[9] = jj_gen;
                     ;
             }
             EqualOperator();
             switch ((jj_ntk == -1) ? jj_ntk_f() : jj_ntk) {
+                case Undefined:
                 case BoolLiteral:
                 case IntLiteral:
                 case FloatLiteral:
                 case StringLiteral:
-                case LeftBracket: {
+                case Identifier:
+                case LeftBracket:
+                case LeftParen:
+                case Minus:
+                case Tilde:
+                case Bang: {
                     Expression();
                     break;
                 }
                 default:
-                    jj_la1[9] = jj_gen;
+                    jj_la1[10] = jj_gen;
                     ;
             }
             NewLine();
@@ -491,7 +520,7 @@ public class KaraffeParser/*@bgen(jjtree)*/ implements KaraffeParserTreeConstant
                         break;
                     }
                     default:
-                        jj_la1[10] = jj_gen;
+                        jj_la1[11] = jj_gen;
                         ;
                 }
                 switch ((jj_ntk == -1) ? jj_ntk_f() : jj_ntk) {
@@ -500,7 +529,7 @@ public class KaraffeParser/*@bgen(jjtree)*/ implements KaraffeParserTreeConstant
                         break;
                     }
                     default:
-                        jj_la1[11] = jj_gen;
+                        jj_la1[12] = jj_gen;
                         break label_4;
                 }
             }
@@ -512,7 +541,7 @@ public class KaraffeParser/*@bgen(jjtree)*/ implements KaraffeParserTreeConstant
                     break;
                 }
                 default:
-                    jj_la1[12] = jj_gen;
+                    jj_la1[13] = jj_gen;
                     ;
             }
         } catch (Throwable jjte000) {
@@ -567,7 +596,7 @@ public class KaraffeParser/*@bgen(jjtree)*/ implements KaraffeParserTreeConstant
                         break;
                     }
                     default:
-                        jj_la1[13] = jj_gen;
+                        jj_la1[14] = jj_gen;
                         break label_5;
                 }
             }
@@ -630,7 +659,7 @@ public class KaraffeParser/*@bgen(jjtree)*/ implements KaraffeParserTreeConstant
                             break;
                         }
                         default:
-                            jj_la1[14] = jj_gen;
+                            jj_la1[15] = jj_gen;
                             jj_consume_token(-1);
                             throw new ParseException();
                     }
@@ -638,7 +667,7 @@ public class KaraffeParser/*@bgen(jjtree)*/ implements KaraffeParserTreeConstant
                     break;
                 }
                 default:
-                    jj_la1[15] = jj_gen;
+                    jj_la1[16] = jj_gen;
                     ;
             }
         } catch (Throwable jjte000) {
@@ -676,7 +705,30 @@ public class KaraffeParser/*@bgen(jjtree)*/ implements KaraffeParserTreeConstant
 
 //Expressions
     /**
-     Expression = Literal
+     Expression = ConditionalExpressionsOrAssign
+
+     Expressionの評価優先度
+     低い順から
+     AssignExpr =
+     ↓
+     OrOperatorExpr |
+     ↓
+     AndOperatorExpr &
+     ↓
+     EqualityOperatorExpr == !=
+     ↓
+     ComparisonOperatorExpr <= >= < >
+     ↓
+     AdditiveOperatorExpr + -
+     ↓
+     MultiplyOperatorExpr * / /? % %?
+     ↓
+     UnaryOperatorExpr - ~ !
+     ↓
+     ArrayElement //未実装
+     ↓
+     FunctionApply
+
      */
     final public void Expression() throws ParseException {/*@bgen(jjtree) Expression */
 
@@ -684,7 +736,564 @@ public class KaraffeParser/*@bgen(jjtree)*/ implements KaraffeParserTreeConstant
         boolean jjtc000 = true;
         jjtree.openNodeScope(jjtn000);
         try {
-            Literal();
+            AssignExpr();
+        } catch (Throwable jjte000) {
+            if (jjtc000) {
+                jjtree.clearNodeScope(jjtn000);
+                jjtc000 = false;
+            } else {
+                jjtree.popNode();
+            }
+            if (jjte000 instanceof RuntimeException) {
+                {
+                    if (true) {
+                        throw (RuntimeException) jjte000;
+                    }
+                }
+            }
+            if (jjte000 instanceof ParseException) {
+                {
+                    if (true) {
+                        throw (ParseException) jjte000;
+                    }
+                }
+            }
+            {
+                if (true) {
+                    throw (Error) jjte000;
+                }
+            }
+        } finally {
+            if (jjtc000) {
+                jjtree.closeNodeScope(jjtn000, true);
+            }
+        }
+    }
+
+    final public void AssignExpr() throws ParseException {/*@bgen(jjtree) AssignExpr */
+
+        ASTAssignExpr jjtn000 = new ASTAssignExpr(JJTASSIGNEXPR);
+        boolean jjtc000 = true;
+        jjtree.openNodeScope(jjtn000);
+        try {
+            OrOperatorExpr();
+            label_6:
+            while (true) {
+                if (jj_2_2(2)) {
+                    ;
+                } else {
+                    break label_6;
+                }
+                EqualOperator();
+                OrOperatorExpr();
+            }
+        } catch (Throwable jjte000) {
+            if (jjtc000) {
+                jjtree.clearNodeScope(jjtn000);
+                jjtc000 = false;
+            } else {
+                jjtree.popNode();
+            }
+            if (jjte000 instanceof RuntimeException) {
+                {
+                    if (true) {
+                        throw (RuntimeException) jjte000;
+                    }
+                }
+            }
+            if (jjte000 instanceof ParseException) {
+                {
+                    if (true) {
+                        throw (ParseException) jjte000;
+                    }
+                }
+            }
+            {
+                if (true) {
+                    throw (Error) jjte000;
+                }
+            }
+        } finally {
+            if (jjtc000) {
+                jjtree.closeNodeScope(jjtn000, true);
+            }
+        }
+    }
+
+    final public void OrOperatorExpr() throws ParseException {/*@bgen(jjtree) OrOperatorExpr */
+
+        ASTOrOperatorExpr jjtn000 = new ASTOrOperatorExpr(JJTOROPERATOREXPR);
+        boolean jjtc000 = true;
+        jjtree.openNodeScope(jjtn000);
+        try {
+            AndOperatorExpr();
+            label_7:
+            while (true) {
+                if (jj_2_3(2)) {
+                    ;
+                } else {
+                    break label_7;
+                }
+                OrOperator();
+                AndOperatorExpr();
+            }
+        } catch (Throwable jjte000) {
+            if (jjtc000) {
+                jjtree.clearNodeScope(jjtn000);
+                jjtc000 = false;
+            } else {
+                jjtree.popNode();
+            }
+            if (jjte000 instanceof RuntimeException) {
+                {
+                    if (true) {
+                        throw (RuntimeException) jjte000;
+                    }
+                }
+            }
+            if (jjte000 instanceof ParseException) {
+                {
+                    if (true) {
+                        throw (ParseException) jjte000;
+                    }
+                }
+            }
+            {
+                if (true) {
+                    throw (Error) jjte000;
+                }
+            }
+        } finally {
+            if (jjtc000) {
+                jjtree.closeNodeScope(jjtn000, true);
+            }
+        }
+    }
+
+    final public void AndOperatorExpr() throws ParseException {/*@bgen(jjtree) AndOperatorExpr */
+
+        ASTAndOperatorExpr jjtn000 = new ASTAndOperatorExpr(JJTANDOPERATOREXPR);
+        boolean jjtc000 = true;
+        jjtree.openNodeScope(jjtn000);
+        try {
+            EqualityOperatorExpr();
+            label_8:
+            while (true) {
+                if (jj_2_4(2)) {
+                    ;
+                } else {
+                    break label_8;
+                }
+                AndOperator();
+                EqualityOperatorExpr();
+            }
+        } catch (Throwable jjte000) {
+            if (jjtc000) {
+                jjtree.clearNodeScope(jjtn000);
+                jjtc000 = false;
+            } else {
+                jjtree.popNode();
+            }
+            if (jjte000 instanceof RuntimeException) {
+                {
+                    if (true) {
+                        throw (RuntimeException) jjte000;
+                    }
+                }
+            }
+            if (jjte000 instanceof ParseException) {
+                {
+                    if (true) {
+                        throw (ParseException) jjte000;
+                    }
+                }
+            }
+            {
+                if (true) {
+                    throw (Error) jjte000;
+                }
+            }
+        } finally {
+            if (jjtc000) {
+                jjtree.closeNodeScope(jjtn000, true);
+            }
+        }
+    }
+
+    final public void EqualityOperatorExpr() throws ParseException {/*@bgen(jjtree) EqualityOperatorExpr */
+
+        ASTEqualityOperatorExpr jjtn000 = new ASTEqualityOperatorExpr(JJTEQUALITYOPERATOREXPR);
+        boolean jjtc000 = true;
+        jjtree.openNodeScope(jjtn000);
+        try {
+            ComparisonOperatorExpr();
+            label_9:
+            while (true) {
+                if (jj_2_5(2)) {
+                    ;
+                } else {
+                    break label_9;
+                }
+                EqualOperator();
+                ComparisonOperatorExpr();
+            }
+        } catch (Throwable jjte000) {
+            if (jjtc000) {
+                jjtree.clearNodeScope(jjtn000);
+                jjtc000 = false;
+            } else {
+                jjtree.popNode();
+            }
+            if (jjte000 instanceof RuntimeException) {
+                {
+                    if (true) {
+                        throw (RuntimeException) jjte000;
+                    }
+                }
+            }
+            if (jjte000 instanceof ParseException) {
+                {
+                    if (true) {
+                        throw (ParseException) jjte000;
+                    }
+                }
+            }
+            {
+                if (true) {
+                    throw (Error) jjte000;
+                }
+            }
+        } finally {
+            if (jjtc000) {
+                jjtree.closeNodeScope(jjtn000, true);
+            }
+        }
+    }
+
+    final public void ComparisonOperatorExpr() throws ParseException {/*@bgen(jjtree) ComparisonOperatorExpr */
+
+        ASTComparisonOperatorExpr jjtn000 = new ASTComparisonOperatorExpr(JJTCOMPARISONOPERATOREXPR);
+        boolean jjtc000 = true;
+        jjtree.openNodeScope(jjtn000);
+        try {
+            AdditiveOperatorExpr();
+            label_10:
+            while (true) {
+                if (jj_2_6(2)) {
+                    ;
+                } else {
+                    break label_10;
+                }
+                switch ((jj_ntk == -1) ? jj_ntk_f() : jj_ntk) {
+                    case EqualTo: {
+                        EqualTo();
+                        break;
+                    }
+                    case NotEqualTo: {
+                        NotEqualTo();
+                        break;
+                    }
+                    case Gt: {
+                        GreaterThanOperator();
+                        break;
+                    }
+                    case Lt: {
+                        LessThanOperator();
+                        break;
+                    }
+                    default:
+                        jj_la1[17] = jj_gen;
+                        jj_consume_token(-1);
+                        throw new ParseException();
+                }
+                AdditiveOperatorExpr();
+            }
+        } catch (Throwable jjte000) {
+            if (jjtc000) {
+                jjtree.clearNodeScope(jjtn000);
+                jjtc000 = false;
+            } else {
+                jjtree.popNode();
+            }
+            if (jjte000 instanceof RuntimeException) {
+                {
+                    if (true) {
+                        throw (RuntimeException) jjte000;
+                    }
+                }
+            }
+            if (jjte000 instanceof ParseException) {
+                {
+                    if (true) {
+                        throw (ParseException) jjte000;
+                    }
+                }
+            }
+            {
+                if (true) {
+                    throw (Error) jjte000;
+                }
+            }
+        } finally {
+            if (jjtc000) {
+                jjtree.closeNodeScope(jjtn000, true);
+            }
+        }
+    }
+
+    final public void AdditiveOperatorExpr() throws ParseException {/*@bgen(jjtree) AdditiveOperatorExpr */
+
+        ASTAdditiveOperatorExpr jjtn000 = new ASTAdditiveOperatorExpr(JJTADDITIVEOPERATOREXPR);
+        boolean jjtc000 = true;
+        jjtree.openNodeScope(jjtn000);
+        try {
+            MultiplyOperatorExpr();
+            label_11:
+            while (true) {
+                if (jj_2_7(2)) {
+                    ;
+                } else {
+                    break label_11;
+                }
+                switch ((jj_ntk == -1) ? jj_ntk_f() : jj_ntk) {
+                    case Plus: {
+                        Plus();
+                        break;
+                    }
+                    case Minus: {
+                        Minus();
+                        break;
+                    }
+                    default:
+                        jj_la1[18] = jj_gen;
+                        jj_consume_token(-1);
+                        throw new ParseException();
+                }
+                MultiplyOperatorExpr();
+            }
+        } catch (Throwable jjte000) {
+            if (jjtc000) {
+                jjtree.clearNodeScope(jjtn000);
+                jjtc000 = false;
+            } else {
+                jjtree.popNode();
+            }
+            if (jjte000 instanceof RuntimeException) {
+                {
+                    if (true) {
+                        throw (RuntimeException) jjte000;
+                    }
+                }
+            }
+            if (jjte000 instanceof ParseException) {
+                {
+                    if (true) {
+                        throw (ParseException) jjte000;
+                    }
+                }
+            }
+            {
+                if (true) {
+                    throw (Error) jjte000;
+                }
+            }
+        } finally {
+            if (jjtc000) {
+                jjtree.closeNodeScope(jjtn000, true);
+            }
+        }
+    }
+
+    final public void MultiplyOperatorExpr() throws ParseException {/*@bgen(jjtree) MultiplyOperatorExpr */
+
+        ASTMultiplyOperatorExpr jjtn000 = new ASTMultiplyOperatorExpr(JJTMULTIPLYOPERATOREXPR);
+        boolean jjtc000 = true;
+        jjtree.openNodeScope(jjtn000);
+        try {
+            UnaryOperatorExpr();
+            label_12:
+            while (true) {
+                if (jj_2_8(2)) {
+                    ;
+                } else {
+                    break label_12;
+                }
+                switch ((jj_ntk == -1) ? jj_ntk_f() : jj_ntk) {
+                    case Star: {
+                        StarOperator();
+                        break;
+                    }
+                    case Slash: {
+                        SlashOperator();
+                        break;
+                    }
+                    case Percent: {
+                        PercentOperator();
+                        break;
+                    }
+                    case SafeDiv: {
+                        SafeDiv();
+                        break;
+                    }
+                    case SafeRem: {
+                        SafeRem();
+                        break;
+                    }
+                    default:
+                        jj_la1[19] = jj_gen;
+                        jj_consume_token(-1);
+                        throw new ParseException();
+                }
+                UnaryOperatorExpr();
+            }
+        } catch (Throwable jjte000) {
+            if (jjtc000) {
+                jjtree.clearNodeScope(jjtn000);
+                jjtc000 = false;
+            } else {
+                jjtree.popNode();
+            }
+            if (jjte000 instanceof RuntimeException) {
+                {
+                    if (true) {
+                        throw (RuntimeException) jjte000;
+                    }
+                }
+            }
+            if (jjte000 instanceof ParseException) {
+                {
+                    if (true) {
+                        throw (ParseException) jjte000;
+                    }
+                }
+            }
+            {
+                if (true) {
+                    throw (Error) jjte000;
+                }
+            }
+        } finally {
+            if (jjtc000) {
+                jjtree.closeNodeScope(jjtn000, true);
+            }
+        }
+    }
+
+    final public void UnaryOperatorExpr() throws ParseException {/*@bgen(jjtree) UnaryOperatorExpr */
+
+        ASTUnaryOperatorExpr jjtn000 = new ASTUnaryOperatorExpr(JJTUNARYOPERATOREXPR);
+        boolean jjtc000 = true;
+        jjtree.openNodeScope(jjtn000);
+        try {
+            switch ((jj_ntk == -1) ? jj_ntk_f() : jj_ntk) {
+                case Minus: {
+                    Minus();
+                    UnaryOperatorExpr();
+                    break;
+                }
+                case Tilde: {
+                    TildeOperator();
+                    UnaryOperatorExpr();
+                    break;
+                }
+                case Bang: {
+                    BangOperator();
+                    UnaryOperatorExpr();
+                    break;
+                }
+                case LeftParen: {
+                    LeftParen();
+                    AssignExpr();
+                    RightParen();
+                    break;
+                }
+                case Undefined:
+                case BoolLiteral:
+                case IntLiteral:
+                case FloatLiteral:
+                case StringLiteral:
+                case Identifier:
+                case LeftBracket: {
+                    FunctionApply();
+                    if (jj_2_9(2)) {
+                        UnaryOperatorExpr();
+                    } else {
+                        ;
+                    }
+                    break;
+                }
+                default:
+                    jj_la1[20] = jj_gen;
+                    jj_consume_token(-1);
+                    throw new ParseException();
+            }
+        } catch (Throwable jjte000) {
+            if (jjtc000) {
+                jjtree.clearNodeScope(jjtn000);
+                jjtc000 = false;
+            } else {
+                jjtree.popNode();
+            }
+            if (jjte000 instanceof RuntimeException) {
+                {
+                    if (true) {
+                        throw (RuntimeException) jjte000;
+                    }
+                }
+            }
+            if (jjte000 instanceof ParseException) {
+                {
+                    if (true) {
+                        throw (ParseException) jjte000;
+                    }
+                }
+            }
+            {
+                if (true) {
+                    throw (Error) jjte000;
+                }
+            }
+        } finally {
+            if (jjtc000) {
+                jjtree.closeNodeScope(jjtn000, true);
+            }
+        }
+    }
+
+    final public void FunctionApply() throws ParseException {/*@bgen(jjtree) FunctionApply */
+
+        ASTFunctionApply jjtn000 = new ASTFunctionApply(JJTFUNCTIONAPPLY);
+        boolean jjtc000 = true;
+        jjtree.openNodeScope(jjtn000);
+        try {
+            switch ((jj_ntk == -1) ? jj_ntk_f() : jj_ntk) {
+                case Identifier: {
+                    label_13:
+                    while (true) {
+                        Identifier();
+                        if (jj_2_10(2)) {
+                            ;
+                        } else {
+                            break label_13;
+                        }
+                    }
+                    Expression();
+                    break;
+                }
+                case Undefined:
+                case BoolLiteral:
+                case IntLiteral:
+                case FloatLiteral:
+                case StringLiteral:
+                case LeftBracket: {
+                    Literal();
+                    break;
+                }
+                default:
+                    jj_la1[21] = jj_gen;
+                    jj_consume_token(-1);
+                    throw new ParseException();
+            }
         } catch (Throwable jjte000) {
             if (jjtc000) {
                 jjtree.clearNodeScope(jjtn000);
@@ -756,7 +1365,12 @@ public class KaraffeParser/*@bgen(jjtree)*/ implements KaraffeParserTreeConstant
                 }
                 case StringLiteral: {
                     t = jj_consume_token(StringLiteral);
+                    jjtree.closeNodeScope(jjtn000, true);
+                    jjtc000 = false;
                     jjtn000.jjtSetValue(t);
+                    break;
+                }
+                case Undefined: {
                     t = jj_consume_token(Undefined);
                     jjtree.closeNodeScope(jjtn000, true);
                     jjtc000 = false;
@@ -768,7 +1382,7 @@ public class KaraffeParser/*@bgen(jjtree)*/ implements KaraffeParserTreeConstant
                     break;
                 }
                 default:
-                    jj_la1[16] = jj_gen;
+                    jj_la1[22] = jj_gen;
                     jj_consume_token(-1);
                     throw new ParseException();
             }
@@ -819,7 +1433,7 @@ public class KaraffeParser/*@bgen(jjtree)*/ implements KaraffeParserTreeConstant
         jjtree.openNodeScope(jjtn000);
         try {
             LeftBracket();
-            label_6:
+            label_14:
             while (true) {
                 switch ((jj_ntk == -1) ? jj_ntk_f() : jj_ntk) {
                     case Identifier: {
@@ -827,8 +1441,8 @@ public class KaraffeParser/*@bgen(jjtree)*/ implements KaraffeParserTreeConstant
                         break;
                     }
                     default:
-                        jj_la1[17] = jj_gen;
-                        break label_6;
+                        jj_la1[23] = jj_gen;
+                        break label_14;
                 }
                 FunctionVariableBinding();
             }
@@ -896,7 +1510,7 @@ public class KaraffeParser/*@bgen(jjtree)*/ implements KaraffeParserTreeConstant
                     break;
                 }
                 default:
-                    jj_la1[18] = jj_gen;
+                    jj_la1[24] = jj_gen;
                     ;
             }
         } catch (Throwable jjte000) {
@@ -998,6 +1612,34 @@ public class KaraffeParser/*@bgen(jjtree)*/ implements KaraffeParserTreeConstant
         }
     }
 
+    final public void RightParen() throws ParseException {/*@bgen(jjtree) RightParen */
+
+        ASTRightParen jjtn000 = new ASTRightParen(JJTRIGHTPAREN);
+        boolean jjtc000 = true;
+        jjtree.openNodeScope(jjtn000);
+        try {
+            jj_consume_token(RightParen);
+        } finally {
+            if (jjtc000) {
+                jjtree.closeNodeScope(jjtn000, true);
+            }
+        }
+    }
+
+    final public void LeftParen() throws ParseException {/*@bgen(jjtree) LeftParen */
+
+        ASTLeftParen jjtn000 = new ASTLeftParen(JJTLEFTPAREN);
+        boolean jjtc000 = true;
+        jjtree.openNodeScope(jjtn000);
+        try {
+            jj_consume_token(LeftParen);
+        } finally {
+            if (jjtc000) {
+                jjtree.closeNodeScope(jjtn000, true);
+            }
+        }
+    }
+
     final public void RightBrace() throws ParseException {/*@bgen(jjtree) RightBrace */
 
         ASTRightBrace jjtn000 = new ASTRightBrace(JJTRIGHTBRACE);
@@ -1070,6 +1712,20 @@ public class KaraffeParser/*@bgen(jjtree)*/ implements KaraffeParserTreeConstant
         }
     }
 
+    final public void LessThanEqualToOperator() throws ParseException {/*@bgen(jjtree) LessThanEqualToOperator */
+
+        ASTLessThanEqualToOperator jjtn000 = new ASTLessThanEqualToOperator(JJTLESSTHANEQUALTOOPERATOR);
+        boolean jjtc000 = true;
+        jjtree.openNodeScope(jjtn000);
+        try {
+            jj_consume_token(LtE);
+        } finally {
+            if (jjtc000) {
+                jjtree.closeNodeScope(jjtn000, true);
+            }
+        }
+    }
+
     final public void GreaterThanOperator() throws ParseException {/*@bgen(jjtree) GreaterThanOperator */
 
         ASTGreaterThanOperator jjtn000 = new ASTGreaterThanOperator(JJTGREATERTHANOPERATOR);
@@ -1077,6 +1733,20 @@ public class KaraffeParser/*@bgen(jjtree)*/ implements KaraffeParserTreeConstant
         jjtree.openNodeScope(jjtn000);
         try {
             jj_consume_token(Gt);
+        } finally {
+            if (jjtc000) {
+                jjtree.closeNodeScope(jjtn000, true);
+            }
+        }
+    }
+
+    final public void GreaterThanEqualToOperator() throws ParseException {/*@bgen(jjtree) GreaterThanEqualToOperator */
+
+        ASTGreaterThanEqualToOperator jjtn000 = new ASTGreaterThanEqualToOperator(JJTGREATERTHANEQUALTOOPERATOR);
+        boolean jjtc000 = true;
+        jjtree.openNodeScope(jjtn000);
+        try {
+            jj_consume_token(GtE);
         } finally {
             if (jjtc000) {
                 jjtree.closeNodeScope(jjtn000, true);
@@ -1252,6 +1922,62 @@ public class KaraffeParser/*@bgen(jjtree)*/ implements KaraffeParserTreeConstant
         }
     }
 
+    final public void EqualTo() throws ParseException {/*@bgen(jjtree) EqualTo */
+
+        ASTEqualTo jjtn000 = new ASTEqualTo(JJTEQUALTO);
+        boolean jjtc000 = true;
+        jjtree.openNodeScope(jjtn000);
+        try {
+            jj_consume_token(EqualTo);
+        } finally {
+            if (jjtc000) {
+                jjtree.closeNodeScope(jjtn000, true);
+            }
+        }
+    }
+
+    final public void NotEqualTo() throws ParseException {/*@bgen(jjtree) NotEqualTo */
+
+        ASTNotEqualTo jjtn000 = new ASTNotEqualTo(JJTNOTEQUALTO);
+        boolean jjtc000 = true;
+        jjtree.openNodeScope(jjtn000);
+        try {
+            jj_consume_token(NotEqualTo);
+        } finally {
+            if (jjtc000) {
+                jjtree.closeNodeScope(jjtn000, true);
+            }
+        }
+    }
+
+    final public void SafeDiv() throws ParseException {/*@bgen(jjtree) SafeDiv */
+
+        ASTSafeDiv jjtn000 = new ASTSafeDiv(JJTSAFEDIV);
+        boolean jjtc000 = true;
+        jjtree.openNodeScope(jjtn000);
+        try {
+            jj_consume_token(SafeDiv);
+        } finally {
+            if (jjtc000) {
+                jjtree.closeNodeScope(jjtn000, true);
+            }
+        }
+    }
+
+    final public void SafeRem() throws ParseException {/*@bgen(jjtree) SafeRem */
+
+        ASTSafeRem jjtn000 = new ASTSafeRem(JJTSAFEREM);
+        boolean jjtc000 = true;
+        jjtree.openNodeScope(jjtn000);
+        try {
+            jj_consume_token(SafeRem);
+        } finally {
+            if (jjtc000) {
+                jjtree.closeNodeScope(jjtn000, true);
+            }
+        }
+    }
+
 //Other tokens
     final public
             void NewLine() throws ParseException {/*@bgen(jjtree) NewLine */
@@ -1280,62 +2006,116 @@ public class KaraffeParser/*@bgen(jjtree)*/ implements KaraffeParserTreeConstant
         }
     }
 
-    private boolean jj_3R_12() {
-        if (jj_3R_15()) {
+    private boolean jj_2_2(int xla) {
+        jj_la = xla;
+        jj_lastpos = jj_scanpos = token;
+        try {
+            return !jj_3_2();
+        } catch (LookaheadSuccess ls) {
             return true;
+        } finally {
+            jj_save(1, xla);
         }
-        return false;
     }
 
-    private boolean jj_3R_9() {
-        if (jj_3R_12()) {
+    private boolean jj_2_3(int xla) {
+        jj_la = xla;
+        jj_lastpos = jj_scanpos = token;
+        try {
+            return !jj_3_3();
+        } catch (LookaheadSuccess ls) {
             return true;
+        } finally {
+            jj_save(2, xla);
         }
-        return false;
     }
 
-    private boolean jj_3R_13() {
-        if (jj_3R_16()) {
+    private boolean jj_2_4(int xla) {
+        jj_la = xla;
+        jj_lastpos = jj_scanpos = token;
+        try {
+            return !jj_3_4();
+        } catch (LookaheadSuccess ls) {
             return true;
+        } finally {
+            jj_save(3, xla);
         }
-        return false;
     }
 
-    private boolean jj_3R_10() {
-        Token xsp;
-        xsp = jj_scanpos;
-        if (jj_3R_13()) {
-            jj_scanpos = xsp;
-            if (jj_3R_14()) {
-                return true;
-            }
-        }
-        return false;
-    }
-
-    private boolean jj_3R_14() {
-        if (jj_3R_17()) {
+    private boolean jj_2_5(int xla) {
+        jj_la = xla;
+        jj_lastpos = jj_scanpos = token;
+        try {
+            return !jj_3_5();
+        } catch (LookaheadSuccess ls) {
             return true;
+        } finally {
+            jj_save(4, xla);
         }
-        return false;
     }
 
-    private boolean jj_3_1() {
-        if (jj_3R_7()) {
+    private boolean jj_2_6(int xla) {
+        jj_la = xla;
+        jj_lastpos = jj_scanpos = token;
+        try {
+            return !jj_3_6();
+        } catch (LookaheadSuccess ls) {
             return true;
+        } finally {
+            jj_save(5, xla);
         }
-        return false;
     }
 
-    private boolean jj_3R_15() {
-        if (jj_scan_token(LeftBracket)) {
+    private boolean jj_2_7(int xla) {
+        jj_la = xla;
+        jj_lastpos = jj_scanpos = token;
+        try {
+            return !jj_3_7();
+        } catch (LookaheadSuccess ls) {
             return true;
+        } finally {
+            jj_save(6, xla);
         }
-        return false;
     }
 
-    private boolean jj_3R_17() {
-        if (jj_scan_token(Lt)) {
+    private boolean jj_2_8(int xla) {
+        jj_la = xla;
+        jj_lastpos = jj_scanpos = token;
+        try {
+            return !jj_3_8();
+        } catch (LookaheadSuccess ls) {
+            return true;
+        } finally {
+            jj_save(7, xla);
+        }
+    }
+
+    private boolean jj_2_9(int xla) {
+        jj_la = xla;
+        jj_lastpos = jj_scanpos = token;
+        try {
+            return !jj_3_9();
+        } catch (LookaheadSuccess ls) {
+            return true;
+        } finally {
+            jj_save(8, xla);
+        }
+    }
+
+    private boolean jj_2_10(int xla) {
+        jj_la = xla;
+        jj_lastpos = jj_scanpos = token;
+        try {
+            return !jj_3_10();
+        } catch (LookaheadSuccess ls) {
+            return true;
+        } finally {
+            jj_save(9, xla);
+        }
+    }
+
+    private boolean jj_3R_69() {
+        if (jj_3R_64()) {
             return true;
         }
         return false;
@@ -1348,40 +2128,661 @@ public class KaraffeParser/*@bgen(jjtree)*/ implements KaraffeParserTreeConstant
         return false;
     }
 
-    private boolean jj_3R_11() {
-        if (jj_scan_token(NewLine)) {
+    private boolean jj_3R_62() {
+        if (jj_scan_token(LeftParen)) {
             return true;
         }
         return false;
     }
 
-    private boolean jj_3R_8() {
+    private boolean jj_3R_78() {
+        if (jj_scan_token(RightBracket)) {
+            return true;
+        }
+        return false;
+    }
+
+    private boolean jj_3R_57() {
+        if (jj_3R_65()) {
+            return true;
+        }
+        return false;
+    }
+
+    private boolean jj_3R_35() {
+        if (jj_3R_51()) {
+            return true;
+        }
+        return false;
+    }
+
+    private boolean jj_3R_65() {
+        if (jj_scan_token(LeftBracket)) {
+            return true;
+        }
+        return false;
+    }
+
+    private boolean jj_3R_34() {
+        if (jj_3R_50()) {
+            return true;
+        }
+        return false;
+    }
+
+    private boolean jj_3R_37() {
         if (jj_scan_token(Identifier)) {
             return true;
         }
         return false;
     }
 
-    private boolean jj_3R_7() {
-        if (jj_scan_token(Type)) {
+    private boolean jj_3R_59() {
+        if (jj_3R_44()) {
             return true;
         }
-        if (jj_3R_8()) {
+        return false;
+    }
+
+    private boolean jj_3R_40() {
+        if (jj_scan_token(NewLine)) {
+            return true;
+        }
+        return false;
+    }
+
+    private boolean jj_3R_26() {
+        if (jj_3R_44()) {
+            return true;
+        }
+        return false;
+    }
+
+    private boolean jj_3R_79() {
+        if (jj_3R_37()) {
+            return true;
+        }
+        return false;
+    }
+
+    private boolean jj_3R_51() {
+        if (jj_scan_token(SafeRem)) {
+            return true;
+        }
+        return false;
+    }
+
+    private boolean jj_3R_77() {
+        if (jj_3R_79()) {
+            return true;
+        }
+        return false;
+    }
+
+    private boolean jj_3R_33() {
+        if (jj_3R_49()) {
+            return true;
+        }
+        return false;
+    }
+
+    private boolean jj_3R_50() {
+        if (jj_scan_token(SafeDiv)) {
+            return true;
+        }
+        return false;
+    }
+
+    private boolean jj_3R_58() {
+        if (jj_3R_16()) {
+            return true;
+        }
+        return false;
+    }
+
+    private boolean jj_3R_39() {
+        Token xsp;
+        xsp = jj_scanpos;
+        if (jj_3R_58()) {
+            jj_scanpos = xsp;
+            if (jj_3R_59()) {
+                return true;
+            }
+        }
+        return false;
+    }
+
+    private boolean jj_3R_42() {
+        if (jj_scan_token(NotEqualTo)) {
+            return true;
+        }
+        return false;
+    }
+
+    private boolean jj_3R_76() {
+        if (jj_3R_65()) {
             return true;
         }
         Token xsp;
-        xsp = jj_scanpos;
-        if (jj_3R_9()) {
-            jj_scanpos = xsp;
-        }
         while (true) {
             xsp = jj_scanpos;
-            if (jj_3R_10()) {
+            if (jj_3R_77()) {
                 jj_scanpos = xsp;
                 break;
             }
         }
-        if (jj_3R_11()) {
+        if (jj_3R_78()) {
+            return true;
+        }
+        return false;
+    }
+
+    private boolean jj_3R_41() {
+        if (jj_scan_token(EqualTo)) {
+            return true;
+        }
+        return false;
+    }
+
+    private boolean jj_3R_25() {
+        if (jj_3R_43()) {
+            return true;
+        }
+        return false;
+    }
+
+    private boolean jj_3R_32() {
+        if (jj_3R_48()) {
+            return true;
+        }
+        return false;
+    }
+
+    private boolean jj_3R_75() {
+        if (jj_3R_76()) {
+            return true;
+        }
+        return false;
+    }
+
+    private boolean jj_3R_38() {
+        if (jj_3R_57()) {
+            return true;
+        }
+        return false;
+    }
+
+    private boolean jj_3R_74() {
+        if (jj_scan_token(Undefined)) {
+            return true;
+        }
+        return false;
+    }
+
+    private boolean jj_3R_73() {
+        if (jj_scan_token(StringLiteral)) {
+            return true;
+        }
+        return false;
+    }
+
+    private boolean jj_3R_29() {
+        if (jj_3R_46()) {
+            return true;
+        }
+        return false;
+    }
+
+    private boolean jj_3R_72() {
+        if (jj_scan_token(FloatLiteral)) {
+            return true;
+        }
+        return false;
+    }
+
+    private boolean jj_3R_24() {
+        if (jj_3R_42()) {
+            return true;
+        }
+        return false;
+    }
+
+    private boolean jj_3R_71() {
+        if (jj_scan_token(IntLiteral)) {
+            return true;
+        }
+        return false;
+    }
+
+    private boolean jj_3R_31() {
+        if (jj_3R_47()) {
+            return true;
+        }
+        return false;
+    }
+
+    private boolean jj_3R_68() {
+        Token xsp;
+        xsp = jj_scanpos;
+        if (jj_3R_70()) {
+            jj_scanpos = xsp;
+            if (jj_3R_71()) {
+                jj_scanpos = xsp;
+                if (jj_3R_72()) {
+                    jj_scanpos = xsp;
+                    if (jj_3R_73()) {
+                        jj_scanpos = xsp;
+                        if (jj_3R_74()) {
+                            jj_scanpos = xsp;
+                            if (jj_3R_75()) {
+                                return true;
+                            }
+                        }
+                    }
+                }
+            }
+        }
+        return false;
+    }
+
+    private boolean jj_3R_70() {
+        if (jj_scan_token(BoolLiteral)) {
+            return true;
+        }
+        return false;
+    }
+
+    private boolean jj_3R_18() {
+        if (jj_scan_token(Or)) {
+            return true;
+        }
+        return false;
+    }
+
+    private boolean jj_3R_28() {
+        if (jj_3R_45()) {
+            return true;
+        }
+        return false;
+    }
+
+    private boolean jj_3_9() {
+        if (jj_3R_36()) {
+            return true;
+        }
+        return false;
+    }
+
+    private boolean jj_3R_20() {
+        if (jj_scan_token(And)) {
+            return true;
+        }
+        return false;
+    }
+
+    private boolean jj_3R_15() {
+        if (jj_scan_token(Type)) {
+            return true;
+        }
+        if (jj_3R_37()) {
+            return true;
+        }
+        Token xsp;
+        xsp = jj_scanpos;
+        if (jj_3R_38()) {
+            jj_scanpos = xsp;
+        }
+        while (true) {
+            xsp = jj_scanpos;
+            if (jj_3R_39()) {
+                jj_scanpos = xsp;
+                break;
+            }
+        }
+        if (jj_3R_40()) {
+            return true;
+        }
+        return false;
+    }
+
+    private boolean jj_3R_23() {
+        if (jj_3R_41()) {
+            return true;
+        }
+        return false;
+    }
+
+    private boolean jj_3R_61() {
+        if (jj_scan_token(Bang)) {
+            return true;
+        }
+        return false;
+    }
+
+    private boolean jj_3_8() {
+        Token xsp;
+        xsp = jj_scanpos;
+        if (jj_3R_31()) {
+            jj_scanpos = xsp;
+            if (jj_3R_32()) {
+                jj_scanpos = xsp;
+                if (jj_3R_33()) {
+                    jj_scanpos = xsp;
+                    if (jj_3R_34()) {
+                        jj_scanpos = xsp;
+                        if (jj_3R_35()) {
+                            return true;
+                        }
+                    }
+                }
+            }
+        }
+        if (jj_3R_36()) {
+            return true;
+        }
+        return false;
+    }
+
+    private boolean jj_3R_67() {
+        if (jj_3R_68()) {
+            return true;
+        }
+        return false;
+    }
+
+    private boolean jj_3_7() {
+        Token xsp;
+        xsp = jj_scanpos;
+        if (jj_3R_28()) {
+            jj_scanpos = xsp;
+            if (jj_3R_29()) {
+                return true;
+            }
+        }
+        if (jj_3R_30()) {
+            return true;
+        }
+        return false;
+    }
+
+    private boolean jj_3_10() {
+        if (jj_3R_37()) {
+            return true;
+        }
+        return false;
+    }
+
+    private boolean jj_3R_63() {
+        Token xsp;
+        xsp = jj_scanpos;
+        if (jj_3R_66()) {
+            jj_scanpos = xsp;
+            if (jj_3R_67()) {
+                return true;
+            }
+        }
+        return false;
+    }
+
+    private boolean jj_3R_66() {
+        Token xsp;
+        if (jj_3_10()) {
+            return true;
+        }
+        while (true) {
+            xsp = jj_scanpos;
+            if (jj_3_10()) {
+                jj_scanpos = xsp;
+                break;
+            }
+        }
+        if (jj_3R_69()) {
+            return true;
+        }
+        return false;
+    }
+
+    private boolean jj_3R_60() {
+        if (jj_scan_token(Tilde)) {
+            return true;
+        }
+        return false;
+    }
+
+    private boolean jj_3_6() {
+        Token xsp;
+        xsp = jj_scanpos;
+        if (jj_3R_23()) {
+            jj_scanpos = xsp;
+            if (jj_3R_24()) {
+                jj_scanpos = xsp;
+                if (jj_3R_25()) {
+                    jj_scanpos = xsp;
+                    if (jj_3R_26()) {
+                        return true;
+                    }
+                }
+            }
+        }
+        if (jj_3R_27()) {
+            return true;
+        }
+        return false;
+    }
+
+    private boolean jj_3R_56() {
+        if (jj_3R_63()) {
+            return true;
+        }
+        Token xsp;
+        xsp = jj_scanpos;
+        if (jj_3_9()) {
+            jj_scanpos = xsp;
+        }
+        return false;
+    }
+
+    private boolean jj_3R_55() {
+        if (jj_3R_62()) {
+            return true;
+        }
+        if (jj_3R_64()) {
+            return true;
+        }
+        return false;
+    }
+
+    private boolean jj_3R_54() {
+        if (jj_3R_61()) {
+            return true;
+        }
+        if (jj_3R_36()) {
+            return true;
+        }
+        return false;
+    }
+
+    private boolean jj_3R_49() {
+        if (jj_scan_token(Percent)) {
+            return true;
+        }
+        return false;
+    }
+
+    private boolean jj_3R_53() {
+        if (jj_3R_60()) {
+            return true;
+        }
+        if (jj_3R_36()) {
+            return true;
+        }
+        return false;
+    }
+
+    private boolean jj_3_5() {
+        if (jj_3R_16()) {
+            return true;
+        }
+        if (jj_3R_22()) {
+            return true;
+        }
+        return false;
+    }
+
+    private boolean jj_3R_36() {
+        Token xsp;
+        xsp = jj_scanpos;
+        if (jj_3R_52()) {
+            jj_scanpos = xsp;
+            if (jj_3R_53()) {
+                jj_scanpos = xsp;
+                if (jj_3R_54()) {
+                    jj_scanpos = xsp;
+                    if (jj_3R_55()) {
+                        jj_scanpos = xsp;
+                        if (jj_3R_56()) {
+                            return true;
+                        }
+                    }
+                }
+            }
+        }
+        return false;
+    }
+
+    private boolean jj_3R_52() {
+        if (jj_3R_46()) {
+            return true;
+        }
+        if (jj_3R_36()) {
+            return true;
+        }
+        return false;
+    }
+
+    private boolean jj_3R_48() {
+        if (jj_scan_token(Slash)) {
+            return true;
+        }
+        return false;
+    }
+
+    private boolean jj_3R_30() {
+        if (jj_3R_36()) {
+            return true;
+        }
+        return false;
+    }
+
+    private boolean jj_3_4() {
+        if (jj_3R_20()) {
+            return true;
+        }
+        if (jj_3R_21()) {
+            return true;
+        }
+        return false;
+    }
+
+    private boolean jj_3R_47() {
+        if (jj_scan_token(Star)) {
+            return true;
+        }
+        return false;
+    }
+
+    private boolean jj_3_1() {
+        if (jj_3R_15()) {
+            return true;
+        }
+        return false;
+    }
+
+    private boolean jj_3R_27() {
+        if (jj_3R_30()) {
+            return true;
+        }
+        return false;
+    }
+
+    private boolean jj_3R_46() {
+        if (jj_scan_token(Minus)) {
+            return true;
+        }
+        return false;
+    }
+
+    private boolean jj_3_3() {
+        if (jj_3R_18()) {
+            return true;
+        }
+        if (jj_3R_19()) {
+            return true;
+        }
+        return false;
+    }
+
+    private boolean jj_3R_22() {
+        if (jj_3R_27()) {
+            return true;
+        }
+        return false;
+    }
+
+    private boolean jj_3R_45() {
+        if (jj_scan_token(Plus)) {
+            return true;
+        }
+        return false;
+    }
+
+    private boolean jj_3_2() {
+        if (jj_3R_16()) {
+            return true;
+        }
+        if (jj_3R_17()) {
+            return true;
+        }
+        return false;
+    }
+
+    private boolean jj_3R_21() {
+        if (jj_3R_22()) {
+            return true;
+        }
+        return false;
+    }
+
+    private boolean jj_3R_19() {
+        if (jj_3R_21()) {
+            return true;
+        }
+        return false;
+    }
+
+    private boolean jj_3R_43() {
+        if (jj_scan_token(Gt)) {
+            return true;
+        }
+        return false;
+    }
+
+    private boolean jj_3R_17() {
+        if (jj_3R_19()) {
+            return true;
+        }
+        return false;
+    }
+
+    private boolean jj_3R_64() {
+        if (jj_3R_17()) {
+            return true;
+        }
+        return false;
+    }
+
+    private boolean jj_3R_44() {
+        if (jj_scan_token(Lt)) {
             return true;
         }
         return false;
@@ -1398,7 +2799,7 @@ public class KaraffeParser/*@bgen(jjtree)*/ implements KaraffeParserTreeConstant
     private Token jj_scanpos, jj_lastpos;
     private int jj_la;
     private int jj_gen;
-    final private int[] jj_la1 = new int[19];
+    final private int[] jj_la1 = new int[25];
     static private int[] jj_la1_0;
     static private int[] jj_la1_1;
 
@@ -1408,13 +2809,13 @@ public class KaraffeParser/*@bgen(jjtree)*/ implements KaraffeParserTreeConstant
     }
 
     private static void jj_la1_init_0() {
-        jj_la1_0 = new int[]{0x10004200, 0x10000200, 0x0, 0x0, 0x0, 0x10000000, 0x0, 0x0, 0x0, 0x1130000, 0x0, 0x10000000, 0x2000, 0x10000000, 0x0, 0x0, 0x1130000, 0x10000000, 0x0,};
+        jj_la1_0 = new int[]{0x10004200, 0x10004200, 0x10000200, 0x0, 0x0, 0x0, 0x10000000, 0x0, 0x0, 0x0, 0x11138000, 0x0, 0x10000000, 0x2000, 0x10000000, 0x0, 0x0, 0x0, 0x0, 0x0, 0x11138000, 0x11138000, 0x1138000, 0x10000000, 0x0,};
     }
 
     private static void jj_la1_init_1() {
-        jj_la1_1 = new int[]{0x0, 0x0, 0x1, 0xc0, 0xc0, 0x0, 0x1, 0x1, 0x10, 0x1, 0x1, 0x0, 0x0, 0x0, 0x180, 0x180, 0x1, 0x0, 0x10,};
+        jj_la1_1 = new int[]{0x20000000, 0x20000000, 0x0, 0x1, 0x300, 0x300, 0x0, 0x1, 0x1, 0x40, 0x304011, 0x1, 0x0, 0x0, 0x0, 0xa00, 0xa00, 0x18000a00, 0x6000, 0xf8000, 0x304011, 0x1, 0x1, 0x0, 0x40,};
     }
-    final private JJCalls[] jj_2_rtns = new JJCalls[1];
+    final private JJCalls[] jj_2_rtns = new JJCalls[10];
     private boolean jj_rescan = false;
     private int jj_gc = 0;
 
@@ -1434,7 +2835,7 @@ public class KaraffeParser/*@bgen(jjtree)*/ implements KaraffeParserTreeConstant
         token = new Token();
         jj_ntk = -1;
         jj_gen = 0;
-        for (int i = 0; i < 19; i++) {
+        for (int i = 0; i < 25; i++) {
             jj_la1[i] = -1;
         }
         for (int i = 0; i < jj_2_rtns.length; i++) {
@@ -1459,7 +2860,7 @@ public class KaraffeParser/*@bgen(jjtree)*/ implements KaraffeParserTreeConstant
         jj_ntk = -1;
         jjtree.reset();
         jj_gen = 0;
-        for (int i = 0; i < 19; i++) {
+        for (int i = 0; i < 25; i++) {
             jj_la1[i] = -1;
         }
         for (int i = 0; i < jj_2_rtns.length; i++) {
@@ -1474,7 +2875,7 @@ public class KaraffeParser/*@bgen(jjtree)*/ implements KaraffeParserTreeConstant
         token = new Token();
         jj_ntk = -1;
         jj_gen = 0;
-        for (int i = 0; i < 19; i++) {
+        for (int i = 0; i < 25; i++) {
             jj_la1[i] = -1;
         }
         for (int i = 0; i < jj_2_rtns.length; i++) {
@@ -1490,7 +2891,7 @@ public class KaraffeParser/*@bgen(jjtree)*/ implements KaraffeParserTreeConstant
         jj_ntk = -1;
         jjtree.reset();
         jj_gen = 0;
-        for (int i = 0; i < 19; i++) {
+        for (int i = 0; i < 25; i++) {
             jj_la1[i] = -1;
         }
         for (int i = 0; i < jj_2_rtns.length; i++) {
@@ -1504,7 +2905,7 @@ public class KaraffeParser/*@bgen(jjtree)*/ implements KaraffeParserTreeConstant
         token = new Token();
         jj_ntk = -1;
         jj_gen = 0;
-        for (int i = 0; i < 19; i++) {
+        for (int i = 0; i < 25; i++) {
             jj_la1[i] = -1;
         }
         for (int i = 0; i < jj_2_rtns.length; i++) {
@@ -1519,7 +2920,7 @@ public class KaraffeParser/*@bgen(jjtree)*/ implements KaraffeParserTreeConstant
         jj_ntk = -1;
         jjtree.reset();
         jj_gen = 0;
-        for (int i = 0; i < 19; i++) {
+        for (int i = 0; i < 25; i++) {
             jj_la1[i] = -1;
         }
         for (int i = 0; i < jj_2_rtns.length; i++) {
@@ -1664,12 +3065,12 @@ public class KaraffeParser/*@bgen(jjtree)*/ implements KaraffeParserTreeConstant
     /** Generate ParseException. */
     public ParseException generateParseException() {
         jj_expentries.clear();
-        boolean[] la1tokens = new boolean[54];
+        boolean[] la1tokens = new boolean[62];
         if (jj_kind >= 0) {
             la1tokens[jj_kind] = true;
             jj_kind = -1;
         }
-        for (int i = 0; i < 19; i++) {
+        for (int i = 0; i < 25; i++) {
             if (jj_la1[i] == jj_gen) {
                 for (int j = 0; j < 32; j++) {
                     if ((jj_la1_0[i] & (1 << j)) != 0) {
@@ -1681,7 +3082,7 @@ public class KaraffeParser/*@bgen(jjtree)*/ implements KaraffeParserTreeConstant
                 }
             }
         }
-        for (int i = 0; i < 54; i++) {
+        for (int i = 0; i < 62; i++) {
             if (la1tokens[i]) {
                 jj_expentry = new int[1];
                 jj_expentry[0] = i;
@@ -1708,7 +3109,7 @@ public class KaraffeParser/*@bgen(jjtree)*/ implements KaraffeParserTreeConstant
 
     private void jj_rescan_token() {
         jj_rescan = true;
-        for (int i = 0; i < 1; i++) {
+        for (int i = 0; i < 10; i++) {
             try {
                 JJCalls p = jj_2_rtns[i];
                 do {
@@ -1718,6 +3119,33 @@ public class KaraffeParser/*@bgen(jjtree)*/ implements KaraffeParserTreeConstant
                         switch (i) {
                             case 0:
                                 jj_3_1();
+                                break;
+                            case 1:
+                                jj_3_2();
+                                break;
+                            case 2:
+                                jj_3_3();
+                                break;
+                            case 3:
+                                jj_3_4();
+                                break;
+                            case 4:
+                                jj_3_5();
+                                break;
+                            case 5:
+                                jj_3_6();
+                                break;
+                            case 6:
+                                jj_3_7();
+                                break;
+                            case 7:
+                                jj_3_8();
+                                break;
+                            case 8:
+                                jj_3_9();
+                                break;
+                            case 9:
+                                jj_3_10();
                                 break;
                         }
                     }
