@@ -205,6 +205,7 @@ void Statement():
 /**
  Declaration = TypeDcl
              | InterfaceDcl
+             | VariableDcl
  */
 void Declaration():
 {}
