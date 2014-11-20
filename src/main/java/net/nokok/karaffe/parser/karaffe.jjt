@@ -345,14 +345,96 @@ void TypeParameter():
 //Expressions
 
 /**
-    Expression = Literal
+    Expression = ConditionalExpressionsOrAssign
+
+    Expressionの評価優先度
+    低い順から
+    AssignExpr =
+    ↓
+    OrOperatorExpr |
+    ↓
+    AndOperatorExpr &
+    ↓
+    EqualityOperatorExpr == !=
+    ↓
+    ComparisonOperatorExpr <= >= < >
+    ↓
+    AdditiveOperatorExpr + -
+    ↓
+    MultiplyOperatorExpr * / /? % %? 
+    ↓
+    UnaryOperatorExpr - ~ !
+    ↓
+    ArrayElement //未実装
+    ↓
+    FunctionApply
+    
  */
 void Expression():
 {}
 {
-    Literal()
+    AssignExpr()
 }
 
+
+void AssignExpr():
+{}
+{
+    OrOperatorExpr() (LOOKAHEAD(2) EqualOperator() OrOperatorExpr())*
+}
+
+void OrOperatorExpr():
+{}
+{
+    AndOperatorExpr() (LOOKAHEAD(2) OrOperator() AndOperatorExpr())*
+}
+
+void AndOperatorExpr():
+{}
+{
+    EqualityOperatorExpr() (LOOKAHEAD(2) AndOperator() EqualityOperatorExpr())*
+}
+
+void EqualityOperatorExpr():
+{}
+{
+    ComparisonOperatorExpr() (LOOKAHEAD(2) EqualOperator() ComparisonOperatorExpr())*
+}
+
+void ComparisonOperatorExpr():
+{}
+{
+    AdditiveOperatorExpr() (LOOKAHEAD(2) (EqualTo() | NotEqualTo() | GreaterThanOperator() | LessThanOperator()) AdditiveOperatorExpr())*
+}
+
+void AdditiveOperatorExpr():
+{}
+{
+    MultiplyOperatorExpr() (LOOKAHEAD(2) (Plus() | Minus()) MultiplyOperatorExpr())*
+}
+
+void MultiplyOperatorExpr():
+{}
+{
+    UnaryOperatorExpr() (LOOKAHEAD(2) (StarOperator() | SlashOperator() | PercentOperator() | SafeDiv() | SafeRem()) UnaryOperatorExpr())*
+}
+
+void UnaryOperatorExpr():
+{}
+{
+    Minus() UnaryOperatorExpr()
+    | TildeOperator() UnaryOperatorExpr()
+    | BangOperator() UnaryOperatorExpr()
+    | LeftParen() AssignExpr() RightParen()
+    | FunctionApply() (LOOKAHEAD(2) UnaryOperatorExpr())?
+}
+
+void FunctionApply():
+{}
+{
+    (LOOKAHEAD(2) Identifier())+ Expression()
+    | Literal()
+}
 
 /**
     Literal = BoolLiteral
