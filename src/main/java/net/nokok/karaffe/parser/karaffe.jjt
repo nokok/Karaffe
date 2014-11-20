@@ -77,7 +77,6 @@ TOKEN:
     | < Public : "public" >
     | < SideEffect : "seffect" >
     | < Switch : "switch" >
-    | < To : "to" >
     | < Type : "type" >
     | < Undefined : "undefined" >
 }
@@ -278,7 +277,7 @@ void VariableDcl():
 void VariableTypeDcl():
 {}
 {
-    (Identifier() (TypeParameters())?)+ (<To> Identifier() TypeParameters())? 
+    (Identifier() (TypeParameters())?)+ ("to" Identifier() TypeParameters())? 
 }
 
 /**
