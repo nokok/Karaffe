@@ -16,22 +16,28 @@ public interface KaraffeParserTreeConstants {
     public int JJTFUNCTIONLITERAL = 10;
     public int JJTFUNCTIONVARIABLEBINDING = 11;
     public int JJTIDENTIFIER = 12;
-    public int JJTEQUALOPERATOR = 13;
-    public int JJTLESSTHANOPERATOR = 14;
-    public int JJTGREATERTHANOPERATOR = 15;
-    public int JJTPLUS = 16;
-    public int JJTMINUS = 17;
-    public int JJTSTAROPERATOR = 18;
-    public int JJTSLASHOPERATOR = 19;
-    public int JJTPERCENTOPERATOR = 20;
-    public int JJTTILDEOPERATOR = 21;
-    public int JJTBANGOPERATOR = 22;
-    public int JJTANDOPERATOR = 23;
-    public int JJTOROPERATOR = 24;
-    public int JJTHATOPERATOR = 25;
-    public int JJTQUESTIONOPERATOR = 26;
-    public int JJTARROWOPERATOR = 27;
-    public int JJTNEWLINE = 28;
+    public int JJTLEFTBRACKET = 13;
+    public int JJTRIGHTBRACKET = 14;
+    public int JJTLEFTBRACE = 15;
+    public int JJTRIGHTBRACE = 16;
+    public int JJTCOLON = 17;
+    public int JJTDOT = 18;
+    public int JJTEQUALOPERATOR = 19;
+    public int JJTLESSTHANOPERATOR = 20;
+    public int JJTGREATERTHANOPERATOR = 21;
+    public int JJTPLUS = 22;
+    public int JJTMINUS = 23;
+    public int JJTSTAROPERATOR = 24;
+    public int JJTSLASHOPERATOR = 25;
+    public int JJTPERCENTOPERATOR = 26;
+    public int JJTTILDEOPERATOR = 27;
+    public int JJTBANGOPERATOR = 28;
+    public int JJTANDOPERATOR = 29;
+    public int JJTOROPERATOR = 30;
+    public int JJTHATOPERATOR = 31;
+    public int JJTQUESTIONOPERATOR = 32;
+    public int JJTARROWOPERATOR = 33;
+    public int JJTNEWLINE = 34;
 
     public String[] jjtNodeName = {
         "CompileUnit",
@@ -47,6 +53,12 @@ public interface KaraffeParserTreeConstants {
         "FunctionLiteral",
         "FunctionVariableBinding",
         "Identifier",
+        "LeftBracket",
+        "RightBracket",
+        "LeftBrace",
+        "RightBrace",
+        "Colon",
+        "Dot",
         "EqualOperator",
         "LessThanOperator",
         "GreaterThanOperator",
@@ -64,4 +76,4 @@ public interface KaraffeParserTreeConstants {
         "ArrowOperator",
         "NewLine",};
 }
-/* JavaCC - OriginalChecksum=8c37fdd007a17923179faf7178a1aa76 (do not edit this line) */
+/* JavaCC - OriginalChecksum=3d9be28dee994bda7919c532e877ff43 (do not edit this line) */

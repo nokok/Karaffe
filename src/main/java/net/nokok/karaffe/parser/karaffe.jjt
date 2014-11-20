@@ -130,7 +130,7 @@ TOKEN:
 }
 
 /**
-    Separators
+    Delimiters
 */
 TOKEN:
 {
@@ -286,7 +286,7 @@ void VariableTypeDcl():
 void TypeParameters():
 {}
 {
-    "[" (Identifier())+ "]"
+    LeftBracket() (Identifier())+ RightBracket()
 }
 
 //Expressions
@@ -340,7 +340,7 @@ void Literal():
 void FunctionLiteral():
 {}
 {
-    <LeftBracket> (FunctionVariableBinding())* <RightBracket> ArrowOperator() <LeftBrace> Expression() <RightBrace>
+    LeftBracket() (FunctionVariableBinding())* RightBracket() ArrowOperator() LeftBrace() Expression() RightBrace()
 }
 
 /**
@@ -373,6 +373,45 @@ void Identifier():
         jjtThis.jjtSetValue(t);
     }
 }
+
+//Delimiters
+
+void LeftBracket():
+{}
+{
+    <LeftBracket>
+}
+
+void RightBracket():
+{}
+{
+    <RightBracket>
+}
+
+void LeftBrace():
+{}
+{
+    <LeftBrace>
+}
+
+void RightBrace():
+{}
+{
+    <RightBrace>
+}
+
+void Colon():
+{}
+{
+    <Colon>
+}
+
+void Dot():
+{}
+{
+    <Dot>
+}
+//Operators
 
 void EqualOperator():
 {}
@@ -463,6 +502,8 @@ void ArrowOperator():
 {
     <Arrow>
 }
+
+//Other tokens
 
 void NewLine():
 {}

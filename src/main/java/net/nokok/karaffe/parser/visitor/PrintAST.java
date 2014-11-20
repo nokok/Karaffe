@@ -12,8 +12,10 @@ package net.nokok.karaffe.parser.visitor;
 import net.nokok.karaffe.parser.ASTAndOperator;
 import net.nokok.karaffe.parser.ASTArrowOperator;
 import net.nokok.karaffe.parser.ASTBangOperator;
+import net.nokok.karaffe.parser.ASTColon;
 import net.nokok.karaffe.parser.ASTCompileUnit;
 import net.nokok.karaffe.parser.ASTDeclaration;
+import net.nokok.karaffe.parser.ASTDot;
 import net.nokok.karaffe.parser.ASTEqualOperator;
 import net.nokok.karaffe.parser.ASTExpression;
 import net.nokok.karaffe.parser.ASTFunctionLiteral;
@@ -22,6 +24,8 @@ import net.nokok.karaffe.parser.ASTGreaterThanOperator;
 import net.nokok.karaffe.parser.ASTHatOperator;
 import net.nokok.karaffe.parser.ASTIdentifier;
 import net.nokok.karaffe.parser.ASTInterfaceDcl;
+import net.nokok.karaffe.parser.ASTLeftBrace;
+import net.nokok.karaffe.parser.ASTLeftBracket;
 import net.nokok.karaffe.parser.ASTLessThanOperator;
 import net.nokok.karaffe.parser.ASTLiteral;
 import net.nokok.karaffe.parser.ASTMinus;
@@ -30,6 +34,8 @@ import net.nokok.karaffe.parser.ASTOrOperator;
 import net.nokok.karaffe.parser.ASTPercentOperator;
 import net.nokok.karaffe.parser.ASTPlus;
 import net.nokok.karaffe.parser.ASTQuestionOperator;
+import net.nokok.karaffe.parser.ASTRightBrace;
+import net.nokok.karaffe.parser.ASTRightBracket;
 import net.nokok.karaffe.parser.ASTSlashOperator;
 import net.nokok.karaffe.parser.ASTStarOperator;
 import net.nokok.karaffe.parser.ASTStatement;
@@ -118,6 +124,42 @@ public class PrintAST implements KaraffeParserVisitor {
     @Override
     public Object visit(ASTIdentifier node, Object data) throws KaraffeParserException {
         System.out.println("Identifier: " + node.jjtGetValue());
+        return defaultVisit(node, data);
+    }
+
+    @Override
+    public Object visit(ASTLeftBracket node, Object data) throws net.nokok.karaffe.parser.excptn.KaraffeParserException {
+        System.out.println("[");
+        return defaultVisit(node, data);
+    }
+
+    @Override
+    public Object visit(ASTRightBracket node, Object data) throws net.nokok.karaffe.parser.excptn.KaraffeParserException {
+        System.out.println("]");
+        return defaultVisit(node, data);
+    }
+
+    @Override
+    public Object visit(ASTLeftBrace node, Object data) throws net.nokok.karaffe.parser.excptn.KaraffeParserException {
+        System.out.println("{");
+        return defaultVisit(node, data);
+    }
+
+    @Override
+    public Object visit(ASTRightBrace node, Object data) throws net.nokok.karaffe.parser.excptn.KaraffeParserException {
+        System.out.println("}");
+        return defaultVisit(node, data);
+    }
+
+    @Override
+    public Object visit(ASTColon node, Object data) throws net.nokok.karaffe.parser.excptn.KaraffeParserException {
+        System.out.println(":");
+        return defaultVisit(node, data);
+    }
+
+    @Override
+    public Object visit(ASTDot node, Object data) throws net.nokok.karaffe.parser.excptn.KaraffeParserException {
+        System.out.println(".");
         return defaultVisit(node, data);
     }
 

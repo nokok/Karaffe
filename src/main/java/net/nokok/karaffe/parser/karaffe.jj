@@ -134,7 +134,7 @@ TOKEN:
 }
 
 /**
-    Separators
+    Delimiters
 */
 TOKEN:
 {
@@ -483,7 +483,7 @@ void TypeParameters():
 {/*@bgen(jjtree) TypeParameters */
     try {
 /*@egen*/
-    "[" (Identifier())+ "]"/*@bgen(jjtree)*/
+    LeftBracket() (Identifier())+ RightBracket()/*@bgen(jjtree)*/
     } catch (Throwable jjte000) {
       if (jjtc000) {
         jjtree.clearNodeScope(jjtn000);
@@ -635,7 +635,7 @@ void FunctionLiteral():
 {/*@bgen(jjtree) FunctionLiteral */
     try {
 /*@egen*/
-    <LeftBracket> (FunctionVariableBinding())* <RightBracket> ArrowOperator() <LeftBrace> Expression() <RightBrace>/*@bgen(jjtree)*/
+    LeftBracket() (FunctionVariableBinding())* RightBracket() ArrowOperator() LeftBrace() Expression() RightBrace()/*@bgen(jjtree)*/
     } catch (Throwable jjte000) {
       if (jjtc000) {
         jjtree.clearNodeScope(jjtn000);
@@ -731,6 +731,117 @@ void Identifier():
     }
 /*@egen*/
 }
+
+//Delimiters
+
+void LeftBracket():
+{/*@bgen(jjtree) LeftBracket */
+  ASTLeftBracket jjtn000 = new ASTLeftBracket(JJTLEFTBRACKET);
+  boolean jjtc000 = true;
+  jjtree.openNodeScope(jjtn000);
+/*@egen*/}
+{/*@bgen(jjtree) LeftBracket */
+    try {
+/*@egen*/
+    <LeftBracket>/*@bgen(jjtree)*/
+    } finally {
+      if (jjtc000) {
+        jjtree.closeNodeScope(jjtn000, true);
+      }
+    }
+/*@egen*/
+}
+
+void RightBracket():
+{/*@bgen(jjtree) RightBracket */
+  ASTRightBracket jjtn000 = new ASTRightBracket(JJTRIGHTBRACKET);
+  boolean jjtc000 = true;
+  jjtree.openNodeScope(jjtn000);
+/*@egen*/}
+{/*@bgen(jjtree) RightBracket */
+    try {
+/*@egen*/
+    <RightBracket>/*@bgen(jjtree)*/
+    } finally {
+      if (jjtc000) {
+        jjtree.closeNodeScope(jjtn000, true);
+      }
+    }
+/*@egen*/
+}
+
+void LeftBrace():
+{/*@bgen(jjtree) LeftBrace */
+  ASTLeftBrace jjtn000 = new ASTLeftBrace(JJTLEFTBRACE);
+  boolean jjtc000 = true;
+  jjtree.openNodeScope(jjtn000);
+/*@egen*/}
+{/*@bgen(jjtree) LeftBrace */
+    try {
+/*@egen*/
+    <LeftBrace>/*@bgen(jjtree)*/
+    } finally {
+      if (jjtc000) {
+        jjtree.closeNodeScope(jjtn000, true);
+      }
+    }
+/*@egen*/
+}
+
+void RightBrace():
+{/*@bgen(jjtree) RightBrace */
+  ASTRightBrace jjtn000 = new ASTRightBrace(JJTRIGHTBRACE);
+  boolean jjtc000 = true;
+  jjtree.openNodeScope(jjtn000);
+/*@egen*/}
+{/*@bgen(jjtree) RightBrace */
+    try {
+/*@egen*/
+    <RightBrace>/*@bgen(jjtree)*/
+    } finally {
+      if (jjtc000) {
+        jjtree.closeNodeScope(jjtn000, true);
+      }
+    }
+/*@egen*/
+}
+
+void Colon():
+{/*@bgen(jjtree) Colon */
+  ASTColon jjtn000 = new ASTColon(JJTCOLON);
+  boolean jjtc000 = true;
+  jjtree.openNodeScope(jjtn000);
+/*@egen*/}
+{/*@bgen(jjtree) Colon */
+    try {
+/*@egen*/
+    <Colon>/*@bgen(jjtree)*/
+    } finally {
+      if (jjtc000) {
+        jjtree.closeNodeScope(jjtn000, true);
+      }
+    }
+/*@egen*/
+}
+
+void Dot():
+{/*@bgen(jjtree) Dot */
+  ASTDot jjtn000 = new ASTDot(JJTDOT);
+  boolean jjtc000 = true;
+  jjtree.openNodeScope(jjtn000);
+/*@egen*/}
+{/*@bgen(jjtree) Dot */
+    try {
+/*@egen*/
+    <Dot>/*@bgen(jjtree)*/
+    } finally {
+      if (jjtc000) {
+        jjtree.closeNodeScope(jjtn000, true);
+      }
+    }
+/*@egen*/
+}
+//Operators
 
 void EqualOperator():
 {/*@bgen(jjtree) EqualOperator */
@@ -1001,6 +1112,8 @@ void ArrowOperator():
     }
 /*@egen*/
 }
+
+//Other tokens
 
 void NewLine():
 {/*@bgen(jjtree) NewLine */

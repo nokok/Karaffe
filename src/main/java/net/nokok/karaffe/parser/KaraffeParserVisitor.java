@@ -31,6 +31,18 @@ public interface KaraffeParserVisitor {
 
     public Object visit(ASTIdentifier node, Object data) throws net.nokok.karaffe.parser.excptn.KaraffeParserException;
 
+    public Object visit(ASTLeftBracket node, Object data) throws net.nokok.karaffe.parser.excptn.KaraffeParserException;
+
+    public Object visit(ASTRightBracket node, Object data) throws net.nokok.karaffe.parser.excptn.KaraffeParserException;
+
+    public Object visit(ASTLeftBrace node, Object data) throws net.nokok.karaffe.parser.excptn.KaraffeParserException;
+
+    public Object visit(ASTRightBrace node, Object data) throws net.nokok.karaffe.parser.excptn.KaraffeParserException;
+
+    public Object visit(ASTColon node, Object data) throws net.nokok.karaffe.parser.excptn.KaraffeParserException;
+
+    public Object visit(ASTDot node, Object data) throws net.nokok.karaffe.parser.excptn.KaraffeParserException;
+
     public Object visit(ASTEqualOperator node, Object data) throws net.nokok.karaffe.parser.excptn.KaraffeParserException;
 
     public Object visit(ASTLessThanOperator node, Object data) throws net.nokok.karaffe.parser.excptn.KaraffeParserException;
@@ -63,4 +75,4 @@ public interface KaraffeParserVisitor {
 
     public Object visit(ASTNewLine node, Object data) throws net.nokok.karaffe.parser.excptn.KaraffeParserException;
 }
-/* JavaCC - OriginalChecksum=458ac357a0eddb526bd7019eb6201311 (do not edit this line) */
+/* JavaCC - OriginalChecksum=e400c3916c01668555a48a9ca6a9bbef (do not edit this line) */
