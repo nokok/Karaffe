@@ -369,7 +369,8 @@ void Literal():
     }
     | t = <StringLiteral> {
         jjtThis.jjtSetValue(t);
-    } t = <Undefined> {
+    }
+    | t = <Undefined> {
         jjtThis.jjtSetValue(t);
     }
     | FunctionLiteral()
