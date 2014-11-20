@@ -77,6 +77,7 @@ TOKEN:
     | < Public : "public" >
     | < SideEffect : "seffect" >
     | < Switch : "switch" >
+    | < To : "to" >
     | < Type : "type" >
     | < Undefined : "undefined" >
 }
@@ -261,7 +262,7 @@ void InterfaceDcl():
 }
 
 /**
-    VariableDcl     = Identifier VariableTypeDcl? "=" Expression? NewLine
+    VariableDcl     = Identifier TypeParameters? VariableTypeDcl? "=" Expression? NewLine
     VariableTypeDcl = VariableType
                     | FunctionType
 
@@ -271,21 +272,46 @@ void InterfaceDcl():
     varName = Expr
 
     varName : TypeName = Expr
+    
+    functionName : TypeName to TypeName = Expr
+    
+    functionName[T] : T to T = Expr
+
+    funcName[T < Num] : T to T = Expr
+
+    funcName[A B] : A to B = Expr
+
+    funcName[A > Num] : A to A = Expr
+
+    funcName[A < Num B] : A to B = Expr
 
  */
 void VariableDcl():
 {}
 {
-    Identifier() (<Colon> VariableTypeDcl())? EqualOperator() (Expression())? NewLine()
+    Identifier() (TypeParameters())? (<Colon> VariableTypeDcl())? EqualOperator() (Expression())? NewLine()
 }
 
 /**
     VariableTypeDcl = (Identifier TypeParameters?)+ ("to" Identifier TypeParameters?)? 
+
+    e.g.
+    TypeName
+
+    TypeName to TypeName
+
+    TypeName1 TypeName2 to TypeName
+
+    TypeName[A] to TypeName
+
+    TypeName[A] to TypeName[A]
+
  */
 void VariableTypeDcl():
-{}
 {
-    (Identifier() (TypeParameters())?)+ ("to" Identifier() TypeParameters())? 
+}
+{
+    (Identifier() (TypeParameters())?)+ (<To> Identifier() TypeParameters())? 
 }
 
 /**
@@ -294,7 +320,18 @@ void VariableTypeDcl():
 void TypeParameters():
 {}
 {
-    LeftBracket() (Identifier())+ RightBracket()
+    LeftBracket() (TypeParameter())+ RightBracket()
+}
+
+/**
+    TypeParameter = BoundedTypes
+                  | Identifier
+    BoundedTypes  = Identifier Lt/GtOperator Identifier
+ */
+void TypeParameter():
+{}
+{
+    Identifier() ((LessThanOperator() | GreaterThanOperator()) Identifier())? 
 }
 
 //Expressions
