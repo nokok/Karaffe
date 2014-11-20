@@ -138,6 +138,8 @@ TOKEN:
     | < RightBracket : "]" >
     | < LeftBrace : "{" >
     | < RightBrace : "}" >
+    | < LeftParen : "(" >
+    | < RightParen : ")" >
     | < Colon : ":" >
     | < Dot : "." >
 }
@@ -150,12 +152,16 @@ TOKEN:
 
     < EqualSign : "=" >
     | < Lt : "<" >
+    | < LtE : "<=" >
     | < Gt : ">" >
+    | < GtE : ">=" >
     | < Plus : "+" >
     | < Minus : "-" >
     | < Star : "*" >
     | < Slash : "/" >
+    | < SafeDiv : "/?" >
     | < Percent : "%" >
+    | < SafeRem : "%?" >
     | < Tilde : "~" >
     | < Bang : "!" >
     | < And : "&" > 
@@ -163,6 +169,8 @@ TOKEN:
     | < Hat : "^" >
     | < Question : "?" >
     | < Arrow : "=>" >
+    | < EqualTo : "==" >
+    | < NotEqualTo : "!=" >
 
 }
 
@@ -440,6 +448,18 @@ void LeftBrace():
     <LeftBrace>
 }
 
+void RightParen():
+{}
+{
+    <RightParen>
+}
+
+void LeftParen():
+{}
+{
+    <LeftParen>
+}
+
 void RightBrace():
 {}
 {
@@ -471,12 +491,23 @@ void LessThanOperator():
     <Lt>
 }
 
+void LessThanEqualToOperator():
+{}
+{
+    <LtE>
+}
+
 void GreaterThanOperator():
 {}
 {
     <Gt>
 }
 
+void GreaterThanEqualToOperator():
+{}
+{
+    <GtE>
+}
 void Plus():
 {}
 {
@@ -547,6 +578,30 @@ void ArrowOperator():
 {}
 {
     <Arrow>
+}
+
+void EqualTo():
+{}
+{
+    <EqualTo>
+}
+
+void NotEqualTo():
+{}
+{
+    <NotEqualTo>
+}
+
+void SafeDiv():
+{}
+{
+    <SafeDiv>
+}
+
+void SafeRem():
+{}
+{
+    <SafeRem>
 }
 
 //Other tokens
