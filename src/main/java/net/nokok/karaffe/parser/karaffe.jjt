@@ -183,7 +183,7 @@ public ASTCompileUnit CompileUnit():
 {
 }
 {
-    (Statement())* <EOF> {
+    (Statement() | NewLine())* <EOF> {
         return jjtThis;
     }
 }
