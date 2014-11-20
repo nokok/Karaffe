@@ -247,7 +247,7 @@ void TypeDcl():
 }
 
 /**
-    InterfaceDcl = "interface" InterfaceName TypeParameters? NewLine NestDeclaration
+    InterfaceDcl = "interface" InterfaceName TypeParameters? NewLine 
 
     e.g.
     interface Foo
@@ -257,7 +257,7 @@ void TypeDcl():
 void InterfaceDcl():
 {}
 {
-    <Interface> Identifier() NewLine()
+    <Interface> Identifier() NewLine() 
 }
 
 /**
