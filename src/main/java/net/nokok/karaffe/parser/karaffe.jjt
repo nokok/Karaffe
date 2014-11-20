@@ -236,7 +236,7 @@ void Modifier():
 void Block():
 {}
 {
-    LeftBrace() (Statement())* RightBrace()
+    LeftBrace() (LOOKAHEAD(2) NewLine())? (LOOKAHEAD(2)(NewLine())? Statement() (LOOKAHEAD(2) NewLine())?)* (NewLine())? RightBrace()
 }
 
 /**
