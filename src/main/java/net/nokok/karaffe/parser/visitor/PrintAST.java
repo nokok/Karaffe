@@ -15,6 +15,7 @@ import net.nokok.karaffe.parser.ASTAndOperatorExpr;
 import net.nokok.karaffe.parser.ASTArrowOperator;
 import net.nokok.karaffe.parser.ASTAssignExpr;
 import net.nokok.karaffe.parser.ASTBangOperator;
+import net.nokok.karaffe.parser.ASTBlock;
 import net.nokok.karaffe.parser.ASTColon;
 import net.nokok.karaffe.parser.ASTComparisonOperatorExpr;
 import net.nokok.karaffe.parser.ASTCompileUnit;
@@ -39,6 +40,7 @@ import net.nokok.karaffe.parser.ASTLessThanEqualToOperator;
 import net.nokok.karaffe.parser.ASTLessThanOperator;
 import net.nokok.karaffe.parser.ASTLiteral;
 import net.nokok.karaffe.parser.ASTMinus;
+import net.nokok.karaffe.parser.ASTModifier;
 import net.nokok.karaffe.parser.ASTMultiplyOperatorExpr;
 import net.nokok.karaffe.parser.ASTNewLine;
 import net.nokok.karaffe.parser.ASTNotEqualTo;
@@ -394,6 +396,18 @@ public class PrintAST implements KaraffeParserVisitor {
     @Override
     public Object visit(ASTGreaterThanEqualToOperator node, Object data) throws KaraffeParserException {
         System.out.println(">=");
+        return defaultVisit(node, data);
+    }
+
+    @Override
+    public Object visit(ASTBlock node, Object data) throws KaraffeParserException {
+        System.out.println("Block");
+        return defaultVisit(node, data);
+    }
+
+    @Override
+    public Object visit(ASTModifier node, Object data) throws KaraffeParserException {
+        System.out.println("Modifier");
         return defaultVisit(node, data);
     }
 

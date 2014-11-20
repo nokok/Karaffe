@@ -24,6 +24,14 @@ public class KaraffeParserDefaultVisitor implements KaraffeParserVisitor {
         return defaultVisit(node, data);
     }
 
+    public Object visit(ASTModifier node, Object data) throws net.nokok.karaffe.parser.excptn.KaraffeParserException {
+        return defaultVisit(node, data);
+    }
+
+    public Object visit(ASTBlock node, Object data) throws net.nokok.karaffe.parser.excptn.KaraffeParserException {
+        return defaultVisit(node, data);
+    }
+
     public Object visit(ASTTypeDcl node, Object data) throws net.nokok.karaffe.parser.excptn.KaraffeParserException {
         return defaultVisit(node, data);
     }
@@ -224,4 +232,4 @@ public class KaraffeParserDefaultVisitor implements KaraffeParserVisitor {
         return defaultVisit(node, data);
     }
 }
-/* JavaCC - OriginalChecksum=46552f21a8a5bca6e8f5f80ce78a0ec8 (do not edit this line) */
+/* JavaCC - OriginalChecksum=35f771a14376694e93899831a8c7e558 (do not edit this line) */

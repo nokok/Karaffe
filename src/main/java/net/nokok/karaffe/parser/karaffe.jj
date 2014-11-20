@@ -235,6 +235,7 @@ public ASTCompileUnit CompileUnit():
 
 /**
     Statement = Declaration
+              | FunctionApply
  */
 void Statement():
 {/*@bgen(jjtree) Statement */
@@ -245,7 +246,8 @@ void Statement():
 {/*@bgen(jjtree) Statement */
     try {
 /*@egen*/
-    Declaration()/*@bgen(jjtree)*/
+    LOOKAHEAD(3) Declaration()
+    | FunctionApply()/*@bgen(jjtree)*/
     } catch (Throwable jjte000) {
       if (jjtc000) {
         jjtree.clearNodeScope(jjtn000);
@@ -287,7 +289,7 @@ void Declaration():
 /*@egen*/
      LOOKAHEAD(3) TypeDcl()
      | InterfaceDcl()
-     | VariableDcl()/*@bgen(jjtree)*/
+     | (Modifier())? VariableDcl()/*@bgen(jjtree)*/
      } catch (Throwable jjte000) {
        if (jjtc000) {
          jjtree.clearNodeScope(jjtn000);
@@ -307,6 +309,70 @@ void Declaration():
          jjtree.closeNodeScope(jjtn000, true);
        }
      }
+/*@egen*/
+}
+
+void Modifier():
+{/*@bgen(jjtree) Modifier */
+  ASTModifier jjtn000 = new ASTModifier(JJTMODIFIER);
+  boolean jjtc000 = true;
+  jjtree.openNodeScope(jjtn000);
+/*@egen*/}
+{/*@bgen(jjtree) Modifier */
+    try {
+/*@egen*/
+    Minus()/*@bgen(jjtree)*/
+    } catch (Throwable jjte000) {
+      if (jjtc000) {
+        jjtree.clearNodeScope(jjtn000);
+        jjtc000 = false;
+      } else {
+        jjtree.popNode();
+      }
+      if (jjte000 instanceof RuntimeException) {
+        throw (RuntimeException)jjte000;
+      }
+      if (jjte000 instanceof ParseException) {
+        throw (ParseException)jjte000;
+      }
+      throw (Error)jjte000;
+    } finally {
+      if (jjtc000) {
+        jjtree.closeNodeScope(jjtn000, true);
+      }
+    }
+/*@egen*/
+}
+
+void Block():
+{/*@bgen(jjtree) Block */
+  ASTBlock jjtn000 = new ASTBlock(JJTBLOCK);
+  boolean jjtc000 = true;
+  jjtree.openNodeScope(jjtn000);
+/*@egen*/}
+{/*@bgen(jjtree) Block */
+    try {
+/*@egen*/
+    LeftBrace() (Statement())* RightBrace()/*@bgen(jjtree)*/
+    } catch (Throwable jjte000) {
+      if (jjtc000) {
+        jjtree.clearNodeScope(jjtn000);
+        jjtc000 = false;
+      } else {
+        jjtree.popNode();
+      }
+      if (jjte000 instanceof RuntimeException) {
+        throw (RuntimeException)jjte000;
+      }
+      if (jjte000 instanceof ParseException) {
+        throw (ParseException)jjte000;
+      }
+      throw (Error)jjte000;
+    } finally {
+      if (jjtc000) {
+        jjtree.closeNodeScope(jjtn000, true);
+      }
+    }
 /*@egen*/
 }
 
@@ -409,7 +475,7 @@ void InterfaceDcl():
 }
 
 /**
-    VariableDcl     = Identifier TypeParameters? VariableTypeDcl? "=" Expression? NewLine
+    VariableDcl     = Identifier TypeParameters? VariableTypeDcl? "=" Expression? NewLine 
     VariableTypeDcl = VariableType
                     | FunctionType
 
@@ -432,6 +498,9 @@ void InterfaceDcl():
 
     funcName[A < Num B] : A to B = Expr
 
+    funcName : TypeName to TypeName {
+        Block
+    }
  */
 void VariableDcl():
 {/*@bgen(jjtree) VariableDcl */
@@ -442,7 +511,7 @@ void VariableDcl():
 {/*@bgen(jjtree) VariableDcl */
     try {
 /*@egen*/
-    Identifier() (TypeParameters())? (<Colon> VariableTypeDcl())? EqualOperator() (Expression())? NewLine()/*@bgen(jjtree)*/
+    Identifier() (LOOKAHEAD(2) TypeParameters())? (<Colon> VariableTypeDcl())? (EqualOperator())? (Expression() | Block()) NewLine()/*@bgen(jjtree)*/
     } catch (Throwable jjte000) {
       if (jjtc000) {
         jjtree.clearNodeScope(jjtn000);
@@ -490,7 +559,7 @@ void VariableTypeDcl():
 {/*@bgen(jjtree) VariableTypeDcl */
     try {
 /*@egen*/
-    (Identifier() (TypeParameters())?)+ (<To> Identifier() TypeParameters())?/*@bgen(jjtree)*/
+    (LOOKAHEAD(2) Identifier() (LOOKAHEAD(2) TypeParameters())?)+ (<To> Identifier() (LOOKAHEAD(2) TypeParameters())?)?/*@bgen(jjtree)*/
     } catch (Throwable jjte000) {
       if (jjtc000) {
         jjtree.clearNodeScope(jjtn000);
@@ -915,7 +984,7 @@ void FunctionApply():
 {/*@bgen(jjtree) FunctionApply */
     try {
 /*@egen*/
-    (LOOKAHEAD(2) Identifier())+ Expression()
+    (LOOKAHEAD(2) Identifier())+ (LOOKAHEAD(2) Expression())?
     | Literal()/*@bgen(jjtree)*/
     } catch (Throwable jjte000) {
       if (jjtc000) {

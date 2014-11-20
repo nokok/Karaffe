@@ -6,61 +6,65 @@ public interface KaraffeParserTreeConstants {
     public int JJTCOMPILEUNIT = 0;
     public int JJTSTATEMENT = 1;
     public int JJTDECLARATION = 2;
-    public int JJTTYPEDCL = 3;
-    public int JJTINTERFACEDCL = 4;
-    public int JJTVARIABLEDCL = 5;
-    public int JJTVARIABLETYPEDCL = 6;
-    public int JJTTYPEPARAMETERS = 7;
-    public int JJTTYPEPARAMETER = 8;
-    public int JJTEXPRESSION = 9;
-    public int JJTASSIGNEXPR = 10;
-    public int JJTOROPERATOREXPR = 11;
-    public int JJTANDOPERATOREXPR = 12;
-    public int JJTEQUALITYOPERATOREXPR = 13;
-    public int JJTCOMPARISONOPERATOREXPR = 14;
-    public int JJTADDITIVEOPERATOREXPR = 15;
-    public int JJTMULTIPLYOPERATOREXPR = 16;
-    public int JJTUNARYOPERATOREXPR = 17;
-    public int JJTFUNCTIONAPPLY = 18;
-    public int JJTLITERAL = 19;
-    public int JJTFUNCTIONLITERAL = 20;
-    public int JJTFUNCTIONVARIABLEBINDING = 21;
-    public int JJTIDENTIFIER = 22;
-    public int JJTLEFTBRACKET = 23;
-    public int JJTRIGHTBRACKET = 24;
-    public int JJTLEFTBRACE = 25;
-    public int JJTRIGHTPAREN = 26;
-    public int JJTLEFTPAREN = 27;
-    public int JJTRIGHTBRACE = 28;
-    public int JJTCOLON = 29;
-    public int JJTDOT = 30;
-    public int JJTEQUALOPERATOR = 31;
-    public int JJTLESSTHANOPERATOR = 32;
-    public int JJTLESSTHANEQUALTOOPERATOR = 33;
-    public int JJTGREATERTHANOPERATOR = 34;
-    public int JJTGREATERTHANEQUALTOOPERATOR = 35;
-    public int JJTPLUS = 36;
-    public int JJTMINUS = 37;
-    public int JJTSTAROPERATOR = 38;
-    public int JJTSLASHOPERATOR = 39;
-    public int JJTPERCENTOPERATOR = 40;
-    public int JJTTILDEOPERATOR = 41;
-    public int JJTBANGOPERATOR = 42;
-    public int JJTANDOPERATOR = 43;
-    public int JJTOROPERATOR = 44;
-    public int JJTHATOPERATOR = 45;
-    public int JJTQUESTIONOPERATOR = 46;
-    public int JJTARROWOPERATOR = 47;
-    public int JJTEQUALTO = 48;
-    public int JJTNOTEQUALTO = 49;
-    public int JJTSAFEDIV = 50;
-    public int JJTSAFEREM = 51;
-    public int JJTNEWLINE = 52;
+    public int JJTMODIFIER = 3;
+    public int JJTBLOCK = 4;
+    public int JJTTYPEDCL = 5;
+    public int JJTINTERFACEDCL = 6;
+    public int JJTVARIABLEDCL = 7;
+    public int JJTVARIABLETYPEDCL = 8;
+    public int JJTTYPEPARAMETERS = 9;
+    public int JJTTYPEPARAMETER = 10;
+    public int JJTEXPRESSION = 11;
+    public int JJTASSIGNEXPR = 12;
+    public int JJTOROPERATOREXPR = 13;
+    public int JJTANDOPERATOREXPR = 14;
+    public int JJTEQUALITYOPERATOREXPR = 15;
+    public int JJTCOMPARISONOPERATOREXPR = 16;
+    public int JJTADDITIVEOPERATOREXPR = 17;
+    public int JJTMULTIPLYOPERATOREXPR = 18;
+    public int JJTUNARYOPERATOREXPR = 19;
+    public int JJTFUNCTIONAPPLY = 20;
+    public int JJTLITERAL = 21;
+    public int JJTFUNCTIONLITERAL = 22;
+    public int JJTFUNCTIONVARIABLEBINDING = 23;
+    public int JJTIDENTIFIER = 24;
+    public int JJTLEFTBRACKET = 25;
+    public int JJTRIGHTBRACKET = 26;
+    public int JJTLEFTBRACE = 27;
+    public int JJTRIGHTPAREN = 28;
+    public int JJTLEFTPAREN = 29;
+    public int JJTRIGHTBRACE = 30;
+    public int JJTCOLON = 31;
+    public int JJTDOT = 32;
+    public int JJTEQUALOPERATOR = 33;
+    public int JJTLESSTHANOPERATOR = 34;
+    public int JJTLESSTHANEQUALTOOPERATOR = 35;
+    public int JJTGREATERTHANOPERATOR = 36;
+    public int JJTGREATERTHANEQUALTOOPERATOR = 37;
+    public int JJTPLUS = 38;
+    public int JJTMINUS = 39;
+    public int JJTSTAROPERATOR = 40;
+    public int JJTSLASHOPERATOR = 41;
+    public int JJTPERCENTOPERATOR = 42;
+    public int JJTTILDEOPERATOR = 43;
+    public int JJTBANGOPERATOR = 44;
+    public int JJTANDOPERATOR = 45;
+    public int JJTOROPERATOR = 46;
+    public int JJTHATOPERATOR = 47;
+    public int JJTQUESTIONOPERATOR = 48;
+    public int JJTARROWOPERATOR = 49;
+    public int JJTEQUALTO = 50;
+    public int JJTNOTEQUALTO = 51;
+    public int JJTSAFEDIV = 52;
+    public int JJTSAFEREM = 53;
+    public int JJTNEWLINE = 54;
 
     public String[] jjtNodeName = {
         "CompileUnit",
         "Statement",
         "Declaration",
+        "Modifier",
+        "Block",
         "TypeDcl",
         "InterfaceDcl",
         "VariableDcl",
@@ -112,4 +116,4 @@ public interface KaraffeParserTreeConstants {
         "SafeRem",
         "NewLine",};
 }
-/* JavaCC - OriginalChecksum=6774630608094a9d401d71916eade39a (do not edit this line) */
+/* JavaCC - OriginalChecksum=aa1fcd723a3e4aa20c8aba7efd0abb8f (do not edit this line) */
