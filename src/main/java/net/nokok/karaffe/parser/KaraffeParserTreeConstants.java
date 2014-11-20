@@ -21,8 +21,17 @@ public interface KaraffeParserTreeConstants {
     public int JJTGREATERTHANOPERATOR = 15;
     public int JJTPLUS = 16;
     public int JJTMINUS = 17;
-    public int JJTARROWOPERATOR = 18;
-    public int JJTNEWLINE = 19;
+    public int JJTSTAROPERATOR = 18;
+    public int JJTSLASHOPERATOR = 19;
+    public int JJTPERCENTOPERATOR = 20;
+    public int JJTTILDEOPERATOR = 21;
+    public int JJTBANGOPERATOR = 22;
+    public int JJTANDOPERATOR = 23;
+    public int JJTOROPERATOR = 24;
+    public int JJTHATOPERATOR = 25;
+    public int JJTQUESTIONOPERATOR = 26;
+    public int JJTARROWOPERATOR = 27;
+    public int JJTNEWLINE = 28;
 
     public String[] jjtNodeName = {
         "CompileUnit",
@@ -43,7 +52,16 @@ public interface KaraffeParserTreeConstants {
         "GreaterThanOperator",
         "Plus",
         "Minus",
+        "StarOperator",
+        "SlashOperator",
+        "PercentOperator",
+        "TildeOperator",
+        "BangOperator",
+        "AndOperator",
+        "OrOperator",
+        "HatOperator",
+        "QuestionOperator",
         "ArrowOperator",
         "NewLine",};
 }
-/* JavaCC - OriginalChecksum=cfdccf09d8581bd035174c8755ff7d66 (do not edit this line) */
+/* JavaCC - OriginalChecksum=8c37fdd007a17923179faf7178a1aa76 (do not edit this line) */

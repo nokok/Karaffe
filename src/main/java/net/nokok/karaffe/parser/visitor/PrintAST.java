@@ -9,7 +9,9 @@
  */
 package net.nokok.karaffe.parser.visitor;
 
+import net.nokok.karaffe.parser.ASTAndOperator;
 import net.nokok.karaffe.parser.ASTArrowOperator;
+import net.nokok.karaffe.parser.ASTBangOperator;
 import net.nokok.karaffe.parser.ASTCompileUnit;
 import net.nokok.karaffe.parser.ASTDeclaration;
 import net.nokok.karaffe.parser.ASTEqualOperator;
@@ -17,14 +19,21 @@ import net.nokok.karaffe.parser.ASTExpression;
 import net.nokok.karaffe.parser.ASTFunctionLiteral;
 import net.nokok.karaffe.parser.ASTFunctionVariableBinding;
 import net.nokok.karaffe.parser.ASTGreaterThanOperator;
+import net.nokok.karaffe.parser.ASTHatOperator;
 import net.nokok.karaffe.parser.ASTIdentifier;
 import net.nokok.karaffe.parser.ASTInterfaceDcl;
 import net.nokok.karaffe.parser.ASTLessThanOperator;
 import net.nokok.karaffe.parser.ASTLiteral;
 import net.nokok.karaffe.parser.ASTMinus;
 import net.nokok.karaffe.parser.ASTNewLine;
+import net.nokok.karaffe.parser.ASTOrOperator;
+import net.nokok.karaffe.parser.ASTPercentOperator;
 import net.nokok.karaffe.parser.ASTPlus;
+import net.nokok.karaffe.parser.ASTQuestionOperator;
+import net.nokok.karaffe.parser.ASTSlashOperator;
+import net.nokok.karaffe.parser.ASTStarOperator;
 import net.nokok.karaffe.parser.ASTStatement;
+import net.nokok.karaffe.parser.ASTTildeOperator;
 import net.nokok.karaffe.parser.ASTTypeDcl;
 import net.nokok.karaffe.parser.ASTTypeParameters;
 import net.nokok.karaffe.parser.ASTVariableDcl;
@@ -108,7 +117,7 @@ public class PrintAST implements KaraffeParserVisitor {
 
     @Override
     public Object visit(ASTIdentifier node, Object data) throws KaraffeParserException {
-        System.out.println("Identifier");
+        System.out.println("Identifier: " + node.jjtGetValue());
         return defaultVisit(node, data);
     }
 
@@ -151,6 +160,60 @@ public class PrintAST implements KaraffeParserVisitor {
     @Override
     public Object visit(ASTNewLine node, Object data) throws KaraffeParserException {
         System.out.println("NewLine");
+        return defaultVisit(node, data);
+    }
+
+    @Override
+    public Object visit(ASTStarOperator node, Object data) throws net.nokok.karaffe.parser.excptn.KaraffeParserException {
+        System.out.println("StarOp");
+        return defaultVisit(node, data);
+    }
+
+    @Override
+    public Object visit(ASTSlashOperator node, Object data) throws net.nokok.karaffe.parser.excptn.KaraffeParserException {
+        System.out.println("SlashOp");
+        return defaultVisit(node, data);
+    }
+
+    @Override
+    public Object visit(ASTPercentOperator node, Object data) throws net.nokok.karaffe.parser.excptn.KaraffeParserException {
+        System.out.println("PercentOp");
+        return defaultVisit(node, data);
+    }
+
+    @Override
+    public Object visit(ASTTildeOperator node, Object data) throws net.nokok.karaffe.parser.excptn.KaraffeParserException {
+        System.out.println("Tilde");
+        return defaultVisit(node, data);
+    }
+
+    @Override
+    public Object visit(ASTBangOperator node, Object data) throws net.nokok.karaffe.parser.excptn.KaraffeParserException {
+        System.out.println("Bang");
+        return defaultVisit(node, data);
+    }
+
+    @Override
+    public Object visit(ASTAndOperator node, Object data) throws net.nokok.karaffe.parser.excptn.KaraffeParserException {
+        System.out.println("And");
+        return defaultVisit(node, data);
+    }
+
+    @Override
+    public Object visit(ASTOrOperator node, Object data) throws net.nokok.karaffe.parser.excptn.KaraffeParserException {
+        System.out.println("Or");
+        return defaultVisit(node, data);
+    }
+
+    @Override
+    public Object visit(ASTHatOperator node, Object data) throws net.nokok.karaffe.parser.excptn.KaraffeParserException {
+        System.out.println("Hat");
+        return defaultVisit(node, data);
+    }
+
+    @Override
+    public Object visit(ASTQuestionOperator node, Object data) throws net.nokok.karaffe.parser.excptn.KaraffeParserException {
+        System.out.println("Question");
         return defaultVisit(node, data);
     }
 

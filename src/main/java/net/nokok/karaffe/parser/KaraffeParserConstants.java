@@ -86,7 +86,7 @@ public interface KaraffeParserConstants {
     /** RegularExpression Id. */
     int Slash = 44;
     /** RegularExpression Id. */
-    int Rem = 45;
+    int Percent = 45;
     /** RegularExpression Id. */
     int Tilde = 46;
     /** RegularExpression Id. */
@@ -98,7 +98,7 @@ public interface KaraffeParserConstants {
     /** RegularExpression Id. */
     int Hat = 50;
     /** RegularExpression Id. */
-    int Hook = 51;
+    int Question = 51;
     /** RegularExpression Id. */
     int Arrow = 52;
     /** RegularExpression Id. */

@@ -155,13 +155,13 @@ TOKEN:
     | < Minus : "-" >
     | < Star : "*" >
     | < Slash : "/" >
-    | < Rem : "%" >
+    | < Percent : "%" >
     | < Tilde : "~" >
     | < Bang : "!" >
     | < And : "&" > 
     | < Or : "|" >
     | < Hat : "^" >
-    | < Hook : "?" >
+    | < Question : "?" >
     | < Arrow : "=>" >
 
 }
@@ -403,6 +403,61 @@ void Minus():
 {
     <Minus>
 }
+
+void StarOperator():
+{}
+{
+    <Star>
+}
+
+void SlashOperator():
+{}
+{
+    <Slash>
+}
+
+void PercentOperator():
+{}
+{
+    <Percent>
+}
+
+void TildeOperator():
+{}
+{
+    <Tilde>
+}
+
+void BangOperator():
+{}
+{
+    <Bang>
+}
+
+void AndOperator():
+{}
+{
+    <And>
+}
+
+void OrOperator():
+{}
+{
+    <Or>
+}
+
+void HatOperator():
+{}
+{
+    <Hat>
+}
+
+void QuestionOperator():
+{}
+{
+    <Question>
+}
+
 void ArrowOperator():
 {}
 {

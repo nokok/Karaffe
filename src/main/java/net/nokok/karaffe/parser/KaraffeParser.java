@@ -923,6 +923,132 @@ public class KaraffeParser/*@bgen(jjtree)*/ implements KaraffeParserTreeConstant
         }
     }
 
+    final public void StarOperator() throws ParseException {/*@bgen(jjtree) StarOperator */
+
+        ASTStarOperator jjtn000 = new ASTStarOperator(JJTSTAROPERATOR);
+        boolean jjtc000 = true;
+        jjtree.openNodeScope(jjtn000);
+        try {
+            jj_consume_token(Star);
+        } finally {
+            if (jjtc000) {
+                jjtree.closeNodeScope(jjtn000, true);
+            }
+        }
+    }
+
+    final public void SlashOperator() throws ParseException {/*@bgen(jjtree) SlashOperator */
+
+        ASTSlashOperator jjtn000 = new ASTSlashOperator(JJTSLASHOPERATOR);
+        boolean jjtc000 = true;
+        jjtree.openNodeScope(jjtn000);
+        try {
+            jj_consume_token(Slash);
+        } finally {
+            if (jjtc000) {
+                jjtree.closeNodeScope(jjtn000, true);
+            }
+        }
+    }
+
+    final public void PercentOperator() throws ParseException {/*@bgen(jjtree) PercentOperator */
+
+        ASTPercentOperator jjtn000 = new ASTPercentOperator(JJTPERCENTOPERATOR);
+        boolean jjtc000 = true;
+        jjtree.openNodeScope(jjtn000);
+        try {
+            jj_consume_token(Percent);
+        } finally {
+            if (jjtc000) {
+                jjtree.closeNodeScope(jjtn000, true);
+            }
+        }
+    }
+
+    final public void TildeOperator() throws ParseException {/*@bgen(jjtree) TildeOperator */
+
+        ASTTildeOperator jjtn000 = new ASTTildeOperator(JJTTILDEOPERATOR);
+        boolean jjtc000 = true;
+        jjtree.openNodeScope(jjtn000);
+        try {
+            jj_consume_token(Tilde);
+        } finally {
+            if (jjtc000) {
+                jjtree.closeNodeScope(jjtn000, true);
+            }
+        }
+    }
+
+    final public void BangOperator() throws ParseException {/*@bgen(jjtree) BangOperator */
+
+        ASTBangOperator jjtn000 = new ASTBangOperator(JJTBANGOPERATOR);
+        boolean jjtc000 = true;
+        jjtree.openNodeScope(jjtn000);
+        try {
+            jj_consume_token(Bang);
+        } finally {
+            if (jjtc000) {
+                jjtree.closeNodeScope(jjtn000, true);
+            }
+        }
+    }
+
+    final public void AndOperator() throws ParseException {/*@bgen(jjtree) AndOperator */
+
+        ASTAndOperator jjtn000 = new ASTAndOperator(JJTANDOPERATOR);
+        boolean jjtc000 = true;
+        jjtree.openNodeScope(jjtn000);
+        try {
+            jj_consume_token(And);
+        } finally {
+            if (jjtc000) {
+                jjtree.closeNodeScope(jjtn000, true);
+            }
+        }
+    }
+
+    final public void OrOperator() throws ParseException {/*@bgen(jjtree) OrOperator */
+
+        ASTOrOperator jjtn000 = new ASTOrOperator(JJTOROPERATOR);
+        boolean jjtc000 = true;
+        jjtree.openNodeScope(jjtn000);
+        try {
+            jj_consume_token(Or);
+        } finally {
+            if (jjtc000) {
+                jjtree.closeNodeScope(jjtn000, true);
+            }
+        }
+    }
+
+    final public void HatOperator() throws ParseException {/*@bgen(jjtree) HatOperator */
+
+        ASTHatOperator jjtn000 = new ASTHatOperator(JJTHATOPERATOR);
+        boolean jjtc000 = true;
+        jjtree.openNodeScope(jjtn000);
+        try {
+            jj_consume_token(Hat);
+        } finally {
+            if (jjtc000) {
+                jjtree.closeNodeScope(jjtn000, true);
+            }
+        }
+    }
+
+    final public void QuestionOperator() throws ParseException {/*@bgen(jjtree) QuestionOperator */
+
+        ASTQuestionOperator jjtn000 = new ASTQuestionOperator(JJTQUESTIONOPERATOR);
+        boolean jjtc000 = true;
+        jjtree.openNodeScope(jjtn000);
+        try {
+            jj_consume_token(Question);
+        } finally {
+            if (jjtc000) {
+                jjtree.closeNodeScope(jjtn000, true);
+            }
+        }
+    }
+
     final public void ArrowOperator() throws ParseException {/*@bgen(jjtree) ArrowOperator */
 
         ASTArrowOperator jjtn000 = new ASTArrowOperator(JJTARROWOPERATOR);
@@ -995,13 +1121,6 @@ public class KaraffeParser/*@bgen(jjtree)*/ implements KaraffeParserTreeConstant
         return false;
     }
 
-    private boolean jj_3R_21() {
-        if (jj_scan_token(Lt)) {
-            return true;
-        }
-        return false;
-    }
-
     private boolean jj_3R_10() {
         if (jj_3R_14()) {
             return true;
@@ -1011,6 +1130,13 @@ public class KaraffeParser/*@bgen(jjtree)*/ implements KaraffeParserTreeConstant
 
     private boolean jj_3R_14() {
         if (jj_scan_token(LeftBracket)) {
+            return true;
+        }
+        return false;
+    }
+
+    private boolean jj_3R_20() {
+        if (jj_scan_token(EqualSign)) {
             return true;
         }
         return false;
@@ -1030,8 +1156,8 @@ public class KaraffeParser/*@bgen(jjtree)*/ implements KaraffeParserTreeConstant
         return false;
     }
 
-    private boolean jj_3R_20() {
-        if (jj_scan_token(EqualSign)) {
+    private boolean jj_3R_13() {
+        if (jj_scan_token(NewLine)) {
             return true;
         }
         return false;
@@ -1092,13 +1218,6 @@ public class KaraffeParser/*@bgen(jjtree)*/ implements KaraffeParserTreeConstant
         return false;
     }
 
-    private boolean jj_3R_17() {
-        if (jj_3R_21()) {
-            return true;
-        }
-        return false;
-    }
-
     private boolean jj_3R_9() {
         if (jj_scan_token(Identifier)) {
             return true;
@@ -1106,8 +1225,8 @@ public class KaraffeParser/*@bgen(jjtree)*/ implements KaraffeParserTreeConstant
         return false;
     }
 
-    private boolean jj_3R_13() {
-        if (jj_scan_token(NewLine)) {
+    private boolean jj_3R_17() {
+        if (jj_3R_21()) {
             return true;
         }
         return false;
@@ -1115,6 +1234,13 @@ public class KaraffeParser/*@bgen(jjtree)*/ implements KaraffeParserTreeConstant
 
     private boolean jj_3R_23() {
         if (jj_3R_9()) {
+            return true;
+        }
+        return false;
+    }
+
+    private boolean jj_3R_21() {
+        if (jj_scan_token(Lt)) {
             return true;
         }
         return false;

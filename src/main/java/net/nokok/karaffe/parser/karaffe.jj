@@ -159,13 +159,13 @@ TOKEN:
     | < Minus : "-" >
     | < Star : "*" >
     | < Slash : "/" >
-    | < Rem : "%" >
+    | < Percent : "%" >
     | < Tilde : "~" >
     | < Bang : "!" >
     | < And : "&" > 
     | < Or : "|" >
     | < Hat : "^" >
-    | < Hook : "?" >
+    | < Question : "?" >
     | < Arrow : "=>" >
 
 }
@@ -549,6 +549,7 @@ void Expression():
             | IntLiteral
             | FloatLiteral
             | StringLiteral
+            | UndefinedLiteral
  */
 void Literal():
 {/*@bgen(jjtree) Literal */
@@ -585,11 +586,13 @@ void Literal():
 /*@egen*/ {
         jjtn000.jjtSetValue(t);
     }
-    | t = <StringLiteral>/*@bgen(jjtree)*/
-                          {
-                            jjtree.closeNodeScope(jjtn000, true);
-                            jjtc000 = false;
-                          }
+    | t = <StringLiteral> {
+        jjtn000.jjtSetValue(t);
+    } t = <Undefined>/*@bgen(jjtree)*/
+                      {
+                        jjtree.closeNodeScope(jjtn000, true);
+                        jjtc000 = false;
+                      }
 /*@egen*/ {
         jjtn000.jjtSetValue(t);
     }
@@ -818,6 +821,169 @@ void Minus():
     }
 /*@egen*/
 }
+
+void StarOperator():
+{/*@bgen(jjtree) StarOperator */
+  ASTStarOperator jjtn000 = new ASTStarOperator(JJTSTAROPERATOR);
+  boolean jjtc000 = true;
+  jjtree.openNodeScope(jjtn000);
+/*@egen*/}
+{/*@bgen(jjtree) StarOperator */
+    try {
+/*@egen*/
+    <Star>/*@bgen(jjtree)*/
+    } finally {
+      if (jjtc000) {
+        jjtree.closeNodeScope(jjtn000, true);
+      }
+    }
+/*@egen*/
+}
+
+void SlashOperator():
+{/*@bgen(jjtree) SlashOperator */
+  ASTSlashOperator jjtn000 = new ASTSlashOperator(JJTSLASHOPERATOR);
+  boolean jjtc000 = true;
+  jjtree.openNodeScope(jjtn000);
+/*@egen*/}
+{/*@bgen(jjtree) SlashOperator */
+    try {
+/*@egen*/
+    <Slash>/*@bgen(jjtree)*/
+    } finally {
+      if (jjtc000) {
+        jjtree.closeNodeScope(jjtn000, true);
+      }
+    }
+/*@egen*/
+}
+
+void PercentOperator():
+{/*@bgen(jjtree) PercentOperator */
+  ASTPercentOperator jjtn000 = new ASTPercentOperator(JJTPERCENTOPERATOR);
+  boolean jjtc000 = true;
+  jjtree.openNodeScope(jjtn000);
+/*@egen*/}
+{/*@bgen(jjtree) PercentOperator */
+    try {
+/*@egen*/
+    <Percent>/*@bgen(jjtree)*/
+    } finally {
+      if (jjtc000) {
+        jjtree.closeNodeScope(jjtn000, true);
+      }
+    }
+/*@egen*/
+}
+
+void TildeOperator():
+{/*@bgen(jjtree) TildeOperator */
+  ASTTildeOperator jjtn000 = new ASTTildeOperator(JJTTILDEOPERATOR);
+  boolean jjtc000 = true;
+  jjtree.openNodeScope(jjtn000);
+/*@egen*/}
+{/*@bgen(jjtree) TildeOperator */
+    try {
+/*@egen*/
+    <Tilde>/*@bgen(jjtree)*/
+    } finally {
+      if (jjtc000) {
+        jjtree.closeNodeScope(jjtn000, true);
+      }
+    }
+/*@egen*/
+}
+
+void BangOperator():
+{/*@bgen(jjtree) BangOperator */
+  ASTBangOperator jjtn000 = new ASTBangOperator(JJTBANGOPERATOR);
+  boolean jjtc000 = true;
+  jjtree.openNodeScope(jjtn000);
+/*@egen*/}
+{/*@bgen(jjtree) BangOperator */
+    try {
+/*@egen*/
+    <Bang>/*@bgen(jjtree)*/
+    } finally {
+      if (jjtc000) {
+        jjtree.closeNodeScope(jjtn000, true);
+      }
+    }
+/*@egen*/
+}
+
+void AndOperator():
+{/*@bgen(jjtree) AndOperator */
+  ASTAndOperator jjtn000 = new ASTAndOperator(JJTANDOPERATOR);
+  boolean jjtc000 = true;
+  jjtree.openNodeScope(jjtn000);
+/*@egen*/}
+{/*@bgen(jjtree) AndOperator */
+    try {
+/*@egen*/
+    <And>/*@bgen(jjtree)*/
+    } finally {
+      if (jjtc000) {
+        jjtree.closeNodeScope(jjtn000, true);
+      }
+    }
+/*@egen*/
+}
+
+void OrOperator():
+{/*@bgen(jjtree) OrOperator */
+  ASTOrOperator jjtn000 = new ASTOrOperator(JJTOROPERATOR);
+  boolean jjtc000 = true;
+  jjtree.openNodeScope(jjtn000);
+/*@egen*/}
+{/*@bgen(jjtree) OrOperator */
+    try {
+/*@egen*/
+    <Or>/*@bgen(jjtree)*/
+    } finally {
+      if (jjtc000) {
+        jjtree.closeNodeScope(jjtn000, true);
+      }
+    }
+/*@egen*/
+}
+
+void HatOperator():
+{/*@bgen(jjtree) HatOperator */
+  ASTHatOperator jjtn000 = new ASTHatOperator(JJTHATOPERATOR);
+  boolean jjtc000 = true;
+  jjtree.openNodeScope(jjtn000);
+/*@egen*/}
+{/*@bgen(jjtree) HatOperator */
+    try {
+/*@egen*/
+    <Hat>/*@bgen(jjtree)*/
+    } finally {
+      if (jjtc000) {
+        jjtree.closeNodeScope(jjtn000, true);
+      }
+    }
+/*@egen*/
+}
+
+void QuestionOperator():
+{/*@bgen(jjtree) QuestionOperator */
+  ASTQuestionOperator jjtn000 = new ASTQuestionOperator(JJTQUESTIONOPERATOR);
+  boolean jjtc000 = true;
+  jjtree.openNodeScope(jjtn000);
+/*@egen*/}
+{/*@bgen(jjtree) QuestionOperator */
+    try {
+/*@egen*/
+    <Question>/*@bgen(jjtree)*/
+    } finally {
+      if (jjtc000) {
+        jjtree.closeNodeScope(jjtn000, true);
+      }
+    }
+/*@egen*/
+}
+
 void ArrowOperator():
 {/*@bgen(jjtree) ArrowOperator */
   ASTArrowOperator jjtn000 = new ASTArrowOperator(JJTARROWOPERATOR);
