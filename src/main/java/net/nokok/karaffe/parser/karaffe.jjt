@@ -58,6 +58,7 @@ SKIP:
     "/*" {
         commentNestLevel++;
     }
+    | < ~[]>
     | <EndOfLine : <NewLine>> 
     | "*/" {
         commentNestLevel--;
