@@ -41,6 +41,7 @@ import net.nokok.karaffe.parser.ASTStarOperator;
 import net.nokok.karaffe.parser.ASTStatement;
 import net.nokok.karaffe.parser.ASTTildeOperator;
 import net.nokok.karaffe.parser.ASTTypeDcl;
+import net.nokok.karaffe.parser.ASTTypeParameter;
 import net.nokok.karaffe.parser.ASTTypeParameters;
 import net.nokok.karaffe.parser.ASTVariableDcl;
 import net.nokok.karaffe.parser.ASTVariableTypeDcl;
@@ -94,6 +95,12 @@ public class PrintAST implements KaraffeParserVisitor {
     @Override
     public Object visit(ASTTypeParameters node, Object data) throws KaraffeParserException {
         System.out.println("TypeParameters");
+        return defaultVisit(node, data);
+    }
+
+    @Override
+    public Object visit(ASTTypeParameter node, Object data) throws net.nokok.karaffe.parser.excptn.KaraffeParserException {
+        System.out.println("TypeParameter");
         return defaultVisit(node, data);
     }
 

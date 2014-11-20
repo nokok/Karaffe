@@ -21,6 +21,8 @@ public interface KaraffeParserVisitor {
 
     public Object visit(ASTTypeParameters node, Object data) throws net.nokok.karaffe.parser.excptn.KaraffeParserException;
 
+    public Object visit(ASTTypeParameter node, Object data) throws net.nokok.karaffe.parser.excptn.KaraffeParserException;
+
     public Object visit(ASTExpression node, Object data) throws net.nokok.karaffe.parser.excptn.KaraffeParserException;
 
     public Object visit(ASTLiteral node, Object data) throws net.nokok.karaffe.parser.excptn.KaraffeParserException;
@@ -75,4 +77,4 @@ public interface KaraffeParserVisitor {
 
     public Object visit(ASTNewLine node, Object data) throws net.nokok.karaffe.parser.excptn.KaraffeParserException;
 }
-/* JavaCC - OriginalChecksum=e400c3916c01668555a48a9ca6a9bbef (do not edit this line) */
+/* JavaCC - OriginalChecksum=bc51dc44d285f15b76e63d44f0ebba81 (do not edit this line) */

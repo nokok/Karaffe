@@ -11,33 +11,34 @@ public interface KaraffeParserTreeConstants {
     public int JJTVARIABLEDCL = 5;
     public int JJTVARIABLETYPEDCL = 6;
     public int JJTTYPEPARAMETERS = 7;
-    public int JJTEXPRESSION = 8;
-    public int JJTLITERAL = 9;
-    public int JJTFUNCTIONLITERAL = 10;
-    public int JJTFUNCTIONVARIABLEBINDING = 11;
-    public int JJTIDENTIFIER = 12;
-    public int JJTLEFTBRACKET = 13;
-    public int JJTRIGHTBRACKET = 14;
-    public int JJTLEFTBRACE = 15;
-    public int JJTRIGHTBRACE = 16;
-    public int JJTCOLON = 17;
-    public int JJTDOT = 18;
-    public int JJTEQUALOPERATOR = 19;
-    public int JJTLESSTHANOPERATOR = 20;
-    public int JJTGREATERTHANOPERATOR = 21;
-    public int JJTPLUS = 22;
-    public int JJTMINUS = 23;
-    public int JJTSTAROPERATOR = 24;
-    public int JJTSLASHOPERATOR = 25;
-    public int JJTPERCENTOPERATOR = 26;
-    public int JJTTILDEOPERATOR = 27;
-    public int JJTBANGOPERATOR = 28;
-    public int JJTANDOPERATOR = 29;
-    public int JJTOROPERATOR = 30;
-    public int JJTHATOPERATOR = 31;
-    public int JJTQUESTIONOPERATOR = 32;
-    public int JJTARROWOPERATOR = 33;
-    public int JJTNEWLINE = 34;
+    public int JJTTYPEPARAMETER = 8;
+    public int JJTEXPRESSION = 9;
+    public int JJTLITERAL = 10;
+    public int JJTFUNCTIONLITERAL = 11;
+    public int JJTFUNCTIONVARIABLEBINDING = 12;
+    public int JJTIDENTIFIER = 13;
+    public int JJTLEFTBRACKET = 14;
+    public int JJTRIGHTBRACKET = 15;
+    public int JJTLEFTBRACE = 16;
+    public int JJTRIGHTBRACE = 17;
+    public int JJTCOLON = 18;
+    public int JJTDOT = 19;
+    public int JJTEQUALOPERATOR = 20;
+    public int JJTLESSTHANOPERATOR = 21;
+    public int JJTGREATERTHANOPERATOR = 22;
+    public int JJTPLUS = 23;
+    public int JJTMINUS = 24;
+    public int JJTSTAROPERATOR = 25;
+    public int JJTSLASHOPERATOR = 26;
+    public int JJTPERCENTOPERATOR = 27;
+    public int JJTTILDEOPERATOR = 28;
+    public int JJTBANGOPERATOR = 29;
+    public int JJTANDOPERATOR = 30;
+    public int JJTOROPERATOR = 31;
+    public int JJTHATOPERATOR = 32;
+    public int JJTQUESTIONOPERATOR = 33;
+    public int JJTARROWOPERATOR = 34;
+    public int JJTNEWLINE = 35;
 
     public String[] jjtNodeName = {
         "CompileUnit",
@@ -48,6 +49,7 @@ public interface KaraffeParserTreeConstants {
         "VariableDcl",
         "VariableTypeDcl",
         "TypeParameters",
+        "TypeParameter",
         "Expression",
         "Literal",
         "FunctionLiteral",
@@ -76,4 +78,4 @@ public interface KaraffeParserTreeConstants {
         "ArrowOperator",
         "NewLine",};
 }
-/* JavaCC - OriginalChecksum=3d9be28dee994bda7919c532e877ff43 (do not edit this line) */
+/* JavaCC - OriginalChecksum=4610f168aaae799b4d27a1fe663d1a8f (do not edit this line) */

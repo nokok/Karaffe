@@ -266,6 +266,8 @@ void Statement():
 /**
  Declaration = TypeDcl
              | InterfaceDcl
+             | VariableDcl
+             | FunctionDcl
  */
 void Declaration():
 {/*@bgen(jjtree) Declaration */
@@ -336,7 +338,7 @@ void TypeDcl():
 {/*@bgen(jjtree) TypeDcl */
     try {
 /*@egen*/
-    <Type> Identifier() (TypeParameters())? (Declaration())* ((EqualOperator() | LessThanOperator()) (Identifier() (TypeParameters())?)*)* NewLine()/*@bgen(jjtree)*/
+    <Type> Identifier() (TypeParameters())? ((EqualOperator() | LessThanOperator()) (Identifier() (TypeParameters())?)*)* NewLine()/*@bgen(jjtree)*/
     } catch (Throwable jjte000) {
       if (jjtc000) {
         jjtree.clearNodeScope(jjtn000);
@@ -360,7 +362,7 @@ void TypeDcl():
 }
 
 /**
-    InterfaceDcl = "interface" InterfaceName TypeParameters? NewLine NestDeclaration
+    InterfaceDcl = "interface" InterfaceName TypeParameters? NewLine 
 
     e.g.
     interface Foo
@@ -396,13 +398,25 @@ void InterfaceDcl():
         jjtree.closeNodeScope(jjtn000, true);
       }
     }
-/*@egen*/
+/*@egen*/ 
 }
 
 /**
-    VariableDcl     = Identifier VariableTypeDcl? "=" Expression NewLine
+    VariableDcl     = Identifier TypeParameters? VariableTypeDcl? "=" Expression? NewLine
     VariableTypeDcl = VariableType
                     | FunctionType
+
+    e.g.
+    varName
+    
+    varName = Expr
+
+    varName : TypeName = Expr
+    
+    functionName : TypeName to TypeName = Expr
+    
+    functionname[T] 
+
  */
 void VariableDcl():
 {/*@bgen(jjtree) VariableDcl */
@@ -413,7 +427,7 @@ void VariableDcl():
 {/*@bgen(jjtree) VariableDcl */
     try {
 /*@egen*/
-    Identifier() (<Colon> VariableTypeDcl())? EqualOperator() Expression() NewLine()/*@bgen(jjtree)*/
+    Identifier() (TypeParameters())? (<Colon> VariableTypeDcl())? EqualOperator() (Expression())? NewLine()/*@bgen(jjtree)*/
     } catch (Throwable jjte000) {
       if (jjtc000) {
         jjtree.clearNodeScope(jjtn000);
@@ -438,13 +452,26 @@ void VariableDcl():
 
 /**
     VariableTypeDcl = (Identifier TypeParameters?)+ ("to" Identifier TypeParameters?)? 
+
+    e.g.
+    TypeName
+
+    TypeName to TypeName
+
+    TypeName1 TypeName2 to TypeName
+
+    TypeName[A] to TypeName
+
+    TypeName[A] to TypeName[A]
+
  */
 void VariableTypeDcl():
 {/*@bgen(jjtree) VariableTypeDcl */
   ASTVariableTypeDcl jjtn000 = new ASTVariableTypeDcl(JJTVARIABLETYPEDCL);
   boolean jjtc000 = true;
   jjtree.openNodeScope(jjtn000);
-/*@egen*/}
+/*@egen*/
+}
 {/*@bgen(jjtree) VariableTypeDcl */
     try {
 /*@egen*/
@@ -483,7 +510,7 @@ void TypeParameters():
 {/*@bgen(jjtree) TypeParameters */
     try {
 /*@egen*/
-    LeftBracket() (Identifier())+ RightBracket()/*@bgen(jjtree)*/
+    LeftBracket() (TypeParameter())+ RightBracket()/*@bgen(jjtree)*/
     } catch (Throwable jjte000) {
       if (jjtc000) {
         jjtree.clearNodeScope(jjtn000);
@@ -504,6 +531,43 @@ void TypeParameters():
       }
     }
 /*@egen*/
+}
+
+/**
+    TypeParameter = BoundedTypes
+                  | Identifier
+    BoundedTypes  = Identifier Lt/GtOperator Identifier
+ */
+void TypeParameter():
+{/*@bgen(jjtree) TypeParameter */
+  ASTTypeParameter jjtn000 = new ASTTypeParameter(JJTTYPEPARAMETER);
+  boolean jjtc000 = true;
+  jjtree.openNodeScope(jjtn000);
+/*@egen*/}
+{/*@bgen(jjtree) TypeParameter */
+    try {
+/*@egen*/
+    Identifier() ((LessThanOperator() | GreaterThanOperator()) Identifier())?/*@bgen(jjtree)*/
+    } catch (Throwable jjte000) {
+      if (jjtc000) {
+        jjtree.clearNodeScope(jjtn000);
+        jjtc000 = false;
+      } else {
+        jjtree.popNode();
+      }
+      if (jjte000 instanceof RuntimeException) {
+        throw (RuntimeException)jjte000;
+      }
+      if (jjte000 instanceof ParseException) {
+        throw (ParseException)jjte000;
+      }
+      throw (Error)jjte000;
+    } finally {
+      if (jjtc000) {
+        jjtree.closeNodeScope(jjtn000, true);
+      }
+    }
+/*@egen*/ 
 }
 
 //Expressions
