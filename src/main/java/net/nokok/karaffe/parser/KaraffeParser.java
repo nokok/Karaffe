@@ -622,6 +622,7 @@ public class KaraffeParser/*@bgen(jjtree)*/ implements KaraffeParserTreeConstant
      | IntLiteral
      | FloatLiteral
      | StringLiteral
+     | UndefinedLiteral
      */
     final public void Literal() throws ParseException {/*@bgen(jjtree) Literal */
 
@@ -654,6 +655,8 @@ public class KaraffeParser/*@bgen(jjtree)*/ implements KaraffeParserTreeConstant
                 }
                 case StringLiteral: {
                     t = jj_consume_token(StringLiteral);
+                    jjtn000.jjtSetValue(t);
+                    t = jj_consume_token(Undefined);
                     jjtree.closeNodeScope(jjtn000, true);
                     jjtc000 = false;
                     jjtn000.jjtSetValue(t);

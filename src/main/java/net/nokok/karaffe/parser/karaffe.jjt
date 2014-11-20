@@ -306,6 +306,7 @@ void Expression():
             | IntLiteral
             | FloatLiteral
             | StringLiteral
+            | UndefinedLiteral
  */
 void Literal():
 {
@@ -322,6 +323,8 @@ void Literal():
         jjtThis.jjtSetValue(t);
     }
     | t = <StringLiteral> {
+        jjtThis.jjtSetValue(t);
+    } t = <Undefined> {
         jjtThis.jjtSetValue(t);
     }
     | FunctionLiteral()
