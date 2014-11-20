@@ -261,14 +261,22 @@ void InterfaceDcl():
 }
 
 /**
-    VariableDcl     = Identifier VariableTypeDcl? "=" Expression NewLine
+    VariableDcl     = Identifier VariableTypeDcl? "=" Expression? NewLine
     VariableTypeDcl = VariableType
                     | FunctionType
+
+    e.g.
+    varName
+    
+    varName = Expr
+
+    varName : TypeName = Expr
+
  */
 void VariableDcl():
 {}
 {
-    Identifier() (<Colon> VariableTypeDcl())? EqualOperator() Expression() NewLine()
+    Identifier() (<Colon> VariableTypeDcl())? EqualOperator() (Expression())? NewLine()
 }
 
 /**
