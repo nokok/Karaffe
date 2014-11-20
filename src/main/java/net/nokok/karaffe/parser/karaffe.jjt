@@ -486,7 +486,7 @@ void Literal():
 }
 
 /**
-    FunctionLiteral = "[" FunctionVariableBinding "]" "=>" "{"? Expression "}"?
+    FunctionLiteral = "[" FunctionVariableBinding "]" "=>" Block
 
     e.g.
 
@@ -495,7 +495,7 @@ void Literal():
 void FunctionLiteral():
 {}
 {
-    LeftBracket() (FunctionVariableBinding())* RightBracket() ArrowOperator() LeftBrace() Expression() RightBrace()
+    LeftBracket() (FunctionVariableBinding())* RightBracket() ArrowOperator() Block()
 }
 
 /**
