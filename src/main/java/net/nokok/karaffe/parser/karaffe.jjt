@@ -114,6 +114,7 @@ TOKEN:
     | < #IdentifierHead :      [
                                     "\u0041"-"\u005A", //A-Z
                                     "\u0061"-"\u007A", //a-z
+                                    "\u005F",          //_
                                     "\u3040"-"\u309F", //ひらがな Hiragana
                                     "\u30A0"-"\u30FF", //カタカナ Katakana
                                     "\u4E00"-"\u9FFF"  //漢字     CJK Unified Ideographs
