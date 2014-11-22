@@ -283,7 +283,7 @@ void TypeDcl():
 void InterfaceDcl():
 {}
 {
-    <Interface> Identifier() NewLine() 
+    <Interface> Identifier() (TypeParameters())? NewLine() 
 }
 
 /**
