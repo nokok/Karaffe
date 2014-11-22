@@ -530,6 +530,16 @@ void Identifier():
     }
 }
 
+void TypeIdentifier():
+{
+    Token t;
+}
+{
+    t = <Identifier> {
+        jjtThis.jjtSetValue(t);
+    }
+}
+
 //Delimiters
 
 void LeftBracket():
