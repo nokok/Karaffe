@@ -412,13 +412,7 @@ void OrOperatorExpr():
 void AndOperatorExpr():
 {}
 {
-    EqualityOperatorExpr() (LOOKAHEAD(2) AndOperator() EqualityOperatorExpr())*
-}
-
-void EqualityOperatorExpr():
-{}
-{
-    ComparisonOperatorExpr() (LOOKAHEAD(2) EqualOperator() ComparisonOperatorExpr())*
+    ComparisonOperatorExpr() (LOOKAHEAD(2) AndOperator() {jjtThis.jjtSetValue("&");}ComparisonOperatorExpr())*
 }
 
 void ComparisonOperatorExpr():
