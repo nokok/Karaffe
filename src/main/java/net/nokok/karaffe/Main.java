@@ -1,12 +1,9 @@
 package net.nokok.karaffe;
 
-import java.io.FileNotFoundException;
+import java.io.File;
+import java.io.FileReader;
 import net.nokok.karaffe.parser.ASTCompileUnit;
 import net.nokok.karaffe.parser.KaraffeParser;
-import net.nokok.karaffe.parser.KaraffeParserDefaultVisitor;
-import net.nokok.karaffe.parser.ParseException;
-import net.nokok.karaffe.parser.excptn.KaraffeParserException;
-import net.nokok.karaffe.parser.visitor.PrintAST;
 
 public class Main {
 
@@ -15,18 +12,30 @@ public class Main {
      *
      * @param args
      */
-    public static void main(String... args) throws FileNotFoundException, ParseException, KaraffeParserException {
-        String source = "type Hoge\n"
-                + "x:Int=2\n"
-                + "func = [x] => {1}\n"
-                + "hoge = \"hoge\"\n"
-                + "hoge = -\"hogehoge\"\n"
-                + "hoge = 1 - 2 * 3 + ( 2 + 3 )\n";
-        System.out.println(source);
-        KaraffeParser parser = new KaraffeParser(source);
-        ASTCompileUnit compileUnit = parser.CompileUnit();
-        Object accepted = compileUnit.jjtAccept(new KaraffeParserDefaultVisitor(), "1");
-        compileUnit.jjtAccept(new PrintAST(), null);
-        System.out.println("");
+    public static void main(String... args) throws Exception {
+        args = new String[]{"Int.krf"};
+        for (String arg : args) {
+            File file = new File(arg);
+            KaraffeParser parser = new KaraffeParser(new FileReader(file));
+            ASTCompileUnit compileUnit = parser.CompileUnit();
+//            BytecodeGenerator bytecodeGenerator = new BytecodeGenerator(file.getName());
+//            compileUnit.jjtAccept(bytecodeGenerator, null);
+//            Map<String, byte[]> classes = bytecodeGenerator.toByteArrays();
+//            classes.entrySet().stream().forEach(clazz -> {
+//                try {
+//                    String className = clazz.getKey();
+//                    byte[] bytecode = clazz.getValue();
+//                    //クラスパス上にバイトコードを出力する
+//                    Path path = new File(new File(Main.class.getClassLoader().getResource("").getPath()), className + ".class").toPath();
+//                    if (Files.exists(path)) {
+//                        Files.delete(path);
+//                    }
+//                    Files.write(path, bytecode, StandardOpenOption.WRITE, StandardOpenOption.CREATE_NEW);
+//                } catch (IOException ex) {
+//                    ex.printStackTrace();
+//                }
+//            });
+            compileUnit.dump("");
+        }
     }
 }

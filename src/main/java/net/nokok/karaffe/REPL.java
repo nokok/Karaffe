@@ -1,14 +1,17 @@
 /**
  *
  * Karaffe Programming Language
- * __ _____ ___ ___ ____________
+ *   __ _____   ___  ___   ____________
  *   / //_/ _ | / _ \/ _ | / __/ __/ __/
  *  / , \/ __ |/ , _/ __ |/ _// _// _/
  * /_/|_/_/ |_/_/|_/_/ |_/_/ /_/ /___/
  *
  */
-package net.nokok.karaffe.parser.util;
+package net.nokok.karaffe;
 
-public class TopLevelFunctions {
+public class REPL {
 
+    public static void main(String[] args) {
+
+    }
 }

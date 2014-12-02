@@ -12,6 +12,9 @@ options {
 PARSER_BEGIN(KaraffeParser)
 package net.nokok.karaffe.parser;
 
+import net.nokok.karaffe.parser.util.*;
+import java.util.*;
+
 public class KaraffeParser{
 
     public KaraffeParser(String sourceCode){
@@ -37,6 +40,62 @@ PARSER_END(KaraffeParser)
 TOKEN_MGR_DECLS:
 {
     public static int commentNestLevel = 0;
+}
+
+//文法定義
+ASTCompileUnit CompileUnit():
+{}
+{
+    (Statement() | NewLineToken())* <EOF> {
+        return jjtThis;
+    }
+}
+
+void Statement() #void:
+{}
+{
+    Declaration()
+    | ModuleStatement()
+    | EndOfModule()
+}
+
+void Declaration() #void:
+{}
+{
+    VariableDeclaration()
+}
+
+/**
+    VariableDeclaration
+
+    修飾子 識別子        = 式
+    修飾子 識別子 : 型名 = 式
+ */
+void VariableDeclaration():
+{
+    Token id;
+    Token type = null;
+}
+{
+    (Modifier())* id = <Identifier> (<Colon> type = <Identifier>) <EqualSign> Expression() {
+        jjtThis.jjtSetValue(new VariableDeclarationData(id,type));
+    }
+}
+
+void ModuleStatement():
+{
+    Token t;
+}
+{
+    <Module> t = <Identifier> {
+        jjtThis.jjtSetValue(t);
+    }
+}
+
+void EndOfModule():
+{}
+{
+    <EndModule>
 }
 
 /*
@@ -74,9 +133,10 @@ SKIP:
 TOKEN:
 {
       < Check : "check" >
+    | < EndModule : "endmodule" >
+    | < Import : "import" >
     | < Interface : "interface" >
-    | < Public : "public" >
-    | < SideEffect : "seffect" >
+    | < Module : "module" >
     | < Switch : "switch" >
     | < To : "to" >
     | < Type : "type" >
@@ -105,13 +165,74 @@ TOKEN:
     | < UnicodeEscape : "\\u" <HexDigit> <HexDigit> <HexDigit> <HexDigit> >
 }
 
+void Literal() #void:
+{
+    Token t;
+}
+{
+    BoolLiteral()
+    | IntLiteral()
+    | FloatLiteral()
+    | StringLiteral()
+    | <Undefined> 
+}
+
+void BoolLiteral():
+{
+    Token t;
+}
+{
+    t = <BoolLiteral> {
+        jjtThis.jjtSetValue(t.image);
+    }
+}
+
+
+void IntLiteral():
+{
+    Token t;
+}
+{
+    t = <IntLiteral> {
+        jjtThis.jjtSetValue(t.image);
+    }
+}
+
+void FloatLiteral():
+{
+    Token t;
+}
+{
+    t = <FloatLiteral> {
+        jjtThis.jjtSetValue(t.image);
+    }
+}
+
+void StringLiteral():
+{
+    Token t;
+}
+{
+    t = <StringLiteral> {
+        jjtThis.jjtSetValue(t.image);
+    }
+}
+
+void UndefinedLiteral():
+{}
+{
+    <Undefined> {
+        jjtThis.jjtSetValue(new UndefinedLiteral());
+    }
+}
+
 /**
     Identifiers
 */
 TOKEN:
 {
-      < Identifier : <IdentifierHead> (<IdentifierHead> | <IdentifierCharacter>)* ("[" "]")?>
-    | < #IdentifierHead :      [
+      < Identifier : <IdentifierBeginOrEnd> ((<IdentifierCharacter>)* <IdentifierBeginOrEnd>)? >
+    | < #IdentifierBeginOrEnd :      [
                                     "\u0041"-"\u005A", //A-Z
                                     "\u0061"-"\u007A", //a-z
                                     "\u005F",          //_
@@ -119,16 +240,9 @@ TOKEN:
                                     "\u30A0"-"\u30FF", //カタカナ Katakana
                                     "\u4E00"-"\u9FFF"  //漢字     CJK Unified Ideographs
                                ]  >
-    | < #IdentifierCharacter : [
-                                    "\u002E",          //.
-                                    "\u0030"-"\u0039", //0-9
-                                    "\u0041"-"\u005A", //A-Z
-                                    "\u0061"-"\u007A", //a-z
-                                    "\u005F",          //_
-                                    "\u3040"-"\u309F", //ひらがな Hiragana
-                                    "\u30A0"-"\u30FF", //カタカナ Katakana
-                                    "\u4E00"-"\u9FFF"  //漢字     CJK Unified Ideographs
-                               ] >
+    | < #IdentifierCharacter :      "\u002E"          //.
+                                    | <IdentifierBeginOrEnd>
+                                  >
     | < TypeParameter : ["\u0041"-"\u005A"] > //A-Z
 }
 
@@ -171,9 +285,16 @@ TOKEN:
     | < Or : "|" >
     | < Hat : "^" >
     | < Question : "?" >
-    | < Arrow : "=>" >
+    | < ReverseArrow : "<-" >
+    | < ReverseArrowChar : "←" >
+    | < SingleArrowChar : "→" >
+    | < SingleArrow : "->" >
+    | < DoubleArrow : "=>" >
     | < EqualTo : "==" >
     | < NotEqualTo : "!=" >
+    | < NonComparable : "!<>=" >
+    | < Comparable : "<>=" >
+    | < IsUndefined : "??" >
 
 }
 
@@ -185,188 +306,16 @@ TOKEN:
       < NewLine : "\r"
                 | "\n" 
                 | "\r\n" >
+      | < Atmark : "@" >
 }
 
-/**
- * CompileUnit = (Statement)* EOF
- */
-public ASTCompileUnit CompileUnit():
-{
-}
-{
-    (Statement() | NewLine())* <EOF> {
-        return jjtThis;
-    }
-}
-
-//Statement
-
-/**
-    Statement = Declaration
-              | FunctionApply
- */
-void Statement():
+void NewLineToken():
 {}
 {
-    LOOKAHEAD(3) Declaration()
-    | FunctionApply()
-}
-
-
-// Declaration
-
-/**
- Declaration = TypeDcl
-             | InterfaceDcl
-             | VariableDcl
- */
-void Declaration():
-{}
-{
-     LOOKAHEAD(3) TypeDcl()
-     | InterfaceDcl()
-     | (Modifier())? VariableDcl()
-}
-
-void Modifier():
-{}
-{
-    Minus()
-}
-
-void Block():
-{}
-{
-    LeftBrace() (LOOKAHEAD(2) NewLine())? (LOOKAHEAD(2)(NewLine())? Statement() (LOOKAHEAD(2) NewLine())?)* (NewLine())? RightBrace()
+    <NewLine>
 }
 
 /**
-    TypeDcl         = SimpleTypeDcl 
-                    | TypeAlias
-                    | Inheritance
-    SimpleTypeDcl   = "type" Identifier TypeParameters?
-    TypeAlias       = SimpleTypeDcl "=" (Identifier TypeParameters?)+
-    Inheritance     = SimpleTypeDcl "<" (Identifier TypeParameters?)+
-    
-    e.g.
-    type Foo 
-
-    type Bar[A]
-
-    type Baz[A B C]
-
-    //TypeAlias
-    type Foo = Bar
-
-    type Foo[A] = Bar[A]
-
-    //Inheritance
-    type Foo < Bar
-
-    type Foo[A] < Bar[A]
-
- */
-void TypeDcl():
-{}
-{
-    <Type> Identifier() (TypeParameters())? ((EqualOperator() | LessThanOperator()) (Identifier() (TypeParameters())?)*)* NewLine()
-}
-
-/**
-    InterfaceDcl = "interface" InterfaceName TypeParameters? NewLine 
-
-    e.g.
-    interface Foo
-
-    interface Foo[A]
- */
-void InterfaceDcl():
-{}
-{
-    <Interface> Identifier() (TypeParameters())? NewLine() 
-}
-
-/**
-    VariableDcl     = Identifier TypeParameters? VariableTypeDcl? "=" Expression? NewLine 
-    VariableTypeDcl = VariableType
-                    | FunctionType
-
-    e.g.
-    varName
-    
-    varName = Expr
-
-    varName : TypeName = Expr
-    
-    functionName : TypeName to TypeName = Expr
-    
-    functionName[T] : T to T = Expr
-
-    funcName[T < Num] : T to T = Expr
-
-    funcName[A B] : A to B = Expr
-
-    funcName[A > Num] : A to A = Expr
-
-    funcName[A < Num B] : A to B = Expr
-
-    funcName : TypeName to TypeName {
-        Block
-    }
- */
-void VariableDcl():
-{}
-{
-    Identifier() (LOOKAHEAD(2) TypeParameters())? (<Colon> VariableTypeDcl())? (EqualOperator())? (Expression() | Block()) NewLine()
-}
-
-/**
-    VariableTypeDcl = (Identifier TypeParameters?)+ ("to" Identifier TypeParameters?)? 
-
-    e.g.
-    TypeName
-
-    TypeName to TypeName
-
-    TypeName1 TypeName2 to TypeName
-
-    TypeName[A] to TypeName
-
-    TypeName[A] to TypeName[A]
-
- */
-void VariableTypeDcl():
-{
-}
-{
-    (LOOKAHEAD(2) Identifier() (LOOKAHEAD(2) TypeParameters())?)+ (<To> Identifier() (LOOKAHEAD(2) TypeParameters())?)? 
-}
-
-/**
-    TypeParameters = "[" TypeParameter1 TypeParameter2 ... "]"
- */
-void TypeParameters():
-{}
-{
-    LeftBracket() (TypeParameter())+ RightBracket()
-}
-
-/**
-    TypeParameter = BoundedTypes
-                  | Identifier
-    BoundedTypes  = Identifier Lt/GtOperator Identifier
- */
-void TypeParameter():
-{}
-{
-    Identifier() ((LessThanOperator() | GreaterThanOperator()) Identifier())? 
-}
-
-//Expressions
-
-/**
-    Expression = ConditionalExpressionsOrAssign
-
     Expressionの評価優先度
     低い順から
     AssignExpr =
@@ -385,336 +334,139 @@ void TypeParameter():
     ↓
     UnaryOperatorExpr - ~ !
     ↓
-    ArrayElement //未実装
-    ↓
     FunctionApply
-    
  */
-void Expression():
+void Expression() #void:
 {}
 {
     AssignExpr()
 }
 
-
-void AssignExpr():
+/**
+    =
+ */
+void AssignExpr() #void:
 {}
 {
-    OrOperatorExpr() (LOOKAHEAD(2) EqualOperator() OrOperatorExpr())*
-}
-
-void OrOperatorExpr():
-{}
-{
-    AndOperatorExpr() (LOOKAHEAD(2) OrOperator() AndOperatorExpr())*
-}
-
-void AndOperatorExpr():
-{}
-{
-    ComparisonOperatorExpr() (LOOKAHEAD(2) AndOperator() {jjtThis.jjtSetValue("&");}ComparisonOperatorExpr())*
-}
-
-void ComparisonOperatorExpr():
-{}
-{
-    AdditiveOperatorExpr() (LOOKAHEAD(2) (EqualTo() | NotEqualTo() | GreaterThanOperator() | LessThanOperator()) AdditiveOperatorExpr())*
-}
-
-void AdditiveOperatorExpr():
-{}
-{
-    MultiplyOperatorExpr() (LOOKAHEAD(2) (Plus() | Minus()) MultiplyOperatorExpr())*
-}
-
-void MultiplyOperatorExpr():
-{}
-{
-    UnaryOperatorExpr() (LOOKAHEAD(2) (StarOperator() | SlashOperator() | PercentOperator() | SafeDiv() | SafeRem()) UnaryOperatorExpr())*
-}
-
-void UnaryOperatorExpr():
-{}
-{
-    Minus() UnaryOperatorExpr()
-    | TildeOperator() UnaryOperatorExpr()
-    | BangOperator() UnaryOperatorExpr()
-    | LeftParen() AssignExpr() RightParen()
-    | FunctionApply() (LOOKAHEAD(2) UnaryOperatorExpr())?
-}
-
-void FunctionApply():
-{}
-{
-    (LOOKAHEAD(2) Identifier())+ (LOOKAHEAD(2) Expression())?
-    | Literal()
+    (
+        OrOperatorExpr() 
+        (LOOKAHEAD(2) "=" OrOperatorExpr())*
+    ) #AssignExpr(>1)
 }
 
 /**
-    Literal = BoolLiteral
-            | IntLiteral
-            | FloatLiteral
-            | StringLiteral
-            | UndefinedLiteral
+    |
  */
-void Literal():
+void OrOperatorExpr() #void:
+{}
 {
-    Token t;
-}
-{
-      t = <BoolLiteral> {
-        jjtThis.jjtSetValue(t);
-    }
-    | t = <IntLiteral> {
-        jjtThis.jjtSetValue(t);
-    }
-    | t = <FloatLiteral> {
-        jjtThis.jjtSetValue(t);
-    }
-    | t = <StringLiteral> {
-        jjtThis.jjtSetValue(t);
-    }
-    | t = <Undefined> {
-        jjtThis.jjtSetValue(t);
-    }
-    | FunctionLiteral()
+    (
+        AndOperatorExpr() 
+        (LOOKAHEAD(2) "|" AndOperatorExpr())*
+    ) #OrOpExpr(>1)
 }
 
 /**
-    FunctionLiteral = "[" FunctionVariableBinding "]" "=>" Block
-
-    e.g.
-
-    [] => {...}
+    &   
  */
-void FunctionLiteral():
+void AndOperatorExpr() #void:
 {}
 {
-    LeftBracket() (FunctionVariableBinding())* RightBracket() ArrowOperator() Block()
+    (
+        ComparisonOperatorExpr()
+        (LOOKAHEAD(2) "&" ComparisonOperatorExpr())* 
+    ) #AndOpExpr(>1)
 }
 
 /**
-    FunctionVariableBinding = Identifier
-                            | DefaultValueBinding
-                            | ExplicitTypeBinding
-                            | ExplicitTypeDefaultBinding
-    DefaultValueBinding     = Identifier "=" Literal
-    ExplicitTypeBinding     = Identifier ":" Identifier
-    ExplicitTypeDefaultBinding = ExplicitTypeBinding "=" Literal
-
+    ==, !=, >=, <= !<>= <>=
  */
-void FunctionVariableBinding():
+void ComparisonOperatorExpr() #void:
 {}
 {
-    Identifier() (<Colon> Identifier() EqualOperator() Literal())?
+    (
+        AdditiveOperatorExpr() 
+        (LOOKAHEAD(2) ("==" | "!=" | ">=" | "<=" | "!<>=" | "<>=") AdditiveOperatorExpr())*
+    ) #ComparisonOpExpr(>1)
 }
-
-//Identifiers
 
 /**
-    Identifier = IdentifierHead IdentifierCharacter
+    +, -
  */
-void Identifier():
+void AdditiveOperatorExpr() #void:
+{}
 {
-    Token t;
+    (
+        MultiplyOperatorExpr() 
+        (LOOKAHEAD(2) ("+" | "-" )
+            MultiplyOperatorExpr())*
+    ) #AdditiveOpExpr(>1)
+}
+
+/**
+    *, /, %, /?, %?   
+ */
+void MultiplyOperatorExpr() #void:
+{}
+{
+    (
+        UnaryOperatorExpr() 
+        (LOOKAHEAD(2) ("*" | "/" | "%" | "/?" | "%?") UnaryOperatorExpr())*
+    ) #MultiplyOpExpr(>1)
+}
+
+/**
+    -, ~, ! 
+ */
+void UnaryOperatorExpr() #void:
+{}
+{
+    (
+        "!" UnaryOperatorExpr()
+        |"-" UnaryOperatorExpr()
+        | "(" AssignExpr() ")"
+        | PrimaryExpression()
+    ) #UnaryOpExpr(>1)
+}
+
+void PrimaryExpression() #void:
+{}
+{
+    (
+        ExplicitModuleElementAccess() (LOOKAHEAD(2) Expression())*
+        | Literal()
+    )#PrimaryExpr(>1)
+}
+
+/**
+    ModuleName::ElementName
+ */
+void ExplicitModuleElementAccess():
+{
+    Token moduleName;
+    Token elementName;
+    Token[] ids = new Token[2];
 }
 {
-    t = <Identifier> {
-        jjtThis.jjtSetValue(t);
+    moduleName = <Identifier> {ids[0] = moduleName;} "::" elementName = <Identifier> {ids[1] = elementName;jjtThis.jjtSetValue(ids);} 
+}
+
+/**
+    Modifier 
+
+    - : プライベート
+    ! : 変数
+    指定なし : 公開定数
+ */
+void Modifier():
+{
+    
+}
+{
+    "-" {
+        jjtThis.jjtSetValue(Modifier.PRIVATE);
+    }
+    | "!" {
+        jjtThis.jjtSetValue(Modifier.VARIABLE);
     }
 }
-
-void TypeIdentifier():
-{
-    Token t;
-}
-{
-    t = <Identifier> {
-        jjtThis.jjtSetValue(t);
-    }
-}
-
-//Delimiters
-
-void LeftBracket():
-{}
-{
-    <LeftBracket>
-}
-
-void RightBracket():
-{}
-{
-    <RightBracket>
-}
-
-void LeftBrace():
-{}
-{
-    <LeftBrace>
-}
-
-void RightParen():
-{}
-{
-    <RightParen>
-}
-
-void LeftParen():
-{}
-{
-    <LeftParen>
-}
-
-void RightBrace():
-{}
-{
-    <RightBrace>
-}
-
-void Colon():
-{}
-{
-    <Colon>
-}
-
-void Dot():
-{}
-{
-    <Dot>
-}
-//Operators
-
-void EqualOperator():
-{}
-{
-    <EqualSign>
-}
-
-void LessThanOperator():
-{}
-{
-    <Lt>
-}
-
-void LessThanEqualToOperator():
-{}
-{
-    <LtE>
-}
-
-void GreaterThanOperator():
-{}
-{
-    <Gt>
-}
-
-void GreaterThanEqualToOperator():
-{}
-{
-    <GtE>
-}
-void Plus():
-{}
-{
-    <Plus>
-}
-
-void Minus():
-{}
-{
-    <Minus>
-}
-
-void StarOperator():
-{}
-{
-    <Star>
-}
-
-void SlashOperator():
-{}
-{
-    <Slash>
-}
-
-void PercentOperator():
-{}
-{
-    <Percent>
-}
-
-void TildeOperator():
-{}
-{
-    <Tilde>
-}
-
-void BangOperator():
-{}
-{
-    <Bang>
-}
-
-void AndOperator():
-{}
-{
-    <And>
-}
-
-void OrOperator():
-{}
-{
-    <Or>
-}
-
-void HatOperator():
-{}
-{
-    <Hat>
-}
-
-void QuestionOperator():
-{}
-{
-    <Question>
-}
-
-void ArrowOperator():
-{}
-{
-    <Arrow>
-}
-
-void EqualTo():
-{}
-{
-    <EqualTo>
-}
-
-void NotEqualTo():
-{}
-{
-    <NotEqualTo>
-}
-
-void SafeDiv():
-{}
-{
-    <SafeDiv>
-}
-
-void SafeRem():
-{}
-{
-    <SafeRem>
-}
-
-//Other tokens
-
-void NewLine():
-{}
-{
-    <NewLine>
-}
-
