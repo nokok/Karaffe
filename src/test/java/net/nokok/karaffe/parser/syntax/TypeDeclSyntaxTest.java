@@ -53,4 +53,9 @@ public class TypeDeclSyntaxTest {
     public void testTypeDeclNestedTypeParameter() {
         testCode("type Identifier[Type[A]]");
     }
+
+    @Test
+    public void testTypeDeclNestedTypeParameters() {
+        testCode("type Identifier[Type[Type[B]]]");
+    }
 }
