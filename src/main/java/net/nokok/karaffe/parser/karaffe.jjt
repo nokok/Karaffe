@@ -46,7 +46,6 @@ TOKEN_MGR_DECLS:
 /**
 
     型宣言
-    型宣言の終端には改行が必須
 
            type 識別子
     修飾子 type 識別子
@@ -60,8 +59,8 @@ TOKEN_MGR_DECLS:
 void TypeDeclaration():
 {}
 {
-    //修飾子            type   識別子        :        継承元型名       <-             実装インターフェース
-    (ModifierOfType())? <Type> TypeElement() (<Colon> SuperType())? (<ReverseArrow> (LOOKAHEAD(2) ImplementsInterface())+)? 
+    //修飾子            type   識別子        :        継承元型名     <-             実装インターフェース
+    (ModifierOfType())? <Type> TypeElement() (<Colon> SuperType())? (<ReverseArrow> Interfaces())? 
 }
 
 void SuperType():
@@ -70,10 +69,10 @@ void SuperType():
     TypeElement()
 }
 
-void ImplementsInterface():
+void Interfaces():
 {}
 {
-    TypeElement()
+    (LOOKAHEAD(2) TypeElement())+
 }
 
 /**
@@ -88,7 +87,7 @@ void InterfaceDeclaration():
 }
 {
     //interface 識別子            型パラメータ        <-             拡張インターフェース
-    <Interface> id = Identifier() (TypeParameters())? (<ReverseArrow> (LOOKAHEAD(2) TypeElement())+)? 
+    <Interface> id = Identifier() (TypeParameters())? (<ReverseArrow> Interfaces())?
 }
 
 /**
@@ -225,7 +224,7 @@ void TypeParameters():
 void TypeParameter():
 {}
 {
-    Identifier() (LOOKAHEAD(2)TypeBound())?
+    TypeElement() (LOOKAHEAD(2)TypeBound())?
 }
 
 /**
@@ -233,11 +232,12 @@ void TypeParameter():
 
     < 型変数
     < インターフェース & インターフェース ...
+    < 型パラメータ
  */
 void TypeBound():
 {}
 {
-    <Lt> Identifier() (LOOKAHEAD(2)<And> Identifier())*
+    <Lt> TypeElement() (LOOKAHEAD(2)<And> TypeElement())*
 }
 
 /**

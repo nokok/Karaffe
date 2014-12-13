@@ -16,9 +16,7 @@ import org.junit.Test;
 
 public class KaraffeParserSyntaxTest {
 
-    //Other test
     @Test
-
     public void testEmptyFile() {
         testCode("");
     }

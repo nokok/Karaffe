@@ -50,7 +50,6 @@ TOKEN_MGR_DECLS:
 /**
 
     \u578b\u5ba3\u8a00
-    \u578b\u5ba3\u8a00\u306e\u7d42\u7aef\u306b\u306f\u6539\u884c\u304c\u5fc5\u9808
 
            type \u8b58\u5225\u5b50
     \u4fee\u98fe\u5b50 type \u8b58\u5225\u5b50
@@ -70,8 +69,8 @@ void TypeDeclaration():
 {/*@bgen(jjtree) TypeDeclaration */
     try {
 /*@egen*/
-    //\u4fee\u98fe\u5b50            type   \u8b58\u5225\u5b50        :        \u7d99\u627f\u5143\u578b\u540d       <-             \u5b9f\u88c5\u30a4\u30f3\u30bf\u30fc\u30d5\u30a7\u30fc\u30b9
-    (ModifierOfType())? <Type> TypeElement() (<Colon> SuperType())? (<ReverseArrow> (LOOKAHEAD(2) ImplementsInterface())+)?/*@bgen(jjtree)*/
+    //\u4fee\u98fe\u5b50            type   \u8b58\u5225\u5b50        :        \u7d99\u627f\u5143\u578b\u540d     <-             \u5b9f\u88c5\u30a4\u30f3\u30bf\u30fc\u30d5\u30a7\u30fc\u30b9
+    (ModifierOfType())? <Type> TypeElement() (<Colon> SuperType())? (<ReverseArrow> Interfaces())?/*@bgen(jjtree)*/
     } catch (Throwable jjte000) {
       if (jjtc000) {
         jjtree.clearNodeScope(jjtn000);
@@ -126,16 +125,16 @@ void SuperType():
 /*@egen*/
 }
 
-void ImplementsInterface():
-{/*@bgen(jjtree) ImplementsInterface */
-  ASTImplementsInterface jjtn000 = new ASTImplementsInterface(JJTIMPLEMENTSINTERFACE);
+void Interfaces():
+{/*@bgen(jjtree) Interfaces */
+  ASTInterfaces jjtn000 = new ASTInterfaces(JJTINTERFACES);
   boolean jjtc000 = true;
   jjtree.openNodeScope(jjtn000);
 /*@egen*/}
-{/*@bgen(jjtree) ImplementsInterface */
+{/*@bgen(jjtree) Interfaces */
     try {
 /*@egen*/
-    TypeElement()/*@bgen(jjtree)*/
+    (LOOKAHEAD(2) TypeElement())+/*@bgen(jjtree)*/
     } catch (Throwable jjte000) {
       if (jjtc000) {
         jjtree.clearNodeScope(jjtn000);
@@ -176,7 +175,7 @@ void InterfaceDeclaration():
     try {
 /*@egen*/
     //interface \u8b58\u5225\u5b50            \u578b\u30d1\u30e9\u30e1\u30fc\u30bf        <-             \u62e1\u5f35\u30a4\u30f3\u30bf\u30fc\u30d5\u30a7\u30fc\u30b9
-    <Interface> id = Identifier() (TypeParameters())? (<ReverseArrow> (LOOKAHEAD(2) TypeElement())+)?/*@bgen(jjtree)*/
+    <Interface> id = Identifier() (TypeParameters())? (<ReverseArrow> Interfaces())?/*@bgen(jjtree)*/
     } catch (Throwable jjte000) {
       if (jjtc000) {
         jjtree.clearNodeScope(jjtn000);
@@ -196,7 +195,7 @@ void InterfaceDeclaration():
         jjtree.closeNodeScope(jjtn000, true);
       }
     }
-/*@egen*/ 
+/*@egen*/
 }
 
 /**
@@ -495,7 +494,7 @@ void TypeParameter():
 {/*@bgen(jjtree) TypeParameter */
     try {
 /*@egen*/
-    Identifier() (LOOKAHEAD(2)TypeBound())?/*@bgen(jjtree)*/
+    TypeElement() (LOOKAHEAD(2)TypeBound())?/*@bgen(jjtree)*/
     } catch (Throwable jjte000) {
       if (jjtc000) {
         jjtree.clearNodeScope(jjtn000);
@@ -523,6 +522,7 @@ void TypeParameter():
 
     < \u578b\u5909\u6570
     < \u30a4\u30f3\u30bf\u30fc\u30d5\u30a7\u30fc\u30b9 & \u30a4\u30f3\u30bf\u30fc\u30d5\u30a7\u30fc\u30b9 ...
+    < \u578b\u30d1\u30e9\u30e1\u30fc\u30bf
  */
 void TypeBound():
 {/*@bgen(jjtree) TypeBound */
@@ -533,7 +533,7 @@ void TypeBound():
 {/*@bgen(jjtree) TypeBound */
     try {
 /*@egen*/
-    <Lt> Identifier() (LOOKAHEAD(2)<And> Identifier())*/*@bgen(jjtree)*/
+    <Lt> TypeElement() (LOOKAHEAD(2)<And> TypeElement())*/*@bgen(jjtree)*/
     } catch (Throwable jjte000) {
       if (jjtc000) {
         jjtree.clearNodeScope(jjtn000);

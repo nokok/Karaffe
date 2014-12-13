@@ -36,10 +36,10 @@ import net.nokok.karaffe.parser.ASTGreaterThan;
 import net.nokok.karaffe.parser.ASTGreaterThanEqualTo;
 import net.nokok.karaffe.parser.ASTHalfOpenRange;
 import net.nokok.karaffe.parser.ASTHat;
-import net.nokok.karaffe.parser.ASTImplementsInterface;
 import net.nokok.karaffe.parser.ASTImportStatement;
 import net.nokok.karaffe.parser.ASTIntLiteral;
 import net.nokok.karaffe.parser.ASTInterfaceDeclaration;
+import net.nokok.karaffe.parser.ASTInterfaces;
 import net.nokok.karaffe.parser.ASTJavaFQCN;
 import net.nokok.karaffe.parser.ASTKaraffeIdentifier;
 import net.nokok.karaffe.parser.ASTLazyModifier;
@@ -461,11 +461,6 @@ public class PrintAST implements KaraffeParserVisitor {
     }
 
     @Override
-    public Object visit(ASTImplementsInterface node, Object data) throws KaraffeParserException {
-        return defaultVisit(node, data);
-    }
-
-    @Override
     public Object visit(ASTModifierOfType node, Object data) throws KaraffeParserException {
         return defaultVisit(node, data);
     }
@@ -482,6 +477,11 @@ public class PrintAST implements KaraffeParserVisitor {
 
     @Override
     public Object visit(ASTModifierOfOperator node, Object data) throws KaraffeParserException {
+        return defaultVisit(node, data);
+    }
+
+    @Override
+    public Object visit(ASTInterfaces node, Object data) throws KaraffeParserException {
         return defaultVisit(node, data);
     }
 

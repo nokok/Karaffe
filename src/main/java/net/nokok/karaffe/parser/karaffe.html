@@ -250,7 +250,6 @@
 /**
 
     型宣言
-    型宣言の終端には改行が必須
 
            type 識別子
     修飾子 type 識別子
@@ -269,7 +268,7 @@
 <TR>
 <TD ALIGN=RIGHT VALIGN=BASELINE><A NAME="prod1">TypeDeclaration</A></TD>
 <TD ALIGN=CENTER VALIGN=BASELINE>::=</TD>
-<TD ALIGN=LEFT VALIGN=BASELINE>( <A HREF="#prod2">ModifierOfType</A> )? &lt;Type&gt; <A HREF="#prod3">TypeElement</A> ( &lt;Colon&gt; <A HREF="#prod4">SuperType</A> )? ( &lt;ReverseArrow&gt; ( <A HREF="#prod5">ImplementsInterface</A> )+ )?</TD>
+<TD ALIGN=LEFT VALIGN=BASELINE>( <A HREF="#prod2">ModifierOfType</A> )? &lt;Type&gt; <A HREF="#prod3">TypeElement</A> ( &lt;Colon&gt; <A HREF="#prod4">SuperType</A> )? ( &lt;ReverseArrow&gt; <A HREF="#prod5">Interfaces</A> )?</TD>
 </TR>
 </TABLE>
 <HR>
@@ -285,11 +284,11 @@
 <HR>
 
 <TABLE ALIGN=CENTER>
-<CAPTION><STRONG>ImplementsInterface</STRONG></CAPTION>
+<CAPTION><STRONG>Interfaces</STRONG></CAPTION>
 <TR>
-<TD ALIGN=RIGHT VALIGN=BASELINE><A NAME="prod5">ImplementsInterface</A></TD>
+<TD ALIGN=RIGHT VALIGN=BASELINE><A NAME="prod5">Interfaces</A></TD>
 <TD ALIGN=CENTER VALIGN=BASELINE>::=</TD>
-<TD ALIGN=LEFT VALIGN=BASELINE><A HREF="#prod3">TypeElement</A></TD>
+<TD ALIGN=LEFT VALIGN=BASELINE>( <A HREF="#prod3">TypeElement</A> )+</TD>
 </TR>
 </TABLE>
 <HR>
@@ -310,7 +309,7 @@
 <TR>
 <TD ALIGN=RIGHT VALIGN=BASELINE><A NAME="prod6">InterfaceDeclaration</A></TD>
 <TD ALIGN=CENTER VALIGN=BASELINE>::=</TD>
-<TD ALIGN=LEFT VALIGN=BASELINE>&lt;Interface&gt; <A HREF="#prod7">Identifier</A> ( <A HREF="#prod8">TypeParameters</A> )? ( &lt;ReverseArrow&gt; ( <A HREF="#prod3">TypeElement</A> )+ )?</TD>
+<TD ALIGN=LEFT VALIGN=BASELINE>&lt;Interface&gt; <A HREF="#prod7">Identifier</A> ( <A HREF="#prod8">TypeParameters</A> )? ( &lt;ReverseArrow&gt; <A HREF="#prod5">Interfaces</A> )?</TD>
 </TR>
 </TABLE>
 <HR>
@@ -534,7 +533,7 @@
 <TR>
 <TD ALIGN=RIGHT VALIGN=BASELINE><A NAME="prod20">TypeParameter</A></TD>
 <TD ALIGN=CENTER VALIGN=BASELINE>::=</TD>
-<TD ALIGN=LEFT VALIGN=BASELINE><A HREF="#prod7">Identifier</A> ( <A HREF="#prod21">TypeBound</A> )?</TD>
+<TD ALIGN=LEFT VALIGN=BASELINE><A HREF="#prod3">TypeElement</A> ( <A HREF="#prod21">TypeBound</A> )?</TD>
 </TR>
 </TABLE>
 <HR>
@@ -547,6 +546,7 @@
 
     < 型変数
     < インターフェース & インターフェース ...
+    < 型パラメータ
  */</PRE>
   </TD>
  </TR>
@@ -556,7 +556,7 @@
 <TR>
 <TD ALIGN=RIGHT VALIGN=BASELINE><A NAME="prod21">TypeBound</A></TD>
 <TD ALIGN=CENTER VALIGN=BASELINE>::=</TD>
-<TD ALIGN=LEFT VALIGN=BASELINE>&lt;Lt&gt; <A HREF="#prod7">Identifier</A> ( &lt;And&gt; <A HREF="#prod7">Identifier</A> )*</TD>
+<TD ALIGN=LEFT VALIGN=BASELINE>&lt;Lt&gt; <A HREF="#prod3">TypeElement</A> ( &lt;And&gt; <A HREF="#prod3">TypeElement</A> )*</TD>
 </TR>
 </TABLE>
 <HR>

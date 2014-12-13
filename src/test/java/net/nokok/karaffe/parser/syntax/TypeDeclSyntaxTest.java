@@ -48,4 +48,9 @@ public class TypeDeclSyntaxTest {
     public void testTypeDeclarationWithTypeParameter() {
         testCode("type Identifier[A] : Super[B] <- Interface[C]\n");
     }
+
+    @Test
+    public void testTypeDeclNestedTypeParameter() {
+        testCode("type Identifier[Type[A]]");
+    }
 }

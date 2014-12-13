@@ -5,7 +5,7 @@ public interface KaraffeParserTreeConstants {
 
     public int JJTTYPEDECLARATION = 0;
     public int JJTSUPERTYPE = 1;
-    public int JJTIMPLEMENTSINTERFACE = 2;
+    public int JJTINTERFACES = 2;
     public int JJTINTERFACEDECLARATION = 3;
     public int JJTTYPEALIASDECLARATION = 4;
     public int JJTVARIABLEORFUNCTIONDECLARATION = 5;
@@ -81,7 +81,7 @@ public interface KaraffeParserTreeConstants {
     public String[] jjtNodeName = {
         "TypeDeclaration",
         "SuperType",
-        "ImplementsInterface",
+        "Interfaces",
         "InterfaceDeclaration",
         "TypeAliasDeclaration",
         "VariableOrFunctionDeclaration",
@@ -154,4 +154,4 @@ public interface KaraffeParserTreeConstants {
         "DA",
         "RA",};
 }
-/* JavaCC - OriginalChecksum=70c033afc403583355209facff8860a3 (do not edit this line) */
+/* JavaCC - OriginalChecksum=920baec858f6ac11afe0cdcfb6f31e15 (do not edit this line) */
