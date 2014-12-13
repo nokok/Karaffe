@@ -40,7 +40,6 @@ public class KaraffeParserSyntaxTest {
         try {
             new KaraffeParser(code).CompileUnit();
         } catch (ParseException ex) {
-            ex.printStackTrace();
             fail();
         }
     }
