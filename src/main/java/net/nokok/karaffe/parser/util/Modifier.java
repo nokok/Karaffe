@@ -11,8 +11,11 @@ package net.nokok.karaffe.parser.util;
 
 public enum Modifier {
 
-    PUBLIC,
     PRIVATE,
     VARIABLE,
-    CONSTANT,
+    ABSTRACT,
+    OVERRIDE,
+    SEALED,
+    UNARYOPERATOR,
+    OPERATOR,
 }

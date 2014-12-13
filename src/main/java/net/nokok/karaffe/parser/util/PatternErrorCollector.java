@@ -7,7 +7,6 @@
  * /_/|_/_/ |_/_/|_/_/ |_/_/ /_/ /___/
  *
  */
-
 package net.nokok.karaffe.parser.util;
 
 public class PatternErrorCollector {

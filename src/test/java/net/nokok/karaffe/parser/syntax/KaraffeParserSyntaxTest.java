@@ -16,42 +16,27 @@ import org.junit.Test;
 
 public class KaraffeParserSyntaxTest {
 
+    //Other test
     @Test
-    public void variableDeclarationExplicitType() {
-        testCode("a:Int=2");
-        testCode("b:Int=2\n");
-        testCode("c : Int = 2");
-        testCode("d : Int = 2\n");
-        testCode("e : Int");
-        testCode("f : Int\n");
-        testCode("g = 2 //hogehoge\n");
-        testCode("h = 2 /* */");
-    }
 
-    @Test
-    public void variableDeclaration() {
-        testCode("a = 2\n");
-    }
-
-    @Test
-    public void empty() {
+    public void testEmptyFile() {
         testCode("");
     }
 
     @Test
-    public void newLine() {
+    public void testNewLineToken() {
         testCode("\n");
     }
 
     @Test
-    public void comment() {
+    public void testComment() {
         testCode("//hogehoge\n");
         testCode("/**/");
         testCode("/* */");
         testCode("/*  /* */  */");
     }
 
-    private void testCode(String code) {
+    public static void testCode(String code) {
         try {
             new KaraffeParser(code).CompileUnit();
         } catch (ParseException ex) {

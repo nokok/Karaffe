@@ -1,0 +1,1507 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2//EN">
+<HTML>
+    <HEAD>
+        <TITLE>BNF for karaffe.jj</TITLE>
+    </HEAD>
+    <BODY>
+        <H1 ALIGN=CENTER>BNF for karaffe.jj</H1>
+        <H2 ALIGN=CENTER>TOKENS</H2>
+        <TABLE>
+            <!-- Special token -->
+            <TR>
+                <TD>
+                    <PRE>
+/*
+コメントの処理
+*/</PRE>
+  </TD>
+ </TR>
+ <!-- Token -->
+ <TR>
+  <TD>
+   <PRE>
+&lt;DEFAULT&gt; SKIP : {
+" "
+| "\t"
+| &lt;"//" (~["\n"])* &lt;NewLine&gt;&gt;
+| "/*" : {
+}
+
+   </PRE>
+  </TD>
+ </TR>
+ <!-- Token -->
+ <TR>
+  <TD>
+   <PRE>
+&lt;InComment&gt; SKIP : {
+"/*" : {
+| &lt;~[]&gt;
+| &lt;EndOfLine: &lt;NewLine&gt;&gt;
+| "*/" : {
+}
+
+   </PRE>
+  </TD>
+ </TR>
+ <!-- Special token -->
+ <TR>
+  <TD>
+<PRE>
+/**
+    Reserved keywords
+*/</PRE>
+  </TD>
+ </TR>
+ <!-- Token -->
+ <TR>
+  <TD>
+   <PRE>
+&lt;DEFAULT&gt; TOKEN : {
+&lt;Abstract: "abstract"&gt;
+| &lt;Check: "check"&gt;
+| &lt;EndModule: "endmodule"&gt;
+| &lt;Enum: "enum"&gt;
+| &lt;Import: "import"&gt;
+| &lt;Interface: "interface"&gt;
+| &lt;Lazy: "lazy"&gt;
+| &lt;Module: "module"&gt;
+| &lt;Operator: "op"&gt;
+| &lt;Override: "override"&gt;
+| &lt;Private: "private"&gt;
+| &lt;Sealed: "sealed"&gt;
+| &lt;Switch: "switch"&gt;
+| &lt;Type: "type"&gt;
+| &lt;UnaryOperator: "unaryop"&gt;
+| &lt;TypeAlias: "typealias"&gt;
+| &lt;Undefined: "undefined"&gt;
+| &lt;Variable: "var"&gt;
+}
+
+   </PRE>
+  </TD>
+ </TR>
+ <!-- Special token -->
+ <TR>
+  <TD>
+<PRE>
+/**
+    Literals
+*/</PRE>
+  </TD>
+ </TR>
+ <!-- Token -->
+ <TR>
+  <TD>
+   <PRE>
+&lt;DEFAULT&gt; TOKEN : {
+&lt;BoolLiteral: "true" | "false"&gt;
+| &lt;IntLiteral: &lt;Zero&gt; | (&lt;Minus&gt;)? &lt;NonZero&gt; (&lt;Zero&gt; | &lt;NonZero&gt;)*&gt;
+| &lt;Hexadecimal: (&lt;Minus&gt;)? "0" ["x","X"] (&lt;HexDigit&gt;)+&gt;
+| &lt;#HexDigit: ["0"-"9","A"-"F","a"-"f"]&gt;
+| &lt;FloatLiteral: (&lt;Minus&gt;)? (&lt;Zero&gt; | &lt;IntLiteral&gt;) &lt;Dot&gt; (&lt;Zero&gt; | &lt;NonZero&gt;)+ (&lt;Exp&gt; &lt;IntLiteral&gt;)?&gt;
+| &lt;#Zero: "0"&gt;
+| &lt;#NonZero: ["1"-"9"]&gt;
+| &lt;#Exp: "e" | "E"&gt;
+| &lt;StringLiteral: "\"" (&lt;StringCharacter&gt;)* "\""&gt;
+| &lt;#StringCharacter: ~["\"","\\","\n","\r"] | &lt;StringEscapeSeq&gt; | &lt;UnicodeEscape&gt;&gt;
+| &lt;StringEscapeSeq: "\\" ["b","t","n","f","r","\"","\\","\'"]&gt;
+| &lt;UnicodeEscape: "\\u" &lt;HexDigit&gt; &lt;HexDigit&gt; &lt;HexDigit&gt; &lt;HexDigit&gt;&gt;
+}
+
+   </PRE>
+  </TD>
+ </TR>
+ <!-- Special token -->
+ <TR>
+  <TD>
+<PRE>
+/**
+    Identifiers
+*/</PRE>
+  </TD>
+ </TR>
+ <!-- Token -->
+ <TR>
+  <TD>
+   <PRE>
+&lt;DEFAULT&gt; TOKEN : {
+&lt;Identifier: &lt;IdentifierHead&gt; (&lt;IdentifierChar&gt;)*&gt;
+| &lt;#IdentifierHead: ["A"-"Z","a"-"z","_","\u3041"-"\u3096","\u30a1"-"\u30fa","\u4e00"-"\u9fff"]&gt;
+| &lt;#IdentifierChar: ["\'","0"-"9","A"-"Z","a"-"z","_","\u3041"-"\u3096","\u30a1"-"\u30fa","\u4e00"-"\u9fff"]&gt;
+| &lt;JavaFQCN: &lt;Identifier&gt; (&lt;Dot&gt; &lt;Identifier&gt;)*&gt;
+}
+
+   </PRE>
+  </TD>
+ </TR>
+ <!-- Special token -->
+ <TR>
+  <TD>
+<PRE>
+/**
+    Delimiters
+*/</PRE>
+  </TD>
+ </TR>
+ <!-- Token -->
+ <TR>
+  <TD>
+   <PRE>
+&lt;DEFAULT&gt; TOKEN : {
+&lt;LeftBracket: "["&gt;
+| &lt;RightBracket: "]"&gt;
+| &lt;LeftBrace: "{"&gt;
+| &lt;RightBrace: "}"&gt;
+| &lt;LeftParen: "("&gt;
+| &lt;RightParen: ")"&gt;
+| &lt;Colon: ":"&gt;
+| &lt;DoubleColon: "::"&gt;
+| &lt;Dot: "."&gt;
+}
+
+   </PRE>
+  </TD>
+ </TR>
+ <!-- Special token -->
+ <TR>
+  <TD>
+<PRE>
+/**
+    Operators
+ */</PRE>
+  </TD>
+ </TR>
+ <!-- Token -->
+ <TR>
+  <TD>
+   <PRE>
+&lt;DEFAULT&gt; TOKEN : {
+&lt;EqualSign: "="&gt;
+| &lt;AA: "+="&gt;
+| &lt;SA: "-="&gt;
+| &lt;MA: "*="&gt;
+| &lt;DA: "/="&gt;
+| &lt;RA: "%="&gt;
+| &lt;Lt: "&lt;"&gt;
+| &lt;LtE: "&lt;="&gt;
+| &lt;Gt: "&gt;"&gt;
+| &lt;GtE: "&gt;="&gt;
+| &lt;Plus: "+"&gt;
+| &lt;Minus: "-"&gt;
+| &lt;Star: "*"&gt;
+| &lt;Slash: "/"&gt;
+| &lt;SafeDiv: "/?"&gt;
+| &lt;Percent: "%"&gt;
+| &lt;SafeRem: "%?"&gt;
+| &lt;Tilde: "~"&gt;
+| &lt;Bang: "!"&gt;
+| &lt;And: "&amp;"&gt;
+| &lt;Or: "|"&gt;
+| &lt;Hat: "^"&gt;
+| &lt;Question: "?"&gt;
+| &lt;ReverseArrow: "&lt;-"&gt;
+| &lt;ReverseArrowChar: "\u2190"&gt;
+| &lt;SingleArrowChar: "\u2192"&gt;
+| &lt;SingleArrow: "-&gt;"&gt;
+| &lt;CastArrow: "~&gt;"&gt;
+| &lt;TypeCheckArrow: "~&gt;?"&gt;
+| &lt;DoubleArrow: "=&gt;"&gt;
+| &lt;EqualTo: "=="&gt;
+| &lt;NotEqualTo: "!="&gt;
+| &lt;NonComparable: "!&lt;&gt;="&gt;
+| &lt;Comparable: "&lt;&gt;="&gt;
+| &lt;ClosedRange: ".."&gt;
+| &lt;HalfOpenRange: ".&lt;"&gt;
+}
+
+   </PRE>
+  </TD>
+ </TR>
+ <!-- Special token -->
+ <TR>
+  <TD>
+<PRE>
+/**
+    Other tokens
+*/</PRE>
+  </TD>
+ </TR>
+ <!-- Token -->
+ <TR>
+  <TD>
+   <PRE>
+&lt;DEFAULT&gt; TOKEN : {
+&lt;NewLine: "\r" | "\n" | "\r\n"&gt;
+| &lt;Atmark: "@"&gt;
+}
+
+   </PRE>
+  </TD>
+ </TR>
+</TABLE>
+<H2 ALIGN=CENTER>NON-TERMINALS</H2>
+ <!-- Special token -->
+ <TR>
+  <TD>
+<PRE>
+//文法定義
+
+/**
+
+    型宣言
+    型宣言の終端には改行が必須
+
+           type 識別子
+    修飾子 type 識別子
+    修飾子 type 識別子 : 継承元型名
+    修飾子 type 識別子              <- 実装インターフェース
+    修飾子 type 識別子 : 継承元型名 <- 実装インターフェース
+    修飾子 type 識別子 : 継承元型名[型パラメータ]
+    修飾子 type 識別子                            <- 実装インターフェース[型パラメータ]
+    修飾子 type 識別子 : 継承元型名[型パラメータ] <- 実装インターフェース[型パラメータ]
+ */</PRE>
+  </TD>
+ </TR>
+
+<TABLE ALIGN=CENTER>
+<CAPTION><STRONG>TypeDeclaration</STRONG></CAPTION>
+<TR>
+<TD ALIGN=RIGHT VALIGN=BASELINE><A NAME="prod1">TypeDeclaration</A></TD>
+<TD ALIGN=CENTER VALIGN=BASELINE>::=</TD>
+<TD ALIGN=LEFT VALIGN=BASELINE>( <A HREF="#prod2">ModifierOfType</A> )? &lt;Type&gt; <A HREF="#prod3">TypeElement</A> ( &lt;Colon&gt; <A HREF="#prod4">SuperType</A> )? ( &lt;ReverseArrow&gt; ( <A HREF="#prod5">ImplementsInterface</A> )+ )?</TD>
+</TR>
+</TABLE>
+<HR>
+
+<TABLE ALIGN=CENTER>
+<CAPTION><STRONG>SuperType</STRONG></CAPTION>
+<TR>
+<TD ALIGN=RIGHT VALIGN=BASELINE><A NAME="prod4">SuperType</A></TD>
+<TD ALIGN=CENTER VALIGN=BASELINE>::=</TD>
+<TD ALIGN=LEFT VALIGN=BASELINE><A HREF="#prod3">TypeElement</A></TD>
+</TR>
+</TABLE>
+<HR>
+
+<TABLE ALIGN=CENTER>
+<CAPTION><STRONG>ImplementsInterface</STRONG></CAPTION>
+<TR>
+<TD ALIGN=RIGHT VALIGN=BASELINE><A NAME="prod5">ImplementsInterface</A></TD>
+<TD ALIGN=CENTER VALIGN=BASELINE>::=</TD>
+<TD ALIGN=LEFT VALIGN=BASELINE><A HREF="#prod3">TypeElement</A></TD>
+</TR>
+</TABLE>
+<HR>
+ <!-- Special token -->
+ <TR>
+  <TD>
+<PRE>
+/**
+    インターフェース宣言
+    interface 識別子               <- 拡張インターフェース
+    interface 識別子[型パラメータ] <- 拡張インターフェース[型パラメータ]
+ */</PRE>
+  </TD>
+ </TR>
+
+<TABLE ALIGN=CENTER>
+<CAPTION><STRONG>InterfaceDeclaration</STRONG></CAPTION>
+<TR>
+<TD ALIGN=RIGHT VALIGN=BASELINE><A NAME="prod6">InterfaceDeclaration</A></TD>
+<TD ALIGN=CENTER VALIGN=BASELINE>::=</TD>
+<TD ALIGN=LEFT VALIGN=BASELINE>&lt;Interface&gt; <A HREF="#prod7">Identifier</A> ( <A HREF="#prod8">TypeParameters</A> )? ( &lt;ReverseArrow&gt; ( <A HREF="#prod3">TypeElement</A> )+ )?</TD>
+</TR>
+</TABLE>
+<HR>
+ <!-- Special token -->
+ <TR>
+  <TD>
+<PRE>
+/**
+    TypeAlias宣言
+    修飾子 typealias 識別子 : 識別子
+
+    ↓未実装
+    修飾子 typealias 識別子 : 識別子[型パラメータ]
+ */</PRE>
+  </TD>
+ </TR>
+
+<TABLE ALIGN=CENTER>
+<CAPTION><STRONG>TypeAliasDeclaration</STRONG></CAPTION>
+<TR>
+<TD ALIGN=RIGHT VALIGN=BASELINE><A NAME="prod9">TypeAliasDeclaration</A></TD>
+<TD ALIGN=CENTER VALIGN=BASELINE>::=</TD>
+<TD ALIGN=LEFT VALIGN=BASELINE>( <A HREF="#prod2">ModifierOfType</A> )* &lt;TypeAlias&gt; <A HREF="#prod3">TypeElement</A> &lt;Colon&gt; <A HREF="#prod3">TypeElement</A></TD>
+</TR>
+</TABLE>
+<HR>
+ <!-- Special token -->
+ <TR>
+  <TD>
+<PRE>
+/**
+    変数または関数の宣言
+
+    変数宣言
+           識別子 : 型名
+    修飾子 識別子        = 式
+    修飾子 識別子 : 型名
+    修飾子 識別子 : 型名 = 式
+    修飾子 識別子 : 型名[型パラメータ] = 式
+
+    関数宣言
+    修飾子 識別子                      = 関数リテラル
+    修飾子 識別子 : 型名リスト -> 型名
+    修飾子 識別子 : 型名リスト -> 型名 = 関数リテラル
+
+    修飾子 識別子[型パラメータ] : 型名リスト[型パラメータ] -> 型名[型パラメータ]
+    修飾子 識別子[型パラメータ] : 型名リスト[型パラメータ] -> 型名[型パラメータ] = 関数リテラル
+*/</PRE>
+  </TD>
+ </TR>
+
+<TABLE ALIGN=CENTER>
+<CAPTION><STRONG>VariableOrFunctionDeclaration</STRONG></CAPTION>
+<TR>
+<TD ALIGN=RIGHT VALIGN=BASELINE><A NAME="prod10">VariableOrFunctionDeclaration</A></TD>
+<TD ALIGN=CENTER VALIGN=BASELINE>::=</TD>
+<TD ALIGN=LEFT VALIGN=BASELINE>( <A HREF="#prod11">Modifier</A> )* <A HREF="#prod7">Identifier</A> ( ( &lt;Colon&gt; <A HREF="#prod12">VariableOrFunctionTypeDeclaration</A> &lt;EqualSign&gt; <A HREF="#prod13">Expression</A> ) | ( &lt;Colon&gt; <A HREF="#prod12">VariableOrFunctionTypeDeclaration</A> | &lt;EqualSign&gt; <A HREF="#prod13">Expression</A> ) )</TD>
+</TR>
+</TABLE>
+<HR>
+ <!-- Special token -->
+ <TR>
+  <TD>
+<PRE>
+/**
+    Enumの宣言
+
+    enum 識別子: [識別子 識別子...]
+ */</PRE>
+  </TD>
+ </TR>
+
+<TABLE ALIGN=CENTER>
+<CAPTION><STRONG>EnumDeclaration</STRONG></CAPTION>
+<TR>
+<TD ALIGN=RIGHT VALIGN=BASELINE><A NAME="prod14">EnumDeclaration</A></TD>
+<TD ALIGN=CENTER VALIGN=BASELINE>::=</TD>
+<TD ALIGN=LEFT VALIGN=BASELINE>&lt;Enum&gt; <A HREF="#prod7">Identifier</A> &lt;Colon&gt; &lt;LeftBracket&gt; ( <A HREF="#prod7">Identifier</A> )+ &lt;RightBracket&gt;</TD>
+</TR>
+</TABLE>
+<HR>
+ <!-- Special token -->
+ <TR>
+  <TD>
+<PRE>
+/**
+    型宣言部
+
+    Tは型または型[型パラメータ]
+
+    T
+    T -> T
+    T -> T ... -> T
+    T T ...    -> T
+    T -> T T -> T
+ */</PRE>
+  </TD>
+ </TR>
+
+<TABLE ALIGN=CENTER>
+<CAPTION><STRONG>VariableOrFunctionTypeDeclaration</STRONG></CAPTION>
+<TR>
+<TD ALIGN=RIGHT VALIGN=BASELINE><A NAME="prod12">VariableOrFunctionTypeDeclaration</A></TD>
+<TD ALIGN=CENTER VALIGN=BASELINE>::=</TD>
+<TD ALIGN=LEFT VALIGN=BASELINE><A HREF="#prod3">TypeElement</A> ( ( <A HREF="#prod15">SingleArrow</A> )? <A HREF="#prod3">TypeElement</A> )*</TD>
+</TR>
+</TABLE>
+<HR>
+ <!-- Special token -->
+ <TR>
+  <TD>
+<PRE>
+/**
+    型
+    または
+    型[型パラメータ]
+ */</PRE>
+  </TD>
+ </TR>
+
+<TABLE ALIGN=CENTER>
+<CAPTION><STRONG>TypeElement</STRONG></CAPTION>
+<TR>
+<TD ALIGN=RIGHT VALIGN=BASELINE><A NAME="prod3">TypeElement</A></TD>
+<TD ALIGN=CENTER VALIGN=BASELINE>::=</TD>
+<TD ALIGN=LEFT VALIGN=BASELINE><A HREF="#prod16">KaraffeIdentifier</A> ( <A HREF="#prod8">TypeParameters</A> )?</TD>
+</TR>
+</TABLE>
+<HR>
+ <!-- Special token -->
+ <TR>
+  <TD>
+<PRE>
+/**
+    関数リテラル
+
+    () -> ...
+    () -> { ... }
+    (引数) -> ...
+    (引数:型) -> ...
+    (引数1 引数2...) -> ...
+    (引数1:型 引数2:型 ...) -> ...
+ */</PRE>
+  </TD>
+ </TR>
+
+<TABLE ALIGN=CENTER>
+<CAPTION><STRONG>FunctionLiteral</STRONG></CAPTION>
+<TR>
+<TD ALIGN=RIGHT VALIGN=BASELINE><A NAME="prod17">FunctionLiteral</A></TD>
+<TD ALIGN=CENTER VALIGN=BASELINE>::=</TD>
+<TD ALIGN=LEFT VALIGN=BASELINE>&lt;LeftParen&gt; ( <A HREF="#prod7">Identifier</A> ( <A HREF="#prod3">TypeElement</A> )? )* &lt;RightParen&gt; <A HREF="#prod15">SingleArrow</A> ( &lt;LeftBrace&gt; <A HREF="#prod18">Statements</A> &lt;RightBrace&gt; | <A HREF="#prod18">Statements</A> )</TD>
+</TR>
+</TABLE>
+<HR>
+ <!-- Special token -->
+ <TR>
+  <TD>
+<PRE>
+/**
+    Import文
+
+    import 識別子
+    import 識別子 -> 別名
+    import 識別子 { }
+
+ */</PRE>
+  </TD>
+ </TR>
+
+<TABLE ALIGN=CENTER>
+<CAPTION><STRONG>ImportStatement</STRONG></CAPTION>
+<TR>
+<TD ALIGN=RIGHT VALIGN=BASELINE><A NAME="prod19">ImportStatement</A></TD>
+<TD ALIGN=CENTER VALIGN=BASELINE>::=</TD>
+<TD ALIGN=LEFT VALIGN=BASELINE>&lt;Import&gt; ( <A HREF="#prod7">Identifier</A> ( &lt;SingleArrow&gt; <A HREF="#prod7">Identifier</A> )? )* ( &lt;LeftBrace&gt; <A HREF="#prod18">Statements</A> &lt;RightBrace&gt; )?</TD>
+</TR>
+</TABLE>
+<HR>
+ <!-- Special token -->
+ <TR>
+  <TD>
+<PRE>
+/**
+    型パラメータ
+    [型パラメータリスト]
+
+    型パラメータリスト
+    型パラメータ 型パラメータ ...
+
+    型パラメータ
+
+ */</PRE>
+  </TD>
+ </TR>
+
+<TABLE ALIGN=CENTER>
+<CAPTION><STRONG>TypeParameters</STRONG></CAPTION>
+<TR>
+<TD ALIGN=RIGHT VALIGN=BASELINE><A NAME="prod8">TypeParameters</A></TD>
+<TD ALIGN=CENTER VALIGN=BASELINE>::=</TD>
+<TD ALIGN=LEFT VALIGN=BASELINE>&lt;LeftBracket&gt; ( <A HREF="#prod20">TypeParameter</A> )+ &lt;RightBracket&gt;</TD>
+</TR>
+</TABLE>
+<HR>
+ <!-- Special token -->
+ <TR>
+  <TD>
+<PRE>
+/**
+    型パラメータ
+
+    識別子
+    識別子 < 型バインド
+ */</PRE>
+  </TD>
+ </TR>
+
+<TABLE ALIGN=CENTER>
+<CAPTION><STRONG>TypeParameter</STRONG></CAPTION>
+<TR>
+<TD ALIGN=RIGHT VALIGN=BASELINE><A NAME="prod20">TypeParameter</A></TD>
+<TD ALIGN=CENTER VALIGN=BASELINE>::=</TD>
+<TD ALIGN=LEFT VALIGN=BASELINE><A HREF="#prod7">Identifier</A> ( <A HREF="#prod21">TypeBound</A> )?</TD>
+</TR>
+</TABLE>
+<HR>
+ <!-- Special token -->
+ <TR>
+  <TD>
+<PRE>
+/**
+    型バインド
+
+    < 型変数
+    < インターフェース & インターフェース ...
+ */</PRE>
+  </TD>
+ </TR>
+
+<TABLE ALIGN=CENTER>
+<CAPTION><STRONG>TypeBound</STRONG></CAPTION>
+<TR>
+<TD ALIGN=RIGHT VALIGN=BASELINE><A NAME="prod21">TypeBound</A></TD>
+<TD ALIGN=CENTER VALIGN=BASELINE>::=</TD>
+<TD ALIGN=LEFT VALIGN=BASELINE>&lt;Lt&gt; <A HREF="#prod7">Identifier</A> ( &lt;And&gt; <A HREF="#prod7">Identifier</A> )*</TD>
+</TR>
+</TABLE>
+<HR>
+ <!-- Special token -->
+ <TR>
+  <TD>
+<PRE>
+/**
+    module モジュール名
+ */</PRE>
+  </TD>
+ </TR>
+
+<TABLE ALIGN=CENTER>
+<CAPTION><STRONG>ModuleDeclarationStatement</STRONG></CAPTION>
+<TR>
+<TD ALIGN=RIGHT VALIGN=BASELINE><A NAME="prod22">ModuleDeclarationStatement</A></TD>
+<TD ALIGN=CENTER VALIGN=BASELINE>::=</TD>
+<TD ALIGN=LEFT VALIGN=BASELINE>&lt;Module&gt; <A HREF="#prod7">Identifier</A></TD>
+</TR>
+</TABLE>
+<HR>
+ <!-- Special token -->
+ <TR>
+  <TD>
+<PRE>
+/**
+    アノテーション
+
+    @識別子
+ */</PRE>
+  </TD>
+ </TR>
+
+<TABLE ALIGN=CENTER>
+<CAPTION><STRONG>Annotation</STRONG></CAPTION>
+<TR>
+<TD ALIGN=RIGHT VALIGN=BASELINE><A NAME="prod23">Annotation</A></TD>
+<TD ALIGN=CENTER VALIGN=BASELINE>::=</TD>
+<TD ALIGN=LEFT VALIGN=BASELINE>&lt;Atmark&gt; <A HREF="#prod7">Identifier</A></TD>
+</TR>
+</TABLE>
+<HR>
+
+<TABLE ALIGN=CENTER>
+<CAPTION><STRONG>Literal</STRONG></CAPTION>
+<TR>
+<TD ALIGN=RIGHT VALIGN=BASELINE><A NAME="prod24">Literal</A></TD>
+<TD ALIGN=CENTER VALIGN=BASELINE>::=</TD>
+<TD ALIGN=LEFT VALIGN=BASELINE><A HREF="#prod17">FunctionLiteral</A></TD>
+</TR>
+<TR>
+<TD ALIGN=RIGHT VALIGN=BASELINE></TD>
+<TD ALIGN=CENTER VALIGN=BASELINE>|</TD>
+<TD ALIGN=LEFT VALIGN=BASELINE><A HREF="#prod25">BoolLiteral</A></TD>
+</TR>
+<TR>
+<TD ALIGN=RIGHT VALIGN=BASELINE></TD>
+<TD ALIGN=CENTER VALIGN=BASELINE>|</TD>
+<TD ALIGN=LEFT VALIGN=BASELINE><A HREF="#prod26">IntLiteral</A></TD>
+</TR>
+<TR>
+<TD ALIGN=RIGHT VALIGN=BASELINE></TD>
+<TD ALIGN=CENTER VALIGN=BASELINE>|</TD>
+<TD ALIGN=LEFT VALIGN=BASELINE><A HREF="#prod27">FloatLiteral</A></TD>
+</TR>
+<TR>
+<TD ALIGN=RIGHT VALIGN=BASELINE></TD>
+<TD ALIGN=CENTER VALIGN=BASELINE>|</TD>
+<TD ALIGN=LEFT VALIGN=BASELINE><A HREF="#prod28">StringLiteral</A></TD>
+</TR>
+<TR>
+<TD ALIGN=RIGHT VALIGN=BASELINE></TD>
+<TD ALIGN=CENTER VALIGN=BASELINE>|</TD>
+<TD ALIGN=LEFT VALIGN=BASELINE><A HREF="#prod29">UndefinedLiteral</A></TD>
+</TR>
+</TABLE>
+<HR>
+
+<TABLE ALIGN=CENTER>
+<CAPTION><STRONG>Identifier</STRONG></CAPTION>
+<TR>
+<TD ALIGN=RIGHT VALIGN=BASELINE><A NAME="prod7">Identifier</A></TD>
+<TD ALIGN=CENTER VALIGN=BASELINE>::=</TD>
+<TD ALIGN=LEFT VALIGN=BASELINE><A HREF="#prod16">KaraffeIdentifier</A></TD>
+</TR>
+<TR>
+<TD ALIGN=RIGHT VALIGN=BASELINE></TD>
+<TD ALIGN=CENTER VALIGN=BASELINE>|</TD>
+<TD ALIGN=LEFT VALIGN=BASELINE><A HREF="#prod30">JavaFQCN</A></TD>
+</TR>
+</TABLE>
+<HR>
+
+<TABLE ALIGN=CENTER>
+<CAPTION><STRONG>KaraffeIdentifier</STRONG></CAPTION>
+<TR>
+<TD ALIGN=RIGHT VALIGN=BASELINE><A NAME="prod16">KaraffeIdentifier</A></TD>
+<TD ALIGN=CENTER VALIGN=BASELINE>::=</TD>
+<TD ALIGN=LEFT VALIGN=BASELINE>&lt;Identifier&gt;</TD>
+</TR>
+</TABLE>
+<HR>
+
+<TABLE ALIGN=CENTER>
+<CAPTION><STRONG>JavaFQCN</STRONG></CAPTION>
+<TR>
+<TD ALIGN=RIGHT VALIGN=BASELINE><A NAME="prod30">JavaFQCN</A></TD>
+<TD ALIGN=CENTER VALIGN=BASELINE>::=</TD>
+<TD ALIGN=LEFT VALIGN=BASELINE>&lt;JavaFQCN&gt;</TD>
+</TR>
+</TABLE>
+<HR>
+
+<TABLE ALIGN=CENTER>
+<CAPTION><STRONG>CompileUnit</STRONG></CAPTION>
+<TR>
+<TD ALIGN=RIGHT VALIGN=BASELINE><A NAME="prod31">CompileUnit</A></TD>
+<TD ALIGN=CENTER VALIGN=BASELINE>::=</TD>
+<TD ALIGN=LEFT VALIGN=BASELINE>( <A HREF="#prod32">Statement</A> | <A HREF="#prod33">NewLineToken</A> )* &lt;EOF&gt;</TD>
+</TR>
+</TABLE>
+<HR>
+
+<TABLE ALIGN=CENTER>
+<CAPTION><STRONG>Statements</STRONG></CAPTION>
+<TR>
+<TD ALIGN=RIGHT VALIGN=BASELINE><A NAME="prod18">Statements</A></TD>
+<TD ALIGN=CENTER VALIGN=BASELINE>::=</TD>
+<TD ALIGN=LEFT VALIGN=BASELINE>( <A HREF="#prod32">Statement</A> )*</TD>
+</TR>
+</TABLE>
+<HR>
+
+<TABLE ALIGN=CENTER>
+<CAPTION><STRONG>Statement</STRONG></CAPTION>
+<TR>
+<TD ALIGN=RIGHT VALIGN=BASELINE><A NAME="prod32">Statement</A></TD>
+<TD ALIGN=CENTER VALIGN=BASELINE>::=</TD>
+<TD ALIGN=LEFT VALIGN=BASELINE><A HREF="#prod34">Declaration</A></TD>
+</TR>
+<TR>
+<TD ALIGN=RIGHT VALIGN=BASELINE></TD>
+<TD ALIGN=CENTER VALIGN=BASELINE>|</TD>
+<TD ALIGN=LEFT VALIGN=BASELINE><A HREF="#prod19">ImportStatement</A></TD>
+</TR>
+</TABLE>
+<HR>
+
+<TABLE ALIGN=CENTER>
+<CAPTION><STRONG>Declaration</STRONG></CAPTION>
+<TR>
+<TD ALIGN=RIGHT VALIGN=BASELINE><A NAME="prod34">Declaration</A></TD>
+<TD ALIGN=CENTER VALIGN=BASELINE>::=</TD>
+<TD ALIGN=LEFT VALIGN=BASELINE><A HREF="#prod10">VariableOrFunctionDeclaration</A></TD>
+</TR>
+<TR>
+<TD ALIGN=RIGHT VALIGN=BASELINE></TD>
+<TD ALIGN=CENTER VALIGN=BASELINE>|</TD>
+<TD ALIGN=LEFT VALIGN=BASELINE><A HREF="#prod1">TypeDeclaration</A></TD>
+</TR>
+<TR>
+<TD ALIGN=RIGHT VALIGN=BASELINE></TD>
+<TD ALIGN=CENTER VALIGN=BASELINE>|</TD>
+<TD ALIGN=LEFT VALIGN=BASELINE><A HREF="#prod6">InterfaceDeclaration</A></TD>
+</TR>
+<TR>
+<TD ALIGN=RIGHT VALIGN=BASELINE></TD>
+<TD ALIGN=CENTER VALIGN=BASELINE>|</TD>
+<TD ALIGN=LEFT VALIGN=BASELINE><A HREF="#prod9">TypeAliasDeclaration</A></TD>
+</TR>
+<TR>
+<TD ALIGN=RIGHT VALIGN=BASELINE></TD>
+<TD ALIGN=CENTER VALIGN=BASELINE>|</TD>
+<TD ALIGN=LEFT VALIGN=BASELINE><A HREF="#prod22">ModuleDeclarationStatement</A></TD>
+</TR>
+<TR>
+<TD ALIGN=RIGHT VALIGN=BASELINE></TD>
+<TD ALIGN=CENTER VALIGN=BASELINE>|</TD>
+<TD ALIGN=LEFT VALIGN=BASELINE><A HREF="#prod14">EnumDeclaration</A></TD>
+</TR>
+<TR>
+<TD ALIGN=RIGHT VALIGN=BASELINE></TD>
+<TD ALIGN=CENTER VALIGN=BASELINE>|</TD>
+<TD ALIGN=LEFT VALIGN=BASELINE><A HREF="#prod35">EndOfModule</A></TD>
+</TR>
+</TABLE>
+<HR>
+
+<TABLE ALIGN=CENTER>
+<CAPTION><STRONG>Expression</STRONG></CAPTION>
+<TR>
+<TD ALIGN=RIGHT VALIGN=BASELINE><A NAME="prod13">Expression</A></TD>
+<TD ALIGN=CENTER VALIGN=BASELINE>::=</TD>
+<TD ALIGN=LEFT VALIGN=BASELINE>( <A HREF="#prod36">OrExpr</A> | <A HREF="#prod37">AssignmentExpression</A> )</TD>
+</TR>
+</TABLE>
+<HR>
+
+<TABLE ALIGN=CENTER>
+<CAPTION><STRONG>AssignmentExpression</STRONG></CAPTION>
+<TR>
+<TD ALIGN=RIGHT VALIGN=BASELINE><A NAME="prod37">AssignmentExpression</A></TD>
+<TD ALIGN=CENTER VALIGN=BASELINE>::=</TD>
+<TD ALIGN=LEFT VALIGN=BASELINE>( <A HREF="#prod36">OrExpr</A> | <A HREF="#prod38">Assignment</A> )</TD>
+</TR>
+</TABLE>
+<HR>
+
+<TABLE ALIGN=CENTER>
+<CAPTION><STRONG>Assignment</STRONG></CAPTION>
+<TR>
+<TD ALIGN=RIGHT VALIGN=BASELINE><A NAME="prod38">Assignment</A></TD>
+<TD ALIGN=CENTER VALIGN=BASELINE>::=</TD>
+<TD ALIGN=LEFT VALIGN=BASELINE><A HREF="#prod39">LeftHandSide</A> <A HREF="#prod40">AssignmentOperator</A> <A HREF="#prod13">Expression</A></TD>
+</TR>
+</TABLE>
+<HR>
+
+<TABLE ALIGN=CENTER>
+<CAPTION><STRONG>LeftHandSide</STRONG></CAPTION>
+<TR>
+<TD ALIGN=RIGHT VALIGN=BASELINE><A NAME="prod39">LeftHandSide</A></TD>
+<TD ALIGN=CENTER VALIGN=BASELINE>::=</TD>
+<TD ALIGN=LEFT VALIGN=BASELINE>( <A HREF="#prod7">Identifier</A> | <A HREF="#prod41">ExplicitModuleElementAccess</A> ( <A HREF="#prod42">ElementAccess</A> )? | <A HREF="#prod42">ElementAccess</A> )</TD>
+</TR>
+</TABLE>
+<HR>
+
+<TABLE ALIGN=CENTER>
+<CAPTION><STRONG>AssignmentOperator</STRONG></CAPTION>
+<TR>
+<TD ALIGN=RIGHT VALIGN=BASELINE><A NAME="prod40">AssignmentOperator</A></TD>
+<TD ALIGN=CENTER VALIGN=BASELINE>::=</TD>
+<TD ALIGN=LEFT VALIGN=BASELINE><A HREF="#prod43">Assign</A></TD>
+</TR>
+<TR>
+<TD ALIGN=RIGHT VALIGN=BASELINE></TD>
+<TD ALIGN=CENTER VALIGN=BASELINE>|</TD>
+<TD ALIGN=LEFT VALIGN=BASELINE><A HREF="#prod44">AA</A></TD>
+</TR>
+<TR>
+<TD ALIGN=RIGHT VALIGN=BASELINE></TD>
+<TD ALIGN=CENTER VALIGN=BASELINE>|</TD>
+<TD ALIGN=LEFT VALIGN=BASELINE><A HREF="#prod45">SA</A></TD>
+</TR>
+<TR>
+<TD ALIGN=RIGHT VALIGN=BASELINE></TD>
+<TD ALIGN=CENTER VALIGN=BASELINE>|</TD>
+<TD ALIGN=LEFT VALIGN=BASELINE><A HREF="#prod46">MA</A></TD>
+</TR>
+<TR>
+<TD ALIGN=RIGHT VALIGN=BASELINE></TD>
+<TD ALIGN=CENTER VALIGN=BASELINE>|</TD>
+<TD ALIGN=LEFT VALIGN=BASELINE><A HREF="#prod47">DA</A></TD>
+</TR>
+<TR>
+<TD ALIGN=RIGHT VALIGN=BASELINE></TD>
+<TD ALIGN=CENTER VALIGN=BASELINE>|</TD>
+<TD ALIGN=LEFT VALIGN=BASELINE><A HREF="#prod48">RA</A></TD>
+</TR>
+</TABLE>
+<HR>
+
+<TABLE ALIGN=CENTER>
+<CAPTION><STRONG>OrExpr</STRONG></CAPTION>
+<TR>
+<TD ALIGN=RIGHT VALIGN=BASELINE><A NAME="prod36">OrExpr</A></TD>
+<TD ALIGN=CENTER VALIGN=BASELINE>::=</TD>
+<TD ALIGN=LEFT VALIGN=BASELINE>( <A HREF="#prod49">AndExpr</A> ( <A HREF="#prod50">Or</A> <A HREF="#prod49">AndExpr</A> )* )</TD>
+</TR>
+</TABLE>
+<HR>
+
+<TABLE ALIGN=CENTER>
+<CAPTION><STRONG>AndExpr</STRONG></CAPTION>
+<TR>
+<TD ALIGN=RIGHT VALIGN=BASELINE><A NAME="prod49">AndExpr</A></TD>
+<TD ALIGN=CENTER VALIGN=BASELINE>::=</TD>
+<TD ALIGN=LEFT VALIGN=BASELINE>( <A HREF="#prod51">Equality</A> ( <A HREF="#prod52">And</A> <A HREF="#prod51">Equality</A> )* )</TD>
+</TR>
+</TABLE>
+<HR>
+
+<TABLE ALIGN=CENTER>
+<CAPTION><STRONG>Equality</STRONG></CAPTION>
+<TR>
+<TD ALIGN=RIGHT VALIGN=BASELINE><A NAME="prod51">Equality</A></TD>
+<TD ALIGN=CENTER VALIGN=BASELINE>::=</TD>
+<TD ALIGN=LEFT VALIGN=BASELINE>( <A HREF="#prod53">Relational</A> ( ( <A HREF="#prod54">EqualTo</A> | <A HREF="#prod55">NotEqualTo</A> ) <A HREF="#prod53">Relational</A> )* )</TD>
+</TR>
+</TABLE>
+<HR>
+
+<TABLE ALIGN=CENTER>
+<CAPTION><STRONG>Relational</STRONG></CAPTION>
+<TR>
+<TD ALIGN=RIGHT VALIGN=BASELINE><A NAME="prod53">Relational</A></TD>
+<TD ALIGN=CENTER VALIGN=BASELINE>::=</TD>
+<TD ALIGN=LEFT VALIGN=BASELINE>( <A HREF="#prod56">Range</A> ( ( <A HREF="#prod57">LessThan</A> | <A HREF="#prod58">GreaterThan</A> | <A HREF="#prod59">LessThanEqualTo</A> | <A HREF="#prod60">GreaterThanEqualTo</A> ) <A HREF="#prod56">Range</A> )* )</TD>
+</TR>
+</TABLE>
+<HR>
+
+<TABLE ALIGN=CENTER>
+<CAPTION><STRONG>Range</STRONG></CAPTION>
+<TR>
+<TD ALIGN=RIGHT VALIGN=BASELINE><A NAME="prod56">Range</A></TD>
+<TD ALIGN=CENTER VALIGN=BASELINE>::=</TD>
+<TD ALIGN=LEFT VALIGN=BASELINE>( <A HREF="#prod61">Additive</A> ( ( <A HREF="#prod62">ClosedRange</A> | <A HREF="#prod63">HalfOpenRange</A> ) <A HREF="#prod61">Additive</A> )* )</TD>
+</TR>
+</TABLE>
+<HR>
+
+<TABLE ALIGN=CENTER>
+<CAPTION><STRONG>Additive</STRONG></CAPTION>
+<TR>
+<TD ALIGN=RIGHT VALIGN=BASELINE><A NAME="prod61">Additive</A></TD>
+<TD ALIGN=CENTER VALIGN=BASELINE>::=</TD>
+<TD ALIGN=LEFT VALIGN=BASELINE>( <A HREF="#prod64">Multiplicative</A> ( ( <A HREF="#prod65">Plus</A> | <A HREF="#prod66">Minus</A> ) <A HREF="#prod64">Multiplicative</A> )* )</TD>
+</TR>
+</TABLE>
+<HR>
+
+<TABLE ALIGN=CENTER>
+<CAPTION><STRONG>Multiplicative</STRONG></CAPTION>
+<TR>
+<TD ALIGN=RIGHT VALIGN=BASELINE><A NAME="prod64">Multiplicative</A></TD>
+<TD ALIGN=CENTER VALIGN=BASELINE>::=</TD>
+<TD ALIGN=LEFT VALIGN=BASELINE>( <A HREF="#prod67">UnaryExpr</A> ( ( <A HREF="#prod68">Star</A> | <A HREF="#prod69">Slash</A> | <A HREF="#prod70">SafeDiv</A> | <A HREF="#prod71">SafeRem</A> | <A HREF="#prod72">Percent</A> | <A HREF="#prod73">Hat</A> ) <A HREF="#prod67">UnaryExpr</A> )* )</TD>
+</TR>
+</TABLE>
+<HR>
+
+<TABLE ALIGN=CENTER>
+<CAPTION><STRONG>UnaryExpr</STRONG></CAPTION>
+<TR>
+<TD ALIGN=RIGHT VALIGN=BASELINE><A NAME="prod67">UnaryExpr</A></TD>
+<TD ALIGN=CENTER VALIGN=BASELINE>::=</TD>
+<TD ALIGN=LEFT VALIGN=BASELINE><A HREF="#prod74">UnaryPlus</A> <A HREF="#prod75">UnaryExprNotPlusMinus</A></TD>
+</TR>
+<TR>
+<TD ALIGN=RIGHT VALIGN=BASELINE></TD>
+<TD ALIGN=CENTER VALIGN=BASELINE>|</TD>
+<TD ALIGN=LEFT VALIGN=BASELINE><A HREF="#prod76">UnaryMinus</A> <A HREF="#prod75">UnaryExprNotPlusMinus</A></TD>
+</TR>
+<TR>
+<TD ALIGN=RIGHT VALIGN=BASELINE></TD>
+<TD ALIGN=CENTER VALIGN=BASELINE>|</TD>
+<TD ALIGN=LEFT VALIGN=BASELINE><A HREF="#prod75">UnaryExprNotPlusMinus</A></TD>
+</TR>
+</TABLE>
+<HR>
+
+<TABLE ALIGN=CENTER>
+<CAPTION><STRONG>UnaryExprNotPlusMinus</STRONG></CAPTION>
+<TR>
+<TD ALIGN=RIGHT VALIGN=BASELINE><A NAME="prod75">UnaryExprNotPlusMinus</A></TD>
+<TD ALIGN=CENTER VALIGN=BASELINE>::=</TD>
+<TD ALIGN=LEFT VALIGN=BASELINE><A HREF="#prod77">Primary</A></TD>
+</TR>
+<TR>
+<TD ALIGN=RIGHT VALIGN=BASELINE></TD>
+<TD ALIGN=CENTER VALIGN=BASELINE>|</TD>
+<TD ALIGN=LEFT VALIGN=BASELINE><A HREF="#prod78">UnaryBang</A> <A HREF="#prod77">Primary</A></TD>
+</TR>
+</TABLE>
+<HR>
+
+<TABLE ALIGN=CENTER>
+<CAPTION><STRONG>Primary</STRONG></CAPTION>
+<TR>
+<TD ALIGN=RIGHT VALIGN=BASELINE><A NAME="prod77">Primary</A></TD>
+<TD ALIGN=CENTER VALIGN=BASELINE>::=</TD>
+<TD ALIGN=LEFT VALIGN=BASELINE><A HREF="#prod24">Literal</A></TD>
+</TR>
+<TR>
+<TD ALIGN=RIGHT VALIGN=BASELINE></TD>
+<TD ALIGN=CENTER VALIGN=BASELINE>|</TD>
+<TD ALIGN=LEFT VALIGN=BASELINE>"(" <A HREF="#prod13">Expression</A> ")"</TD>
+</TR>
+<TR>
+<TD ALIGN=RIGHT VALIGN=BASELINE></TD>
+<TD ALIGN=CENTER VALIGN=BASELINE>|</TD>
+<TD ALIGN=LEFT VALIGN=BASELINE><A HREF="#prod42">ElementAccess</A></TD>
+</TR>
+<TR>
+<TD ALIGN=RIGHT VALIGN=BASELINE></TD>
+<TD ALIGN=CENTER VALIGN=BASELINE>|</TD>
+<TD ALIGN=LEFT VALIGN=BASELINE><A HREF="#prod7">Identifier</A></TD>
+</TR>
+</TABLE>
+<HR>
+ <!-- Special token -->
+ <TR>
+  <TD>
+<PRE>
+/**
+    Identifier=>Identifier...
+ */</PRE>
+  </TD>
+ </TR>
+
+<TABLE ALIGN=CENTER>
+<CAPTION><STRONG>ElementAccess</STRONG></CAPTION>
+<TR>
+<TD ALIGN=RIGHT VALIGN=BASELINE><A NAME="prod42">ElementAccess</A></TD>
+<TD ALIGN=CENTER VALIGN=BASELINE>::=</TD>
+<TD ALIGN=LEFT VALIGN=BASELINE><A HREF="#prod7">Identifier</A> ( &lt;DoubleArrow&gt; <A HREF="#prod7">Identifier</A> )+</TD>
+</TR>
+</TABLE>
+<HR>
+ <!-- Special token -->
+ <TR>
+  <TD>
+<PRE>
+/**
+    ModuleName::ElementName...
+ */</PRE>
+  </TD>
+ </TR>
+
+<TABLE ALIGN=CENTER>
+<CAPTION><STRONG>ExplicitModuleElementAccess</STRONG></CAPTION>
+<TR>
+<TD ALIGN=RIGHT VALIGN=BASELINE><A NAME="prod41">ExplicitModuleElementAccess</A></TD>
+<TD ALIGN=CENTER VALIGN=BASELINE>::=</TD>
+<TD ALIGN=LEFT VALIGN=BASELINE><A HREF="#prod7">Identifier</A> ( &lt;DoubleColon&gt; <A HREF="#prod7">Identifier</A> )+</TD>
+</TR>
+</TABLE>
+<HR>
+
+<TABLE ALIGN=CENTER>
+<CAPTION><STRONG>Modifier</STRONG></CAPTION>
+<TR>
+<TD ALIGN=RIGHT VALIGN=BASELINE><A NAME="prod11">Modifier</A></TD>
+<TD ALIGN=CENTER VALIGN=BASELINE>::=</TD>
+<TD ALIGN=LEFT VALIGN=BASELINE><A HREF="#prod2">ModifierOfType</A></TD>
+</TR>
+<TR>
+<TD ALIGN=RIGHT VALIGN=BASELINE></TD>
+<TD ALIGN=CENTER VALIGN=BASELINE>|</TD>
+<TD ALIGN=LEFT VALIGN=BASELINE><A HREF="#prod79">ModifierOfVariable</A></TD>
+</TR>
+<TR>
+<TD ALIGN=RIGHT VALIGN=BASELINE></TD>
+<TD ALIGN=CENTER VALIGN=BASELINE>|</TD>
+<TD ALIGN=LEFT VALIGN=BASELINE><A HREF="#prod80">ModifierOfFunction</A></TD>
+</TR>
+<TR>
+<TD ALIGN=RIGHT VALIGN=BASELINE></TD>
+<TD ALIGN=CENTER VALIGN=BASELINE>|</TD>
+<TD ALIGN=LEFT VALIGN=BASELINE><A HREF="#prod81">ModifierOfOperator</A></TD>
+</TR>
+</TABLE>
+<HR>
+
+<TABLE ALIGN=CENTER>
+<CAPTION><STRONG>ModifierOfType</STRONG></CAPTION>
+<TR>
+<TD ALIGN=RIGHT VALIGN=BASELINE><A NAME="prod2">ModifierOfType</A></TD>
+<TD ALIGN=CENTER VALIGN=BASELINE>::=</TD>
+<TD ALIGN=LEFT VALIGN=BASELINE>( ( <A HREF="#prod82">PrivateModifier</A> | <A HREF="#prod83">SealedModifier</A> ) )+</TD>
+</TR>
+</TABLE>
+<HR>
+
+<TABLE ALIGN=CENTER>
+<CAPTION><STRONG>ModifierOfVariable</STRONG></CAPTION>
+<TR>
+<TD ALIGN=RIGHT VALIGN=BASELINE><A NAME="prod79">ModifierOfVariable</A></TD>
+<TD ALIGN=CENTER VALIGN=BASELINE>::=</TD>
+<TD ALIGN=LEFT VALIGN=BASELINE>( ( <A HREF="#prod82">PrivateModifier</A> | <A HREF="#prod84">VariableModifier</A> | <A HREF="#prod85">LazyModifier</A> ) )+</TD>
+</TR>
+</TABLE>
+<HR>
+
+<TABLE ALIGN=CENTER>
+<CAPTION><STRONG>ModifierOfFunction</STRONG></CAPTION>
+<TR>
+<TD ALIGN=RIGHT VALIGN=BASELINE><A NAME="prod80">ModifierOfFunction</A></TD>
+<TD ALIGN=CENTER VALIGN=BASELINE>::=</TD>
+<TD ALIGN=LEFT VALIGN=BASELINE>( ( <A HREF="#prod86">AbstractModifier</A> | <A HREF="#prod87">OverrideModifier</A> | <A HREF="#prod82">PrivateModifier</A> | <A HREF="#prod83">SealedModifier</A> ) )+</TD>
+</TR>
+</TABLE>
+<HR>
+
+<TABLE ALIGN=CENTER>
+<CAPTION><STRONG>ModifierOfOperator</STRONG></CAPTION>
+<TR>
+<TD ALIGN=RIGHT VALIGN=BASELINE><A NAME="prod81">ModifierOfOperator</A></TD>
+<TD ALIGN=CENTER VALIGN=BASELINE>::=</TD>
+<TD ALIGN=LEFT VALIGN=BASELINE>( ( <A HREF="#prod88">OpModifier</A> | <A HREF="#prod89">UnaryOpModifier</A> ) )+</TD>
+</TR>
+</TABLE>
+<HR>
+
+<TABLE ALIGN=CENTER>
+<CAPTION><STRONG>AbstractModifier</STRONG></CAPTION>
+<TR>
+<TD ALIGN=RIGHT VALIGN=BASELINE><A NAME="prod86">AbstractModifier</A></TD>
+<TD ALIGN=CENTER VALIGN=BASELINE>::=</TD>
+<TD ALIGN=LEFT VALIGN=BASELINE>&lt;Abstract&gt;</TD>
+</TR>
+</TABLE>
+<HR>
+
+<TABLE ALIGN=CENTER>
+<CAPTION><STRONG>OverrideModifier</STRONG></CAPTION>
+<TR>
+<TD ALIGN=RIGHT VALIGN=BASELINE><A NAME="prod87">OverrideModifier</A></TD>
+<TD ALIGN=CENTER VALIGN=BASELINE>::=</TD>
+<TD ALIGN=LEFT VALIGN=BASELINE>&lt;Override&gt;</TD>
+</TR>
+</TABLE>
+<HR>
+
+<TABLE ALIGN=CENTER>
+<CAPTION><STRONG>PrivateModifier</STRONG></CAPTION>
+<TR>
+<TD ALIGN=RIGHT VALIGN=BASELINE><A NAME="prod82">PrivateModifier</A></TD>
+<TD ALIGN=CENTER VALIGN=BASELINE>::=</TD>
+<TD ALIGN=LEFT VALIGN=BASELINE>&lt;Private&gt;</TD>
+</TR>
+</TABLE>
+<HR>
+
+<TABLE ALIGN=CENTER>
+<CAPTION><STRONG>SealedModifier</STRONG></CAPTION>
+<TR>
+<TD ALIGN=RIGHT VALIGN=BASELINE><A NAME="prod83">SealedModifier</A></TD>
+<TD ALIGN=CENTER VALIGN=BASELINE>::=</TD>
+<TD ALIGN=LEFT VALIGN=BASELINE>&lt;Sealed&gt;</TD>
+</TR>
+</TABLE>
+<HR>
+
+<TABLE ALIGN=CENTER>
+<CAPTION><STRONG>LazyModifier</STRONG></CAPTION>
+<TR>
+<TD ALIGN=RIGHT VALIGN=BASELINE><A NAME="prod85">LazyModifier</A></TD>
+<TD ALIGN=CENTER VALIGN=BASELINE>::=</TD>
+<TD ALIGN=LEFT VALIGN=BASELINE>&lt;Lazy&gt;</TD>
+</TR>
+</TABLE>
+<HR>
+
+<TABLE ALIGN=CENTER>
+<CAPTION><STRONG>OpModifier</STRONG></CAPTION>
+<TR>
+<TD ALIGN=RIGHT VALIGN=BASELINE><A NAME="prod88">OpModifier</A></TD>
+<TD ALIGN=CENTER VALIGN=BASELINE>::=</TD>
+<TD ALIGN=LEFT VALIGN=BASELINE>&lt;Operator&gt;</TD>
+</TR>
+</TABLE>
+<HR>
+
+<TABLE ALIGN=CENTER>
+<CAPTION><STRONG>UnaryOpModifier</STRONG></CAPTION>
+<TR>
+<TD ALIGN=RIGHT VALIGN=BASELINE><A NAME="prod89">UnaryOpModifier</A></TD>
+<TD ALIGN=CENTER VALIGN=BASELINE>::=</TD>
+<TD ALIGN=LEFT VALIGN=BASELINE>&lt;UnaryOperator&gt;</TD>
+</TR>
+</TABLE>
+<HR>
+
+<TABLE ALIGN=CENTER>
+<CAPTION><STRONG>VariableModifier</STRONG></CAPTION>
+<TR>
+<TD ALIGN=RIGHT VALIGN=BASELINE><A NAME="prod84">VariableModifier</A></TD>
+<TD ALIGN=CENTER VALIGN=BASELINE>::=</TD>
+<TD ALIGN=LEFT VALIGN=BASELINE>&lt;Variable&gt;</TD>
+</TR>
+</TABLE>
+<HR>
+
+<TABLE ALIGN=CENTER>
+<CAPTION><STRONG>UnaryPlus</STRONG></CAPTION>
+<TR>
+<TD ALIGN=RIGHT VALIGN=BASELINE><A NAME="prod74">UnaryPlus</A></TD>
+<TD ALIGN=CENTER VALIGN=BASELINE>::=</TD>
+<TD ALIGN=LEFT VALIGN=BASELINE>&lt;Plus&gt;</TD>
+</TR>
+</TABLE>
+<HR>
+
+<TABLE ALIGN=CENTER>
+<CAPTION><STRONG>UnaryBang</STRONG></CAPTION>
+<TR>
+<TD ALIGN=RIGHT VALIGN=BASELINE><A NAME="prod78">UnaryBang</A></TD>
+<TD ALIGN=CENTER VALIGN=BASELINE>::=</TD>
+<TD ALIGN=LEFT VALIGN=BASELINE>&lt;Bang&gt;</TD>
+</TR>
+</TABLE>
+<HR>
+
+<TABLE ALIGN=CENTER>
+<CAPTION><STRONG>UnaryMinus</STRONG></CAPTION>
+<TR>
+<TD ALIGN=RIGHT VALIGN=BASELINE><A NAME="prod76">UnaryMinus</A></TD>
+<TD ALIGN=CENTER VALIGN=BASELINE>::=</TD>
+<TD ALIGN=LEFT VALIGN=BASELINE>&lt;Minus&gt;</TD>
+</TR>
+</TABLE>
+<HR>
+
+<TABLE ALIGN=CENTER>
+<CAPTION><STRONG>EndOfModule</STRONG></CAPTION>
+<TR>
+<TD ALIGN=RIGHT VALIGN=BASELINE><A NAME="prod35">EndOfModule</A></TD>
+<TD ALIGN=CENTER VALIGN=BASELINE>::=</TD>
+<TD ALIGN=LEFT VALIGN=BASELINE>&lt;EndModule&gt;</TD>
+</TR>
+</TABLE>
+<HR>
+
+<TABLE ALIGN=CENTER>
+<CAPTION><STRONG>NewLineToken</STRONG></CAPTION>
+<TR>
+<TD ALIGN=RIGHT VALIGN=BASELINE><A NAME="prod33">NewLineToken</A></TD>
+<TD ALIGN=CENTER VALIGN=BASELINE>::=</TD>
+<TD ALIGN=LEFT VALIGN=BASELINE>&lt;NewLine&gt;</TD>
+</TR>
+</TABLE>
+<HR>
+
+<TABLE ALIGN=CENTER>
+<CAPTION><STRONG>Star</STRONG></CAPTION>
+<TR>
+<TD ALIGN=RIGHT VALIGN=BASELINE><A NAME="prod68">Star</A></TD>
+<TD ALIGN=CENTER VALIGN=BASELINE>::=</TD>
+<TD ALIGN=LEFT VALIGN=BASELINE>&lt;Star&gt;</TD>
+</TR>
+</TABLE>
+<HR>
+
+<TABLE ALIGN=CENTER>
+<CAPTION><STRONG>Slash</STRONG></CAPTION>
+<TR>
+<TD ALIGN=RIGHT VALIGN=BASELINE><A NAME="prod69">Slash</A></TD>
+<TD ALIGN=CENTER VALIGN=BASELINE>::=</TD>
+<TD ALIGN=LEFT VALIGN=BASELINE>&lt;Slash&gt;</TD>
+</TR>
+</TABLE>
+<HR>
+
+<TABLE ALIGN=CENTER>
+<CAPTION><STRONG>Percent</STRONG></CAPTION>
+<TR>
+<TD ALIGN=RIGHT VALIGN=BASELINE><A NAME="prod72">Percent</A></TD>
+<TD ALIGN=CENTER VALIGN=BASELINE>::=</TD>
+<TD ALIGN=LEFT VALIGN=BASELINE>&lt;Percent&gt;</TD>
+</TR>
+</TABLE>
+<HR>
+
+<TABLE ALIGN=CENTER>
+<CAPTION><STRONG>SafeDiv</STRONG></CAPTION>
+<TR>
+<TD ALIGN=RIGHT VALIGN=BASELINE><A NAME="prod70">SafeDiv</A></TD>
+<TD ALIGN=CENTER VALIGN=BASELINE>::=</TD>
+<TD ALIGN=LEFT VALIGN=BASELINE>&lt;SafeDiv&gt;</TD>
+</TR>
+</TABLE>
+<HR>
+
+<TABLE ALIGN=CENTER>
+<CAPTION><STRONG>SafeRem</STRONG></CAPTION>
+<TR>
+<TD ALIGN=RIGHT VALIGN=BASELINE><A NAME="prod71">SafeRem</A></TD>
+<TD ALIGN=CENTER VALIGN=BASELINE>::=</TD>
+<TD ALIGN=LEFT VALIGN=BASELINE>&lt;SafeRem&gt;</TD>
+</TR>
+</TABLE>
+<HR>
+
+<TABLE ALIGN=CENTER>
+<CAPTION><STRONG>Hat</STRONG></CAPTION>
+<TR>
+<TD ALIGN=RIGHT VALIGN=BASELINE><A NAME="prod73">Hat</A></TD>
+<TD ALIGN=CENTER VALIGN=BASELINE>::=</TD>
+<TD ALIGN=LEFT VALIGN=BASELINE>&lt;Hat&gt;</TD>
+</TR>
+</TABLE>
+<HR>
+
+<TABLE ALIGN=CENTER>
+<CAPTION><STRONG>Plus</STRONG></CAPTION>
+<TR>
+<TD ALIGN=RIGHT VALIGN=BASELINE><A NAME="prod65">Plus</A></TD>
+<TD ALIGN=CENTER VALIGN=BASELINE>::=</TD>
+<TD ALIGN=LEFT VALIGN=BASELINE>&lt;Plus&gt;</TD>
+</TR>
+</TABLE>
+<HR>
+
+<TABLE ALIGN=CENTER>
+<CAPTION><STRONG>Minus</STRONG></CAPTION>
+<TR>
+<TD ALIGN=RIGHT VALIGN=BASELINE><A NAME="prod66">Minus</A></TD>
+<TD ALIGN=CENTER VALIGN=BASELINE>::=</TD>
+<TD ALIGN=LEFT VALIGN=BASELINE>&lt;Minus&gt;</TD>
+</TR>
+</TABLE>
+<HR>
+
+<TABLE ALIGN=CENTER>
+<CAPTION><STRONG>EqualTo</STRONG></CAPTION>
+<TR>
+<TD ALIGN=RIGHT VALIGN=BASELINE><A NAME="prod54">EqualTo</A></TD>
+<TD ALIGN=CENTER VALIGN=BASELINE>::=</TD>
+<TD ALIGN=LEFT VALIGN=BASELINE>&lt;EqualTo&gt;</TD>
+</TR>
+</TABLE>
+<HR>
+
+<TABLE ALIGN=CENTER>
+<CAPTION><STRONG>NotEqualTo</STRONG></CAPTION>
+<TR>
+<TD ALIGN=RIGHT VALIGN=BASELINE><A NAME="prod55">NotEqualTo</A></TD>
+<TD ALIGN=CENTER VALIGN=BASELINE>::=</TD>
+<TD ALIGN=LEFT VALIGN=BASELINE>&lt;NotEqualTo&gt;</TD>
+</TR>
+</TABLE>
+<HR>
+
+<TABLE ALIGN=CENTER>
+<CAPTION><STRONG>GreaterThan</STRONG></CAPTION>
+<TR>
+<TD ALIGN=RIGHT VALIGN=BASELINE><A NAME="prod58">GreaterThan</A></TD>
+<TD ALIGN=CENTER VALIGN=BASELINE>::=</TD>
+<TD ALIGN=LEFT VALIGN=BASELINE>&lt;Gt&gt;</TD>
+</TR>
+</TABLE>
+<HR>
+
+<TABLE ALIGN=CENTER>
+<CAPTION><STRONG>LessThan</STRONG></CAPTION>
+<TR>
+<TD ALIGN=RIGHT VALIGN=BASELINE><A NAME="prod57">LessThan</A></TD>
+<TD ALIGN=CENTER VALIGN=BASELINE>::=</TD>
+<TD ALIGN=LEFT VALIGN=BASELINE>&lt;Lt&gt;</TD>
+</TR>
+</TABLE>
+<HR>
+
+<TABLE ALIGN=CENTER>
+<CAPTION><STRONG>GreaterThanEqualTo</STRONG></CAPTION>
+<TR>
+<TD ALIGN=RIGHT VALIGN=BASELINE><A NAME="prod60">GreaterThanEqualTo</A></TD>
+<TD ALIGN=CENTER VALIGN=BASELINE>::=</TD>
+<TD ALIGN=LEFT VALIGN=BASELINE>&lt;GtE&gt;</TD>
+</TR>
+</TABLE>
+<HR>
+
+<TABLE ALIGN=CENTER>
+<CAPTION><STRONG>LessThanEqualTo</STRONG></CAPTION>
+<TR>
+<TD ALIGN=RIGHT VALIGN=BASELINE><A NAME="prod59">LessThanEqualTo</A></TD>
+<TD ALIGN=CENTER VALIGN=BASELINE>::=</TD>
+<TD ALIGN=LEFT VALIGN=BASELINE>&lt;LtE&gt;</TD>
+</TR>
+</TABLE>
+<HR>
+
+<TABLE ALIGN=CENTER>
+<CAPTION><STRONG>Comparable</STRONG></CAPTION>
+<TR>
+<TD ALIGN=RIGHT VALIGN=BASELINE><A NAME="prod90">Comparable</A></TD>
+<TD ALIGN=CENTER VALIGN=BASELINE>::=</TD>
+<TD ALIGN=LEFT VALIGN=BASELINE>&lt;Comparable&gt;</TD>
+</TR>
+</TABLE>
+<HR>
+
+<TABLE ALIGN=CENTER>
+<CAPTION><STRONG>NonComparable</STRONG></CAPTION>
+<TR>
+<TD ALIGN=RIGHT VALIGN=BASELINE><A NAME="prod91">NonComparable</A></TD>
+<TD ALIGN=CENTER VALIGN=BASELINE>::=</TD>
+<TD ALIGN=LEFT VALIGN=BASELINE>&lt;NonComparable&gt;</TD>
+</TR>
+</TABLE>
+<HR>
+
+<TABLE ALIGN=CENTER>
+<CAPTION><STRONG>And</STRONG></CAPTION>
+<TR>
+<TD ALIGN=RIGHT VALIGN=BASELINE><A NAME="prod52">And</A></TD>
+<TD ALIGN=CENTER VALIGN=BASELINE>::=</TD>
+<TD ALIGN=LEFT VALIGN=BASELINE>&lt;And&gt;</TD>
+</TR>
+</TABLE>
+<HR>
+
+<TABLE ALIGN=CENTER>
+<CAPTION><STRONG>Or</STRONG></CAPTION>
+<TR>
+<TD ALIGN=RIGHT VALIGN=BASELINE><A NAME="prod50">Or</A></TD>
+<TD ALIGN=CENTER VALIGN=BASELINE>::=</TD>
+<TD ALIGN=LEFT VALIGN=BASELINE>&lt;Or&gt;</TD>
+</TR>
+</TABLE>
+<HR>
+
+<TABLE ALIGN=CENTER>
+<CAPTION><STRONG>BoolLiteral</STRONG></CAPTION>
+<TR>
+<TD ALIGN=RIGHT VALIGN=BASELINE><A NAME="prod25">BoolLiteral</A></TD>
+<TD ALIGN=CENTER VALIGN=BASELINE>::=</TD>
+<TD ALIGN=LEFT VALIGN=BASELINE>&lt;BoolLiteral&gt;</TD>
+</TR>
+</TABLE>
+<HR>
+
+<TABLE ALIGN=CENTER>
+<CAPTION><STRONG>IntLiteral</STRONG></CAPTION>
+<TR>
+<TD ALIGN=RIGHT VALIGN=BASELINE><A NAME="prod26">IntLiteral</A></TD>
+<TD ALIGN=CENTER VALIGN=BASELINE>::=</TD>
+<TD ALIGN=LEFT VALIGN=BASELINE>( &lt;IntLiteral&gt; | &lt;Hexadecimal&gt; )</TD>
+</TR>
+</TABLE>
+<HR>
+
+<TABLE ALIGN=CENTER>
+<CAPTION><STRONG>FloatLiteral</STRONG></CAPTION>
+<TR>
+<TD ALIGN=RIGHT VALIGN=BASELINE><A NAME="prod27">FloatLiteral</A></TD>
+<TD ALIGN=CENTER VALIGN=BASELINE>::=</TD>
+<TD ALIGN=LEFT VALIGN=BASELINE>&lt;FloatLiteral&gt;</TD>
+</TR>
+</TABLE>
+<HR>
+
+<TABLE ALIGN=CENTER>
+<CAPTION><STRONG>StringLiteral</STRONG></CAPTION>
+<TR>
+<TD ALIGN=RIGHT VALIGN=BASELINE><A NAME="prod28">StringLiteral</A></TD>
+<TD ALIGN=CENTER VALIGN=BASELINE>::=</TD>
+<TD ALIGN=LEFT VALIGN=BASELINE>&lt;StringLiteral&gt;</TD>
+</TR>
+</TABLE>
+<HR>
+
+<TABLE ALIGN=CENTER>
+<CAPTION><STRONG>UndefinedLiteral</STRONG></CAPTION>
+<TR>
+<TD ALIGN=RIGHT VALIGN=BASELINE><A NAME="prod29">UndefinedLiteral</A></TD>
+<TD ALIGN=CENTER VALIGN=BASELINE>::=</TD>
+<TD ALIGN=LEFT VALIGN=BASELINE>&lt;Undefined&gt;</TD>
+</TR>
+</TABLE>
+<HR>
+
+<TABLE ALIGN=CENTER>
+<CAPTION><STRONG>SingleArrow</STRONG></CAPTION>
+<TR>
+<TD ALIGN=RIGHT VALIGN=BASELINE><A NAME="prod15">SingleArrow</A></TD>
+<TD ALIGN=CENTER VALIGN=BASELINE>::=</TD>
+<TD ALIGN=LEFT VALIGN=BASELINE>( &lt;SingleArrow&gt; | &lt;SingleArrowChar&gt; )</TD>
+</TR>
+</TABLE>
+<HR>
+
+<TABLE ALIGN=CENTER>
+<CAPTION><STRONG>Assign</STRONG></CAPTION>
+<TR>
+<TD ALIGN=RIGHT VALIGN=BASELINE><A NAME="prod43">Assign</A></TD>
+<TD ALIGN=CENTER VALIGN=BASELINE>::=</TD>
+<TD ALIGN=LEFT VALIGN=BASELINE>&lt;EqualSign&gt;</TD>
+</TR>
+</TABLE>
+<HR>
+
+<TABLE ALIGN=CENTER>
+<CAPTION><STRONG>ClosedRange</STRONG></CAPTION>
+<TR>
+<TD ALIGN=RIGHT VALIGN=BASELINE><A NAME="prod62">ClosedRange</A></TD>
+<TD ALIGN=CENTER VALIGN=BASELINE>::=</TD>
+<TD ALIGN=LEFT VALIGN=BASELINE>&lt;ClosedRange&gt;</TD>
+</TR>
+</TABLE>
+<HR>
+
+<TABLE ALIGN=CENTER>
+<CAPTION><STRONG>HalfOpenRange</STRONG></CAPTION>
+<TR>
+<TD ALIGN=RIGHT VALIGN=BASELINE><A NAME="prod63">HalfOpenRange</A></TD>
+<TD ALIGN=CENTER VALIGN=BASELINE>::=</TD>
+<TD ALIGN=LEFT VALIGN=BASELINE>&lt;HalfOpenRange&gt;</TD>
+</TR>
+</TABLE>
+<HR>
+
+<TABLE ALIGN=CENTER>
+<CAPTION><STRONG>AA</STRONG></CAPTION>
+<TR>
+<TD ALIGN=RIGHT VALIGN=BASELINE><A NAME="prod44">AA</A></TD>
+<TD ALIGN=CENTER VALIGN=BASELINE>::=</TD>
+<TD ALIGN=LEFT VALIGN=BASELINE>&lt;AA&gt;</TD>
+</TR>
+</TABLE>
+<HR>
+
+<TABLE ALIGN=CENTER>
+<CAPTION><STRONG>SA</STRONG></CAPTION>
+<TR>
+<TD ALIGN=RIGHT VALIGN=BASELINE><A NAME="prod45">SA</A></TD>
+<TD ALIGN=CENTER VALIGN=BASELINE>::=</TD>
+<TD ALIGN=LEFT VALIGN=BASELINE>&lt;SA&gt;</TD>
+</TR>
+</TABLE>
+<HR>
+
+<TABLE ALIGN=CENTER>
+<CAPTION><STRONG>MA</STRONG></CAPTION>
+<TR>
+<TD ALIGN=RIGHT VALIGN=BASELINE><A NAME="prod46">MA</A></TD>
+<TD ALIGN=CENTER VALIGN=BASELINE>::=</TD>
+<TD ALIGN=LEFT VALIGN=BASELINE>&lt;MA&gt;</TD>
+</TR>
+</TABLE>
+<HR>
+
+<TABLE ALIGN=CENTER>
+<CAPTION><STRONG>DA</STRONG></CAPTION>
+<TR>
+<TD ALIGN=RIGHT VALIGN=BASELINE><A NAME="prod47">DA</A></TD>
+<TD ALIGN=CENTER VALIGN=BASELINE>::=</TD>
+<TD ALIGN=LEFT VALIGN=BASELINE>&lt;DA&gt;</TD>
+</TR>
+</TABLE>
+<HR>
+
+<TABLE ALIGN=CENTER>
+<CAPTION><STRONG>RA</STRONG></CAPTION>
+<TR>
+<TD ALIGN=RIGHT VALIGN=BASELINE><A NAME="prod48">RA</A></TD>
+<TD ALIGN=CENTER VALIGN=BASELINE>::=</TD>
+<TD ALIGN=LEFT VALIGN=BASELINE>&lt;RA&gt;</TD>
+</TR>
+</TABLE>
+<HR>
+</BODY>
+</HTML>

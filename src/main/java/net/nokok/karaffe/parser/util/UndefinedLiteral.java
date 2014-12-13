@@ -11,4 +11,9 @@ package net.nokok.karaffe.parser.util;
 
 public class UndefinedLiteral {
 
+    @Override
+    public String toString() {
+        return "<UNDEFINED>";
+    }
+
 }

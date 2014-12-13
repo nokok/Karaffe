@@ -12,14 +12,14 @@ package net.nokok.karaffe.parser.visitor;
 import net.nokok.karaffe.parser.ASTCompileUnit;
 import net.nokok.karaffe.parser.KaraffeParserDefaultVisitor;
 import net.nokok.karaffe.parser.excptn.KaraffeParserException;
-import net.nokok.karaffe.parser.util.TypePool;
+import net.nokok.karaffe.parser.util.SourceCodeDataPool;
 
 public class TypeChecker extends KaraffeParserDefaultVisitor {
 
-    private TypePool pool = new TypePool();
+    private SourceCodeDataPool pool = new SourceCodeDataPool();
 
     @Override
-    public TypePool visit(ASTCompileUnit node, Object data) throws KaraffeParserException {
+    public SourceCodeDataPool visit(ASTCompileUnit node, Object data) throws KaraffeParserException {
         node.childrenAccept(this, data);
         return pool;
     }
