@@ -81,13 +81,10 @@ void Interfaces():
     interface 識別子[型パラメータ] <- 拡張インターフェース[型パラメータ]
  */
 void InterfaceDeclaration():
+{}
 {
-    Token id;
-    TypeParameter[] typeParams = null;
-}
-{
-    //interface 識別子            型パラメータ        <-             拡張インターフェース
-    <Interface> id = Identifier() (TypeParameters())? (<ReverseArrow> Interfaces())?
+    //interface 識別子        <-             拡張インターフェース
+    <Interface> TypeElement() (<ReverseArrow> Interfaces())?
 }
 
 /**
