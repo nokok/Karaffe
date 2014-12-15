@@ -22,12 +22,20 @@ public class OutputFormatter {
 
     private final List<String> sourceCode;
 
-    public OutputFormatter(String fileName) throws IOException {
-        sourceCode = Files.readAllLines(new File(fileName).toPath());
+    public OutputFormatter(String fileName) {
+        try {
+            sourceCode = Files.readAllLines(new File(fileName).toPath());
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        }
     }
 
     public void print(KaraffeParserException e) {
         print("KaraffeParserException", null, null, null);
+    }
+
+    public void print(IOException e) {
+        System.out.println("ファイルが見つかりません:" + e.getMessage());
     }
 
     public void print(ParseException ex) {
