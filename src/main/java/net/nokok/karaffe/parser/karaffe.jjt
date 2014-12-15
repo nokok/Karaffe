@@ -222,7 +222,7 @@ void TypeParameters():
     型パラメータ
 
     識別子
-    識別子 < 型バインド
+    識別子 境界型
  */
 void TypeParameter():
 {}
@@ -231,7 +231,7 @@ void TypeParameter():
 }
 
 /**
-    型バインド
+    境界型
 
     < 型変数
     < インターフェース & インターフェース ...
