@@ -423,7 +423,7 @@ void Primary() #void:
 {}
 {
       LOOKAHEAD(2) Literal()
-    | LOOKAHEAD(2) "(" Expression() ")"
+    | LOOKAHEAD(2) <LeftParen> Expression() <RightParen>
     | LOOKAHEAD(2) ElementAccess()
     | LOOKAHEAD(2) Identifier()
 }
