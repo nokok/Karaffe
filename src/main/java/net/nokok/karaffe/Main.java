@@ -18,9 +18,8 @@ public class Main {
      *
      * @param args
      */
-    public static void main(String... args) throws IOException, KaraffeParserException {
-        args = new String[]{"Int.krf"};
-        for (String arg : args) {
+    public static void main(String... args) {
+        for ( String arg : args ) {
             try {
                 File file = new File(arg);
                 KaraffeParser parser = new KaraffeParser(new FileReader(file));
@@ -29,7 +28,10 @@ public class Main {
                 compileUnit.jjtAccept(new PrintAST(), null);
                 compileUnit.jjtAccept(new BytecodeGenerator(arg), null);
             } catch (ParseException ex) {
-                ex.printStackTrace();
+                new OutputFormatter(arg).print(ex);
+            } catch (IOException ex) {
+                new OutputFormatter(arg).print(ex);
+            } catch (KaraffeParserException ex) {
                 new OutputFormatter(arg).print(ex);
             }
         }
