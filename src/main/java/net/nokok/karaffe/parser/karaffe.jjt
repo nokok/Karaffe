@@ -137,7 +137,13 @@ void VariableOrFunctionDeclaration():
 void EnumDeclaration():
 {}
 {
-    <Enum> Identifier() <Colon> <LeftBracket> (Identifier())+ <RightBracket>
+    <Enum> Identifier() <Colon> <LeftBracket> EnumElements() <RightBracket>
+}
+
+void EnumElements():
+{}
+{
+    (Identifier())+
 }
 
 /**
