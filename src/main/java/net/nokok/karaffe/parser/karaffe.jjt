@@ -262,6 +262,212 @@ void Annotation():
 {
     <Atmark> Identifier()
 }
+
+ASTCompileUnit CompileUnit():
+{}
+{
+    (Statement() | NewLineToken())* <EOF> {
+        return jjtThis;
+    }
+}
+
+void Statements() #void:
+{}
+{
+    (LOOKAHEAD(2) Statement())*
+}
+
+void Statement() #void:
+{}
+{
+    LOOKAHEAD(2) Declaration()
+    | ImportStatement()
+}
+
+void Declaration() #void:
+{}
+{
+    LOOKAHEAD(3) VariableOrFunctionDeclaration()
+    | LOOKAHEAD(3) TypeDeclaration()
+    | InterfaceDeclaration()
+    | TypeAliasDeclaration()
+    | ModuleDeclarationStatement()
+    | EnumDeclaration()
+    | EndOfModule()
+}
+
+/**
+    Identifier=>Identifier...
+ */
+void ElementAccess():
+{}
+{
+    Identifier()( <DoubleArrow> Identifier())+
+}
+
+/**
+    ModuleName::ElementName...
+ */
+void ExplicitModuleElementAccess():
+{}
+{
+    Identifier() (<DoubleColon> Identifier())+
+}
+
+void Expression():
+{}
+{
+    LOOKAHEAD(2) OrExpr()
+    | LOOKAHEAD(2) AssignmentExpression()
+}
+
+void AssignmentExpression():
+{}
+{
+    LOOKAHEAD(2) OrExpr()
+    | LOOKAHEAD(2) Assignment()
+}
+
+void Assignment():
+{}
+{
+    LeftHandSide() AssignmentOperator() Expression()
+}
+
+void LeftHandSide():
+{}
+{
+    LOOKAHEAD(2) Identifier()
+  | LOOKAHEAD(2) ExplicitModuleElementAccess() (ElementAccess())?
+  | LOOKAHEAD(2) ElementAccess()
+}
+
+void AssignmentOperator() #void:
+{}
+{
+    Assign() | AA() | SA() | MA() | DA() | RA()
+}
+
+void OrExpr()#void:
+{}
+{
+    (
+        AndExpr() (LOOKAHEAD(2) Or() AndExpr())*
+    ) #ExprNode(>1)
+}
+
+void AndExpr()#void:
+{}
+{
+    (
+        Equality() (LOOKAHEAD(2) And() Equality())*
+    ) #ExprNode(>1)
+}
+
+void Equality()#void:
+{}
+{
+    (
+        Relational() (LOOKAHEAD(2) ( EqualTo() | NotEqualTo()) Relational())*
+    ) #ExprNode(>1)
+}
+
+void Relational()#void:
+{}
+{
+    (
+        Range() (LOOKAHEAD(2) (LessThan() | GreaterThan() | LessThanEqualTo() | GreaterThanEqualTo()) Range())*
+    ) #ExprNode(>1)
+}
+
+void Range()#void:
+{}
+{
+    (
+        Additive() (LOOKAHEAD(2) ( ClosedRange() | HalfOpenRange()) Additive())*
+    ) #ExprNode(>1)
+}
+
+void Additive() #void:
+{}
+{
+    (
+        Multiplicative() (LOOKAHEAD(2) (Plus() | Minus()) Multiplicative())*
+    ) #ExprNode(>1)
+}
+
+void Multiplicative() #void:
+{}
+{
+    (
+        UnaryExpr() (LOOKAHEAD(2) (Star() | Slash() |SafeDiv() | SafeRem() | Percent() | Hat()) UnaryExpr())* 
+    ) #ExprNode(>1)
+}
+
+void UnaryExpr() #void:
+{}
+{
+   UnaryPlus()  UnaryExprNotPlusMinus() 
+  | UnaryMinus() UnaryExprNotPlusMinus()
+  | UnaryExprNotPlusMinus()
+}
+
+void UnaryExprNotPlusMinus() #void:
+{}
+{
+      LOOKAHEAD(3) Primary()
+    | UnaryBang() Primary()
+}
+
+void Primary() #void:
+{}
+{
+      LOOKAHEAD(2) Literal()
+    | LOOKAHEAD(2) "(" Expression() ")"
+    | LOOKAHEAD(2) ElementAccess()
+    | LOOKAHEAD(2) Identifier()
+}
+
+void Modifier() #void:
+{}
+{
+    LOOKAHEAD(2) ModifierOfType()
+    | LOOKAHEAD(2) ModifierOfVariable()
+    | ModifierOfFunction()
+    | ModifierOfOperator()
+}
+
+void ModifierOfType():
+{}
+{
+    (LOOKAHEAD(2)(PrivateModifier()
+    | SealedModifier()))+
+}
+
+void ModifierOfVariable():
+{}
+{
+    (LOOKAHEAD(2)(PrivateModifier()
+    | VariableModifier()
+    | LazyModifier()))+
+}
+
+void ModifierOfFunction():
+{}
+{
+    (LOOKAHEAD(2)(AbstractModifier()
+    | OverrideModifier()
+    | PrivateModifier()
+    | SealedModifier()))+
+}
+
+void ModifierOfOperator():
+{}
+{
+    (LOOKAHEAD(2)(OpModifier()
+    | UnaryOpModifier()))+
+}
+
 /*
 コメントの処理
 */
@@ -481,208 +687,6 @@ TOKEN:
                 | "\n" 
                 | "\r\n" >
       | < Atmark : "@" >
-}
-
-ASTCompileUnit CompileUnit():
-{}
-{
-    (Statement() | NewLineToken())* <EOF> {
-        return jjtThis;
-    }
-}
-
-void Statements() #void:
-{}
-{
-    (LOOKAHEAD(2) Statement())*
-}
-
-void Statement() #void:
-{}
-{
-    LOOKAHEAD(2) Declaration()
-    | ImportStatement()
-}
-
-void Declaration() #void:
-{}
-{
-    LOOKAHEAD(3) VariableOrFunctionDeclaration()
-    | LOOKAHEAD(3) TypeDeclaration()
-    | InterfaceDeclaration()
-    | TypeAliasDeclaration()
-    | ModuleDeclarationStatement()
-    | EnumDeclaration()
-    | EndOfModule()
-}
-
-void Expression():
-{}
-{
-    LOOKAHEAD(2) OrExpr()
-    | LOOKAHEAD(2) AssignmentExpression()
-}
-
-void AssignmentExpression():
-{}
-{
-    LOOKAHEAD(2) OrExpr()
-    | LOOKAHEAD(2) Assignment()
-}
-
-void Assignment():
-{}
-{
-    LeftHandSide() AssignmentOperator() Expression()
-}
-
-void LeftHandSide():
-{}
-{
-    LOOKAHEAD(2) Identifier()
-  | LOOKAHEAD(2) ExplicitModuleElementAccess() (ElementAccess())?
-  | LOOKAHEAD(2) ElementAccess()
-}
-
-void AssignmentOperator() #void:
-{}
-{
-    Assign() | AA() | SA() | MA() | DA() | RA()
-}
-
-void OrExpr()#void:
-{}
-{
-    (AndExpr() (LOOKAHEAD(2) Or() AndExpr())*) #ExprNode(>1)
-}
-
-void AndExpr()#void:
-{}
-{
-    (Equality() (LOOKAHEAD(2) And() Equality())*) #ExprNode(>1)
-}
-
-void Equality()#void:
-{}
-{
-    (Relational() (LOOKAHEAD(2) (EqualTo()|
-                                NotEqualTo()) Relational())*) #ExprNode(>1)
-}
-
-void Relational()#void:
-{}
-{
-    (Range() (LOOKAHEAD(2) (LessThan() |
-                 GreaterThan()|
-                 LessThanEqualTo() |
-                 GreaterThanEqualTo()) Range())*) #ExprNode(>1)
-}
-
-void Range()#void:
-{}
-{
-    (Additive() (LOOKAHEAD(2) ( ClosedRange() | 
-                              HalfOpenRange()) Additive())*) #ExprNode(>1)
-}
-
-void Additive() #void:
-{}
-{
-    (Multiplicative() (LOOKAHEAD(2) (Plus() | 
-                                    Minus()) Multiplicative())*) #ExprNode(>1)
-}
-
-void Multiplicative() #void:
-{}
-{
-    (UnaryExpr() (LOOKAHEAD(2) (Star()|
-                               Slash()|
-                               SafeDiv()|
-                               SafeRem()|
-                               Percent()|
-                               Hat()) UnaryExpr())* ) #ExprNode(>1)
-}
-
-void UnaryExpr() #void:
-{}
-{
-   UnaryPlus()  UnaryExprNotPlusMinus() 
-  | UnaryMinus() UnaryExprNotPlusMinus()
-  | UnaryExprNotPlusMinus()
-}
-
-void UnaryExprNotPlusMinus() #void:
-{}
-{
-      LOOKAHEAD(3) Primary()
-    | UnaryBang() Primary()
-}
-
-void Primary() #void:
-{}
-{
-      LOOKAHEAD(2) Literal()
-    | LOOKAHEAD(2) "(" Expression() ")"
-    | LOOKAHEAD(2) ElementAccess()
-    | LOOKAHEAD(2) Identifier()
-}
-
-/**
-    Identifier=>Identifier...
- */
-void ElementAccess():
-{}
-{
-    Identifier()( <DoubleArrow> Identifier())+
-}
-
-/**
-    ModuleName::ElementName...
- */
-void ExplicitModuleElementAccess():
-{}
-{
-    Identifier() (<DoubleColon> Identifier())+
-}
-
-void Modifier() #void:
-{}
-{
-    LOOKAHEAD(2) ModifierOfType()
-    | LOOKAHEAD(2) ModifierOfVariable()
-    | ModifierOfFunction()
-    | ModifierOfOperator()
-}
-
-void ModifierOfType():
-{}
-{
-    (LOOKAHEAD(2)(PrivateModifier()
-    | SealedModifier()))+
-}
-
-void ModifierOfVariable():
-{}
-{
-    (LOOKAHEAD(2)(PrivateModifier()
-    | VariableModifier()
-    | LazyModifier()))+
-}
-
-void ModifierOfFunction():
-{}
-{
-    (LOOKAHEAD(2)(AbstractModifier()
-    | OverrideModifier()
-    | PrivateModifier()
-    | SealedModifier()))+
-}
-
-void ModifierOfOperator():
-{}
-{
-    (LOOKAHEAD(2)(OpModifier()
-    | UnaryOpModifier()))+
 }
 
 void AbstractModifier():
