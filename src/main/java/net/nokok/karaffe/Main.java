@@ -19,8 +19,7 @@ public class Main {
      * @param args
      */
     public static void main(String... args) throws IOException, KaraffeParserException {
-        args = new String[]{"Int.krf"};
-        for (String arg : args) {
+        for ( String arg : args ) {
             try {
                 File file = new File(arg);
                 KaraffeParser parser = new KaraffeParser(new FileReader(file));
