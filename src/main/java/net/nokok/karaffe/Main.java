@@ -18,7 +18,7 @@ public class Main {
      *
      * @param args
      */
-    public static void main(String... args) throws IOException, KaraffeParserException {
+    public static void main(String... args) {
         for ( String arg : args ) {
             try {
                 File file = new File(arg);
@@ -28,7 +28,10 @@ public class Main {
                 compileUnit.jjtAccept(new PrintAST(), null);
                 compileUnit.jjtAccept(new BytecodeGenerator(arg), null);
             } catch (ParseException ex) {
-                ex.printStackTrace();
+                new OutputFormatter(arg).print(ex);
+            } catch (IOException ex) {
+                new OutputFormatter(arg).print(ex);
+            } catch (KaraffeParserException ex) {
                 new OutputFormatter(arg).print(ex);
             }
         }
