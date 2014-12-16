@@ -2,7 +2,6 @@ options {
     STATIC = false;
     IGNORE_CASE = false;
     UNICODE_INPUT = true;
-    ONE_TABLE = false;
     MULTI = true;
     VISITOR = true;
     VISITOR_EXCEPTION = "net.nokok.karaffe.parser.excptn.KaraffeParserException";
@@ -411,78 +410,6 @@ Token JavaFQCN():
     }
 }
 
-/**
-    Delimiters
-*/
-TOKEN:
-{
-      < LeftBracket : "[" >
-    | < RightBracket : "]" >
-    | < LeftBrace : "{" >
-    | < RightBrace : "}" >
-    | < LeftParen : "(" >
-    | < RightParen : ")" >
-    | < Colon : ":" >
-    | < DoubleColon : "::">
-    | < Dot : "." >
-}
-
-/**
-    Operators
- */
-TOKEN:
-{
-
-    < EqualSign : "=" >
-    | < AA : "+=" >
-    | < SA : "-=" >
-    | < MA : "*=" >
-    | < DA : "/=" >
-    | < RA : "%=" >
-    | < Lt : "<" >
-    | < LtE : "<=" >
-    | < Gt : ">" >
-    | < GtE : ">=" >
-    | < Plus : "+" >
-    | < Minus : "-" >
-    | < Star : "*" >
-    | < Slash : "/" >
-    | < SafeDiv : "/?" >
-    | < Percent : "%" >
-    | < SafeRem : "%?" >
-    | < Tilde : "~" >
-    | < Bang : "!" >
-    | < And : "&" > 
-    | < Or : "|" >
-    | < Hat : "^" >
-    | < Question : "?" >
-    | < ReverseArrow : "<-" >
-    | < ReverseArrowChar : "←" >
-    | < SingleArrowChar : "→" >
-    | < SingleArrow : "->" >
-    | < CastArrow : "~>" >
-    | < TypeCheckArrow : "~>?" >
-    | < DoubleArrow : "=>" >
-    | < EqualTo : "==" >
-    | < NotEqualTo : "!=" >
-    | < NonComparable : "!<>=" >
-    | < Comparable : "<>=" >
-    | < ClosedRange : ".." >
-    | < HalfOpenRange : ".<" >
-
-}
-
-/**
-    Other tokens
-*/
-TOKEN:
-{
-      < NewLine : "\r"
-                | "\n" 
-                | "\r\n" >
-      | < Atmark : "@" >
-}
-
 ASTCompileUnit CompileUnit():
 {}
 {
@@ -622,7 +549,7 @@ void Primary() #void:
 {}
 {
       LOOKAHEAD(2) Literal()
-    | LOOKAHEAD(2) "(" Expression() ")"
+    | LOOKAHEAD(2) <LeftParen> Expression() <RightParen>
     | LOOKAHEAD(2) ElementAccess()
     | LOOKAHEAD(2) Identifier()
 }
@@ -685,82 +612,198 @@ void ModifierOfOperator():
     | UnaryOpModifier()))+
 }
 
-void AbstractModifier():
-{}
+
+/**
+    Delimiters
+*/
+TOKEN:
 {
-    <Abstract> 
+      < LeftBracket : "[" >
+    | < RightBracket : "]" >
+    | < LeftBrace : "{" >
+    | < RightBrace : "}" >
+    | < LeftParen : "(" >
+    | < RightParen : ")" >
+    | < Colon : ":" >
+    | < DoubleColon : "::">
+    | < Dot : "." >
+}
+
+/**
+    Operators
+ */
+TOKEN:
+{
+
+    < EqualSign : "=" >
+    | < AA : "+=" >
+    | < SA : "-=" >
+    | < MA : "*=" >
+    | < DA : "/=" >
+    | < RA : "%=" >
+    | < Lt : "<" >
+    | < LtE : "<=" >
+    | < Gt : ">" >
+    | < GtE : ">=" >
+    | < Plus : "+" >
+    | < Minus : "-" >
+    | < Star : "*" >
+    | < Slash : "/" >
+    | < SafeDiv : "/?" >
+    | < Percent : "%" >
+    | < SafeRem : "%?" >
+    | < Tilde : "~" >
+    | < Bang : "!" >
+    | < And : "&" > 
+    | < Or : "|" >
+    | < Hat : "^" >
+    | < Question : "?" >
+    | < ReverseArrow : "<-" >
+    | < ReverseArrowChar : "←" >
+    | < SingleArrowChar : "→" >
+    | < SingleArrow : "->" >
+    | < CastArrow : "~>" >
+    | < TypeCheckArrow : "~>?" >
+    | < DoubleArrow : "=>" >
+    | < EqualTo : "==" >
+    | < NotEqualTo : "!=" >
+    | < NonComparable : "!<>=" >
+    | < Comparable : "<>=" >
+    | < ClosedRange : ".." >
+    | < HalfOpenRange : ".<" >
+
+}
+
+/**
+    Other tokens
+*/
+TOKEN:
+{
+      < NewLine : "\r"
+                | "\n" 
+                | "\r\n" >
+      | < Atmark : "@" >
+}
+
+
+void AbstractModifier():
+{
+    Token t;
+}
+{
+    t = <Abstract> {
+        jjtThis.jjtSetValue(t);
+    }
 }
 
 void OverrideModifier():
-{}
 {
-    <Override>
+    Token t;    
+}
+{
+    t = <Override> {
+        jjtThis.jjtSetValue(t);
+    }
 }
 
 void PrivateModifier():
-{}
 {
-    <Private>
+    Token t;
+}
+{
+    t = <Private> {
+        jjtThis.jjtSetValue(t);
+    }
 }
 
 void SealedModifier():
-{}
 {
-    <Sealed>
+    Token t;
+}
+{
+    t = <Sealed> {
+        jjtThis.jjtSetValue(t);
+    }
 }
 
 void LazyModifier():
-{}
 {
-    <Lazy>
+    Token t;
+}
+{
+    t = <Lazy> {
+        jjtThis.jjtSetValue(t);
+    }
 }
 
 void OpModifier():
-{}
 {
-    <Operator>
+    Token t;
+}
+{
+    t = <Operator> {
+        jjtThis.jjtSetValue(t);
+    }
 }
 
 void UnaryOpModifier():
-{}
 {
-    <UnaryOperator>
+    Token t;
+}
+{
+    t = <UnaryOperator> {
+        jjtThis.jjtSetValue(t);
+    }
 }
 
 void VariableModifier():
-{}
 {
-    <Variable>
+    Token t;
+}
+{
+    t = <Variable> {
+        jjtThis.jjtSetValue(t);
+    }
 }
 
 void UnaryPlus():
-{}
 {
-    <Plus> {
-        jjtThis.jjtSetValue(Operators.UNARY_PLUS);
+    Token t;
+}
+{
+    t = <Plus> {
+        jjtThis.jjtSetValue(t);
     }
 }
 
 void UnaryBang():
-{}
 {
-    <Bang> {
-        jjtThis.jjtSetValue(Operators.UNARY_BOOL_BANG);
+    Token t;
+}
+{
+    t = <Bang> {
+        jjtThis.jjtSetValue(t);
     }
 }
 
 void UnaryMinus():
-{}
 {
-    <Minus> {
-        jjtThis.jjtSetValue(Operators.UNARY_MINUS);
+    Token t;
+}
+{
+    t = <Minus> {
+        jjtThis.jjtSetValue(t);
     }
 }
 
 void EndOfModule():
-{}
 {
-    <EndModule>
+    Token t;
+}
+{
+    t = <EndModule> {
+        jjtThis.jjtSetValue(t);
+    }
 }
 
 
@@ -771,145 +814,181 @@ void NewLineToken():
 }
 
 void Star():
-{}
 {
-    <Star> {
-        jjtThis.jjtSetValue(Operators.STAR);
+    Token t;
+}
+{
+    t = <Star> {
+        jjtThis.jjtSetValue(t);
     }
 }
 
 void Slash():
-{}
 {
-    <Slash> {
-        jjtThis.jjtSetValue(Operators.SLASH);
+    Token t;
+}
+{
+    t = <Slash> {
+        jjtThis.jjtSetValue(t);
     }
 }
 
 void Percent():
-{}
 {
-    <Percent> {
-        jjtThis.jjtSetValue(Operators.PERCENT);
+    Token t;
+}
+{
+    t = <Percent> {
+        jjtThis.jjtSetValue(t);
     }
 }
 
 void SafeDiv():
-{}
 {
-    <SafeDiv> {
-        jjtThis.jjtSetValue(Operators.SAFEDIV);
+    Token t;
+}
+{
+    t = <SafeDiv> {
+        jjtThis.jjtSetValue(t);
     }
 }
 
 void SafeRem():
-{}
 {
-    <SafeRem> {
-        jjtThis.jjtSetValue(Operators.SAFEREM);
+    Token t;
+}
+{
+    t = <SafeRem> {
+        jjtThis.jjtSetValue(t);
     }
 }
 
 void Hat():
-{}
 {
-    <Hat> {
-        jjtThis.jjtSetValue(Operators.POWER);
+    Token t;
+}
+{
+    t = <Hat> {
+        jjtThis.jjtSetValue(t);
     }
 }
 
 void Plus():
-{}
 {
-    <Plus> {
-        jjtThis.jjtSetValue(Operators.PLUS);
+    Token t;
+}
+{
+    t = <Plus> {
+        jjtThis.jjtSetValue(t);
     }
 }
 
 void Minus():
-{}
 {
-    <Minus> {
-        jjtThis.jjtSetValue(Operators.MINUS);
+    Token t;
+}
+{
+    t = <Minus> {
+        jjtThis.jjtSetValue(t);
     }
 }
 
 void EqualTo():
-{}
 {
-    <EqualTo> {
-        jjtThis.jjtSetValue(Operators.EQUALTO);
+    Token t;
+}
+{
+    t = <EqualTo> {
+        jjtThis.jjtSetValue(t);
     }
 }
 
 void NotEqualTo():
-{}
 {
-    <NotEqualTo> {
-        jjtThis.jjtSetValue(Operators.NOTEQUALTO);
+    Token t;
+}
+{
+    t = <NotEqualTo> {
+        jjtThis.jjtSetValue(t);
     }
 }
 
 void GreaterThan():
-{}
 {
-    <Gt> {
-        jjtThis.jjtSetValue(Operators.GREATERTHAN);
+    Token t;
+}
+{
+    t = <Gt> {
+        jjtThis.jjtSetValue(t);
     }
 }
 
 void LessThan():
-{}
 {
-    <Lt> {
-        jjtThis.jjtSetValue(Operators.LESSTHAN);
+    Token t;
+}
+{
+    t = <Lt> {
+        jjtThis.jjtSetValue(t);
     }
 }
 
 void GreaterThanEqualTo():
-{}
 {
-    <GtE> {
-        jjtThis.jjtSetValue(Operators.GREATERTHAN_EQUAL);
+    Token t;
+}
+{
+    t = <GtE> {
+        jjtThis.jjtSetValue(t);
     }
 }
 
 void LessThanEqualTo():
-{}
 {
-    <LtE> {
-        jjtThis.jjtSetValue(Operators.LESSTHAN_EQUAL);
+    Token t;
+}
+{
+    t = <LtE> {
+        jjtThis.jjtSetValue(t);
     }
 }
 
 void Comparable():
-{}
 {
-    <Comparable> {
-        jjtThis.jjtSetValue("<>=");
+    Token t;
+}
+{
+    t = <Comparable> {
+        jjtThis.jjtSetValue(t);
     }
 }
 
 void NonComparable():
-{}
 {
-    <NonComparable> {
-        jjtThis.jjtSetValue("!<>=");
+    Token t;
+}
+{
+    t = <NonComparable> {
+        jjtThis.jjtSetValue(t);
     }
 }
 
 void And():
-{}
 {
-    <And> {
-        jjtThis.jjtSetValue(Operators.BOOL_AND);
+    Token t;
+}
+{
+    t = <And> {
+        jjtThis.jjtSetValue(t);
     }
 }
 void Or():
-{}
 {
-    <Or> {
-        jjtThis.jjtSetValue(Operators.BOOL_OR);
+    Token t;
+}
+{
+    t = <Or> {
+        jjtThis.jjtSetValue(t);
     }
 }
 
@@ -920,7 +999,7 @@ void BoolLiteral():
 }
 {
     t = <BoolLiteral> {
-        jjtThis.jjtSetValue(t.image);
+        jjtThis.jjtSetValue(t);
     }
 }
 
@@ -931,10 +1010,10 @@ void IntLiteral():
 }
 {
     t = <IntLiteral> {
-        jjtThis.jjtSetValue(t.image);
+        jjtThis.jjtSetValue(t);
     }
     | t = <Hexadecimal> {
-        jjtThis.jjtSetValue(t.image);
+        jjtThis.jjtSetValue(t);
     }
 }
 
@@ -944,7 +1023,7 @@ void FloatLiteral():
 }
 {
     t = <FloatLiteral> {
-        jjtThis.jjtSetValue(t.image);
+        jjtThis.jjtSetValue(t);
     }
 }
 
@@ -954,86 +1033,106 @@ void StringLiteral():
 }
 {
     t = <StringLiteral> {
-        jjtThis.jjtSetValue(t.image);
+        jjtThis.jjtSetValue(t);
     }
 }
 
 void UndefinedLiteral():
-{}
 {
-    <Undefined> {
-        jjtThis.jjtSetValue(new UndefinedLiteral());
+    Token t;
+}
+{
+    t = <Undefined> {
+        jjtThis.jjtSetValue(t);
     }
 }
 
 void SingleArrow():
-{}
 {
-    <SingleArrow> |<SingleArrowChar> {
-        jjtThis.jjtSetValue(Operators.SINGLE_ARROW);
+    Token t;
+}
+{
+    t = <SingleArrow> | t = <SingleArrowChar> {
+        jjtThis.jjtSetValue(t);
     }
 }
 void Assign():
-{}
 {
-    <EqualSign> {
-        jjtThis.jjtSetValue(Operators.EQUAL);
+    Token t;
+}
+{
+    t = <EqualSign> {
+        jjtThis.jjtSetValue(t);
     }
 }
 
 void ClosedRange():
-{}
 {
-    <ClosedRange> {
-        jjtThis.jjtSetValue(Operators.CLOSED_RANGE);
+    Token t;
+}
+{
+    t = <ClosedRange> {
+        jjtThis.jjtSetValue(t);
     }
 }
 
 void HalfOpenRange():
-{}
 {
-    <HalfOpenRange> {
-        jjtThis.jjtSetValue(Operators.HALFOPEN_RANGE);
+    Token t;
+}
+{
+    t = <HalfOpenRange> {
+        jjtThis.jjtSetValue(t);
     }
 }
 
 void AA():
-{}
 {
-    <AA> {
-        jjtThis.jjtSetValue(Operators.ADITION_ASSIGNMENT);
+    Token t;
+}
+{
+    t = <AA> {
+        jjtThis.jjtSetValue(t);
     }
 }
 
 void SA():
-{}
 {
-    <SA> {
-        jjtThis.jjtSetValue(Operators.SUBTRACTION_ASSIGNMENT);
+    Token t;
+}
+{
+    t = <SA> {
+        jjtThis.jjtSetValue(t);
     }
 }
 
 void MA():
-{}
 {
-    <MA> {
-        jjtThis.jjtSetValue(Operators.MULTIPLICATION_ASSIGNMENT);
+    Token t;
+}
+{
+    t = <MA> {
+        jjtThis.jjtSetValue(t);
     }
 }
 
 void DA():
-{}
 {
-    <DA> {
-        jjtThis.jjtSetValue(Operators.DIVISION_ASSIGNMENT);
+    Token t;
+}
+{
+    t = <DA> {
+        jjtThis.jjtSetValue(t);
     }
 }
 
 void RA():
-{}
 {
-    <RA> {
-        jjtThis.jjtSetValue(Operators.REMAINDER_ASSIGNMENT);
+    Token t;
+}
+{
+    t = <RA> {
+        jjtThis.jjtSetValue(t);
     }
 }
 
