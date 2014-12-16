@@ -9,7 +9,6 @@ import net.nokok.karaffe.parser.ParseException;
 import net.nokok.karaffe.parser.excptn.KaraffeParserException;
 import net.nokok.karaffe.parser.util.OutputFormatter;
 import net.nokok.karaffe.parser.visitor.BytecodeGenerator;
-import net.nokok.karaffe.parser.visitor.PrintAST;
 
 public class Main {
 
@@ -25,7 +24,6 @@ public class Main {
                 KaraffeParser parser = new KaraffeParser(new FileReader(file));
                 ASTCompileUnit compileUnit = parser.CompileUnit();
                 compileUnit.dump("");
-                compileUnit.jjtAccept(new PrintAST(), null);
                 compileUnit.jjtAccept(new BytecodeGenerator(arg), null);
             } catch (ParseException ex) {
                 new OutputFormatter(arg).print(ex);
