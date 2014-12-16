@@ -27,6 +27,7 @@ import net.nokok.karaffe.parser.ASTDA;
 import net.nokok.karaffe.parser.ASTElementAccess;
 import net.nokok.karaffe.parser.ASTEndOfModule;
 import net.nokok.karaffe.parser.ASTEnumDeclaration;
+import net.nokok.karaffe.parser.ASTEnumElements;
 import net.nokok.karaffe.parser.ASTEqualTo;
 import net.nokok.karaffe.parser.ASTExplicitModuleElementAccess;
 import net.nokok.karaffe.parser.ASTExprNode;
@@ -155,6 +156,11 @@ public class BytecodeGenerator implements KaraffeParserVisitor {
     @Override
     public Object visit(ASTNewLineToken node, Object data) throws KaraffeParserException {
 
+        return node.childrenAccept(this, data);
+    }
+
+    @Override
+    public Object visit(ASTEnumElements node, Object data) throws KaraffeParserException {
         return node.childrenAccept(this, data);
     }
 
