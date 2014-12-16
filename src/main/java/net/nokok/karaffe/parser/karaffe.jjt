@@ -261,6 +261,7 @@ void Annotation():
 {
     <Atmark> Identifier()
 }
+
 /*
 コメントの処理
 */

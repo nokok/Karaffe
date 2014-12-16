@@ -13,9 +13,9 @@
             <scope>test</scope>
         </dependency>
         <dependency>
-            <groupId>org.ow2.asm</groupId>
-            <artifactId>asm-all</artifactId>
-            <version>5.0.3</version>
+            <groupId>org.javassist</groupId>
+            <artifactId>javassist</artifactId>
+            <version>3.18.2-GA</version>
         </dependency>
     </dependencies>
     <properties>

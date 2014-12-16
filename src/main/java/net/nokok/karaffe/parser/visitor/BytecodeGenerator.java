@@ -556,4 +556,9 @@ public class BytecodeGenerator implements KaraffeParserVisitor {
         return node.childrenAccept(this, data);
     }
 
+    @Override
+    public Object visit(ASTEnumElements node, Object data) throws KaraffeParserException {
+        return node.childrenAccept(this, data);
+    }
+
 }
