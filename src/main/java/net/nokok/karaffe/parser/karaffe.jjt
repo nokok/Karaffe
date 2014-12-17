@@ -296,13 +296,40 @@ void Declaration() #void:
     | EndOfModule()
 }
 
-/**
-    Identifier=>Identifier...
- */
-void ElementAccess():
+//MethodInvocations
+
+void MethodInvocation():
 {}
 {
-    Identifier()( <DoubleArrow> Identifier())+
+    LOOKAHEAD(3) MethodName() Arguments()
+  | TypeElement() (<Dot>)? Identifier() Arguments()
+  | ExpressionName() (<Dot>)? Arguments()
+  | "" Primary() (<Dot>)? Arguments()
+} 
+
+void MethodName():
+{}
+{
+    Identifier()
+}
+
+void ExpressionName():
+{}
+{
+    Identifier()
+}
+
+void Arguments():
+{}
+{
+    <LeftParen> <RightParen>
+  | (<LeftParen>)? (ArgumentList())? (<RightParen>)?
+}
+
+void ArgumentList():
+{}
+{
+    Expression() (Expression())*
 }
 
 /**
@@ -338,8 +365,7 @@ void LeftHandSide():
 {}
 {
     LOOKAHEAD(2) Identifier()
-  | LOOKAHEAD(2) ExplicitModuleElementAccess() (ElementAccess())?
-  | LOOKAHEAD(2) ElementAccess()
+  | LOOKAHEAD(2) ExplicitModuleElementAccess() (MethodInvocation())?
 }
 
 void AssignmentOperator() #void:
