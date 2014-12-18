@@ -18,13 +18,14 @@ public class Main {
      * @param args
      */
     public static void main(String... args) {
-        for ( String arg : args ) {
+        args = new String[]{"Int.krf"};
+        for (String arg : args) {
             try {
                 File file = new File(arg);
                 KaraffeParser parser = new KaraffeParser(new FileReader(file));
                 ASTCompileUnit compileUnit = parser.CompileUnit();
                 compileUnit.dump("");
-                compileUnit.jjtAccept(new BytecodeGenerator(arg), null);
+                compileUnit.jjtAccept(new BytecodeGenerator(), null);
             } catch (ParseException ex) {
                 new OutputFormatter(arg).print(ex);
             } catch (IOException ex) {

@@ -452,8 +452,8 @@ void MethodInvocation():
     LOOKAHEAD(3) MethodName() Arguments()
   | LOOKAHEAD(3) TypeElement() (<Dot>)? Identifier() Arguments()
   | LOOKAHEAD(3) ExpressionName() (<Dot>)? Arguments()
-  | Primary() (<Dot>)? Arguments()
-} 
+  | Primary() (LOOKAHEAD(2) <Dot>)? Arguments()
+}
 
 void MethodName():
 {}
@@ -471,13 +471,13 @@ void Arguments():
 {}
 {
     LOOKAHEAD(3) <LeftParen> <RightParen>
-  | (LOOKAHEAD(2) <LeftParen>)? (ArgumentList())? (<RightParen>)?
+  | (LOOKAHEAD(2) <LeftParen>)? (LOOKAHEAD(2) ArgumentList())? (LOOKAHEAD(2) <RightParen>)?
 }
 
 void ArgumentList():
 {}
 {
-    Expression() (Expression())*
+    Expression() (LOOKAHEAD(2) Expression())*
 }
 
 /**
@@ -595,8 +595,7 @@ void Primary() #void:
 {
       LOOKAHEAD(2) Literal()
     | LOOKAHEAD(2) <LeftParen> Expression() <RightParen>
-    | LOOKAHEAD(2) ElementAccess()
-    | LOOKAHEAD(2) Identifier()
+    | LOOKAHEAD(2) MethodInvocation()
 }
 
 /**

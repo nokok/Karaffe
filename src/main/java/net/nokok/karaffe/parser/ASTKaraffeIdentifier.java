@@ -2,20 +2,22 @@
 /* JavaCCOptions:MULTI=true,NODE_USES_PARSER=false,VISITOR=true,TRACK_TOKENS=false,NODE_PREFIX=AST,NODE_EXTENDS=,NODE_FACTORY=,SUPPORT_CLASS_VISIBILITY_PUBLIC=true */
 package net.nokok.karaffe.parser;
 
-public class ASTKaraffeIdentifier extends SimpleNode {
+public
+class ASTKaraffeIdentifier extends SimpleNode {
+  public ASTKaraffeIdentifier(int id) {
+    super(id);
+  }
 
-    public ASTKaraffeIdentifier(int id) {
-        super(id);
-    }
+  public ASTKaraffeIdentifier(KaraffeParser p, int id) {
+    super(p, id);
+  }
 
-    public ASTKaraffeIdentifier(KaraffeParser p, int id) {
-        super(p, id);
-    }
 
-    /** Accept the visitor. **/
-    public Object jjtAccept(KaraffeParserVisitor visitor, Object data) throws net.nokok.karaffe.parser.excptn.KaraffeParserException {
+  /** Accept the visitor. **/
+  public Object jjtAccept(KaraffeParserVisitor visitor, Object data) throws net.nokok.karaffe.parser.excptn.KaraffeParserException {
 
-        return visitor.visit(this, data);
-    }
+    return
+    visitor.visit(this, data);
+  }
 }
 /* JavaCC - OriginalChecksum=a11b209553737a876666d47e54796cd3 (do not edit this line) */
