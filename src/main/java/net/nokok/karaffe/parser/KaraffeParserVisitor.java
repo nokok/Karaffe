@@ -19,6 +19,8 @@ public interface KaraffeParserVisitor {
 
     public Object visit(ASTEnumDeclaration node, Object data) throws net.nokok.karaffe.parser.excptn.KaraffeParserException;
 
+    public Object visit(ASTEnumElements node, Object data) throws net.nokok.karaffe.parser.excptn.KaraffeParserException;
+
     public Object visit(ASTFunctionLiteral node, Object data) throws net.nokok.karaffe.parser.excptn.KaraffeParserException;
 
     public Object visit(ASTImportStatement node, Object data) throws net.nokok.karaffe.parser.excptn.KaraffeParserException;
@@ -151,4 +153,4 @@ public interface KaraffeParserVisitor {
 
     public Object visit(ASTRA node, Object data) throws net.nokok.karaffe.parser.excptn.KaraffeParserException;
 }
-/* JavaCC - OriginalChecksum=8bd149ccf239fdcd6599e12ac2ccd2bf (do not edit this line) */
+/* JavaCC - OriginalChecksum=5c89d6525e06ec10fb388d007b75eab6 (do not edit this line) */
