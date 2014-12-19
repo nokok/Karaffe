@@ -27,6 +27,7 @@ public class Main {
                 KaraffeParser parser = new KaraffeParser(new FileReader(file));
                 ASTCompileUnit compileUnit = parser.CompileUnit();
                 compileUnit.dump("");
+                @SuppressWarnings("unchecked") //BytecodeGenerator内のASTCompileUnitのvisitの返り値はSet<CtClass>
                 Set<CtClass> classes = (Set<CtClass>) compileUnit.jjtAccept(new BytecodeGenerator(), null);
                 for (CtClass clazz : classes) {
                     clazz.writeFile(".");
