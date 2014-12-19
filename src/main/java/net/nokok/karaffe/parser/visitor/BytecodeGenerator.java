@@ -296,7 +296,7 @@ public class BytecodeGenerator implements KaraffeParserVisitor {
     @Override
     public Object visit(ASTTypeDeclaration node, Object data) throws KaraffeParserException {
         CtClass ctClass = (CtClass) node.jjtAccept(new MakeClassVisitor(), null);
-        if ( classes.contains(ctClass) ) {
+        if (classes.contains(ctClass)) {
             //既に存在する場合
         }
         classes.add(ctClass);

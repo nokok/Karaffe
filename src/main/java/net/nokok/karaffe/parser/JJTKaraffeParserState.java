@@ -48,7 +48,7 @@ public class JJTKaraffeParserState {
     /* Returns the node on the top of the stack, and remove it from the
      stack.  */
     public Node popNode() {
-        if ( --sp < mk ) {
+        if (--sp < mk) {
             mk = marks.remove(marks.size() - 1);
         }
         return nodes.remove(nodes.size() - 1);
@@ -66,7 +66,7 @@ public class JJTKaraffeParserState {
     }
 
     public void clearNodeScope(Node n) {
-        while ( sp > mk ) {
+        while (sp > mk) {
             popNode();
         }
         mk = marks.remove(marks.size() - 1);
@@ -85,7 +85,7 @@ public class JJTKaraffeParserState {
      is pushed on to the stack. */
     public void closeNodeScope(Node n, int num) {
         mk = marks.remove(marks.size() - 1);
-        while ( num-- > 0 ) {
+        while (num-- > 0) {
             Node c = popNode();
             c.jjtSetParent(n);
             n.jjtAddChild(c, num);
@@ -102,10 +102,10 @@ public class JJTKaraffeParserState {
      on to the stack.  If the condition is false the node is not
      constructed and they are left on the stack. */
     public void closeNodeScope(Node n, boolean condition) {
-        if ( condition ) {
+        if (condition) {
             int a = nodeArity();
             mk = marks.remove(marks.size() - 1);
-            while ( a-- > 0 ) {
+            while (a-- > 0) {
                 Node c = popNode();
                 c.jjtSetParent(n);
                 n.jjtAddChild(c, a);

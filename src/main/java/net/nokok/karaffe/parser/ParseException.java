@@ -27,8 +27,8 @@ public class ParseException extends Exception {
      * "expectedTokenSequences", and "tokenImage" set.
      */
     public ParseException(Token currentTokenVal,
-                          int[][] expectedTokenSequencesVal,
-                          String[] tokenImageVal
+            int[][] expectedTokenSequencesVal,
+            String[] tokenImageVal
     ) {
         super(initialise(currentTokenVal, expectedTokenSequencesVal, tokenImageVal));
         currentToken = currentTokenVal;
@@ -83,30 +83,30 @@ public class ParseException extends Exception {
      * gets displayed.
      */
     private static String initialise(Token currentToken,
-                                     int[][] expectedTokenSequences,
-                                     String[] tokenImage) {
+            int[][] expectedTokenSequences,
+            String[] tokenImage) {
         String eol = System.getProperty("line.separator", "\n");
         StringBuffer expected = new StringBuffer();
         int maxSize = 0;
-        for ( int i = 0; i < expectedTokenSequences.length; i++ ) {
-            if ( maxSize < expectedTokenSequences[i].length ) {
+        for (int i = 0; i < expectedTokenSequences.length; i++) {
+            if (maxSize < expectedTokenSequences[i].length) {
                 maxSize = expectedTokenSequences[i].length;
             }
-            for ( int j = 0; j < expectedTokenSequences[i].length; j++ ) {
+            for (int j = 0; j < expectedTokenSequences[i].length; j++) {
                 expected.append(tokenImage[expectedTokenSequences[i][j]]).append(' ');
             }
-            if ( expectedTokenSequences[i][expectedTokenSequences[i].length - 1] != 0 ) {
+            if (expectedTokenSequences[i][expectedTokenSequences[i].length - 1] != 0) {
                 expected.append("...");
             }
             expected.append(eol).append("    ");
         }
         String retval = "Encountered \"";
         Token tok = currentToken.next;
-        for ( int i = 0; i < maxSize; i++ ) {
-            if ( i != 0 ) {
+        for (int i = 0; i < maxSize; i++) {
+            if (i != 0) {
                 retval += " ";
             }
-            if ( tok.kind == 0 ) {
+            if (tok.kind == 0) {
                 retval += tokenImage[0];
                 break;
             }
@@ -118,7 +118,7 @@ public class ParseException extends Exception {
         }
         retval += "\" at line " + currentToken.next.beginLine + ", column " + currentToken.next.beginColumn;
         retval += "." + eol;
-        if ( expectedTokenSequences.length == 1 ) {
+        if (expectedTokenSequences.length == 1) {
             retval += "Was expecting:" + eol + "    ";
         } else {
             retval += "Was expecting one of:" + eol + "    ";
@@ -140,8 +140,8 @@ public class ParseException extends Exception {
     static String add_escapes(String str) {
         StringBuffer retval = new StringBuffer();
         char ch;
-        for ( int i = 0; i < str.length(); i++ ) {
-            switch ( str.charAt(i) ) {
+        for (int i = 0; i < str.length(); i++) {
+            switch (str.charAt(i)) {
                 case 0:
                     continue;
                 case '\b':
@@ -169,7 +169,7 @@ public class ParseException extends Exception {
                     retval.append("\\\\");
                     continue;
                 default:
-                    if ( (ch = str.charAt(i)) < 0x20 || ch > 0x7e ) {
+                    if ((ch = str.charAt(i)) < 0x20 || ch > 0x7e) {
                         String s = "0000" + Integer.toString(ch, 16);
                         retval.append("\\u" + s.substring(s.length() - 4, s.length()));
                     } else {

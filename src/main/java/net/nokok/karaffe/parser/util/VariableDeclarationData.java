@@ -27,7 +27,7 @@ public class VariableDeclarationData {
     }
 
     public Class<?> type() {
-        if ( type.isPresent() ) {
+        if (type.isPresent()) {
             try {
                 return Class.forName(type.get().image);
             } catch (ClassNotFoundException ex) {

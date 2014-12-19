@@ -22,7 +22,7 @@ public class SourceCodeDataPool {
     }
 
     public IdentifierType getIdentifierType(String identifierName) {
-        if ( identifiers.containsKey(identifierName) ) {
+        if (identifiers.containsKey(identifierName)) {
             return identifiers.get(identifierName);
         } else {
             return IdentifierType.NONE;

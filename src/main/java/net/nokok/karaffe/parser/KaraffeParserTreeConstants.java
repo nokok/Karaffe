@@ -160,6 +160,6 @@ public interface KaraffeParserTreeConstants {
         "SA",
         "MA",
         "DA",
-        "RA", };
+        "RA",};
 }
 /* JavaCC - OriginalChecksum=73c25387d0e71c0a628c07e746eba97d (do not edit this line) */

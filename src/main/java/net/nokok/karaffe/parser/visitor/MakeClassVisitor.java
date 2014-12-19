@@ -35,24 +35,24 @@ public class MakeClassVisitor extends KaraffeParserDefaultVisitor {
         node.childrenAccept(this, data);
         ClassPool pool = ClassPool.getDefault();
         CtClass classObj = pool.makeClass(id);
-        if ( isPrivateModifier ) {
+        if (isPrivateModifier) {
             classObj.setModifiers(Modifier.PRIVATE);
         }
-        if ( isSealedModifier ) {
+        if (isSealedModifier) {
             classObj.setModifiers(Modifier.FINAL + classObj.getModifiers());
         }
 
         try {
-            if ( id.equals("Any") ) {
+            if (id.equals("Any")) {
                 return classObj;
             }
-            if ( superType == null ) {
+            if (superType == null) {
                 classObj.setSuperclass(pool.getCtClass("Any"));
             } else {
                 classObj.setSuperclass(pool.getCtClass(superType));
             }
-            if ( !interfaces.isEmpty() ) {
-                for ( String interfaceName : interfaces ) {
+            if (!interfaces.isEmpty()) {
+                for (String interfaceName : interfaces) {
                     classObj.addInterface(pool.getCtClass(interfaceName));
                 }
             }
@@ -67,7 +67,7 @@ public class MakeClassVisitor extends KaraffeParserDefaultVisitor {
 
     @Override
     public Object visit(ASTSealedModifier node, Object data) throws KaraffeParserException {
-        if ( isSealedModifier ) {
+        if (isSealedModifier) {
             throw new KaraffeCompilerException(ErrorType.DUP_MODIFIER);
         }
         isSealedModifier = true;
@@ -76,7 +76,7 @@ public class MakeClassVisitor extends KaraffeParserDefaultVisitor {
 
     @Override
     public Object visit(ASTPrivateModifier node, Object data) throws KaraffeParserException {
-        if ( isPrivateModifier ) {
+        if (isPrivateModifier) {
             throw new KaraffeCompilerException(ErrorType.DUP_MODIFIER);
         }
         isPrivateModifier = true;
@@ -85,7 +85,7 @@ public class MakeClassVisitor extends KaraffeParserDefaultVisitor {
 
     @Override
     public Object visit(ASTKaraffeIdentifier node, Object data) throws KaraffeParserException {
-        if ( id == null ) {
+        if (id == null) {
             Token t = (Token) node.jjtGetValue();
             id = t.image;
         }
@@ -100,7 +100,7 @@ public class MakeClassVisitor extends KaraffeParserDefaultVisitor {
 
     @Override
     public Object visit(ASTInterfaces node, Object data) throws KaraffeParserException {
-        for ( int i = 0; i < node.jjtGetNumChildren(); i++ ) {
+        for (int i = 0; i < node.jjtGetNumChildren(); i++) {
             interfaces.add(((Token) ((SimpleNode) node.jjtGetChild(i)).jjtGetValue()).image);
         }
         return null;

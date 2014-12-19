@@ -270,6 +270,6 @@ public interface KaraffeParserConstants {
         "\"..\"",
         "\".<\"",
         "<NewLine>",
-        "\"@\"", };
+        "\"@\"",};
 
 }
