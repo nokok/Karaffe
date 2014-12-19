@@ -444,6 +444,51 @@ void Declaration() #void:
     | EndOfModule()
 }
 
+//MethodInvocations
+
+void MethodInvocation():
+{}
+{
+    LOOKAHEAD(3) MethodName() Arguments()
+  | LOOKAHEAD(3) TypeElement() (<Dot>)? Identifier() Arguments()
+  | LOOKAHEAD(3) ExpressionName() (<Dot>)? Arguments()
+  | Primary() (LOOKAHEAD(2) <Dot>)? Arguments()
+}
+
+void MethodName():
+{}
+{
+    Identifier()
+}
+
+void ExpressionName():
+{}
+{
+    Identifier()
+}
+
+void Arguments():
+{}
+{
+    LOOKAHEAD(3) <LeftParen> <RightParen>
+  | (LOOKAHEAD(2) <LeftParen>)? (LOOKAHEAD(2) ArgumentList())? (LOOKAHEAD(2) <RightParen>)?
+}
+
+void ArgumentList():
+{}
+{
+    Expression() (LOOKAHEAD(2) Expression())*
+}
+
+/**
+    ModuleName::ElementName...
+ */
+void ExplicitModuleElementAccess():
+{}
+{
+    Identifier() (<DoubleColon> Identifier())+
+}
+
 void Expression():
 {}
 {
@@ -468,8 +513,7 @@ void LeftHandSide():
 {}
 {
     LOOKAHEAD(2) Identifier()
-  | LOOKAHEAD(2) ExplicitModuleElementAccess() (ElementAccess())?
-  | LOOKAHEAD(2) ElementAccess()
+  | LOOKAHEAD(2) ExplicitModuleElementAccess() (MethodInvocation())?
 }
 
 void AssignmentOperator() #void:
@@ -551,8 +595,7 @@ void Primary() #void:
 {
       LOOKAHEAD(2) Literal()
     | LOOKAHEAD(2) <LeftParen> Expression() <RightParen>
-    | LOOKAHEAD(2) ElementAccess()
-    | LOOKAHEAD(2) Identifier()
+    | LOOKAHEAD(2) MethodInvocation()
 }
 
 /**
@@ -562,15 +605,6 @@ void ElementAccess():
 {}
 {
     Identifier()( <DoubleArrow> Identifier())+
-}
-
-/**
-    ModuleName::ElementName...
- */
-void ExplicitModuleElementAccess():
-{}
-{
-    Identifier() (<DoubleColon> Identifier())+
 }
 
 void Modifier() #void:

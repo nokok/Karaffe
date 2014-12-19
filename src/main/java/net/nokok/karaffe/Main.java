@@ -23,7 +23,6 @@ public class Main {
      * @param args
      */
     public static void main(String... args) {
-        args = new String[]{ "Test.krf" };
         for ( String arg : args ) {
             try {
                 File file = new File(arg);
