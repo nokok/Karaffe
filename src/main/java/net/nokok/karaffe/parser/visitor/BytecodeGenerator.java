@@ -9,9 +9,9 @@
  */
 package net.nokok.karaffe.parser.visitor;
 
-import java.util.Collections;
-import java.util.HashMap;
-import java.util.Map;
+import java.util.HashSet;
+import java.util.Set;
+import javassist.CtClass;
 import net.nokok.karaffe.parser.ASTAA;
 import net.nokok.karaffe.parser.ASTAbstractModifier;
 import net.nokok.karaffe.parser.ASTAnd;
@@ -88,63 +88,21 @@ import net.nokok.karaffe.parser.ASTVariableModifier;
 import net.nokok.karaffe.parser.ASTVariableOrFunctionDeclaration;
 import net.nokok.karaffe.parser.KaraffeParserVisitor;
 import net.nokok.karaffe.parser.SimpleNode;
-import net.nokok.karaffe.parser.excptn.InternalCompilerException;
 import net.nokok.karaffe.parser.excptn.KaraffeParserException;
-import static net.nokok.karaffe.parser.util.UnicodeUtil.unicodeToJavaIdentifier;
-import org.objectweb.asm.ClassWriter;
-import org.objectweb.asm.MethodVisitor;
-import org.objectweb.asm.Opcodes;
-import org.objectweb.asm.Type;
 
 public class BytecodeGenerator implements KaraffeParserVisitor {
 
-    private final ClassWriter classWriter = new ClassWriter(ClassWriter.COMPUTE_MAXS);
-    private final Map<String, byte[]> classes = new HashMap<>();
-    private final MethodVisitor constructor;
-    private final MethodVisitor mainMethodVisitor;
+    private final Set<CtClass> classes = new HashSet<>();
 
-    private final String FILE_NAME;
-
-    public BytecodeGenerator(String fileName) {
-
-        this.FILE_NAME = unicodeToJavaIdentifier(fileName.replace(".krf", ""));
-
-        //public class ファイル名 extends Object
-        classWriter.visit(Opcodes.V1_8, Opcodes.ACC_PUBLIC + Opcodes.ACC_SUPER, this.FILE_NAME, null, "java/lang/Object", null);
-        classWriter.visitSource(fileName, null);
-
-        //$TOPLEVEL_CLASS_NAME クラスのコンストラクタの生成
-        constructor = classWriter.visitMethod(Opcodes.ACC_PUBLIC, "<init>", "()V", null, null);
-        constructor.visitCode();
-        constructor.visitVarInsn(Opcodes.ALOAD, 0);
-        constructor.visitMethodInsn(Opcodes.INVOKESPECIAL, "java/lang/Object", "<init>", "()V", false);
-
-        //public static void main(String[] args){
-        mainMethodVisitor = classWriter.visitMethod(Opcodes.ACC_PUBLIC + Opcodes.ACC_STATIC, "main", Type.getMethodDescriptor(Type.VOID_TYPE, Type.getType(String[].class)), null, null);
+    @Override
+    public Set<CtClass> visit(ASTCompileUnit node, Object data) throws KaraffeParserException {
+        node.childrenAccept(this, data);
+        return classes;
     }
 
     @Override
-    public Object visit(ASTCompileUnit node, Object data) throws KaraffeParserException {
-
+    public Object visit(ASTStringLiteral node, Object data) throws KaraffeParserException {
         return node.childrenAccept(this, data);
-    }
-
-    @Override
-    public String visit(ASTStringLiteral node, Object data) throws KaraffeParserException {
-
-        return (String) node.jjtGetValue();
-    }
-
-    public Map<String, byte[]> toByteArrays() {
-        constructor.visitInsn(Opcodes.RETURN);
-        constructor.visitMaxs(0, 0);
-        constructor.visitEnd();
-        mainMethodVisitor.visitInsn(Opcodes.RETURN);
-        mainMethodVisitor.visitMaxs(0, 0);
-        mainMethodVisitor.visitEnd();
-        classWriter.visitEnd();
-        classes.put(FILE_NAME, classWriter.toByteArray());
-        return Collections.unmodifiableMap(classes);
     }
 
     @Override
@@ -320,17 +278,16 @@ public class BytecodeGenerator implements KaraffeParserVisitor {
 
     @Override
     public Object visit(ASTTypeDeclaration node, Object data) throws KaraffeParserException {
-        int childrenSize = node.jjtGetNumChildren();
-        if (childrenSize == 0) {
-            throw new InternalCompilerException(node, "子ノードの数が不正です");
+        CtClass ctClass = (CtClass) node.jjtAccept(new MakeClassVisitor(), null);
+        if ( classes.contains(ctClass) ) {
+            //既に存在する場合
         }
-
+        classes.add(ctClass);
         return null;
     }
 
     @Override
     public Object visit(ASTInterfaceDeclaration node, Object data) throws KaraffeParserException {
-
         return node.childrenAccept(this, data);
     }
 
@@ -553,11 +510,6 @@ public class BytecodeGenerator implements KaraffeParserVisitor {
 
     @Override
     public Object visit(ASTInterfaces node, Object data) throws KaraffeParserException {
-        return node.childrenAccept(this, data);
-    }
-
-    @Override
-    public Object visit(ASTEnumElements node, Object data) throws KaraffeParserException {
         return node.childrenAccept(this, data);
     }
 
