@@ -9,6 +9,7 @@
  */
 package net.nokok.karaffe.parser.visitor;
 
+import java.util.Collections;
 import java.util.HashSet;
 import java.util.Set;
 import javassist.CtClass;
@@ -100,7 +101,7 @@ public class BytecodeGenerator implements KaraffeParserVisitor {
     @Override
     public Set<CtClass> visit(ASTCompileUnit node, Object data) throws KaraffeParserException {
         node.childrenAccept(this, data);
-        return classes;
+        return Collections.unmodifiableSet(classes);
     }
 
     @Override
