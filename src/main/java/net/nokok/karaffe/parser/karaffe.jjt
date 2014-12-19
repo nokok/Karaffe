@@ -183,8 +183,8 @@ void TypeElement() #void:
 void FunctionLiteral():
 {}
 {
-    //(         引数:型                                       )            ->            {            ...          }             ...
-    <LeftParen> (Identifier() (LOOKAHEAD(2) TypeElement())?)* <RightParen> SingleArrow() (<LeftBrace> Statements() <RightBrace> | Statements())
+    //(         引数:型                       )            ->            {            ...          }             ...
+    <LeftParen> (LOOKAHEAD(2) TypeElement())* <RightParen> SingleArrow() (<LeftBrace> Expression() <RightBrace> | Expression())
 }
 
 /**
