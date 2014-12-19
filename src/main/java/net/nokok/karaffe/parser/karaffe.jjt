@@ -584,9 +584,10 @@ void UnaryExprNotPlusMinus() #void:
 void Primary() #void:
 {}
 {
-      LOOKAHEAD(2) MethodInvocation()
-    | LOOKAHEAD(2) Literal()
+      LOOKAHEAD(2) Literal()
+    | LOOKAHEAD(2) Identifier()
     | LOOKAHEAD(2) <LeftParen> Expression() <RightParen>
+    | LOOKAHEAD(2) MethodInvocation()
 }
 
 /**
