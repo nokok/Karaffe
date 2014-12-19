@@ -16,6 +16,7 @@ import net.nokok.karaffe.parser.ASTAA;
 import net.nokok.karaffe.parser.ASTAbstractModifier;
 import net.nokok.karaffe.parser.ASTAnd;
 import net.nokok.karaffe.parser.ASTAnnotation;
+import net.nokok.karaffe.parser.ASTArgumentList;
 import net.nokok.karaffe.parser.ASTAssign;
 import net.nokok.karaffe.parser.ASTAssignment;
 import net.nokok.karaffe.parser.ASTAssignmentExpression;
@@ -49,6 +50,8 @@ import net.nokok.karaffe.parser.ASTLeftHandSide;
 import net.nokok.karaffe.parser.ASTLessThan;
 import net.nokok.karaffe.parser.ASTLessThanEqualTo;
 import net.nokok.karaffe.parser.ASTMA;
+import net.nokok.karaffe.parser.ASTMethodInvocation;
+import net.nokok.karaffe.parser.ASTMethodOrExprName;
 import net.nokok.karaffe.parser.ASTMinus;
 import net.nokok.karaffe.parser.ASTModifierOfFunction;
 import net.nokok.karaffe.parser.ASTModifierOfOperator;
@@ -107,13 +110,11 @@ public class BytecodeGenerator implements KaraffeParserVisitor {
 
     @Override
     public Object visit(SimpleNode node, Object data) throws KaraffeParserException {
-
         return node.childrenAccept(this, data);
     }
 
     @Override
     public Object visit(ASTNewLineToken node, Object data) throws KaraffeParserException {
-
         return node.childrenAccept(this, data);
     }
 
@@ -122,8 +123,24 @@ public class BytecodeGenerator implements KaraffeParserVisitor {
         return node.childrenAccept(this, data);
     }
 
-    private void printNode(SimpleNode node) throws KaraffeParserException {
-        System.out.println(node.jjtGetNumChildren());
+    @Override
+    public Object visit(ASTMethodInvocation node, Object data) throws KaraffeParserException {
+        return node.childrenAccept(this, data);
+    }
+
+    @Override
+    public Object visit(ASTArgumentList node, Object data) throws KaraffeParserException {
+        return node.childrenAccept(this, data);
+    }
+
+    @Override
+    public Object visit(ASTElementAccess node, Object data) throws KaraffeParserException {
+        return node.childrenAccept(this, data);
+    }
+
+    @Override
+    public Object visit(ASTMethodOrExprName node, Object data) throws KaraffeParserException {
+        return node.childrenAccept(this, data);
     }
 
     @Override
@@ -389,12 +406,6 @@ public class BytecodeGenerator implements KaraffeParserVisitor {
 
     @Override
     public Object visit(ASTLeftHandSide node, Object data) throws KaraffeParserException {
-
-        return node.childrenAccept(this, data);
-    }
-
-    @Override
-    public Object visit(ASTElementAccess node, Object data) throws KaraffeParserException {
 
         return node.childrenAccept(this, data);
     }
