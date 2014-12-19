@@ -414,7 +414,7 @@ Token JavaFQCN():
 ASTCompileUnit CompileUnit():
 {}
 {
-    (Statement() | NewLineToken())* <EOF> {
+    (LOOKAHEAD(3) Statement() | LOOKAHEAD(3) MethodInvocation() | NewLineToken())* <EOF> {
         return jjtThis;
     }
 }
@@ -449,29 +449,20 @@ void Declaration() #void:
 void MethodInvocation():
 {}
 {
-    LOOKAHEAD(3) MethodName() Arguments()
-  | LOOKAHEAD(3) TypeElement() (<Dot>)? Identifier() Arguments()
-  | LOOKAHEAD(3) ExpressionName() (<Dot>)? Arguments()
-  | Primary() (LOOKAHEAD(2) <Dot>)? Arguments()
+    MethodOrExprName() Arguments() (LOOKAHEAD(2) (<Dot>)? (LOOKAHEAD(2) MethodOrExprName())? Arguments())*
 }
 
-void MethodName():
+void MethodOrExprName():
 {}
 {
     Identifier()
 }
 
-void ExpressionName():
-{}
-{
-    Identifier()
-}
-
-void Arguments():
+void Arguments() #void:
 {}
 {
     LOOKAHEAD(3) <LeftParen> <RightParen>
-  | (LOOKAHEAD(2) <LeftParen>)? (LOOKAHEAD(2) ArgumentList())? (LOOKAHEAD(2) <RightParen>)?
+  | (LOOKAHEAD(3) <LeftParen>)? ArgumentList() (LOOKAHEAD(2) <RightParen>)?
 }
 
 void ArgumentList():
@@ -593,9 +584,9 @@ void UnaryExprNotPlusMinus() #void:
 void Primary() #void:
 {}
 {
-      LOOKAHEAD(2) Literal()
+      LOOKAHEAD(2) MethodInvocation()
+    | LOOKAHEAD(2) Literal()
     | LOOKAHEAD(2) <LeftParen> Expression() <RightParen>
-    | LOOKAHEAD(2) MethodInvocation()
 }
 
 /**

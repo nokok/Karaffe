@@ -3,6 +3,11 @@ package net.nokok.karaffe;
 import java.io.File;
 import java.io.FileReader;
 import java.io.IOException;
+import java.util.Set;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import javassist.CannotCompileException;
+import javassist.CtClass;
 import net.nokok.karaffe.parser.ASTCompileUnit;
 import net.nokok.karaffe.parser.KaraffeParser;
 import net.nokok.karaffe.parser.ParseException;
@@ -18,20 +23,24 @@ public class Main {
      * @param args
      */
     public static void main(String... args) {
-        args = new String[]{"Int.krf"};
-        for (String arg : args) {
+        for ( String arg : args ) {
             try {
                 File file = new File(arg);
                 KaraffeParser parser = new KaraffeParser(new FileReader(file));
                 ASTCompileUnit compileUnit = parser.CompileUnit();
                 compileUnit.dump("");
-                compileUnit.jjtAccept(new BytecodeGenerator(), null);
+                Set<CtClass> classes = (Set<CtClass>) compileUnit.jjtAccept(new BytecodeGenerator(), null);
+                for ( CtClass clazz : classes ) {
+                    clazz.writeFile(".");
+                }
             } catch (ParseException ex) {
                 new OutputFormatter(arg).print(ex);
             } catch (IOException ex) {
                 new OutputFormatter(arg).print(ex);
             } catch (KaraffeParserException ex) {
                 new OutputFormatter(arg).print(ex);
+            } catch (CannotCompileException ex) {
+                ex.printStackTrace();
             }
         }
     }

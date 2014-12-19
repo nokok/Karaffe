@@ -848,11 +848,11 @@ ASTCompileUnit CompileUnit():
 {/*@bgen(jjtree) CompileUnit */
     try {
 /*@egen*/
-    (Statement() | NewLineToken())* <EOF>/*@bgen(jjtree)*/
-                                          {
-                                            jjtree.closeNodeScope(jjtn000, true);
-                                            jjtc000 = false;
-                                          }
+    (LOOKAHEAD(3) Statement() | LOOKAHEAD(3) MethodInvocation() | NewLineToken())* <EOF>/*@bgen(jjtree)*/
+                                                                                         {
+                                                                                           jjtree.closeNodeScope(jjtn000, true);
+                                                                                           jjtc000 = false;
+                                                                                         }
 /*@egen*/ {
         return jjtn000;
     }/*@bgen(jjtree)*/
@@ -914,10 +914,7 @@ void MethodInvocation():
 {/*@bgen(jjtree) MethodInvocation */
     try {
 /*@egen*/
-    LOOKAHEAD(3) MethodName() Arguments()
-  | LOOKAHEAD(3) TypeElement() (<Dot>)? Identifier() Arguments()
-  | LOOKAHEAD(3) ExpressionName() (<Dot>)? Arguments()
-  | "" Primary() (LOOKAHEAD(2) <Dot>)? Arguments()/*@bgen(jjtree)*/
+    MethodOrExprName() Arguments() (LOOKAHEAD(2) (<Dot>)? (LOOKAHEAD(2) MethodOrExprName())? Arguments())*/*@bgen(jjtree)*/
     } catch (Throwable jjte000) {
       if (jjtc000) {
         jjtree.clearNodeScope(jjtn000);
@@ -940,13 +937,13 @@ void MethodInvocation():
 /*@egen*/
 }
 
-void MethodName():
-{/*@bgen(jjtree) MethodName */
-  ASTMethodName jjtn000 = new ASTMethodName(JJTMETHODNAME);
+void MethodOrExprName():
+{/*@bgen(jjtree) MethodOrExprName */
+  ASTMethodOrExprName jjtn000 = new ASTMethodOrExprName(JJTMETHODOREXPRNAME);
   boolean jjtc000 = true;
   jjtree.openNodeScope(jjtn000);
 /*@egen*/}
-{/*@bgen(jjtree) MethodName */
+{/*@bgen(jjtree) MethodOrExprName */
     try {
 /*@egen*/
     Identifier()/*@bgen(jjtree)*/
@@ -972,69 +969,11 @@ void MethodName():
 /*@egen*/
 }
 
-void ExpressionName():
-{/*@bgen(jjtree) ExpressionName */
-  ASTExpressionName jjtn000 = new ASTExpressionName(JJTEXPRESSIONNAME);
-  boolean jjtc000 = true;
-  jjtree.openNodeScope(jjtn000);
-/*@egen*/}
-{/*@bgen(jjtree) ExpressionName */
-    try {
-/*@egen*/
-    Identifier()/*@bgen(jjtree)*/
-    } catch (Throwable jjte000) {
-      if (jjtc000) {
-        jjtree.clearNodeScope(jjtn000);
-        jjtc000 = false;
-      } else {
-        jjtree.popNode();
-      }
-      if (jjte000 instanceof RuntimeException) {
-        throw (RuntimeException)jjte000;
-      }
-      if (jjte000 instanceof ParseException) {
-        throw (ParseException)jjte000;
-      }
-      throw (Error)jjte000;
-    } finally {
-      if (jjtc000) {
-        jjtree.closeNodeScope(jjtn000, true);
-      }
-    }
-/*@egen*/
-}
-
-void Arguments():
-{/*@bgen(jjtree) Arguments */
-  ASTArguments jjtn000 = new ASTArguments(JJTARGUMENTS);
-  boolean jjtc000 = true;
-  jjtree.openNodeScope(jjtn000);
-/*@egen*/}
-{/*@bgen(jjtree) Arguments */
-    try {
-/*@egen*/
+void Arguments()      :
+{}
+{
     LOOKAHEAD(3) <LeftParen> <RightParen>
-  | (LOOKAHEAD(2) <LeftParen>)? (LOOKAHEAD(2) ArgumentList())? (LOOKAHEAD(2) <RightParen>)?/*@bgen(jjtree)*/
-    } catch (Throwable jjte000) {
-      if (jjtc000) {
-        jjtree.clearNodeScope(jjtn000);
-        jjtc000 = false;
-      } else {
-        jjtree.popNode();
-      }
-      if (jjte000 instanceof RuntimeException) {
-        throw (RuntimeException)jjte000;
-      }
-      if (jjte000 instanceof ParseException) {
-        throw (ParseException)jjte000;
-      }
-      throw (Error)jjte000;
-    } finally {
-      if (jjtc000) {
-        jjtree.closeNodeScope(jjtn000, true);
-      }
-    }
-/*@egen*/
+  | (LOOKAHEAD(3) <LeftParen>)? ArgumentList() (LOOKAHEAD(2) <RightParen>)?
 }
 
 void ArgumentList():
@@ -1501,9 +1440,9 @@ void UnaryExprNotPlusMinus()      :
 void Primary()      :
 {}
 {
-      LOOKAHEAD(2) Literal()
+      LOOKAHEAD(2) MethodInvocation()
+    | LOOKAHEAD(2) Literal()
     | LOOKAHEAD(2) <LeftParen> Expression() <RightParen>
-    | LOOKAHEAD(2) MethodInvocation()
 }
 
 /**

@@ -15,7 +15,28 @@ import org.junit.Test;
 public class MethodInvocationSyntaxTest {
 
     @Test
-    public void testMethodNameArgumentList() {
+    public void testSimpleMethodInvocation() {
         testCode("println(\"hoge\")");
     }
+
+    @Test
+    public void testNestedMethod() {
+        testCode("println concat \"hoge\" concat \"fuga\" \"piyo\" + \"foo\"");
+    }
+
+    @Test
+    public void testJavaStyleMethodInvocation() {
+        testCode("println(concat(\"hoge\" concat (\"fuga\" \"piyo\" + \"foo\")))");
+    }
+
+    @Test
+    public void testJavaStyleMethodChain() {
+        testCode("foo().bar().baz()");
+    }
+
+    @Test
+    public void testMethodChain() {
+        testCode("foo() bar() baz()");
+    }
+
 }

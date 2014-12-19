@@ -9,19 +9,14 @@
  */
 package net.nokok.karaffe.parser.visitor;
 
-import java.io.IOException;
-import java.util.Collections;
-import java.util.HashMap;
-import java.util.Map;
-import javassist.CannotCompileException;
-import javassist.ClassPool;
+import java.util.HashSet;
+import java.util.Set;
 import javassist.CtClass;
 import net.nokok.karaffe.parser.ASTAA;
 import net.nokok.karaffe.parser.ASTAbstractModifier;
 import net.nokok.karaffe.parser.ASTAnd;
 import net.nokok.karaffe.parser.ASTAnnotation;
 import net.nokok.karaffe.parser.ASTArgumentList;
-import net.nokok.karaffe.parser.ASTArguments;
 import net.nokok.karaffe.parser.ASTAssign;
 import net.nokok.karaffe.parser.ASTAssignment;
 import net.nokok.karaffe.parser.ASTAssignmentExpression;
@@ -38,7 +33,6 @@ import net.nokok.karaffe.parser.ASTEqualTo;
 import net.nokok.karaffe.parser.ASTExplicitModuleElementAccess;
 import net.nokok.karaffe.parser.ASTExprNode;
 import net.nokok.karaffe.parser.ASTExpression;
-import net.nokok.karaffe.parser.ASTExpressionName;
 import net.nokok.karaffe.parser.ASTFloatLiteral;
 import net.nokok.karaffe.parser.ASTFunctionLiteral;
 import net.nokok.karaffe.parser.ASTGreaterThan;
@@ -57,7 +51,7 @@ import net.nokok.karaffe.parser.ASTLessThan;
 import net.nokok.karaffe.parser.ASTLessThanEqualTo;
 import net.nokok.karaffe.parser.ASTMA;
 import net.nokok.karaffe.parser.ASTMethodInvocation;
-import net.nokok.karaffe.parser.ASTMethodName;
+import net.nokok.karaffe.parser.ASTMethodOrExprName;
 import net.nokok.karaffe.parser.ASTMinus;
 import net.nokok.karaffe.parser.ASTModifierOfFunction;
 import net.nokok.karaffe.parser.ASTModifierOfOperator;
@@ -96,51 +90,22 @@ import net.nokok.karaffe.parser.ASTUndefinedLiteral;
 import net.nokok.karaffe.parser.ASTVariableModifier;
 import net.nokok.karaffe.parser.ASTVariableOrFunctionDeclaration;
 import net.nokok.karaffe.parser.KaraffeParserVisitor;
-import net.nokok.karaffe.parser.Node;
 import net.nokok.karaffe.parser.SimpleNode;
-import net.nokok.karaffe.parser.excptn.InternalCompilerException;
 import net.nokok.karaffe.parser.excptn.KaraffeParserException;
 
 public class BytecodeGenerator implements KaraffeParserVisitor {
 
-    private final ClassPool CLASS_POOL = ClassPool.getDefault();
-
-    private CtClass currentClass;
-
-    private final Map<String, byte[]> classes = new HashMap<>();
+    private final Set<CtClass> classes = new HashSet<>();
 
     @Override
-    public Object visit(ASTCompileUnit node, Object data) throws KaraffeParserException {
-        for (int i = 0; i < node.jjtGetNumChildren(); i++) {
-            Node n = node.jjtGetChild(i);
-            if (n instanceof ASTNewLineToken
-                    && (i + 1 < node.jjtGetNumChildren())
-                    && node.jjtGetChild(i + 1) instanceof ASTNewLineToken) {
-                encountedBlankLine();
-            } else {
-                n.jjtAccept(this, data);
-            }
-        }
-        return null;
-    }
-
-    private void encountedBlankLine() {
-        try {
-            classes.put(currentClass.getName(), currentClass.toBytecode());
-        } catch (IOException ex) {
-            ex.printStackTrace();
-        } catch (CannotCompileException ex) {
-            ex.printStackTrace();
-        }
+    public Set<CtClass> visit(ASTCompileUnit node, Object data) throws KaraffeParserException {
+        node.childrenAccept(this, data);
+        return classes;
     }
 
     @Override
-    public String visit(ASTStringLiteral node, Object data) throws KaraffeParserException {
-        return (String) node.jjtGetValue();
-    }
-
-    public Map<String, byte[]> toByteArrays() {
-        return Collections.unmodifiableMap(classes);
+    public Object visit(ASTStringLiteral node, Object data) throws KaraffeParserException {
+        return node.childrenAccept(this, data);
     }
 
     @Override
@@ -158,8 +123,24 @@ public class BytecodeGenerator implements KaraffeParserVisitor {
         return node.childrenAccept(this, data);
     }
 
-    private void printNode(SimpleNode node) throws KaraffeParserException {
-        System.out.println(node.jjtGetNumChildren());
+    @Override
+    public Object visit(ASTMethodInvocation node, Object data) throws KaraffeParserException {
+        return node.childrenAccept(this, data);
+    }
+
+    @Override
+    public Object visit(ASTArgumentList node, Object data) throws KaraffeParserException {
+        return node.childrenAccept(this, data);
+    }
+
+    @Override
+    public Object visit(ASTElementAccess node, Object data) throws KaraffeParserException {
+        return node.childrenAccept(this, data);
+    }
+
+    @Override
+    public Object visit(ASTMethodOrExprName node, Object data) throws KaraffeParserException {
+        return node.childrenAccept(this, data);
     }
 
     @Override
@@ -314,11 +295,11 @@ public class BytecodeGenerator implements KaraffeParserVisitor {
 
     @Override
     public Object visit(ASTTypeDeclaration node, Object data) throws KaraffeParserException {
-        int childrenSize = node.jjtGetNumChildren();
-        if (childrenSize == 0) {
-            throw new InternalCompilerException(node, "子ノードの数が不正です");
+        CtClass ctClass = (CtClass) node.jjtAccept(new MakeClassVisitor(), null);
+        if ( classes.contains(ctClass) ) {
+            //既に存在する場合
         }
-        currentClass = CLASS_POOL.makeClass("");
+        classes.add(ctClass);
         return null;
     }
 
@@ -377,7 +358,7 @@ public class BytecodeGenerator implements KaraffeParserVisitor {
 
     @Override
     public Object visit(ASTVariableOrFunctionDeclaration node, Object data) throws KaraffeParserException {
-        //全部Fieldで宣言すると楽かも？
+
         return node.childrenAccept(this, data);
     }
 
@@ -425,12 +406,6 @@ public class BytecodeGenerator implements KaraffeParserVisitor {
 
     @Override
     public Object visit(ASTLeftHandSide node, Object data) throws KaraffeParserException {
-
-        return node.childrenAccept(this, data);
-    }
-
-    @Override
-    public Object visit(ASTElementAccess node, Object data) throws KaraffeParserException {
 
         return node.childrenAccept(this, data);
     }
@@ -546,31 +521,6 @@ public class BytecodeGenerator implements KaraffeParserVisitor {
 
     @Override
     public Object visit(ASTInterfaces node, Object data) throws KaraffeParserException {
-        return node.childrenAccept(this, data);
-    }
-
-    @Override
-    public Object visit(ASTMethodInvocation node, Object data) throws KaraffeParserException {
-        return node.childrenAccept(this, data);
-    }
-
-    @Override
-    public Object visit(ASTMethodName node, Object data) throws KaraffeParserException {
-        return node.childrenAccept(this, data);
-    }
-
-    @Override
-    public Object visit(ASTExpressionName node, Object data) throws KaraffeParserException {
-        return node.childrenAccept(this, data);
-    }
-
-    @Override
-    public Object visit(ASTArguments node, Object data) throws KaraffeParserException {
-        return node.childrenAccept(this, data);
-    }
-
-    @Override
-    public Object visit(ASTArgumentList node, Object data) throws KaraffeParserException {
         return node.childrenAccept(this, data);
     }
 
