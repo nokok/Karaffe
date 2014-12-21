@@ -298,7 +298,6 @@ TOKEN:
 {
     < Abstract : "abstract" >
     | < Check : "check" >
-    | < EndModule : "endmodule" >
     | < Enum : "enum" >
     | < Import : "import" >
     | < Interface : "interface" >
@@ -441,7 +440,6 @@ void Declaration() #void:
     | TypeAliasDeclaration()
     | ModuleDeclarationStatement()
     | EnumDeclaration()
-    | EndOfModule()
 }
 
 //MethodInvocations
@@ -822,17 +820,6 @@ void UnaryMinus():
         jjtThis.jjtSetValue(t);
     }
 }
-
-void EndOfModule():
-{
-    Token t;
-}
-{
-    t = <EndModule> {
-        jjtThis.jjtSetValue(t);
-    }
-}
-
 
 void NewLineToken():
 {}
