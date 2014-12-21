@@ -212,6 +212,12 @@ void ImportStatement():
     <Import> (LOOKAHEAD(2)Identifier() (<SingleArrow> Identifier())?)* (<LeftBrace> Statements() <RightBrace>)?
 }
 
+void ExtendsType():
+{}
+{
+    "extends" TypeElement() <AA> Identifier()
+}
+
 /**
     型パラメータ
     [型パラメータリスト]
