@@ -346,6 +346,7 @@ void Literal() #void:
     | IntLiteral()
     | FloatLiteral()
     | StringLiteral()
+    | LOOKAHEAD(3) TupleLiteral()
     | UndefinedLiteral()
 }
 
