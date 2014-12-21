@@ -341,7 +341,7 @@ TOKEN:
 void Literal() #void:
 {}
 {
-    FunctionLiteral()
+    LOOKAHEAD(3) FunctionLiteral()
     | BoolLiteral()
     | IntLiteral()
     | FloatLiteral()
@@ -461,14 +461,21 @@ void MethodOrExprName():
 void Arguments() #void:
 {}
 {
-    LOOKAHEAD(3) <LeftParen> <RightParen>
-  | (LOOKAHEAD(3) <LeftParen>)? ArgumentList() (LOOKAHEAD(2) <RightParen>)?
+    LOOKAHEAD(3) ArgumentList()
+  | LOOKAHEAD(3) <LeftParen> (ArgumentList())? <RightParen>
 }
 
 void ArgumentList():
 {}
 {
-    Expression() (LOOKAHEAD(2) Expression())*
+    Argument() (LOOKAHEAD(2) Argument())*
+}
+
+void Argument():
+{}
+{
+    LOOKAHEAD(3) MethodInvocation()
+  | LOOKAHEAD(3) Expression() 
 }
 
 /**
