@@ -16,6 +16,11 @@ public class FunctionLiteralSyntaxTest {
 
     @Test
     public void testSimpleFunctionLiteral() {
-        testCode("println ((_) -> _ + 1) 2\n");
+        testCode("foo ((_) -> _ + 1) 2\n");
+    }
+
+    @Test
+    public void testFunctionLiteralWithoutParameters() {
+        testCode("foo (() -> x + 1)");
     }
 }
