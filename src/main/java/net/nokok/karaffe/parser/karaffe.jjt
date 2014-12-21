@@ -212,6 +212,9 @@ void ImportStatement():
     <Import> (LOOKAHEAD(2)Identifier() (<SingleArrow> Identifier())?)* (<LeftBrace> Statements() <RightBrace>)?
 }
 
+/**
+    extends HogeType += hoge
+*/
 void ExtendsType():
 {}
 {
