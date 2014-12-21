@@ -357,6 +357,7 @@ void Literal() #void:
     | FloatLiteral()
     | StringLiteral()
     | LOOKAHEAD(3) TupleLiteral()
+    | ListLiteral()
     | UndefinedLiteral()
 }
 
@@ -1073,6 +1074,12 @@ void StringLiteral():
     t = <StringLiteral> {
         jjtThis.jjtSetValue(t);
     }
+}
+
+void ListLiteral():
+{}
+{
+    <LeftBracket> (Literal())* <RightBracket>
 }
 
 void TupleLiteral():
