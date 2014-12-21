@@ -601,41 +601,46 @@ void ElementAccess():
 void Modifier() #void:
 {}
 {
-    LOOKAHEAD(2) ModifierOfType()
-    | LOOKAHEAD(2) ModifierOfVariable()
-    | ModifierOfFunction()
+    LOOKAHEAD(3) ModifierOfType()
+    | LOOKAHEAD(3) ModifierOfVariable()
+    | LOOKAHEAD(2) ModifierOfFunction()
     | ModifierOfOperator()
 }
 
 void ModifierOfType():
 {}
 {
-    (LOOKAHEAD(2)(PrivateModifier()
-    | SealedModifier()))+
+    (PrivateModifier())? AbstractOrSealed()
+}
+
+void AbstractOrSealed() #void:
+{}
+{
+    (AbstractModifier() | SealedModifier())?
 }
 
 void ModifierOfVariable():
 {}
 {
-    (LOOKAHEAD(2)(PrivateModifier()
-    | VariableModifier()
-    | LazyModifier()))+
+    (PrivateModifier())? (VariableModifier())? (LazyModifier())?
 }
 
 void ModifierOfFunction():
 {}
 {
-    (LOOKAHEAD(2)(AbstractModifier()
-    | OverrideModifier()
-    | PrivateModifier()
-    | SealedModifier()))+
+    PrivateOrOverride() AbstractOrSealed() (VariableModifier())?
+}
+
+void PrivateOrOverride() #void:
+{}
+{
+    (PrivateModifier() | OverrideModifier())?
 }
 
 void ModifierOfOperator():
 {}
 {
-    (LOOKAHEAD(2)(OpModifier()
-    | UnaryOpModifier()))+
+    UnaryOpModifier() | OpModifier()
 }
 
 
