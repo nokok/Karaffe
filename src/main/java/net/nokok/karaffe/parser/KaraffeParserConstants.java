@@ -16,163 +16,161 @@ public interface KaraffeParserConstants {
     /** RegularExpression Id. */
     int Check = 10;
     /** RegularExpression Id. */
-    int EndModule = 11;
+    int Enum = 11;
     /** RegularExpression Id. */
-    int Enum = 12;
+    int Import = 12;
     /** RegularExpression Id. */
-    int Import = 13;
+    int Interface = 13;
     /** RegularExpression Id. */
-    int Interface = 14;
+    int Lazy = 14;
     /** RegularExpression Id. */
-    int Lazy = 15;
+    int Module = 15;
     /** RegularExpression Id. */
-    int Module = 16;
+    int Operator = 16;
     /** RegularExpression Id. */
-    int Operator = 17;
+    int Override = 17;
     /** RegularExpression Id. */
-    int Override = 18;
+    int Private = 18;
     /** RegularExpression Id. */
-    int Private = 19;
+    int Sealed = 19;
     /** RegularExpression Id. */
-    int Sealed = 20;
+    int Switch = 20;
     /** RegularExpression Id. */
-    int Switch = 21;
+    int Type = 21;
     /** RegularExpression Id. */
-    int Type = 22;
+    int UnaryOperator = 22;
     /** RegularExpression Id. */
-    int UnaryOperator = 23;
+    int TypeAlias = 23;
     /** RegularExpression Id. */
-    int TypeAlias = 24;
+    int Undefined = 24;
     /** RegularExpression Id. */
-    int Undefined = 25;
+    int Variable = 25;
     /** RegularExpression Id. */
-    int Variable = 26;
+    int BoolLiteral = 26;
     /** RegularExpression Id. */
-    int BoolLiteral = 27;
+    int IntLiteral = 27;
     /** RegularExpression Id. */
-    int IntLiteral = 28;
+    int Hexadecimal = 28;
     /** RegularExpression Id. */
-    int Hexadecimal = 29;
+    int HexDigit = 29;
     /** RegularExpression Id. */
-    int HexDigit = 30;
+    int FloatLiteral = 30;
     /** RegularExpression Id. */
-    int FloatLiteral = 31;
+    int Zero = 31;
     /** RegularExpression Id. */
-    int Zero = 32;
+    int NonZero = 32;
     /** RegularExpression Id. */
-    int NonZero = 33;
+    int Exp = 33;
     /** RegularExpression Id. */
-    int Exp = 34;
+    int StringLiteral = 34;
     /** RegularExpression Id. */
-    int StringLiteral = 35;
+    int StringCharacter = 35;
     /** RegularExpression Id. */
-    int StringCharacter = 36;
+    int StringEscapeSeq = 36;
     /** RegularExpression Id. */
-    int StringEscapeSeq = 37;
+    int UnicodeEscape = 37;
     /** RegularExpression Id. */
-    int UnicodeEscape = 38;
+    int Identifier = 38;
     /** RegularExpression Id. */
-    int Identifier = 39;
+    int IdentifierHead = 39;
     /** RegularExpression Id. */
-    int IdentifierHead = 40;
+    int IdentifierChar = 40;
     /** RegularExpression Id. */
-    int IdentifierChar = 41;
+    int JavaFQCN = 41;
     /** RegularExpression Id. */
-    int JavaFQCN = 42;
+    int LeftBracket = 42;
     /** RegularExpression Id. */
-    int LeftBracket = 43;
+    int RightBracket = 43;
     /** RegularExpression Id. */
-    int RightBracket = 44;
+    int LeftBrace = 44;
     /** RegularExpression Id. */
-    int LeftBrace = 45;
+    int RightBrace = 45;
     /** RegularExpression Id. */
-    int RightBrace = 46;
+    int LeftParen = 46;
     /** RegularExpression Id. */
-    int LeftParen = 47;
+    int RightParen = 47;
     /** RegularExpression Id. */
-    int RightParen = 48;
+    int Colon = 48;
     /** RegularExpression Id. */
-    int Colon = 49;
+    int DoubleColon = 49;
     /** RegularExpression Id. */
-    int DoubleColon = 50;
+    int Dot = 50;
     /** RegularExpression Id. */
-    int Dot = 51;
+    int EqualSign = 51;
     /** RegularExpression Id. */
-    int EqualSign = 52;
+    int AA = 52;
     /** RegularExpression Id. */
-    int AA = 53;
+    int SA = 53;
     /** RegularExpression Id. */
-    int SA = 54;
+    int MA = 54;
     /** RegularExpression Id. */
-    int MA = 55;
+    int DA = 55;
     /** RegularExpression Id. */
-    int DA = 56;
+    int RA = 56;
     /** RegularExpression Id. */
-    int RA = 57;
+    int Lt = 57;
     /** RegularExpression Id. */
-    int Lt = 58;
+    int LtE = 58;
     /** RegularExpression Id. */
-    int LtE = 59;
+    int Gt = 59;
     /** RegularExpression Id. */
-    int Gt = 60;
+    int GtE = 60;
     /** RegularExpression Id. */
-    int GtE = 61;
+    int Plus = 61;
     /** RegularExpression Id. */
-    int Plus = 62;
+    int Minus = 62;
     /** RegularExpression Id. */
-    int Minus = 63;
+    int Star = 63;
     /** RegularExpression Id. */
-    int Star = 64;
+    int Slash = 64;
     /** RegularExpression Id. */
-    int Slash = 65;
+    int SafeDiv = 65;
     /** RegularExpression Id. */
-    int SafeDiv = 66;
+    int Percent = 66;
     /** RegularExpression Id. */
-    int Percent = 67;
+    int SafeRem = 67;
     /** RegularExpression Id. */
-    int SafeRem = 68;
+    int Tilde = 68;
     /** RegularExpression Id. */
-    int Tilde = 69;
+    int Bang = 69;
     /** RegularExpression Id. */
-    int Bang = 70;
+    int And = 70;
     /** RegularExpression Id. */
-    int And = 71;
+    int Or = 71;
     /** RegularExpression Id. */
-    int Or = 72;
+    int Hat = 72;
     /** RegularExpression Id. */
-    int Hat = 73;
+    int Question = 73;
     /** RegularExpression Id. */
-    int Question = 74;
+    int ReverseArrow = 74;
     /** RegularExpression Id. */
-    int ReverseArrow = 75;
+    int ReverseArrowChar = 75;
     /** RegularExpression Id. */
-    int ReverseArrowChar = 76;
+    int SingleArrowChar = 76;
     /** RegularExpression Id. */
-    int SingleArrowChar = 77;
+    int SingleArrow = 77;
     /** RegularExpression Id. */
-    int SingleArrow = 78;
+    int CastArrow = 78;
     /** RegularExpression Id. */
-    int CastArrow = 79;
+    int TypeCheckArrow = 79;
     /** RegularExpression Id. */
-    int TypeCheckArrow = 80;
+    int DoubleArrow = 80;
     /** RegularExpression Id. */
-    int DoubleArrow = 81;
+    int EqualTo = 81;
     /** RegularExpression Id. */
-    int EqualTo = 82;
+    int NotEqualTo = 82;
     /** RegularExpression Id. */
-    int NotEqualTo = 83;
+    int NonComparable = 83;
     /** RegularExpression Id. */
-    int NonComparable = 84;
+    int Comparable = 84;
     /** RegularExpression Id. */
-    int Comparable = 85;
+    int ClosedRange = 85;
     /** RegularExpression Id. */
-    int ClosedRange = 86;
+    int HalfOpenRange = 86;
     /** RegularExpression Id. */
-    int HalfOpenRange = 87;
+    int NewLine = 87;
     /** RegularExpression Id. */
-    int NewLine = 88;
-    /** RegularExpression Id. */
-    int Atmark = 89;
+    int Atmark = 88;
 
     /** Lexical state. */
     int DEFAULT = 0;
@@ -192,7 +190,6 @@ public interface KaraffeParserConstants {
         "\"*/\"",
         "\"abstract\"",
         "\"check\"",
-        "\"endmodule\"",
         "\"enum\"",
         "\"import\"",
         "\"interface\"",
@@ -270,6 +267,7 @@ public interface KaraffeParserConstants {
         "\"..\"",
         "\".<\"",
         "<NewLine>",
-        "\"@\"",};
+        "\"@\"",
+        "\"#\"",};
 
 }
