@@ -203,13 +203,12 @@ void FunctionLiteral():
 
     import 識別子
     import 識別子 -> 別名
-    import 識別子 { }
 
  */
 void ImportStatement():
 {}
 {
-    <Import> (LOOKAHEAD(2)Identifier() (<SingleArrow> Identifier())?)* (<LeftBrace> Statements() <RightBrace>)?
+    <Import> (LOOKAHEAD(2)Identifier() (<SingleArrow> Identifier())?)*
 }
 
 /**
