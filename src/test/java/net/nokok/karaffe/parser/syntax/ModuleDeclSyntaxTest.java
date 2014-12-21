@@ -19,8 +19,4 @@ public class ModuleDeclSyntaxTest {
         testCode("module hoge");
     }
 
-    @Test
-    public void testModuleDeclToEnd() {
-        testCode("module hoge endmodule");
-    }
 }
