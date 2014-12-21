@@ -58,8 +58,8 @@ TOKEN_MGR_DECLS:
 void TypeDeclaration():
 {}
 {
-    //修飾子            type   識別子        :        継承元型名     <-             実装インターフェース
-    (ModifierOfType())? <Type> TypeElement() (<Colon> SuperType())? (<ReverseArrow> Interfaces())? 
+    //修飾子         type   識別子        :        継承元型名     <-             実装インターフェース
+    ModifierOfType() <Type> TypeElement() (<Colon> SuperType())? (<ReverseArrow> Interfaces())? 
 }
 
 void SuperType():
@@ -96,8 +96,8 @@ void InterfaceDeclaration():
 void TypeAliasDeclaration():
 {}
 {
-    //修飾子            typealias   識別子        :       識別子
-    (ModifierOfType())* <TypeAlias> TypeElement() <Colon> TypeElement()
+    //修飾子         typealias   識別子        :       識別子
+    ModifierOfType() <TypeAlias> TypeElement() <Colon> TypeElement()
 }
 
 /**
@@ -121,8 +121,35 @@ void TypeAliasDeclaration():
 void VariableOrFunctionDeclaration():
 {}
 {
-    (Modifier())* Identifier() (LOOKAHEAD(3) (<Colon> VariableOrFunctionTypeDeclaration() <EqualSign> Expression())|
-                                             (<Colon> VariableOrFunctionTypeDeclaration() | <EqualSign> Expression()))
+    (LOOKAHEAD(3) ModifierOfVariable() 
+   | LOOKAHEAD(3) ModifierOfFunction()) Identifier() (LOOKAHEAD(3) (<Colon> VarOrFuncTypeDecl() <EqualSign> Expression())|
+                                                                   (<Colon> VarOrFuncTypeDecl() | <EqualSign> Expression()))
+}
+
+void VarOrFuncTypeDecl():
+{}
+{
+    LOOKAHEAD(3) FuncTypeDecl()
+  | LOOKAHEAD(3) VarTypeDecl()
+}
+
+void VarTypeDecl():
+{}
+{
+    TypeElement()
+}
+
+void FuncTypeDecl():
+{}
+{
+    TypeWithParentheses() (LOOKAHEAD(2) (SingleArrow())? TypeWithParentheses())*
+}
+
+void TypeWithParentheses() #void:
+{}
+{
+    LOOKAHEAD(3) <LeftParen> VarOrFuncTypeDecl() <RightParen>
+  | LOOKAHEAD(3) TypeElement()
 }
 
 /**
@@ -140,23 +167,6 @@ void EnumElements():
 {}
 {
     (Identifier())+
-}
-
-/**
-    型宣言部
-    
-    Tは型または型[型パラメータ]
-
-    T
-    T -> T
-    T -> T ... -> T
-    T T ...    -> T
-    T -> T T -> T
- */
-void VariableOrFunctionTypeDeclaration() #void:
-{}
-{
-    TypeElement() (LOOKAHEAD(2)(SingleArrow())? TypeElement())*
 }
 
 /**
