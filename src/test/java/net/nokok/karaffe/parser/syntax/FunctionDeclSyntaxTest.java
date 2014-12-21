@@ -33,4 +33,10 @@ public class FunctionDeclSyntaxTest {
     public void testMixedFunctionDeclSyntax() {
         testCode("func : Int -> Int String -> Int -> Int = undefined");
     }
+
+    @Test
+    public void testInvalidReturnType() {
+        testCode("func : Int Int = undefined");
+    }
+
 }
