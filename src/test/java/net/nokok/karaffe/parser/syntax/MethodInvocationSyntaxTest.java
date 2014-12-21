@@ -20,13 +20,8 @@ public class MethodInvocationSyntaxTest {
     }
 
     @Test
-    public void testNestedMethod() {
-        testCode("println concat \"hoge\" concat \"fuga\" \"piyo\" + \"foo\"");
-    }
-
-    @Test
-    public void testJavaStyleMethodInvocation() {
-        testCode("println(concat(\"hoge\" concat (\"fuga\" \"piyo\" + \"foo\")))");
+    public void testNestedMethodInvocation() {
+        testCode("a(b(c()))");
     }
 
     @Test
@@ -37,6 +32,11 @@ public class MethodInvocationSyntaxTest {
     @Test
     public void testMethodChain() {
         testCode("foo() bar() baz()");
+    }
+
+    @Test
+    public void testMethodArg() {
+        testCode("hoge (1 + 2)");
     }
 
 }
