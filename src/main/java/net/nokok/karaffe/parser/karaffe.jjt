@@ -46,20 +46,20 @@ TOKEN_MGR_DECLS:
 
     型宣言
 
-           type 識別子
-    修飾子 type 識別子
-    修飾子 type 識別子 : 継承元型名
-    修飾子 type 識別子              <- 実装インターフェース
-    修飾子 type 識別子 : 継承元型名 <- 実装インターフェース
-    修飾子 type 識別子 : 継承元型名[型パラメータ]
-    修飾子 type 識別子                            <- 実装インターフェース[型パラメータ]
-    修飾子 type 識別子 : 継承元型名[型パラメータ] <- 実装インターフェース[型パラメータ]
+    type 識別子
+    type 識別子
+    type 識別子 : 継承元型名
+    type 識別子              <- 実装インターフェース
+    type 識別子 : 継承元型名 <- 実装インターフェース
+    type 識別子 : 継承元型名[型パラメータ]
+    type 識別子                            <- 実装インターフェース[型パラメータ]
+    type 識別子 : 継承元型名[型パラメータ] <- 実装インターフェース[型パラメータ]
  */
 void TypeDeclaration():
 {}
 {
-    //修飾子         type   識別子        :        継承元型名     <-             実装インターフェース
-    ModifierOfType() <Type> TypeElement() (<Colon> SuperType())? (<ReverseArrow> Interfaces())? 
+    //type   識別子        :        継承元型名     <-             実装インターフェース
+    <Type> TypeElement() (<Colon> SuperType())? (<ReverseArrow> Interfaces())? 
 }
 
 void SuperType():
@@ -96,27 +96,27 @@ void InterfaceDeclaration():
 void TypeAliasDeclaration():
 {}
 {
-    //修飾子         typealias   識別子        :       識別子
-    ModifierOfType() <TypeAlias> TypeElement() <Colon> TypeElement()
+    //typealias   識別子        :       識別子
+    <TypeAlias> TypeElement() <Colon> TypeElement()
 }
 
 /**
     変数または関数の宣言
 
     変数宣言
-           識別子 : 型名
-    修飾子 識別子        = 式
-    修飾子 識別子 : 型名
-    修飾子 識別子 : 型名 = 式
-    修飾子 識別子 : 型名[型パラメータ] = 式
+    識別子 : 型名
+    識別子        = 式
+    識別子 : 型名
+    識別子 : 型名 = 式
+    識別子 : 型名[型パラメータ] = 式
     
     関数宣言
-    修飾子 識別子                      = 関数リテラル
-    修飾子 識別子 : 型名リスト -> 型名
-    修飾子 識別子 : 型名リスト -> 型名 = 関数リテラル
+    識別子                      = 関数リテラル
+    識別子 : 型名リスト -> 型名
+    識別子 : 型名リスト -> 型名 = 関数リテラル
 
-    修飾子 識別子[型パラメータ] : 型名リスト[型パラメータ] -> 型名[型パラメータ]
-    修飾子 識別子[型パラメータ] : 型名リスト[型パラメータ] -> 型名[型パラメータ] = 関数リテラル
+    識別子[型パラメータ] : 型名リスト[型パラメータ] -> 型名[型パラメータ]
+    識別子[型パラメータ] : 型名リスト[型パラメータ] -> 型名[型パラメータ] = 関数リテラル
 */
 void VariableOrFunctionDeclaration():
 {}
@@ -456,6 +456,7 @@ void Statement() #void:
 {
      Declaration()
     | ImportStatement()
+    | ModifierStatement()
 }
 
 void Declaration() #void:
@@ -635,51 +636,26 @@ void ElementAccess():
     Identifier()( <DoubleArrow> Identifier())+
 }
 
-void Modifier() #void:
-{}
-{
-     LOOKAHEAD(3) ModifierOfType()
-    | LOOKAHEAD(3) ModifierOfVariable()
-    | LOOKAHEAD(3) ModifierOfFunction()
-    | ModifierOfOperator()
 }
 
-void ModifierOfType():
+void ModifierStatement():
 {}
 {
-    (PrivateModifier())? AbstractOrSealed()
+     "#" (AllModifier())+
 }
 
-void AbstractOrSealed() #void:
+void AllModifier() #void:
 {}
 {
-    (AbstractModifier() | SealedModifier())?
+    AbstractModifier() 
+  | OverrideModifier() 
+  | PrivateModifier() 
+  | SealedModifier() 
+  | LazyModifier() 
+  | OpModifier()
+  | UnaryOpModifier()
+  | VariableModifier()
 }
-
-void ModifierOfVariable():
-{}
-{
-    (PrivateModifier())? (VariableModifier())? (LazyModifier())?
-}
-
-void ModifierOfFunction():
-{}
-{
-    PrivateOrOverride() AbstractOrSealed() (VariableModifier())?
-}
-
-void PrivateOrOverride() #void:
-{}
-{
-    (PrivateModifier() | OverrideModifier())?
-}
-
-void ModifierOfOperator():
-{}
-{
-    UnaryOpModifier() | OpModifier()
-}
-
 
 /**
     Delimiters
