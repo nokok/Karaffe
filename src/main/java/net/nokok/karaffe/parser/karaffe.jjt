@@ -121,17 +121,14 @@ void TypeAliasDeclaration():
 void VariableOrFunctionDeclaration():
 {}
 {
-    (LOOKAHEAD(3) ModifierOfVariable() 
-   | LOOKAHEAD(3) ModifierOfFunction()) Identifier() (LOOKAHEAD(3) (<Colon> VarOrFuncTypeDecl() <EqualSign> Expression())|
-                                                                   (<Colon> VarOrFuncTypeDecl() | <EqualSign> Expression()))
+    "def" Identifier() (<Colon> VarOrFuncTypeDecl())? (<EqualSign> Expression())? 
 }
 
-void VarOrFuncTypeDecl():
+void VarOrFuncTypeDecl() #void:
 {}
 {
     LOOKAHEAD(3) FuncTypeDecl()
   | LOOKAHEAD(3) VarTypeDecl()
-  | LOOKAHEAD(3) TupleTypeDecl()
 }
 
 void VarTypeDecl():
@@ -143,19 +140,26 @@ void VarTypeDecl():
 void FuncTypeDecl():
 {}
 {
-    TypeWithParentheses() (LOOKAHEAD(2) (SingleArrow())? TypeWithParentheses())*
-void TupleTypeDecl():
+    ArgumentTypes() <SingleArrow> ReturnType()
+}
+
+void ArgumentTypes():
 {}
 {
-    "#" <LeftParen> (TypeElement())+ <RightParen>
+    (TypeWithParentheses())+
 }
+
+void ReturnType():
+{}
+{
+    TypeWithParentheses()
 }
 
 void TypeWithParentheses() #void:
 {}
 {
-     <LeftParen> VarOrFuncTypeDecl() <RightParen>
-  |  TypeElement()
+    <LeftParen> VarOrFuncTypeDecl() <RightParen>
+  | TypeElement()
 }
 
 /**
@@ -183,8 +187,14 @@ void EnumElements():
 void TypeElement() #void:
 {}
 {
-    KaraffeIdentifier() (TypeParameters())?
-  | TupleLiteral()
+    TupleTypeDecl()
+  | Identifier() (LOOKAHEAD(2) TypeParameters())?
+}
+
+void TupleTypeDecl():
+{}
+{
+    "#" <LeftParen> (TypeElement())* <RightParen>
 }
 
 /**
@@ -214,7 +224,13 @@ void FunctionLiteral():
 void ImportStatement():
 {}
 {
-    <Import> (LOOKAHEAD(2)Identifier() (<SingleArrow> Identifier())?)*
+    <Import> (LOOKAHEAD(2) ((Identifier()|JavaFQCN())) (<SingleArrow> Identifier())?)+
+}
+
+void JavaFQCN():
+{}
+{
+    StringLiteral()   
 }
 
 /**
@@ -370,7 +386,7 @@ void Literal() #void:
     | IntLiteral()
     | FloatLiteral()
     | StringLiteral()
-    |  TupleLiteral()
+    | TupleLiteral()
     | ListLiteral()
     | UndefinedLiteral()
 }
@@ -399,23 +415,9 @@ TOKEN:
                                     "ァ"-"ヺ",
                                     "\u4E00"-"\u9FFF"  //漢字     CJK Unified Ideographs
                                ]  >
-    | < JavaFQCN : <Identifier> (<Dot> <Identifier>)* >
 }
 
-Token Identifier() #void:
-{
-    Token t;
-}
-{
-    t = KaraffeIdentifier(){
-        return t;
-    }
-    | t = JavaFQCN() {
-        return t;
-    }
-}
-
-Token KaraffeIdentifier():
+Token Identifier():
 {
     Token t;
 }
@@ -426,21 +428,10 @@ Token KaraffeIdentifier():
     }
 }
 
-Token JavaFQCN():
-{
-    Token t;
-}
-{
-    t = <JavaFQCN> {
-        jjtThis.jjtSetValue(t);
-        return t;
-    }
-}
-
 ASTCompileUnit CompileUnit():
 {}
 {
-    (LOOKAHEAD(2) Statement() | LOOKAHEAD(2) MethodInvocation() | NewLineToken())* <EOF> {
+    (LOOKAHEAD(2) Statement() |LOOKAHEAD(3) MethodInvocation() | LOOKAHEAD(3) Assignment() | NewLineToken())* <EOF> {
         return jjtThis;
     }
 }
@@ -517,18 +508,11 @@ void ExplicitModuleElementAccess():
     Identifier() (<DoubleColon> Identifier())+
 }
 
-void Expression():
+void Expression() #void:
 {}
 {
     LOOKAHEAD(2) OrExpr()
-    | LOOKAHEAD(2) AssignmentExpression()
-}
-
-void AssignmentExpression():
-{}
-{
-    LOOKAHEAD(2) OrExpr()
-    | LOOKAHEAD(2) Assignment()
+  | LOOKAHEAD(2) Assignment()
 }
 
 void Assignment():
@@ -614,28 +598,26 @@ void UnaryExpr() #void:
 void UnaryExprNotPlusMinus() #void:
 {}
 {
-       Primary()
-    | UnaryBang() Primary()
+    Primary()
+  | UnaryBang() Primary()
 }
 
 void Primary() #void:
 {}
 {
-      LOOKAHEAD(3) Literal()
+    ( LOOKAHEAD(3) Literal()
+    | LOOKAHEAD(3) MethodInvocation()
     | LOOKAHEAD(2) Identifier()
-    |  <LeftParen> Expression() <RightParen>
-    | LOOKAHEAD(2) MethodInvocation()
+    | LOOKAHEAD(3) <LeftParen> Expression() <RightParen> ) #ExprNode(>1)
 }
 
 /**
-    Identifier=>Identifier...
+    Identifier.Identifier...
  */
 void ElementAccess():
 {}
 {
-    Identifier()( <DoubleArrow> Identifier())+
-}
-
+    Identifier()( <Dot> Identifier())+
 }
 
 void ModifierStatement():
