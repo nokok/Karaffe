@@ -144,6 +144,11 @@ void FuncTypeDecl():
 {}
 {
     TypeWithParentheses() (LOOKAHEAD(2) (SingleArrow())? TypeWithParentheses())*
+void TupleTypeDecl():
+{}
+{
+    "#" <LeftParen> (TypeElement())+ <RightParen>
+}
 }
 
 void TypeWithParentheses() #void:
@@ -466,36 +471,40 @@ void Declaration() #void:
 
 //MethodInvocations
 
+/**
+    hoge()
+    hoge.fuga().hoge()...
+ */
 void MethodInvocation():
 {}
 {
-    MethodOrExprName() Arguments() (LOOKAHEAD(2) (<Dot>)? (LOOKAHEAD(2) MethodOrExprName())? Arguments())*
+    LOOKAHEAD(2) MethodName() Arguments() (LOOKAHEAD(2) <Dot> MethodName() Arguments())*
+  | LOOKAHEAD(2) ExprName() <Dot> MethodName() Arguments()
 }
 
-void MethodOrExprName():
+void MethodName():
 {}
 {
     Identifier()
 }
 
-void Arguments() #void:
+void ExprName():
 {}
 {
-    LOOKAHEAD(3) ArgumentList()
-  | LOOKAHEAD(3) <LeftParen> (ArgumentList())? <RightParen>
+    Identifier()
 }
 
-void ArgumentList():
+void Arguments():
 {}
 {
-    Argument() (LOOKAHEAD(2) Argument())*
+    LOOKAHEAD(3) (LOOKAHEAD(2) Argument())+
+  | LOOKAHEAD(3) <LeftParen> (Argument())* <RightParen>
 }
 
 void Argument():
 {}
 {
-    LOOKAHEAD(3) MethodInvocation()
-  | LOOKAHEAD(3) Expression() 
+    Expression()
 }
 
 /**
