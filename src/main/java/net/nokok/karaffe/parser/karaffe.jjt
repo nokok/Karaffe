@@ -131,6 +131,7 @@ void VarOrFuncTypeDecl():
 {
     LOOKAHEAD(3) FuncTypeDecl()
   | LOOKAHEAD(3) VarTypeDecl()
+  | LOOKAHEAD(3) TupleTypeDecl()
 }
 
 void VarTypeDecl():
@@ -148,8 +149,8 @@ void FuncTypeDecl():
 void TypeWithParentheses() #void:
 {}
 {
-    LOOKAHEAD(3) <LeftParen> VarOrFuncTypeDecl() <RightParen>
-  | LOOKAHEAD(3) TypeElement()
+     <LeftParen> VarOrFuncTypeDecl() <RightParen>
+  |  TypeElement()
 }
 
 /**
@@ -177,7 +178,7 @@ void EnumElements():
 void TypeElement() #void:
 {}
 {
-    KaraffeIdentifier() (LOOKAHEAD(2)TypeParameters())?
+    KaraffeIdentifier() (TypeParameters())?
   | TupleLiteral()
 }
 
@@ -195,7 +196,7 @@ void FunctionLiteral():
 {}
 {
     //(         引数:型                       )            ->            {            ...          }             ...
-    <LeftParen> (LOOKAHEAD(2) TypeElement())* <RightParen> SingleArrow() (<LeftBrace> Expression() <RightBrace> | Expression())
+    <LeftParen> ( TypeElement())* <RightParen> SingleArrow() (<LeftBrace> Expression() <RightBrace> | Expression())
 }
 
 /**
@@ -245,7 +246,7 @@ void TypeParameters():
 void TypeParameter():
 {}
 {
-    TypeElement() (LOOKAHEAD(2)TypeBound())?
+    TypeElement() (TypeBound())?
 }
 
 /**
@@ -258,7 +259,7 @@ void TypeParameter():
 void TypeBound():
 {}
 {
-    <Lt> TypeElement() (LOOKAHEAD(2)<And> TypeElement())*
+    <Lt> TypeElement() (<And> TypeElement())*
 }
 
 /**
@@ -359,12 +360,12 @@ TOKEN:
 void Literal() #void:
 {}
 {
-    LOOKAHEAD(3) FunctionLiteral()
+     FunctionLiteral()
     | BoolLiteral()
     | IntLiteral()
     | FloatLiteral()
     | StringLiteral()
-    | LOOKAHEAD(3) TupleLiteral()
+    |  TupleLiteral()
     | ListLiteral()
     | UndefinedLiteral()
 }
@@ -434,7 +435,7 @@ Token JavaFQCN():
 ASTCompileUnit CompileUnit():
 {}
 {
-    (LOOKAHEAD(3) Statement() | LOOKAHEAD(3) MethodInvocation() | NewLineToken())* <EOF> {
+    (LOOKAHEAD(2) Statement() | LOOKAHEAD(2) MethodInvocation() | NewLineToken())* <EOF> {
         return jjtThis;
     }
 }
@@ -442,13 +443,13 @@ ASTCompileUnit CompileUnit():
 void Statements() #void:
 {}
 {
-    (LOOKAHEAD(2) Statement())*
+    ( Statement())*
 }
 
 void Statement() #void:
 {}
 {
-    LOOKAHEAD(2) Declaration()
+     Declaration()
     | ImportStatement()
 }
 
@@ -456,11 +457,11 @@ void Declaration() #void:
 {}
 {
     LOOKAHEAD(3) VariableOrFunctionDeclaration()
-    | LOOKAHEAD(3) TypeDeclaration()
-    | InterfaceDeclaration()
-    | TypeAliasDeclaration()
-    | ModuleDeclarationStatement()
-    | EnumDeclaration()
+  | LOOKAHEAD(3) TypeDeclaration()
+  | InterfaceDeclaration()
+  | LOOKAHEAD(3) TypeAliasDeclaration()
+  | ModuleDeclarationStatement()
+  | EnumDeclaration()
 }
 
 //MethodInvocations
@@ -603,16 +604,16 @@ void UnaryExpr() #void:
 void UnaryExprNotPlusMinus() #void:
 {}
 {
-      LOOKAHEAD(3) Primary()
+       Primary()
     | UnaryBang() Primary()
 }
 
 void Primary() #void:
 {}
 {
-      LOOKAHEAD(2) Literal()
+      LOOKAHEAD(3) Literal()
     | LOOKAHEAD(2) Identifier()
-    | LOOKAHEAD(2) <LeftParen> Expression() <RightParen>
+    |  <LeftParen> Expression() <RightParen>
     | LOOKAHEAD(2) MethodInvocation()
 }
 
@@ -628,9 +629,9 @@ void ElementAccess():
 void Modifier() #void:
 {}
 {
-    LOOKAHEAD(3) ModifierOfType()
+     LOOKAHEAD(3) ModifierOfType()
     | LOOKAHEAD(3) ModifierOfVariable()
-    | LOOKAHEAD(2) ModifierOfFunction()
+    | LOOKAHEAD(3) ModifierOfFunction()
     | ModifierOfOperator()
 }
 
