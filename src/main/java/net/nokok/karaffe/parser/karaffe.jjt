@@ -158,7 +158,7 @@ void ReturnType():
 void TypeWithParentheses() #void:
 {}
 {
-    <LeftParen> VarOrFuncTypeDecl() <RightParen>
+    <LeftParen> FuncTypeDecl() <RightParen>
   | TypeElement()
 }
 
