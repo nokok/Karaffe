@@ -58,7 +58,7 @@ TOKEN_MGR_DECLS:
 void TypeDeclaration():
 {}
 {
-    //type   識別子        :        継承元型名     <-             実装インターフェース
+    //type 識別子        :        継承元型名     <-             実装インターフェース
     <Type> TypeElement() (<Colon> SuperType())? (<ReverseArrow> Interfaces())? 
 }
 
