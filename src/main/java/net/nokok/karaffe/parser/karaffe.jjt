@@ -310,7 +310,7 @@ SKIP:
 {
     " "
     | "\t"
-    | < "//" (~["\n"])* <NewLine> >
+    | < "//" (~["\r","\n"])* > 
     | "/*" {
         commentNestLevel++;
         SwitchTo(InComment);
