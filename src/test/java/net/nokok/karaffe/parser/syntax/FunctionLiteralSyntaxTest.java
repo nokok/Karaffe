@@ -12,11 +12,15 @@ package net.nokok.karaffe.parser.syntax;
 import static net.nokok.karaffe.parser.syntax.KaraffeParserSyntaxTest.testCode;
 import org.junit.Test;
 
-public class ModuleDeclSyntaxTest {
+public class FunctionLiteralSyntaxTest {
 
     @Test
-    public void testModuleDecl() {
-        testCode("module hoge");
+    public void testSimpleFunctionLiteral() {
+        testCode("foo ((_) -> _ + 1) 2\n");
     }
 
+    @Test
+    public void testFunctionLiteralWithoutParameters() {
+        testCode("foo (() -> x + 1)");
+    }
 }

@@ -36,7 +36,6 @@ public class VariableDeclSyntaxTest {
     public void testVariableDeclarationModifier_Private() {
         testCode("private x : Int");
         testCode("private var x : Int");
-        testCode("var private x : Int");
     }
 
     @Test
@@ -48,6 +47,11 @@ public class VariableDeclSyntaxTest {
     @Test(expected = AssertionError.class)
     public void testReservedKeywordIdentifier() {
         testCode("var var:Int");
+    }
+
+    @Test(expected = AssertionError.class)
+    public void testOrder() {
+        testCode("var private x:Int\n");
     }
 
     @Test

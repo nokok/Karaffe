@@ -7,7 +7,7 @@
  * /_/|_/_/ |_/_/|_/_/ |_/_/ /_/ /___/
  *
  */
-package net.nokok.karaffe;
+package net.nokok.karaffe.parser.util;
 
 import java.io.FileNotFoundException;
 import java.io.FileReader;

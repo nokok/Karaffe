@@ -30,20 +30,6 @@ public class ImportStmtSyntaxTest {
     }
 
     @Test
-    public void testPrivateImport() {
-        testCode("import ModuleName {"
-                + ""
-                + "}");
-    }
-
-    @Test
-    public void testTypeAliasPrivateImport() {
-        testCode("import ModuleName -> M {"
-                + ""
-                + "}");
-    }
-
-    @Test
     public void testImports() {
         testCode("import ModuleName1 ModuleName2");
     }
@@ -53,10 +39,4 @@ public class ImportStmtSyntaxTest {
         testCode("import ModuleName1 -> M1 ModuleName2 -> M2");
     }
 
-    @Test
-    public void testTypeAliasPrivateImports() {
-        testCode("import ModuleName1 -> M1 ModuleName2 -> M2{"
-                + ""
-                + "}");
-    }
 }

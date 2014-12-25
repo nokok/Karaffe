@@ -2,6 +2,7 @@ package net.nokok.karaffe.parser.visitor;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 import javassist.CannotCompileException;
 import javassist.ClassPool;
 import javassist.CtClass;
@@ -9,8 +10,7 @@ import javassist.Modifier;
 import javassist.NotFoundException;
 import net.nokok.karaffe.parser.ASTInterfaces;
 import net.nokok.karaffe.parser.ASTKaraffeIdentifier;
-import net.nokok.karaffe.parser.ASTPrivateModifier;
-import net.nokok.karaffe.parser.ASTSealedModifier;
+import net.nokok.karaffe.parser.ASTModifierOfType;
 import net.nokok.karaffe.parser.ASTSuperType;
 import net.nokok.karaffe.parser.ASTTypeDeclaration;
 import net.nokok.karaffe.parser.KaraffeParserDefaultVisitor;
@@ -20,6 +20,7 @@ import net.nokok.karaffe.parser.excptn.InternalCompilerException;
 import net.nokok.karaffe.parser.excptn.KaraffeCompilerException;
 import net.nokok.karaffe.parser.excptn.KaraffeParserException;
 import net.nokok.karaffe.parser.util.ErrorType;
+import net.nokok.karaffe.parser.util.Modifiers;
 
 public class MakeClassVisitor extends KaraffeParserDefaultVisitor {
 
@@ -27,32 +28,35 @@ public class MakeClassVisitor extends KaraffeParserDefaultVisitor {
     private String superType;
     private final List<String> interfaces = new ArrayList<>();
 
-    private boolean isSealedModifier;
-    private boolean isPrivateModifier;
+    private Optional<Modifiers> modifier = Optional.empty();
 
     @Override
     public CtClass visit(ASTTypeDeclaration node, Object data) throws KaraffeParserException {
         node.childrenAccept(this, data);
         ClassPool pool = ClassPool.getDefault();
         CtClass classObj = pool.makeClass(id);
-        if ( isPrivateModifier ) {
-            classObj.setModifiers(Modifier.PRIVATE);
-        }
-        if ( isSealedModifier ) {
-            classObj.setModifiers(Modifier.FINAL + classObj.getModifiers());
-        }
-
+        modifier.ifPresent(m -> {
+            if (m.isAbstract()) {
+                classObj.setModifiers(Modifier.ABSTRACT);
+            }
+            if (m.isSealed()) {
+                classObj.setModifiers(Modifier.FINAL + classObj.getModifiers());
+            }
+            if (m.isPrivate()) {
+                classObj.setModifiers(Modifier.PRIVATE + classObj.getModifiers());
+            }
+        });
         try {
-            if ( id.equals("Any") ) {
+            if (id.equals("Any")) {
                 return classObj;
             }
-            if ( superType == null ) {
+            if (superType == null) {
                 classObj.setSuperclass(pool.getCtClass("Any"));
             } else {
                 classObj.setSuperclass(pool.getCtClass(superType));
             }
-            if ( !interfaces.isEmpty() ) {
-                for ( String interfaceName : interfaces ) {
+            if (!interfaces.isEmpty()) {
+                for (String interfaceName : interfaces) {
                     classObj.addInterface(pool.getCtClass(interfaceName));
                 }
             }
@@ -66,26 +70,14 @@ public class MakeClassVisitor extends KaraffeParserDefaultVisitor {
     }
 
     @Override
-    public Object visit(ASTSealedModifier node, Object data) throws KaraffeParserException {
-        if ( isSealedModifier ) {
-            throw new KaraffeCompilerException(ErrorType.DUP_MODIFIER);
-        }
-        isSealedModifier = true;
-        return null;
-    }
-
-    @Override
-    public Object visit(ASTPrivateModifier node, Object data) throws KaraffeParserException {
-        if ( isPrivateModifier ) {
-            throw new KaraffeCompilerException(ErrorType.DUP_MODIFIER);
-        }
-        isPrivateModifier = true;
+    public Object visit(ASTModifierOfType node, Object data) throws KaraffeParserException {
+        modifier = Optional.of((Modifiers) node.jjtAccept(new ModifierVisitor(), data));
         return null;
     }
 
     @Override
     public Object visit(ASTKaraffeIdentifier node, Object data) throws KaraffeParserException {
-        if ( id == null ) {
+        if (id == null) {
             Token t = (Token) node.jjtGetValue();
             id = t.image;
         }
@@ -100,7 +92,7 @@ public class MakeClassVisitor extends KaraffeParserDefaultVisitor {
 
     @Override
     public Object visit(ASTInterfaces node, Object data) throws KaraffeParserException {
-        for ( int i = 0; i < node.jjtGetNumChildren(); i++ ) {
+        for (int i = 0; i < node.jjtGetNumChildren(); i++) {
             interfaces.add(((Token) ((SimpleNode) node.jjtGetChild(i)).jjtGetValue()).image);
         }
         return null;

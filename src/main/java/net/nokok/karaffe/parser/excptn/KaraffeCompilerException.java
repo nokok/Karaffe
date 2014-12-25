@@ -9,6 +9,7 @@
  */
 package net.nokok.karaffe.parser.excptn;
 
+import net.nokok.karaffe.parser.Token;
 import net.nokok.karaffe.parser.util.ErrorType;
 
 public class KaraffeCompilerException extends RuntimeException {
@@ -18,6 +19,10 @@ public class KaraffeCompilerException extends RuntimeException {
 
     public KaraffeCompilerException(ErrorType type) {
         super(type.toString());
+    }
+
+    public KaraffeCompilerException(ErrorType type, Token t) {
+        super(type.toString() + " : " + tokenToString(t));
     }
 
     public KaraffeCompilerException(String message) {
@@ -32,4 +37,14 @@ public class KaraffeCompilerException extends RuntimeException {
         super(message, cause);
     }
 
+    /**
+     @param t
+     @return
+     */
+    public static String tokenToString(Token t) {
+        StringBuilder sb = new StringBuilder();
+        sb.append("Line: ").append(t.beginLine).append("〜").append(t.endLine);
+        sb.append("Column: ").append(t.beginColumn).append("〜").append(t.endColumn);
+        return sb.toString();
+    }
 }

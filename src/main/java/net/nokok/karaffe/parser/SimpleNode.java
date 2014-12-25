@@ -34,9 +34,9 @@ public class SimpleNode implements Node {
     }
 
     public void jjtAddChild(Node n, int i) {
-        if ( children == null ) {
+        if (children == null) {
             children = new Node[i + 1];
-        } else if ( i >= children.length ) {
+        } else if (i >= children.length) {
             Node c[] = new Node[i + 1];
             System.arraycopy(children, 0, c, 0, children.length);
             children = c;
@@ -62,15 +62,15 @@ public class SimpleNode implements Node {
 
     /** Accept the visitor. **/
     public Object jjtAccept(KaraffeParserVisitor visitor, Object data)
-        throws net.nokok.karaffe.parser.excptn.KaraffeParserException {
+            throws net.nokok.karaffe.parser.excptn.KaraffeParserException {
         return visitor.visit(this, data);
     }
 
     /** Accept the visitor. **/
     public Object childrenAccept(KaraffeParserVisitor visitor, Object data)
-        throws net.nokok.karaffe.parser.excptn.KaraffeParserException {
-        if ( children != null ) {
-            for ( int i = 0; i < children.length; ++i ) {
+            throws net.nokok.karaffe.parser.excptn.KaraffeParserException {
+        if (children != null) {
+            for (int i = 0; i < children.length; ++i) {
                 children[i].jjtAccept(visitor, data);
             }
         }
@@ -94,15 +94,15 @@ public class SimpleNode implements Node {
      out its children. */
     public void dump(String prefix) {
         System.out.print(toString(prefix));
-        if ( value != null ) {
+        if (value != null) {
             System.out.println(": " + value);
         } else {
             System.out.println();
         }
-        if ( children != null ) {
-            for ( Node c : children ) {
+        if (children != null) {
+            for (Node c : children) {
                 SimpleNode n = (SimpleNode) c;
-                if ( n != null ) {
+                if (n != null) {
                     n.dump(prefix + "  ");
                 }
             }

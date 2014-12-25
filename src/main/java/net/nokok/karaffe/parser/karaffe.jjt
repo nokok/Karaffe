@@ -46,20 +46,20 @@ TOKEN_MGR_DECLS:
 
     型宣言
 
-           type 識別子
-    修飾子 type 識別子
-    修飾子 type 識別子 : 継承元型名
-    修飾子 type 識別子              <- 実装インターフェース
-    修飾子 type 識別子 : 継承元型名 <- 実装インターフェース
-    修飾子 type 識別子 : 継承元型名[型パラメータ]
-    修飾子 type 識別子                            <- 実装インターフェース[型パラメータ]
-    修飾子 type 識別子 : 継承元型名[型パラメータ] <- 実装インターフェース[型パラメータ]
+    type 識別子
+    type 識別子
+    type 識別子 : 継承元型名
+    type 識別子              <- 実装インターフェース
+    type 識別子 : 継承元型名 <- 実装インターフェース
+    type 識別子 : 継承元型名[型パラメータ]
+    type 識別子                            <- 実装インターフェース[型パラメータ]
+    type 識別子 : 継承元型名[型パラメータ] <- 実装インターフェース[型パラメータ]
  */
 void TypeDeclaration():
 {}
 {
-    //修飾子            type   識別子        :        継承元型名     <-             実装インターフェース
-    (ModifierOfType())? <Type> TypeElement() (<Colon> SuperType())? (<ReverseArrow> Interfaces())? 
+    //type 識別子        :        継承元型名     <-             実装インターフェース
+    <Type> TypeElement() (<Colon> SuperType())? (<ReverseArrow> Interfaces())? 
 }
 
 void SuperType():
@@ -96,33 +96,70 @@ void InterfaceDeclaration():
 void TypeAliasDeclaration():
 {}
 {
-    //修飾子            typealias   識別子        :       識別子
-    (ModifierOfType())* <TypeAlias> TypeElement() <Colon> TypeElement()
+    //typealias   識別子        :       識別子
+    <TypeAlias> TypeElement() <Colon> TypeElement()
 }
 
 /**
     変数または関数の宣言
 
     変数宣言
-           識別子 : 型名
-    修飾子 識別子        = 式
-    修飾子 識別子 : 型名
-    修飾子 識別子 : 型名 = 式
-    修飾子 識別子 : 型名[型パラメータ] = 式
+    識別子 : 型名
+    識別子        = 式
+    識別子 : 型名
+    識別子 : 型名 = 式
+    識別子 : 型名[型パラメータ] = 式
     
     関数宣言
-    修飾子 識別子                      = 関数リテラル
-    修飾子 識別子 : 型名リスト -> 型名
-    修飾子 識別子 : 型名リスト -> 型名 = 関数リテラル
+    識別子                      = 関数リテラル
+    識別子 : 型名リスト -> 型名
+    識別子 : 型名リスト -> 型名 = 関数リテラル
 
-    修飾子 識別子[型パラメータ] : 型名リスト[型パラメータ] -> 型名[型パラメータ]
-    修飾子 識別子[型パラメータ] : 型名リスト[型パラメータ] -> 型名[型パラメータ] = 関数リテラル
+    識別子[型パラメータ] : 型名リスト[型パラメータ] -> 型名[型パラメータ]
+    識別子[型パラメータ] : 型名リスト[型パラメータ] -> 型名[型パラメータ] = 関数リテラル
 */
 void VariableOrFunctionDeclaration():
 {}
 {
-    (Modifier())* Identifier() (LOOKAHEAD(3) (<Colon> VariableOrFunctionTypeDeclaration() <EqualSign> Expression())|
-                                             (<Colon> VariableOrFunctionTypeDeclaration() | <EqualSign> Expression()))
+    "def" Identifier() (<Colon> VarOrFuncTypeDecl())? (<EqualSign> Expression())? 
+}
+
+void VarOrFuncTypeDecl() #void:
+{}
+{
+    LOOKAHEAD(3) FuncTypeDecl()
+  | LOOKAHEAD(3) VarTypeDecl()
+}
+
+void VarTypeDecl():
+{}
+{
+    TypeElement()
+}
+
+void FuncTypeDecl():
+{}
+{
+    ArgumentTypes() <SingleArrow> ReturnType()
+}
+
+void ArgumentTypes():
+{}
+{
+    (TypeWithParentheses())+
+}
+
+void ReturnType():
+{}
+{
+    TypeWithParentheses()
+}
+
+void TypeWithParentheses() #void:
+{}
+{
+    <LeftParen> FuncTypeDecl() <RightParen>
+  | TypeElement()
 }
 
 /**
@@ -143,23 +180,6 @@ void EnumElements():
 }
 
 /**
-    型宣言部
-    
-    Tは型または型[型パラメータ]
-
-    T
-    T -> T
-    T -> T ... -> T
-    T T ...    -> T
-    T -> T T -> T
- */
-void VariableOrFunctionTypeDeclaration() #void:
-{}
-{
-    TypeElement() (LOOKAHEAD(2)(SingleArrow())? TypeElement())*
-}
-
-/**
     型
     または
     型[型パラメータ]
@@ -167,7 +187,14 @@ void VariableOrFunctionTypeDeclaration() #void:
 void TypeElement() #void:
 {}
 {
-    KaraffeIdentifier() (LOOKAHEAD(2)TypeParameters())?
+    TupleTypeDecl()
+  | Identifier() (LOOKAHEAD(2) TypeParameters())?
+}
+
+void TupleTypeDecl():
+{}
+{
+    "#" <LeftParen> (TypeElement())* <RightParen>
 }
 
 /**
@@ -183,8 +210,8 @@ void TypeElement() #void:
 void FunctionLiteral():
 {}
 {
-    //(         引数:型                                       )            ->            {            ...          }             ...
-    <LeftParen> (Identifier() (LOOKAHEAD(2) TypeElement())?)* <RightParen> SingleArrow() (<LeftBrace> Statements() <RightBrace> | Statements())
+    //(         引数:型                       )            ->            {            ...          }             ...
+    <LeftParen> ( TypeElement())* <RightParen> SingleArrow() (<LeftBrace> Expression() <RightBrace> | Expression())
 }
 
 /**
@@ -192,13 +219,27 @@ void FunctionLiteral():
 
     import 識別子
     import 識別子 -> 別名
-    import 識別子 { }
 
  */
 void ImportStatement():
 {}
 {
-    <Import> (LOOKAHEAD(2)Identifier() (<SingleArrow> Identifier())?)* (<LeftBrace> Statements() <RightBrace>)?
+    <Import> (LOOKAHEAD(2) ((Identifier()|JavaFQCN())) (<SingleArrow> Identifier())?)+
+}
+
+void JavaFQCN():
+{}
+{
+    StringLiteral()   
+}
+
+/**
+    extends HogeType += hoge
+*/
+void ExtendsType():
+{}
+{
+    "extends" TypeElement() <AA> Identifier()
 }
 
 /**
@@ -226,7 +267,7 @@ void TypeParameters():
 void TypeParameter():
 {}
 {
-    TypeElement() (LOOKAHEAD(2)TypeBound())?
+    TypeElement() (TypeBound())?
 }
 
 /**
@@ -239,7 +280,7 @@ void TypeParameter():
 void TypeBound():
 {}
 {
-    <Lt> TypeElement() (LOOKAHEAD(2)<And> TypeElement())*
+    <Lt> TypeElement() (<And> TypeElement())*
 }
 
 /**
@@ -269,7 +310,7 @@ SKIP:
 {
     " "
     | "\t"
-    | < "//" (~["\n"])* <NewLine> >
+    | < "//" (~["\r","\n"])* > 
     | "/*" {
         commentNestLevel++;
         SwitchTo(InComment);
@@ -298,7 +339,6 @@ TOKEN:
 {
     < Abstract : "abstract" >
     | < Check : "check" >
-    | < EndModule : "endmodule" >
     | < Enum : "enum" >
     | < Import : "import" >
     | < Interface : "interface" >
@@ -341,11 +381,13 @@ TOKEN:
 void Literal() #void:
 {}
 {
-    FunctionLiteral()
+     FunctionLiteral()
     | BoolLiteral()
     | IntLiteral()
     | FloatLiteral()
     | StringLiteral()
+    | TupleLiteral()
+    | ListLiteral()
     | UndefinedLiteral()
 }
 
@@ -373,23 +415,9 @@ TOKEN:
                                     "ァ"-"ヺ",
                                     "\u4E00"-"\u9FFF"  //漢字     CJK Unified Ideographs
                                ]  >
-    | < JavaFQCN : <Identifier> (<Dot> <Identifier>)* >
 }
 
-Token Identifier() #void:
-{
-    Token t;
-}
-{
-    t = KaraffeIdentifier(){
-        return t;
-    }
-    | t = JavaFQCN() {
-        return t;
-    }
-}
-
-Token KaraffeIdentifier():
+Token Identifier():
 {
     Token t;
 }
@@ -400,21 +428,10 @@ Token KaraffeIdentifier():
     }
 }
 
-Token JavaFQCN():
-{
-    Token t;
-}
-{
-    t = <JavaFQCN> {
-        jjtThis.jjtSetValue(t);
-        return t;
-    }
-}
-
 ASTCompileUnit CompileUnit():
 {}
 {
-    (LOOKAHEAD(3) Statement() | LOOKAHEAD(3) MethodInvocation() | NewLineToken())* <EOF> {
+    (LOOKAHEAD(2) Statement() |LOOKAHEAD(3) MethodInvocation() | LOOKAHEAD(3) Assignment() | NewLineToken())* <EOF> {
         return jjtThis;
     }
 }
@@ -422,53 +439,64 @@ ASTCompileUnit CompileUnit():
 void Statements() #void:
 {}
 {
-    (LOOKAHEAD(2) Statement())*
+    ( Statement())*
 }
 
 void Statement() #void:
 {}
 {
-    LOOKAHEAD(2) Declaration()
+     Declaration()
     | ImportStatement()
+    | ModifierStatement()
 }
 
 void Declaration() #void:
 {}
 {
     LOOKAHEAD(3) VariableOrFunctionDeclaration()
-    | LOOKAHEAD(3) TypeDeclaration()
-    | InterfaceDeclaration()
-    | TypeAliasDeclaration()
-    | ModuleDeclarationStatement()
-    | EnumDeclaration()
-    | EndOfModule()
+  | LOOKAHEAD(3) TypeDeclaration()
+  | InterfaceDeclaration()
+  | LOOKAHEAD(3) TypeAliasDeclaration()
+  | ModuleDeclarationStatement()
+  | EnumDeclaration()
 }
 
 //MethodInvocations
 
+/**
+    hoge()
+    hoge.fuga().hoge()...
+ */
 void MethodInvocation():
 {}
 {
-    MethodOrExprName() Arguments() (LOOKAHEAD(2) (<Dot>)? (LOOKAHEAD(2) MethodOrExprName())? Arguments())*
+    LOOKAHEAD(2) MethodName() Arguments() (LOOKAHEAD(2) <Dot> MethodName() Arguments())*
+  | LOOKAHEAD(2) ExprName() <Dot> MethodName() Arguments()
 }
 
-void MethodOrExprName():
+void MethodName():
 {}
 {
     Identifier()
 }
 
-void Arguments() #void:
+void ExprName():
 {}
 {
-    LOOKAHEAD(3) <LeftParen> <RightParen>
-  | (LOOKAHEAD(3) <LeftParen>)? ArgumentList() (LOOKAHEAD(2) <RightParen>)?
+    Identifier()
 }
 
-void ArgumentList():
+void Arguments():
 {}
 {
-    Expression() (LOOKAHEAD(2) Expression())*
+    LOOKAHEAD(3) (LOOKAHEAD(2) Argument())+
+  | LOOKAHEAD(3) <LeftParen> (Argument())* <RightParen>
+}
+
+void Argument():
+{}
+{
+    Expression()
 }
 
 /**
@@ -480,18 +508,11 @@ void ExplicitModuleElementAccess():
     Identifier() (<DoubleColon> Identifier())+
 }
 
-void Expression():
+void Expression() #void:
 {}
 {
     LOOKAHEAD(2) OrExpr()
-    | LOOKAHEAD(2) AssignmentExpression()
-}
-
-void AssignmentExpression():
-{}
-{
-    LOOKAHEAD(2) OrExpr()
-    | LOOKAHEAD(2) Assignment()
+  | LOOKAHEAD(2) Assignment()
 }
 
 void Assignment():
@@ -577,67 +598,46 @@ void UnaryExpr() #void:
 void UnaryExprNotPlusMinus() #void:
 {}
 {
-      LOOKAHEAD(3) Primary()
-    | UnaryBang() Primary()
+    Primary()
+  | UnaryBang() Primary()
 }
 
 void Primary() #void:
 {}
 {
-      LOOKAHEAD(2) MethodInvocation()
-    | LOOKAHEAD(2) Literal()
-    | LOOKAHEAD(2) <LeftParen> Expression() <RightParen>
+    ( LOOKAHEAD(3) Literal()
+    | LOOKAHEAD(3) MethodInvocation()
+    | LOOKAHEAD(2) Identifier()
+    | LOOKAHEAD(3) <LeftParen> Expression() <RightParen> ) #ExprNode(>1)
 }
 
 /**
-    Identifier=>Identifier...
+    Identifier.Identifier...
  */
 void ElementAccess():
 {}
 {
-    Identifier()( <DoubleArrow> Identifier())+
+    Identifier()( <Dot> Identifier())+
 }
 
-void Modifier() #void:
+void ModifierStatement():
 {}
 {
-    LOOKAHEAD(2) ModifierOfType()
-    | LOOKAHEAD(2) ModifierOfVariable()
-    | ModifierOfFunction()
-    | ModifierOfOperator()
+     "#" (AllModifier())+
 }
 
-void ModifierOfType():
+void AllModifier() #void:
 {}
 {
-    (LOOKAHEAD(2)(PrivateModifier()
-    | SealedModifier()))+
+    AbstractModifier() 
+  | OverrideModifier() 
+  | PrivateModifier() 
+  | SealedModifier() 
+  | LazyModifier() 
+  | OpModifier()
+  | UnaryOpModifier()
+  | VariableModifier()
 }
-
-void ModifierOfVariable():
-{}
-{
-    (LOOKAHEAD(2)(PrivateModifier()
-    | VariableModifier()
-    | LazyModifier()))+
-}
-
-void ModifierOfFunction():
-{}
-{
-    (LOOKAHEAD(2)(AbstractModifier()
-    | OverrideModifier()
-    | PrivateModifier()
-    | SealedModifier()))+
-}
-
-void ModifierOfOperator():
-{}
-{
-    (LOOKAHEAD(2)(OpModifier()
-    | UnaryOpModifier()))+
-}
-
 
 /**
     Delimiters
@@ -821,17 +821,6 @@ void UnaryMinus():
         jjtThis.jjtSetValue(t);
     }
 }
-
-void EndOfModule():
-{
-    Token t;
-}
-{
-    t = <EndModule> {
-        jjtThis.jjtSetValue(t);
-    }
-}
-
 
 void NewLineToken():
 {}
@@ -1061,6 +1050,20 @@ void StringLiteral():
     t = <StringLiteral> {
         jjtThis.jjtSetValue(t);
     }
+}
+
+void ListLiteral():
+{}
+{
+    <LeftBracket> (Literal())* <RightBracket>
+}
+
+void TupleLiteral():
+{
+    Token t;
+}
+{
+    t = "#" <LeftParen> (LOOKAHEAD(2) Expression())* <RightParen>
 }
 
 void UndefinedLiteral():

@@ -12,11 +12,20 @@ package net.nokok.karaffe.parser.syntax;
 import static net.nokok.karaffe.parser.syntax.KaraffeParserSyntaxTest.testCode;
 import org.junit.Test;
 
-public class ModuleDeclSyntaxTest {
+public class TupleSyntaxTest {
 
     @Test
-    public void testModuleDecl() {
-        testCode("module hoge");
+    public void testEmptyTuple() {
+        testCode("p #()");
     }
 
+    @Test
+    public void testSingleTuple() {
+        testCode("p #(hoge)");
+    }
+
+    @Test
+    public void testDoubleTuple() {
+        testCode("p #(hoge hoge)");
+    }
 }
