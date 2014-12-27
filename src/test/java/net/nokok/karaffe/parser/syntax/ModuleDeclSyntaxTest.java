@@ -16,12 +16,19 @@ public class ModuleDeclSyntaxTest {
 
     @Test
     public void testModuleDecl() {
-        testCode("module hoge");
+        testCode("module hoge\n"
+                + "type hoge");
     }
 
     @Test(expected = AssertionError.class)
     public void testEmptyModuleName() {
         testCode("module ");
+    }
+
+    @Test(expected = AssertionError.class)
+    public void testEmptyModuleBody() {
+        testCode("module invalidmodule\n"
+                + "");
     }
 
     @Test(expected = AssertionError.class)

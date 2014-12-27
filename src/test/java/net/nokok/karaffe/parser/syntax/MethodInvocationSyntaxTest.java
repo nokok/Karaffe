@@ -39,4 +39,14 @@ public class MethodInvocationSyntaxTest {
         testCode("hoge(1 + 2)");
     }
 
+    @Test
+    public void testMethodArg1() {
+        testCode("hoge(\"hoge\" + hoge.fuga)");
+    }
+
+    @Test
+    public void testMethodArg2() {
+        testCode("hoge(a.b())");
+    }
+
 }

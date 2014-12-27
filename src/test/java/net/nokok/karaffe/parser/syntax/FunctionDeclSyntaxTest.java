@@ -31,7 +31,8 @@ public class FunctionDeclSyntaxTest {
 
     @Test
     public void testFunctionTypeDecl() {
-        testCode("def func : (Int -> Int)\n");
+        testCode("def func : (Int -> Int)\n"
+                + "func x = undefined\n");
     }
 
     @Test

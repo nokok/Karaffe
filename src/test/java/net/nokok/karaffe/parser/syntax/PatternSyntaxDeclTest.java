@@ -12,7 +12,7 @@ package net.nokok.karaffe.parser.syntax;
 import static net.nokok.karaffe.parser.syntax.KaraffeParserSyntaxTest.testCode;
 import org.junit.Test;
 
-public class PatternSyntaxDecl {
+public class PatternSyntaxDeclTest {
 
     @Test
     public void testSimplePattern() {

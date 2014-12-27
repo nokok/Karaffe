@@ -38,5 +38,4 @@ public class ExprVisitor extends KaraffeParserDefaultVisitor {
     public Function<?, ?> visit(ASTFunctionLiteral node, Object data) throws KaraffeParserException {
         return null;
     }
-
 }

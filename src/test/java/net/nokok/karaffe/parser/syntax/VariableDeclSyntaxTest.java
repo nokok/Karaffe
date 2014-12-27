@@ -21,7 +21,7 @@ public class VariableDeclSyntaxTest {
 
     @Test
     public void testVarDcl1() {
-        testCode("def x : Int\n");
+        testCode("def x : Int = undefined\n");
     }
 
     @Test

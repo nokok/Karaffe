@@ -7,6 +7,8 @@ public interface KaraffeParserVisitor {
 
     public Object visit(ASTTypeDeclaration node, Object data) throws net.nokok.karaffe.parser.excptn.KaraffeParserException;
 
+    public Object visit(ASTTypeDeclBody node, Object data) throws net.nokok.karaffe.parser.excptn.KaraffeParserException;
+
     public Object visit(ASTSuperType node, Object data) throws net.nokok.karaffe.parser.excptn.KaraffeParserException;
 
     public Object visit(ASTInterfaces node, Object data) throws net.nokok.karaffe.parser.excptn.KaraffeParserException;
@@ -17,11 +19,15 @@ public interface KaraffeParserVisitor {
 
     public Object visit(ASTVariableOrFunctionDeclaration node, Object data) throws net.nokok.karaffe.parser.excptn.KaraffeParserException;
 
+    public Object visit(ASTFunctionDeclBody node, Object data) throws net.nokok.karaffe.parser.excptn.KaraffeParserException;
+
     public Object visit(ASTValueType node, Object data) throws net.nokok.karaffe.parser.excptn.KaraffeParserException;
 
     public Object visit(ASTBody node, Object data) throws net.nokok.karaffe.parser.excptn.KaraffeParserException;
 
     public Object visit(ASTPattern node, Object data) throws net.nokok.karaffe.parser.excptn.KaraffeParserException;
+
+    public Object visit(ASTFunctionName node, Object data) throws net.nokok.karaffe.parser.excptn.KaraffeParserException;
 
     public Object visit(ASTArgVariables node, Object data) throws net.nokok.karaffe.parser.excptn.KaraffeParserException;
 
@@ -49,6 +55,8 @@ public interface KaraffeParserVisitor {
 
     public Object visit(ASTModuleDeclarationStatement node, Object data) throws net.nokok.karaffe.parser.excptn.KaraffeParserException;
 
+    public Object visit(ASTModuleBody node, Object data) throws net.nokok.karaffe.parser.excptn.KaraffeParserException;
+
     public Object visit(ASTAnnotation node, Object data) throws net.nokok.karaffe.parser.excptn.KaraffeParserException;
 
     public Object visit(ASTIdentifier node, Object data) throws net.nokok.karaffe.parser.excptn.KaraffeParserException;
@@ -65,8 +73,6 @@ public interface KaraffeParserVisitor {
 
     public Object visit(ASTArgument node, Object data) throws net.nokok.karaffe.parser.excptn.KaraffeParserException;
 
-    public Object visit(ASTExplicitModuleElementAccess node, Object data) throws net.nokok.karaffe.parser.excptn.KaraffeParserException;
-
     public Object visit(ASTAssignment node, Object data) throws net.nokok.karaffe.parser.excptn.KaraffeParserException;
 
     public Object visit(ASTLeftHandSide node, Object data) throws net.nokok.karaffe.parser.excptn.KaraffeParserException;
@@ -74,6 +80,8 @@ public interface KaraffeParserVisitor {
     public Object visit(ASTExprNode node, Object data) throws net.nokok.karaffe.parser.excptn.KaraffeParserException;
 
     public Object visit(ASTElementAccess node, Object data) throws net.nokok.karaffe.parser.excptn.KaraffeParserException;
+
+    public Object visit(ASTModuleName node, Object data) throws net.nokok.karaffe.parser.excptn.KaraffeParserException;
 
     public Object visit(ASTModifierStatement node, Object data) throws net.nokok.karaffe.parser.excptn.KaraffeParserException;
 
@@ -98,8 +106,6 @@ public interface KaraffeParserVisitor {
     public Object visit(ASTUnaryBang node, Object data) throws net.nokok.karaffe.parser.excptn.KaraffeParserException;
 
     public Object visit(ASTUnaryMinus node, Object data) throws net.nokok.karaffe.parser.excptn.KaraffeParserException;
-
-    public Object visit(ASTEndOfBlock node, Object data) throws net.nokok.karaffe.parser.excptn.KaraffeParserException;
 
     public Object visit(ASTNewLineToken node, Object data) throws net.nokok.karaffe.parser.excptn.KaraffeParserException;
 
@@ -171,4 +177,4 @@ public interface KaraffeParserVisitor {
 
     public Object visit(ASTRA node, Object data) throws net.nokok.karaffe.parser.excptn.KaraffeParserException;
 }
-/* JavaCC - OriginalChecksum=cd8b1800b4e9761196a47dc52fa6991f (do not edit this line) */
+/* JavaCC - OriginalChecksum=6966dbc48e78612ea3e46f0c232eda3f (do not edit this line) */

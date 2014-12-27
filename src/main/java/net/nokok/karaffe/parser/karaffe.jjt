@@ -59,7 +59,22 @@ void TypeDeclaration():
 {}
 {
     //type 識別子        :        継承元型名     <-             実装インターフェース
-    <Type> TypeElement() (<Colon> SuperType())? (<ReverseArrow> Interfaces())? <NewLine>
+    <Type> TypeElement() (<Colon> SuperType())? (<ReverseArrow> Interfaces())?
+    (LOOKAHEAD(<NewLine> TypeDeclBody()) <NewLine> TypeDeclBody())?
+}
+
+void TypeDeclBody():
+{}
+{
+    TypeDeclBody1() (LOOKAHEAD(<NewLine> TypeDeclBody1()) <NewLine> TypeDeclBody1())*
+}
+
+void TypeDeclBody1() #void:
+{}
+{
+    (LOOKAHEAD(VariableOrFunctionDeclaration()) VariableOrFunctionDeclaration() | 
+    LOOKAHEAD(Assignment()) Assignment() |
+    LOOKAHEAD(MethodInvocation()) MethodInvocation() )
 }
 
 void SuperType():
@@ -83,7 +98,7 @@ void InterfaceDeclaration():
 {}
 {
     //interface 識別子        <-             拡張インターフェース
-    <Interface> TypeElement() (<ReverseArrow> Interfaces())? <NewLine>
+    <Interface> TypeElement() (<ReverseArrow> Interfaces())? 
 }
 
 /**
@@ -97,7 +112,7 @@ void TypeAliasDeclaration():
 {}
 {
     //typealias   識別子        :       識別子
-    <TypeAlias> TypeElement() <Colon> TypeElement() <NewLine>
+    <TypeAlias> TypeElement() <Colon> TypeElement() 
 }
 
 /**
@@ -121,7 +136,13 @@ void TypeAliasDeclaration():
 void VariableOrFunctionDeclaration():
 {}
 {
-    "def" Identifier() (<Colon> ValueType())? (<EqualSign> Body())? <NewLine>
+    "def" Identifier() (<Colon> ValueType())? ((FunctionDeclBody()) | (<EqualSign> Body()) )
+}
+
+void FunctionDeclBody():
+{}
+{
+    <NewLine> Pattern() (LOOKAHEAD(<NewLine> Pattern()) <NewLine> Pattern())*
 }
 
 void ValueType():
@@ -139,13 +160,19 @@ void Body():
 void Pattern():
 {}
 {
-    Identifier() ArgVariables() (<Atmark> Guard())? <EqualSign> Expression() <NewLine>
+    FunctionName() ArgVariables() (<Atmark> Guard())? <EqualSign> Expression() 
+}
+
+void FunctionName():
+{}
+{
+    Identifier()
 }
 
 void ArgVariables():
 {}
 {
-    (LOOKAHEAD(2) Identifier())*
+    (Identifier())*
 }
 
 void Guard():
@@ -162,7 +189,7 @@ void Guard():
 void EnumDeclaration():
 {}
 {
-    <Enum> Identifier() <Colon> <LeftBracket> EnumElements() <RightBracket> <NewLine>
+    <Enum> Identifier() <Colon> <LeftBracket> EnumElements() <RightBracket> 
 }
 
 void EnumElements():
@@ -179,9 +206,9 @@ void EnumElements():
 void TypeElement() #void:
 {}
 {
-    TypeWithTypeParams()
-  | LOOKAHEAD(2) FunctionType()
-  | LOOKAHEAD(2) <LeftParen> <RightParen>
+    TypeWithTypeParams() |
+    LOOKAHEAD(2) FunctionType() |
+    LOOKAHEAD(2) <LeftParen> <RightParen>
 }
 
 void TypeWithTypeParams() #void:
@@ -288,7 +315,15 @@ void TypeBound():
 void ModuleDeclarationStatement():
 {}
 {
-    <Module> Identifier()
+    <Module> Identifier() 
+    ModuleBody()
+}
+
+void ModuleBody():
+{}
+{
+    <NewLine> (TypeDeclaration() | VariableOrFunctionDeclaration()) 
+    (LOOKAHEAD(<NewLine> (TypeDeclaration() | VariableOrFunctionDeclaration())) <NewLine> (TypeDeclaration() | VariableOrFunctionDeclaration()))*
 }
 
 /**
@@ -307,10 +342,10 @@ void Annotation():
 */
 SKIP:
 {
-    " "
-    | "\t"
-    | < "//" (~["\r","\n"])* > 
-    | "/*" {
+    " " |
+    "\t" |
+    < "//" (~["\r","\n"])* > |
+    "/*" {
         commentNestLevel++;
         SwitchTo(InComment);
     }
@@ -320,10 +355,10 @@ SKIP:
 {
     "/*" {
         commentNestLevel++;
-    }
-    | < ~[]>
-    | <EndOfLine : <NewLine>> 
-    | "*/" {
+    } |
+    < ~[]> |
+    <EndOfLine : <NewLine>> |
+    "*/" { 
         commentNestLevel--;
         if(commentNestLevel == 0){
             SwitchTo(DEFAULT);
@@ -336,23 +371,23 @@ SKIP:
 */
 TOKEN:
 {
-    < Abstract : "abstract" >
-    | < Check : "check" >
-    | < Enum : "enum" >
-    | < Import : "import" >
-    | < Interface : "interface" >
-    | < Lazy : "lazy" >
-    | < Module : "module" >
-    | < Operator : "op" >
-    | < Override : "override" >
-    | < Private : "private" >
-    | < Sealed : "sealed" >
-    | < Switch : "switch" >
-    | < Type : "type" >
-    | < UnaryOperator : "unaryop" >
-    | < TypeAlias : "typealias" >
-    | < Undefined : "undefined" >
-    | < Variable : "var" >
+    < Abstract : "abstract" > |
+    < Check : "check" > |
+    < Enum : "enum" > |
+    < Import : "import" > |
+    < Interface : "interface" > |
+    < Lazy : "lazy" > |
+    < Module : "module" >|
+    < Operator : "op" >|
+    < Override : "override" >|
+    < Private : "private" >|
+    < Sealed : "sealed" >|
+    < Switch : "switch" >|
+    < Type : "type" >|
+    < UnaryOperator : "unaryop" >|
+    < TypeAlias : "typealias" >|
+    < Undefined : "undefined" >|
+    < Variable : "var" >
 }
 
 /**
@@ -360,34 +395,34 @@ TOKEN:
 */
 TOKEN:
 {
-      < BoolLiteral : "true"
-                    | "false" >
-    | < IntLiteral : <Zero> | <NonZero> (<Zero> | <NonZero>)* >
-    | < Hexadecimal : "0" ["x","X"] (<HexDigit>)+ >
-    | < #HexDigit : ["0"-"9" , "A"-"F" , "a"-"f"] > 
-    | < FloatLiteral : (<Zero> | <IntLiteral>) <Dot> (<Zero> | <NonZero>)+ (<Exp> (<Minus>)? <IntLiteral> )? >
-    | < #Zero : "0" >
-    | < #NonZero : ["1"-"9"] >
-    | < #Exp : "e" | "E" >
-    | < StringLiteral : "\"" (<StringCharacter>)* "\"" >
-    | < #StringCharacter : (~["\"","\\","\n","\r"]) 
-                         | <StringEscapeSeq> 
-                         | <UnicodeEscape> >
-    | < StringEscapeSeq : "\\" ["b","t","n","f","r","\"","\\","\'"] >
-    | < UnicodeEscape : "\\u" <HexDigit> <HexDigit> <HexDigit> <HexDigit> >
+    < BoolLiteral : "true"
+                  | "false" > |
+    < IntLiteral : <Zero> | <NonZero> (<Zero> | <NonZero>)* > |
+    < Hexadecimal : "0" ["x","X"] (<HexDigit>)+ > |
+    < #HexDigit : ["0"-"9" , "A"-"F" , "a"-"f"] > |
+    < FloatLiteral : (<Zero> | <IntLiteral>) <Dot> (<Zero> | <NonZero>)+ (<Exp> (<Minus>)? <IntLiteral> )? > |
+    < #Zero : "0" > |
+    < #NonZero : ["1"-"9"] > |
+    < #Exp : "e" | "E" > |
+    < StringLiteral : "\"" (<StringCharacter>)* "\"" > |
+    < #StringCharacter : (~["\"","\\","\n","\r"]) 
+                       | <StringEscapeSeq> 
+                       | <UnicodeEscape> > |
+    < StringEscapeSeq : "\\" ["b","t","n","f","r","\"","\\","\'"] > |
+    < UnicodeEscape : "\\u" <HexDigit> <HexDigit> <HexDigit> <HexDigit> >
 }
 
 void Literal() #void:
 {}
 {
-     FunctionLiteral()
-    | BoolLiteral()
-    | IntLiteral()
-    | FloatLiteral()
-    | StringLiteral()
-    | TupleLiteral()
-    | ListLiteral()
-    | UndefinedLiteral()
+     FunctionLiteral() |
+     BoolLiteral() |
+     IntLiteral() |
+     FloatLiteral() |
+     StringLiteral() |
+     TupleLiteral() |
+     ListLiteral() |
+     UndefinedLiteral()
 }
 
 /**
@@ -395,16 +430,16 @@ void Literal() #void:
 */
 TOKEN:
 {
-      < Identifier : <IdentifierHead> (<IdentifierChar>)* >
-    | < #IdentifierHead : [
+      < Identifier : <IdentifierHead> (<IdentifierChar>)* > |
+      < #IdentifierHead : [
                                     "A"-"Z", 
                                     "a"-"z", 
                                     "_",     
                                     "ぁ"-"ゖ",
                                     "ァ"-"ヺ",
                                     "\u4E00"-"\u9FFF"  //漢字     CJK Unified Ideographs
-    ] >
-    | < #IdentifierChar :      [
+      ] > |
+      < #IdentifierChar :      [
                                     "'",     
                                     "0"-"9",
                                     "A"-"Z", 
@@ -430,7 +465,7 @@ Token Identifier():
 ASTCompileUnit CompileUnit():
 {}
 {
-    ( LOOKAHEAD(Assignment()) Assignment() | LOOKAHEAD(MethodInvocation()) MethodInvocation() | Statement() |  LOOKAHEAD(2) EndOfBlock() | LOOKAHEAD(2) NewLineToken())* <EOF> {
+    ( LOOKAHEAD(Assignment()) Assignment() | LOOKAHEAD(MethodInvocation()) MethodInvocation() | Statement() | LOOKAHEAD(2) NewLineToken())* <EOF> {
         return jjtThis;
     }
 }
@@ -438,41 +473,35 @@ ASTCompileUnit CompileUnit():
 void Statement() #void:
 {}
 {
-     Declaration()
-    | ImportStatement()
-    | ModifierStatement()
-    | ExtendsType()
+    Declaration() |
+    ImportStatement() |
+    ModifierStatement() |
+    ExtendsType()
 }
 
 void Declaration() #void:
 {}
 {
-    LOOKAHEAD(3) VariableOrFunctionDeclaration() (LOOKAHEAD(2) Pattern())*
-  | LOOKAHEAD(3) TypeDeclaration()
-  | InterfaceDeclaration()
-  | LOOKAHEAD(3) TypeAliasDeclaration()
-  | ModuleDeclarationStatement()
-  | EnumDeclaration()
+    LOOKAHEAD(3) VariableOrFunctionDeclaration() |
+    LOOKAHEAD(3) TypeDeclaration() |
+    InterfaceDeclaration() |
+    LOOKAHEAD(3) TypeAliasDeclaration() |
+    ModuleDeclarationStatement() |
+    EnumDeclaration()
 }
 
-//MethodInvocations
-
-/**
-    hoge()
-    hoge.fuga().hoge()...
- */
 void MethodInvocation():
 {}
 {
-    LOOKAHEAD(2) MethodName() Arguments() (LOOKAHEAD(2) (<Dot>)? MethodName() Arguments())*
-  | FunctionLiteral() Arguments()
+    LOOKAHEAD(2) MethodName() Arguments() (LOOKAHEAD(2) (<Dot>)? MethodName() Arguments())* |
+    FunctionLiteral() Arguments()
 }
 
 void MethodName():
 {}
 {
-    LOOKAHEAD(2) ElementAccess()
-  | LOOKAHEAD(2) Identifier()
+    LOOKAHEAD(2) ElementAccess() |
+    LOOKAHEAD(2) Identifier()
 }
 
 void ExprName():
@@ -484,30 +513,22 @@ void ExprName():
 void Arguments():
 {}
 {
-    LOOKAHEAD(2) <LeftParen> <RightParen>
-  | LOOKAHEAD(2) <LeftParen> Argument() ("," Argument())* <RightParen>
+    LOOKAHEAD(2) <LeftParen> <RightParen> |
+    LOOKAHEAD(2) <LeftParen> Argument() ("," Argument())* <RightParen>
 }
 
 void Argument():
 {}
 {
-    Expression()
-}
-
-/**
-    ModuleName::ElementName...
- */
-void ExplicitModuleElementAccess():
-{}
-{
-    Identifier() <DoubleColon> Identifier()
+    LOOKAHEAD(MethodInvocation()) MethodInvocation() |
+    LOOKAHEAD(Expression()) Expression() 
 }
 
 void Expression() #void:
 {}
 {
-    LOOKAHEAD(3) OrExpr()
-  | LOOKAHEAD(3) Assignment()
+    LOOKAHEAD(3) OrExpr() |
+    LOOKAHEAD(3) Assignment()
 }
 
 void Assignment():
@@ -519,8 +540,8 @@ void Assignment():
 void LeftHandSide():
 {}
 {
-    LOOKAHEAD(2) ElementAccess()
-  | LOOKAHEAD(2) Identifier()
+    LOOKAHEAD(2) ElementAccess() |
+    LOOKAHEAD(2) Identifier()
 }
 
 void AssignmentOperator() #void:
@@ -585,9 +606,9 @@ void Multiplicative() #void:
 void UnaryExpr() #void:
 {}
 {
-   UnaryPlus()  UnaryExprNotPlusMinus() 
-  | UnaryMinus() UnaryExprNotPlusMinus()
-  | UnaryExprNotPlusMinus()
+   UnaryPlus()  UnaryExprNotPlusMinus() |
+   UnaryMinus() UnaryExprNotPlusMinus() |
+   UnaryExprNotPlusMinus()
 }
 
 void UnaryExprNotPlusMinus() #void:
@@ -599,10 +620,11 @@ void UnaryExprNotPlusMinus() #void:
 void Primary() #void:
 {}
 {
-    ( LOOKAHEAD(3) Literal()
-    | LOOKAHEAD(3) MethodInvocation()
-    | LOOKAHEAD(2) Identifier()
-    | LOOKAHEAD(3) <LeftParen> Expression() <RightParen> ) #ExprNode(>1)
+    ( LOOKAHEAD(Literal()) Literal() |
+      LOOKAHEAD(ElementAccess()) ElementAccess() |
+      LOOKAHEAD(MethodInvocation()) MethodInvocation() |
+      Identifier() |
+      LOOKAHEAD(<LeftParen> Expression() <RightParen>) <LeftParen> Expression() <RightParen> ) #ExprNode(>1)
 }
 
 /**
@@ -611,7 +633,13 @@ void Primary() #void:
 void ElementAccess():
 {}
 {
-    Identifier() (<Dot> Identifier())+
+    (LOOKAHEAD(ModuleName() <DoubleColon>) ModuleName() <DoubleColon>)? Identifier() (<Dot> Identifier())+
+}
+
+void ModuleName():
+{}
+{
+    Identifier()
 }
 
 void ModifierStatement():
@@ -623,14 +651,14 @@ void ModifierStatement():
 void AllModifier() #void:
 {}
 {
-    AbstractModifier() 
-  | OverrideModifier() 
-  | PrivateModifier() 
-  | SealedModifier() 
-  | LazyModifier() 
-  | OpModifier()
-  | UnaryOpModifier()
-  | VariableModifier()
+    AbstractModifier() |
+    OverrideModifier() |
+    PrivateModifier() | 
+    SealedModifier() | 
+    LazyModifier() | 
+    OpModifier() |
+    UnaryOpModifier() |
+    VariableModifier()
 }
 
 /**
@@ -638,15 +666,15 @@ void AllModifier() #void:
 */
 TOKEN:
 {
-      < LeftBracket : "[" >
-    | < RightBracket : "]" >
-    | < LeftBrace : "{" >
-    | < RightBrace : "}" >
-    | < LeftParen : "(" >
-    | < RightParen : ")" >
-    | < Colon : ":" >
-    | < DoubleColon : "::">
-    | < Dot : "." >
+    < LeftBracket : "[" > |
+    < RightBracket : "]" > |
+    < LeftBrace : "{" > |
+    < RightBrace : "}" > |
+    < LeftParen : "(" > |
+    < RightParen : ")" > |
+    < Colon : ":" > |
+    < DoubleColon : "::"> |
+    < Dot : "." >
 }
 
 /**
@@ -655,42 +683,42 @@ TOKEN:
 TOKEN:
 {
 
-    < EqualSign : "=" >
-    | < AA : "+=" >
-    | < SA : "-=" >
-    | < MA : "*=" >
-    | < DA : "/=" >
-    | < RA : "%=" >
-    | < Lt : "<" >
-    | < LtE : "<=" >
-    | < Gt : ">" >
-    | < GtE : ">=" >
-    | < Plus : "+" >
-    | < Minus : "-" >
-    | < Star : "*" >
-    | < Slash : "/" >
-    | < SafeDiv : "/?" >
-    | < Percent : "%" >
-    | < SafeRem : "%?" >
-    | < Tilde : "~" >
-    | < Bang : "!" >
-    | < And : "&" > 
-    | < Or : "|" >
-    | < Hat : "^" >
-    | < Question : "?" >
-    | < ReverseArrow : "<-" >
-    | < ReverseArrowChar : "←" >
-    | < SingleArrowChar : "→" >
-    | < SingleArrow : "->" >
-    | < CastArrow : "~>" >
-    | < TypeCheckArrow : "~>?" >
-    | < DoubleArrow : "=>" >
-    | < EqualTo : "==" >
-    | < NotEqualTo : "!=" >
-    | < NonComparable : "!<>=" >
-    | < Comparable : "<>=" >
-    | < ClosedRange : ".." >
-    | < HalfOpenRange : ".<" >
+    < EqualSign : "=" >|
+    < AA : "+=" >|
+    < SA : "-=" >|
+    < MA : "*=" >|
+    < DA : "/=" >|
+    < RA : "%=" >|
+    < Lt : "<" >|
+    < LtE : "<=" >|
+    < Gt : ">" >|
+    < GtE : ">=" >|
+    < Plus : "+" >|
+    < Minus : "-" >|
+    < Star : "*" >|
+    < Slash : "/" >|
+    < SafeDiv : "/?" >|
+    < Percent : "%" >|
+    < SafeRem : "%?" >|
+    < Tilde : "~" >|
+    < Bang : "!" >|
+    < And : "&" > |
+    < Or : "|" >|
+    < Hat : "^" >|
+    < Question : "?" >|
+    < ReverseArrow : "<-" >|
+    < ReverseArrowChar : "←" >|
+    < SingleArrowChar : "→" >|
+    < SingleArrow : "->" >|
+    < CastArrow : "~>" >|
+    < TypeCheckArrow : "~>?" >|
+    < DoubleArrow : "=>" >|
+    < EqualTo : "==" >|
+    < NotEqualTo : "!=" >|
+    < NonComparable : "!<>=" >|
+    < Comparable : "<>=" >|
+    < ClosedRange : ".." >|
+    < HalfOpenRange : ".<" >
 
 }
 
@@ -701,8 +729,8 @@ TOKEN:
 {
       < NewLine : "\r"
                 | "\n" 
-                | "\r\n" >
-      | < Atmark : "@" >
+                | "\r\n" > |
+      < Atmark : "@" >
 }
 
 
@@ -814,12 +842,6 @@ void UnaryMinus():
     t = <Minus> {
         jjtThis.jjtSetValue(t);
     }
-}
-
-void EndOfBlock():
-{}
-{
-    <NewLine> <NewLine>
 }
 
 void NewLineToken():
@@ -1024,10 +1046,7 @@ void IntLiteral():
     Token t;
 }
 {
-    t = <IntLiteral> {
-        jjtThis.jjtSetValue(t);
-    }
-    | t = <Hexadecimal> {
+    t = <IntLiteral> | t = <Hexadecimal> {
         jjtThis.jjtSetValue(t);
     }
 }
