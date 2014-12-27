@@ -12,21 +12,15 @@ package net.nokok.karaffe.parser.syntax;
 import static net.nokok.karaffe.parser.syntax.KaraffeParserSyntaxTest.testCode;
 import org.junit.Test;
 
-public class ModuleDeclSyntaxTest {
+public class AssignmentExpressionSyntaxTest {
 
     @Test
-    public void testModuleDecl() {
-        testCode("module hoge");
+    public void testExprNameAssignment() {
+        testCode("hoge = 1");
     }
 
-    @Test(expected = AssertionError.class)
-    public void testEmptyModuleName() {
-        testCode("module ");
+    @Test
+    public void testInstanceMemberAssignment() {
+        testCode("obj.field = 9\n");
     }
-
-    @Test(expected = AssertionError.class)
-    public void testJavaPackageName() {
-        testCode("module foo.bar.baz");
-    }
-
 }

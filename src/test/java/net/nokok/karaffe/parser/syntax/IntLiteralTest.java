@@ -16,28 +16,28 @@ public class IntLiteralTest {
 
     @Test
     public void testPositiveValue() {
-        testCode("a = 1");
+        testCode("def a = 1\n");
     }
 
     @Test
     public void testNegativeValue() {
-        testCode("a = -1");
+        testCode("def a = -1\n");
     }
 
     @Test
     public void testHex() {
-        testCode("a = 0xff");
-        testCode("a = 0XFF");
+        testCode("def a = 0xff\n");
+        testCode("def a = 0XFF\n");
     }
 
     @Test
     public void testNegativeHex() {
-        testCode("a = -0xff");
-        testCode("a = -0XFF");
+        testCode("def a = -0xff\n");
+        testCode("def a = -0XFF\n");
     }
 
     @Test(expected = AssertionError.class)
     public void testStartWithZero() {
-        testCode("a = 0123");
+        testCode("def a = 0123\n");
     }
 }

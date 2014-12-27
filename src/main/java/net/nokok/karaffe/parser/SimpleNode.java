@@ -60,13 +60,17 @@ public class SimpleNode implements Node {
         return value;
     }
 
-    /** Accept the visitor. **/
+    /**
+     * Accept the visitor. *
+     */
     public Object jjtAccept(KaraffeParserVisitor visitor, Object data)
             throws net.nokok.karaffe.parser.excptn.KaraffeParserException {
         return visitor.visit(this, data);
     }
 
-    /** Accept the visitor. **/
+    /**
+     * Accept the visitor. *
+     */
     public Object childrenAccept(KaraffeParserVisitor visitor, Object data)
             throws net.nokok.karaffe.parser.excptn.KaraffeParserException {
         if (children != null) {

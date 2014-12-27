@@ -36,9 +36,9 @@ public class KaraffeParserSyntaxTest {
 
     public static void testCode(String code) {
         try {
-            new KaraffeParser(code).CompileUnit();
+            new KaraffeParser(code).CompileUnit().dump("");
         } catch (ParseException ex) {
-            fail();
+            fail(ex.getMessage());
         }
     }
 }

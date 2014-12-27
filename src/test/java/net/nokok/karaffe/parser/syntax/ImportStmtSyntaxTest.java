@@ -21,7 +21,7 @@ public class ImportStmtSyntaxTest {
 
     @Test
     public void testJavaTypeImport() {
-        testCode("import java.lang.Object");
+        testCode("import \"java.lang.Object\"");
     }
 
     @Test

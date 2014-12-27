@@ -11,7 +11,6 @@ package net.nokok.karaffe.parser.visitor;
 
 import java.util.Collections;
 import java.util.HashSet;
-import java.util.Optional;
 import java.util.Set;
 import javassist.ClassPool;
 import javassist.CtClass;
@@ -20,14 +19,16 @@ import net.nokok.karaffe.parser.ASTCompileUnit;
 import net.nokok.karaffe.parser.ASTImportStatement;
 import net.nokok.karaffe.parser.ASTMethodInvocation;
 import net.nokok.karaffe.parser.ASTTypeDeclaration;
+import net.nokok.karaffe.parser.ASTVariableOrFunctionDeclaration;
 import net.nokok.karaffe.parser.KaraffeParserDefaultVisitor;
 import net.nokok.karaffe.parser.SimpleNode;
 import net.nokok.karaffe.parser.excptn.KaraffeParserException;
+import net.nokok.karaffe.parser.util.CurrentState;
 
 public class BytecodeGenerator extends KaraffeParserDefaultVisitor {
 
     private final Set<CtClass> classes = new HashSet<>();
-    private Optional<CtClass> currentClass = Optional.empty();
+    private final CurrentState currentState = new CurrentState();
     private final ClassPool pool = ClassPool.getDefault();
 
     @Override
@@ -43,9 +44,8 @@ public class BytecodeGenerator extends KaraffeParserDefaultVisitor {
 
     @Override
     public CtClass visit(ASTTypeDeclaration node, Object data) throws KaraffeParserException {
-        CtClass ctClass = (CtClass) node.jjtAccept(new MakeClassVisitor(), null);
+        CtClass ctClass = (CtClass) node.jjtAccept(new MakeClassVisitor(currentState), null);
         if (classes.contains(ctClass)) {
-            //既に存在する場合は拡張をする
         } else {
             classes.add(ctClass);
         }
@@ -59,4 +59,8 @@ public class BytecodeGenerator extends KaraffeParserDefaultVisitor {
         return null;
     }
 
+    @Override
+    public Object visit(ASTVariableOrFunctionDeclaration node, Object data) throws KaraffeParserException {
+        return node.jjtAccept(new VarOrFuncDeclVisitor(currentState), data);
+    }
 }

@@ -16,16 +16,16 @@ public class TupleSyntaxTest {
 
     @Test
     public void testEmptyTuple() {
-        testCode("p #()");
+        testCode("def a : Tuple0 = #()\n");
     }
 
     @Test
     public void testSingleTuple() {
-        testCode("p #(hoge)");
+        testCode("def a : Tuple1[Int] = #(1)\n");
     }
 
     @Test
     public void testDoubleTuple() {
-        testCode("p #(hoge hoge)");
+        testCode("def a : Tuple2[Int Int] = #(1 2)\n");
     }
 }

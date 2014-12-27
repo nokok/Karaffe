@@ -20,16 +20,6 @@ public class TypeDeclSyntaxTest {
     }
 
     @Test
-    public void testSimpleTypeDeclarationWithModifier_Private() {
-        testCode("private type Identifier\n");
-    }
-
-    @Test
-    public void testSimpleTypeDeclarationWithModifier_Sealed() {
-        testCode("sealed type Identifier\n");
-    }
-
-    @Test
     public void testExtendsType() {
         testCode("type Type : Super\n");
     }
@@ -51,11 +41,11 @@ public class TypeDeclSyntaxTest {
 
     @Test
     public void testTypeDeclNestedTypeParameter() {
-        testCode("type Identifier[Type[A]]");
+        testCode("type Identifier[Type[A]]\n");
     }
 
     @Test
     public void testTypeDeclNestedTypeParameters() {
-        testCode("type Identifier[Type[Type[B]]]");
+        testCode("type Identifier[Type[Type[B]]]\n");
     }
 }

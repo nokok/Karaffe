@@ -1,7 +1,7 @@
 /**
  *
  * Karaffe Programming Language
- *   __ _____   ___  ___   ____________
+ * __ _____ ___ ___ ____________
  *   / //_/ _ | / _ \/ _ | / __/ __/ __/
  *  / , \/ __ |/ , _/ __ |/ _// _// _/
  * /_/|_/_/ |_/_/|_/_/ |_/_/ /_/ /___/
@@ -38,8 +38,9 @@ public class KaraffeCompilerException extends RuntimeException {
     }
 
     /**
-     @param t
-     @return
+     * @param t
+     *
+     * @return
      */
     public static String tokenToString(Token t) {
         StringBuilder sb = new StringBuilder();

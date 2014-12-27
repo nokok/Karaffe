@@ -12,21 +12,18 @@ package net.nokok.karaffe.parser.syntax;
 import static net.nokok.karaffe.parser.syntax.KaraffeParserSyntaxTest.testCode;
 import org.junit.Test;
 
-public class ModuleDeclSyntaxTest {
+public class PatternSyntaxDecl {
 
     @Test
-    public void testModuleDecl() {
-        testCode("module hoge");
+    public void testSimplePattern() {
+        testCode("def func:(Int -> Int)\n"
+                + "func x = x * 2");
     }
 
-    @Test(expected = AssertionError.class)
-    public void testEmptyModuleName() {
-        testCode("module ");
+    @Test
+    public void testSimplePatternWithGuard() {
+        testCode("def abs:(Int -> Int)\n"
+                + "abs x @ x > 0 = x\n"
+                + "abs x = -x\n");
     }
-
-    @Test(expected = AssertionError.class)
-    public void testJavaPackageName() {
-        testCode("module foo.bar.baz");
-    }
-
 }

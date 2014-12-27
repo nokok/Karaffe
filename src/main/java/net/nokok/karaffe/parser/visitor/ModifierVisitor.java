@@ -11,10 +11,6 @@ package net.nokok.karaffe.parser.visitor;
 
 import net.nokok.karaffe.parser.ASTAbstractModifier;
 import net.nokok.karaffe.parser.ASTLazyModifier;
-import net.nokok.karaffe.parser.ASTModifierOfFunction;
-import net.nokok.karaffe.parser.ASTModifierOfOperator;
-import net.nokok.karaffe.parser.ASTModifierOfType;
-import net.nokok.karaffe.parser.ASTModifierOfVariable;
 import net.nokok.karaffe.parser.ASTOpModifier;
 import net.nokok.karaffe.parser.ASTOverrideModifier;
 import net.nokok.karaffe.parser.ASTPrivateModifier;
@@ -133,30 +129,6 @@ public class ModifierVisitor extends KaraffeParserDefaultVisitor {
         isSealed = true;
         isSealedVisited = true;
         return null;
-    }
-
-    @Override
-    public Modifiers visit(ASTModifierOfFunction node, Object data) throws KaraffeParserException {
-        node.childrenAccept(this, data);
-        return makeModifierObject(Modifiers.ModifierType.FUNCTION);
-    }
-
-    @Override
-    public Modifiers visit(ASTModifierOfOperator node, Object data) throws KaraffeParserException {
-        node.childrenAccept(this, data);
-        return makeModifierObject(Modifiers.ModifierType.OPERATOR);
-    }
-
-    @Override
-    public Modifiers visit(ASTModifierOfVariable node, Object data) throws KaraffeParserException {
-        node.childrenAccept(this, data);
-        return makeModifierObject(Modifiers.ModifierType.VARIABLE);
-    }
-
-    @Override
-    public Modifiers visit(ASTModifierOfType node, Object data) throws KaraffeParserException {
-        node.childrenAccept(this, data);
-        return makeModifierObject(Modifiers.ModifierType.TYPE);
     }
 
     private Modifiers makeModifierObject(Modifiers.ModifierType type) {

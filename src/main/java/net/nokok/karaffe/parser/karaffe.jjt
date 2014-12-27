@@ -59,7 +59,7 @@ void TypeDeclaration():
 {}
 {
     //type 識別子        :        継承元型名     <-             実装インターフェース
-    <Type> TypeElement() (<Colon> SuperType())? (<ReverseArrow> Interfaces())? 
+    <Type> TypeElement() (<Colon> SuperType())? (<ReverseArrow> Interfaces())? <NewLine>
 }
 
 void SuperType():
@@ -83,7 +83,7 @@ void InterfaceDeclaration():
 {}
 {
     //interface 識別子        <-             拡張インターフェース
-    <Interface> TypeElement() (<ReverseArrow> Interfaces())?
+    <Interface> TypeElement() (<ReverseArrow> Interfaces())? <NewLine>
 }
 
 /**
@@ -97,7 +97,7 @@ void TypeAliasDeclaration():
 {}
 {
     //typealias   識別子        :       識別子
-    <TypeAlias> TypeElement() <Colon> TypeElement()
+    <TypeAlias> TypeElement() <Colon> TypeElement() <NewLine>
 }
 
 /**
@@ -121,45 +121,37 @@ void TypeAliasDeclaration():
 void VariableOrFunctionDeclaration():
 {}
 {
-    "def" Identifier() (<Colon> VarOrFuncTypeDecl())? (<EqualSign> Expression())? 
+    "def" Identifier() (<Colon> ValueType())? (<EqualSign> Body())? <NewLine>
 }
 
-void VarOrFuncTypeDecl() #void:
-{}
-{
-    LOOKAHEAD(3) FuncTypeDecl()
-  | LOOKAHEAD(3) VarTypeDecl()
-}
-
-void VarTypeDecl():
+void ValueType():
 {}
 {
     TypeElement()
 }
 
-void FuncTypeDecl():
+void Body():
 {}
 {
-    ArgumentTypes() <SingleArrow> ReturnType()
+    Expression()
 }
 
-void ArgumentTypes():
+void Pattern():
 {}
 {
-    (TypeWithParentheses())+
+    Identifier() ArgVariables() (<Atmark> Guard())? <EqualSign> Expression() <NewLine>
 }
 
-void ReturnType():
+void ArgVariables():
 {}
 {
-    TypeWithParentheses()
+    (LOOKAHEAD(2) Identifier())*
 }
 
-void TypeWithParentheses() #void:
+void Guard():
 {}
 {
-    <LeftParen> FuncTypeDecl() <RightParen>
-  | TypeElement()
+    Expression()
 }
 
 /**
@@ -170,7 +162,7 @@ void TypeWithParentheses() #void:
 void EnumDeclaration():
 {}
 {
-    <Enum> Identifier() <Colon> <LeftBracket> EnumElements() <RightBracket>
+    <Enum> Identifier() <Colon> <LeftBracket> EnumElements() <RightBracket> <NewLine>
 }
 
 void EnumElements():
@@ -187,14 +179,21 @@ void EnumElements():
 void TypeElement() #void:
 {}
 {
-    TupleTypeDecl()
-  | Identifier() (LOOKAHEAD(2) TypeParameters())?
+    TypeWithTypeParams()
+  | LOOKAHEAD(2) FunctionType()
+  | LOOKAHEAD(2) <LeftParen> <RightParen>
 }
 
-void TupleTypeDecl():
+void TypeWithTypeParams() #void:
 {}
 {
-    "#" <LeftParen> (TypeElement())* <RightParen>
+    Identifier() (LOOKAHEAD(2) TypeParameters())?
+}
+
+void FunctionType():
+{}
+{
+    <LeftParen> (TypeElement())+ SingleArrow() TypeElement() <RightParen>
 }
 
 /**
@@ -211,7 +210,7 @@ void FunctionLiteral():
 {}
 {
     //(         引数:型                       )            ->            {            ...          }             ...
-    <LeftParen> ( TypeElement())* <RightParen> SingleArrow() (<LeftBrace> Expression() <RightBrace> | Expression())
+    <LeftParen> (Identifier())* <RightParen> SingleArrow() (<LeftBrace> Expression() <RightBrace> | Expression())
 }
 
 /**
@@ -363,10 +362,10 @@ TOKEN:
 {
       < BoolLiteral : "true"
                     | "false" >
-    | < IntLiteral : <Zero> | (<Minus>)? <NonZero> (<Zero> | <NonZero>)* >
-    | < Hexadecimal : (<Minus>)? "0" ["x","X"] (<HexDigit>)+ >
+    | < IntLiteral : <Zero> | <NonZero> (<Zero> | <NonZero>)* >
+    | < Hexadecimal : "0" ["x","X"] (<HexDigit>)+ >
     | < #HexDigit : ["0"-"9" , "A"-"F" , "a"-"f"] > 
-    | < FloatLiteral : (<Minus>)? (<Zero> | <IntLiteral>) <Dot> (<Zero> | <NonZero>)+ (<Exp> <IntLiteral> )? >
+    | < FloatLiteral : (<Zero> | <IntLiteral>) <Dot> (<Zero> | <NonZero>)+ (<Exp> (<Minus>)? <IntLiteral> )? >
     | < #Zero : "0" >
     | < #NonZero : ["1"-"9"] >
     | < #Exp : "e" | "E" >
@@ -431,15 +430,9 @@ Token Identifier():
 ASTCompileUnit CompileUnit():
 {}
 {
-    (LOOKAHEAD(2) Statement() |LOOKAHEAD(3) MethodInvocation() | LOOKAHEAD(3) Assignment() | NewLineToken())* <EOF> {
+    ( LOOKAHEAD(Assignment()) Assignment() | LOOKAHEAD(MethodInvocation()) MethodInvocation() | Statement() |  LOOKAHEAD(2) EndOfBlock() | LOOKAHEAD(2) NewLineToken())* <EOF> {
         return jjtThis;
     }
-}
-
-void Statements() #void:
-{}
-{
-    ( Statement())*
 }
 
 void Statement() #void:
@@ -448,12 +441,13 @@ void Statement() #void:
      Declaration()
     | ImportStatement()
     | ModifierStatement()
+    | ExtendsType()
 }
 
 void Declaration() #void:
 {}
 {
-    LOOKAHEAD(3) VariableOrFunctionDeclaration()
+    LOOKAHEAD(3) VariableOrFunctionDeclaration() (LOOKAHEAD(2) Pattern())*
   | LOOKAHEAD(3) TypeDeclaration()
   | InterfaceDeclaration()
   | LOOKAHEAD(3) TypeAliasDeclaration()
@@ -470,14 +464,15 @@ void Declaration() #void:
 void MethodInvocation():
 {}
 {
-    LOOKAHEAD(2) MethodName() Arguments() (LOOKAHEAD(2) <Dot> MethodName() Arguments())*
-  | LOOKAHEAD(2) ExprName() <Dot> MethodName() Arguments()
+    LOOKAHEAD(2) MethodName() Arguments() (LOOKAHEAD(2) (<Dot>)? MethodName() Arguments())*
+  | FunctionLiteral() Arguments()
 }
 
 void MethodName():
 {}
 {
-    Identifier()
+    LOOKAHEAD(2) ElementAccess()
+  | LOOKAHEAD(2) Identifier()
 }
 
 void ExprName():
@@ -489,8 +484,8 @@ void ExprName():
 void Arguments():
 {}
 {
-    LOOKAHEAD(3) (LOOKAHEAD(2) Argument())+
-  | LOOKAHEAD(3) <LeftParen> (Argument())* <RightParen>
+    LOOKAHEAD(2) <LeftParen> <RightParen>
+  | LOOKAHEAD(2) <LeftParen> Argument() ("," Argument())* <RightParen>
 }
 
 void Argument():
@@ -505,14 +500,14 @@ void Argument():
 void ExplicitModuleElementAccess():
 {}
 {
-    Identifier() (<DoubleColon> Identifier())+
+    Identifier() <DoubleColon> Identifier()
 }
 
 void Expression() #void:
 {}
 {
-    LOOKAHEAD(2) OrExpr()
-  | LOOKAHEAD(2) Assignment()
+    LOOKAHEAD(3) OrExpr()
+  | LOOKAHEAD(3) Assignment()
 }
 
 void Assignment():
@@ -524,8 +519,8 @@ void Assignment():
 void LeftHandSide():
 {}
 {
-    LOOKAHEAD(2) Identifier()
-  | LOOKAHEAD(2) ExplicitModuleElementAccess() (MethodInvocation())?
+    LOOKAHEAD(2) ElementAccess()
+  | LOOKAHEAD(2) Identifier()
 }
 
 void AssignmentOperator() #void:
@@ -598,8 +593,7 @@ void UnaryExpr() #void:
 void UnaryExprNotPlusMinus() #void:
 {}
 {
-    Primary()
-  | UnaryBang() Primary()
+    (UnaryBang())* Primary()
 }
 
 void Primary() #void:
@@ -617,7 +611,7 @@ void Primary() #void:
 void ElementAccess():
 {}
 {
-    Identifier()( <Dot> Identifier())+
+    Identifier() (<Dot> Identifier())+
 }
 
 void ModifierStatement():
@@ -820,6 +814,12 @@ void UnaryMinus():
     t = <Minus> {
         jjtThis.jjtSetValue(t);
     }
+}
+
+void EndOfBlock():
+{}
+{
+    <NewLine> <NewLine>
 }
 
 void NewLineToken():
@@ -1063,7 +1063,7 @@ void TupleLiteral():
     Token t;
 }
 {
-    t = "#" <LeftParen> (LOOKAHEAD(2) Expression())* <RightParen>
+    t = "#(" (LOOKAHEAD(2) Expression())* <RightParen>
 }
 
 void UndefinedLiteral():

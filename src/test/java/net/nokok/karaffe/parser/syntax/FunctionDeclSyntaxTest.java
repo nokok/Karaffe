@@ -16,27 +16,32 @@ public class FunctionDeclSyntaxTest {
 
     @Test
     public void testSimpleFunctionDeclSyntax() {
-        testCode("func : Int -> Int = undefined");
+        testCode("def func : (Int -> Int) = undefined\n");
     }
 
     @Test
-    public void testSimpleCurriedFunctionDeclSyntax() {
-        testCode("func : Int -> Int -> Int = undefined");
+    public void testFunction2Decl() {
+        testCode("def func : (Int Int -> Int) = undefined\n");
     }
 
     @Test
-    public void testUncurriedFunctionDeclSyntax() {
-        testCode("func : Int Int -> Int = undefined");
+    public void testFunction3Decl() {
+        testCode("def func : (Int Int Int -> Int) = undefined\n");
     }
 
     @Test
-    public void testMixedFunctionDeclSyntax() {
-        testCode("func : Int -> Int String -> Int -> Int = undefined");
+    public void testFunctionTypeDecl() {
+        testCode("def func : (Int -> Int)\n");
     }
 
     @Test
-    public void testInvalidReturnType() {
-        testCode("func : Int Int = undefined");
+    public void testReturnFunctionType() {
+        testCode("def func : (Int -> ((String -> Int) -> Int)) = undefined\n");
+    }
+
+    @Test
+    public void testVoidReturnType() {
+        testCode("def fund : (() -> ()) = undefined\n");
     }
 
 }

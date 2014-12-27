@@ -31,11 +31,7 @@ public class MessageReader {
         }
     }
 
-    public String compilerErrorFileNotFoundException() {
-        return properties.getProperty("compiler.error.fileNotFound");
-    }
-
-    public String compilerErrorSyntaxError() {
-        return properties.getProperty("compiler.error.syntaxError");
+    public String getMessage(ErrorType type) {
+        return properties.getProperty(type.toString());
     }
 }

@@ -8,9 +8,8 @@ import javassist.ClassPool;
 import javassist.CtClass;
 import javassist.Modifier;
 import javassist.NotFoundException;
+import net.nokok.karaffe.parser.ASTIdentifier;
 import net.nokok.karaffe.parser.ASTInterfaces;
-import net.nokok.karaffe.parser.ASTKaraffeIdentifier;
-import net.nokok.karaffe.parser.ASTModifierOfType;
 import net.nokok.karaffe.parser.ASTSuperType;
 import net.nokok.karaffe.parser.ASTTypeDeclaration;
 import net.nokok.karaffe.parser.KaraffeParserDefaultVisitor;
@@ -19,6 +18,7 @@ import net.nokok.karaffe.parser.Token;
 import net.nokok.karaffe.parser.excptn.InternalCompilerException;
 import net.nokok.karaffe.parser.excptn.KaraffeCompilerException;
 import net.nokok.karaffe.parser.excptn.KaraffeParserException;
+import net.nokok.karaffe.parser.util.CurrentState;
 import net.nokok.karaffe.parser.util.ErrorType;
 import net.nokok.karaffe.parser.util.Modifiers;
 
@@ -29,6 +29,10 @@ public class MakeClassVisitor extends KaraffeParserDefaultVisitor {
     private final List<String> interfaces = new ArrayList<>();
 
     private Optional<Modifiers> modifier = Optional.empty();
+
+    public MakeClassVisitor(CurrentState state) {
+
+    }
 
     @Override
     public CtClass visit(ASTTypeDeclaration node, Object data) throws KaraffeParserException {
@@ -70,16 +74,9 @@ public class MakeClassVisitor extends KaraffeParserDefaultVisitor {
     }
 
     @Override
-    public Object visit(ASTModifierOfType node, Object data) throws KaraffeParserException {
-        modifier = Optional.of((Modifiers) node.jjtAccept(new ModifierVisitor(), data));
-        return null;
-    }
-
-    @Override
-    public Object visit(ASTKaraffeIdentifier node, Object data) throws KaraffeParserException {
+    public Object visit(ASTIdentifier node, Object data) throws KaraffeParserException {
         if (id == null) {
-            Token t = (Token) node.jjtGetValue();
-            id = t.image;
+            id = node.jjtGetValue().toString();
         }
         return null;
     }

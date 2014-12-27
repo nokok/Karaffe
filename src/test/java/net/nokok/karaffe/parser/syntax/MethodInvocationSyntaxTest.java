@@ -30,13 +30,13 @@ public class MethodInvocationSyntaxTest {
     }
 
     @Test
-    public void testMethodChain() {
-        testCode("foo() bar() baz()");
+    public void testInstanceMethodInvocation() {
+        testCode("hoge.foo()");
     }
 
     @Test
     public void testMethodArg() {
-        testCode("hoge (1 + 2)");
+        testCode("hoge(1 + 2)");
     }
 
 }

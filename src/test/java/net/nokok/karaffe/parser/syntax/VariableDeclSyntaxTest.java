@@ -13,49 +13,29 @@ import static net.nokok.karaffe.parser.syntax.KaraffeParserSyntaxTest.testCode;
 import org.junit.Test;
 
 public class VariableDeclSyntaxTest {
-//VariableDeclaration
 
     @Test
     public void testVariableDeclarationExplicitType() {
-        testCode("a:Int=undefined");
-        testCode("b:Int=undefined\n");
-        testCode("c : Int = undefined\n");
-        testCode("d : Int = undefined\n");
-        testCode("e : Int\n");
-        testCode("f : Int\n");
-        testCode("g = 2 //hogehoge\n");
-        testCode("h = 2 /* */\n");
+        testCode("def a:Int=undefined\n");
     }
 
     @Test
     public void testVarDcl1() {
-        testCode("x : Int");
+        testCode("def x : Int\n");
     }
 
     @Test
-    public void testVariableDeclarationModifier_Private() {
-        testCode("private x : Int");
-        testCode("private var x : Int");
-    }
-
-    @Test
-    public void testVariableDeclarationModifier_Variable() {
-        testCode("var x:Int\n");
-        testCode("private var x: Int\n");
-    }
-
-    @Test(expected = AssertionError.class)
-    public void testReservedKeywordIdentifier() {
-        testCode("var var:Int");
-    }
-
-    @Test(expected = AssertionError.class)
-    public void testOrder() {
-        testCode("var private x:Int\n");
+    public void testVarDecl2() {
+        testCode("def x : T[E] = undefined\n");
     }
 
     @Test
     public void variableNoTypeDeclaration() {
-        testCode("a = 2\n");
+        testCode("def a = 2\n");
+    }
+
+    @Test
+    public void testTupleDecl() {
+        testCode("def t : Tuple[Int Int] = #(1 2)\n");
     }
 }

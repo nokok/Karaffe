@@ -9,37 +9,37 @@ public interface KaraffeParserTreeConstants {
     public int JJTINTERFACEDECLARATION = 3;
     public int JJTTYPEALIASDECLARATION = 4;
     public int JJTVARIABLEORFUNCTIONDECLARATION = 5;
-    public int JJTVARORFUNCTYPEDECL = 6;
-    public int JJTVARTYPEDECL = 7;
-    public int JJTFUNCTYPEDECL = 8;
-    public int JJTVOID = 9;
-    public int JJTENUMDECLARATION = 10;
-    public int JJTENUMELEMENTS = 11;
-    public int JJTFUNCTIONLITERAL = 12;
-    public int JJTIMPORTSTATEMENT = 13;
-    public int JJTTYPEPARAMETERS = 14;
-    public int JJTTYPEPARAMETER = 15;
-    public int JJTTYPEBOUND = 16;
-    public int JJTMODULEDECLARATIONSTATEMENT = 17;
-    public int JJTANNOTATION = 18;
-    public int JJTKARAFFEIDENTIFIER = 19;
-    public int JJTJAVAFQCN = 20;
-    public int JJTCOMPILEUNIT = 21;
-    public int JJTMETHODINVOCATION = 22;
-    public int JJTMETHODOREXPRNAME = 23;
-    public int JJTARGUMENTLIST = 24;
-    public int JJTARGUMENT = 25;
-    public int JJTEXPLICITMODULEELEMENTACCESS = 26;
-    public int JJTEXPRESSION = 27;
-    public int JJTASSIGNMENTEXPRESSION = 28;
-    public int JJTASSIGNMENT = 29;
-    public int JJTLEFTHANDSIDE = 30;
-    public int JJTEXPRNODE = 31;
-    public int JJTELEMENTACCESS = 32;
-    public int JJTMODIFIEROFTYPE = 33;
-    public int JJTMODIFIEROFVARIABLE = 34;
-    public int JJTMODIFIEROFFUNCTION = 35;
-    public int JJTMODIFIEROFOPERATOR = 36;
+    public int JJTVALUETYPE = 6;
+    public int JJTBODY = 7;
+    public int JJTPATTERN = 8;
+    public int JJTARGVARIABLES = 9;
+    public int JJTGUARD = 10;
+    public int JJTENUMDECLARATION = 11;
+    public int JJTENUMELEMENTS = 12;
+    public int JJTVOID = 13;
+    public int JJTFUNCTIONTYPE = 14;
+    public int JJTFUNCTIONLITERAL = 15;
+    public int JJTIMPORTSTATEMENT = 16;
+    public int JJTJAVAFQCN = 17;
+    public int JJTEXTENDSTYPE = 18;
+    public int JJTTYPEPARAMETERS = 19;
+    public int JJTTYPEPARAMETER = 20;
+    public int JJTTYPEBOUND = 21;
+    public int JJTMODULEDECLARATIONSTATEMENT = 22;
+    public int JJTANNOTATION = 23;
+    public int JJTIDENTIFIER = 24;
+    public int JJTCOMPILEUNIT = 25;
+    public int JJTMETHODINVOCATION = 26;
+    public int JJTMETHODNAME = 27;
+    public int JJTEXPRNAME = 28;
+    public int JJTARGUMENTS = 29;
+    public int JJTARGUMENT = 30;
+    public int JJTEXPLICITMODULEELEMENTACCESS = 31;
+    public int JJTASSIGNMENT = 32;
+    public int JJTLEFTHANDSIDE = 33;
+    public int JJTEXPRNODE = 34;
+    public int JJTELEMENTACCESS = 35;
+    public int JJTMODIFIERSTATEMENT = 36;
     public int JJTABSTRACTMODIFIER = 37;
     public int JJTOVERRIDEMODIFIER = 38;
     public int JJTPRIVATEMODIFIER = 39;
@@ -51,40 +51,42 @@ public interface KaraffeParserTreeConstants {
     public int JJTUNARYPLUS = 45;
     public int JJTUNARYBANG = 46;
     public int JJTUNARYMINUS = 47;
-    public int JJTNEWLINETOKEN = 48;
-    public int JJTSTAR = 49;
-    public int JJTSLASH = 50;
-    public int JJTPERCENT = 51;
-    public int JJTSAFEDIV = 52;
-    public int JJTSAFEREM = 53;
-    public int JJTHAT = 54;
-    public int JJTPLUS = 55;
-    public int JJTMINUS = 56;
-    public int JJTEQUALTO = 57;
-    public int JJTNOTEQUALTO = 58;
-    public int JJTGREATERTHAN = 59;
-    public int JJTLESSTHAN = 60;
-    public int JJTGREATERTHANEQUALTO = 61;
-    public int JJTLESSTHANEQUALTO = 62;
-    public int JJTCOMPARABLE = 63;
-    public int JJTNONCOMPARABLE = 64;
-    public int JJTAND = 65;
-    public int JJTOR = 66;
-    public int JJTBOOLLITERAL = 67;
-    public int JJTINTLITERAL = 68;
-    public int JJTFLOATLITERAL = 69;
-    public int JJTSTRINGLITERAL = 70;
-    public int JJTTUPLELITERAL = 71;
-    public int JJTUNDEFINEDLITERAL = 72;
-    public int JJTSINGLEARROW = 73;
-    public int JJTASSIGN = 74;
-    public int JJTCLOSEDRANGE = 75;
-    public int JJTHALFOPENRANGE = 76;
-    public int JJTAA = 77;
-    public int JJTSA = 78;
-    public int JJTMA = 79;
-    public int JJTDA = 80;
-    public int JJTRA = 81;
+    public int JJTENDOFBLOCK = 48;
+    public int JJTNEWLINETOKEN = 49;
+    public int JJTSTAR = 50;
+    public int JJTSLASH = 51;
+    public int JJTPERCENT = 52;
+    public int JJTSAFEDIV = 53;
+    public int JJTSAFEREM = 54;
+    public int JJTHAT = 55;
+    public int JJTPLUS = 56;
+    public int JJTMINUS = 57;
+    public int JJTEQUALTO = 58;
+    public int JJTNOTEQUALTO = 59;
+    public int JJTGREATERTHAN = 60;
+    public int JJTLESSTHAN = 61;
+    public int JJTGREATERTHANEQUALTO = 62;
+    public int JJTLESSTHANEQUALTO = 63;
+    public int JJTCOMPARABLE = 64;
+    public int JJTNONCOMPARABLE = 65;
+    public int JJTAND = 66;
+    public int JJTOR = 67;
+    public int JJTBOOLLITERAL = 68;
+    public int JJTINTLITERAL = 69;
+    public int JJTFLOATLITERAL = 70;
+    public int JJTSTRINGLITERAL = 71;
+    public int JJTLISTLITERAL = 72;
+    public int JJTTUPLELITERAL = 73;
+    public int JJTUNDEFINEDLITERAL = 74;
+    public int JJTSINGLEARROW = 75;
+    public int JJTASSIGN = 76;
+    public int JJTCLOSEDRANGE = 77;
+    public int JJTHALFOPENRANGE = 78;
+    public int JJTAA = 79;
+    public int JJTSA = 80;
+    public int JJTMA = 81;
+    public int JJTDA = 82;
+    public int JJTRA = 83;
 
     public String[] jjtNodeName = {
         "TypeDeclaration",
@@ -93,37 +95,37 @@ public interface KaraffeParserTreeConstants {
         "InterfaceDeclaration",
         "TypeAliasDeclaration",
         "VariableOrFunctionDeclaration",
-        "VarOrFuncTypeDecl",
-        "VarTypeDecl",
-        "FuncTypeDecl",
-        "void",
+        "ValueType",
+        "Body",
+        "Pattern",
+        "ArgVariables",
+        "Guard",
         "EnumDeclaration",
         "EnumElements",
+        "void",
+        "FunctionType",
         "FunctionLiteral",
         "ImportStatement",
+        "JavaFQCN",
+        "ExtendsType",
         "TypeParameters",
         "TypeParameter",
         "TypeBound",
         "ModuleDeclarationStatement",
         "Annotation",
-        "KaraffeIdentifier",
-        "JavaFQCN",
+        "Identifier",
         "CompileUnit",
         "MethodInvocation",
-        "MethodOrExprName",
-        "ArgumentList",
+        "MethodName",
+        "ExprName",
+        "Arguments",
         "Argument",
         "ExplicitModuleElementAccess",
-        "Expression",
-        "AssignmentExpression",
         "Assignment",
         "LeftHandSide",
         "ExprNode",
         "ElementAccess",
-        "ModifierOfType",
-        "ModifierOfVariable",
-        "ModifierOfFunction",
-        "ModifierOfOperator",
+        "ModifierStatement",
         "AbstractModifier",
         "OverrideModifier",
         "PrivateModifier",
@@ -135,6 +137,7 @@ public interface KaraffeParserTreeConstants {
         "UnaryPlus",
         "UnaryBang",
         "UnaryMinus",
+        "EndOfBlock",
         "NewLineToken",
         "Star",
         "Slash",
@@ -158,6 +161,7 @@ public interface KaraffeParserTreeConstants {
         "IntLiteral",
         "FloatLiteral",
         "StringLiteral",
+        "ListLiteral",
         "TupleLiteral",
         "UndefinedLiteral",
         "SingleArrow",
@@ -170,4 +174,4 @@ public interface KaraffeParserTreeConstants {
         "DA",
         "RA",};
 }
-/* JavaCC - OriginalChecksum=4be0f7c43dc3111fa91c485f71e817ba (do not edit this line) */
+/* JavaCC - OriginalChecksum=f85519b180482500709ea0eae9c772e9 (do not edit this line) */

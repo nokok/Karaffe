@@ -12,9 +12,7 @@ public class ASTExplicitModuleElementAccess extends SimpleNode {
         super(p, id);
     }
 
-    /**
-     * Accept the visitor. *
-     */
+    /** Accept the visitor. **/
     public Object jjtAccept(KaraffeParserVisitor visitor, Object data) throws net.nokok.karaffe.parser.excptn.KaraffeParserException {
 
         return visitor.visit(this, data);

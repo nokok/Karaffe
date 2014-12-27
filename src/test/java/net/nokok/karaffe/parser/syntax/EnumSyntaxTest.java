@@ -16,11 +16,17 @@ public class EnumSyntaxTest {
 
     @Test
     public void testEnumSyntax() {
-        testCode("enum EnumType : [hoge fuga piyo]");
+        testCode("enum EnumType : [hoge fuga piyo]\n");
     }
 
     @Test(expected = AssertionError.class)
     public void testEmptyArray() {
-        testCode("enum EnumType : []");
+        testCode("enum EnumType : []\n");
     }
+
+    @Test(expected = AssertionError.class)
+    public void testInvalidEnumDecl() {
+        testCode("enum Hoge\n");
+    }
+
 }
