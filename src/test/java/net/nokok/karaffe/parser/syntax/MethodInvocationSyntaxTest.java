@@ -1,7 +1,7 @@
 /**
  *
  * Karaffe Programming Language
- *   __ _____   ___  ___   ____________
+ * __ _____ ___ ___ ____________
  *   / //_/ _ | / _ \/ _ | / __/ __/ __/
  *  / , \/ __ |/ , _/ __ |/ _// _// _/
  * /_/|_/_/ |_/_/|_/_/ |_/_/ /_/ /___/
@@ -20,6 +20,11 @@ public class MethodInvocationSyntaxTest {
     }
 
     @Test
+    public void testSimpleMethodInvocation1() {
+        testCode("p()");
+    }
+
+    @Test
     public void testNestedMethodInvocation() {
         testCode("a(b(c()))");
     }
@@ -27,6 +32,16 @@ public class MethodInvocationSyntaxTest {
     @Test
     public void testJavaStyleMethodChain() {
         testCode("foo().bar().baz()");
+    }
+
+    @Test
+    public void testJavaStyleMethodChain1() {
+        testCode("package.name.method().chain()");
+    }
+
+    @Test
+    public void testMethodChain() {
+
     }
 
     @Test
@@ -49,4 +64,43 @@ public class MethodInvocationSyntaxTest {
         testCode("hoge(a.b())");
     }
 
+    @Test
+    public void testMethodInvocationOptionalElementAccess() {
+        testCode("obj field method()");
+    }
+
+    @Test
+    public void testMethodInvocationPOptionalElementAccess1() {
+        testCode("obj.field method()");
+    }
+
+    @Test
+    public void testMethodInvocationPOptionalElementAccess2() {
+        testCode("obj field.method()");
+    }
+
+    @Test
+    public void testMethodInvocationElementAccess() {
+        testCode("obj.field.method()");
+    }
+
+    @Test
+    public void testLongNameMethodInvocation() {
+        testCode("java.lang.System.out.println()");
+    }
+
+    @Test
+    public void testPrimaryMethodInvocation() {
+        testCode("\"HelloWorld\".toUpperCase()");
+    }
+
+    @Test
+    public void testPrimaryMethodInvocation1() {
+        testCode("(1).toString()");
+    }
+
+    @Test
+    public void testMethodInvocationFromExpr() {
+        testCode("(1..5).forEach(() -> println(_))");
+    }
 }

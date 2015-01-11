@@ -1,12 +1,3 @@
-/**
- *
- * Karaffe Programming Language
- *   __ _____   ___  ___   ____________
- *   / //_/ _ | / _ \/ _ | / __/ __/ __/
- *  / , \/ __ |/ , _/ __ |/ _// _// _/
- * /_/|_/_/ |_/_/|_/_/ |_/_/ /_/ /___/
- *
- */
 package net.nokok.karaffe.parser.syntax;
 
 import static net.nokok.karaffe.parser.syntax.KaraffeParserSyntaxTest.testCode;
@@ -48,4 +39,18 @@ public class TypeDeclSyntaxTest {
     public void testTypeDeclNestedTypeParameters() {
         testCode("type Identifier[Type[Type[B]]]\n");
     }
+
+    @Test
+    public void testTypeDeclBody_VarDecl() {
+        testCode("type D\n"
+                + "def a : Int = 0");
+    }
+
+    @Test
+    public void testTypeDeclBody_VarDeclAndMethodInvocation() {
+        testCode("type D\n"
+                + "def a : Int = 0\n"
+                + "a.toString()");
+    }
+
 }

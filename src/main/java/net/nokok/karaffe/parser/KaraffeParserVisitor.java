@@ -9,13 +9,23 @@ public interface KaraffeParserVisitor {
 
     public Object visit(ASTTypeDeclBody node, Object data) throws net.nokok.karaffe.parser.excptn.KaraffeParserException;
 
-    public Object visit(ASTSuperType node, Object data) throws net.nokok.karaffe.parser.excptn.KaraffeParserException;
+    public Object visit(ASTAlgebraicDataTypeDecl node, Object data) throws net.nokok.karaffe.parser.excptn.KaraffeParserException;
 
-    public Object visit(ASTInterfaces node, Object data) throws net.nokok.karaffe.parser.excptn.KaraffeParserException;
+    public Object visit(ASTAlgebraicDataTypeDeclBody node, Object data) throws net.nokok.karaffe.parser.excptn.KaraffeParserException;
+
+    public Object visit(ASTConstructor node, Object data) throws net.nokok.karaffe.parser.excptn.KaraffeParserException;
+
+    public Object visit(ASTExistingTypeOrTParameter node, Object data) throws net.nokok.karaffe.parser.excptn.KaraffeParserException;
 
     public Object visit(ASTInterfaceDeclaration node, Object data) throws net.nokok.karaffe.parser.excptn.KaraffeParserException;
 
     public Object visit(ASTTypeAliasDeclaration node, Object data) throws net.nokok.karaffe.parser.excptn.KaraffeParserException;
+
+    public Object visit(ASTFuncAliasDeclaration node, Object data) throws net.nokok.karaffe.parser.excptn.KaraffeParserException;
+
+    public Object visit(ASTFuncAliasAfter node, Object data) throws net.nokok.karaffe.parser.excptn.KaraffeParserException;
+
+    public Object visit(ASTFuncAliasBefore node, Object data) throws net.nokok.karaffe.parser.excptn.KaraffeParserException;
 
     public Object visit(ASTVariableOrFunctionDeclaration node, Object data) throws net.nokok.karaffe.parser.excptn.KaraffeParserException;
 
@@ -23,13 +33,17 @@ public interface KaraffeParserVisitor {
 
     public Object visit(ASTValueType node, Object data) throws net.nokok.karaffe.parser.excptn.KaraffeParserException;
 
+    public Object visit(ASTVarArgs node, Object data) throws net.nokok.karaffe.parser.excptn.KaraffeParserException;
+
     public Object visit(ASTBody node, Object data) throws net.nokok.karaffe.parser.excptn.KaraffeParserException;
 
-    public Object visit(ASTPattern node, Object data) throws net.nokok.karaffe.parser.excptn.KaraffeParserException;
+    public Object visit(ASTFuncPattern node, Object data) throws net.nokok.karaffe.parser.excptn.KaraffeParserException;
 
-    public Object visit(ASTFunctionName node, Object data) throws net.nokok.karaffe.parser.excptn.KaraffeParserException;
+    public Object visit(ASTPatternBody node, Object data) throws net.nokok.karaffe.parser.excptn.KaraffeParserException;
 
     public Object visit(ASTArgVariables node, Object data) throws net.nokok.karaffe.parser.excptn.KaraffeParserException;
+
+    public Object visit(ASTArgVariable node, Object data) throws net.nokok.karaffe.parser.excptn.KaraffeParserException;
 
     public Object visit(ASTGuard node, Object data) throws net.nokok.karaffe.parser.excptn.KaraffeParserException;
 
@@ -37,11 +51,25 @@ public interface KaraffeParserVisitor {
 
     public Object visit(ASTEnumElements node, Object data) throws net.nokok.karaffe.parser.excptn.KaraffeParserException;
 
+    public Object visit(ASTTypeElement node, Object data) throws net.nokok.karaffe.parser.excptn.KaraffeParserException;
+
+    public Object visit(ASTUnitType node, Object data) throws net.nokok.karaffe.parser.excptn.KaraffeParserException;
+
+    public Object visit(ASTTypeElementBinding node, Object data) throws net.nokok.karaffe.parser.excptn.KaraffeParserException;
+
+    public Object visit(ASTExpressionBinding node, Object data) throws net.nokok.karaffe.parser.excptn.KaraffeParserException;
+
+    public Object visit(ASTJavaType node, Object data) throws net.nokok.karaffe.parser.excptn.KaraffeParserException;
+
     public Object visit(ASTFunctionType node, Object data) throws net.nokok.karaffe.parser.excptn.KaraffeParserException;
 
     public Object visit(ASTFunctionLiteral node, Object data) throws net.nokok.karaffe.parser.excptn.KaraffeParserException;
 
+    public Object visit(ASTFunctionLiteralParameters node, Object data) throws net.nokok.karaffe.parser.excptn.KaraffeParserException;
+
     public Object visit(ASTImportStatement node, Object data) throws net.nokok.karaffe.parser.excptn.KaraffeParserException;
+
+    public Object visit(ASTAlias node, Object data) throws net.nokok.karaffe.parser.excptn.KaraffeParserException;
 
     public Object visit(ASTJavaFQCN node, Object data) throws net.nokok.karaffe.parser.excptn.KaraffeParserException;
 
@@ -53,21 +81,13 @@ public interface KaraffeParserVisitor {
 
     public Object visit(ASTTypeBound node, Object data) throws net.nokok.karaffe.parser.excptn.KaraffeParserException;
 
-    public Object visit(ASTModuleDeclarationStatement node, Object data) throws net.nokok.karaffe.parser.excptn.KaraffeParserException;
+    public Object visit(ASTModuleDeclaration node, Object data) throws net.nokok.karaffe.parser.excptn.KaraffeParserException;
 
     public Object visit(ASTModuleBody node, Object data) throws net.nokok.karaffe.parser.excptn.KaraffeParserException;
-
-    public Object visit(ASTAnnotation node, Object data) throws net.nokok.karaffe.parser.excptn.KaraffeParserException;
-
-    public Object visit(ASTIdentifier node, Object data) throws net.nokok.karaffe.parser.excptn.KaraffeParserException;
 
     public Object visit(ASTCompileUnit node, Object data) throws net.nokok.karaffe.parser.excptn.KaraffeParserException;
 
     public Object visit(ASTMethodInvocation node, Object data) throws net.nokok.karaffe.parser.excptn.KaraffeParserException;
-
-    public Object visit(ASTMethodName node, Object data) throws net.nokok.karaffe.parser.excptn.KaraffeParserException;
-
-    public Object visit(ASTExprName node, Object data) throws net.nokok.karaffe.parser.excptn.KaraffeParserException;
 
     public Object visit(ASTArguments node, Object data) throws net.nokok.karaffe.parser.excptn.KaraffeParserException;
 
@@ -77,13 +97,43 @@ public interface KaraffeParserVisitor {
 
     public Object visit(ASTLeftHandSide node, Object data) throws net.nokok.karaffe.parser.excptn.KaraffeParserException;
 
+    public Object visit(ASTSwitchExpr node, Object data) throws net.nokok.karaffe.parser.excptn.KaraffeParserException;
+
+    public Object visit(ASTSwitchCase node, Object data) throws net.nokok.karaffe.parser.excptn.KaraffeParserException;
+
     public Object visit(ASTExprNode node, Object data) throws net.nokok.karaffe.parser.excptn.KaraffeParserException;
+
+    public Object visit(ASTCastExpression node, Object data) throws net.nokok.karaffe.parser.excptn.KaraffeParserException;
+
+    public Object visit(ASTExpressionName node, Object data) throws net.nokok.karaffe.parser.excptn.KaraffeParserException;
+
+    public Object visit(ASTNewInstance node, Object data) throws net.nokok.karaffe.parser.excptn.KaraffeParserException;
 
     public Object visit(ASTElementAccess node, Object data) throws net.nokok.karaffe.parser.excptn.KaraffeParserException;
 
-    public Object visit(ASTModuleName node, Object data) throws net.nokok.karaffe.parser.excptn.KaraffeParserException;
+    public Object visit(ASTDocumentation node, Object data) throws net.nokok.karaffe.parser.excptn.KaraffeParserException;
 
     public Object visit(ASTModifierStatement node, Object data) throws net.nokok.karaffe.parser.excptn.KaraffeParserException;
+
+    public Object visit(ASTModuleName node, Object data) throws net.nokok.karaffe.parser.excptn.KaraffeParserException;
+
+    public Object visit(ASTMethodName node, Object data) throws net.nokok.karaffe.parser.excptn.KaraffeParserException;
+
+    public Object visit(ASTExprName node, Object data) throws net.nokok.karaffe.parser.excptn.KaraffeParserException;
+
+    public Object visit(ASTReturnType node, Object data) throws net.nokok.karaffe.parser.excptn.KaraffeParserException;
+
+    public Object visit(ASTSuperType node, Object data) throws net.nokok.karaffe.parser.excptn.KaraffeParserException;
+
+    public Object visit(ASTInterfaces node, Object data) throws net.nokok.karaffe.parser.excptn.KaraffeParserException;
+
+    public Object visit(ASTTypeIdentifier node, Object data) throws net.nokok.karaffe.parser.excptn.KaraffeParserException;
+
+    public Object visit(ASTVarIdentifier node, Object data) throws net.nokok.karaffe.parser.excptn.KaraffeParserException;
+
+    public Object visit(ASTWildCard node, Object data) throws net.nokok.karaffe.parser.excptn.KaraffeParserException;
+
+    public Object visit(ASTAnnotation node, Object data) throws net.nokok.karaffe.parser.excptn.KaraffeParserException;
 
     public Object visit(ASTAbstractModifier node, Object data) throws net.nokok.karaffe.parser.excptn.KaraffeParserException;
 
@@ -91,13 +141,11 @@ public interface KaraffeParserVisitor {
 
     public Object visit(ASTPrivateModifier node, Object data) throws net.nokok.karaffe.parser.excptn.KaraffeParserException;
 
+    public Object visit(ASTPublicModifier node, Object data) throws net.nokok.karaffe.parser.excptn.KaraffeParserException;
+
     public Object visit(ASTSealedModifier node, Object data) throws net.nokok.karaffe.parser.excptn.KaraffeParserException;
 
     public Object visit(ASTLazyModifier node, Object data) throws net.nokok.karaffe.parser.excptn.KaraffeParserException;
-
-    public Object visit(ASTOpModifier node, Object data) throws net.nokok.karaffe.parser.excptn.KaraffeParserException;
-
-    public Object visit(ASTUnaryOpModifier node, Object data) throws net.nokok.karaffe.parser.excptn.KaraffeParserException;
 
     public Object visit(ASTVariableModifier node, Object data) throws net.nokok.karaffe.parser.excptn.KaraffeParserException;
 
@@ -106,8 +154,6 @@ public interface KaraffeParserVisitor {
     public Object visit(ASTUnaryBang node, Object data) throws net.nokok.karaffe.parser.excptn.KaraffeParserException;
 
     public Object visit(ASTUnaryMinus node, Object data) throws net.nokok.karaffe.parser.excptn.KaraffeParserException;
-
-    public Object visit(ASTNewLineToken node, Object data) throws net.nokok.karaffe.parser.excptn.KaraffeParserException;
 
     public Object visit(ASTStar node, Object data) throws net.nokok.karaffe.parser.excptn.KaraffeParserException;
 
@@ -176,5 +222,7 @@ public interface KaraffeParserVisitor {
     public Object visit(ASTDA node, Object data) throws net.nokok.karaffe.parser.excptn.KaraffeParserException;
 
     public Object visit(ASTRA node, Object data) throws net.nokok.karaffe.parser.excptn.KaraffeParserException;
+
+    public Object visit(ASTSP node, Object data) throws net.nokok.karaffe.parser.excptn.KaraffeParserException;
 }
-/* JavaCC - OriginalChecksum=6966dbc48e78612ea3e46f0c232eda3f (do not edit this line) */
+/* JavaCC - OriginalChecksum=b27ba1b60bc0fc17ba80b6488a38af6b (do not edit this line) */

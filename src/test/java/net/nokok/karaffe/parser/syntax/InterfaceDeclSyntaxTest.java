@@ -1,7 +1,7 @@
 /**
  *
  * Karaffe Programming Language
- *   __ _____   ___  ___   ____________
+ * __ _____ ___ ___ ____________
  *   / //_/ _ | / _ \/ _ | / __/ __/ __/
  *  / , \/ __ |/ , _/ __ |/ _// _// _/
  * /_/|_/_/ |_/_/|_/_/ |_/_/ /_/ /___/
@@ -16,22 +16,22 @@ public class InterfaceDeclSyntaxTest {
 
     @Test
     public void testSimpleInterfaceDeclaration() {
-        testCode("interface name\n");
+        testCode("interface Name\n");
     }
 
     @Test
     public void testInterfaceDeclarationExtendsInterface() {
-        testCode("interface name <- SuperInterface\n");
+        testCode("interface Name <- SuperInterface\n");
     }
 
     @Test
     public void testInterfaceDeclarationExtendsInterfaces() {
-        testCode("interface name <- Interface1 Interface2\n");
+        testCode("interface Name <- Interface1 Interface2\n");
     }
 
     @Test(expected = AssertionError.class)
     public void testInvalidInterfaceDecl1() {
-        testCode("interface name <-");
+        testCode("interface Name <-");
     }
 
 }

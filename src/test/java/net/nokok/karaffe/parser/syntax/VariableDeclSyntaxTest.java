@@ -1,7 +1,7 @@
 /**
  *
  * Karaffe Programming Language
- *   __ _____   ___  ___   ____________
+ * __ _____ ___ ___ ____________
  *   / //_/ _ | / _ \/ _ | / __/ __/ __/
  *  / , \/ __ |/ , _/ __ |/ _// _// _/
  * /_/|_/_/ |_/_/|_/_/ |_/_/ /_/ /___/
@@ -37,5 +37,10 @@ public class VariableDeclSyntaxTest {
     @Test
     public void testTupleDecl() {
         testCode("def t : Tuple[Int Int] = #(1 2)\n");
+    }
+
+    @Test
+    public void testWildCardId() {
+        testCode("def _ = undefined");
     }
 }

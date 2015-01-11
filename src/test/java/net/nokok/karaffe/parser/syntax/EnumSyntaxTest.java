@@ -1,7 +1,7 @@
 /**
  *
  * Karaffe Programming Language
- *   __ _____   ___  ___   ____________
+ * __ _____ ___ ___ ____________
  *   / //_/ _ | / _ \/ _ | / __/ __/ __/
  *  / , \/ __ |/ , _/ __ |/ _// _// _/
  * /_/|_/_/ |_/_/|_/_/ |_/_/ /_/ /___/
@@ -16,7 +16,7 @@ public class EnumSyntaxTest {
 
     @Test
     public void testEnumSyntax() {
-        testCode("enum EnumType : [hoge fuga piyo]\n");
+        testCode("enum EnumType : [Hoge Fuga Piyo]\n");
     }
 
     @Test(expected = AssertionError.class)

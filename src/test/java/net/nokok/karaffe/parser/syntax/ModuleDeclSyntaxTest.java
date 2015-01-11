@@ -1,7 +1,7 @@
 /**
  *
  * Karaffe Programming Language
- *   __ _____   ___  ___   ____________
+ * __ _____ ___ ___ ____________
  *   / //_/ _ | / _ \/ _ | / __/ __/ __/
  *  / , \/ __ |/ , _/ __ |/ _// _// _/
  * /_/|_/_/ |_/_/|_/_/ |_/_/ /_/ /___/
@@ -16,8 +16,8 @@ public class ModuleDeclSyntaxTest {
 
     @Test
     public void testModuleDecl() {
-        testCode("module hoge\n"
-                + "type hoge");
+        testCode("module Hoge\n"
+                + "type Hoge");
     }
 
     @Test(expected = AssertionError.class)

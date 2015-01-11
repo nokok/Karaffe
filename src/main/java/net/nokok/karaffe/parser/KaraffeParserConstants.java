@@ -10,165 +10,171 @@ public interface KaraffeParserConstants {
     /** End of File. */
     int EOF = 0;
     /** RegularExpression Id. */
-    int EndOfLine = 9;
+    int LeftBracket = 5;
     /** RegularExpression Id. */
-    int Abstract = 11;
+    int RightBracket = 6;
     /** RegularExpression Id. */
-    int Check = 12;
+    int LeftBrace = 7;
     /** RegularExpression Id. */
-    int Enum = 13;
+    int RightBrace = 8;
     /** RegularExpression Id. */
-    int Import = 14;
+    int LeftParen = 9;
     /** RegularExpression Id. */
-    int Interface = 15;
+    int RightParen = 10;
     /** RegularExpression Id. */
-    int Lazy = 16;
+    int Colon = 11;
     /** RegularExpression Id. */
-    int Module = 17;
+    int SemiColon = 12;
     /** RegularExpression Id. */
-    int Operator = 18;
+    int DoubleColon = 13;
     /** RegularExpression Id. */
-    int Override = 19;
+    int Dot = 14;
     /** RegularExpression Id. */
-    int Private = 20;
+    int SP = 15;
     /** RegularExpression Id. */
-    int Sealed = 21;
+    int EqualSign = 16;
     /** RegularExpression Id. */
-    int Switch = 22;
+    int AA = 17;
     /** RegularExpression Id. */
-    int Type = 23;
+    int SA = 18;
     /** RegularExpression Id. */
-    int UnaryOperator = 24;
+    int MA = 19;
     /** RegularExpression Id. */
-    int TypeAlias = 25;
+    int DA = 20;
     /** RegularExpression Id. */
-    int Undefined = 26;
+    int RA = 21;
     /** RegularExpression Id. */
-    int Variable = 27;
+    int Lt = 22;
     /** RegularExpression Id. */
-    int BoolLiteral = 28;
+    int LtE = 23;
     /** RegularExpression Id. */
-    int IntLiteral = 29;
+    int Gt = 24;
     /** RegularExpression Id. */
-    int Hexadecimal = 30;
+    int GtE = 25;
     /** RegularExpression Id. */
-    int HexDigit = 31;
+    int Plus = 26;
     /** RegularExpression Id. */
-    int FloatLiteral = 32;
+    int Minus = 27;
     /** RegularExpression Id. */
-    int Zero = 33;
+    int Star = 28;
     /** RegularExpression Id. */
-    int NonZero = 34;
+    int Slash = 29;
     /** RegularExpression Id. */
-    int Exp = 35;
+    int SafeDiv = 30;
     /** RegularExpression Id. */
-    int StringLiteral = 36;
+    int Percent = 31;
     /** RegularExpression Id. */
-    int StringCharacter = 37;
+    int SafeRem = 32;
     /** RegularExpression Id. */
-    int StringEscapeSeq = 38;
+    int Tilde = 33;
     /** RegularExpression Id. */
-    int UnicodeEscape = 39;
+    int Bang = 34;
     /** RegularExpression Id. */
-    int Identifier = 40;
+    int And = 35;
     /** RegularExpression Id. */
-    int IdentifierHead = 41;
+    int Or = 36;
     /** RegularExpression Id. */
-    int IdentifierChar = 42;
+    int Hat = 37;
     /** RegularExpression Id. */
-    int LeftBracket = 45;
+    int Question = 38;
     /** RegularExpression Id. */
-    int RightBracket = 46;
+    int ReverseArrow = 39;
     /** RegularExpression Id. */
-    int LeftBrace = 47;
+    int SingleArrow = 40;
     /** RegularExpression Id. */
-    int RightBrace = 48;
+    int CastArrow = 41;
     /** RegularExpression Id. */
-    int LeftParen = 49;
+    int TypeCheckArrow = 42;
     /** RegularExpression Id. */
-    int RightParen = 50;
+    int DoubleArrow = 43;
     /** RegularExpression Id. */
-    int Colon = 51;
+    int EqualTo = 44;
     /** RegularExpression Id. */
-    int DoubleColon = 52;
+    int NotEqualTo = 45;
     /** RegularExpression Id. */
-    int Dot = 53;
+    int NonComparable = 46;
     /** RegularExpression Id. */
-    int EqualSign = 54;
+    int Comparable = 47;
     /** RegularExpression Id. */
-    int AA = 55;
+    int ClosedRange = 48;
     /** RegularExpression Id. */
-    int SA = 56;
+    int HalfOpenRange = 49;
     /** RegularExpression Id. */
-    int MA = 57;
+    int BeginDoc = 50;
     /** RegularExpression Id. */
-    int DA = 58;
+    int EndDoc = 51;
     /** RegularExpression Id. */
-    int RA = 59;
+    int Atmark = 52;
     /** RegularExpression Id. */
-    int Lt = 60;
+    int NewLine = 53;
     /** RegularExpression Id. */
-    int LtE = 61;
+    int EndOfLine = 61;
     /** RegularExpression Id. */
-    int Gt = 62;
+    int Abstract = 63;
     /** RegularExpression Id. */
-    int GtE = 63;
+    int Case = 64;
     /** RegularExpression Id. */
-    int Plus = 64;
+    int Check = 65;
     /** RegularExpression Id. */
-    int Minus = 65;
+    int Enum = 66;
     /** RegularExpression Id. */
-    int Star = 66;
+    int FuncAlias = 67;
     /** RegularExpression Id. */
-    int Slash = 67;
+    int Import = 68;
     /** RegularExpression Id. */
-    int SafeDiv = 68;
+    int Interface = 69;
     /** RegularExpression Id. */
-    int Percent = 69;
+    int Lazy = 70;
     /** RegularExpression Id. */
-    int SafeRem = 70;
+    int Module = 71;
     /** RegularExpression Id. */
-    int Tilde = 71;
+    int Override = 72;
     /** RegularExpression Id. */
-    int Bang = 72;
+    int Private = 73;
     /** RegularExpression Id. */
-    int And = 73;
+    int Public = 74;
     /** RegularExpression Id. */
-    int Or = 74;
+    int Sealed = 75;
     /** RegularExpression Id. */
-    int Hat = 75;
+    int Switch = 76;
     /** RegularExpression Id. */
-    int Question = 76;
+    int Type = 77;
     /** RegularExpression Id. */
-    int ReverseArrow = 77;
+    int TypeAlias = 78;
     /** RegularExpression Id. */
-    int ReverseArrowChar = 78;
+    int Undefined = 79;
     /** RegularExpression Id. */
-    int SingleArrowChar = 79;
+    int Variable = 80;
     /** RegularExpression Id. */
-    int SingleArrow = 80;
+    int BoolLiteral = 81;
     /** RegularExpression Id. */
-    int CastArrow = 81;
+    int IntLiteral = 82;
     /** RegularExpression Id. */
-    int TypeCheckArrow = 82;
+    int Hexadecimal = 83;
     /** RegularExpression Id. */
-    int DoubleArrow = 83;
+    int HexDigit = 84;
     /** RegularExpression Id. */
-    int EqualTo = 84;
+    int FloatLiteral = 85;
     /** RegularExpression Id. */
-    int NotEqualTo = 85;
+    int Zero = 86;
     /** RegularExpression Id. */
-    int NonComparable = 86;
+    int NonZero = 87;
     /** RegularExpression Id. */
-    int Comparable = 87;
+    int Exp = 88;
     /** RegularExpression Id. */
-    int ClosedRange = 88;
+    int StringLiteral = 89;
     /** RegularExpression Id. */
-    int HalfOpenRange = 89;
+    int StringCharacter = 90;
     /** RegularExpression Id. */
-    int NewLine = 90;
+    int StringEscapeSeq = 91;
     /** RegularExpression Id. */
-    int Atmark = 91;
+    int UnicodeEscape = 92;
+    /** RegularExpression Id. */
+    int TypeIdentifier = 93;
+    /** RegularExpression Id. */
+    int VarIdentifier = 94;
+    /** RegularExpression Id. */
+    int WildCard = 95;
 
     /** Lexical state. */
     int DEFAULT = 0;
@@ -180,46 +186,6 @@ public interface KaraffeParserConstants {
         "<EOF>",
         "\"def\"",
         "\"extends\"",
-        "\" \"",
-        "\"\\t\"",
-        "<token of kind 5>",
-        "\"/*\"",
-        "\"/*\"",
-        "<token of kind 8>",
-        "<EndOfLine>",
-        "\"*/\"",
-        "\"abstract\"",
-        "\"check\"",
-        "\"enum\"",
-        "\"import\"",
-        "\"interface\"",
-        "\"lazy\"",
-        "\"module\"",
-        "\"op\"",
-        "\"override\"",
-        "\"private\"",
-        "\"sealed\"",
-        "\"switch\"",
-        "\"type\"",
-        "\"unaryop\"",
-        "\"typealias\"",
-        "\"undefined\"",
-        "\"var\"",
-        "<BoolLiteral>",
-        "<IntLiteral>",
-        "<Hexadecimal>",
-        "<HexDigit>",
-        "<FloatLiteral>",
-        "\"0\"",
-        "<NonZero>",
-        "<Exp>",
-        "<StringLiteral>",
-        "<StringCharacter>",
-        "<StringEscapeSeq>",
-        "<UnicodeEscape>",
-        "<Identifier>",
-        "<IdentifierHead>",
-        "<IdentifierChar>",
         "\",\"",
         "\"#\"",
         "\"[\"",
@@ -229,8 +195,10 @@ public interface KaraffeParserConstants {
         "\"(\"",
         "\")\"",
         "\":\"",
+        "\";\"",
         "\"::\"",
         "\".\"",
+        "<SP>",
         "\"=\"",
         "\"+=\"",
         "\"-=\"",
@@ -255,8 +223,6 @@ public interface KaraffeParserConstants {
         "\"^\"",
         "\"?\"",
         "\"<-\"",
-        "\"\\u2190\"",
-        "\"\\u2192\"",
         "\"->\"",
         "\"~>\"",
         "\"~>?\"",
@@ -267,8 +233,52 @@ public interface KaraffeParserConstants {
         "\"<>=\"",
         "\"..\"",
         "\".<\"",
-        "<NewLine>",
+        "\"{:\"",
+        "\":}\"",
         "\"@\"",
+        "<NewLine>",
+        "\" \"",
+        "\"\\t\"",
+        "<token of kind 56>",
+        "\"/*\"",
+        "<token of kind 58>",
+        "\"/*\"",
+        "<token of kind 60>",
+        "<EndOfLine>",
+        "\"*/\"",
+        "\"abstract\"",
+        "\"case\"",
+        "\"check\"",
+        "\"enum\"",
+        "\"funcalias\"",
+        "\"import\"",
+        "\"interface\"",
+        "\"lazy\"",
+        "\"module\"",
+        "\"override\"",
+        "\"private\"",
+        "\"public\"",
+        "\"sealed\"",
+        "\"switch\"",
+        "\"type\"",
+        "\"typealias\"",
+        "\"undefined\"",
+        "\"var\"",
+        "<BoolLiteral>",
+        "<IntLiteral>",
+        "<Hexadecimal>",
+        "<HexDigit>",
+        "<FloatLiteral>",
+        "\"0\"",
+        "<NonZero>",
+        "<Exp>",
+        "<StringLiteral>",
+        "<StringCharacter>",
+        "<StringEscapeSeq>",
+        "<UnicodeEscape>",
+        "<TypeIdentifier>",
+        "<VarIdentifier>",
+        "\"_\"",
         "\"#(\"",};
 
 }

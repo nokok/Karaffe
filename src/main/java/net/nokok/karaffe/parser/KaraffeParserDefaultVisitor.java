@@ -20,11 +20,19 @@ public class KaraffeParserDefaultVisitor implements KaraffeParserVisitor {
         return defaultVisit(node, data);
     }
 
-    public Object visit(ASTSuperType node, Object data) throws net.nokok.karaffe.parser.excptn.KaraffeParserException {
+    public Object visit(ASTAlgebraicDataTypeDecl node, Object data) throws net.nokok.karaffe.parser.excptn.KaraffeParserException {
         return defaultVisit(node, data);
     }
 
-    public Object visit(ASTInterfaces node, Object data) throws net.nokok.karaffe.parser.excptn.KaraffeParserException {
+    public Object visit(ASTAlgebraicDataTypeDeclBody node, Object data) throws net.nokok.karaffe.parser.excptn.KaraffeParserException {
+        return defaultVisit(node, data);
+    }
+
+    public Object visit(ASTConstructor node, Object data) throws net.nokok.karaffe.parser.excptn.KaraffeParserException {
+        return defaultVisit(node, data);
+    }
+
+    public Object visit(ASTExistingTypeOrTParameter node, Object data) throws net.nokok.karaffe.parser.excptn.KaraffeParserException {
         return defaultVisit(node, data);
     }
 
@@ -33,6 +41,18 @@ public class KaraffeParserDefaultVisitor implements KaraffeParserVisitor {
     }
 
     public Object visit(ASTTypeAliasDeclaration node, Object data) throws net.nokok.karaffe.parser.excptn.KaraffeParserException {
+        return defaultVisit(node, data);
+    }
+
+    public Object visit(ASTFuncAliasDeclaration node, Object data) throws net.nokok.karaffe.parser.excptn.KaraffeParserException {
+        return defaultVisit(node, data);
+    }
+
+    public Object visit(ASTFuncAliasAfter node, Object data) throws net.nokok.karaffe.parser.excptn.KaraffeParserException {
+        return defaultVisit(node, data);
+    }
+
+    public Object visit(ASTFuncAliasBefore node, Object data) throws net.nokok.karaffe.parser.excptn.KaraffeParserException {
         return defaultVisit(node, data);
     }
 
@@ -48,19 +68,27 @@ public class KaraffeParserDefaultVisitor implements KaraffeParserVisitor {
         return defaultVisit(node, data);
     }
 
+    public Object visit(ASTVarArgs node, Object data) throws net.nokok.karaffe.parser.excptn.KaraffeParserException {
+        return defaultVisit(node, data);
+    }
+
     public Object visit(ASTBody node, Object data) throws net.nokok.karaffe.parser.excptn.KaraffeParserException {
         return defaultVisit(node, data);
     }
 
-    public Object visit(ASTPattern node, Object data) throws net.nokok.karaffe.parser.excptn.KaraffeParserException {
+    public Object visit(ASTFuncPattern node, Object data) throws net.nokok.karaffe.parser.excptn.KaraffeParserException {
         return defaultVisit(node, data);
     }
 
-    public Object visit(ASTFunctionName node, Object data) throws net.nokok.karaffe.parser.excptn.KaraffeParserException {
+    public Object visit(ASTPatternBody node, Object data) throws net.nokok.karaffe.parser.excptn.KaraffeParserException {
         return defaultVisit(node, data);
     }
 
     public Object visit(ASTArgVariables node, Object data) throws net.nokok.karaffe.parser.excptn.KaraffeParserException {
+        return defaultVisit(node, data);
+    }
+
+    public Object visit(ASTArgVariable node, Object data) throws net.nokok.karaffe.parser.excptn.KaraffeParserException {
         return defaultVisit(node, data);
     }
 
@@ -76,6 +104,26 @@ public class KaraffeParserDefaultVisitor implements KaraffeParserVisitor {
         return defaultVisit(node, data);
     }
 
+    public Object visit(ASTTypeElement node, Object data) throws net.nokok.karaffe.parser.excptn.KaraffeParserException {
+        return defaultVisit(node, data);
+    }
+
+    public Object visit(ASTUnitType node, Object data) throws net.nokok.karaffe.parser.excptn.KaraffeParserException {
+        return defaultVisit(node, data);
+    }
+
+    public Object visit(ASTTypeElementBinding node, Object data) throws net.nokok.karaffe.parser.excptn.KaraffeParserException {
+        return defaultVisit(node, data);
+    }
+
+    public Object visit(ASTExpressionBinding node, Object data) throws net.nokok.karaffe.parser.excptn.KaraffeParserException {
+        return defaultVisit(node, data);
+    }
+
+    public Object visit(ASTJavaType node, Object data) throws net.nokok.karaffe.parser.excptn.KaraffeParserException {
+        return defaultVisit(node, data);
+    }
+
     public Object visit(ASTFunctionType node, Object data) throws net.nokok.karaffe.parser.excptn.KaraffeParserException {
         return defaultVisit(node, data);
     }
@@ -84,7 +132,15 @@ public class KaraffeParserDefaultVisitor implements KaraffeParserVisitor {
         return defaultVisit(node, data);
     }
 
+    public Object visit(ASTFunctionLiteralParameters node, Object data) throws net.nokok.karaffe.parser.excptn.KaraffeParserException {
+        return defaultVisit(node, data);
+    }
+
     public Object visit(ASTImportStatement node, Object data) throws net.nokok.karaffe.parser.excptn.KaraffeParserException {
+        return defaultVisit(node, data);
+    }
+
+    public Object visit(ASTAlias node, Object data) throws net.nokok.karaffe.parser.excptn.KaraffeParserException {
         return defaultVisit(node, data);
     }
 
@@ -108,19 +164,11 @@ public class KaraffeParserDefaultVisitor implements KaraffeParserVisitor {
         return defaultVisit(node, data);
     }
 
-    public Object visit(ASTModuleDeclarationStatement node, Object data) throws net.nokok.karaffe.parser.excptn.KaraffeParserException {
+    public Object visit(ASTModuleDeclaration node, Object data) throws net.nokok.karaffe.parser.excptn.KaraffeParserException {
         return defaultVisit(node, data);
     }
 
     public Object visit(ASTModuleBody node, Object data) throws net.nokok.karaffe.parser.excptn.KaraffeParserException {
-        return defaultVisit(node, data);
-    }
-
-    public Object visit(ASTAnnotation node, Object data) throws net.nokok.karaffe.parser.excptn.KaraffeParserException {
-        return defaultVisit(node, data);
-    }
-
-    public Object visit(ASTIdentifier node, Object data) throws net.nokok.karaffe.parser.excptn.KaraffeParserException {
         return defaultVisit(node, data);
     }
 
@@ -129,14 +177,6 @@ public class KaraffeParserDefaultVisitor implements KaraffeParserVisitor {
     }
 
     public Object visit(ASTMethodInvocation node, Object data) throws net.nokok.karaffe.parser.excptn.KaraffeParserException {
-        return defaultVisit(node, data);
-    }
-
-    public Object visit(ASTMethodName node, Object data) throws net.nokok.karaffe.parser.excptn.KaraffeParserException {
-        return defaultVisit(node, data);
-    }
-
-    public Object visit(ASTExprName node, Object data) throws net.nokok.karaffe.parser.excptn.KaraffeParserException {
         return defaultVisit(node, data);
     }
 
@@ -156,7 +196,27 @@ public class KaraffeParserDefaultVisitor implements KaraffeParserVisitor {
         return defaultVisit(node, data);
     }
 
+    public Object visit(ASTSwitchExpr node, Object data) throws net.nokok.karaffe.parser.excptn.KaraffeParserException {
+        return defaultVisit(node, data);
+    }
+
+    public Object visit(ASTSwitchCase node, Object data) throws net.nokok.karaffe.parser.excptn.KaraffeParserException {
+        return defaultVisit(node, data);
+    }
+
     public Object visit(ASTExprNode node, Object data) throws net.nokok.karaffe.parser.excptn.KaraffeParserException {
+        return defaultVisit(node, data);
+    }
+
+    public Object visit(ASTCastExpression node, Object data) throws net.nokok.karaffe.parser.excptn.KaraffeParserException {
+        return defaultVisit(node, data);
+    }
+
+    public Object visit(ASTExpressionName node, Object data) throws net.nokok.karaffe.parser.excptn.KaraffeParserException {
+        return defaultVisit(node, data);
+    }
+
+    public Object visit(ASTNewInstance node, Object data) throws net.nokok.karaffe.parser.excptn.KaraffeParserException {
         return defaultVisit(node, data);
     }
 
@@ -164,11 +224,51 @@ public class KaraffeParserDefaultVisitor implements KaraffeParserVisitor {
         return defaultVisit(node, data);
     }
 
-    public Object visit(ASTModuleName node, Object data) throws net.nokok.karaffe.parser.excptn.KaraffeParserException {
+    public Object visit(ASTDocumentation node, Object data) throws net.nokok.karaffe.parser.excptn.KaraffeParserException {
         return defaultVisit(node, data);
     }
 
     public Object visit(ASTModifierStatement node, Object data) throws net.nokok.karaffe.parser.excptn.KaraffeParserException {
+        return defaultVisit(node, data);
+    }
+
+    public Object visit(ASTModuleName node, Object data) throws net.nokok.karaffe.parser.excptn.KaraffeParserException {
+        return defaultVisit(node, data);
+    }
+
+    public Object visit(ASTMethodName node, Object data) throws net.nokok.karaffe.parser.excptn.KaraffeParserException {
+        return defaultVisit(node, data);
+    }
+
+    public Object visit(ASTExprName node, Object data) throws net.nokok.karaffe.parser.excptn.KaraffeParserException {
+        return defaultVisit(node, data);
+    }
+
+    public Object visit(ASTReturnType node, Object data) throws net.nokok.karaffe.parser.excptn.KaraffeParserException {
+        return defaultVisit(node, data);
+    }
+
+    public Object visit(ASTSuperType node, Object data) throws net.nokok.karaffe.parser.excptn.KaraffeParserException {
+        return defaultVisit(node, data);
+    }
+
+    public Object visit(ASTInterfaces node, Object data) throws net.nokok.karaffe.parser.excptn.KaraffeParserException {
+        return defaultVisit(node, data);
+    }
+
+    public Object visit(ASTTypeIdentifier node, Object data) throws net.nokok.karaffe.parser.excptn.KaraffeParserException {
+        return defaultVisit(node, data);
+    }
+
+    public Object visit(ASTVarIdentifier node, Object data) throws net.nokok.karaffe.parser.excptn.KaraffeParserException {
+        return defaultVisit(node, data);
+    }
+
+    public Object visit(ASTWildCard node, Object data) throws net.nokok.karaffe.parser.excptn.KaraffeParserException {
+        return defaultVisit(node, data);
+    }
+
+    public Object visit(ASTAnnotation node, Object data) throws net.nokok.karaffe.parser.excptn.KaraffeParserException {
         return defaultVisit(node, data);
     }
 
@@ -184,19 +284,15 @@ public class KaraffeParserDefaultVisitor implements KaraffeParserVisitor {
         return defaultVisit(node, data);
     }
 
+    public Object visit(ASTPublicModifier node, Object data) throws net.nokok.karaffe.parser.excptn.KaraffeParserException {
+        return defaultVisit(node, data);
+    }
+
     public Object visit(ASTSealedModifier node, Object data) throws net.nokok.karaffe.parser.excptn.KaraffeParserException {
         return defaultVisit(node, data);
     }
 
     public Object visit(ASTLazyModifier node, Object data) throws net.nokok.karaffe.parser.excptn.KaraffeParserException {
-        return defaultVisit(node, data);
-    }
-
-    public Object visit(ASTOpModifier node, Object data) throws net.nokok.karaffe.parser.excptn.KaraffeParserException {
-        return defaultVisit(node, data);
-    }
-
-    public Object visit(ASTUnaryOpModifier node, Object data) throws net.nokok.karaffe.parser.excptn.KaraffeParserException {
         return defaultVisit(node, data);
     }
 
@@ -213,10 +309,6 @@ public class KaraffeParserDefaultVisitor implements KaraffeParserVisitor {
     }
 
     public Object visit(ASTUnaryMinus node, Object data) throws net.nokok.karaffe.parser.excptn.KaraffeParserException {
-        return defaultVisit(node, data);
-    }
-
-    public Object visit(ASTNewLineToken node, Object data) throws net.nokok.karaffe.parser.excptn.KaraffeParserException {
         return defaultVisit(node, data);
     }
 
@@ -355,5 +447,9 @@ public class KaraffeParserDefaultVisitor implements KaraffeParserVisitor {
     public Object visit(ASTRA node, Object data) throws net.nokok.karaffe.parser.excptn.KaraffeParserException {
         return defaultVisit(node, data);
     }
+
+    public Object visit(ASTSP node, Object data) throws net.nokok.karaffe.parser.excptn.KaraffeParserException {
+        return defaultVisit(node, data);
+    }
 }
-/* JavaCC - OriginalChecksum=a97d5f28a28a0ac50671948b31c7e22a (do not edit this line) */
+/* JavaCC - OriginalChecksum=5b66567e12d19254fd54d42ccf3fe0ca (do not edit this line) */

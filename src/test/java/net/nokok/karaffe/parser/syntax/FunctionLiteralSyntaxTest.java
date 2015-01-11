@@ -1,7 +1,7 @@
 /**
  *
  * Karaffe Programming Language
- *   __ _____   ___  ___   ____________
+ * __ _____ ___ ___ ____________
  *   / //_/ _ | / _ \/ _ | / __/ __/ __/
  *  / , \/ __ |/ , _/ __ |/ _// _// _/
  * /_/|_/_/ |_/_/|_/_/ |_/_/ /_/ /___/
@@ -38,4 +38,25 @@ public class FunctionLiteralSyntaxTest {
     public void testFuncLiteral3() {
         testCode("() -> {#()}()");
     }
+
+    @Test
+    public void testFuncLiteral4() {
+        testCode("x -> {x}(2)");
+    }
+
+    @Test
+    public void testFuncLiteralParameters() {
+        testCode("(x:Int) -> {x}(2)");
+    }
+
+    @Test
+    public void testFuncLiteralParameters1() {
+        testCode("(x:Int y:Int) -> {x + y}(2)");
+    }
+
+    @Test
+    public void testFuncLiteralMethodInvocation() {
+        testCode("((x) -> 1).toString()");
+    }
+
 }
