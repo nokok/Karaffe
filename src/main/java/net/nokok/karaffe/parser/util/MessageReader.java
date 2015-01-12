@@ -21,9 +21,10 @@ public class MessageReader {
     private final Properties properties = new Properties();
 
     public MessageReader() {
-        try {
-            Locale defaultLocale = Locale.getDefault();
-            properties.load(new FileReader(Paths.get("locale", defaultLocale.toString() + ".properties").toFile()));
+
+        Locale defaultLocale = Locale.getDefault();
+        try (FileReader reader = new FileReader(Paths.get("locale", defaultLocale.toString() + ".properties").toFile());) {
+            properties.load(reader);
         } catch (FileNotFoundException ex) {
             ex.printStackTrace();
         } catch (IOException ex) {
