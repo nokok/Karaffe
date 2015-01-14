@@ -10,26 +10,12 @@ options {
 PARSER_BEGIN(KaraffeParser)
 package net.nokok.karaffe.parser;
 
-import net.nokok.karaffe.parser.util.*;
-import java.util.*;
-
 public class KaraffeParser{
 
     public KaraffeParser(String sourceCode){
         this(new java.io.StringReader(sourceCode));
     }
 
-    public int getCurrentTokenBeginColumn(){
-        return jj_input_stream.getBeginColumn();
-    }
-
-    public int getCurrentTokenEndColumn(){
-        return jj_input_stream.getEndColumn();
-    }
-
-    public int getCurrentLine(){
-        return jj_input_stream.getEndLine();
-    }
 }
 
 
