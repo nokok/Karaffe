@@ -364,11 +364,11 @@ void MethodInvocation():
 {
     LOOKAHEAD(2) ElementAccess() Arguments() (LOOKAHEAD(<Dot> MethodInvocation()) <Dot> MethodInvocation())? | 
     LOOKAHEAD(2) MethodName() Arguments() (LOOKAHEAD(<Dot> MethodInvocation()) <Dot> MethodInvocation())? |
-    LOOKAHEAD(TypeIdentifier() (<Dot>)? MethodName() Arguments()) TypeIdentifier() (<Dot>)? MethodName() Arguments() (LOOKAHEAD(<Dot> MethodInvocation()) <Dot> MethodInvocation())?| 
+    LOOKAHEAD(TypeIdentifier() <Dot> MethodName() Arguments()) TypeIdentifier() <Dot> MethodName() Arguments() (LOOKAHEAD(<Dot> MethodInvocation()) <Dot> MethodInvocation())?| 
     LOOKAHEAD(ExpressionName() MethodName() Arguments()) ExpressionName() MethodName() Arguments() (LOOKAHEAD(<Dot> MethodInvocation()) <Dot> MethodInvocation())?| 
-    LOOKAHEAD((<LeftParen>)? Literal() (<RightParen>)? (<Dot>)? MethodName() Arguments()) (LOOKAHEAD(<LeftParen>) <LeftParen>)? Literal() (<RightParen>)? (<Dot>)? MethodName() Arguments() (LOOKAHEAD(<Dot> MethodInvocation()) <Dot> MethodInvocation())?|
+    LOOKAHEAD((<LeftParen>)? Literal() (<RightParen>)? <Dot> MethodName() Arguments()) (LOOKAHEAD(<LeftParen>) <LeftParen>)? Literal() (<RightParen>)? <Dot> MethodName() Arguments() (LOOKAHEAD(<Dot> MethodInvocation()) <Dot> MethodInvocation())?|
     LOOKAHEAD(FunctionLiteral() Arguments()) FunctionLiteral() Arguments() (LOOKAHEAD(<Dot> MethodInvocation()) <Dot> MethodInvocation())? |
-    LOOKAHEAD(<LeftParen> Expression() <RightParen>) <LeftParen> Expression() <RightParen> (<Dot>)? MethodName() Arguments() (LOOKAHEAD(<Dot> MethodInvocation()) <Dot> MethodInvocation())?
+    LOOKAHEAD(<LeftParen> Expression() <RightParen>) <LeftParen> Expression() <RightParen> <Dot> MethodName() Arguments() (LOOKAHEAD(<Dot> MethodInvocation()) <Dot> MethodInvocation())?
 }
 
 void Arguments():
@@ -508,7 +508,7 @@ void PostFixExpression() #void:
 void ExpressionName():
 {}
 {
-    (LOOKAHEAD(ElementAccess() (<Dot>)? ) ElementAccess() (<Dot>)?)? Identifier() 
+    (LOOKAHEAD(ElementAccess() <Dot>) ElementAccess() <Dot>)? Identifier() 
 }
 
 void Primary() #void:
@@ -532,7 +532,7 @@ void NewInstance():
 void ElementAccess():
 {}
 {
-    (LOOKAHEAD(ModuleName() <DoubleColon>) ModuleName() <DoubleColon>)? Identifier() (LOOKAHEAD((<Dot>)? Identifier()) (<Dot>)? Identifier())+
+    (LOOKAHEAD(ModuleName() <DoubleColon>) ModuleName() <DoubleColon>)? Identifier() (LOOKAHEAD(<Dot> Identifier()) <Dot> Identifier())+
 }
 
 void Documentation():
