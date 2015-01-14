@@ -544,7 +544,14 @@ void Documentation():
 void ModifierStatement():
 {}
 {
-     "#" (AllModifier())+
+     "#" (AccessModifier())+
+}
+
+void AccessModifier():
+{}
+{
+    PublicModifier() | 
+    PrivateModifier()
 }
 
 void AllModifier() #void:
