@@ -43,8 +43,15 @@ TOKEN_MGR_DECLS:
 void TypeDeclaration():
 {}
 {
-    (Documentation())? <Type> TypeElement() (<Colon> SuperType())? (<ReverseArrow> Interfaces())?
+    (Documentation())? (TypeModifier())? <Type> TypeElement() (<Colon> SuperType())? (<ReverseArrow> Interfaces())?
     (LOOKAHEAD(TypeDeclBody()) TypeDeclBody())?
+}
+
+void TypeModifier():
+{}
+{
+    AbstractModifier() | 
+    SealedModifier()
 }
 
 void TypeDeclBody():
@@ -120,7 +127,13 @@ void FuncAliasBefore():
 void VariableOrFunctionDeclaration():
 {}
 {
-    (Documentation())? "def" VarIdentifier() (<Colon> ValueType())? ((FunctionDeclBody()) | (<EqualSign> Body()) )
+    (Documentation())? VarOrFuncModifier() "def" VarIdentifier() (<Colon> ValueType())? (LOOKAHEAD(((FunctionDeclBody()) | (<EqualSign> Body()))) ((FunctionDeclBody()) | (<EqualSign> Body())))?
+}
+
+void VarOrFuncModifier():
+{}
+{
+    (OverrideModifier() | LazyModifier() | VariableModifier())*
 }
 
 void FunctionDeclBody():
