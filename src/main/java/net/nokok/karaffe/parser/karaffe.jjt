@@ -63,7 +63,7 @@ void TypeDeclBody():
 void TypeDeclBody1() #void:
 {}
 {
-    (LOOKAHEAD( VariableOrFunctionDeclaration()) VariableOrFunctionDeclaration() | 
+    (LOOKAHEAD(VariableOrFunctionDeclaration()) VariableOrFunctionDeclaration() | 
     LOOKAHEAD(Assignment()) Assignment() |
     LOOKAHEAD(MethodInvocation()) MethodInvocation() )
 }
