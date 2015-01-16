@@ -42,7 +42,7 @@ public class FunctionDeclSyntaxTest {
 
     @Test
     public void testVoidReturnType() {
-        testCode("def fund : (() -> ()) = undefined\n");
+        testCode("def func : (() -> ()) = undefined\n");
     }
 
     @Test
