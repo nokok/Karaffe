@@ -15,7 +15,7 @@ public class Token implements java.io.Serializable {
     private static final long serialVersionUID = 1L;
 
     /**
-     * An integer that describes the kind of this token.  This numbering
+     * An integer that describes the kind of this token. This numbering
      * system is determined by JavaCCParser, and a table of these numbers is
      * stored in the file ...Constants.java.
      */
@@ -37,10 +37,10 @@ public class Token implements java.io.Serializable {
 
     /**
      * A reference to the next regular (non-special) token from the input
-     * stream.  If this is the last token from the input stream, or if the
+     * stream. If this is the last token from the input stream, or if the
      * token manager has not read tokens beyond this one, this field is
-     * set to null.  This is true only if this token is also a regular
-     * token.  Otherwise, see below for a description of the contents of
+     * set to null. This is true only if this token is also a regular
+     * token. Otherwise, see below for a description of the contents of
      * this field.
      */
     public Token next;
@@ -54,7 +54,7 @@ public class Token implements java.io.Serializable {
      * previous special token through its specialToken field, and so on
      * until the first special token (whose specialToken field is null).
      * The next fields of special tokens refer to other special tokens that
-     * immediately follow it (without an intervening regular token).  If there
+     * immediately follow it (without an intervening regular token). If there
      * is no such token, this field is null.
      */
     public Token specialToken;
@@ -106,7 +106,7 @@ public class Token implements java.io.Serializable {
      * For example, if you have a subclass of Token called IDToken that
      * you want to create if ofKind is ID, simply add something like :
      *
-     *    case MyParserConstants.ID : return new IDToken(ofKind, image);
+     * case MyParserConstants.ID : return new IDToken(ofKind, image);
      *
      * to the following switch statement. Then you can cast matchedToken
      * variable to the appropriate type and use sit in your lexical actions.

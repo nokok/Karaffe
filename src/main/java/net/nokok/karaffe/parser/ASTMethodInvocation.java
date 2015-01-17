@@ -8,14 +8,14 @@ public class ASTMethodInvocation extends SimpleNode {
         super(id);
     }
 
-    public ASTMethodInvocation(KaraffeParser p, int id) {
+    public ASTMethodInvocation(Parser p, int id) {
         super(p, id);
     }
 
-    /** Accept the visitor. **/
-    public Object jjtAccept(KaraffeParserVisitor visitor, Object data) throws net.nokok.karaffe.parser.excptn.KaraffeParserException {
+    /** Accept the visitor. * */
+    public Object jjtAccept(ParserVisitor visitor, Object data) throws net.nokok.karaffe.parser.excptn.ParserException {
 
         return visitor.visit(this, data);
     }
 }
-/* JavaCC - OriginalChecksum=2b9a4feaf042a92ce20448d11533f1b5 (do not edit this line) */
+/* JavaCC - OriginalChecksum=7405708abf0b78638717e19b1b643217 (do not edit this line) */

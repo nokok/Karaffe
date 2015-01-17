@@ -8,14 +8,14 @@ public class ASTReturnType extends SimpleNode {
         super(id);
     }
 
-    public ASTReturnType(KaraffeParser p, int id) {
+    public ASTReturnType(Parser p, int id) {
         super(p, id);
     }
 
     /** Accept the visitor. * */
-    public Object jjtAccept(KaraffeParserVisitor visitor, Object data) throws net.nokok.karaffe.parser.excptn.KaraffeParserException {
+    public Object jjtAccept(ParserVisitor visitor, Object data) throws net.nokok.karaffe.parser.excptn.ParserException {
 
         return visitor.visit(this, data);
     }
 }
-/* JavaCC - OriginalChecksum=09c1ad92efbc759a52dd96a8a0d20d3a (do not edit this line) */
+/* JavaCC - OriginalChecksum=43a52537b04d3d87594b4d0d2c0172b5 (do not edit this line) */

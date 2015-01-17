@@ -8,14 +8,14 @@ public class ASTSuperType extends SimpleNode {
         super(id);
     }
 
-    public ASTSuperType(KaraffeParser p, int id) {
+    public ASTSuperType(Parser p, int id) {
         super(p, id);
     }
 
-    /** Accept the visitor. **/
-    public Object jjtAccept(KaraffeParserVisitor visitor, Object data) throws net.nokok.karaffe.parser.excptn.KaraffeParserException {
+    /** Accept the visitor. * */
+    public Object jjtAccept(ParserVisitor visitor, Object data) throws net.nokok.karaffe.parser.excptn.ParserException {
 
         return visitor.visit(this, data);
     }
 }
-/* JavaCC - OriginalChecksum=79009ad6089c96fe6f6067574aee7867 (do not edit this line) */
+/* JavaCC - OriginalChecksum=94633288cafaca842cafee66df746e5f (do not edit this line) */

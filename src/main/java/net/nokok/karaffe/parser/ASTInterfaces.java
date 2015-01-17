@@ -8,14 +8,14 @@ public class ASTInterfaces extends SimpleNode {
         super(id);
     }
 
-    public ASTInterfaces(KaraffeParser p, int id) {
+    public ASTInterfaces(Parser p, int id) {
         super(p, id);
     }
 
-    /** Accept the visitor. **/
-    public Object jjtAccept(KaraffeParserVisitor visitor, Object data) throws net.nokok.karaffe.parser.excptn.KaraffeParserException {
+    /** Accept the visitor. * */
+    public Object jjtAccept(ParserVisitor visitor, Object data) throws net.nokok.karaffe.parser.excptn.ParserException {
 
         return visitor.visit(this, data);
     }
 }
-/* JavaCC - OriginalChecksum=6d86faf05487eabdf25b8b231a4e5a60 (do not edit this line) */
+/* JavaCC - OriginalChecksum=c3ec19a6046f4f752a2b4341ee00c6e1 (do not edit this line) */

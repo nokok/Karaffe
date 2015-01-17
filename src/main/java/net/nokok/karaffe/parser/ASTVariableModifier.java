@@ -8,14 +8,14 @@ public class ASTVariableModifier extends SimpleNode {
         super(id);
     }
 
-    public ASTVariableModifier(KaraffeParser p, int id) {
+    public ASTVariableModifier(Parser p, int id) {
         super(p, id);
     }
 
-    /** Accept the visitor. **/
-    public Object jjtAccept(KaraffeParserVisitor visitor, Object data) throws net.nokok.karaffe.parser.excptn.KaraffeParserException {
+    /** Accept the visitor. * */
+    public Object jjtAccept(ParserVisitor visitor, Object data) throws net.nokok.karaffe.parser.excptn.ParserException {
 
         return visitor.visit(this, data);
     }
 }
-/* JavaCC - OriginalChecksum=c1c8d86f471e452934ca38845dfa71dd (do not edit this line) */
+/* JavaCC - OriginalChecksum=d88c5b8aa2b196e61eedae508deb3d0b (do not edit this line) */

@@ -8,14 +8,14 @@ public class ASTBoolLiteral extends SimpleNode {
         super(id);
     }
 
-    public ASTBoolLiteral(KaraffeParser p, int id) {
+    public ASTBoolLiteral(Parser p, int id) {
         super(p, id);
     }
 
-    /** Accept the visitor. **/
-    public Object jjtAccept(KaraffeParserVisitor visitor, Object data) throws net.nokok.karaffe.parser.excptn.KaraffeParserException {
+    /** Accept the visitor. * */
+    public Object jjtAccept(ParserVisitor visitor, Object data) throws net.nokok.karaffe.parser.excptn.ParserException {
 
         return visitor.visit(this, data);
     }
 }
-/* JavaCC - OriginalChecksum=93527b8132b28e6cec2dd48ffc7b4c70 (do not edit this line) */
+/* JavaCC - OriginalChecksum=781a22a7184603abfb1fd75886e89912 (do not edit this line) */

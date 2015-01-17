@@ -8,14 +8,14 @@ public class ASTModuleName extends SimpleNode {
         super(id);
     }
 
-    public ASTModuleName(KaraffeParser p, int id) {
+    public ASTModuleName(Parser p, int id) {
         super(p, id);
     }
 
-    /** Accept the visitor. **/
-    public Object jjtAccept(KaraffeParserVisitor visitor, Object data) throws net.nokok.karaffe.parser.excptn.KaraffeParserException {
+    /** Accept the visitor. * */
+    public Object jjtAccept(ParserVisitor visitor, Object data) throws net.nokok.karaffe.parser.excptn.ParserException {
 
         return visitor.visit(this, data);
     }
 }
-/* JavaCC - OriginalChecksum=1eb4b1d488218d6122a33fe85fbb4102 (do not edit this line) */
+/* JavaCC - OriginalChecksum=618104c7847938f8e56238fb2cfc18fd (do not edit this line) */

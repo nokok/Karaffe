@@ -8,14 +8,14 @@ public class ASTAlgebraicDataTypeDecl extends SimpleNode {
         super(id);
     }
 
-    public ASTAlgebraicDataTypeDecl(KaraffeParser p, int id) {
+    public ASTAlgebraicDataTypeDecl(Parser p, int id) {
         super(p, id);
     }
 
     /** Accept the visitor. * */
-    public Object jjtAccept(KaraffeParserVisitor visitor, Object data) throws net.nokok.karaffe.parser.excptn.KaraffeParserException {
+    public Object jjtAccept(ParserVisitor visitor, Object data) throws net.nokok.karaffe.parser.excptn.ParserException {
 
         return visitor.visit(this, data);
     }
 }
-/* JavaCC - OriginalChecksum=4b492d27356a496132542c44c6a9415a (do not edit this line) */
+/* JavaCC - OriginalChecksum=7721a7df59f09c5204ff40e3618c7369 (do not edit this line) */

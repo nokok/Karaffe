@@ -10,16 +10,28 @@ public class FuncAliasTest {
 
     @Test
     public void testFuncAliasWithoutArguments() {
-        testCode("funcalias after() : before()");
+        testCode("type T{"
+                + "def this() = {\n"
+                + "funcalias after() : before()\n"
+                + "}\n"
+                + "}");
     }
 
     @Test
     public void testFuncAliasWithoutArguments1() {
-        testCode("funcalias after() : package.name.Class.function()");
+        testCode("type T{\n"
+                + "def this() = {\n"
+                + "funcalias after() : pa.name.Class.function()\n"
+                + "}\n"
+                + "}");
     }
 
     @Test
     public void testOverloadedFunctionAlias() {
-        testCode("funcalias after(x:Int y:Int) : before(x y)");
+        testCode("type T{\n"
+                + "def this() = {\n"
+                + "funcalias after(x:Int y:Int) : before(x y)\n"
+                + "}\n"
+                + "}");
     }
 }

@@ -22,7 +22,7 @@ public class ParseException extends Exception {
 
     /**
      * This constructor is used by the method "generateParseException"
-     * in the generated parser.  Calling this constructor generates
+     * in the generated parser. Calling this constructor generates
      * a new object of this type with the fields "currentToken",
      * "expectedTokenSequences", and "tokenImage" set.
      */
@@ -38,11 +38,11 @@ public class ParseException extends Exception {
 
     /**
      * The following constructors are for use by you for whatever
-     * purpose you can think of.  Constructing the exception in this
+     * purpose you can think of. Constructing the exception in this
      * manner makes the exception behave in the normal way - i.e., as
-     * documented in the class "Throwable".  The fields "errorToken",
+     * documented in the class "Throwable". The fields "errorToken",
      * "expectedTokenSequences", and "tokenImage" do not contain
-     * relevant information.  The JavaCC generated code does not use
+     * relevant information. The JavaCC generated code does not use
      * these constructors.
      */
     public ParseException() {
@@ -55,14 +55,14 @@ public class ParseException extends Exception {
     }
 
     /**
-     * This is the last token that has been consumed successfully.  If
+     * This is the last token that has been consumed successfully. If
      * this object has been created due to a parse error, the token
      * followng this token will (therefore) be the first error token.
      */
     public Token currentToken;
 
     /**
-     * Each entry in this array is an array of integers.  Each array
+     * Each entry in this array is an array of integers. Each array
      * of integers represents a sequence of tokens (by their ordinal
      * values) that is expected at this point of the parse.
      */
@@ -70,14 +70,14 @@ public class ParseException extends Exception {
 
     /**
      * This is a reference to the "tokenImage" array of the generated
-     * parser within which the parse error occurred.  This array is
+     * parser within which the parse error occurred. This array is
      * defined in the generated ...Constants interface.
      */
     public String[] tokenImage;
 
     /**
      * It uses "currentToken" and "expectedTokenSequences" to generate a parse
-     * error message and returns it.  If this object has been created
+     * error message and returns it. If this object has been created
      * due to a parse error, and you do not catch it (it gets thrown
      * from the parser) the correct error message
      * gets displayed.

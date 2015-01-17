@@ -1,11 +1,5 @@
 /**
- *
  * Karaffe Programming Language
- * __ _____ ___ ___ ____________
- *   / //_/ _ | / _ \/ _ | / __/ __/ __/
- *  / , \/ __ |/ , _/ __ |/ _// _// _/
- * /_/|_/_/ |_/_/|_/_/ |_/_/ /_/ /___/
- *
  */
 package net.nokok.karaffe.parser.util;
 
@@ -13,10 +7,10 @@ import java.io.File;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.util.List;
-import net.nokok.karaffe.parser.KaraffeParserConstants;
 import net.nokok.karaffe.parser.ParseException;
+import net.nokok.karaffe.parser.ParserConstants;
 import net.nokok.karaffe.parser.Token;
-import net.nokok.karaffe.parser.excptn.KaraffeParserException;
+import net.nokok.karaffe.parser.excptn.ParserException;
 
 public class OutputFormatter {
 
@@ -30,7 +24,7 @@ public class OutputFormatter {
         }
     }
 
-    public void print(KaraffeParserException e) {
+    public void print(ParserException e) {
         print("KaraffeParserException", null, null, null);
     }
 
@@ -44,7 +38,7 @@ public class OutputFormatter {
         System.out.println("期待している次のトークン");
         for (int[] tmp : ex.expectedTokenSequences) {
             for (int expected : tmp) {
-                System.out.println(KaraffeParserConstants.tokenImage[expected]);
+                System.out.println(ParserConstants.tokenImage[expected]);
             }
         }
         System.out.println("実際に渡されたトークン");

@@ -1,11 +1,5 @@
 /**
- *
  * Karaffe Programming Language
- * __ _____ ___ ___ ____________
- *   / //_/ _ | / _ \/ _ | / __/ __/ __/
- *  / , \/ __ |/ , _/ __ |/ _// _// _/
- * /_/|_/_/ |_/_/|_/_/ |_/_/ /_/ /___/
- *
  */
 package net.nokok.karaffe.parser;
 
@@ -32,10 +26,15 @@ public class KaraffeParserTest {
         testFile("single_line_comment.krf");
     }
 
+    @Test
+    public void testAllGrammers() {
+        testFile("all_grammers.krf");
+    }
+
     private void testFile(String fileName) {
         try {
-            KaraffeParser parser = new KaraffeParser(getFileReader(fileName));
-            ASTCompileUnit CompileUnit = parser.CompileUnit();
+            Parser parser = new Parser(getFileReader(fileName));
+            parser.CompileUnit();
         } catch (ParseException ex) {
             fail(ex.getMessage());
         }

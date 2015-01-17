@@ -8,14 +8,14 @@ public class ASTArgument extends SimpleNode {
         super(id);
     }
 
-    public ASTArgument(KaraffeParser p, int id) {
+    public ASTArgument(Parser p, int id) {
         super(p, id);
     }
 
-    /** Accept the visitor. **/
-    public Object jjtAccept(KaraffeParserVisitor visitor, Object data) throws net.nokok.karaffe.parser.excptn.KaraffeParserException {
+    /** Accept the visitor. * */
+    public Object jjtAccept(ParserVisitor visitor, Object data) throws net.nokok.karaffe.parser.excptn.ParserException {
 
         return visitor.visit(this, data);
     }
 }
-/* JavaCC - OriginalChecksum=c6a84465b597445c3c0bc3af96adfa82 (do not edit this line) */
+/* JavaCC - OriginalChecksum=421f167ffd15eb40db3cd2edbf88507e (do not edit this line) */

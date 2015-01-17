@@ -1,11 +1,5 @@
 /**
- *
  * Karaffe Programming Language
- * __ _____ ___ ___ ____________
- *   / //_/ _ | / _ \/ _ | / __/ __/ __/
- *  / , \/ __ |/ , _/ __ |/ _// _// _/
- * /_/|_/_/ |_/_/|_/_/ |_/_/ /_/ /___/
- *
  */
 package net.nokok.karaffe.parser.syntax;
 
@@ -21,7 +15,7 @@ public class ImportStmtSyntaxTest {
 
     @Test
     public void testJavaTypeImport() {
-        testCode("import \"java.lang.Object\"");
+        testCode("import java.lang.Object\n");
     }
 
     @Test

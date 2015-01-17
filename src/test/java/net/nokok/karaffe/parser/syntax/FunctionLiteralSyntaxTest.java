@@ -1,11 +1,5 @@
 /**
- *
  * Karaffe Programming Language
- * __ _____ ___ ___ ____________
- *   / //_/ _ | / _ \/ _ | / __/ __/ __/
- *  / , \/ __ |/ , _/ __ |/ _// _// _/
- * /_/|_/_/ |_/_/|_/_/ |_/_/ /_/ /___/
- *
  */
 package net.nokok.karaffe.parser.syntax;
 
@@ -16,47 +10,57 @@ public class FunctionLiteralSyntaxTest {
 
     @Test
     public void testSimpleFunctionLiteral() {
-        testCode("(a) -> (a + 1)(2)\n");
+        testFunctionLiteral("(a:Int) -> {a + 1}\n");
     }
 
     @Test
     public void testFunctionLiteralWithoutParameters() {
-        testCode("() -> {x + 1}()");
+        testFunctionLiteral("() -> {x + 1}");
     }
 
     @Test
     public void testFuncLiteral1() {
-        testCode("(x) -> {x + y()} ()");
+        testFunctionLiteral("(x:Int) -> {x + y()}");
     }
 
     @Test
     public void testFuncLiteral2() {
-        testCode("(x) -> {x + 1}()");
+        testFunctionLiteral("x -> {x + 1}");
     }
 
     @Test
     public void testFuncLiteral3() {
-        testCode("() -> {#()}()");
+        testFunctionLiteral("() -> {t[]}");
     }
 
     @Test
     public void testFuncLiteral4() {
-        testCode("x -> {x}(2)");
+        testFunctionLiteral("x -> {x}(2)");
     }
 
     @Test
     public void testFuncLiteralParameters() {
-        testCode("(x:Int) -> {x}(2)");
+        testFunctionLiteral("(x:Int) -> {x}(2)");
     }
 
     @Test
     public void testFuncLiteralParameters1() {
-        testCode("(x:Int y:Int) -> {x + y}(2)");
+        testFunctionLiteral("(x:Int y:Int) -> {x + y}(2)");
     }
 
     @Test
     public void testFuncLiteralMethodInvocation() {
-        testCode("((x) -> 1).toString()");
+        testFunctionLiteral("(x) -> {1}.toString()");
     }
 
+    @Test
+    public void testFuncLiteralMethodInvocation1() {
+        testFunctionLiteral("((x) -> {1}).toString()");
+    }
+
+    private void testFunctionLiteral(String code) {
+        testCode("type D{\n"
+                + "def a = " + code
+                + "}");
+    }
 }

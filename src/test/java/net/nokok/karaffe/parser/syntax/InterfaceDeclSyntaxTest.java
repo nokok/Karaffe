@@ -1,11 +1,5 @@
 /**
- *
  * Karaffe Programming Language
- * __ _____ ___ ___ ____________
- *   / //_/ _ | / _ \/ _ | / __/ __/ __/
- *  / , \/ __ |/ , _/ __ |/ _// _// _/
- * /_/|_/_/ |_/_/|_/_/ |_/_/ /_/ /___/
- *
  */
 package net.nokok.karaffe.parser.syntax;
 
@@ -16,17 +10,17 @@ public class InterfaceDeclSyntaxTest {
 
     @Test
     public void testSimpleInterfaceDeclaration() {
-        testCode("interface Name\n");
+        testCode("interface Name{}\n");
     }
 
     @Test
     public void testInterfaceDeclarationExtendsInterface() {
-        testCode("interface Name <- SuperInterface\n");
+        testCode("interface Name <- SuperInterface{}\n");
     }
 
     @Test
     public void testInterfaceDeclarationExtendsInterfaces() {
-        testCode("interface Name <- Interface1 Interface2\n");
+        testCode("interface Name <- Interface1 Interface2{}\n");
     }
 
     @Test(expected = AssertionError.class)

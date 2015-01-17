@@ -93,12 +93,12 @@ public class TokenMgrError extends Error {
      * Returns a detailed message for the Error when it is thrown by the
      * token manager to indicate a lexical error.
      * Parameters :
-     *    EOFSeen     : indicates if EOF caused the lexical error
-     *    curLexState : lexical state in which this error occurred
-     *    errorLine   : line number when the error occurred
-     *    errorColumn : column number when the error occurred
-     *    errorAfter  : prefix that was seen before this error occurred
-     *    curchar     : the offending character
+     * EOFSeen : indicates if EOF caused the lexical error
+     * curLexState : lexical state in which this error occurred
+     * errorLine : line number when the error occurred
+     * errorColumn : column number when the error occurred
+     * errorAfter : prefix that was seen before this error occurred
+     * curchar : the offending character
      * Note: You can customize the lexical error message by modifying this method.
      */
     protected static String LexicalError(boolean EOFSeen, int lexState, int errorLine, int errorColumn, String errorAfter, char curChar) {
@@ -114,7 +114,7 @@ public class TokenMgrError extends Error {
      * For example, cases like LOOP_DETECTED and INVALID_LEXICAL_STATE are not
      * of end-users concern, so you can return something like :
      *
-     *     "Internal Error : Please file a bug report .... "
+     * "Internal Error : Please file a bug report .... "
      *
      * from this method for such cases in the release version of your parser.
      */

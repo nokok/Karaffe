@@ -10,11 +10,18 @@ public class CastSyntaxTest {
 
     @Test
     public void testSimpleCastSyntax() {
-        testCode("def a : Double = (1)~>Double");
+        testCast("(1)~>Double");
     }
 
     @Test
     public void testNestedCast() {
-        testCode("def a : Int = ((1)~>Double)~>Int");
+        testCast("((1)~>Double)~>Int");
+    }
+
+    private void testCast(String code) {
+        testCode("type D{"
+                + "def d = "
+                + code
+                + "}");
     }
 }

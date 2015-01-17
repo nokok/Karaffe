@@ -8,14 +8,14 @@ public class ASTTypeBound extends SimpleNode {
         super(id);
     }
 
-    public ASTTypeBound(KaraffeParser p, int id) {
+    public ASTTypeBound(Parser p, int id) {
         super(p, id);
     }
 
-    /** Accept the visitor. **/
-    public Object jjtAccept(KaraffeParserVisitor visitor, Object data) throws net.nokok.karaffe.parser.excptn.KaraffeParserException {
+    /** Accept the visitor. * */
+    public Object jjtAccept(ParserVisitor visitor, Object data) throws net.nokok.karaffe.parser.excptn.ParserException {
 
         return visitor.visit(this, data);
     }
 }
-/* JavaCC - OriginalChecksum=c35c1ee7660dac2a185559a20db566b6 (do not edit this line) */
+/* JavaCC - OriginalChecksum=787b73cb5de546f232ef83df6c126e12 (do not edit this line) */

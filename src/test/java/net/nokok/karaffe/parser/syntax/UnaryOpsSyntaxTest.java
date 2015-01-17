@@ -10,12 +10,19 @@ public class UnaryOpsSyntaxTest {
 
     @Test
     public void testSimpleUnaryOperatorTest() {
-        testCode("p(-1)");
+        testExpr("p(-1)");
     }
 
     @Test
     public void testUnaryOperatorTest() {
-        testCode("p(- - -1)");
+        testExpr("p(- - -1)");
+    }
+
+    public static void testExpr(String code) {
+        testCode("type D{\n"
+                + "def a = \n"
+                + code
+                + "}");
     }
 
 }

@@ -8,14 +8,14 @@ public class ASTTypeParameters extends SimpleNode {
         super(id);
     }
 
-    public ASTTypeParameters(KaraffeParser p, int id) {
+    public ASTTypeParameters(Parser p, int id) {
         super(p, id);
     }
 
-    /** Accept the visitor. **/
-    public Object jjtAccept(KaraffeParserVisitor visitor, Object data) throws net.nokok.karaffe.parser.excptn.KaraffeParserException {
+    /** Accept the visitor. * */
+    public Object jjtAccept(ParserVisitor visitor, Object data) throws net.nokok.karaffe.parser.excptn.ParserException {
 
         return visitor.visit(this, data);
     }
 }
-/* JavaCC - OriginalChecksum=2347832d3f49dbe85edf868c689c9335 (do not edit this line) */
+/* JavaCC - OriginalChecksum=098792aefee0040959e98700aae9b749 (do not edit this line) */

@@ -6,51 +6,58 @@ import org.junit.Test;
 public class TypeDeclSyntaxTest {
 
     @Test
-    public void testSimpleTypeDeclaration() {
-        testCode("type Identifier\n");
+    public void testTypeDeclSyntax() {
+        testCode("type TypeName[T] : SuperType[T] <- Interface1[T] Interface2[T] {\n"
+                + "}");
     }
 
     @Test
-    public void testExtendsType() {
-        testCode("type Type : Super\n");
+    public void testTypeDeclPrivateModifier() {
+        testCode("private type TypeName{}");
     }
 
     @Test
-    public void testImplementsInterface() {
-        testCode("type Type <- Interface1\n");
+    public void testTypeDeclPublicModifier() {
+        testCode("public type TypeName{}");
     }
 
     @Test
-    public void testImplementsInterfaces() {
-        testCode("type Type <- IF1 IF2\n");
+    public void testTypeDeclFinalModifier() {
+        testCode("final type TypeName{}");
     }
 
     @Test
-    public void testTypeDeclarationWithTypeParameter() {
-        testCode("type Identifier[A] : Super[B] <- Interface[C]\n");
+    public void testTypeDeclSealedModifier() {
+        testCode("sealed type TypeName{}");
     }
 
     @Test
-    public void testTypeDeclNestedTypeParameter() {
-        testCode("type Identifier[Type[A]]\n");
+    public void testTypeDeclAbstractModifier() {
+        testCode("abstract type TypeName{}");
     }
 
     @Test
-    public void testTypeDeclNestedTypeParameters() {
-        testCode("type Identifier[Type[Type[B]]]\n");
+    public void testTypeParam() {
+        testCode("type TypeName[T]{}");
     }
 
     @Test
-    public void testTypeDeclBody_VarDecl() {
-        testCode("type D\n"
-                + "def a : Int = 0");
+    public void testNestedTypeParam() {
+        testCode("type TypeName[Type[T]]{}");
     }
 
     @Test
-    public void testTypeDeclBody_VarDeclAndMethodInvocation() {
-        testCode("type D\n"
-                + "def a : Int = 0\n"
-                + "a.toString()");
+    public void testSuperTypeTypeParam() {
+        testCode("type TypeName[T] : SuperType[T]{}");
     }
 
+    @Test(expected = AssertionError.class)
+    public void testSuperTypes1() {
+        testCode("type TypeName : SuperType SuperType{}");
+    }
+
+    @Test(expected = AssertionError.class)
+    public void testSuperTypes2() {
+        testCode("type TypeName : SuperType : SuperType{}");
+    }
 }

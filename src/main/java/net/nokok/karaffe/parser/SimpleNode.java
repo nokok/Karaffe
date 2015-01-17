@@ -8,13 +8,13 @@ public class SimpleNode implements Node {
     protected Node[] children;
     protected int id;
     protected Object value;
-    protected KaraffeParser parser;
+    protected Parser parser;
 
     public SimpleNode(int i) {
         id = i;
     }
 
-    public SimpleNode(KaraffeParser p, int i) {
+    public SimpleNode(Parser p, int i) {
         this(i);
         parser = p;
     }
@@ -60,19 +60,15 @@ public class SimpleNode implements Node {
         return value;
     }
 
-    /**
-     * Accept the visitor. *
-     */
-    public Object jjtAccept(KaraffeParserVisitor visitor, Object data)
-            throws net.nokok.karaffe.parser.excptn.KaraffeParserException {
+    /** Accept the visitor. * */
+    public Object jjtAccept(ParserVisitor visitor, Object data)
+            throws net.nokok.karaffe.parser.excptn.ParserException {
         return visitor.visit(this, data);
     }
 
-    /**
-     * Accept the visitor. *
-     */
-    public Object childrenAccept(KaraffeParserVisitor visitor, Object data)
-            throws net.nokok.karaffe.parser.excptn.KaraffeParserException {
+    /** Accept the visitor. * */
+    public Object childrenAccept(ParserVisitor visitor, Object data)
+            throws net.nokok.karaffe.parser.excptn.ParserException {
         if (children != null) {
             for (int i = 0; i < children.length; ++i) {
                 children[i].jjtAccept(visitor, data);
@@ -87,7 +83,7 @@ public class SimpleNode implements Node {
      toString(String), otherwise overriding toString() is probably all
      you need to do. */
     public String toString() {
-        return KaraffeParserTreeConstants.jjtNodeName[id];
+        return ParserTreeConstants.jjtNodeName[id];
     }
 
     public String toString(String prefix) {
@@ -97,15 +93,14 @@ public class SimpleNode implements Node {
     /* Override this method if you want to customize how the node dumps
      out its children. */
     public void dump(String prefix) {
-        System.out.print(toString(prefix));
-        if (value != null) {
-            System.out.println(": " + value);
+        if (value == null) {
+            System.out.println(toString(prefix));
         } else {
-            System.out.println();
+            System.out.println(toString(prefix) + " : " + value);
         }
         if (children != null) {
-            for (Node c : children) {
-                SimpleNode n = (SimpleNode) c;
+            for (int i = 0; i < children.length; ++i) {
+                SimpleNode n = (SimpleNode) children[i];
                 if (n != null) {
                     n.dump(prefix + "  ");
                 }
@@ -118,4 +113,4 @@ public class SimpleNode implements Node {
     }
 }
 
-/* JavaCC - OriginalChecksum=7ad142142c7bff4383f5375dc6b92f18 (do not edit this line) */
+/* JavaCC - OriginalChecksum=80abb543929789df0f4604ee0cc5f961 (do not edit this line) */

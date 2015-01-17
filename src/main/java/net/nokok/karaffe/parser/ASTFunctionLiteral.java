@@ -8,14 +8,14 @@ public class ASTFunctionLiteral extends SimpleNode {
         super(id);
     }
 
-    public ASTFunctionLiteral(KaraffeParser p, int id) {
+    public ASTFunctionLiteral(Parser p, int id) {
         super(p, id);
     }
 
-    /** Accept the visitor. **/
-    public Object jjtAccept(KaraffeParserVisitor visitor, Object data) throws net.nokok.karaffe.parser.excptn.KaraffeParserException {
+    /** Accept the visitor. * */
+    public Object jjtAccept(ParserVisitor visitor, Object data) throws net.nokok.karaffe.parser.excptn.ParserException {
 
         return visitor.visit(this, data);
     }
 }
-/* JavaCC - OriginalChecksum=2da26b696c9d05fe0addfbcc99cfd5c1 (do not edit this line) */
+/* JavaCC - OriginalChecksum=df66282340bdef578f486c543c077cb4 (do not edit this line) */

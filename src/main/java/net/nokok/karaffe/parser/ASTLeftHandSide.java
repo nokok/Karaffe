@@ -8,14 +8,14 @@ public class ASTLeftHandSide extends SimpleNode {
         super(id);
     }
 
-    public ASTLeftHandSide(KaraffeParser p, int id) {
+    public ASTLeftHandSide(Parser p, int id) {
         super(p, id);
     }
 
-    /** Accept the visitor. **/
-    public Object jjtAccept(KaraffeParserVisitor visitor, Object data) throws net.nokok.karaffe.parser.excptn.KaraffeParserException {
+    /** Accept the visitor. * */
+    public Object jjtAccept(ParserVisitor visitor, Object data) throws net.nokok.karaffe.parser.excptn.ParserException {
 
         return visitor.visit(this, data);
     }
 }
-/* JavaCC - OriginalChecksum=0640dc93f4844d166b9a9bce5c29e93a (do not edit this line) */
+/* JavaCC - OriginalChecksum=93fc7801b4973f096aada5f42e3b253e (do not edit this line) */

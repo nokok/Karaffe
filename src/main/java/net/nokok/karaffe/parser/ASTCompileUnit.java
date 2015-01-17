@@ -8,14 +8,14 @@ public class ASTCompileUnit extends SimpleNode {
         super(id);
     }
 
-    public ASTCompileUnit(KaraffeParser p, int id) {
+    public ASTCompileUnit(Parser p, int id) {
         super(p, id);
     }
 
-    /** Accept the visitor. **/
-    public Object jjtAccept(KaraffeParserVisitor visitor, Object data) throws net.nokok.karaffe.parser.excptn.KaraffeParserException {
+    /** Accept the visitor. * */
+    public Object jjtAccept(ParserVisitor visitor, Object data) throws net.nokok.karaffe.parser.excptn.ParserException {
 
         return visitor.visit(this, data);
     }
 }
-/* JavaCC - OriginalChecksum=915ad80be652d1b8cea1236485c64667 (do not edit this line) */
+/* JavaCC - OriginalChecksum=31f2e772ddfe16baec50059936dc0696 (do not edit this line) */
