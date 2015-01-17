@@ -26,11 +26,6 @@ public class KaraffeParserTest {
         testFile("single_line_comment.krf");
     }
 
-    @Test
-    public void testAllGrammers() {
-        testFile("all_grammers.krf");
-    }
-
     private void testFile(String fileName) {
         try {
             Parser parser = new Parser(getFileReader(fileName));
