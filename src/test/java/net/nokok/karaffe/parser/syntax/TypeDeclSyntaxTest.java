@@ -25,11 +25,11 @@ public class TypeDeclSyntaxTest {
     public void testTypeDeclFinalModifier() {
         testCode("final type TypeName{}");
     }
-
-    @Test
-    public void testTypeDeclSealedModifier() {
-        testCode("sealed type TypeName{}");
-    }
+//
+//    @Test
+//    public void testTypeDeclSealedModifier() {
+//        testCode("sealed type TypeName{}");
+//    }
 
     @Test
     public void testTypeDeclAbstractModifier() {

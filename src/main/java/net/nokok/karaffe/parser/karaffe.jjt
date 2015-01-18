@@ -36,7 +36,7 @@ void PackageDecl():{}
     "package" ModuleName()
 }
 
-void ModuleName():{}
+void ModuleName()#void:{}
 {
     AmbiguousName()
 }
@@ -81,12 +81,22 @@ void TypeDecl():{}
 //**********************************************************************
 void ClassDecl():{}
 {
-    (ClassModifier())* "type" Identifier() (TypeParameters())? (SuperType())? (Interfaces())? ClassBody()
+    ClassModifiers() "type" Identifier() (TypeParameters())? (SuperType())? (Interfaces())? ClassBody()
 }
 
-void ClassModifier():{}
+void ClassModifiers():{}
 {
-    "public" | "protected" | "private" | "abstract" | "static" | "sealed" | "final"
+    (ClassModifier())*
+}
+
+void ClassModifier() #void:{}
+{
+    "public" #PublicModifier()|
+    "protected" #ProtectedModifier()|
+    "private" #PrivateModifier() |
+    "abstract" #AbstractModifier()|
+    "static" #StaticModifier()|
+    "final" #FinalModifier()
 }
 
 void TypeParameters():{}
@@ -140,7 +150,7 @@ void ClassBody():{}
     "{" (ClassBodyDecl())* "}"
 }
 
-void ClassBodyDecl():{}
+void ClassBodyDecl()#void:{}
 {
     LOOKAHEAD((FuncModifier())* "def" Identifier() (TypeParameters())? "(" (FormalParameters())? ")") FuncDecl() |
     LOOKAHEAD((CtorModifier())* "def" "this") ClassCtorDecl() |
