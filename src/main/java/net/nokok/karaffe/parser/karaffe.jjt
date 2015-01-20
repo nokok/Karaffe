@@ -248,7 +248,7 @@ void FuncDecl():{}
 
 void FuncModifier():{}
 {
-    "public" | "protected" | "private" | "abstract" | "static" | "var" | "final" | "sealed"
+    "public" | "protected" | "private" | "abstract" | "static" | "var" | "final" | "sealed" | "override"
 }
 
 void ReturnType():{}
