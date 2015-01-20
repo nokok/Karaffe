@@ -243,12 +243,12 @@ void FieldInitializer():{}
 
 void FuncDecl():{}
 {
-    (FuncModifier())* "def" Identifier() (TypeParameters())? "(" (FormalParameters())? ")" ":" ReturnType() "=" FuncBody()
+    (FuncModifier())* "def" Identifier() (TypeParameters())? "(" (FormalParameters())? ")" ( ":" ReturnType())? ("=" FuncBody())?
 }
 
 void FuncModifier():{}
 {
-    "public" | "protected" | "private" | "abstract" | "static" | "var" | "final" | "sealed"
+    "public" | "protected" | "private" | "abstract" | "static" | "var" | "final" | "sealed" | "override"
 }
 
 void ReturnType():{}
@@ -322,7 +322,7 @@ void ConstantModifier():{}
 
 void InterfaceMethodDecl():{}
 {
-    (FuncModifier())* "def" Identifier() ":" FormalParameters() "->" ReturnType() FuncBody()
+    (FuncModifier())* "def" Identifier() (TypeParameters())? "(" (FormalParameters())? ")"( ":" ReturnType())? ("=" FuncBody())?
 }
 
 //**********************************************************************
@@ -358,7 +358,7 @@ void EnumName():{}
 
 void EnumMembers():{}
 {
-    Identifier() (Identifier())*
+    Identifier() ("," Identifier())*
 }
 
 //**********************************************************************
