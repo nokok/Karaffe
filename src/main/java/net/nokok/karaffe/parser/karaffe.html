@@ -1,16 +1,16 @@
 <!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2//EN">
 <HTML>
-<HEAD>
-<TITLE>BNF for karaffe.jj</TITLE>
-</HEAD>
-<BODY>
-<H1 ALIGN=CENTER>BNF for karaffe.jj</H1>
-<H2 ALIGN=CENTER>TOKENS</H2>
-<TABLE>
- <!-- Token -->
- <TR>
-  <TD>
-   <PRE>
+    <HEAD>
+        <TITLE>BNF for karaffe.jj</TITLE>
+    </HEAD>
+    <BODY>
+        <H1 ALIGN=CENTER>BNF for karaffe.jj</H1>
+        <H2 ALIGN=CENTER>TOKENS</H2>
+        <TABLE>
+            <!-- Token -->
+            <TR>
+                <TD>
+                    <PRE>
 &lt;DEFAULT&gt; TOKEN : {
 &lt;UndefinedLiteral: "undefined"&gt;
 | &lt;BoolLiteral: "true" | "false"&gt;
@@ -351,12 +351,12 @@
 <TR>
 <TD ALIGN=RIGHT VALIGN=BASELINE><A NAME="prod30">FuncDecl</A></TD>
 <TD ALIGN=CENTER VALIGN=BASELINE>::=</TD>
-<TD ALIGN=LEFT VALIGN=BASELINE>( <A HREF="#prod50">FuncModifier</A> )* "def" <A HREF="#prod11">Identifier</A> ( <A HREF="#prod18">TypeParameters</A> )? "(" ( <A HREF="#prod34">FormalParameters</A> )? ")" ":" <A HREF="#prod51">ReturnType</A> "=" <A HREF="#prod52">FuncBody</A></TD>
+<TD ALIGN=LEFT VALIGN=BASELINE>( <A HREF="#prod50">FuncModifier</A> )* "def" <A HREF="#prod11">Identifier</A> ( <A HREF="#prod18">TypeParameters</A> )? "(" ( <A HREF="#prod34">FormalParameters</A> )? ")" ( ":" <A HREF="#prod51">ReturnType</A> )? ( "=" <A HREF="#prod52">FuncBody</A> )?</TD>
 </TR>
 <TR>
 <TD ALIGN=RIGHT VALIGN=BASELINE><A NAME="prod50">FuncModifier</A></TD>
 <TD ALIGN=CENTER VALIGN=BASELINE>::=</TD>
-<TD ALIGN=LEFT VALIGN=BASELINE>( "public" | "protected" | "private" | "abstract" | "static" | "var" | "final" | "sealed" )</TD>
+<TD ALIGN=LEFT VALIGN=BASELINE>( "public" | "protected" | "private" | "abstract" | "static" | "var" | "final" | "sealed" | "override" )</TD>
 </TR>
 <TR>
 <TD ALIGN=RIGHT VALIGN=BASELINE><A NAME="prod51">ReturnType</A></TD>
@@ -441,7 +441,7 @@
 <TR>
 <TD ALIGN=RIGHT VALIGN=BASELINE><A NAME="prod60">InterfaceMethodDecl</A></TD>
 <TD ALIGN=CENTER VALIGN=BASELINE>::=</TD>
-<TD ALIGN=LEFT VALIGN=BASELINE>( <A HREF="#prod50">FuncModifier</A> )* "def" <A HREF="#prod11">Identifier</A> ":" <A HREF="#prod34">FormalParameters</A> "-&gt;" <A HREF="#prod51">ReturnType</A> <A HREF="#prod52">FuncBody</A></TD>
+<TD ALIGN=LEFT VALIGN=BASELINE>( <A HREF="#prod50">FuncModifier</A> )* "def" <A HREF="#prod11">Identifier</A> ( <A HREF="#prod18">TypeParameters</A> )? "(" ( <A HREF="#prod34">FormalParameters</A> )? ")" ( ":" <A HREF="#prod51">ReturnType</A> )? ( "=" <A HREF="#prod52">FuncBody</A> )?</TD>
 </TR>
  <!-- Special token -->
  <TR>
@@ -491,7 +491,7 @@
 <TR>
 <TD ALIGN=RIGHT VALIGN=BASELINE><A NAME="prod65">EnumMembers</A></TD>
 <TD ALIGN=CENTER VALIGN=BASELINE>::=</TD>
-<TD ALIGN=LEFT VALIGN=BASELINE><A HREF="#prod11">Identifier</A> ( <A HREF="#prod11">Identifier</A> )*</TD>
+<TD ALIGN=LEFT VALIGN=BASELINE><A HREF="#prod11">Identifier</A> ( "," <A HREF="#prod11">Identifier</A> )*</TD>
 </TR>
  <!-- Special token -->
  <TR>
