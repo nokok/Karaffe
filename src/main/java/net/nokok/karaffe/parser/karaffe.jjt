@@ -358,7 +358,7 @@ void EnumName():{}
 
 void EnumMembers():{}
 {
-    Identifier() (Identifier())*
+    Identifier() ("," Identifier())*
 }
 
 //**********************************************************************
