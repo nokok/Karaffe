@@ -243,7 +243,7 @@ void FieldInitializer():{}
 
 void FuncDecl():{}
 {
-    (FuncModifier())* "def" Identifier() (TypeParameters())? "(" (FormalParameters())? ")" ":" ReturnType() "=" FuncBody()
+    (FuncModifier())* "def" Identifier() (TypeParameters())? "(" (FormalParameters())? ")" ( ":" ReturnType())? ("=" FuncBody())?
 }
 
 void FuncModifier():{}
@@ -322,7 +322,7 @@ void ConstantModifier():{}
 
 void InterfaceMethodDecl():{}
 {
-    (FuncModifier())* "def" Identifier() ":" FormalParameters() "->" ReturnType() FuncBody()
+    (FuncModifier())* "def" Identifier() (TypeParameters())? "(" (FormalParameters())? ")"( ":" ReturnType())? ("=" FuncBody())?
 }
 
 //**********************************************************************
