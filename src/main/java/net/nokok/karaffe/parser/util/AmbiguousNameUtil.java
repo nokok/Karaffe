@@ -13,6 +13,7 @@ import net.nokok.karaffe.parser.excptn.ParserException;
 public class AmbiguousNameUtil {
 
     private final Node node;
+    private String pathCache;
 
     private final ParserDefaultVisitor visitor = new ParserDefaultVisitor() {
 
@@ -36,8 +37,8 @@ public class AmbiguousNameUtil {
         ids.stream().skip(1).forEach(id -> {
             sb.append("/").append(id);
         });
-
-        return sb.toString();
+        pathCache = sb.toString();
+        return pathCache;
     }
 
 }
