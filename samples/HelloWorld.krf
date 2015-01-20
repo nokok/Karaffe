@@ -1,3 +1,7 @@
-type HelloWorld
-def main : List[String] -> ()
-println("Hello world")
+type HelloWorld{
+    def main( args:List[String] ): Void = {
+        println("Hello world")
+    }
+}
+
+
