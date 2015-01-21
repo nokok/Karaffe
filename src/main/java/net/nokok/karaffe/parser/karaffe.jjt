@@ -522,7 +522,8 @@ void Literal():{}
     BoolLiteral() |
     CharLiteral() | 
     StringLiteral() | 
-    UndefinedLiteral() 
+    UndefinedLiteral() |
+    NullLiteral()
 }
 
 void IntLiteral():{}
@@ -615,11 +616,18 @@ void UndefinedLiteral():{Token t;}
     }
 }
 
+void NullLiteral():{Token t;}
+{
+    t = <NullLiteral> {
+        jjtThis.jjtSetValue(t);
+    }
+}
+
 TOKEN:
 {
 
     < UndefinedLiteral : "undefined" > |
-
+    < NullLiteral : "null" > |
     < BoolLiteral : "true" | "false" > |
     
     //IntLiteral
