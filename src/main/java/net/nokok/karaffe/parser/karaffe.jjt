@@ -26,7 +26,7 @@ TOKEN_MGR_DECLS:
 
 ASTCompileUnit CompileUnit():{}
 {
-    (PackageDecl())? (ImportStmt() | TypeDecl())* <EOF> {
+    (PackageDecl())? (ImportStmt() | FuncAlias() | TypeDecl())* <EOF> {
         return jjtThis;
     }
 }
