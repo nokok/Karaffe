@@ -154,7 +154,9 @@ void ClassBodyDecl()#void:{}
 {
     LOOKAHEAD((FuncModifier())* "def" Identifier() (TypeParameters())? "(" (FormalParameters())? ")") FuncDecl() |
     LOOKAHEAD((CtorModifier())* "def" "this") ClassCtorDecl() |
-    LOOKAHEAD((FieldModifier())* "def" Identifier()) FieldDecl() 
+    LOOKAHEAD((FieldModifier())* "def" Identifier()) FieldDecl() |
+    ImportStmt() | 
+    FuncAlias() 
 }
 
 void ClassCtorDecl():{}
