@@ -34,4 +34,16 @@ public class FuncAliasTest {
                 + "}\n"
                 + "}");
     }
+
+    @Test
+    public void testPrivateFuncAlias() {
+        testCode("type Hoge{\n"
+                + "funcalias hoge() : fuga()\n"
+                + "}");
+    }
+
+    @Test
+    public void testInternalFuncAlias() {
+        testCode("funcalias hoge() : fuga()");
+    }
 }

@@ -33,4 +33,20 @@ public class ImportStmtSyntaxTest {
         testCode("import ModuleName1 -> M1 ModuleName2 -> M2");
     }
 
+    @Test
+    public void testPrivateImportInClass() {
+        testCode("type Hoge{\n"
+                + "import hoge\n"
+                + "}");
+    }
+
+    @Test
+    public void testPrivateImportInFunc() {
+        testCode("type Hoge{\n"
+                + "def func() = {\n"
+                + "import hoge\n"
+                + "}\n"
+                + "}");
+    }
+
 }
