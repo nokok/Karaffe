@@ -36,11 +36,11 @@ ASTCompileUnit CompileUnit():{/*@bgen(jjtree) CompileUnit */
 {/*@bgen(jjtree) CompileUnit */
     try {
 /*@egen*/
-    (PackageDecl())? (ImportStmt() | TypeDecl())* <EOF>/*@bgen(jjtree)*/
-                                                        {
-                                                          jjtree.closeNodeScope(jjtn000, true);
-                                                          jjtc000 = false;
-                                                        }
+    (PackageDecl())? (ImportStmt() | FuncAlias() | TypeDecl())* <EOF>/*@bgen(jjtree)*/
+                                                                      {
+                                                                        jjtree.closeNodeScope(jjtn000, true);
+                                                                        jjtc000 = false;
+                                                                      }
 /*@egen*/ {
         return jjtn000;
     }/*@bgen(jjtree)*/
@@ -761,7 +761,9 @@ void ClassBodyDecl()     :{}
 {
     LOOKAHEAD((FuncModifier())* "def" Identifier() (TypeParameters())? "(" (FormalParameters())? ")") FuncDecl() |
     LOOKAHEAD((CtorModifier())* "def" "this") ClassCtorDecl() |
-    LOOKAHEAD((FieldModifier())* "def" Identifier()) FieldDecl() 
+    LOOKAHEAD((FieldModifier())* "def" Identifier()) FieldDecl() |
+    ImportStmt() | 
+    FuncAlias() 
 }
 
 void ClassCtorDecl():{/*@bgen(jjtree) ClassCtorDecl */
@@ -2612,7 +2614,8 @@ void Literal():{/*@bgen(jjtree) Literal */
     BoolLiteral() |
     CharLiteral() | 
     StringLiteral() | 
-    UndefinedLiteral()/*@bgen(jjtree)*/
+    UndefinedLiteral() |
+    NullLiteral()/*@bgen(jjtree)*/
     } catch (Throwable jjte000) {
       if (jjtc000) {
         jjtree.clearNodeScope(jjtn000);
@@ -2632,7 +2635,7 @@ void Literal():{/*@bgen(jjtree) Literal */
         jjtree.closeNodeScope(jjtn000, true);
       }
     }
-/*@egen*/ 
+/*@egen*/
 }
 
 void IntLiteral():{/*@bgen(jjtree) IntLiteral */
@@ -2947,11 +2950,35 @@ void UndefinedLiteral():{/*@bgen(jjtree) UndefinedLiteral */
 /*@egen*/
 }
 
+void NullLiteral():{/*@bgen(jjtree) NullLiteral */
+                    ASTNullLiteral jjtn000 = new ASTNullLiteral(JJTNULLLITERAL);
+                    boolean jjtc000 = true;
+                    jjtree.openNodeScope(jjtn000);
+/*@egen*/Token t;}
+{/*@bgen(jjtree) NullLiteral */
+    try {
+/*@egen*/
+    t = <NullLiteral>/*@bgen(jjtree)*/
+                      {
+                        jjtree.closeNodeScope(jjtn000, true);
+                        jjtc000 = false;
+                      }
+/*@egen*/ {
+        jjtn000.jjtSetValue(t);
+    }/*@bgen(jjtree)*/
+    } finally {
+      if (jjtc000) {
+        jjtree.closeNodeScope(jjtn000, true);
+      }
+    }
+/*@egen*/
+}
+
 TOKEN:
 {
 
     < UndefinedLiteral : "undefined" > |
-
+    < NullLiteral : "null" > |
     < BoolLiteral : "true" | "false" > |
     
     //IntLiteral

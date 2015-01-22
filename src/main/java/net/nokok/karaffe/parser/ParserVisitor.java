@@ -207,6 +207,8 @@ public interface ParserVisitor {
 
     public Object visit(ASTUndefinedLiteral node, Object data) throws net.nokok.karaffe.parser.excptn.ParserException;
 
+    public Object visit(ASTNullLiteral node, Object data) throws net.nokok.karaffe.parser.excptn.ParserException;
+
     public Object visit(ASTMethodInvocation node, Object data) throws net.nokok.karaffe.parser.excptn.ParserException;
 
     public Object visit(ASTMethodName node, Object data) throws net.nokok.karaffe.parser.excptn.ParserException;
@@ -231,4 +233,4 @@ public interface ParserVisitor {
 
     public Object visit(ASTFunctionName node, Object data) throws net.nokok.karaffe.parser.excptn.ParserException;
 }
-/* JavaCC - OriginalChecksum=a6eaed15b98fb80ac6b2b20a9246953e (do not edit this line) */
+/* JavaCC - OriginalChecksum=3b444f9633057821258f7656d75d5821 (do not edit this line) */

@@ -3,6 +3,7 @@
  */
 package net.nokok.karaffe.parser.asm;
 
+import java.util.Optional;
 import net.nokok.karaffe.parser.ASTAbstractModifier;
 import net.nokok.karaffe.parser.ASTAdditionalBound;
 import net.nokok.karaffe.parser.ASTAdditiveExpr;
@@ -86,6 +87,7 @@ import net.nokok.karaffe.parser.ASTLocalValDecl;
 import net.nokok.karaffe.parser.ASTMethodInvocation;
 import net.nokok.karaffe.parser.ASTMethodName;
 import net.nokok.karaffe.parser.ASTMultiplicativeExpr;
+import net.nokok.karaffe.parser.ASTNullLiteral;
 import net.nokok.karaffe.parser.ASTOctIntLiteral;
 import net.nokok.karaffe.parser.ASTPackageDecl;
 import net.nokok.karaffe.parser.ASTPostFixExpr;
@@ -123,6 +125,7 @@ import net.nokok.karaffe.parser.util.AmbiguousNameUtil;
 import net.nokok.karaffe.parser.util.ClassModifierUtil;
 import net.nokok.karaffe.parser.util.CurrentState;
 import org.objectweb.asm.ClassWriter;
+import org.objectweb.asm.MethodVisitor;
 import org.objectweb.asm.Opcodes;
 
 public class BytecodeGeneratorVisitor implements ParserVisitor {
@@ -136,6 +139,9 @@ public class BytecodeGeneratorVisitor implements ParserVisitor {
     public static final String arglessReturnVoid = "()V";
 
     private String currentPackage = ".";
+
+    private ClassWriter currentClassWriter = new ClassWriter(ClassWriter.COMPUTE_MAXS);
+    private MethodVisitor currentMethodVisitor = null;
 
     private ClassWriter createClass(int access, String className, String[] interfaces) {
         return createClass(access, className, javaLangObject, interfaces);
@@ -197,7 +203,6 @@ public class BytecodeGeneratorVisitor implements ParserVisitor {
 
     @Override
     public Void visit(ASTVariableModifier node, Object data) throws ParserException {
-        stateCheck(CurrentState.CompilerState.MODIFIER);
         state.addModifier(CurrentState.Modifier.VAR);
         return null;
     }
@@ -220,17 +225,11 @@ public class BytecodeGeneratorVisitor implements ParserVisitor {
         return null;
     }
 
-    private void stateCheck(CurrentState.CompilerState expected) {
-        if (!state.is(expected)) {
-            throw new IllegalStateException();
-        }
-        state.setCompileState(expected);
-    }
-
     @Override
     public Object visit(ASTPackageDecl node, Object data) throws net.nokok.karaffe.parser.excptn.ParserException {
         AmbiguousNameUtil util = new AmbiguousNameUtil(node);
         currentPackage = util.getPath();
+        node.childrenAccept(this, data);
         return null;
     }
 
@@ -275,8 +274,11 @@ public class BytecodeGeneratorVisitor implements ParserVisitor {
         SimpleNode first = (SimpleNode) node.jjtGetChild(0);
         ASTIdentifier className;
         if (first instanceof ASTClassModifiers) {
-            int modifier = (int) first.jjtAccept(this, data);
-            System.out.println(modifier);
+            @SuppressWarnings("unchecked")
+            Optional<Integer> modifier = (Optional<Integer>) first.jjtAccept(this, data);
+            modifier.ifPresent(mod -> {
+
+            });
             className = (ASTIdentifier) node.jjtGetChild(1);
         } else {
             className = (ASTIdentifier) first;
@@ -286,7 +288,7 @@ public class BytecodeGeneratorVisitor implements ParserVisitor {
     }
 
     @Override
-    public Integer visit(ASTClassModifiers node, Object data) throws ParserException {
+    public Optional<Integer> visit(ASTClassModifiers node, Object data) throws ParserException {
         node.childrenAccept(this, data);
         ClassModifierUtil checker = new ClassModifierUtil(node);
         return checker.getModifier();
@@ -533,8 +535,71 @@ public class BytecodeGeneratorVisitor implements ParserVisitor {
     }
 
     @Override
+    public Object visit(ASTStatement node, Object data) throws net.nokok.karaffe.parser.excptn.ParserException {
+        node.childrenAccept(this, data);
+        return null;
+    }
+
+    @Override
+    public Object visit(ASTFuncAlias node, Object data) throws net.nokok.karaffe.parser.excptn.ParserException {
+        node.childrenAccept(this, data);
+        return null;
+    }
+
+    @Override
+    public Object visit(ASTFunctionName node, Object data) throws net.nokok.karaffe.parser.excptn.ParserException {
+        node.childrenAccept(this, data);
+        return null;
+    }
+
+    @Override
+    public Object visit(ASTPublicModifier node, Object data) throws ParserException {
+        node.childrenAccept(this, data);
+        return null;
+    }
+
+    @Override
+    public Object visit(ASTProtectedModifier node, Object data) throws ParserException {
+        node.childrenAccept(this, data);
+        return null;
+    }
+
+    @Override
+    public Object visit(ASTPrivateModifier node, Object data) throws ParserException {
+        node.childrenAccept(this, data);
+        return null;
+    }
+
+    @Override
+    public Object visit(ASTAbstractModifier node, Object data) throws ParserException {
+        node.childrenAccept(this, data);
+        return null;
+    }
+
+    @Override
+    public Object visit(ASTStaticModifier node, Object data) throws ParserException {
+        node.childrenAccept(this, data);
+        return null;
+    }
+
+    //------------------------------------------------------------------------------------
+    //Expression
+    //------------------------------------------------------------------------------------
+    @Override
     public Object visit(ASTExpression node, Object data) throws net.nokok.karaffe.parser.excptn.ParserException {
         node.childrenAccept(this, data);
+        return null;
+    }
+
+    @Override
+    public Object visit(ASTFinalModifier node, Object data) throws ParserException {
+        node.childrenAccept(this, data);
+        return null;
+    }
+
+    @Override
+    public Object visit(ASTNullLiteral node, Object data) throws ParserException {
+        currentMethodVisitor.visitInsn(Opcodes.ACONST_NULL);
         return null;
     }
 
@@ -733,6 +798,12 @@ public class BytecodeGeneratorVisitor implements ParserVisitor {
     @Override
     public Object visit(ASTBoolLiteral node, Object data) throws net.nokok.karaffe.parser.excptn.ParserException {
         node.childrenAccept(this, data);
+        boolean bool = Boolean.parseBoolean(node.jjtGetValue().toString());
+        if (bool) {
+            currentMethodVisitor.visitInsn(Opcodes.ICONST_1);
+        } else {
+            currentMethodVisitor.visitInsn(Opcodes.ICONST_0);
+        }
         return null;
     }
 
@@ -795,59 +866,4 @@ public class BytecodeGeneratorVisitor implements ParserVisitor {
         node.childrenAccept(this, data);
         return null;
     }
-
-    @Override
-    public Object visit(ASTStatement node, Object data) throws net.nokok.karaffe.parser.excptn.ParserException {
-        node.childrenAccept(this, data);
-        return null;
-    }
-
-    @Override
-    public Object visit(ASTFuncAlias node, Object data) throws net.nokok.karaffe.parser.excptn.ParserException {
-        node.childrenAccept(this, data);
-        return null;
-    }
-
-    @Override
-    public Object visit(ASTFunctionName node, Object data) throws net.nokok.karaffe.parser.excptn.ParserException {
-        node.childrenAccept(this, data);
-        return null;
-    }
-
-    @Override
-    public Object visit(ASTPublicModifier node, Object data) throws ParserException {
-        node.childrenAccept(this, data);
-        return null;
-    }
-
-    @Override
-    public Object visit(ASTProtectedModifier node, Object data) throws ParserException {
-        node.childrenAccept(this, data);
-        return null;
-    }
-
-    @Override
-    public Object visit(ASTPrivateModifier node, Object data) throws ParserException {
-        node.childrenAccept(this, data);
-        return null;
-    }
-
-    @Override
-    public Object visit(ASTAbstractModifier node, Object data) throws ParserException {
-        node.childrenAccept(this, data);
-        return null;
-    }
-
-    @Override
-    public Object visit(ASTStaticModifier node, Object data) throws ParserException {
-        node.childrenAccept(this, data);
-        return null;
-    }
-
-    @Override
-    public Object visit(ASTFinalModifier node, Object data) throws ParserException {
-        node.childrenAccept(this, data);
-        return null;
-    }
-
 }

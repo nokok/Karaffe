@@ -12,10 +12,14 @@ public class ASTEnumName extends SimpleNode {
         super(p, id);
     }
 
-    /** Accept the visitor. * */
+    /**
+     * Accept the visitor. *
+     */
     public Object jjtAccept(ParserVisitor visitor, Object data) throws net.nokok.karaffe.parser.excptn.ParserException {
 
         return visitor.visit(this, data);
     }
 }
-/* JavaCC - OriginalChecksum=168fb38a0e8889240d28aab09b35a509 (do not edit this line) */
+/*
+ * JavaCC - OriginalChecksum=168fb38a0e8889240d28aab09b35a509 (do not edit this line)
+ */

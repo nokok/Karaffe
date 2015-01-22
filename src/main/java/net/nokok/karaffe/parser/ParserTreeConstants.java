@@ -105,18 +105,19 @@ public interface ParserTreeConstants {
     public int JJTCHARLITERAL = 99;
     public int JJTSTRINGLITERAL = 100;
     public int JJTUNDEFINEDLITERAL = 101;
-    public int JJTMETHODINVOCATION = 102;
-    public int JJTMETHODNAME = 103;
-    public int JJTEXPRESSIONNAME = 104;
-    public int JJTARGUMENTS = 105;
-    public int JJTARGUMENT = 106;
-    public int JJTFUNCTIONLITERAL = 107;
-    public int JJTFUNCLITERALARG = 108;
-    public int JJTIDENTIFIERTYPEBINDING = 109;
-    public int JJTAMBIGUOUSNAME = 110;
-    public int JJTSTATEMENT = 111;
-    public int JJTFUNCALIAS = 112;
-    public int JJTFUNCTIONNAME = 113;
+    public int JJTNULLLITERAL = 102;
+    public int JJTMETHODINVOCATION = 103;
+    public int JJTMETHODNAME = 104;
+    public int JJTEXPRESSIONNAME = 105;
+    public int JJTARGUMENTS = 106;
+    public int JJTARGUMENT = 107;
+    public int JJTFUNCTIONLITERAL = 108;
+    public int JJTFUNCLITERALARG = 109;
+    public int JJTIDENTIFIERTYPEBINDING = 110;
+    public int JJTAMBIGUOUSNAME = 111;
+    public int JJTSTATEMENT = 112;
+    public int JJTFUNCALIAS = 113;
+    public int JJTFUNCTIONNAME = 114;
 
     public String[] jjtNodeName = {
         "CompileUnit",
@@ -221,6 +222,7 @@ public interface ParserTreeConstants {
         "CharLiteral",
         "StringLiteral",
         "UndefinedLiteral",
+        "NullLiteral",
         "MethodInvocation",
         "MethodName",
         "ExpressionName",
@@ -234,4 +236,4 @@ public interface ParserTreeConstants {
         "FuncAlias",
         "FunctionName",};
 }
-/* JavaCC - OriginalChecksum=74b6dbb1dd528ccdad575bbc1dd069e9 (do not edit this line) */
+/* JavaCC - OriginalChecksum=1abeec09af3dcf2464e2a3d86b989408 (do not edit this line) */
