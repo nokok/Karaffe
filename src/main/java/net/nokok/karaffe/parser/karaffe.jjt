@@ -376,6 +376,7 @@ void Expression():{}
     LOOKAHEAD(AssignmentExpr()) AssignmentExpr() |
     LOOKAHEAD(BoolOrExpr()) BoolOrExpr() |
     IfExpr() |
+    SwitchExpr() |
     WhileLoopExpr()
 }
 
@@ -501,6 +502,22 @@ void IfBody():{}
 {
     Expression() |
     "{" BlockStmts() "}"
+}
+
+void SwitchExpr():{}
+{
+    "switch" "(" Expression() ")" "{" (SwitchBody())+ "}"
+}
+
+void SwitchBody():{}
+{
+    "case" SwitchCond() "=>" BlockStmts()
+}
+
+void SwitchCond():{}
+{
+    LOOKAHEAD(Expression() ":" ClassType()) Expression() ":" ClassType() #ExpressionBinding() |
+    LOOKAHEAD(Expression()) Expression() 
 }
 
 void WhileLoopExpr():{}
