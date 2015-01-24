@@ -38,6 +38,11 @@ public class FieldDeclSyntaxTest {
         testDecl("public def t = undefined");
     }
 
+    @Test
+    public void testFieldAmbiguousType() {
+        testDecl("def hoge : java.lang.Integer = 0");
+    }
+
     public static void testDecl(String code) {
         testCode("type Hoge{\n"
                 + code
