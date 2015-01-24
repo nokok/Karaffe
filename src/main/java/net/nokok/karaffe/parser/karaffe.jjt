@@ -315,12 +315,7 @@ void InterfaceMember():{}
 
 void ConstantDecl():{}
 {
-    (ConstantModifier())* "def" Identifier() ":" Identifier() (TypeParameters())? ("=" VariableInitializer())?
-}
-
-void ConstantModifier():{}
-{
-    "static"
+    ("static" #StaticModifier())? "def" Identifier() ":" Identifier() (TypeParameters())? ("=" VariableInitializer())?
 }
 
 void InterfaceMethodDecl():{}
