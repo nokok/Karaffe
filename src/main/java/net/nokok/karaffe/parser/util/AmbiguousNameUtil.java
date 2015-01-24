@@ -30,8 +30,12 @@ public class AmbiguousNameUtil {
         this.node = node;
     }
 
-    public String getPath() throws ParserException {
-        node.jjtAccept(visitor, this);
+    public String getPath() {
+        try {
+            node.jjtAccept(visitor, this);
+        } catch (ParserException ex) {
+            throw new RuntimeException(ex);
+        }
         final StringBuilder sb = new StringBuilder();
         sb.append(ids.get(0));
         ids.stream().skip(1).forEach(id -> {
