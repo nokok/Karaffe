@@ -40,10 +40,6 @@ public class ParserDefaultVisitor implements ParserVisitor {
         return defaultVisit(node, data);
     }
 
-    public Object visit(ASTTypeDecl node, Object data) throws net.nokok.karaffe.parser.excptn.ParserException {
-        return defaultVisit(node, data);
-    }
-
     public Object visit(ASTClassDecl node, Object data) throws net.nokok.karaffe.parser.excptn.ParserException {
         return defaultVisit(node, data);
     }
@@ -232,10 +228,6 @@ public class ParserDefaultVisitor implements ParserVisitor {
         return defaultVisit(node, data);
     }
 
-    public Object visit(ASTConstantModifier node, Object data) throws net.nokok.karaffe.parser.excptn.ParserException {
-        return defaultVisit(node, data);
-    }
-
     public Object visit(ASTInterfaceMethodDecl node, Object data) throws net.nokok.karaffe.parser.excptn.ParserException {
         return defaultVisit(node, data);
     }
@@ -360,6 +352,22 @@ public class ParserDefaultVisitor implements ParserVisitor {
         return defaultVisit(node, data);
     }
 
+    public Object visit(ASTSwitchExpr node, Object data) throws net.nokok.karaffe.parser.excptn.ParserException {
+        return defaultVisit(node, data);
+    }
+
+    public Object visit(ASTSwitchBody node, Object data) throws net.nokok.karaffe.parser.excptn.ParserException {
+        return defaultVisit(node, data);
+    }
+
+    public Object visit(ASTSwitchCond node, Object data) throws net.nokok.karaffe.parser.excptn.ParserException {
+        return defaultVisit(node, data);
+    }
+
+    public Object visit(ASTExpressionBinding node, Object data) throws net.nokok.karaffe.parser.excptn.ParserException {
+        return defaultVisit(node, data);
+    }
+
     public Object visit(ASTWhileLoopExpr node, Object data) throws net.nokok.karaffe.parser.excptn.ParserException {
         return defaultVisit(node, data);
     }
@@ -468,4 +476,4 @@ public class ParserDefaultVisitor implements ParserVisitor {
         return defaultVisit(node, data);
     }
 }
-/* JavaCC - OriginalChecksum=364ffd68a40610a424b77b5d5e537aa3 (do not edit this line) */
+/* JavaCC - OriginalChecksum=7c3c8792086f409f6666677e8ba13804 (do not edit this line) */

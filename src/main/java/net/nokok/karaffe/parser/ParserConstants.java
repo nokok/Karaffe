@@ -10,61 +10,61 @@ public interface ParserConstants {
     /** End of File. */
     int EOF = 0;
     /** RegularExpression Id. */
-    int UndefinedLiteral = 68;
+    int UndefinedLiteral = 70;
     /** RegularExpression Id. */
-    int NullLiteral = 69;
+    int NullLiteral = 71;
     /** RegularExpression Id. */
-    int BoolLiteral = 70;
+    int BoolLiteral = 72;
     /** RegularExpression Id. */
-    int DecimalNumeral = 71;
+    int DecimalNumeral = 73;
     /** RegularExpression Id. */
-    int Digit = 72;
+    int Digit = 74;
     /** RegularExpression Id. */
-    int Zero = 73;
+    int Zero = 75;
     /** RegularExpression Id. */
-    int NonZero = 74;
+    int NonZero = 76;
     /** RegularExpression Id. */
-    int HexNumeral = 75;
+    int HexNumeral = 77;
     /** RegularExpression Id. */
-    int HexDigit = 76;
+    int HexDigit = 78;
     /** RegularExpression Id. */
-    int OctalIntLiteral = 77;
+    int OctalIntLiteral = 79;
     /** RegularExpression Id. */
-    int OctalDigit = 78;
+    int OctalDigit = 80;
     /** RegularExpression Id. */
-    int BinaryNumeral = 79;
+    int BinaryNumeral = 81;
     /** RegularExpression Id. */
-    int BinaryDigit = 80;
+    int BinaryDigit = 82;
     /** RegularExpression Id. */
-    int DecimalFPLiteral = 81;
+    int DecimalFPLiteral = 83;
     /** RegularExpression Id. */
-    int Exp = 82;
+    int Exp = 84;
     /** RegularExpression Id. */
-    int HexadecimalFPLiteral = 83;
+    int HexadecimalFPLiteral = 85;
     /** RegularExpression Id. */
-    int HexSignificand = 84;
+    int HexSignificand = 86;
     /** RegularExpression Id. */
-    int BinaryExp = 85;
+    int BinaryExp = 87;
     /** RegularExpression Id. */
-    int CharLiteral = 86;
+    int CharLiteral = 88;
     /** RegularExpression Id. */
-    int StringLiteral = 87;
+    int StringLiteral = 89;
     /** RegularExpression Id. */
-    int StringCharacter = 88;
+    int StringCharacter = 90;
     /** RegularExpression Id. */
-    int StringEscapeSeq = 89;
+    int StringEscapeSeq = 91;
     /** RegularExpression Id. */
-    int UnicodeEscape = 90;
+    int UnicodeEscape = 92;
     /** RegularExpression Id. */
-    int RawStringLiteral = 91;
+    int RawStringLiteral = 93;
     /** RegularExpression Id. */
-    int EndOfLine = 103;
+    int EndOfLine = 105;
     /** RegularExpression Id. */
-    int Identifier = 105;
+    int Identifier = 107;
     /** RegularExpression Id. */
-    int IDHead = 106;
+    int IDHead = 108;
     /** RegularExpression Id. */
-    int IDBody = 107;
+    int IDBody = 109;
 
     /** Lexical state. */
     int DEFAULT = 0;
@@ -140,6 +140,8 @@ public interface ParserConstants {
         "\"t[\"",
         "\"if\"",
         "\"else\"",
+        "\"switch\"",
+        "\"=>\"",
         "\"while\"",
         "\"undefined\"",
         "\"null\"",
@@ -166,7 +168,7 @@ public interface ParserConstants {
         "<UnicodeEscape>",
         "<RawStringLiteral>",
         "\"funcalias\"",
-        "<token of kind 93>",
+        "<token of kind 95>",
         "\"/*\"",
         "\" \"",
         "\"\\t\"",
@@ -175,7 +177,7 @@ public interface ParserConstants {
         "\"\\r\\n\"",
         "\";\"",
         "\"/*\"",
-        "<token of kind 102>",
+        "<token of kind 104>",
         "<EndOfLine>",
         "\"*/\"",
         "<Identifier>",

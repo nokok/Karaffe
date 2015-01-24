@@ -19,8 +19,6 @@ public interface ParserVisitor {
 
     public Object visit(ASTTypeName node, Object data) throws net.nokok.karaffe.parser.excptn.ParserException;
 
-    public Object visit(ASTTypeDecl node, Object data) throws net.nokok.karaffe.parser.excptn.ParserException;
-
     public Object visit(ASTClassDecl node, Object data) throws net.nokok.karaffe.parser.excptn.ParserException;
 
     public Object visit(ASTClassModifiers node, Object data) throws net.nokok.karaffe.parser.excptn.ParserException;
@@ -115,8 +113,6 @@ public interface ParserVisitor {
 
     public Object visit(ASTConstantDecl node, Object data) throws net.nokok.karaffe.parser.excptn.ParserException;
 
-    public Object visit(ASTConstantModifier node, Object data) throws net.nokok.karaffe.parser.excptn.ParserException;
-
     public Object visit(ASTInterfaceMethodDecl node, Object data) throws net.nokok.karaffe.parser.excptn.ParserException;
 
     public Object visit(ASTTypeAliasDecl node, Object data) throws net.nokok.karaffe.parser.excptn.ParserException;
@@ -179,6 +175,14 @@ public interface ParserVisitor {
 
     public Object visit(ASTIfBody node, Object data) throws net.nokok.karaffe.parser.excptn.ParserException;
 
+    public Object visit(ASTSwitchExpr node, Object data) throws net.nokok.karaffe.parser.excptn.ParserException;
+
+    public Object visit(ASTSwitchBody node, Object data) throws net.nokok.karaffe.parser.excptn.ParserException;
+
+    public Object visit(ASTSwitchCond node, Object data) throws net.nokok.karaffe.parser.excptn.ParserException;
+
+    public Object visit(ASTExpressionBinding node, Object data) throws net.nokok.karaffe.parser.excptn.ParserException;
+
     public Object visit(ASTWhileLoopExpr node, Object data) throws net.nokok.karaffe.parser.excptn.ParserException;
 
     public Object visit(ASTLiteral node, Object data) throws net.nokok.karaffe.parser.excptn.ParserException;
@@ -233,4 +237,4 @@ public interface ParserVisitor {
 
     public Object visit(ASTFunctionName node, Object data) throws net.nokok.karaffe.parser.excptn.ParserException;
 }
-/* JavaCC - OriginalChecksum=3b444f9633057821258f7656d75d5821 (do not edit this line) */
+/* JavaCC - OriginalChecksum=47499dff751ec4aea93442bedcff6d2a (do not edit this line) */

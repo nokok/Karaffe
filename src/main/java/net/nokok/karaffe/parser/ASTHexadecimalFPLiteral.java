@@ -12,10 +12,14 @@ public class ASTHexadecimalFPLiteral extends SimpleNode {
         super(p, id);
     }
 
-    /** Accept the visitor. * */
+    /**
+     * Accept the visitor. *
+     */
     public Object jjtAccept(ParserVisitor visitor, Object data) throws net.nokok.karaffe.parser.excptn.ParserException {
 
         return visitor.visit(this, data);
     }
 }
-/* JavaCC - OriginalChecksum=fcaf90e6e497db17f6e834294714bf8c (do not edit this line) */
+/*
+ * JavaCC - OriginalChecksum=fcaf90e6e497db17f6e834294714bf8c (do not edit this line)
+ */
