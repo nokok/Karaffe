@@ -230,7 +230,7 @@ void VariableType():{}
 
 void FieldDecl():{}
 {
-    (FieldModifier())* "def" Identifier() (":" Identifier() (TypeParameters())?)? ("=" VariableInitializer())?
+    (FieldModifier())* "def" Identifier() (":" TypeName() (TypeParameters())?)? ("=" VariableInitializer())?
 }
 
 void FieldModifier():{}
