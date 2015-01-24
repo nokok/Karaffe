@@ -214,12 +214,13 @@ void BlockStmt():{}
 
 void LocalValDecl():{}
 {
-    (VariableModifier())? "def" Identifier() (VariableType())? ("=" VariableInitializer())? 
+    (VariableModifier())? "def" Identifier() (VariableType())? "=" VariableInitializer()
 }
 
 void VariableInitializer():{}
 {
-    Expression()
+    Expression() |
+    "{" BlockStmts() "}"
 }
 
 void VariableType():{}
