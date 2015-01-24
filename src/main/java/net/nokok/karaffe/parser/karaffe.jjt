@@ -67,7 +67,7 @@ void TypeName():{}
     AmbiguousName()
 }
 
-void TypeDecl():{}
+void TypeDecl() #void:{}
 {
     LOOKAHEAD((ClassModifier())* "type") ClassDecl() |
     LOOKAHEAD((EnumModifier())* "enum") EnumDecl() |
