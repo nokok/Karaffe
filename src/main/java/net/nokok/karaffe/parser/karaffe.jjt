@@ -91,12 +91,12 @@ void ClassModifiers():{}
 
 void ClassModifier() #void:{}
 {
-    "public" #PublicModifier()|
-    "protected" #ProtectedModifier()|
-    "private" #PrivateModifier() |
-    "abstract" #AbstractModifier()|
-    "static" #StaticModifier()|
-    "final" #FinalModifier()
+    PublicModifier()|
+    ProtectedModifier()|
+    PrivateModifier() |
+    AbstractModifier()|
+    StaticModifier()|
+    FinalModifier()
 }
 
 void TypeParameters():{}
@@ -166,7 +166,9 @@ void ClassCtorDecl():{}
 
 void CtorModifier():{}
 {
-    "public" | "protected" | "private"
+    PublicModifier() |
+    ProtectedModifier() |
+    PrivateModifier()
 }
 
 void FormalParameters():{}
@@ -235,7 +237,11 @@ void FieldDecl():{}
 
 void FieldModifier():{}
 {
-    "public" | "protected" | "private" | "static" | "var"
+    PublicModifier() | 
+    ProtectedModifier() | 
+    PrivateModifier() |
+    StaticModifier() |
+    VarModifier()
 }
 
 
@@ -251,7 +257,15 @@ void FuncDecl():{}
 
 void FuncModifier():{}
 {
-    "public" | "protected" | "private" | "abstract" | "static" | "var" | "final" | "sealed" | "override"
+    PublicModifier() |
+    ProtectedModifier() |
+    PrivateModifier() | 
+    AbstractModifier() |
+    StaticModifier() |
+    VarModifier() |
+    FinalModifier() |
+    SealedModifier() |
+    OverrideModifier()
 }
 
 void ReturnType():{}
@@ -292,7 +306,7 @@ void InterfaceDecl():{}
 
 void InterfaceModifier():{}
 {
-    "public" | "protected" | "private"
+    PublicModifier() 
 }
 
 void ExtendsInterfaces():{}
@@ -333,7 +347,9 @@ void TypeAliasDecl():{}
 
 void TypeAliasModifier():{}
 {
-    "public" | "protected" | "private"
+    PublicModifier() |
+    ProtectedModifier() |
+    PrivateModifier()
 }
 
 //**********************************************************************
@@ -346,7 +362,10 @@ void EnumDecl():{}
 
 void EnumModifier():{}
 {
-    "public" | "protected" | "private" | "static"
+    PublicModifier() |
+    ProtectedModifier() |
+    PrivateModifier() |
+    StaticModifier()
 }
 
 void EnumName():{}
@@ -799,6 +818,69 @@ SPECIAL_TOKEN:
         if(commentNestLevel == 0){
             SwitchTo(DEFAULT);
         }
+    }
+}
+
+void PublicModifier():{Token t;}
+{
+    t = "public" {
+        jjtThis.jjtSetValue(t);
+    }
+}
+
+void ProtectedModifier():{Token t;}
+{
+    t = "protected" {
+        jjtThis.jjtSetValue(t);
+    }
+}
+
+void PrivateModifier():{Token t;}
+{
+    t = "private" {
+        jjtThis.jjtSetValue(t);
+    }
+}
+
+void AbstractModifier():{Token t;}
+{
+    t = "abstract" {
+        jjtThis.jjtSetValue(t);
+    }
+}
+
+void StaticModifier():{Token t;}
+{
+    t = "static" {
+        jjtThis.jjtSetValue(t);
+    }
+}
+
+void FinalModifier():{Token t;}
+{
+    t = "final" {
+        jjtThis.jjtSetValue(t);
+    }
+}
+
+void SealedModifier():{Token t;}
+{
+    t = "sealed" {
+        jjtThis.jjtSetValue(t);
+    }
+}
+
+void VarModifier():{Token t;}
+{
+    t = "var" {
+        jjtThis.jjtSetValue(t);
+    }
+}
+
+void OverrideModifier():{Token t;}
+{
+    t = "override" {
+        jjtThis.jjtSetValue(t);
     }
 }
 
