@@ -232,7 +232,7 @@ void VariableType():{}
 
 void FieldDecl():{}
 {
-    (FieldModifier())* "def" Identifier() (":" TypeName() (TypeParameters())?)? ("=" VariableInitializer())?
+    (FieldModifier())* "def" Identifier() (":" TypeName() (TypeParameters())?)? "=" FieldInitializer()
 }
 
 void FieldModifier():{}
@@ -247,7 +247,8 @@ void FieldModifier():{}
 
 void FieldInitializer():{}
 {
-    Expression()
+    Expression() | 
+    "{" BlockStmts() "}"
 }
 
 void FuncDecl():{}
