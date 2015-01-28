@@ -400,9 +400,9 @@ void Expression():{}
     WhileLoopExpr()
 }
 
-void AssignmentExpr():{}
+void AssignmentExpr()#void:{}
 {
-    LeftHandSide() AssignmentOp() Expression()
+    (LeftHandSide() AssignmentOp() Expression())#AssignmentExpr(>1)
 }
 
 void AssignmentOp():{}
@@ -415,82 +415,82 @@ void LeftHandSide():{}
     ExpressionName()
 }
 
-void BoolOrExpr():{}
+void BoolOrExpr()#void:{}
 {
-    BoolAndExpr() ("|" BoolAndExpr())*
+    BoolAndExpr() ("|" BoolAndExpr())* #BoolOrExpr(>1)
 }
 
-void BoolAndExpr():{}
+void BoolAndExpr()#void:{}
 {
-    EqualityExpr() ("&" EqualityExpr())*
+    EqualityExpr() ("&" EqualityExpr())* #BoolAndExpr(>1)
 }
 
-void EqualityExpr():{}
+void EqualityExpr()#void:{}
 {
-    RelationalExpr() (("==" | "!=") RelationalExpr())*
+    (RelationalExpr() (("==" | "!=") RelationalExpr())*)#EqualityExpr(>1)
 }
 
-void RelationalExpr():{}
+void RelationalExpr()#void:{}
 {
-    RangeExpr() (("<" | ">" | "<=" | ">=") RangeExpr())*
+    (RangeExpr() (("<" | ">" | "<=" | ">=") RangeExpr())*)#RelationalExpr(>1)
 }
 
-void RangeExpr():{}
+void RangeExpr()#void:{}
 {
-    AdditiveExpr() ((".."|".<") AdditiveExpr())*
+    (AdditiveExpr() ((".."|".<") AdditiveExpr())*)#RangeExpr(>1)
 }
 
-void AdditiveExpr():{}
+void AdditiveExpr()#void:{}
 {
-    MultiplicativeExpr() (LOOKAHEAD(("+"|"-"|"+?"|"-?") MultiplicativeExpr()) ("+"|"-"|"+?"|"-?") MultiplicativeExpr())*
+    (MultiplicativeExpr() (LOOKAHEAD(("+"|"-"|"+?"|"-?") MultiplicativeExpr()) ("+" #Add()|"-" #Sub()|"+?" #SafeAdd()|"-?" #SafeSub()) MultiplicativeExpr())*) #AdditiveExpr(>1)
 }
 
-void MultiplicativeExpr():{}
+void MultiplicativeExpr()#void:{}
 {
-    UnaryExpr() (("*"|"/"|"%"|"*?"|"/?"|"%?") UnaryExpr())*
+    (UnaryExpr() (("*"|"/"|"%"|"*?"|"/?"|"%?") UnaryExpr())* )#MultiplicativeExpr(>1)
 }
 
-void UnaryExpr():{}
+void UnaryExpr()#void:{}
 {
-    "+" UnaryExpr() |
+   ("+" UnaryExpr() |
     "-" UnaryExpr() |
-    UnaryExprNotPlusMinus()
+    UnaryExprNotPlusMinus() )#UnaryExpr(>1)
 }
 
-void UnaryExprNotPlusMinus():{}
+void UnaryExprNotPlusMinus()#void:{}
 {
-    "!" UnaryExpr() |
+   ("!" UnaryExpr() |
     LOOKAHEAD(CastExpr()) CastExpr() |
     LOOKAHEAD(CheckExpr()) CheckExpr() |
-    PostFixExpr() 
+    PostFixExpr() ) #UnaryExprNotPlusMinus(>1)
 }
 
-void CastExpr():{}
+void CastExpr()#void:{}
 {
-    "(" Expression() ")" "~>" ClassType()
+    ("(" Expression() ")" "~>" ClassType()) #CastExpr(>1)
 }
 
-void CheckExpr():{}
+void CheckExpr()#void:{}
 {
-    "(" Expression() ")" "~>?" ClassType()
+    ("(" Expression() ")" "~>?" ClassType()) #CheckExpr(>1)
 }
 
-void PostFixExpr():{}
+void PostFixExpr()#void:{}
 {
-    LOOKAHEAD(Primary()) Primary() |
-    LOOKAHEAD(ExpressionName()) ExpressionName()
+   (LOOKAHEAD(Primary()) Primary() |
+    LOOKAHEAD(ExpressionName()) ExpressionName()) #PostFixExpr(>1)
 }
 
-void Primary():{}
+void Primary()#void:{}
 {
-    LOOKAHEAD(MethodInvocation()) MethodInvocation() |
+    (LOOKAHEAD(MethodInvocation()) MethodInvocation() |
     LOOKAHEAD(Literal()) Literal() |
     LOOKAHEAD(2) "this" |
     LOOKAHEAD("(" Expression() ")") "(" Expression() ")" |
     LOOKAHEAD(ListDisplay()) ListDisplay() |
     LOOKAHEAD(DictionaryDisplay()) DictionaryDisplay() |
     LOOKAHEAD(TupleDisplay()) TupleDisplay() |
-    LOOKAHEAD(AmbiguousName()) AmbiguousName() 
+    LOOKAHEAD(AmbiguousName()) AmbiguousName() ) #Primary(>1)
 }
 
 void ListDisplay():{}
@@ -549,7 +549,7 @@ void WhileLoopExpr():{}
 //Literal
 //**********************************************************************
 
-void Literal():{}
+void Literal()#void:{}
 {
     FunctionLiteral() |
     IntLiteral() |
@@ -561,7 +561,7 @@ void Literal():{}
     NullLiteral()
 }
 
-void IntLiteral():{}
+void IntLiteral()#void:{}
 {
     DecimalIntLiteral() |
     HexIntLiteral() |
