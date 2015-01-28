@@ -23,18 +23,6 @@ public interface ParserVisitor {
 
     public Object visit(ASTClassModifiers node, Object data) throws net.nokok.karaffe.parser.excptn.ParserException;
 
-    public Object visit(ASTPublicModifier node, Object data) throws net.nokok.karaffe.parser.excptn.ParserException;
-
-    public Object visit(ASTProtectedModifier node, Object data) throws net.nokok.karaffe.parser.excptn.ParserException;
-
-    public Object visit(ASTPrivateModifier node, Object data) throws net.nokok.karaffe.parser.excptn.ParserException;
-
-    public Object visit(ASTAbstractModifier node, Object data) throws net.nokok.karaffe.parser.excptn.ParserException;
-
-    public Object visit(ASTStaticModifier node, Object data) throws net.nokok.karaffe.parser.excptn.ParserException;
-
-    public Object visit(ASTFinalModifier node, Object data) throws net.nokok.karaffe.parser.excptn.ParserException;
-
     public Object visit(ASTTypeParameters node, Object data) throws net.nokok.karaffe.parser.excptn.ParserException;
 
     public Object visit(ASTTypeParameter node, Object data) throws net.nokok.karaffe.parser.excptn.ParserException;
@@ -147,6 +135,14 @@ public interface ParserVisitor {
 
     public Object visit(ASTRangeExpr node, Object data) throws net.nokok.karaffe.parser.excptn.ParserException;
 
+    public Object visit(ASTAdd node, Object data) throws net.nokok.karaffe.parser.excptn.ParserException;
+
+    public Object visit(ASTSub node, Object data) throws net.nokok.karaffe.parser.excptn.ParserException;
+
+    public Object visit(ASTSafeAdd node, Object data) throws net.nokok.karaffe.parser.excptn.ParserException;
+
+    public Object visit(ASTSafeSub node, Object data) throws net.nokok.karaffe.parser.excptn.ParserException;
+
     public Object visit(ASTAdditiveExpr node, Object data) throws net.nokok.karaffe.parser.excptn.ParserException;
 
     public Object visit(ASTMultiplicativeExpr node, Object data) throws net.nokok.karaffe.parser.excptn.ParserException;
@@ -184,10 +180,6 @@ public interface ParserVisitor {
     public Object visit(ASTExpressionBinding node, Object data) throws net.nokok.karaffe.parser.excptn.ParserException;
 
     public Object visit(ASTWhileLoopExpr node, Object data) throws net.nokok.karaffe.parser.excptn.ParserException;
-
-    public Object visit(ASTLiteral node, Object data) throws net.nokok.karaffe.parser.excptn.ParserException;
-
-    public Object visit(ASTIntLiteral node, Object data) throws net.nokok.karaffe.parser.excptn.ParserException;
 
     public Object visit(ASTDecimalIntLiteral node, Object data) throws net.nokok.karaffe.parser.excptn.ParserException;
 
@@ -236,5 +228,23 @@ public interface ParserVisitor {
     public Object visit(ASTFuncAlias node, Object data) throws net.nokok.karaffe.parser.excptn.ParserException;
 
     public Object visit(ASTFunctionName node, Object data) throws net.nokok.karaffe.parser.excptn.ParserException;
+
+    public Object visit(ASTPublicModifier node, Object data) throws net.nokok.karaffe.parser.excptn.ParserException;
+
+    public Object visit(ASTProtectedModifier node, Object data) throws net.nokok.karaffe.parser.excptn.ParserException;
+
+    public Object visit(ASTPrivateModifier node, Object data) throws net.nokok.karaffe.parser.excptn.ParserException;
+
+    public Object visit(ASTAbstractModifier node, Object data) throws net.nokok.karaffe.parser.excptn.ParserException;
+
+    public Object visit(ASTStaticModifier node, Object data) throws net.nokok.karaffe.parser.excptn.ParserException;
+
+    public Object visit(ASTFinalModifier node, Object data) throws net.nokok.karaffe.parser.excptn.ParserException;
+
+    public Object visit(ASTSealedModifier node, Object data) throws net.nokok.karaffe.parser.excptn.ParserException;
+
+    public Object visit(ASTVarModifier node, Object data) throws net.nokok.karaffe.parser.excptn.ParserException;
+
+    public Object visit(ASTOverrideModifier node, Object data) throws net.nokok.karaffe.parser.excptn.ParserException;
 }
-/* JavaCC - OriginalChecksum=47499dff751ec4aea93442bedcff6d2a (do not edit this line) */
+/* JavaCC - OriginalChecksum=a0ae95c311c3201eb31d6558cdcdfbec (do not edit this line) */

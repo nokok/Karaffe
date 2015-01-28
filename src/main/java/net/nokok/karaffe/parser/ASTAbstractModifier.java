@@ -12,14 +12,10 @@ public class ASTAbstractModifier extends SimpleNode {
         super(p, id);
     }
 
-    /**
-     * Accept the visitor. *
-     */
+    /** Accept the visitor. * */
     public Object jjtAccept(ParserVisitor visitor, Object data) throws net.nokok.karaffe.parser.excptn.ParserException {
 
         return visitor.visit(this, data);
     }
 }
-/*
- * JavaCC - OriginalChecksum=73027c7f2c6ab7963597374cbb86b0c0 (do not edit this line)
- */
+/* JavaCC - OriginalChecksum=73027c7f2c6ab7963597374cbb86b0c0 (do not edit this line) */
