@@ -6,28 +6,28 @@ package net.nokok.karaffe.parser.excptn;
 import net.nokok.karaffe.parser.Token;
 import net.nokok.karaffe.parser.util.ErrorType;
 
-public class KaraffeCompilerException extends RuntimeException {
+public class CompilerException extends RuntimeException {
 
-    public KaraffeCompilerException() {
+    public CompilerException() {
     }
 
-    public KaraffeCompilerException(ErrorType type) {
+    public CompilerException(ErrorType type) {
         super(type.toString());
     }
 
-    public KaraffeCompilerException(ErrorType type, Token t) {
+    public CompilerException(ErrorType type, Token t) {
         super(type.toString() + " : " + tokenToString(t));
     }
 
-    public KaraffeCompilerException(String message) {
+    public CompilerException(String message) {
         super(message);
     }
 
-    public KaraffeCompilerException(Throwable cause) {
+    public CompilerException(Throwable cause) {
         super(cause);
     }
 
-    public KaraffeCompilerException(String message, Throwable cause) {
+    public CompilerException(String message, Throwable cause) {
         super(message, cause);
     }
 

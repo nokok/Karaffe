@@ -11,15 +11,15 @@ import net.nokok.karaffe.parser.ASTInterfaces;
 import net.nokok.karaffe.parser.ParserDefaultVisitor;
 import net.nokok.karaffe.parser.ParserVisitor;
 import net.nokok.karaffe.parser.excptn.ParserException;
-import net.nokok.karaffe.parser.util.AmbiguousNameUtil;
+import net.nokok.karaffe.parser.util.AmbiguousName;
 
-public class InterfacesToArray {
+public class InterfacesToList {
 
     private final ParserVisitor visitor = new ParserDefaultVisitor() {
 
         @Override
         public Object visit(ASTInterfaceType node, Object data) throws ParserException {
-            AmbiguousNameUtil util = new AmbiguousNameUtil(node);
+            AmbiguousName util = new AmbiguousName(node);
             paths.add(util.getPath());
             return null;
         }
@@ -28,7 +28,7 @@ public class InterfacesToArray {
 
     private final List<String> paths = new ArrayList<>();
 
-    public InterfacesToArray(ASTInterfaces interfaces) {
+    public InterfacesToList(ASTInterfaces interfaces) {
         try {
             visitor.visit(interfaces, null);
         } catch (ParserException ex) {

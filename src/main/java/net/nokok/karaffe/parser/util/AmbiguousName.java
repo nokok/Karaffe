@@ -10,7 +10,7 @@ import net.nokok.karaffe.parser.Node;
 import net.nokok.karaffe.parser.ParserDefaultVisitor;
 import net.nokok.karaffe.parser.excptn.ParserException;
 
-public class AmbiguousNameUtil {
+public class AmbiguousName {
 
     private final Node node;
     private String pathCache;
@@ -26,7 +26,7 @@ public class AmbiguousNameUtil {
 
     private final List<String> ids = new ArrayList<>();
 
-    public AmbiguousNameUtil(Node node) {
+    public AmbiguousName(Node node) {
         this.node = node;
     }
 

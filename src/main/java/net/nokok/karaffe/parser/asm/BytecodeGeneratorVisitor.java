@@ -5,22 +5,16 @@ package net.nokok.karaffe.parser.asm;
 
 import java.util.ArrayList;
 import java.util.List;
-import net.nokok.karaffe.parser.ASTAdditiveExpr;
 import net.nokok.karaffe.parser.ASTAmbiguousName;
 import net.nokok.karaffe.parser.ASTAssignmentOp;
 import net.nokok.karaffe.parser.ASTBinaryIntLiteral;
-import net.nokok.karaffe.parser.ASTBoolAndExpr;
 import net.nokok.karaffe.parser.ASTBoolLiteral;
-import net.nokok.karaffe.parser.ASTBoolOrExpr;
-import net.nokok.karaffe.parser.ASTCastExpr;
 import net.nokok.karaffe.parser.ASTCharLiteral;
-import net.nokok.karaffe.parser.ASTCheckExpr;
 import net.nokok.karaffe.parser.ASTClassDecl;
 import net.nokok.karaffe.parser.ASTDecimalFPLiteral;
 import net.nokok.karaffe.parser.ASTDecimalIntLiteral;
 import net.nokok.karaffe.parser.ASTDictionaryDisplay;
 import net.nokok.karaffe.parser.ASTDictionaryPair;
-import net.nokok.karaffe.parser.ASTEqualityExpr;
 import net.nokok.karaffe.parser.ASTExpression;
 import net.nokok.karaffe.parser.ASTExpressionName;
 import net.nokok.karaffe.parser.ASTFloatLiteral;
@@ -31,29 +25,20 @@ import net.nokok.karaffe.parser.ASTHexadecimalFPLiteral;
 import net.nokok.karaffe.parser.ASTIdentifierTypeBinding;
 import net.nokok.karaffe.parser.ASTIfBody;
 import net.nokok.karaffe.parser.ASTIfExpr;
-import net.nokok.karaffe.parser.ASTIntLiteral;
 import net.nokok.karaffe.parser.ASTLeftHandSide;
 import net.nokok.karaffe.parser.ASTListDisplay;
-import net.nokok.karaffe.parser.ASTLiteral;
 import net.nokok.karaffe.parser.ASTMethodInvocation;
 import net.nokok.karaffe.parser.ASTMethodName;
-import net.nokok.karaffe.parser.ASTMultiplicativeExpr;
 import net.nokok.karaffe.parser.ASTNullLiteral;
 import net.nokok.karaffe.parser.ASTOctIntLiteral;
 import net.nokok.karaffe.parser.ASTPackageDecl;
-import net.nokok.karaffe.parser.ASTPostFixExpr;
-import net.nokok.karaffe.parser.ASTPrimary;
-import net.nokok.karaffe.parser.ASTRangeExpr;
-import net.nokok.karaffe.parser.ASTRelationalExpr;
 import net.nokok.karaffe.parser.ASTStringLiteral;
 import net.nokok.karaffe.parser.ASTTupleDisplay;
-import net.nokok.karaffe.parser.ASTUnaryExpr;
-import net.nokok.karaffe.parser.ASTUnaryExprNotPlusMinus;
 import net.nokok.karaffe.parser.ASTUndefinedLiteral;
 import net.nokok.karaffe.parser.ASTWhileLoopExpr;
 import net.nokok.karaffe.parser.ParserDefaultVisitor;
 import net.nokok.karaffe.parser.excptn.ParserException;
-import net.nokok.karaffe.parser.util.AmbiguousNameUtil;
+import net.nokok.karaffe.parser.util.AmbiguousName;
 import net.nokok.karaffe.parser.util.CurrentState;
 import org.objectweb.asm.ClassWriter;
 import org.objectweb.asm.MethodVisitor;
@@ -91,7 +76,7 @@ public class BytecodeGeneratorVisitor extends ParserDefaultVisitor {
 
     @Override
     public Object visit(ASTPackageDecl node, Object data) throws net.nokok.karaffe.parser.excptn.ParserException {
-        AmbiguousNameUtil util = new AmbiguousNameUtil(node);
+        AmbiguousName util = new AmbiguousName(node);
         currentPackage = util.getPath();
         node.childrenAccept(this, data);
         return null;
@@ -134,84 +119,6 @@ public class BytecodeGeneratorVisitor extends ParserDefaultVisitor {
     }
 
     @Override
-    public Object visit(ASTBoolOrExpr node, Object data) throws net.nokok.karaffe.parser.excptn.ParserException {
-        node.childrenAccept(this, data);
-        return null;
-    }
-
-    @Override
-    public Object visit(ASTBoolAndExpr node, Object data) throws net.nokok.karaffe.parser.excptn.ParserException {
-        node.childrenAccept(this, data);
-        return null;
-    }
-
-    @Override
-    public Object visit(ASTEqualityExpr node, Object data) throws net.nokok.karaffe.parser.excptn.ParserException {
-        node.childrenAccept(this, data);
-        return null;
-    }
-
-    @Override
-    public Object visit(ASTRelationalExpr node, Object data) throws net.nokok.karaffe.parser.excptn.ParserException {
-        node.childrenAccept(this, data);
-        return null;
-    }
-
-    @Override
-    public Object visit(ASTRangeExpr node, Object data) throws net.nokok.karaffe.parser.excptn.ParserException {
-        node.childrenAccept(this, data);
-        return null;
-    }
-
-    @Override
-    public Object visit(ASTAdditiveExpr node, Object data) throws net.nokok.karaffe.parser.excptn.ParserException {
-        node.childrenAccept(this, data);
-        return null;
-    }
-
-    @Override
-    public Object visit(ASTMultiplicativeExpr node, Object data) throws net.nokok.karaffe.parser.excptn.ParserException {
-        node.childrenAccept(this, data);
-        return null;
-    }
-
-    @Override
-    public Object visit(ASTUnaryExpr node, Object data) throws net.nokok.karaffe.parser.excptn.ParserException {
-        node.childrenAccept(this, data);
-        return null;
-    }
-
-    @Override
-    public Object visit(ASTUnaryExprNotPlusMinus node, Object data) throws net.nokok.karaffe.parser.excptn.ParserException {
-        node.childrenAccept(this, data);
-        return null;
-    }
-
-    @Override
-    public Object visit(ASTCastExpr node, Object data) throws net.nokok.karaffe.parser.excptn.ParserException {
-        node.childrenAccept(this, data);
-        return null;
-    }
-
-    @Override
-    public Object visit(ASTCheckExpr node, Object data) throws net.nokok.karaffe.parser.excptn.ParserException {
-        node.childrenAccept(this, data);
-        return null;
-    }
-
-    @Override
-    public Object visit(ASTPostFixExpr node, Object data) throws net.nokok.karaffe.parser.excptn.ParserException {
-        node.childrenAccept(this, data);
-        return null;
-    }
-
-    @Override
-    public Object visit(ASTPrimary node, Object data) throws net.nokok.karaffe.parser.excptn.ParserException {
-        node.childrenAccept(this, data);
-        return null;
-    }
-
-    @Override
     public Object visit(ASTListDisplay node, Object data) throws net.nokok.karaffe.parser.excptn.ParserException {
         node.childrenAccept(this, data);
         return null;
@@ -249,18 +156,6 @@ public class BytecodeGeneratorVisitor extends ParserDefaultVisitor {
 
     @Override
     public Object visit(ASTWhileLoopExpr node, Object data) throws net.nokok.karaffe.parser.excptn.ParserException {
-        node.childrenAccept(this, data);
-        return null;
-    }
-
-    @Override
-    public Object visit(ASTLiteral node, Object data) throws net.nokok.karaffe.parser.excptn.ParserException {
-        node.childrenAccept(this, data);
-        return null;
-    }
-
-    @Override
-    public Object visit(ASTIntLiteral node, Object data) throws net.nokok.karaffe.parser.excptn.ParserException {
         node.childrenAccept(this, data);
         return null;
     }
