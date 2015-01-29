@@ -417,68 +417,68 @@ void LeftHandSide():{}
 
 void BoolOrExpr()#void:{}
 {
-    BoolAndExpr() ("|" BoolAndExpr())* #BoolOrExpr(>1)
+    BoolAndExpr() ("|" #BoolOr() BoolAndExpr() #ExprNode())* #ExprNode(>1)
 }
 
 void BoolAndExpr()#void:{}
 {
-    EqualityExpr() ("&" EqualityExpr())* #BoolAndExpr(>1)
+    EqualityExpr() ("&" #BoolAnd() EqualityExpr() #ExprNode())* #ExprNode(>1)
 }
 
 void EqualityExpr()#void:{}
 {
-    (RelationalExpr() (("==" | "!=") RelationalExpr())*)#EqualityExpr(>1)
+    (RelationalExpr() (("==" #EqualTo()| "!="#NotEqualTo()) RelationalExpr() #ExprNode())*)#ExprNode(>1)
 }
 
 void RelationalExpr()#void:{}
 {
-    (RangeExpr() (("<" | ">" | "<=" | ">=") RangeExpr())*)#RelationalExpr(>1)
+    (RangeExpr() (("<" #LessThan()| ">" #GreaterThan()| "<=" #LessThanEqTo()| ">=" #GreaterThanEqTo()) RangeExpr() #ExprNode())*)#ExprNode(>1)
 }
 
 void RangeExpr()#void:{}
 {
-    (AdditiveExpr() ((".."|".<") AdditiveExpr())*)#RangeExpr(>1)
+    (AdditiveExpr() ((".." #ClosedRange()|".<" #HalfOpenRange()) AdditiveExpr() #ExprNode())*)#ExprNode(>1)
 }
 
 void AdditiveExpr()#void:{}
 {
-    (MultiplicativeExpr() (LOOKAHEAD(("+"|"-"|"+?"|"-?") MultiplicativeExpr()) ("+" #Add()|"-" #Sub()|"+?" #SafeAdd()|"-?" #SafeSub()) MultiplicativeExpr())*) #AdditiveExpr(>1)
+    (MultiplicativeExpr() (LOOKAHEAD(("+"|"-"|"+?"|"-?") MultiplicativeExpr()) ("+" #Add()|"-" #Sub()|"+?" #SafeAdd()|"-?" #SafeSub()) MultiplicativeExpr() #ExprNode())*) #ExprNode(>1)
 }
 
 void MultiplicativeExpr()#void:{}
 {
-    (UnaryExpr() (("*"|"/"|"%"|"*?"|"/?"|"%?") UnaryExpr())* )#MultiplicativeExpr(>1)
+    (UnaryExpr() (("*" #Mul()|"/" #Div()|"%" #Rem()|"*?" #SafeMul()|"/?"#SafeDiv()|"%?"#SafeRem()) UnaryExpr())* ) #ExprNode(>1)
 }
 
 void UnaryExpr()#void:{}
 {
-   ("+" UnaryExpr() |
-    "-" UnaryExpr() |
-    UnaryExprNotPlusMinus() )#UnaryExpr(>1)
+   ("+" #UAdd() UnaryExpr() |
+    "-" #USub() UnaryExpr() |
+    UnaryExprNotPlusMinus() )#ExprNode(>1)
 }
 
 void UnaryExprNotPlusMinus()#void:{}
 {
-   ("!" UnaryExpr() |
+   ("!" #UBang() UnaryExpr() |
     LOOKAHEAD(CastExpr()) CastExpr() |
     LOOKAHEAD(CheckExpr()) CheckExpr() |
-    PostFixExpr() ) #UnaryExprNotPlusMinus(>1)
+    PostFixExpr() ) #ExprNode(>1)
 }
 
 void CastExpr()#void:{}
 {
-    ("(" Expression() ")" "~>" ClassType()) #CastExpr(>1)
+    ("(" Expression() ")" "~>" ClassType()) #ExprNode(>1)
 }
 
 void CheckExpr()#void:{}
 {
-    ("(" Expression() ")" "~>?" ClassType()) #CheckExpr(>1)
+    ("(" Expression() ")" "~>?" ClassType()) #ExprNode(>1)
 }
 
 void PostFixExpr()#void:{}
 {
    (LOOKAHEAD(Primary()) Primary() |
-    LOOKAHEAD(ExpressionName()) ExpressionName()) #PostFixExpr(>1)
+    LOOKAHEAD(ExpressionName()) ExpressionName()) #ExprNode(>1)
 }
 
 void Primary()#void:{}
@@ -490,7 +490,7 @@ void Primary()#void:{}
     LOOKAHEAD(ListDisplay()) ListDisplay() |
     LOOKAHEAD(DictionaryDisplay()) DictionaryDisplay() |
     LOOKAHEAD(TupleDisplay()) TupleDisplay() |
-    LOOKAHEAD(AmbiguousName()) AmbiguousName() ) #Primary(>1)
+    LOOKAHEAD(AmbiguousName()) AmbiguousName() ) #ExprNode(>1)
 }
 
 void ListDisplay():{}
