@@ -125,7 +125,8 @@ void LastFormalParamter():{}
 
 void VariableModifier():{}
 {
-    "final"
+    "final" |
+    AutoModifier()
 }
 
 void CtorBody():{}
