@@ -3,6 +3,7 @@
  */
 package net.nokok.karaffe.parser.asm;
 
+import net.nokok.karaffe.parser.asm.typechecker.AvailableTypes;
 import java.util.ArrayList;
 import java.util.List;
 import net.nokok.karaffe.parser.ASTAmbiguousName;

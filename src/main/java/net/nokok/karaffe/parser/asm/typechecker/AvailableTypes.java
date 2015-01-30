@@ -1,7 +1,7 @@
 /**
  * Karaffe Programming Language
  */
-package net.nokok.karaffe.parser.asm;
+package net.nokok.karaffe.parser.asm.typechecker;
 
 import java.net.URL;
 import java.util.HashMap;
