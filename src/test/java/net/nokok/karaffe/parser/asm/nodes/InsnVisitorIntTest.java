@@ -12,6 +12,7 @@ import org.objectweb.asm.Opcodes;
 import org.objectweb.asm.tree.InsnList;
 import org.objectweb.asm.tree.InsnNode;
 import org.objectweb.asm.tree.IntInsnNode;
+import org.objectweb.asm.tree.LdcInsnNode;
 
 public class InsnVisitorIntTest {
 
@@ -37,6 +38,18 @@ public class InsnVisitorIntTest {
         IntInsnNode shortMax = (IntInsnNode) insnList.get(0);
         assertThat(shortMax.operand, is(32767)); //int
         assertThat(shortMax.getOpcode(), is(Opcodes.SIPUSH));
+    }
+
+    @Test
+    public void testLdcPush() {
+        NodeUtil nodeUtil = new NodeUtil(testCode("type H{def a = 100000}"));
+        ASTFieldInitializer fieldInitializer = nodeUtil.forceGetFindFirstNode(ASTFieldInitializer.class);
+        InsnVisitor insnVisitor = new InsnVisitor(fieldInitializer);
+        InsnList insnList = insnVisitor.getInsnList();
+        assertThat(insnList.size(), is(1));
+        LdcInsnNode ldc = (LdcInsnNode) insnList.get(0);
+        assertThat(ldc.cst, is(100000));
+        assertThat(ldc.getOpcode(), is(Opcodes.LDC));
     }
 
     @Test
