@@ -1,0 +1,236 @@
+//7_expr.jjt
+//**********************************************************************
+//Expressions
+//**********************************************************************
+void Expression():{}
+{
+    LOOKAHEAD(AssignmentExpr()) AssignmentExpr() |
+    LOOKAHEAD(BoolOrExpr()) BoolOrExpr() |
+    IfExpr() |
+    SwitchExpr() |
+    WhileLoopExpr()
+}
+
+void AssignmentExpr()#void:{}
+{
+    (LeftHandSide() AssignmentOp() Expression())#AssignmentExpr(>1)
+}
+
+void AssignmentOp():{}
+{
+    ("="|"+="|"-="|"*="|"/="|"%="|"&="|"|="|"^=") 
+}
+
+void LeftHandSide():{}
+{
+    ExpressionName()
+}
+
+void BoolOrExpr()#void:{}
+{
+    BoolAndExpr() ("|" #BoolOr() BoolAndExpr() #ExprNode())* #ExprNode(>1)
+}
+
+void BoolAndExpr()#void:{}
+{
+    EqualityExpr() ("&" #BoolAnd() EqualityExpr() #ExprNode())* #ExprNode(>1)
+}
+
+void EqualityExpr()#void:{}
+{
+    (RelationalExpr() (("==" #EqualTo()| "!="#NotEqualTo()) RelationalExpr() #ExprNode())*)#ExprNode(>1)
+}
+
+void RelationalExpr()#void:{}
+{
+    (RangeExpr() (("<" #LessThan()| ">" #GreaterThan()| "<=" #LessThanEqTo()| ">=" #GreaterThanEqTo()) RangeExpr() #ExprNode())*)#ExprNode(>1)
+}
+
+void RangeExpr()#void:{}
+{
+    (AdditiveExpr() ((".." #ClosedRange()|".<" #HalfOpenRange()) AdditiveExpr() #ExprNode())*)#ExprNode(>1)
+}
+
+void AdditiveExpr()#void:{}
+{
+    (MultiplicativeExpr() (LOOKAHEAD(("+"|"-"|"+?"|"-?") MultiplicativeExpr()) ("+" #Add()|"-" #Sub()|"+?" #SafeAdd()|"-?" #SafeSub()) MultiplicativeExpr() #ExprNode())*) #ExprNode(>1)
+}
+
+void MultiplicativeExpr()#void:{}
+{
+    (UnaryExpr() (("*" #Mul()|"/" #Div()|"%" #Rem()|"*?" #SafeMul()|"/?"#SafeDiv()|"%?"#SafeRem()) UnaryExpr())* ) #ExprNode(>1)
+}
+
+void UnaryExpr()#void:{}
+{
+   ("+" #UAdd() UnaryExpr() |
+    "-" #USub() UnaryExpr() |
+    UnaryExprNotPlusMinus() )#ExprNode(>1)
+}
+
+void UnaryExprNotPlusMinus()#void:{}
+{
+   ("!" #UBang() UnaryExpr() |
+    LOOKAHEAD(CastExpr()) CastExpr() |
+    LOOKAHEAD(CheckExpr()) CheckExpr() |
+    PostFixExpr() ) #ExprNode(>1)
+}
+
+void CastExpr()#void:{}
+{
+    ("(" Expression() ")" "~>" ClassType()) #ExprNode(>1)
+}
+
+void CheckExpr()#void:{}
+{
+    ("(" Expression() ")" "~>?" ClassType()) #ExprNode(>1)
+}
+
+void PostFixExpr()#void:{}
+{
+   (LOOKAHEAD(Primary()) Primary() |
+    LOOKAHEAD(ExpressionName()) ExpressionName()) #ExprNode(>1)
+}
+
+void Primary()#void:{}
+{
+    (LOOKAHEAD(MethodInvocation()) MethodInvocation() |
+    LOOKAHEAD(Literal()) Literal() |
+    LOOKAHEAD(2) "this" |
+    LOOKAHEAD("(" Expression() ")") "(" Expression() ")" |
+    LOOKAHEAD(ListDisplay()) ListDisplay() |
+    LOOKAHEAD(DictionaryDisplay()) DictionaryDisplay() |
+    LOOKAHEAD(TupleDisplay()) TupleDisplay() |
+    LOOKAHEAD(AmbiguousName()) AmbiguousName() ) #ExprNode(>1)
+}
+
+void ListDisplay():{}
+{
+    "[" (Expression() (Expression())*)? "]"
+}
+
+void DictionaryDisplay():{}
+{
+    "d[" (DictionaryPair())+ "]"
+}
+
+void DictionaryPair():{}
+{
+    Identifier() "<-" Expression() 
+}
+
+void TupleDisplay():{}
+{
+    "t[" (Expression() (Expression())*)? "]"
+}
+
+void IfExpr():{}
+{
+    "if" Expression() IfBody() (LOOKAHEAD("else" IfBody()) "else" IfBody())?
+}
+
+void IfBody():{}
+{
+    BlockStmt() |
+    "{" BlockStmts() "}"
+}
+
+void SwitchExpr():{}
+{
+    "switch" Expression() "{" (SwitchCase())+ "}"
+}
+
+void SwitchCase():{}
+{
+    "case" SwitchCond() "=>" CaseBody()
+}
+
+void SwitchCond():{}
+{
+    LOOKAHEAD(Identifier() ":") IdentifierTypeBinding() |
+    LOOKAHEAD(Expression()) Expression()
+}
+
+void CaseBody():{}
+{
+    BlockStmt() |
+    "{" BlockStmts() "}"
+}
+
+void WhileLoopExpr():{}
+{
+    "while" Expression() WhileBody()
+}
+
+void WhileBody():{}
+{
+    BlockStmt() |
+    "{" BlockStmts() "}"
+}
+
+//**********************************************************************
+//MethodInvocation
+//**********************************************************************
+void MethodInvocation():{}
+{   
+    LOOKAHEAD(2) MethodName() "(" (Arguments())? ")" (DotMethodNameArguments())* | 
+    LOOKAHEAD(2) ExpressionName() "(" (Arguments())? ")" (DotMethodNameArguments())*|
+    //Primary MethodInvocation
+    LOOKAHEAD(FunctionLiteral() "(" (Arguments())? ")") FunctionLiteral() "(" (Arguments())? ")" (DotMethodNameArguments())* |
+    LOOKAHEAD(2) Literal() (DotMethodNameArguments())+ |
+    "this"  (DotMethodNameArguments())+ |
+    LOOKAHEAD("(" Expression() ")"  (DotMethodNameArguments())+) "(" Expression() ")"  (DotMethodNameArguments())+ |
+    ListDisplay() (DotMethodNameArguments())+ |
+    DictionaryDisplay() (DotMethodNameArguments())+ |
+    TupleDisplay() (DotMethodNameArguments())+  |
+    LOOKAHEAD(2) AmbiguousName() (DotMethodNameArguments())+ 
+}
+
+void DotMethodNameArguments() #void:{}
+{
+     "." MethodName() "(" (Arguments())? ")"
+}
+
+void MethodName():{}
+{
+    Identifier()
+}
+
+void ExpressionName():{}
+{
+    AmbiguousName()
+}
+
+void Arguments():{}
+{
+    Argument() ((",")? Argument())*
+}
+
+void Argument():{}
+{
+    Expression()
+}
+
+void FunctionLiteral():{}
+{
+    FuncLiteralArg() "->" "{" BlockStmts() "}" 
+}
+
+void FuncLiteralArg():{}
+{
+    LOOKAHEAD("(" (Identifier())* ")") "(" (Identifier())* ")"  |
+    LOOKAHEAD("(" (IdentifierTypeBinding())* ")") "(" (IdentifierTypeBinding())* ")" |
+    LOOKAHEAD(2) IdentifierTypeBinding() |
+    LOOKAHEAD(2) Identifier() 
+}
+
+void IdentifierTypeBinding():{}
+{
+    Identifier() ":" ClassType()
+}
+
+void AmbiguousName():{}
+{
+    Identifier() (LOOKAHEAD("." Identifier()) "." Identifier())*
+}
+

@@ -10,56 +10,56 @@ public class FunctionDeclSyntaxTest {
 
     @Test
     public void testSimpleFunctionDeclSyntax() {
-        testFunc("def func(x:Int, y:Int):Int = {\n"
-                 + "undefined\n"
-                 + "}\n");
+        testFunc("func hoge(x:Int, y:Int):Int {\n"
+                + "undefined\n"
+                + "}\n");
     }
 
     @Test
     public void testFunctionDeclVarargs() {
-        testFunc("def func(x:Int, y:Int,z:Int*):Int = {\n"
-                 + "undefined\n"
-                 + "}");
+        testFunc("func hoge(x:Int, y:Int,z:Int*):Int{\n"
+                + "undefined\n"
+                + "}");
     }
 
     @Test
     public void testCurriedFunc() {
-        testFunc("def func(x:Int): Int -> Int = {\n"
-                 + "undefined\n"
-                 + "}");
+        testFunc("func hoge(x:Int): Int -> Int {\n"
+                + "undefined\n"
+                + "}");
     }
 
     @Test
     public void testCurriedFunc1() {
-        testFunc("def func[T1,T2,R](x:T1, y:T2):T1 -> T2 -> R ={\n"
-                 + "undefined\n"
-                 + "}");
+        testFunc("func hoge[T1,T2,R](x:T1, y:T2):T1 -> T2 -> R {\n"
+                + "undefined\n"
+                + "}");
     }
 
     @Test
     public void testVarargs() {
-        testFunc("def func(x:Int*):Int = {\n"
-                 + "}");
+        testFunc("func hoge(x:Int*):Int {\n"
+                + "}");
     }
 
     @Test
     public void testAbstractFunc1() {
-        testFunc("def func()");
+        testFunc("func hoge()");
     }
 
     @Test
     public void testAbstractFunc2() {
-        testFunc("def func(x:Int)");
+        testFunc("func hoge(x:Int)");
     }
 
     @Test
     public void testAbstractFunc3() {
-        testFunc("def func(x:Int):ReturnType");
+        testFunc("func hoge(x:Int):ReturnType");
     }
 
     private void testFunc(String code) {
         testCode("type Type{\n"
-                 + code
-                 + "}");
+                + code
+                + "}");
     }
 }

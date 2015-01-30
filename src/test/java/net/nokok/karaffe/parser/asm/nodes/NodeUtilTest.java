@@ -20,7 +20,7 @@ public class NodeUtilTest {
 
     @Test
     public void testFindFirstNode1() {
-        ASTCompileUnit node = testCode("type Hoge {def this() = {}}");
+        ASTCompileUnit node = testCode("type Hoge {func this() {}}");
         NodeUtil nodeUtil = new NodeUtil(node);
         Optional<ASTIdentifier> mId = nodeUtil.findFirstNode(ASTIdentifier.class);
         assertThat(mId.isPresent(), is(true));

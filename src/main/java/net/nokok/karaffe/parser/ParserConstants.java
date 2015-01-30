@@ -10,61 +10,61 @@ public interface ParserConstants {
     /** End of File. */
     int EOF = 0;
     /** RegularExpression Id. */
-    int UndefinedLiteral = 62;
+    int UndefinedLiteral = 64;
     /** RegularExpression Id. */
-    int NullLiteral = 63;
+    int NullLiteral = 65;
     /** RegularExpression Id. */
-    int BoolLiteral = 64;
+    int BoolLiteral = 66;
     /** RegularExpression Id. */
-    int DecimalNumeral = 65;
+    int DecimalNumeral = 67;
     /** RegularExpression Id. */
-    int Digit = 66;
+    int Digit = 68;
     /** RegularExpression Id. */
-    int Zero = 67;
+    int Zero = 69;
     /** RegularExpression Id. */
-    int NonZero = 68;
+    int NonZero = 70;
     /** RegularExpression Id. */
-    int HexNumeral = 69;
+    int HexNumeral = 71;
     /** RegularExpression Id. */
-    int HexDigit = 70;
+    int HexDigit = 72;
     /** RegularExpression Id. */
-    int OctalIntLiteral = 71;
+    int OctalIntLiteral = 73;
     /** RegularExpression Id. */
-    int OctalDigit = 72;
+    int OctalDigit = 74;
     /** RegularExpression Id. */
-    int BinaryNumeral = 73;
+    int BinaryNumeral = 75;
     /** RegularExpression Id. */
-    int BinaryDigit = 74;
+    int BinaryDigit = 76;
     /** RegularExpression Id. */
-    int DecimalFPLiteral = 75;
+    int DecimalFPLiteral = 77;
     /** RegularExpression Id. */
-    int Exp = 76;
+    int Exp = 78;
     /** RegularExpression Id. */
-    int HexadecimalFPLiteral = 77;
+    int HexadecimalFPLiteral = 79;
     /** RegularExpression Id. */
-    int HexSignificand = 78;
+    int HexSignificand = 80;
     /** RegularExpression Id. */
-    int BinaryExp = 79;
+    int BinaryExp = 81;
     /** RegularExpression Id. */
-    int CharLiteral = 80;
+    int CharLiteral = 82;
     /** RegularExpression Id. */
-    int StringLiteral = 81;
+    int StringLiteral = 83;
     /** RegularExpression Id. */
-    int StringCharacter = 82;
+    int StringCharacter = 84;
     /** RegularExpression Id. */
-    int StringEscapeSeq = 83;
+    int StringEscapeSeq = 85;
     /** RegularExpression Id. */
-    int UnicodeEscape = 84;
+    int UnicodeEscape = 86;
     /** RegularExpression Id. */
-    int RawStringLiteral = 85;
+    int RawStringLiteral = 87;
     /** RegularExpression Id. */
-    int EndOfLine = 97;
+    int EndOfLine = 106;
     /** RegularExpression Id. */
-    int Identifier = 107;
+    int Identifier = 108;
     /** RegularExpression Id. */
-    int IDHead = 108;
+    int IDHead = 109;
     /** RegularExpression Id. */
-    int IDBody = 109;
+    int IDBody = 110;
 
     /** Lexical state. */
     int DEFAULT = 0;
@@ -79,6 +79,10 @@ public interface ParserConstants {
         "\".\"",
         "\"*\"",
         "\"->\"",
+        "\"funcalias\"",
+        "\"(\"",
+        "\")\"",
+        "\":\"",
         "\"type\"",
         "\"enum\"",
         "\"case\"",
@@ -89,17 +93,15 @@ public interface ParserConstants {
         "\"]\"",
         "\"<\"",
         "\"&\"",
-        "\":\"",
         "\"<-\"",
         "\"{\"",
         "\"}\"",
-        "\"def\"",
-        "\"(\"",
-        "\")\"",
+        "\"func\"",
         "\"this\"",
-        "\"=\"",
+        "\"def\"",
         "\"final\"",
         "\"super\"",
+        "\"=\"",
         "\"|\"",
         "\"+=\"",
         "\"-=\"",
@@ -159,19 +161,6 @@ public interface ParserConstants {
         "<StringEscapeSeq>",
         "<UnicodeEscape>",
         "<RawStringLiteral>",
-        "\"funcalias\"",
-        "<token of kind 87>",
-        "\"/*\"",
-        "\" \"",
-        "\"\\t\"",
-        "\"\\r\"",
-        "\"\\n\"",
-        "\"\\r\\n\"",
-        "\";\"",
-        "\"/*\"",
-        "<token of kind 96>",
-        "<EndOfLine>",
-        "\"*/\"",
         "\"public\"",
         "\"protected\"",
         "\"private\"",
@@ -180,6 +169,18 @@ public interface ParserConstants {
         "\"sealed\"",
         "\"var\"",
         "\"override\"",
+        "\"auto\"",
+        "<token of kind 97>",
+        "\"/*\"",
+        "\" \"",
+        "\"\\t\"",
+        "\"\\r\"",
+        "\"\\n\"",
+        "\"\\r\\n\"",
+        "\"/*\"",
+        "<token of kind 105>",
+        "<EndOfLine>",
+        "\"*/\"",
         "<Identifier>",
         "<IDHead>",
         "<IDBody>",};

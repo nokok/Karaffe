@@ -1,0 +1,12 @@
+//2_parserbegin_end.jjt
+PARSER_BEGIN(Parser)
+package net.nokok.karaffe.parser;
+
+public class Parser{
+    
+    public Parser(String sourceCode){
+        this(new java.io.StringReader(sourceCode));
+    }
+}
+
+PARSER_END(Parser)

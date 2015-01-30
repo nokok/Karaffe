@@ -20,7 +20,7 @@ public class IfExprTest {
 
     private void testExpr(String code) {
         testCode("type D{\n"
-                + "def this() = {\n"
+                + "func this() {\n"
                 + code
                 + "}\n"
                 + "}");

@@ -1,0 +1,321 @@
+//6_typedecls.jjt
+void TypeDecl() #void:{}
+{
+    LOOKAHEAD((ClassModifier())* "type") ClassDecl() |
+    LOOKAHEAD((EnumModifier())* "enum") EnumDecl() |
+    LOOKAHEAD((ClassModifier())* "case" "type") AlgebraicDataTypeDecl() | 
+    LOOKAHEAD((InterfaceModifier())* "interface") InterfaceDecl() | 
+    LOOKAHEAD((TypeAliasModifier())* "typealias") TypeAliasDecl()
+}
+
+//**********************************************************************
+//Class Decl
+//**********************************************************************
+void ClassDecl():{}
+{
+    ClassModifiers() "type" Identifier() (TypeParameters())? (FormalParameters())? (SuperType())? (Interfaces())? ClassBody()
+}
+
+void ClassModifiers():{}
+{
+    (ClassModifier())*
+}
+
+void ClassModifier() #void:{}
+{
+    PublicModifier()|
+    ProtectedModifier()|
+    PrivateModifier() |
+    AbstractModifier()|
+    StaticModifier()|
+    FinalModifier()
+}
+
+void TypeParameters():{}
+{
+    "[" TypeParameter() ("," TypeParameter())* "]"
+}
+
+void TypeParameter():{}
+{
+    Identifier() (TypeParameters())? (TypeBound())?
+}
+
+void TypeBound():{}
+{
+    "<" ClassOrInterfaceType() (AdditionalBound())*
+}
+
+void ClassOrInterfaceType():{}
+{
+    LOOKAHEAD(ClassType()) ClassType() |
+    LOOKAHEAD(InterfaceType()) InterfaceType()
+}
+
+void ClassType():{}
+{
+    AmbiguousName() (LOOKAHEAD(TypeParameters()) TypeParameters())?
+}
+
+void AdditionalBound():{}
+{
+    "&" InterfaceType()
+}
+
+void SuperType():{}
+{
+    "<" ClassType()
+}
+
+void Interfaces():{}
+{
+    "<-" (InterfaceType())+
+}
+
+void InterfaceType():{}
+{
+    ClassType()
+}
+
+void ClassBody():{}
+{
+    "{" (ClassBodyDecl())* "}"
+}
+
+void ClassBodyDecl()#void:{}
+{
+    LOOKAHEAD(CtorModifiers() "func" "this") ClassCtorDecl() |
+    LOOKAHEAD(FuncModifiers() "func" Identifier()) FuncDecl() |
+    LOOKAHEAD(FieldModifiers() "def" Identifier()) FieldDecl() |
+    ImportStmt() | 
+    FuncAlias()
+}
+
+void ClassCtorDecl():{}
+{
+    CtorModifiers() "func" "this" (TypeParameters())? "(" (FormalParameters())? ")" CtorBody()
+}
+
+void CtorModifiers():{}
+{
+    (CtorModifier())*
+}
+
+void CtorModifier()#void:{}
+{
+    PublicModifier() |
+    ProtectedModifier() |
+    PrivateModifier()
+}
+
+void FormalParameters():{}
+{
+    (LOOKAHEAD((VariableModifier())? Identifier() ":" ClassType() ",") FormalParameter())* LastFormalParamter()
+}
+
+void FormalParameter():{}
+{
+    (VariableModifier())? Identifier() ":" ClassType() ","
+}
+
+void LastFormalParamter():{}
+{
+    (VariableModifier())? Identifier() ":" ClassType() ("*")?
+}
+
+void VariableModifier():{}
+{
+    "final"
+}
+
+void CtorBody():{}
+{
+    "{" (LOOKAHEAD(ExplicitCtorInvocation()) ExplicitCtorInvocation())? BlockStmts() "}"
+}
+
+void ExplicitCtorInvocation():{}
+{
+    "this" "(" (Arguments())? ")" | 
+    "super" "(" (Arguments())? ")"
+}
+
+void BlockStmts():{}
+{
+    (LOOKAHEAD(BlockStmt()) BlockStmt())*
+}
+
+void BlockStmt():{}
+{
+    LocalValDecl() |
+    Expression() |
+    Statement() 
+}
+
+void LocalValDecl():{}
+{
+    (VariableModifier())? "def" Identifier() (":" ClassType())? "=" VariableInitializer()
+}
+
+void VariableInitializer():{}
+{
+    Expression()
+}
+
+void FieldDecl():{}
+{
+    FieldModifiers() "def" Identifier() (":" TypeName() (TypeParameters())?)? "=" FieldInitializer()
+}
+
+void FieldModifiers():{}
+{
+    (FieldModifier())*
+}
+
+void FieldModifier()#void:{}
+{
+    PublicModifier() | 
+    ProtectedModifier() | 
+    PrivateModifier() |
+    StaticModifier() |
+    VarModifier()
+}
+
+
+void FieldInitializer():{}
+{
+    Expression() 
+}
+
+void FuncDecl():{}
+{
+    FuncModifiers() "func" Identifier() (TypeParameters())? "(" (FormalParameters())? ")" (":" ReturnType())? (FuncBody())?
+}
+
+void FuncModifiers():{}
+{
+    (FuncModifier())*
+}
+
+void FuncModifier()#void:{}
+{
+    PublicModifier() |
+    ProtectedModifier() |
+    PrivateModifier() | 
+    AbstractModifier() |
+    StaticModifier() |
+    VarModifier() |
+    FinalModifier() |
+    SealedModifier() |
+    OverrideModifier()
+}
+
+void ReturnType():{}
+{
+    ClassType() ("->" ReturnType())?
+}
+
+void FuncBody():{}
+{
+    "{" BlockStmts() "}"
+}
+
+//**********************************************************************
+//Algebraic Data Type
+//**********************************************************************
+void AlgebraicDataTypeDecl():{}
+{
+    (ClassModifier())* "case" "type" Identifier() (TypeParameters())? (Interfaces())? "=" AlgebraicDataTypeBody() ("|" AlgebraicDataTypeBody())*
+}
+
+void AlgebraicDataTypeBody():{}
+{
+    Identifier() (TypeParameters())? (AlgebraicDataCtorBinding())*
+}
+
+void AlgebraicDataCtorBinding():{}
+{
+    Identifier() ":" Identifier() (TypeParameters())?
+}
+
+//**********************************************************************
+//Interface
+//**********************************************************************
+void InterfaceDecl():{}
+{
+    (InterfaceModifier())* "interface" Identifier() (TypeParameters())? (ExtendsInterfaces())? InterfaceBody()
+}
+
+void InterfaceModifier():{}
+{
+    PublicModifier() 
+}
+
+void ExtendsInterfaces():{}
+{
+    "<-" (InterfaceType())+
+}
+
+void InterfaceBody():{}
+{
+    "{" (InterfaceMember())* "}"
+}
+
+void InterfaceMember():{}
+{
+    LOOKAHEAD(ConstantDecl()) ConstantDecl() |
+    LOOKAHEAD(InterfaceMethodDecl()) InterfaceMethodDecl() | 
+    LOOKAHEAD(ClassDecl()) ClassDecl() |
+    LOOKAHEAD(InterfaceDecl()) InterfaceDecl()
+}
+
+void ConstantDecl():{}
+{
+    (StaticModifier())? "def" Identifier() ":" Identifier() (TypeParameters())? ("=" VariableInitializer())?
+}
+
+void InterfaceMethodDecl():{}
+{
+    (FuncModifier())* "def" Identifier() (TypeParameters())? "(" (FormalParameters())? ")"( ":" ReturnType())? ("=" FuncBody())?
+}
+
+//**********************************************************************
+//TypeAlias
+//**********************************************************************
+void TypeAliasDecl():{}
+{
+    (TypeAliasModifier())* "typealias" Identifier() ":" Identifier()
+}
+
+void TypeAliasModifier():{}
+{
+    PublicModifier() |
+    ProtectedModifier() |
+    PrivateModifier()
+}
+
+//**********************************************************************
+//Enum
+//**********************************************************************
+void EnumDecl():{}
+{
+    (EnumModifier())* "enum" EnumName() ":" "[" EnumMembers() "]"
+}
+
+void EnumModifier():{}
+{
+    PublicModifier() |
+    ProtectedModifier() |
+    PrivateModifier() |
+    StaticModifier()
+}
+
+void EnumName():{}
+{
+    Identifier()
+}
+
+void EnumMembers():{}
+{
+    Identifier() ("," Identifier())*
+}
+

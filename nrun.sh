@@ -1,4 +1,6 @@
 #!/bin/sh
+
+./genparser.sh
 cd ./src/main/java/net/nokok/karaffe/parser
 rm AST*.java TokenMgrError.java ParseException.java Token.java SimpleCharStream.java karaffe.jj karaffe.html
 jarPath='../../../../../../../lib/javacc.jar'

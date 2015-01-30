@@ -1,0 +1,64 @@
+//4_compileunit.jjt
+ASTCompileUnit CompileUnit():{}
+{
+    (PackageDecl())? (ImportStmt() | FuncAlias() | TypeDecl())* <EOF> {
+        return jjtThis;
+    }
+}
+
+void PackageDecl():{}
+{
+    "package" ModuleName()
+}
+
+void ModuleName()#void:{}
+{
+    AmbiguousName()
+}
+
+void ImportStmt():{}
+{
+    LOOKAHEAD(AliasImport()) AliasImport() |
+    LOOKAHEAD(SimpleImport()) SimpleImport() 
+}
+
+void SimpleImport():{}
+{
+    "import" (LOOKAHEAD(TypeName() ("." "*")? ) TypeName() (LOOKAHEAD("." "*") "." "*")? )+
+}
+
+void AliasImport():{}
+{
+    "import" (LOOKAHEAD(TypeName() ImportAfter()) TypeName() ImportAfter())+
+}
+
+void ImportAfter():{}
+{
+    "->" Identifier()
+}
+
+void TypeName():{}
+{
+    AmbiguousName()
+}
+
+//**********************************************************************
+//Statement
+//**********************************************************************
+
+void Statement():{}
+{
+    FuncAlias() |
+    ImportStmt()
+}
+
+void FuncAlias():{}
+{
+    "funcalias" Identifier() "(" (IdentifierTypeBinding())* ")" ":" FunctionName() "(" (Arguments())? ")"
+}
+
+void FunctionName():{}
+{
+    AmbiguousName()
+}
+

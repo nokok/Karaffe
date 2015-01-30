@@ -30,7 +30,7 @@ public class AssignmentExpressionSyntaxTest {
 
     private void testAssignment(String code) {
         testCode("type D{\n"
-                + "def this() = {\n"
+                + "func this() {\n"
                 + code
                 + "\n}"
                 + "\n}");

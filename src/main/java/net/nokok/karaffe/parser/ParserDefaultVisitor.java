@@ -40,6 +40,18 @@ public class ParserDefaultVisitor implements ParserVisitor {
         return defaultVisit(node, data);
     }
 
+    public Object visit(ASTStatement node, Object data) throws net.nokok.karaffe.parser.excptn.ParserException {
+        return defaultVisit(node, data);
+    }
+
+    public Object visit(ASTFuncAlias node, Object data) throws net.nokok.karaffe.parser.excptn.ParserException {
+        return defaultVisit(node, data);
+    }
+
+    public Object visit(ASTFunctionName node, Object data) throws net.nokok.karaffe.parser.excptn.ParserException {
+        return defaultVisit(node, data);
+    }
+
     public Object visit(ASTClassDecl node, Object data) throws net.nokok.karaffe.parser.excptn.ParserException {
         return defaultVisit(node, data);
     }
@@ -92,7 +104,7 @@ public class ParserDefaultVisitor implements ParserVisitor {
         return defaultVisit(node, data);
     }
 
-    public Object visit(ASTCtorModifier node, Object data) throws net.nokok.karaffe.parser.excptn.ParserException {
+    public Object visit(ASTCtorModifiers node, Object data) throws net.nokok.karaffe.parser.excptn.ParserException {
         return defaultVisit(node, data);
     }
 
@@ -136,15 +148,11 @@ public class ParserDefaultVisitor implements ParserVisitor {
         return defaultVisit(node, data);
     }
 
-    public Object visit(ASTVariableType node, Object data) throws net.nokok.karaffe.parser.excptn.ParserException {
-        return defaultVisit(node, data);
-    }
-
     public Object visit(ASTFieldDecl node, Object data) throws net.nokok.karaffe.parser.excptn.ParserException {
         return defaultVisit(node, data);
     }
 
-    public Object visit(ASTFieldModifier node, Object data) throws net.nokok.karaffe.parser.excptn.ParserException {
+    public Object visit(ASTFieldModifiers node, Object data) throws net.nokok.karaffe.parser.excptn.ParserException {
         return defaultVisit(node, data);
     }
 
@@ -156,7 +164,7 @@ public class ParserDefaultVisitor implements ParserVisitor {
         return defaultVisit(node, data);
     }
 
-    public Object visit(ASTFuncModifier node, Object data) throws net.nokok.karaffe.parser.excptn.ParserException {
+    public Object visit(ASTFuncModifiers node, Object data) throws net.nokok.karaffe.parser.excptn.ParserException {
         return defaultVisit(node, data);
     }
 
@@ -229,10 +237,6 @@ public class ParserDefaultVisitor implements ParserVisitor {
     }
 
     public Object visit(ASTEnumMembers node, Object data) throws net.nokok.karaffe.parser.excptn.ParserException {
-        return defaultVisit(node, data);
-    }
-
-    public Object visit(ASTIdentifier node, Object data) throws net.nokok.karaffe.parser.excptn.ParserException {
         return defaultVisit(node, data);
     }
 
@@ -376,7 +380,7 @@ public class ParserDefaultVisitor implements ParserVisitor {
         return defaultVisit(node, data);
     }
 
-    public Object visit(ASTSwitchBody node, Object data) throws net.nokok.karaffe.parser.excptn.ParserException {
+    public Object visit(ASTSwitchCase node, Object data) throws net.nokok.karaffe.parser.excptn.ParserException {
         return defaultVisit(node, data);
     }
 
@@ -384,11 +388,51 @@ public class ParserDefaultVisitor implements ParserVisitor {
         return defaultVisit(node, data);
     }
 
-    public Object visit(ASTExpressionBinding node, Object data) throws net.nokok.karaffe.parser.excptn.ParserException {
+    public Object visit(ASTCaseBody node, Object data) throws net.nokok.karaffe.parser.excptn.ParserException {
         return defaultVisit(node, data);
     }
 
     public Object visit(ASTWhileLoopExpr node, Object data) throws net.nokok.karaffe.parser.excptn.ParserException {
+        return defaultVisit(node, data);
+    }
+
+    public Object visit(ASTWhileBody node, Object data) throws net.nokok.karaffe.parser.excptn.ParserException {
+        return defaultVisit(node, data);
+    }
+
+    public Object visit(ASTMethodInvocation node, Object data) throws net.nokok.karaffe.parser.excptn.ParserException {
+        return defaultVisit(node, data);
+    }
+
+    public Object visit(ASTMethodName node, Object data) throws net.nokok.karaffe.parser.excptn.ParserException {
+        return defaultVisit(node, data);
+    }
+
+    public Object visit(ASTExpressionName node, Object data) throws net.nokok.karaffe.parser.excptn.ParserException {
+        return defaultVisit(node, data);
+    }
+
+    public Object visit(ASTArguments node, Object data) throws net.nokok.karaffe.parser.excptn.ParserException {
+        return defaultVisit(node, data);
+    }
+
+    public Object visit(ASTArgument node, Object data) throws net.nokok.karaffe.parser.excptn.ParserException {
+        return defaultVisit(node, data);
+    }
+
+    public Object visit(ASTFunctionLiteral node, Object data) throws net.nokok.karaffe.parser.excptn.ParserException {
+        return defaultVisit(node, data);
+    }
+
+    public Object visit(ASTFuncLiteralArg node, Object data) throws net.nokok.karaffe.parser.excptn.ParserException {
+        return defaultVisit(node, data);
+    }
+
+    public Object visit(ASTIdentifierTypeBinding node, Object data) throws net.nokok.karaffe.parser.excptn.ParserException {
+        return defaultVisit(node, data);
+    }
+
+    public Object visit(ASTAmbiguousName node, Object data) throws net.nokok.karaffe.parser.excptn.ParserException {
         return defaultVisit(node, data);
     }
 
@@ -440,54 +484,6 @@ public class ParserDefaultVisitor implements ParserVisitor {
         return defaultVisit(node, data);
     }
 
-    public Object visit(ASTMethodInvocation node, Object data) throws net.nokok.karaffe.parser.excptn.ParserException {
-        return defaultVisit(node, data);
-    }
-
-    public Object visit(ASTMethodName node, Object data) throws net.nokok.karaffe.parser.excptn.ParserException {
-        return defaultVisit(node, data);
-    }
-
-    public Object visit(ASTExpressionName node, Object data) throws net.nokok.karaffe.parser.excptn.ParserException {
-        return defaultVisit(node, data);
-    }
-
-    public Object visit(ASTArguments node, Object data) throws net.nokok.karaffe.parser.excptn.ParserException {
-        return defaultVisit(node, data);
-    }
-
-    public Object visit(ASTArgument node, Object data) throws net.nokok.karaffe.parser.excptn.ParserException {
-        return defaultVisit(node, data);
-    }
-
-    public Object visit(ASTFunctionLiteral node, Object data) throws net.nokok.karaffe.parser.excptn.ParserException {
-        return defaultVisit(node, data);
-    }
-
-    public Object visit(ASTFuncLiteralArg node, Object data) throws net.nokok.karaffe.parser.excptn.ParserException {
-        return defaultVisit(node, data);
-    }
-
-    public Object visit(ASTIdentifierTypeBinding node, Object data) throws net.nokok.karaffe.parser.excptn.ParserException {
-        return defaultVisit(node, data);
-    }
-
-    public Object visit(ASTAmbiguousName node, Object data) throws net.nokok.karaffe.parser.excptn.ParserException {
-        return defaultVisit(node, data);
-    }
-
-    public Object visit(ASTStatement node, Object data) throws net.nokok.karaffe.parser.excptn.ParserException {
-        return defaultVisit(node, data);
-    }
-
-    public Object visit(ASTFuncAlias node, Object data) throws net.nokok.karaffe.parser.excptn.ParserException {
-        return defaultVisit(node, data);
-    }
-
-    public Object visit(ASTFunctionName node, Object data) throws net.nokok.karaffe.parser.excptn.ParserException {
-        return defaultVisit(node, data);
-    }
-
     public Object visit(ASTPublicModifier node, Object data) throws net.nokok.karaffe.parser.excptn.ParserException {
         return defaultVisit(node, data);
     }
@@ -523,5 +519,13 @@ public class ParserDefaultVisitor implements ParserVisitor {
     public Object visit(ASTOverrideModifier node, Object data) throws net.nokok.karaffe.parser.excptn.ParserException {
         return defaultVisit(node, data);
     }
+
+    public Object visit(ASTAutoModifier node, Object data) throws net.nokok.karaffe.parser.excptn.ParserException {
+        return defaultVisit(node, data);
+    }
+
+    public Object visit(ASTIdentifier node, Object data) throws net.nokok.karaffe.parser.excptn.ParserException {
+        return defaultVisit(node, data);
+    }
 }
-/* JavaCC - OriginalChecksum=fc81cd8649e8f0e98d51e1ffde65643b (do not edit this line) */
+/* JavaCC - OriginalChecksum=9bae53f02b33d49f3934c9119030a4df (do not edit this line) */

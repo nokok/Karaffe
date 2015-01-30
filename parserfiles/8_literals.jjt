@@ -1,0 +1,154 @@
+//8_literals.jjt
+//**********************************************************************
+//Literal
+//**********************************************************************
+
+void Literal()#void:{}
+{
+    FunctionLiteral() |
+    IntLiteral() |
+    FloatLiteral() | 
+    BoolLiteral() |
+    CharLiteral() | 
+    StringLiteral() | 
+    UndefinedLiteral() |
+    NullLiteral()
+}
+
+void IntLiteral()#void:{}
+{
+    DecimalIntLiteral() |
+    HexIntLiteral() |
+    OctIntLiteral() |
+    BinaryIntLiteral()
+}
+
+void DecimalIntLiteral():{Token t;}
+{
+    t = <DecimalNumeral> {
+        t.image = t.image.replaceAll("_","");
+        jjtThis.jjtSetValue(t);
+    }
+}
+
+void HexIntLiteral():{Token t;}
+{
+    t = <HexNumeral> {
+        t.image = t.image.replaceAll("_","");
+        jjtThis.jjtSetValue(t);
+    }
+}
+
+void OctIntLiteral():{Token t;}
+{
+    t = <OctalIntLiteral> {
+        t.image = t.image.replaceAll("_","");
+        jjtThis.jjtSetValue(t);
+    }
+}
+
+void BinaryIntLiteral():{Token t;}
+{
+    t = <BinaryNumeral> {
+        t.image = t.image.replaceAll("_","");
+        jjtThis.jjtSetValue(t);
+    }
+}
+
+void FloatLiteral():{}
+{
+    DecimalFPLiteral() |
+    HexadecimalFPLiteral()
+}
+
+void DecimalFPLiteral():{Token t;}
+{
+    t = <DecimalFPLiteral> {
+        t.image = t.image.replaceAll("_","");
+        jjtThis.jjtSetValue(t);
+    }
+}
+
+void HexadecimalFPLiteral():{Token t;}
+{
+    t = <HexadecimalFPLiteral> {
+        t.image = t.image.replaceAll("_","");
+        jjtThis.jjtSetValue(t);
+    }
+}
+
+void BoolLiteral():{Token t;}
+{
+    t = <BoolLiteral> {
+        jjtThis.jjtSetValue(t);
+    }
+}
+
+void CharLiteral():{Token t;}
+{
+    t = <CharLiteral> {
+        jjtThis.jjtSetValue(t);
+    }
+}
+
+void StringLiteral():{Token t;}
+{
+    t = <StringLiteral> {
+        jjtThis.jjtSetValue(t);
+    }
+}
+
+void UndefinedLiteral():{Token t;}
+{
+    t = <UndefinedLiteral> {
+        jjtThis.jjtSetValue(t);
+    }
+}
+
+void NullLiteral():{Token t;}
+{
+    t = <NullLiteral> {
+        jjtThis.jjtSetValue(t);
+    }
+}
+
+TOKEN:
+{
+
+    < UndefinedLiteral : "undefined" > |
+    < NullLiteral : "null" > |
+    < BoolLiteral : "true" | "false" > |
+    
+    //IntLiteral
+    < DecimalNumeral : <Zero> | <NonZero> ("_" | <Digit> )* > |
+    < Digit : <Zero> | <NonZero> > |
+    < #Zero : "0" > |
+    < #NonZero : ["1"-"9"] > |
+    < HexNumeral : "0" ["x","X"] ("_" | <HexDigit>)+ > |
+    < #HexDigit : ["0"-"9" , "A"-"F" , "a"-"f"] > |
+    < OctalIntLiteral : "0" ("_" | <OctalDigit>)+ > |
+    < #OctalDigit : ["0"-"7"] > |
+    < BinaryNumeral : "0" ["b","B"] ("_" | <BinaryDigit>)* > |
+    < #BinaryDigit : "0" | "1" > |
+    < DecimalFPLiteral : (<Digit>)+ "." (<Digit>)+ (<Exp> (["+" , "-"])? (<Digit>)+)? > |
+    < #Exp : "e" | "E" > |
+    
+    //FloatLiteral
+    < HexadecimalFPLiteral : <HexSignificand> <BinaryExp>> |
+    < #HexSignificand : <HexNumeral> "." (<HexDigit>)+ > |
+    < #BinaryExp : ["p","P"] (["+","-"])? (<Digit>)+ > |
+    
+    //Charliteral
+    < CharLiteral : "'" <StringCharacter> "'" > |
+    
+    //StringLiteral
+    < StringLiteral : "\"" (<StringCharacter>)* "\"" > |
+    < #StringCharacter : (~["\"","\\","\n","\r"]) 
+                       | <StringEscapeSeq> 
+                       | <UnicodeEscape> > |
+    < StringEscapeSeq : "\\" ["b","t","n","f","r","\"","\\","\'"] > |
+    < UnicodeEscape : "\\u" <HexDigit> <HexDigit> <HexDigit> <HexDigit> >  |
+
+    //RawStringLiteral
+    < RawStringLiteral : "\"\"\"" (~[])* "\"\"\"" >
+}
