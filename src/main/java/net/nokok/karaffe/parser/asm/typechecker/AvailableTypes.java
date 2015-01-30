@@ -38,10 +38,6 @@ public class AvailableTypes {
         importMap.put(shortName, fullName);
     }
 
-    public void removeImport(String shortOrFullName) {
-
-    }
-
     public void clear() {
         importMap.clear();
         defaultImports();
