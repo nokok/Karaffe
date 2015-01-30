@@ -37,6 +37,12 @@ public class AvailableTypesTest {
 
     @Test
     public void testClear() {
+        availableTypes.addImport("Cloneable", "java/lang/Cloneable");
+        Optional<String> typePath = availableTypes.resolve("Cloneable");
+        assertThat(typePath.isPresent(), is(true));
+        assertThat(typePath.get(), is("java/lang/Cloneable"));
+        availableTypes.clear();
+        assertThat(availableTypes.resolve("Cloneable"), is(Optional.empty()));
     }
 
 }
