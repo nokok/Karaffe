@@ -11,7 +11,7 @@ public class ExprTest {
     @Test
     public void testSimpleExpr() {
         testCode("type D{\n"
-                + "def this() = {\n"
+                + "func this() {\n"
                 + "a = 1\n"
                 + "a = 2\n"
                 + "\n}"

@@ -86,16 +86,16 @@ public class MethodInvocationSyntaxTest {
     @Test
     public void testMultiLineMethodInvocation() {
         testCode("type HelloWorld{\n"
-                + "def main(args:List[String]):Void = {\n"
+                + "func main(args:List[String]) {\n"
                 + "Base().say()\n"
                 + "Derived().say()\n"
                 + "}\n"
-                + "}");
+                + "}\n");
     }
 
     private void testExpr(String code) {
         testCode("type D{\n"
-                + "def this() ={\n"
+                + "func this(){\n"
                 + code + "\n"
                 + "}\n"
                 + "}");

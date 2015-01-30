@@ -10,16 +10,14 @@ public class SwitchExprTest {
 
     @Test
     public void testSimpleSwitchExpr() {
-        testSwitch("def a = switch (cond) {\n"
-                + "case 1 => \"One\"\n"
-                + "case 2 => \"Two\"\n"
-                + "case 3:Int => \"Three\""
-                + "}\n");
+        testSwitch("switch 2{\n"
+                + "case x:Int => println(x)"
+                + "}");
     }
 
     private void testSwitch(String code) {
         testCode("type D{\n"
-                + "def this() = {\n"
+                + "func this() {\n"
                 + code
                 + "}\n"
                 + "}");

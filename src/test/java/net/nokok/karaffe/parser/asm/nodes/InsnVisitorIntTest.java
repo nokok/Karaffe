@@ -85,7 +85,6 @@ public class InsnVisitorIntTest {
 
     @Test
     public void testIntInsn3() {
-        testCode("type H{def a = 1 + 2 - 3 + 4}").dump("");
         NodeUtil nodeUtil = new NodeUtil(testCode("type H{def a = 1 + 2 - 3 + 4}"));
         ASTFieldInitializer fieldInitializer = nodeUtil.forceGetFindFirstNode(ASTFieldInitializer.class);
         InsnVisitor insnVisitor = new InsnVisitor(fieldInitializer);

@@ -10,12 +10,12 @@ public class WhileExprTest {
 
     @Test
     public void testWhileExpr() {
-        testExpr("while(true){}");
+        testExpr("while true {}");
     }
 
     @Test(expected = AssertionError.class)
     public void testWhileExprEmptyCondition() {
-        testExpr("while(){}");
+        testExpr("while {}");
     }
 
     @Test(expected = AssertionError.class)
@@ -25,7 +25,7 @@ public class WhileExprTest {
 
     private void testExpr(String code) {
         testCode("type D{\n"
-                + "def this() = {\n"
+                + "func this() {\n"
                 + code
                 + "\n}"
                 + "}");

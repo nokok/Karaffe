@@ -43,7 +43,7 @@ public class ImportStmtSyntaxTest {
     @Test
     public void testPrivateImportInFunc() {
         testCode("type Hoge{\n"
-                + "def func() = {\n"
+                + "func hoge() {\n"
                 + "import hoge\n"
                 + "}\n"
                 + "}");

@@ -11,7 +11,7 @@ public class FuncAliasTest {
     @Test
     public void testFuncAliasWithoutArguments() {
         testCode("type T{"
-                + "def this() = {\n"
+                + "func this(){\n"
                 + "funcalias after() : before()\n"
                 + "}\n"
                 + "}");
@@ -20,7 +20,7 @@ public class FuncAliasTest {
     @Test
     public void testFuncAliasWithoutArguments1() {
         testCode("type T{\n"
-                + "def this() = {\n"
+                + "func this() {\n"
                 + "funcalias after() : pa.name.Class.function()\n"
                 + "}\n"
                 + "}");
@@ -29,7 +29,7 @@ public class FuncAliasTest {
     @Test
     public void testOverloadedFunctionAlias() {
         testCode("type T{\n"
-                + "def this() = {\n"
+                + "func this() {\n"
                 + "funcalias after(x:Int y:Int) : before(x y)\n"
                 + "}\n"
                 + "}");

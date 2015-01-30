@@ -1,0 +1,5 @@
+//3_TOKEN_MGR_DECLS.jjt
+TOKEN_MGR_DECLS:
+{
+    public static int commentNestLevel = 0;
+}

@@ -7,7 +7,7 @@ public class TypeDeclSyntaxTest {
 
     @Test
     public void testTypeDeclSyntax() {
-        testCode("type TypeName[T] : SuperType[T] <- Interface1[T] Interface2[T] {\n"
+        testCode("type TypeName[T] < SuperType[T] <- Interface1[T] Interface2[T] {\n"
                 + "}");
     }
 
@@ -48,16 +48,16 @@ public class TypeDeclSyntaxTest {
 
     @Test
     public void testSuperTypeTypeParam() {
-        testCode("type TypeName[T] : SuperType[T]{}");
+        testCode("type TypeName[T] < SuperType[T]{}");
     }
 
     @Test(expected = AssertionError.class)
     public void testSuperTypes1() {
-        testCode("type TypeName : SuperType SuperType{}");
+        testCode("type TypeName < SuperType SuperType{}");
     }
 
     @Test(expected = AssertionError.class)
     public void testSuperTypes2() {
-        testCode("type TypeName : SuperType : SuperType{}");
+        testCode("type TypeName < SuperType < SuperType{}");
     }
 }
