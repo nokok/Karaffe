@@ -12,7 +12,8 @@ public enum ErrorType {
     DUP_MODIFIER("dup_modifier"),
     //Not Found
     IDENTIFIER_NOT_FOUND("id_not_found"),
-    TYPE_NOT_FOUND("type_not_found");
+    TYPE_NOT_FOUND("type_not_found"),
+    DEFAULT_IMPORTS_FAILED("default_imports_failed");
 
     private final String errorMessageId;
 
