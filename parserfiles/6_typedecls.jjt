@@ -43,18 +43,23 @@ void TypeParameter():{}
 
 void TypeBound():{}
 {
-    "<" ClassOrInterfaceType() (AdditionalBound())*
+    "<" ClassType() (AdditionalBound())*
 }
 
-void ClassOrInterfaceType():{}
+void Type():{}
 {
-    LOOKAHEAD(ClassType()) ClassType() |
-    LOOKAHEAD(InterfaceType()) InterfaceType()
+    LOOKAHEAD(ClassType() "->") FuncType() |
+    LOOKAHEAD(ClassType()) ClassType()
 }
 
 void ClassType():{}
 {
     AmbiguousName() (LOOKAHEAD(TypeParameters()) TypeParameters())?
+}
+
+void FuncType():{}
+{
+    ClassType() "->" Type()
 }
 
 void AdditionalBound():{}
@@ -110,17 +115,17 @@ void CtorModifier()#void:{}
 
 void FormalParameters():{}
 {
-    (LOOKAHEAD((VariableModifier())? Identifier() ":" ClassType() ",") FormalParameter())* LastFormalParamter()
+    (LOOKAHEAD((VariableModifier())? Identifier() ":" Type() ",") FormalParameter())* LastFormalParamter()
 }
 
 void FormalParameter():{}
 {
-    (VariableModifier())? Identifier() ":" ClassType() ","
+    (VariableModifier())? Identifier() ":" Type() ","
 }
 
 void LastFormalParamter():{}
 {
-    (VariableModifier())? Identifier() ":" ClassType() ("*")?
+    (VariableModifier())? Identifier() ":" Type() ("*")?
 }
 
 void VariableModifier():{}
@@ -154,7 +159,7 @@ void BlockStmt():{}
 
 void LocalValDecl():{}
 {
-    (VariableModifier())? "def" Identifier() (":" ClassType())? "=" VariableInitializer()
+    (VariableModifier())? "def" Identifier() (":" Type())? "=" VariableInitializer()
 }
 
 void VariableInitializer():{}
@@ -217,7 +222,7 @@ void ParenFormalParams():{}
 
 void ReturnType():{}
 {
-    ClassType() ("->" ReturnType())?
+    Type()
 }
 
 void FuncBody():{}
