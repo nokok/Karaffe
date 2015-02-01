@@ -12,7 +12,6 @@ import net.nokok.karaffe.parser.excptn.ParserException;
 
 public class AmbiguousName {
 
-    private final Node node;
     private String pathCache;
 
     private final ParserDefaultVisitor visitor = new ParserDefaultVisitor() {
@@ -27,7 +26,6 @@ public class AmbiguousName {
     private final List<String> ids = new ArrayList<>();
 
     public AmbiguousName(Node node) {
-        this.node = node;
         try {
             node.jjtAccept(visitor, this);
         } catch (ParserException ex) {
