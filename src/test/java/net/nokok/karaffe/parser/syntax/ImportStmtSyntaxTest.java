@@ -49,4 +49,13 @@ public class ImportStmtSyntaxTest {
                 + "}");
     }
 
+    @Test
+    public void testURLImport() {
+        testCode("import \"github.com/nokok/karaffe\"");
+    }
+
+    @Test
+    public void testURLImports() {
+        testCode("import \"github.com/nokok/hoge\" \"github.com/nokok/fuga\"");
+    }
 }
