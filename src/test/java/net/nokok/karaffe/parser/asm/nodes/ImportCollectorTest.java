@@ -13,7 +13,6 @@ public class ImportCollectorTest {
 
     @Test
     public void testImports() {
-        testCode("import java.lang.String java.lang.Integer").dump("");
         ImportCollector collector = new ImportCollector(testCode("import java.lang.String java.lang.Integer"));
         Map<String, Class<?>> map = collector.getImports();
         assertThat(map.get("String").getName(), is(String.class.getName()));
