@@ -561,7 +561,7 @@ void TypeBound():{/*@bgen(jjtree) TypeBound */
 {/*@bgen(jjtree) TypeBound */
     try {
 /*@egen*/
-    "<" ClassOrInterfaceType() (AdditionalBound())*/*@bgen(jjtree)*/
+    "<" ClassType() (AdditionalBound())*/*@bgen(jjtree)*/
     } catch (Throwable jjte000) {
       if (jjtc000) {
         jjtree.clearNodeScope(jjtn000);
@@ -584,16 +584,16 @@ void TypeBound():{/*@bgen(jjtree) TypeBound */
 /*@egen*/
 }
 
-void ClassOrInterfaceType():{/*@bgen(jjtree) ClassOrInterfaceType */
-  ASTClassOrInterfaceType jjtn000 = new ASTClassOrInterfaceType(JJTCLASSORINTERFACETYPE);
+void Type():{/*@bgen(jjtree) Type */
+  ASTType jjtn000 = new ASTType(JJTTYPE);
   boolean jjtc000 = true;
   jjtree.openNodeScope(jjtn000);
 /*@egen*/}
-{/*@bgen(jjtree) ClassOrInterfaceType */
+{/*@bgen(jjtree) Type */
     try {
 /*@egen*/
-    LOOKAHEAD(ClassType()) ClassType() |
-    LOOKAHEAD(InterfaceType()) InterfaceType()/*@bgen(jjtree)*/
+    LOOKAHEAD(ClassType() "->") FuncType() |
+    LOOKAHEAD(ClassType()) ClassType()/*@bgen(jjtree)*/
     } catch (Throwable jjte000) {
       if (jjtc000) {
         jjtree.clearNodeScope(jjtn000);
@@ -625,6 +625,37 @@ void ClassType():{/*@bgen(jjtree) ClassType */
     try {
 /*@egen*/
     AmbiguousName() (LOOKAHEAD(TypeParameters()) TypeParameters())?/*@bgen(jjtree)*/
+    } catch (Throwable jjte000) {
+      if (jjtc000) {
+        jjtree.clearNodeScope(jjtn000);
+        jjtc000 = false;
+      } else {
+        jjtree.popNode();
+      }
+      if (jjte000 instanceof RuntimeException) {
+        throw (RuntimeException)jjte000;
+      }
+      if (jjte000 instanceof ParseException) {
+        throw (ParseException)jjte000;
+      }
+      throw (Error)jjte000;
+    } finally {
+      if (jjtc000) {
+        jjtree.closeNodeScope(jjtn000, true);
+      }
+    }
+/*@egen*/
+}
+
+void FuncType():{/*@bgen(jjtree) FuncType */
+  ASTFuncType jjtn000 = new ASTFuncType(JJTFUNCTYPE);
+  boolean jjtc000 = true;
+  jjtree.openNodeScope(jjtn000);
+/*@egen*/}
+{/*@bgen(jjtree) FuncType */
+    try {
+/*@egen*/
+    ClassType() "->" Type()/*@bgen(jjtree)*/
     } catch (Throwable jjte000) {
       if (jjtc000) {
         jjtree.clearNodeScope(jjtn000);
@@ -888,7 +919,7 @@ void FormalParameters():{/*@bgen(jjtree) FormalParameters */
 {/*@bgen(jjtree) FormalParameters */
     try {
 /*@egen*/
-    (LOOKAHEAD((VariableModifier())? Identifier() ":" ClassType() ",") FormalParameter())* LastFormalParamter()/*@bgen(jjtree)*/
+    (LOOKAHEAD((VariableModifier())? Identifier() ":" Type() ",") FormalParameter())* LastFormalParamter()/*@bgen(jjtree)*/
     } catch (Throwable jjte000) {
       if (jjtc000) {
         jjtree.clearNodeScope(jjtn000);
@@ -919,7 +950,7 @@ void FormalParameter():{/*@bgen(jjtree) FormalParameter */
 {/*@bgen(jjtree) FormalParameter */
     try {
 /*@egen*/
-    (VariableModifier())? Identifier() ":" ClassType() ","/*@bgen(jjtree)*/
+    (VariableModifier())? Identifier() ":" Type() ","/*@bgen(jjtree)*/
     } catch (Throwable jjte000) {
       if (jjtc000) {
         jjtree.clearNodeScope(jjtn000);
@@ -950,7 +981,7 @@ void LastFormalParamter():{/*@bgen(jjtree) LastFormalParamter */
 {/*@bgen(jjtree) LastFormalParamter */
     try {
 /*@egen*/
-    (VariableModifier())? Identifier() ":" ClassType() ("*")?/*@bgen(jjtree)*/
+    (VariableModifier())? Identifier() ":" Type() ("*")?/*@bgen(jjtree)*/
     } catch (Throwable jjte000) {
       if (jjtc000) {
         jjtree.clearNodeScope(jjtn000);
@@ -1140,7 +1171,7 @@ void LocalValDecl():{/*@bgen(jjtree) LocalValDecl */
 {/*@bgen(jjtree) LocalValDecl */
     try {
 /*@egen*/
-    (VariableModifier())? "def" Identifier() (":" ClassType())? "=" VariableInitializer()/*@bgen(jjtree)*/
+    (VariableModifier())? "def" Identifier() (":" Type())? "=" VariableInitializer()/*@bgen(jjtree)*/
     } catch (Throwable jjte000) {
       if (jjtc000) {
         jjtree.clearNodeScope(jjtn000);
@@ -1411,7 +1442,7 @@ void ReturnType():{/*@bgen(jjtree) ReturnType */
 {/*@bgen(jjtree) ReturnType */
     try {
 /*@egen*/
-    ClassType() ("->" ReturnType())?/*@bgen(jjtree)*/
+    Type()/*@bgen(jjtree)*/
     } catch (Throwable jjte000) {
       if (jjtc000) {
         jjtree.clearNodeScope(jjtn000);
@@ -3706,7 +3737,7 @@ void DecimalIntLiteral():{/*@bgen(jjtree) DecimalIntLiteral */
                          }
 /*@egen*/ {
         t.image = t.image.replaceAll("_","");
-        jjtn000.jjtSetValue(t);
+        jjtn000.jjtSetValue(Integer.valueOf(t.image));
     }/*@bgen(jjtree)*/
     } finally {
       if (jjtc000) {
@@ -3731,7 +3762,7 @@ void HexIntLiteral():{/*@bgen(jjtree) HexIntLiteral */
                      }
 /*@egen*/ {
         t.image = t.image.replaceAll("_","");
-        jjtn000.jjtSetValue(t);
+        jjtn000.jjtSetValue(Integer.valueOf(t.image.substring(2,t.image.length()),16));
     }/*@bgen(jjtree)*/
     } finally {
       if (jjtc000) {
@@ -3756,7 +3787,7 @@ void OctIntLiteral():{/*@bgen(jjtree) OctIntLiteral */
                           }
 /*@egen*/ {
         t.image = t.image.replaceAll("_","");
-        jjtn000.jjtSetValue(t);
+        jjtn000.jjtSetValue(Integer.valueOf(t.image.substring(2,t.image.length()),8));
     }/*@bgen(jjtree)*/
     } finally {
       if (jjtc000) {
@@ -3781,7 +3812,7 @@ void BinaryIntLiteral():{/*@bgen(jjtree) BinaryIntLiteral */
                         }
 /*@egen*/ {
         t.image = t.image.replaceAll("_","");
-        jjtn000.jjtSetValue(t);
+        jjtn000.jjtSetValue(Integer.valueOf(t.image.substring(2,t.image.length()),2));
     }/*@bgen(jjtree)*/
     } finally {
       if (jjtc000) {
@@ -3838,7 +3869,7 @@ void DecimalFPLiteral():{/*@bgen(jjtree) DecimalFPLiteral */
                            }
 /*@egen*/ {
         t.image = t.image.replaceAll("_","");
-        jjtn000.jjtSetValue(t);
+        jjtn000.jjtSetValue(Double.parseDouble(t.image));
     }/*@bgen(jjtree)*/
     } finally {
       if (jjtc000) {
@@ -3863,7 +3894,7 @@ void HexadecimalFPLiteral():{/*@bgen(jjtree) HexadecimalFPLiteral */
                                }
 /*@egen*/ {
         t.image = t.image.replaceAll("_","");
-        jjtn000.jjtSetValue(t);
+        jjtn000.jjtSetValue(Double.parseDouble(t.image));
     }/*@bgen(jjtree)*/
     } finally {
       if (jjtc000) {
@@ -3887,7 +3918,7 @@ void BoolLiteral():{/*@bgen(jjtree) BoolLiteral */
                         jjtc000 = false;
                       }
 /*@egen*/ {
-        jjtn000.jjtSetValue(t);
+        jjtn000.jjtSetValue(Boolean.parseBoolean(t.image));
     }/*@bgen(jjtree)*/
     } finally {
       if (jjtc000) {
@@ -3911,7 +3942,7 @@ void CharLiteral():{/*@bgen(jjtree) CharLiteral */
                         jjtc000 = false;
                       }
 /*@egen*/ {
-        jjtn000.jjtSetValue(t);
+        jjtn000.jjtSetValue(Character.valueOf(t.image.charAt(0)));
     }/*@bgen(jjtree)*/
     } finally {
       if (jjtc000) {
@@ -3935,7 +3966,7 @@ void StringLiteral():{/*@bgen(jjtree) StringLiteral */
                           jjtc000 = false;
                         }
 /*@egen*/ {
-        jjtn000.jjtSetValue(t);
+        jjtn000.jjtSetValue(t.image);
     }/*@bgen(jjtree)*/
     } finally {
       if (jjtc000) {

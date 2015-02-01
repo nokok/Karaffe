@@ -143,18 +143,23 @@ void TypeParameter():{}
 
 void TypeBound():{}
 {
-    "<" ClassOrInterfaceType() (AdditionalBound())*
+    "<" ClassType() (AdditionalBound())*
 }
 
-void ClassOrInterfaceType():{}
+void Type():{}
 {
-    LOOKAHEAD(ClassType()) ClassType() |
-    LOOKAHEAD(InterfaceType()) InterfaceType()
+    LOOKAHEAD(ClassType() "->") FuncType() |
+    LOOKAHEAD(ClassType()) ClassType()
 }
 
 void ClassType():{}
 {
     AmbiguousName() (LOOKAHEAD(TypeParameters()) TypeParameters())?
+}
+
+void FuncType():{}
+{
+    ClassType() "->" Type()
 }
 
 void AdditionalBound():{}
@@ -210,17 +215,17 @@ void CtorModifier()#void:{}
 
 void FormalParameters():{}
 {
-    (LOOKAHEAD((VariableModifier())? Identifier() ":" ClassType() ",") FormalParameter())* LastFormalParamter()
+    (LOOKAHEAD((VariableModifier())? Identifier() ":" Type() ",") FormalParameter())* LastFormalParamter()
 }
 
 void FormalParameter():{}
 {
-    (VariableModifier())? Identifier() ":" ClassType() ","
+    (VariableModifier())? Identifier() ":" Type() ","
 }
 
 void LastFormalParamter():{}
 {
-    (VariableModifier())? Identifier() ":" ClassType() ("*")?
+    (VariableModifier())? Identifier() ":" Type() ("*")?
 }
 
 void VariableModifier():{}
@@ -254,7 +259,7 @@ void BlockStmt():{}
 
 void LocalValDecl():{}
 {
-    (VariableModifier())? "def" Identifier() (":" ClassType())? "=" VariableInitializer()
+    (VariableModifier())? "def" Identifier() (":" Type())? "=" VariableInitializer()
 }
 
 void VariableInitializer():{}
@@ -317,7 +322,7 @@ void ParenFormalParams():{}
 
 void ReturnType():{}
 {
-    ClassType() ("->" ReturnType())?
+    Type()
 }
 
 void FuncBody():{}
@@ -690,7 +695,7 @@ void DecimalIntLiteral():{Token t;}
 {
     t = <DecimalNumeral> {
         t.image = t.image.replaceAll("_","");
-        jjtThis.jjtSetValue(t);
+        jjtThis.jjtSetValue(Integer.valueOf(t.image));
     }
 }
 
@@ -698,7 +703,7 @@ void HexIntLiteral():{Token t;}
 {
     t = <HexNumeral> {
         t.image = t.image.replaceAll("_","");
-        jjtThis.jjtSetValue(t);
+        jjtThis.jjtSetValue(Integer.valueOf(t.image.substring(2,t.image.length()),16));
     }
 }
 
@@ -706,7 +711,7 @@ void OctIntLiteral():{Token t;}
 {
     t = <OctalIntLiteral> {
         t.image = t.image.replaceAll("_","");
-        jjtThis.jjtSetValue(t);
+        jjtThis.jjtSetValue(Integer.valueOf(t.image.substring(2,t.image.length()),8));
     }
 }
 
@@ -714,7 +719,7 @@ void BinaryIntLiteral():{Token t;}
 {
     t = <BinaryNumeral> {
         t.image = t.image.replaceAll("_","");
-        jjtThis.jjtSetValue(t);
+        jjtThis.jjtSetValue(Integer.valueOf(t.image.substring(2,t.image.length()),2));
     }
 }
 
@@ -728,7 +733,7 @@ void DecimalFPLiteral():{Token t;}
 {
     t = <DecimalFPLiteral> {
         t.image = t.image.replaceAll("_","");
-        jjtThis.jjtSetValue(t);
+        jjtThis.jjtSetValue(Double.parseDouble(t.image));
     }
 }
 
@@ -736,28 +741,28 @@ void HexadecimalFPLiteral():{Token t;}
 {
     t = <HexadecimalFPLiteral> {
         t.image = t.image.replaceAll("_","");
-        jjtThis.jjtSetValue(t);
+        jjtThis.jjtSetValue(Double.parseDouble(t.image));
     }
 }
 
 void BoolLiteral():{Token t;}
 {
     t = <BoolLiteral> {
-        jjtThis.jjtSetValue(t);
+        jjtThis.jjtSetValue(Boolean.parseBoolean(t.image));
     }
 }
 
 void CharLiteral():{Token t;}
 {
     t = <CharLiteral> {
-        jjtThis.jjtSetValue(t);
+        jjtThis.jjtSetValue(Character.valueOf(t.image.charAt(0)));
     }
 }
 
 void StringLiteral():{Token t;}
 {
     t = <StringLiteral> {
-        jjtThis.jjtSetValue(t);
+        jjtThis.jjtSetValue(t.image);
     }
 }
 

@@ -39,9 +39,11 @@ public interface ParserVisitor {
 
     public Object visit(ASTTypeBound node, Object data) throws net.nokok.karaffe.parser.excptn.ParserException;
 
-    public Object visit(ASTClassOrInterfaceType node, Object data) throws net.nokok.karaffe.parser.excptn.ParserException;
+    public Object visit(ASTType node, Object data) throws net.nokok.karaffe.parser.excptn.ParserException;
 
     public Object visit(ASTClassType node, Object data) throws net.nokok.karaffe.parser.excptn.ParserException;
+
+    public Object visit(ASTFuncType node, Object data) throws net.nokok.karaffe.parser.excptn.ParserException;
 
     public Object visit(ASTAdditionalBound node, Object data) throws net.nokok.karaffe.parser.excptn.ParserException;
 
@@ -269,4 +271,4 @@ public interface ParserVisitor {
 
     public Object visit(ASTIdentifier node, Object data) throws net.nokok.karaffe.parser.excptn.ParserException;
 }
-/* JavaCC - OriginalChecksum=02a40163f699762cc42ef4138cea2ba0 (do not edit this line) */
+/* JavaCC - OriginalChecksum=5a954c54619addab58b03ee488c834f3 (do not edit this line) */
