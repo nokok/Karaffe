@@ -18,18 +18,18 @@ void ModuleName()#void:{}
 
 void ImportStmt():{}
 {
-    LOOKAHEAD(AliasImport()) AliasImport() |
-    LOOKAHEAD(SimpleImport()) SimpleImport() 
+    LOOKAHEAD("import" TypeName() "->") AliasImport() |
+    LOOKAHEAD("import" TypeName()) SimpleImport() |
 }
 
 void SimpleImport():{}
 {
-    "import" (LOOKAHEAD(TypeName() ("." "*")? ) TypeName() (LOOKAHEAD("." "*") "." "*")? )+
+    "import" (LOOKAHEAD(TypeName()) TypeName() ("." "*" #StarImport())?)+
 }
 
 void AliasImport():{}
 {
-    "import" (LOOKAHEAD(TypeName() ImportAfter()) TypeName() ImportAfter())+
+    "import" (LOOKAHEAD(TypeName() "->") TypeName() ImportAfter())+
 }
 
 void ImportAfter():{}
