@@ -26,7 +26,7 @@ public class AmbiguousNameTest implements java.io.Serializable {
         ASTCompileUnit compileUnit = testCode("type D <- java.io.Serializable {}");
         ASTInterfaceType interfaceType = new NodeUtil(compileUnit).forceGetFindFirstNode(ASTInterfaceType.class);
         AmbiguousName ambiguousName = new AmbiguousName(interfaceType);
-        assertThat(ambiguousName.getPath(), is("java/io/Serializable"));
+        assertThat(ambiguousName.getPath(), is("java.io.Serializable"));
     }
 
 }

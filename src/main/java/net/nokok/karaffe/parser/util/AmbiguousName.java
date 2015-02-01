@@ -28,18 +28,21 @@ public class AmbiguousName {
 
     public AmbiguousName(Node node) {
         this.node = node;
-    }
-
-    public String getPath() {
         try {
             node.jjtAccept(visitor, this);
         } catch (ParserException ex) {
             throw new RuntimeException(ex);
         }
+    }
+
+    public String getPath() {
+        if (pathCache != null) {
+            return pathCache;
+        }
         final StringBuilder sb = new StringBuilder();
         sb.append(ids.get(0));
         ids.stream().skip(1).forEach(id -> {
-            sb.append("/").append(id);
+            sb.append(".").append(id);
         });
         pathCache = sb.toString();
         return pathCache;
