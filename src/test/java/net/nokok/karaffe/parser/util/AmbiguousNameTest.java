@@ -29,4 +29,18 @@ public class AmbiguousNameTest implements java.io.Serializable {
         assertThat(ambiguousName.getPath(), is("java.io.Serializable"));
     }
 
+    @Test
+    public void testGetLast() {
+        ASTCompileUnit compileUnit = testCode("import java.lang.String");
+        AmbiguousName name = new AmbiguousName(compileUnit);
+        assertThat(name.getLast(), is("String"));
+    }
+
+    @Test
+    public void testGetLast1() {
+        ASTCompileUnit compileUnit = testCode("import Hoge");
+        AmbiguousName name = new AmbiguousName(compileUnit);
+        assertThat(name.getLast(), is("Hoge"));
+    }
+
 }

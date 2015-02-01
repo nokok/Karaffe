@@ -48,4 +48,8 @@ public class AmbiguousName {
         return pathCache;
     }
 
+    public String getLast() {
+        return ids.get(ids.size() - 1);
+    }
+
 }
