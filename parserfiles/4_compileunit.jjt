@@ -20,6 +20,7 @@ void ImportStmt():{}
 {
     LOOKAHEAD("import" TypeName() "->") AliasImport() |
     LOOKAHEAD("import" TypeName()) SimpleImport() |
+    URLImport()
 }
 
 void SimpleImport():{}
@@ -35,6 +36,11 @@ void AliasImport():{}
 void ImportAfter():{}
 {
     "->" Identifier()
+}
+
+void URLImport():{}
+{
+    "import" (LOOKAHEAD(StringLiteral()) StringLiteral())+
 }
 
 void TypeName():{}
