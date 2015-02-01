@@ -25,6 +25,8 @@ public class ImportCollector {
             AmbiguousName name = new AmbiguousName(node);
 
             try {
+                //ambiguous name java.lang.String
+                //          String          Class<java.lang.String>
                 imports.put(name.getLast(), Class.forName(name.getPath()));
             } catch (ClassNotFoundException ex) {
                 //TODO:
