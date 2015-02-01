@@ -48,23 +48,29 @@ void ModuleName()#void:{}
 
 void ImportStmt():{}
 {
-    LOOKAHEAD(AliasImport()) AliasImport() |
-    LOOKAHEAD(SimpleImport()) SimpleImport() 
+    LOOKAHEAD("import" TypeName() "->") AliasImport() |
+    LOOKAHEAD("import" TypeName()) SimpleImport() |
+    URLImport()
 }
 
 void SimpleImport():{}
 {
-    "import" (LOOKAHEAD(TypeName() ("." "*")? ) TypeName() (LOOKAHEAD("." "*") "." "*")? )+
+    "import" (LOOKAHEAD(TypeName()) TypeName() ("." "*" #StarImport())?)+
 }
 
 void AliasImport():{}
 {
-    "import" (LOOKAHEAD(TypeName() ImportAfter()) TypeName() ImportAfter())+
+    "import" (LOOKAHEAD(TypeName() "->") TypeName() ImportAfter())+
 }
 
 void ImportAfter():{}
 {
     "->" Identifier()
+}
+
+void URLImport():{}
+{
+    "import" (LOOKAHEAD(StringLiteral()) StringLiteral())+
 }
 
 void TypeName():{}
@@ -187,7 +193,7 @@ void ClassBodyDecl()#void:{}
 
 void ClassCtorDecl():{}
 {
-    CtorModifiers() "func" "this" (TypeParameters())? "(" (FormalParameters())? ")" CtorBody()
+    CtorModifiers() "func" "this" (TypeParameters())? ParenFormalParams() CtorBody()
 }
 
 void CtorModifiers():{}
@@ -283,7 +289,7 @@ void FieldInitializer():{}
 
 void FuncDecl():{}
 {
-    FuncModifiers() "func" Identifier() (TypeParameters())? "(" (FormalParameters())? ")" (":" ReturnType())? (FuncBody())?
+    FuncModifiers() "func" Identifier() (TypeParameters())? ParenFormalParams() (":" ReturnType())? (FuncBody())?
 }
 
 void FuncModifiers():{}
@@ -302,6 +308,11 @@ void FuncModifier()#void:{}
     FinalModifier() |
     SealedModifier() |
     OverrideModifier()
+}
+
+void ParenFormalParams():{}
+{
+    "(" (FormalParameters())? ")"
 }
 
 void ReturnType():{}
@@ -370,7 +381,7 @@ void ConstantDecl():{}
 
 void InterfaceMethodDecl():{}
 {
-    (FuncModifier())* "def" Identifier() (TypeParameters())? "(" (FormalParameters())? ")"( ":" ReturnType())? ("=" FuncBody())?
+    (FuncModifier())* "def" Identifier() (TypeParameters())? ParenFormalParams() ( ":" ReturnType())? ("=" FuncBody())?
 }
 
 //**********************************************************************

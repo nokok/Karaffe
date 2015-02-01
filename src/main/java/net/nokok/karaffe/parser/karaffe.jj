@@ -115,8 +115,9 @@ void ImportStmt():{/*@bgen(jjtree) ImportStmt */
 {/*@bgen(jjtree) ImportStmt */
     try {
 /*@egen*/
-    LOOKAHEAD(AliasImport()) AliasImport() |
-    LOOKAHEAD(SimpleImport()) SimpleImport()/*@bgen(jjtree)*/
+    LOOKAHEAD("import" TypeName() "->") AliasImport() |
+    LOOKAHEAD("import" TypeName()) SimpleImport() |
+    URLImport()/*@bgen(jjtree)*/
     } catch (Throwable jjte000) {
       if (jjtc000) {
         jjtree.clearNodeScope(jjtn000);
@@ -136,7 +137,7 @@ void ImportStmt():{/*@bgen(jjtree) ImportStmt */
         jjtree.closeNodeScope(jjtn000, true);
       }
     }
-/*@egen*/ 
+/*@egen*/
 }
 
 void SimpleImport():{/*@bgen(jjtree) SimpleImport */
@@ -147,7 +148,20 @@ void SimpleImport():{/*@bgen(jjtree) SimpleImport */
 {/*@bgen(jjtree) SimpleImport */
     try {
 /*@egen*/
-    "import" (LOOKAHEAD(TypeName() ("." "*")? ) TypeName() (LOOKAHEAD("." "*") "." "*")? )+/*@bgen(jjtree)*/
+    "import" (LOOKAHEAD(TypeName()) TypeName() ("."/*@bgen(jjtree) #StarImport(true) */
+                                                    {
+                                                      ASTStarImport jjtn001 = new ASTStarImport(JJTSTARIMPORT);
+                                                      boolean jjtc001 = true;
+                                                      jjtree.openNodeScope(jjtn001);
+                                                    }
+                                                    try {
+/*@egen*/ "*"/*@bgen(jjtree)*/
+                                                    } finally {
+                                                      if (jjtc001) {
+                                                        jjtree.closeNodeScope(jjtn001, true);
+                                                      }
+                                                    }
+/*@egen*/              )?)+/*@bgen(jjtree)*/
     } catch (Throwable jjte000) {
       if (jjtc000) {
         jjtree.clearNodeScope(jjtn000);
@@ -178,7 +192,7 @@ void AliasImport():{/*@bgen(jjtree) AliasImport */
 {/*@bgen(jjtree) AliasImport */
     try {
 /*@egen*/
-    "import" (LOOKAHEAD(TypeName() ImportAfter()) TypeName() ImportAfter())+/*@bgen(jjtree)*/
+    "import" (LOOKAHEAD(TypeName() "->") TypeName() ImportAfter())+/*@bgen(jjtree)*/
     } catch (Throwable jjte000) {
       if (jjtc000) {
         jjtree.clearNodeScope(jjtn000);
@@ -210,6 +224,37 @@ void ImportAfter():{/*@bgen(jjtree) ImportAfter */
     try {
 /*@egen*/
     "->" Identifier()/*@bgen(jjtree)*/
+    } catch (Throwable jjte000) {
+      if (jjtc000) {
+        jjtree.clearNodeScope(jjtn000);
+        jjtc000 = false;
+      } else {
+        jjtree.popNode();
+      }
+      if (jjte000 instanceof RuntimeException) {
+        throw (RuntimeException)jjte000;
+      }
+      if (jjte000 instanceof ParseException) {
+        throw (ParseException)jjte000;
+      }
+      throw (Error)jjte000;
+    } finally {
+      if (jjtc000) {
+        jjtree.closeNodeScope(jjtn000, true);
+      }
+    }
+/*@egen*/
+}
+
+void URLImport():{/*@bgen(jjtree) URLImport */
+  ASTURLImport jjtn000 = new ASTURLImport(JJTURLIMPORT);
+  boolean jjtc000 = true;
+  jjtree.openNodeScope(jjtn000);
+/*@egen*/}
+{/*@bgen(jjtree) URLImport */
+    try {
+/*@egen*/
+    "import" (LOOKAHEAD(StringLiteral()) StringLiteral())+/*@bgen(jjtree)*/
     } catch (Throwable jjte000) {
       if (jjtc000) {
         jjtree.clearNodeScope(jjtn000);
@@ -774,7 +819,7 @@ void ClassCtorDecl():{/*@bgen(jjtree) ClassCtorDecl */
 {/*@bgen(jjtree) ClassCtorDecl */
     try {
 /*@egen*/
-    CtorModifiers() "func" "this" (TypeParameters())? "(" (FormalParameters())? ")" CtorBody()/*@bgen(jjtree)*/
+    CtorModifiers() "func" "this" (TypeParameters())? ParenFormalParams() CtorBody()/*@bgen(jjtree)*/
     } catch (Throwable jjte000) {
       if (jjtc000) {
         jjtree.clearNodeScope(jjtn000);
@@ -1260,7 +1305,7 @@ void FuncDecl():{/*@bgen(jjtree) FuncDecl */
 {/*@bgen(jjtree) FuncDecl */
     try {
 /*@egen*/
-    FuncModifiers() "func" Identifier() (TypeParameters())? "(" (FormalParameters())? ")" (":" ReturnType())? (FuncBody())?/*@bgen(jjtree)*/
+    FuncModifiers() "func" Identifier() (TypeParameters())? ParenFormalParams() (":" ReturnType())? (FuncBody())?/*@bgen(jjtree)*/
     } catch (Throwable jjte000) {
       if (jjtc000) {
         jjtree.clearNodeScope(jjtn000);
@@ -1325,6 +1370,37 @@ void FuncModifier()     :{}
     FinalModifier() |
     SealedModifier() |
     OverrideModifier()
+}
+
+void ParenFormalParams():{/*@bgen(jjtree) ParenFormalParams */
+  ASTParenFormalParams jjtn000 = new ASTParenFormalParams(JJTPARENFORMALPARAMS);
+  boolean jjtc000 = true;
+  jjtree.openNodeScope(jjtn000);
+/*@egen*/}
+{/*@bgen(jjtree) ParenFormalParams */
+    try {
+/*@egen*/
+    "(" (FormalParameters())? ")"/*@bgen(jjtree)*/
+    } catch (Throwable jjte000) {
+      if (jjtc000) {
+        jjtree.clearNodeScope(jjtn000);
+        jjtc000 = false;
+      } else {
+        jjtree.popNode();
+      }
+      if (jjte000 instanceof RuntimeException) {
+        throw (RuntimeException)jjte000;
+      }
+      if (jjte000 instanceof ParseException) {
+        throw (ParseException)jjte000;
+      }
+      throw (Error)jjte000;
+    } finally {
+      if (jjtc000) {
+        jjtree.closeNodeScope(jjtn000, true);
+      }
+    }
+/*@egen*/
 }
 
 void ReturnType():{/*@bgen(jjtree) ReturnType */
@@ -1685,7 +1761,7 @@ void InterfaceMethodDecl():{/*@bgen(jjtree) InterfaceMethodDecl */
 {/*@bgen(jjtree) InterfaceMethodDecl */
     try {
 /*@egen*/
-    (FuncModifier())* "def" Identifier() (TypeParameters())? "(" (FormalParameters())? ")"( ":" ReturnType())? ("=" FuncBody())?/*@bgen(jjtree)*/
+    (FuncModifier())* "def" Identifier() (TypeParameters())? ParenFormalParams() ( ":" ReturnType())? ("=" FuncBody())?/*@bgen(jjtree)*/
     } catch (Throwable jjte000) {
       if (jjtc000) {
         jjtree.clearNodeScope(jjtn000);

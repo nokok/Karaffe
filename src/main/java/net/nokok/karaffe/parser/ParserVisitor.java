@@ -13,9 +13,13 @@ public interface ParserVisitor {
 
     public Object visit(ASTSimpleImport node, Object data) throws net.nokok.karaffe.parser.excptn.ParserException;
 
+    public Object visit(ASTStarImport node, Object data) throws net.nokok.karaffe.parser.excptn.ParserException;
+
     public Object visit(ASTAliasImport node, Object data) throws net.nokok.karaffe.parser.excptn.ParserException;
 
     public Object visit(ASTImportAfter node, Object data) throws net.nokok.karaffe.parser.excptn.ParserException;
+
+    public Object visit(ASTURLImport node, Object data) throws net.nokok.karaffe.parser.excptn.ParserException;
 
     public Object visit(ASTTypeName node, Object data) throws net.nokok.karaffe.parser.excptn.ParserException;
 
@@ -82,6 +86,8 @@ public interface ParserVisitor {
     public Object visit(ASTFuncDecl node, Object data) throws net.nokok.karaffe.parser.excptn.ParserException;
 
     public Object visit(ASTFuncModifiers node, Object data) throws net.nokok.karaffe.parser.excptn.ParserException;
+
+    public Object visit(ASTParenFormalParams node, Object data) throws net.nokok.karaffe.parser.excptn.ParserException;
 
     public Object visit(ASTReturnType node, Object data) throws net.nokok.karaffe.parser.excptn.ParserException;
 
@@ -263,4 +269,4 @@ public interface ParserVisitor {
 
     public Object visit(ASTIdentifier node, Object data) throws net.nokok.karaffe.parser.excptn.ParserException;
 }
-/* JavaCC - OriginalChecksum=1f65fdb47292404bd816e240276d1f9c (do not edit this line) */
+/* JavaCC - OriginalChecksum=02a40163f699762cc42ef4138cea2ba0 (do not edit this line) */
