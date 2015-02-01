@@ -27,7 +27,7 @@ public class ImportCollector {
             try {
                 imports.put(name.getLast(), Class.forName(name.getPath()));
             } catch (ClassNotFoundException ex) {
-                ex.printStackTrace();
+                //TODO:
             }
             return null;
         }
