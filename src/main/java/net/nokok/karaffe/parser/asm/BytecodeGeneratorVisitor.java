@@ -3,7 +3,6 @@
  */
 package net.nokok.karaffe.parser.asm;
 
-import net.nokok.karaffe.parser.asm.typechecker.AvailableTypes;
 import java.util.ArrayList;
 import java.util.List;
 import net.nokok.karaffe.parser.ASTAmbiguousName;
@@ -38,6 +37,7 @@ import net.nokok.karaffe.parser.ASTTupleDisplay;
 import net.nokok.karaffe.parser.ASTUndefinedLiteral;
 import net.nokok.karaffe.parser.ASTWhileLoopExpr;
 import net.nokok.karaffe.parser.ParserDefaultVisitor;
+import net.nokok.karaffe.parser.asm.typechecker.ClassResolver;
 import net.nokok.karaffe.parser.excptn.ParserException;
 import net.nokok.karaffe.parser.util.AmbiguousName;
 import net.nokok.karaffe.parser.util.CurrentState;
@@ -57,7 +57,7 @@ public class BytecodeGeneratorVisitor extends ParserDefaultVisitor {
 
     private String currentPackage = ".";
 
-    private final AvailableTypes availableTypes = new AvailableTypes();
+    public static final ClassResolver availableTypes = new ClassResolver();
 
     private ClassWriter classWriter = new ClassWriter(ClassWriter.COMPUTE_MAXS);
     private MethodVisitor currentMethodVisitor = null;
