@@ -27,7 +27,7 @@ void DecimalIntLiteral():{Token t;}
 {
     t = <DecimalNumeral> {
         t.image = t.image.replaceAll("_","");
-        jjtThis.jjtSetValue(t);
+        jjtThis.jjtSetValue(Integer.valueOf(t.image));
     }
 }
 
@@ -35,7 +35,7 @@ void HexIntLiteral():{Token t;}
 {
     t = <HexNumeral> {
         t.image = t.image.replaceAll("_","");
-        jjtThis.jjtSetValue(t);
+        jjtThis.jjtSetValue(Integer.valueOf(t.image.substring(2,t.image.length()),16));
     }
 }
 
@@ -43,7 +43,7 @@ void OctIntLiteral():{Token t;}
 {
     t = <OctalIntLiteral> {
         t.image = t.image.replaceAll("_","");
-        jjtThis.jjtSetValue(t);
+        jjtThis.jjtSetValue(Integer.valueOf(t.image.substring(2,t.image.length()),8));
     }
 }
 
@@ -51,7 +51,7 @@ void BinaryIntLiteral():{Token t;}
 {
     t = <BinaryNumeral> {
         t.image = t.image.replaceAll("_","");
-        jjtThis.jjtSetValue(t);
+        jjtThis.jjtSetValue(Integer.valueOf(t.image.substring(2,t.image.length()),2));
     }
 }
 
@@ -65,7 +65,7 @@ void DecimalFPLiteral():{Token t;}
 {
     t = <DecimalFPLiteral> {
         t.image = t.image.replaceAll("_","");
-        jjtThis.jjtSetValue(t);
+        jjtThis.jjtSetValue(Double.parseDouble(t.image));
     }
 }
 
@@ -73,28 +73,28 @@ void HexadecimalFPLiteral():{Token t;}
 {
     t = <HexadecimalFPLiteral> {
         t.image = t.image.replaceAll("_","");
-        jjtThis.jjtSetValue(t);
+        jjtThis.jjtSetValue(Double.parseDouble(t.image));
     }
 }
 
 void BoolLiteral():{Token t;}
 {
     t = <BoolLiteral> {
-        jjtThis.jjtSetValue(t);
+        jjtThis.jjtSetValue(Boolean.parseBoolean(t.image));
     }
 }
 
 void CharLiteral():{Token t;}
 {
     t = <CharLiteral> {
-        jjtThis.jjtSetValue(t);
+        jjtThis.jjtSetValue(Character.valueOf(t.image.charAt(0)));
     }
 }
 
 void StringLiteral():{Token t;}
 {
     t = <StringLiteral> {
-        jjtThis.jjtSetValue(t);
+        jjtThis.jjtSetValue(t.image);
     }
 }
 
