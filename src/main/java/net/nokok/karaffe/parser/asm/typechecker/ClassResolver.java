@@ -8,6 +8,7 @@ import java.util.Map;
 import java.util.Optional;
 import net.nokok.karaffe.parser.excptn.CompilerException;
 import net.nokok.karaffe.parser.util.ErrorType;
+import org.objectweb.asm.Type;
 
 public class ClassResolver {
 
@@ -35,6 +36,11 @@ public class ClassResolver {
 
     public Optional<Class<?>> resolve(String className) {
         return Optional.ofNullable(importMap.get(className));
+    }
+
+    public Optional<Type> resolveType(String className) {
+        Optional<Class<?>> clazz = resolve(className);
+        return Optional.ofNullable(Type.getType(clazz.get()));
     }
 
     public void addImport(String shortName, String fullName) throws ClassNotFoundException {

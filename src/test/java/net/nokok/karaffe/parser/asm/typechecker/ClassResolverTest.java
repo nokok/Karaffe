@@ -8,6 +8,7 @@ import static org.hamcrest.CoreMatchers.is;
 import static org.junit.Assert.assertThat;
 import org.junit.Before;
 import org.junit.Test;
+import org.objectweb.asm.Type;
 
 public class ClassResolverTest {
 
@@ -23,6 +24,13 @@ public class ClassResolverTest {
         Optional<Class<?>> className = resolver.resolve("String");
         assertThat(className.isPresent(), is(true));
         assertThat(className.get().getName(), is("java.lang.String"));
+    }
+
+    @Test
+    public void testResolveType() {
+        Optional<Type> type = resolver.resolveType("String");
+        assertThat(type.isPresent(), is(true));
+        assertThat(type.get(), is(Type.getType(String.class)));
     }
 
     @Test
