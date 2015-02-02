@@ -86,7 +86,7 @@ public class MethodInvocationSyntaxTest {
     @Test
     public void testMultiLineMethodInvocation() {
         testCode("type HelloWorld{\n"
-                + "func main(args:List[String]) {\n"
+                + "func main(args List[String]) {\n"
                 + "Base().say()\n"
                 + "Derived().say()\n"
                 + "}\n"

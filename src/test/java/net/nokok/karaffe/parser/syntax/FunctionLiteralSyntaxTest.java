@@ -10,7 +10,7 @@ public class FunctionLiteralSyntaxTest {
 
     @Test
     public void testSimpleFunctionLiteral() {
-        testFunctionLiteral("(a:Int) -> {a + 1}\n");
+        testFunctionLiteral("(a Int) -> {a + 1}\n");
     }
 
     @Test
@@ -20,7 +20,7 @@ public class FunctionLiteralSyntaxTest {
 
     @Test
     public void testFuncLiteral1() {
-        testFunctionLiteral("(x:Int) -> {x + y()}");
+        testFunctionLiteral("(x Int) -> {x + y()}");
     }
 
     @Test
@@ -40,12 +40,12 @@ public class FunctionLiteralSyntaxTest {
 
     @Test
     public void testFuncLiteralParameters() {
-        testFunctionLiteral("(x:Int) -> {x}(2)");
+        testFunctionLiteral("(x Int) -> {x}(2)");
     }
 
     @Test
     public void testFuncLiteralParameters1() {
-        testFunctionLiteral("(x:Int y:Int) -> {x + y}(2)");
+        testFunctionLiteral("(x Int y Int) -> {x + y}(2)");
     }
 
     @Test

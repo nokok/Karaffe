@@ -10,7 +10,7 @@ public class FieldDeclSyntaxTest {
 
     @Test
     public void testSimpleFieldDecl() {
-        testDecl("def a : Int = undefined");
+        testDecl("def a Int = undefined");
     }
 
     @Test
@@ -20,12 +20,12 @@ public class FieldDeclSyntaxTest {
 
     @Test
     public void testVarDeclWithTypeParamType() {
-        testDecl("def t : T[E] = undefined");
+        testDecl("def t T[E] = undefined");
     }
 
     @Test(expected = AssertionError.class)
     public void testInvalidTypeParam() {
-        testDecl("def t[T] : T = undefined");
+        testDecl("def t[T] T = undefined");
     }
 
     @Test
@@ -40,7 +40,7 @@ public class FieldDeclSyntaxTest {
 
     @Test
     public void testFieldAmbiguousType() {
-        testDecl("def hoge : java.lang.Integer = 0");
+        testDecl("def hoge java.lang.Integer = 0");
     }
 
     public static void testDecl(String code) {

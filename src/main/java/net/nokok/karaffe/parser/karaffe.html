@@ -179,7 +179,7 @@
 <TR>
 <TD ALIGN=RIGHT VALIGN=BASELINE><A NAME="prod4">FuncAlias</A></TD>
 <TD ALIGN=CENTER VALIGN=BASELINE>::=</TD>
-<TD ALIGN=LEFT VALIGN=BASELINE>"funcalias" <A HREF="#prod13">Identifier</A> "(" ( <A HREF="#prod16">IdentifierTypeBinding</A> )* ")" ":" <A HREF="#prod17">FunctionName</A> "(" ( <A HREF="#prod18">Arguments</A> )? ")"</TD>
+<TD ALIGN=LEFT VALIGN=BASELINE>"funcalias" <A HREF="#prod13">Identifier</A> "(" ( <A HREF="#prod16">IdentifierTypeBinding</A> )* ")" <A HREF="#prod17">FunctionName</A> "(" ( <A HREF="#prod18">Arguments</A> )? ")"</TD>
 </TR>
 <TR>
 <TD ALIGN=RIGHT VALIGN=BASELINE><A NAME="prod17">FunctionName</A></TD>
@@ -382,12 +382,12 @@
 <TR>
 <TD ALIGN=RIGHT VALIGN=BASELINE><A NAME="prod52">FormalParameter</A></TD>
 <TD ALIGN=CENTER VALIGN=BASELINE>::=</TD>
-<TD ALIGN=LEFT VALIGN=BASELINE>( <A HREF="#prod54">VariableModifier</A> )? <A HREF="#prod13">Identifier</A> ":" <A HREF="#prod41">Type</A> ","</TD>
+<TD ALIGN=LEFT VALIGN=BASELINE>( <A HREF="#prod54">VariableModifier</A> )? <A HREF="#prod13">Identifier</A> <A HREF="#prod41">Type</A> ","</TD>
 </TR>
 <TR>
 <TD ALIGN=RIGHT VALIGN=BASELINE><A NAME="prod53">LastFormalParamter</A></TD>
 <TD ALIGN=CENTER VALIGN=BASELINE>::=</TD>
-<TD ALIGN=LEFT VALIGN=BASELINE>( <A HREF="#prod54">VariableModifier</A> )? <A HREF="#prod13">Identifier</A> ":" <A HREF="#prod41">Type</A> ( "*" )?</TD>
+<TD ALIGN=LEFT VALIGN=BASELINE>( <A HREF="#prod54">VariableModifier</A> )? <A HREF="#prod13">Identifier</A> <A HREF="#prod41">Type</A> ( "*" )?</TD>
 </TR>
 <TR>
 <TD ALIGN=RIGHT VALIGN=BASELINE><A NAME="prod54">VariableModifier</A></TD>
@@ -417,7 +417,7 @@
 <TR>
 <TD ALIGN=RIGHT VALIGN=BASELINE><A NAME="prod59">LocalValDecl</A></TD>
 <TD ALIGN=CENTER VALIGN=BASELINE>::=</TD>
-<TD ALIGN=LEFT VALIGN=BASELINE>( <A HREF="#prod54">VariableModifier</A> )? "def" <A HREF="#prod13">Identifier</A> ( ":" <A HREF="#prod41">Type</A> )? "=" <A HREF="#prod61">VariableInitializer</A></TD>
+<TD ALIGN=LEFT VALIGN=BASELINE>( <A HREF="#prod54">VariableModifier</A> )? "def" <A HREF="#prod13">Identifier</A> ( <A HREF="#prod41">Type</A> )? "=" <A HREF="#prod61">VariableInitializer</A></TD>
 </TR>
 <TR>
 <TD ALIGN=RIGHT VALIGN=BASELINE><A NAME="prod61">VariableInitializer</A></TD>
@@ -427,7 +427,7 @@
 <TR>
 <TD ALIGN=RIGHT VALIGN=BASELINE><A NAME="prod47">FieldDecl</A></TD>
 <TD ALIGN=CENTER VALIGN=BASELINE>::=</TD>
-<TD ALIGN=LEFT VALIGN=BASELINE><A HREF="#prod62">FieldModifiers</A> "def" <A HREF="#prod13">Identifier</A> ( ":" <A HREF="#prod11">TypeName</A> ( <A HREF="#prod25">TypeParameters</A> )? )? "=" <A HREF="#prod63">FieldInitializer</A></TD>
+<TD ALIGN=LEFT VALIGN=BASELINE><A HREF="#prod62">FieldModifiers</A> "def" <A HREF="#prod13">Identifier</A> ( <A HREF="#prod41">Type</A> ( <A HREF="#prod25">TypeParameters</A> )? )? "=" <A HREF="#prod63">FieldInitializer</A></TD>
 </TR>
 <TR>
 <TD ALIGN=RIGHT VALIGN=BASELINE><A NAME="prod62">FieldModifiers</A></TD>
@@ -467,7 +467,7 @@
 <TR>
 <TD ALIGN=RIGHT VALIGN=BASELINE><A NAME="prod46">FuncDecl</A></TD>
 <TD ALIGN=CENTER VALIGN=BASELINE>::=</TD>
-<TD ALIGN=LEFT VALIGN=BASELINE><A HREF="#prod66">FuncModifiers</A> "func" <A HREF="#prod13">Identifier</A> ( <A HREF="#prod25">TypeParameters</A> )? <A HREF="#prod49">ParenFormalParams</A> ( ":" <A HREF="#prod67">ReturnType</A> )? ( <A HREF="#prod68">FuncBody</A> )?</TD>
+<TD ALIGN=LEFT VALIGN=BASELINE><A HREF="#prod66">FuncModifiers</A> "func" <A HREF="#prod13">Identifier</A> ( <A HREF="#prod25">TypeParameters</A> )? <A HREF="#prod49">ParenFormalParams</A> ( <A HREF="#prod67">ReturnType</A> )? ( <A HREF="#prod68">FuncBody</A> )?</TD>
 </TR>
 <TR>
 <TD ALIGN=RIGHT VALIGN=BASELINE><A NAME="prod66">FuncModifiers</A></TD>
@@ -552,12 +552,12 @@
 <TR>
 <TD ALIGN=RIGHT VALIGN=BASELINE><A NAME="prod72">AlgebraicDataTypeBody</A></TD>
 <TD ALIGN=CENTER VALIGN=BASELINE>::=</TD>
-<TD ALIGN=LEFT VALIGN=BASELINE><A HREF="#prod13">Identifier</A> ( <A HREF="#prod25">TypeParameters</A> )? ( <A HREF="#prod73">AlgebraicDataCtorBinding</A> )*</TD>
+<TD ALIGN=LEFT VALIGN=BASELINE><A HREF="#prod41">Type</A> ( <A HREF="#prod25">TypeParameters</A> )? ( <A HREF="#prod73">AlgebraicDataCtorBinding</A> ( "," <A HREF="#prod73">AlgebraicDataCtorBinding</A> )* )?</TD>
 </TR>
 <TR>
 <TD ALIGN=RIGHT VALIGN=BASELINE><A NAME="prod73">AlgebraicDataCtorBinding</A></TD>
 <TD ALIGN=CENTER VALIGN=BASELINE>::=</TD>
-<TD ALIGN=LEFT VALIGN=BASELINE><A HREF="#prod13">Identifier</A> ":" <A HREF="#prod13">Identifier</A> ( <A HREF="#prod25">TypeParameters</A> )?</TD>
+<TD ALIGN=LEFT VALIGN=BASELINE><A HREF="#prod13">Identifier</A> <A HREF="#prod41">Type</A> ( <A HREF="#prod25">TypeParameters</A> )?</TD>
 </TR>
  <!-- Special token -->
  <TR>
@@ -597,12 +597,12 @@
 <TR>
 <TD ALIGN=RIGHT VALIGN=BASELINE><A NAME="prod78">ConstantDecl</A></TD>
 <TD ALIGN=CENTER VALIGN=BASELINE>::=</TD>
-<TD ALIGN=LEFT VALIGN=BASELINE>( <A HREF="#prod35">StaticModifier</A> )? "def" <A HREF="#prod13">Identifier</A> ":" <A HREF="#prod13">Identifier</A> ( <A HREF="#prod25">TypeParameters</A> )? ( "=" <A HREF="#prod61">VariableInitializer</A> )?</TD>
+<TD ALIGN=LEFT VALIGN=BASELINE>( <A HREF="#prod35">StaticModifier</A> )? "def" <A HREF="#prod13">Identifier</A> <A HREF="#prod13">Identifier</A> ( <A HREF="#prod25">TypeParameters</A> )? ( "=" <A HREF="#prod61">VariableInitializer</A> )?</TD>
 </TR>
 <TR>
 <TD ALIGN=RIGHT VALIGN=BASELINE><A NAME="prod79">InterfaceMethodDecl</A></TD>
 <TD ALIGN=CENTER VALIGN=BASELINE>::=</TD>
-<TD ALIGN=LEFT VALIGN=BASELINE>( <A HREF="#prod69">FuncModifier</A> )* "def" <A HREF="#prod13">Identifier</A> ( <A HREF="#prod25">TypeParameters</A> )? <A HREF="#prod49">ParenFormalParams</A> ( ":" <A HREF="#prod67">ReturnType</A> )? ( "=" <A HREF="#prod68">FuncBody</A> )?</TD>
+<TD ALIGN=LEFT VALIGN=BASELINE>( <A HREF="#prod69">FuncModifier</A> )* "def" <A HREF="#prod13">Identifier</A> ( <A HREF="#prod25">TypeParameters</A> )? <A HREF="#prod49">ParenFormalParams</A> ( <A HREF="#prod67">ReturnType</A> )? ( "=" <A HREF="#prod68">FuncBody</A> )?</TD>
 </TR>
  <!-- Special token -->
  <TR>
@@ -617,7 +617,7 @@
 <TR>
 <TD ALIGN=RIGHT VALIGN=BASELINE><A NAME="prod23">TypeAliasDecl</A></TD>
 <TD ALIGN=CENTER VALIGN=BASELINE>::=</TD>
-<TD ALIGN=LEFT VALIGN=BASELINE>( <A HREF="#prod80">TypeAliasModifier</A> )* "typealias" <A HREF="#prod13">Identifier</A> ":" <A HREF="#prod13">Identifier</A></TD>
+<TD ALIGN=LEFT VALIGN=BASELINE>( <A HREF="#prod80">TypeAliasModifier</A> )* "typealias" <A HREF="#prod13">Identifier</A> <A HREF="#prod13">Identifier</A></TD>
 </TR>
 <TR>
 <TD ALIGN=RIGHT VALIGN=BASELINE><A NAME="prod80">TypeAliasModifier</A></TD>
@@ -637,7 +637,7 @@
 <TR>
 <TD ALIGN=RIGHT VALIGN=BASELINE><A NAME="prod20">EnumDecl</A></TD>
 <TD ALIGN=CENTER VALIGN=BASELINE>::=</TD>
-<TD ALIGN=LEFT VALIGN=BASELINE>( <A HREF="#prod81">EnumModifier</A> )* "enum" <A HREF="#prod82">EnumName</A> ":" "[" <A HREF="#prod83">EnumMembers</A> "]"</TD>
+<TD ALIGN=LEFT VALIGN=BASELINE>( <A HREF="#prod81">EnumModifier</A> )* "enum" <A HREF="#prod82">EnumName</A> "[" <A HREF="#prod83">EnumMembers</A> "]"</TD>
 </TR>
 <TR>
 <TD ALIGN=RIGHT VALIGN=BASELINE><A NAME="prod81">EnumModifier</A></TD>

@@ -352,7 +352,7 @@ void FuncAlias():{/*@bgen(jjtree) FuncAlias */
 {/*@bgen(jjtree) FuncAlias */
     try {
 /*@egen*/
-    "funcalias" Identifier() "(" (IdentifierTypeBinding())* ")" ":" FunctionName() "(" (Arguments())? ")"/*@bgen(jjtree)*/
+    "funcalias" Identifier() "(" (IdentifierTypeBinding())* ")" FunctionName() "(" (Arguments())? ")"/*@bgen(jjtree)*/
     } catch (Throwable jjte000) {
       if (jjtc000) {
         jjtree.clearNodeScope(jjtn000);
@@ -919,7 +919,7 @@ void FormalParameters():{/*@bgen(jjtree) FormalParameters */
 {/*@bgen(jjtree) FormalParameters */
     try {
 /*@egen*/
-    (LOOKAHEAD((VariableModifier())? Identifier() ":" Type() ",") FormalParameter())* LastFormalParamter()/*@bgen(jjtree)*/
+    (LOOKAHEAD((VariableModifier())? Identifier() Type() ",") FormalParameter())* LastFormalParamter()/*@bgen(jjtree)*/
     } catch (Throwable jjte000) {
       if (jjtc000) {
         jjtree.clearNodeScope(jjtn000);
@@ -950,7 +950,7 @@ void FormalParameter():{/*@bgen(jjtree) FormalParameter */
 {/*@bgen(jjtree) FormalParameter */
     try {
 /*@egen*/
-    (VariableModifier())? Identifier() ":" Type() ","/*@bgen(jjtree)*/
+    (VariableModifier())? Identifier() Type() ","/*@bgen(jjtree)*/
     } catch (Throwable jjte000) {
       if (jjtc000) {
         jjtree.clearNodeScope(jjtn000);
@@ -981,7 +981,7 @@ void LastFormalParamter():{/*@bgen(jjtree) LastFormalParamter */
 {/*@bgen(jjtree) LastFormalParamter */
     try {
 /*@egen*/
-    (VariableModifier())? Identifier() ":" Type() ("*")?/*@bgen(jjtree)*/
+    (VariableModifier())? Identifier() Type() ("*")?/*@bgen(jjtree)*/
     } catch (Throwable jjte000) {
       if (jjtc000) {
         jjtree.clearNodeScope(jjtn000);
@@ -1171,7 +1171,7 @@ void LocalValDecl():{/*@bgen(jjtree) LocalValDecl */
 {/*@bgen(jjtree) LocalValDecl */
     try {
 /*@egen*/
-    (VariableModifier())? "def" Identifier() (":" Type())? "=" VariableInitializer()/*@bgen(jjtree)*/
+    (VariableModifier())? "def" Identifier() (Type())? "=" VariableInitializer()/*@bgen(jjtree)*/
     } catch (Throwable jjte000) {
       if (jjtc000) {
         jjtree.clearNodeScope(jjtn000);
@@ -1233,7 +1233,7 @@ void FieldDecl():{/*@bgen(jjtree) FieldDecl */
 {/*@bgen(jjtree) FieldDecl */
     try {
 /*@egen*/
-    FieldModifiers() "def" Identifier() (":" TypeName() (TypeParameters())?)? "=" FieldInitializer()/*@bgen(jjtree)*/
+    FieldModifiers() "def" Identifier() (Type() (TypeParameters())?)? "=" FieldInitializer()/*@bgen(jjtree)*/
     } catch (Throwable jjte000) {
       if (jjtc000) {
         jjtree.clearNodeScope(jjtn000);
@@ -1336,7 +1336,7 @@ void FuncDecl():{/*@bgen(jjtree) FuncDecl */
 {/*@bgen(jjtree) FuncDecl */
     try {
 /*@egen*/
-    FuncModifiers() "func" Identifier() (TypeParameters())? ParenFormalParams() (":" ReturnType())? (FuncBody())?/*@bgen(jjtree)*/
+    FuncModifiers() "func" Identifier() (TypeParameters())? ParenFormalParams() (ReturnType())? (FuncBody())?/*@bgen(jjtree)*/
     } catch (Throwable jjte000) {
       if (jjtc000) {
         jjtree.clearNodeScope(jjtn000);
@@ -1538,7 +1538,7 @@ void AlgebraicDataTypeBody():{/*@bgen(jjtree) AlgebraicDataTypeBody */
 {/*@bgen(jjtree) AlgebraicDataTypeBody */
     try {
 /*@egen*/
-    Identifier() (TypeParameters())? (AlgebraicDataCtorBinding())*/*@bgen(jjtree)*/
+    Type() (TypeParameters())? (AlgebraicDataCtorBinding() ( "," AlgebraicDataCtorBinding())*)?/*@bgen(jjtree)*/
     } catch (Throwable jjte000) {
       if (jjtc000) {
         jjtree.clearNodeScope(jjtn000);
@@ -1569,7 +1569,7 @@ void AlgebraicDataCtorBinding():{/*@bgen(jjtree) AlgebraicDataCtorBinding */
 {/*@bgen(jjtree) AlgebraicDataCtorBinding */
     try {
 /*@egen*/
-    Identifier() ":" Identifier() (TypeParameters())?/*@bgen(jjtree)*/
+    Identifier() Type() (TypeParameters())?/*@bgen(jjtree)*/
     } catch (Throwable jjte000) {
       if (jjtc000) {
         jjtree.clearNodeScope(jjtn000);
@@ -1761,7 +1761,7 @@ void ConstantDecl():{/*@bgen(jjtree) ConstantDecl */
 {/*@bgen(jjtree) ConstantDecl */
     try {
 /*@egen*/
-    (StaticModifier())? "def" Identifier() ":" Identifier() (TypeParameters())? ("=" VariableInitializer())?/*@bgen(jjtree)*/
+    (StaticModifier())? "def" Identifier() Identifier() (TypeParameters())? ("=" VariableInitializer())?/*@bgen(jjtree)*/
     } catch (Throwable jjte000) {
       if (jjtc000) {
         jjtree.clearNodeScope(jjtn000);
@@ -1792,7 +1792,7 @@ void InterfaceMethodDecl():{/*@bgen(jjtree) InterfaceMethodDecl */
 {/*@bgen(jjtree) InterfaceMethodDecl */
     try {
 /*@egen*/
-    (FuncModifier())* "def" Identifier() (TypeParameters())? ParenFormalParams() ( ":" ReturnType())? ("=" FuncBody())?/*@bgen(jjtree)*/
+    (FuncModifier())* "def" Identifier() (TypeParameters())? ParenFormalParams() (ReturnType())? ("=" FuncBody())?/*@bgen(jjtree)*/
     } catch (Throwable jjte000) {
       if (jjtc000) {
         jjtree.clearNodeScope(jjtn000);
@@ -1826,7 +1826,7 @@ void TypeAliasDecl():{/*@bgen(jjtree) TypeAliasDecl */
 {/*@bgen(jjtree) TypeAliasDecl */
     try {
 /*@egen*/
-    (TypeAliasModifier())* "typealias" Identifier() ":" Identifier()/*@bgen(jjtree)*/
+    (TypeAliasModifier())* "typealias" Identifier() Identifier()/*@bgen(jjtree)*/
     } catch (Throwable jjte000) {
       if (jjtc000) {
         jjtree.clearNodeScope(jjtn000);
@@ -1893,7 +1893,7 @@ void EnumDecl():{/*@bgen(jjtree) EnumDecl */
 {/*@bgen(jjtree) EnumDecl */
     try {
 /*@egen*/
-    (EnumModifier())* "enum" EnumName() ":" "[" EnumMembers() "]"/*@bgen(jjtree)*/
+    (EnumModifier())* "enum" EnumName() "[" EnumMembers() "]"/*@bgen(jjtree)*/
     } catch (Throwable jjte000) {
       if (jjtc000) {
         jjtree.clearNodeScope(jjtn000);

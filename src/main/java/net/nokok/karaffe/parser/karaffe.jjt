@@ -90,7 +90,7 @@ void Statement():{}
 
 void FuncAlias():{}
 {
-    "funcalias" Identifier() "(" (IdentifierTypeBinding())* ")" ":" FunctionName() "(" (Arguments())? ")"
+    "funcalias" Identifier() "(" (IdentifierTypeBinding())* ")" FunctionName() "(" (Arguments())? ")"
 }
 
 void FunctionName():{}
@@ -215,17 +215,17 @@ void CtorModifier()#void:{}
 
 void FormalParameters():{}
 {
-    (LOOKAHEAD((VariableModifier())? Identifier() ":" Type() ",") FormalParameter())* LastFormalParamter()
+    (LOOKAHEAD((VariableModifier())? Identifier() Type() ",") FormalParameter())* LastFormalParamter()
 }
 
 void FormalParameter():{}
 {
-    (VariableModifier())? Identifier() ":" Type() ","
+    (VariableModifier())? Identifier() Type() ","
 }
 
 void LastFormalParamter():{}
 {
-    (VariableModifier())? Identifier() ":" Type() ("*")?
+    (VariableModifier())? Identifier() Type() ("*")?
 }
 
 void VariableModifier():{}
@@ -259,7 +259,7 @@ void BlockStmt():{}
 
 void LocalValDecl():{}
 {
-    (VariableModifier())? "def" Identifier() (":" Type())? "=" VariableInitializer()
+    (VariableModifier())? "def" Identifier() (Type())? "=" VariableInitializer()
 }
 
 void VariableInitializer():{}
@@ -269,7 +269,7 @@ void VariableInitializer():{}
 
 void FieldDecl():{}
 {
-    FieldModifiers() "def" Identifier() (":" TypeName() (TypeParameters())?)? "=" FieldInitializer()
+    FieldModifiers() "def" Identifier() (Type() (TypeParameters())?)? "=" FieldInitializer()
 }
 
 void FieldModifiers():{}
@@ -294,7 +294,7 @@ void FieldInitializer():{}
 
 void FuncDecl():{}
 {
-    FuncModifiers() "func" Identifier() (TypeParameters())? ParenFormalParams() (":" ReturnType())? (FuncBody())?
+    FuncModifiers() "func" Identifier() (TypeParameters())? ParenFormalParams() (ReturnType())? (FuncBody())?
 }
 
 void FuncModifiers():{}
@@ -340,12 +340,12 @@ void AlgebraicDataTypeDecl():{}
 
 void AlgebraicDataTypeBody():{}
 {
-    Identifier() (TypeParameters())? (AlgebraicDataCtorBinding())*
+    Type() (TypeParameters())? (AlgebraicDataCtorBinding() ( "," AlgebraicDataCtorBinding())*)?
 }
 
 void AlgebraicDataCtorBinding():{}
 {
-    Identifier() ":" Identifier() (TypeParameters())?
+    Identifier() Type() (TypeParameters())?
 }
 
 //**********************************************************************
@@ -381,12 +381,12 @@ void InterfaceMember():{}
 
 void ConstantDecl():{}
 {
-    (StaticModifier())? "def" Identifier() ":" Identifier() (TypeParameters())? ("=" VariableInitializer())?
+    (StaticModifier())? "def" Identifier() Identifier() (TypeParameters())? ("=" VariableInitializer())?
 }
 
 void InterfaceMethodDecl():{}
 {
-    (FuncModifier())* "def" Identifier() (TypeParameters())? ParenFormalParams() ( ":" ReturnType())? ("=" FuncBody())?
+    (FuncModifier())* "def" Identifier() (TypeParameters())? ParenFormalParams() (ReturnType())? ("=" FuncBody())?
 }
 
 //**********************************************************************
@@ -394,7 +394,7 @@ void InterfaceMethodDecl():{}
 //**********************************************************************
 void TypeAliasDecl():{}
 {
-    (TypeAliasModifier())* "typealias" Identifier() ":" Identifier()
+    (TypeAliasModifier())* "typealias" Identifier() Identifier()
 }
 
 void TypeAliasModifier():{}
@@ -409,7 +409,7 @@ void TypeAliasModifier():{}
 //**********************************************************************
 void EnumDecl():{}
 {
-    (EnumModifier())* "enum" EnumName() ":" "[" EnumMembers() "]"
+    (EnumModifier())* "enum" EnumName() "[" EnumMembers() "]"
 }
 
 void EnumModifier():{}

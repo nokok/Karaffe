@@ -10,12 +10,12 @@ public class EnumSyntaxTest {
 
     @Test
     public void testEnumSyntax() {
-        testCode("enum EnumType : [Hoge,Fuga,Piyo]\n");
+        testCode("enum EnumType [Hoge,Fuga,Piyo]\n");
     }
 
     @Test(expected = AssertionError.class)
     public void testEmptyArray() {
-        testCode("enum EnumType : []\n");
+        testCode("enum EnumType []\n");
     }
 
     @Test(expected = AssertionError.class)
