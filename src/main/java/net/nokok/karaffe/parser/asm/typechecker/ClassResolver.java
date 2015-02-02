@@ -17,6 +17,11 @@ public class ClassResolver {
         defaultImports();
     }
 
+    public ClassResolver(Map<String, Class<?>> imported) {
+        this();
+        this.importMap.putAll(imported);
+    }
+
     private void defaultImports() {
         try {
             importMap.put("String", Class.forName("java.lang.String"));
