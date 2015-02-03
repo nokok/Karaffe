@@ -60,7 +60,7 @@ void Statement():{}
 
 void FuncAlias():{}
 {
-    "funcalias" Identifier() "(" (IdentifierTypeBinding())* ")" FunctionName() "(" (Arguments())? ")"
+    "funcalias" Identifier() ParenFormalParams() FunctionName() ParenFormalParams()
 }
 
 void FunctionName():{}
