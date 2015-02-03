@@ -117,7 +117,7 @@ void ListDisplay():{}
 
 void DictionaryDisplay():{}
 {
-    "d[" (DictionaryPair())+ "]"
+    "[" (DictionaryPair())+ "]"
 }
 
 void DictionaryPair():{}
@@ -127,7 +127,7 @@ void DictionaryPair():{}
 
 void TupleDisplay():{}
 {
-    "t[" (Expression() (Expression())*)? "]"
+    "(" (Expression() (Expression())*)? ")"
 }
 
 void IfExpr():{}
@@ -187,8 +187,8 @@ void MethodInvocation():{}
     This() (DotMethodNameArguments())+ |
     Self() (DotMethodNameArguments())+ |
     LOOKAHEAD("(" Expression() ")"  (DotMethodNameArguments())+) "(" Expression() ")"  (DotMethodNameArguments())+ |
-    ListDisplay() (DotMethodNameArguments())+ |
-    DictionaryDisplay() (DotMethodNameArguments())+ |
+    LOOKAHEAD(ListDisplay()) ListDisplay() (DotMethodNameArguments())+ |
+    LOOKAHEAD(DictionaryDisplay()) DictionaryDisplay() (DotMethodNameArguments())+ |
     TupleDisplay() (DotMethodNameArguments())+  |
     LOOKAHEAD(2) AmbiguousName() (DotMethodNameArguments())+ 
 }
