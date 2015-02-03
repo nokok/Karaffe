@@ -101,8 +101,8 @@ void Primary()#void:{}
 {
     (LOOKAHEAD(MethodInvocation()) MethodInvocation() |
     LOOKAHEAD(Literal()) Literal() |
-    LOOKAHEAD(2) "this" |
-    "self" |
+    LOOKAHEAD(2) This() |
+    Self() |
     LOOKAHEAD("(" Expression() ")") "(" Expression() ")" |
     LOOKAHEAD(ListDisplay()) ListDisplay() |
     LOOKAHEAD(DictionaryDisplay()) DictionaryDisplay() |
