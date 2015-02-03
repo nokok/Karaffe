@@ -135,9 +135,13 @@ public interface ParserVisitor {
 
     public Object visit(ASTLeftHandSide node, Object data) throws net.nokok.karaffe.parser.excptn.ParserException;
 
-    public Object visit(ASTBoolOr node, Object data) throws net.nokok.karaffe.parser.excptn.ParserException;
+    public Object visit(ASTBackwardPipelineExpr node, Object data) throws net.nokok.karaffe.parser.excptn.ParserException;
+
+    public Object visit(ASTPipelineExpr node, Object data) throws net.nokok.karaffe.parser.excptn.ParserException;
 
     public Object visit(ASTExprNode node, Object data) throws net.nokok.karaffe.parser.excptn.ParserException;
+
+    public Object visit(ASTBoolOr node, Object data) throws net.nokok.karaffe.parser.excptn.ParserException;
 
     public Object visit(ASTBoolAnd node, Object data) throws net.nokok.karaffe.parser.excptn.ParserException;
 
@@ -271,4 +275,4 @@ public interface ParserVisitor {
 
     public Object visit(ASTIdentifier node, Object data) throws net.nokok.karaffe.parser.excptn.ParserException;
 }
-/* JavaCC - OriginalChecksum=5a954c54619addab58b03ee488c834f3 (do not edit this line) */
+/* JavaCC - OriginalChecksum=8801154b24d5c6328e5f428f9aac8fee (do not edit this line) */

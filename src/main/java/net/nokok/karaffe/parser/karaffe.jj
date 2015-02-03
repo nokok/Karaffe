@@ -352,7 +352,7 @@ void FuncAlias():{/*@bgen(jjtree) FuncAlias */
 {/*@bgen(jjtree) FuncAlias */
     try {
 /*@egen*/
-    "funcalias" Identifier() "(" (IdentifierTypeBinding())* ")" FunctionName() "(" (Arguments())? ")"/*@bgen(jjtree)*/
+    "funcalias" Identifier() ParenFormalParams() FunctionName() ParenFormalParams()/*@bgen(jjtree)*/
     } catch (Throwable jjte000) {
       if (jjtc000) {
         jjtree.clearNodeScope(jjtn000);
@@ -2025,7 +2025,7 @@ void Expression():{/*@bgen(jjtree) Expression */
     try {
 /*@egen*/
     LOOKAHEAD(AssignmentExpr()) AssignmentExpr() |
-    LOOKAHEAD(BoolOrExpr()) BoolOrExpr() |
+    LOOKAHEAD(PipelineExpr()) PipelineExpr() |
     IfExpr() |
     SwitchExpr() |
     WhileLoopExpr()/*@bgen(jjtree)*/
@@ -2129,6 +2129,91 @@ void LeftHandSide():{/*@bgen(jjtree) LeftHandSide */
       }
     }
 /*@egen*/
+}
+
+void PipelineExpr()     :{}
+{
+    BoolOrExpr()/*@bgen(jjtree) #ExprNode(> 1) */
+                 {
+                   ASTExprNode jjtn004 = new ASTExprNode(JJTEXPRNODE);
+                   boolean jjtc004 = true;
+                   jjtree.openNodeScope(jjtn004);
+                 }
+                 try {
+/*@egen*/ ((/*@bgen(jjtree) #BackwardPipelineExpr(true) */
+                   {
+                     ASTBackwardPipelineExpr jjtn001 = new ASTBackwardPipelineExpr(JJTBACKWARDPIPELINEEXPR);
+                     boolean jjtc001 = true;
+                     jjtree.openNodeScope(jjtn001);
+                   }
+                   try {
+/*@egen*/"|>"/*@bgen(jjtree)*/
+                   } finally {
+                     if (jjtc001) {
+                       jjtree.closeNodeScope(jjtn001, true);
+                     }
+                   }
+/*@egen*/                         |/*@bgen(jjtree) #PipelineExpr(true) */
+                                                  {
+                                                    ASTPipelineExpr jjtn002 = new ASTPipelineExpr(JJTPIPELINEEXPR);
+                                                    boolean jjtc002 = true;
+                                                    jjtree.openNodeScope(jjtn002);
+                                                  }
+                                                  try {
+/*@egen*/ "<|"/*@bgen(jjtree)*/
+                                                  } finally {
+                                                    if (jjtc002) {
+                                                      jjtree.closeNodeScope(jjtn002, true);
+                                                    }
+                                                  }
+/*@egen*/                )/*@bgen(jjtree) #ExprNode(true) */
+                                                                        {
+                                                                          ASTExprNode jjtn003 = new ASTExprNode(JJTEXPRNODE);
+                                                                          boolean jjtc003 = true;
+                                                                          jjtree.openNodeScope(jjtn003);
+                                                                        }
+                                                                        try {
+/*@egen*/ BoolOrExpr()/*@bgen(jjtree)*/
+                                                                        } catch (Throwable jjte003) {
+                                                                          if (jjtc003) {
+                                                                            jjtree.clearNodeScope(jjtn003);
+                                                                            jjtc003 = false;
+                                                                          } else {
+                                                                            jjtree.popNode();
+                                                                          }
+                                                                          if (jjte003 instanceof RuntimeException) {
+                                                                            throw (RuntimeException)jjte003;
+                                                                          }
+                                                                          if (jjte003 instanceof ParseException) {
+                                                                            throw (ParseException)jjte003;
+                                                                          }
+                                                                          throw (Error)jjte003;
+                                                                        } finally {
+                                                                          if (jjtc003) {
+                                                                            jjtree.closeNodeScope(jjtn003, true);
+                                                                          }
+                                                                        }
+/*@egen*/            )*/*@bgen(jjtree)*/
+                 } catch (Throwable jjte004) {
+                   if (jjtc004) {
+                     jjtree.clearNodeScope(jjtn004);
+                     jjtc004 = false;
+                   } else {
+                     jjtree.popNode();
+                   }
+                   if (jjte004 instanceof RuntimeException) {
+                     throw (RuntimeException)jjte004;
+                   }
+                   if (jjte004 instanceof ParseException) {
+                     throw (ParseException)jjte004;
+                   }
+                   throw (Error)jjte004;
+                 } finally {
+                   if (jjtc004) {
+                     jjtree.closeNodeScope(jjtn004, jjtree.nodeArity() > 1);
+                   }
+                 }
+/*@egen*/              
 }
 
 void BoolOrExpr()     :{}
@@ -3643,7 +3728,7 @@ void IdentifierTypeBinding():{/*@bgen(jjtree) IdentifierTypeBinding */
 {/*@bgen(jjtree) IdentifierTypeBinding */
     try {
 /*@egen*/
-    Identifier() ":" ClassType()/*@bgen(jjtree)*/
+    Identifier() ":" Type()/*@bgen(jjtree)*/
     } catch (Throwable jjte000) {
       if (jjtc000) {
         jjtree.clearNodeScope(jjtn000);
