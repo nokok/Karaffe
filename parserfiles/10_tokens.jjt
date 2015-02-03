@@ -12,6 +12,20 @@ void Identifier():{Token t;}
 //**********************************************************************
 //Other Tokens
 //**********************************************************************
+void This():{Token t;}
+{
+    t = "this" {
+        jjtThis.jjtSetValue(t);
+    }
+}
+
+void Self():{Token t;}
+{
+    t = "self" {
+        jjtThis.jjtSetValue(t);
+    }
+}
+
 SKIP:
 {
     < "//" (~["\r","\n"])* > |
