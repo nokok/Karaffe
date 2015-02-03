@@ -178,18 +178,24 @@ void WhileBody():{}
 //MethodInvocation
 //**********************************************************************
 void MethodInvocation():{}
-{   
-    LOOKAHEAD(2) MethodName() "(" (Arguments())? ")" (DotMethodNameArguments())* | 
-    LOOKAHEAD(2) ExpressionName() "(" (Arguments())? ")" (DotMethodNameArguments())*|
+{ 
+    LOOKAHEAD(2) MethodName() ParenArguments() (DotMethodNameArguments())* | 
+    LOOKAHEAD(2) ExpressionName() ParenArguments() (DotMethodNameArguments())*|
     //Primary MethodInvocation
-    LOOKAHEAD(FunctionLiteral() "(" (Arguments())? ")") FunctionLiteral() "(" (Arguments())? ")" (DotMethodNameArguments())* |
+    LOOKAHEAD(FunctionLiteral() ParenArguments()) FunctionLiteral() ParenArguments() (DotMethodNameArguments())* |
     LOOKAHEAD(2) Literal() (DotMethodNameArguments())+ |
-    "this"  (DotMethodNameArguments())+ |
+    This() (DotMethodNameArguments())+ |
+    Self() (DotMethodNameArguments())+ |
     LOOKAHEAD("(" Expression() ")"  (DotMethodNameArguments())+) "(" Expression() ")"  (DotMethodNameArguments())+ |
     ListDisplay() (DotMethodNameArguments())+ |
     DictionaryDisplay() (DotMethodNameArguments())+ |
     TupleDisplay() (DotMethodNameArguments())+  |
     LOOKAHEAD(2) AmbiguousName() (DotMethodNameArguments())+ 
+}
+
+void ParenArguments():{}
+{
+    "(" (Arguments())? ")"
 }
 
 void DotMethodNameArguments() #void:{}
