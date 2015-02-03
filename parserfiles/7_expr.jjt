@@ -5,7 +5,7 @@
 void Expression():{}
 {
     LOOKAHEAD(AssignmentExpr()) AssignmentExpr() |
-    LOOKAHEAD(BoolOrExpr()) BoolOrExpr() |
+    LOOKAHEAD(PipelineExpr()) PipelineExpr() |
     IfExpr() |
     SwitchExpr() |
     WhileLoopExpr()
@@ -24,6 +24,11 @@ void AssignmentOp():{}
 void LeftHandSide():{}
 {
     ExpressionName()
+}
+
+void PipelineExpr()#void:{}
+{
+    BoolOrExpr() (("|>" #BackwardPipelineExpr() | "<|" #PipelineExpr()) BoolOrExpr() #ExprNode())* #ExprNode(>1)
 }
 
 void BoolOrExpr()#void:{}
@@ -226,7 +231,7 @@ void FuncLiteralArg():{}
 
 void IdentifierTypeBinding():{}
 {
-    Identifier() ":" ClassType()
+    Identifier() ":" Type()
 }
 
 void AmbiguousName():{}

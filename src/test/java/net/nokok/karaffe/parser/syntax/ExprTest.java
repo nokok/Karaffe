@@ -98,6 +98,16 @@ public class ExprTest {
         testExpr("!false");
     }
 
+    @Test
+    public void testBackwardPipelineExpr() {
+        testExpr("hoge |> fuga");
+    }
+
+    @Test
+    public void testPipelineExpr() {
+        testExpr("hoge <| fuga");
+    }
+
     private void testExpr(String code) {
         testCode("type D{\n"
                 + "def a = "
