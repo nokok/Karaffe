@@ -40,17 +40,17 @@ public class ExprTest {
 
     @Test
     public void testEmptyTuple() {
-        testExpr("t[]\n");
+        testExpr("()\n");
     }
 
     @Test
     public void testSingleTuple() {
-        testExpr("t[1]\n");
+        testExpr("(1)\n");
     }
 
     @Test
     public void testDoubleTuple() {
-        testExpr("t[1 2]\n");
+        testExpr("(1 2)\n");
     }
 
     @Test

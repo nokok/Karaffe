@@ -85,7 +85,8 @@ void TypeName():{}
 void Statement():{}
 {
     FuncAlias() |
-    ImportStmt()
+    LOOKAHEAD(PrivateImportStmt()) PrivateImportStmt() |
+    LOOKAHEAD(ImportStmt()) ImportStmt()
 }
 
 void FuncAlias():{}
@@ -98,6 +99,20 @@ void FunctionName():{}
     AmbiguousName()
 }
 
+void PrivateImportStmt():{}
+{
+    "import" (LOOKAHEAD(TypeName() (ImportAfter())?) TypeName() (ImportAfter())?)+ PrivateImportBlock()
+}
+
+void PrivateImportBlock():{}
+{
+    "{" BlockStmts() "}"
+}
+
+void Annotation():{}
+{
+    "@" Identifier() (ParenArguments())?
+}
 //6_typedecls.jjt
 void TypeDecl() #void:{}
 {
@@ -427,7 +442,7 @@ void EnumName():{}
 
 void EnumMembers():{}
 {
-    Identifier() ("," Identifier())*
+    (Identifier())+
 }
 
 //7_expr.jjt
@@ -533,7 +548,8 @@ void Primary()#void:{}
 {
     (LOOKAHEAD(MethodInvocation()) MethodInvocation() |
     LOOKAHEAD(Literal()) Literal() |
-    LOOKAHEAD(2) "this" |
+    LOOKAHEAD(2) This() |
+    Self() |
     LOOKAHEAD("(" Expression() ")") "(" Expression() ")" |
     LOOKAHEAD(ListDisplay()) ListDisplay() |
     LOOKAHEAD(DictionaryDisplay()) DictionaryDisplay() |
@@ -548,17 +564,17 @@ void ListDisplay():{}
 
 void DictionaryDisplay():{}
 {
-    "d[" (DictionaryPair())+ "]"
+    "[" (DictionaryPair())+ "]"
 }
 
 void DictionaryPair():{}
 {
-    Identifier() "<-" Expression() 
+    Identifier() "->" Expression() 
 }
 
 void TupleDisplay():{}
 {
-    "t[" (Expression() (Expression())*)? "]"
+    "(" (Expression() (Expression())*)? ")"
 }
 
 void IfExpr():{}
@@ -584,8 +600,13 @@ void SwitchCase():{}
 
 void SwitchCond():{}
 {
-    LOOKAHEAD(Identifier() ":") IdentifierTypeBinding() |
-    LOOKAHEAD(Expression()) Expression()
+    (LOOKAHEAD(Identifier() ":") IdentifierTypeBinding() |
+     LOOKAHEAD(Expression()) Expression()) (SwitchGuard())?
+}
+
+void SwitchGuard():{}
+{
+    "@" Expression()
 }
 
 void CaseBody():{}
@@ -609,18 +630,24 @@ void WhileBody():{}
 //MethodInvocation
 //**********************************************************************
 void MethodInvocation():{}
-{   
-    LOOKAHEAD(2) MethodName() "(" (Arguments())? ")" (DotMethodNameArguments())* | 
-    LOOKAHEAD(2) ExpressionName() "(" (Arguments())? ")" (DotMethodNameArguments())*|
+{ 
+    LOOKAHEAD(2) MethodName() ParenArguments() (DotMethodNameArguments())* | 
+    LOOKAHEAD(2) ExpressionName() ParenArguments() (DotMethodNameArguments())*|
     //Primary MethodInvocation
-    LOOKAHEAD(FunctionLiteral() "(" (Arguments())? ")") FunctionLiteral() "(" (Arguments())? ")" (DotMethodNameArguments())* |
+    LOOKAHEAD(FunctionLiteral() ParenArguments()) FunctionLiteral() ParenArguments() (DotMethodNameArguments())* |
     LOOKAHEAD(2) Literal() (DotMethodNameArguments())+ |
-    "this"  (DotMethodNameArguments())+ |
+    This() (DotMethodNameArguments())+ |
+    Self() (DotMethodNameArguments())+ |
     LOOKAHEAD("(" Expression() ")"  (DotMethodNameArguments())+) "(" Expression() ")"  (DotMethodNameArguments())+ |
-    ListDisplay() (DotMethodNameArguments())+ |
-    DictionaryDisplay() (DotMethodNameArguments())+ |
+    LOOKAHEAD(ListDisplay()) ListDisplay() (DotMethodNameArguments())+ |
+    LOOKAHEAD(DictionaryDisplay()) DictionaryDisplay() (DotMethodNameArguments())+ |
     TupleDisplay() (DotMethodNameArguments())+  |
     LOOKAHEAD(2) AmbiguousName() (DotMethodNameArguments())+ 
+}
+
+void ParenArguments():{}
+{
+    "(" (Arguments())? ")"
 }
 
 void DotMethodNameArguments() #void:{}
@@ -650,7 +677,7 @@ void Argument():{}
 
 void FunctionLiteral():{}
 {
-    FuncLiteralArg() "->" "{" BlockStmts() "}" 
+    FuncLiteralArg() "->" FuncLiteralBody()
 }
 
 void FuncLiteralArg():{}
@@ -659,6 +686,11 @@ void FuncLiteralArg():{}
     LOOKAHEAD("(" (IdentifierTypeBinding())* ")") "(" (IdentifierTypeBinding())* ")" |
     LOOKAHEAD(2) IdentifierTypeBinding() |
     LOOKAHEAD(2) Identifier() 
+}
+
+void FuncLiteralBody():{}
+{
+    "{" BlockStmts() "}"
 }
 
 void IdentifierTypeBinding():{}
@@ -909,6 +941,20 @@ void Identifier():{Token t;}
 //**********************************************************************
 //Other Tokens
 //**********************************************************************
+void This():{Token t;}
+{
+    t = "this" {
+        jjtThis.jjtSetValue(t);
+    }
+}
+
+void Self():{Token t;}
+{
+    t = "self" {
+        jjtThis.jjtSetValue(t);
+    }
+}
+
 SKIP:
 {
     < "//" (~["\r","\n"])* > |

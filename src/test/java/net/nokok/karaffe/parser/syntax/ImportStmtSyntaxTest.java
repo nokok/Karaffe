@@ -69,3 +69,8 @@ public class ImportStmtSyntaxTest {
         testCode("import \"github.com/nokok/hoge\" \"github.com/nokok/fuga\"");
     }
 }
+
+@interface hoge {
+
+    public Class<? extends Throwable> expected() default Test.None.class;
+}
