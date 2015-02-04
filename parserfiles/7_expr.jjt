@@ -153,7 +153,7 @@ void SwitchCase():{}
 
 void SwitchCond():{}
 {
-    (LOOKAHEAD(Identifier() ":") IdentifierTypeBinding() |
+    (LOOKAHEAD(IdentifierTypeBinding()) IdentifierTypeBinding() |
      LOOKAHEAD(Expression()) Expression()) (SwitchGuard())?
 }
 
@@ -236,7 +236,7 @@ void FunctionLiteral():{}
 void FuncLiteralArg():{}
 {
     LOOKAHEAD("(" (Identifier())* ")") "(" (Identifier())* ")"  |
-    LOOKAHEAD("(" (IdentifierTypeBinding())* ")") "(" (IdentifierTypeBinding())* ")" |
+    LOOKAHEAD("(" IdentifierTypeBindings() ")") "(" IdentifierTypeBindings() ")" |
     LOOKAHEAD(2) IdentifierTypeBinding() |
     LOOKAHEAD(2) Identifier() 
 }
@@ -246,9 +246,14 @@ void FuncLiteralBody():{}
     "{" BlockStmts() "}"
 }
 
+void IdentifierTypeBindings():{}
+{
+    (IdentifierTypeBinding() ("," IdentifierTypeBinding())*)?
+}
+
 void IdentifierTypeBinding():{}
 {
-    Identifier() ":" Type()
+    Identifier() Type()
 }
 
 void AmbiguousName():{}
