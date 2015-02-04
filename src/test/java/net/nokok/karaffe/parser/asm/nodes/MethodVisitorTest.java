@@ -20,18 +20,33 @@ public class MethodVisitorTest {
 
     @Test
     public void testMethodNode() {
-        ASTCompileUnit compileUnit = testCode("type Hoge{func hoge(x Int,y Int) Void{}}");
+        ASTCompileUnit compileUnit = testCode("type Hoge{func hoge(x Int,y Int){}}");
         NodeUtil nodeUtil = new NodeUtil(compileUnit);
         ASTFuncDecl funcDecl = nodeUtil.forceGetFindFirstNode(ASTFuncDecl.class);
         MethodVisitor methodVisitor = new MethodVisitor(funcDecl, new ClassResolver());
         MethodNode methodNode = methodVisitor.getMethodNode();
         assertThat(methodNode.access, is(0));
         assertThat(methodNode.name, is("hoge"));
-        assertThat(methodNode.desc, is(Type.getMethodDescriptor(Type.getType(Void.class), Type.getType(Integer.class), Type.getType(Integer.class))));
+        assertThat(methodNode.desc, is(Type.getMethodDescriptor(Type.VOID_TYPE, Type.getType(Integer.class), Type.getType(Integer.class))));
         assertThat(methodNode.exceptions.isEmpty(), is(true));
         InsnList insnList = methodNode.instructions;
         assertThat(insnList.size(), is(1));
         InsnNode retNode = (InsnNode) insnList.get(0);
         assertThat(retNode.getOpcode(), is(Opcodes.RETURN));
     }
+
+    @Test
+    public void testMethodDescriptor1() {
+        ASTFuncDecl funcDecl = new NodeUtil(testCode("type Hoge{func hoge(x Int){}}")).forceGetFindFirstNode(ASTFuncDecl.class);
+        MethodVisitor methodVisitor = new MethodVisitor(funcDecl, new ClassResolver());
+        assertThat(methodVisitor.getMethodNode().desc, is(Type.getMethodDescriptor(Type.VOID_TYPE, Type.getType(Integer.class))));
+    }
+
+    @Test
+    public void testMethodDescriptor2() {
+        ASTFuncDecl funcDecl = new NodeUtil(testCode("type Hoge{func hoge(){}}")).forceGetFindFirstNode(ASTFuncDecl.class);
+        MethodVisitor methodVisitor = new MethodVisitor(funcDecl, new ClassResolver());
+        assertThat(methodVisitor.getMethodNode().desc, is(Type.getMethodDescriptor(Type.VOID_TYPE)));
+    }
+
 }

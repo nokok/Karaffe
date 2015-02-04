@@ -45,8 +45,8 @@ public class MethodVisitor {
         methodNode.access = new ModifierNode(node).getModifier().orElse(0);
         methodNode.name = identifier.jjtGetValue().toString();
         ASTParenFormalParams parenformalParams = nodeUtil.forceGetFindFirstNode(ASTParenFormalParams.class);
-        ASTReturnType returnNode = nodeUtil.forceGetFindFirstNode(ASTReturnType.class);
-        methodNode.desc = genMethodDesc(parenformalParams, returnNode);
+        Optional<ASTReturnType> returnNode = nodeUtil.findFirstNode(ASTReturnType.class);
+        methodNode.desc = genMethodDesc(parenformalParams, returnNode.orElse(null));
         Optional<ASTFuncBody> funcBody = nodeUtil.findFirstNode(ASTFuncBody.class);
         funcBody.ifPresent(body -> {
             InsnVisitor insnVisitor = new InsnVisitor(body);
@@ -95,7 +95,11 @@ public class MethodVisitor {
         };
         try {
             params.jjtAccept(argVisitor, null);
-            returnType.jjtAccept(returnVisitor, null);
+            if (returnType != null) {
+                returnType.jjtAccept(returnVisitor, null);
+            } else {
+                typeBox.type = Type.VOID_TYPE;
+            }
             return Type.getMethodDescriptor(typeBox.type, types.toArray(new Type[]{}));
         } catch (ParserException ex) {
             throw new RuntimeException(ex);
