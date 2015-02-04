@@ -4,6 +4,7 @@
 package net.nokok.karaffe.parser.asm.typechecker;
 
 import java.util.Optional;
+import javax.swing.JButton;
 import static org.hamcrest.CoreMatchers.is;
 import static org.junit.Assert.assertThat;
 import org.junit.Before;
@@ -45,12 +46,13 @@ public class ClassResolverTest {
 
     @Test
     public void testClear() throws ClassNotFoundException {
-        resolver.addImport("Cloneable", "java.lang.Cloneable");
-        Optional<Class<?>> typePath = resolver.resolve("Cloneable");
+        String name = "JButton";
+        String dummyPath = JButton.class.getCanonicalName();
+        resolver.addImport(name, dummyPath);
+        Optional<Class<?>> typePath = resolver.resolve(name);
         assertThat(typePath.isPresent(), is(true));
-        assertThat(typePath.get().getName(), is("java.lang.Cloneable"));
+        assertThat(typePath.get().getName(), is(dummyPath));
         resolver.clear();
-        assertThat(resolver.resolve("Cloneable"), is(Optional.empty()));
+        assertThat(resolver.resolve(name), is(Optional.empty()));
     }
-
 }
