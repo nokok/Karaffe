@@ -153,8 +153,13 @@ void SwitchCase():{}
 
 void SwitchCond():{}
 {
-    LOOKAHEAD(Identifier() ":") IdentifierTypeBinding() |
-    LOOKAHEAD(Expression()) Expression()
+    (LOOKAHEAD(Identifier() ":") IdentifierTypeBinding() |
+     LOOKAHEAD(Expression()) Expression()) (SwitchGuard())?
+}
+
+void SwitchGuard():{}
+{
+    "@" Expression()
 }
 
 void CaseBody():{}
