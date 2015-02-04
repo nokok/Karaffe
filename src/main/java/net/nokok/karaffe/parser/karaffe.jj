@@ -3457,7 +3457,7 @@ void SwitchCond():{/*@bgen(jjtree) SwitchCond */
 {/*@bgen(jjtree) SwitchCond */
     try {
 /*@egen*/
-    (LOOKAHEAD(Identifier() ":") IdentifierTypeBinding() |
+    (LOOKAHEAD(IdentifierTypeBinding()) IdentifierTypeBinding() |
      LOOKAHEAD(Expression()) Expression()) (SwitchGuard())?/*@bgen(jjtree)*/
     } catch (Throwable jjte000) {
       if (jjtc000) {
@@ -3852,7 +3852,7 @@ void FuncLiteralArg():{/*@bgen(jjtree) FuncLiteralArg */
     try {
 /*@egen*/
     LOOKAHEAD("(" (Identifier())* ")") "(" (Identifier())* ")"  |
-    LOOKAHEAD("(" (IdentifierTypeBinding())* ")") "(" (IdentifierTypeBinding())* ")" |
+    LOOKAHEAD("(" IdentifierTypeBindings() ")") "(" IdentifierTypeBindings() ")" |
     LOOKAHEAD(2) IdentifierTypeBinding() |
     LOOKAHEAD(2) Identifier()/*@bgen(jjtree)*/
     } catch (Throwable jjte000) {
@@ -3908,6 +3908,37 @@ void FuncLiteralBody():{/*@bgen(jjtree) FuncLiteralBody */
 /*@egen*/
 }
 
+void IdentifierTypeBindings():{/*@bgen(jjtree) IdentifierTypeBindings */
+  ASTIdentifierTypeBindings jjtn000 = new ASTIdentifierTypeBindings(JJTIDENTIFIERTYPEBINDINGS);
+  boolean jjtc000 = true;
+  jjtree.openNodeScope(jjtn000);
+/*@egen*/}
+{/*@bgen(jjtree) IdentifierTypeBindings */
+    try {
+/*@egen*/
+    (IdentifierTypeBinding() ("," IdentifierTypeBinding())*)?/*@bgen(jjtree)*/
+    } catch (Throwable jjte000) {
+      if (jjtc000) {
+        jjtree.clearNodeScope(jjtn000);
+        jjtc000 = false;
+      } else {
+        jjtree.popNode();
+      }
+      if (jjte000 instanceof RuntimeException) {
+        throw (RuntimeException)jjte000;
+      }
+      if (jjte000 instanceof ParseException) {
+        throw (ParseException)jjte000;
+      }
+      throw (Error)jjte000;
+    } finally {
+      if (jjtc000) {
+        jjtree.closeNodeScope(jjtn000, true);
+      }
+    }
+/*@egen*/
+}
+
 void IdentifierTypeBinding():{/*@bgen(jjtree) IdentifierTypeBinding */
   ASTIdentifierTypeBinding jjtn000 = new ASTIdentifierTypeBinding(JJTIDENTIFIERTYPEBINDING);
   boolean jjtc000 = true;
@@ -3916,7 +3947,7 @@ void IdentifierTypeBinding():{/*@bgen(jjtree) IdentifierTypeBinding */
 {/*@bgen(jjtree) IdentifierTypeBinding */
     try {
 /*@egen*/
-    Identifier() ":" Type()/*@bgen(jjtree)*/
+    Identifier() Type()/*@bgen(jjtree)*/
     } catch (Throwable jjte000) {
       if (jjtc000) {
         jjtree.clearNodeScope(jjtn000);

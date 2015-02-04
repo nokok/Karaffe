@@ -11,7 +11,14 @@ public class SwitchExprTest {
     @Test
     public void testSimpleSwitchExpr() {
         testSwitch("switch 2{\n"
-                + "case x:Int => println(x)"
+                + "case x Int => println(x)"
+                + "}");
+    }
+
+    @Test
+    public void testGuard() {
+        testSwitch("switch expr {\n"
+                + "case x Int @ x > 0 => println(x)\n"
                 + "}");
     }
 

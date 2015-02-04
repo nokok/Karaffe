@@ -5,6 +5,7 @@ package net.nokok.karaffe.parser.asm.nodes;
 
 import net.nokok.karaffe.parser.ASTCompileUnit;
 import net.nokok.karaffe.parser.ASTFuncDecl;
+import net.nokok.karaffe.parser.asm.typechecker.ClassResolver;
 import static net.nokok.karaffe.parser.syntax.KaraffeParserSyntaxTest.testCode;
 import static org.hamcrest.CoreMatchers.is;
 import static org.junit.Assert.assertThat;
@@ -19,14 +20,14 @@ public class MethodVisitorTest {
 
     @Test
     public void testMethodNode() {
-        ASTCompileUnit compileUnit = testCode("type Hoge{func hoge()Unit{}}");
+        ASTCompileUnit compileUnit = testCode("type Hoge{func hoge(x Int,y Int) Void{}}");
         NodeUtil nodeUtil = new NodeUtil(compileUnit);
         ASTFuncDecl funcDecl = nodeUtil.forceGetFindFirstNode(ASTFuncDecl.class);
-        MethodVisitor methodVisitor = new MethodVisitor(funcDecl);
+        MethodVisitor methodVisitor = new MethodVisitor(funcDecl, new ClassResolver());
         MethodNode methodNode = methodVisitor.getMethodNode();
         assertThat(methodNode.access, is(0));
         assertThat(methodNode.name, is("hoge"));
-        assertThat(methodNode.desc, is(Type.getMethodDescriptor(Type.VOID_TYPE)));
+        assertThat(methodNode.desc, is(Type.getMethodDescriptor(Type.getType(Void.class), Type.getType(Integer.class), Type.getType(Integer.class))));
         assertThat(methodNode.exceptions.isEmpty(), is(true));
         InsnList insnList = methodNode.instructions;
         assertThat(insnList.size(), is(1));

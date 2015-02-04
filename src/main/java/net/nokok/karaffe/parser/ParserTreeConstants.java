@@ -120,33 +120,34 @@ public interface ParserTreeConstants {
     public int JJTFUNCTIONLITERAL = 114;
     public int JJTFUNCLITERALARG = 115;
     public int JJTFUNCLITERALBODY = 116;
-    public int JJTIDENTIFIERTYPEBINDING = 117;
-    public int JJTAMBIGUOUSNAME = 118;
-    public int JJTDECIMALINTLITERAL = 119;
-    public int JJTHEXINTLITERAL = 120;
-    public int JJTOCTINTLITERAL = 121;
-    public int JJTBINARYINTLITERAL = 122;
-    public int JJTFLOATLITERAL = 123;
-    public int JJTDECIMALFPLITERAL = 124;
-    public int JJTHEXADECIMALFPLITERAL = 125;
-    public int JJTBOOLLITERAL = 126;
-    public int JJTCHARLITERAL = 127;
-    public int JJTSTRINGLITERAL = 128;
-    public int JJTUNDEFINEDLITERAL = 129;
-    public int JJTNULLLITERAL = 130;
-    public int JJTPUBLICMODIFIER = 131;
-    public int JJTPROTECTEDMODIFIER = 132;
-    public int JJTPRIVATEMODIFIER = 133;
-    public int JJTABSTRACTMODIFIER = 134;
-    public int JJTSTATICMODIFIER = 135;
-    public int JJTFINALMODIFIER = 136;
-    public int JJTSEALEDMODIFIER = 137;
-    public int JJTVARMODIFIER = 138;
-    public int JJTOVERRIDEMODIFIER = 139;
-    public int JJTAUTOMODIFIER = 140;
-    public int JJTIDENTIFIER = 141;
-    public int JJTTHIS = 142;
-    public int JJTSELF = 143;
+    public int JJTIDENTIFIERTYPEBINDINGS = 117;
+    public int JJTIDENTIFIERTYPEBINDING = 118;
+    public int JJTAMBIGUOUSNAME = 119;
+    public int JJTDECIMALINTLITERAL = 120;
+    public int JJTHEXINTLITERAL = 121;
+    public int JJTOCTINTLITERAL = 122;
+    public int JJTBINARYINTLITERAL = 123;
+    public int JJTFLOATLITERAL = 124;
+    public int JJTDECIMALFPLITERAL = 125;
+    public int JJTHEXADECIMALFPLITERAL = 126;
+    public int JJTBOOLLITERAL = 127;
+    public int JJTCHARLITERAL = 128;
+    public int JJTSTRINGLITERAL = 129;
+    public int JJTUNDEFINEDLITERAL = 130;
+    public int JJTNULLLITERAL = 131;
+    public int JJTPUBLICMODIFIER = 132;
+    public int JJTPROTECTEDMODIFIER = 133;
+    public int JJTPRIVATEMODIFIER = 134;
+    public int JJTABSTRACTMODIFIER = 135;
+    public int JJTSTATICMODIFIER = 136;
+    public int JJTFINALMODIFIER = 137;
+    public int JJTSEALEDMODIFIER = 138;
+    public int JJTVARMODIFIER = 139;
+    public int JJTOVERRIDEMODIFIER = 140;
+    public int JJTAUTOMODIFIER = 141;
+    public int JJTIDENTIFIER = 142;
+    public int JJTTHIS = 143;
+    public int JJTSELF = 144;
 
     public String[] jjtNodeName = {
         "CompileUnit",
@@ -266,6 +267,7 @@ public interface ParserTreeConstants {
         "FunctionLiteral",
         "FuncLiteralArg",
         "FuncLiteralBody",
+        "IdentifierTypeBindings",
         "IdentifierTypeBinding",
         "AmbiguousName",
         "DecimalIntLiteral",
@@ -294,4 +296,4 @@ public interface ParserTreeConstants {
         "This",
         "Self",};
 }
-/* JavaCC - OriginalChecksum=f53f30348a0ee3c3cb06d37fd4f6d49a (do not edit this line) */
+/* JavaCC - OriginalChecksum=c5560fdb49c007daada4b6c9e0f31553 (do not edit this line) */
