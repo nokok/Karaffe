@@ -230,7 +230,7 @@ void Argument():{}
 
 void FunctionLiteral():{}
 {
-    FuncLiteralArg() "->" "{" BlockStmts() "}" 
+    FuncLiteralArg() "->" FuncLiteralBody()
 }
 
 void FuncLiteralArg():{}
@@ -239,6 +239,11 @@ void FuncLiteralArg():{}
     LOOKAHEAD("(" (IdentifierTypeBinding())* ")") "(" (IdentifierTypeBinding())* ")" |
     LOOKAHEAD(2) IdentifierTypeBinding() |
     LOOKAHEAD(2) Identifier() 
+}
+
+void FuncLiteralBody():{}
+{
+    "{" BlockStmts() "}"
 }
 
 void IdentifierTypeBinding():{}
