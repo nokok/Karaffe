@@ -55,7 +55,8 @@ void TypeName():{}
 void Statement():{}
 {
     FuncAlias() |
-    ImportStmt()
+    LOOKAHEAD(PrivateImportStmt()) PrivateImportStmt() |
+    LOOKAHEAD(ImportStmt()) ImportStmt()
 }
 
 void FuncAlias():{}
@@ -68,3 +69,12 @@ void FunctionName():{}
     AmbiguousName()
 }
 
+void PrivateImportStmt():{}
+{
+    "import" (LOOKAHEAD(TypeName() (ImportAfter())?) TypeName() (ImportAfter())?)+ PrivateImportBlock()
+}
+
+void PrivateImportBlock():{}
+{
+    "{" BlockStmts() "}"
+}

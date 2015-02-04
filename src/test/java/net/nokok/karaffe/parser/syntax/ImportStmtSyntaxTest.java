@@ -41,6 +41,16 @@ public class ImportStmtSyntaxTest {
     }
 
     @Test
+    public void testPrivateImportBlock() {
+        testCode("type Hoge{\n"
+                + "func this(){\n"
+                + "import hoge {\n"
+                + "}"
+                + "}"
+                + "}");
+    }
+
+    @Test
     public void testPrivateImportInFunc() {
         testCode("type Hoge{\n"
                 + "func hoge() {\n"
