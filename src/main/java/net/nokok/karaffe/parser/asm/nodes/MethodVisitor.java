@@ -47,6 +47,7 @@ public class MethodVisitor {
             methodNode.instructions = insnVisitor.getInsnList();
             methodNode.instructions.add(new InsnNode(Opcodes.RETURN));
         });
+        methodNode.exceptions = new ArrayList<>();
         return methodNode;
     }
 
