@@ -1074,7 +1074,20 @@ void LastFormalParamter():{/*@bgen(jjtree) LastFormalParamter */
 {/*@bgen(jjtree) LastFormalParamter */
     try {
 /*@egen*/
-    (VariableModifier())? Identifier() Type() ("*")?/*@bgen(jjtree)*/
+    (VariableModifier())? Identifier() Type() (/*@bgen(jjtree) #Varargs(true) */
+                                               {
+                                                 ASTVarargs jjtn001 = new ASTVarargs(JJTVARARGS);
+                                                 boolean jjtc001 = true;
+                                                 jjtree.openNodeScope(jjtn001);
+                                               }
+                                               try {
+/*@egen*/"*"/*@bgen(jjtree)*/
+                                               } finally {
+                                                 if (jjtc001) {
+                                                   jjtree.closeNodeScope(jjtn001, true);
+                                                 }
+                                               }
+/*@egen*/           )?/*@bgen(jjtree)*/
     } catch (Throwable jjte000) {
       if (jjtc000) {
         jjtree.clearNodeScope(jjtn000);

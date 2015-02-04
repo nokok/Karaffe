@@ -125,7 +125,7 @@ void FormalParameter():{}
 
 void LastFormalParamter():{}
 {
-    (VariableModifier())? Identifier() Type() ("*")?
+    (VariableModifier())? Identifier() Type() ("*" #Varargs())?
 }
 
 void VariableModifier():{}

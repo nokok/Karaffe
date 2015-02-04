@@ -71,6 +71,8 @@ public interface ParserVisitor {
 
     public Object visit(ASTLastFormalParamter node, Object data) throws net.nokok.karaffe.parser.excptn.ParserException;
 
+    public Object visit(ASTVarargs node, Object data) throws net.nokok.karaffe.parser.excptn.ParserException;
+
     public Object visit(ASTVariableModifier node, Object data) throws net.nokok.karaffe.parser.excptn.ParserException;
 
     public Object visit(ASTCtorBody node, Object data) throws net.nokok.karaffe.parser.excptn.ParserException;
@@ -293,4 +295,4 @@ public interface ParserVisitor {
 
     public Object visit(ASTSelf node, Object data) throws net.nokok.karaffe.parser.excptn.ParserException;
 }
-/* JavaCC - OriginalChecksum=772f75ece45d56ae83baec92af53dc0f (do not edit this line) */
+/* JavaCC - OriginalChecksum=2726d2b1cf6e5d909d03cf508a30038d (do not edit this line) */

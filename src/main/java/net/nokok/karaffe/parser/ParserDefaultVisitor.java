@@ -144,6 +144,10 @@ public class ParserDefaultVisitor implements ParserVisitor {
         return defaultVisit(node, data);
     }
 
+    public Object visit(ASTVarargs node, Object data) throws net.nokok.karaffe.parser.excptn.ParserException {
+        return defaultVisit(node, data);
+    }
+
     public Object visit(ASTVariableModifier node, Object data) throws net.nokok.karaffe.parser.excptn.ParserException {
         return defaultVisit(node, data);
     }
@@ -588,4 +592,4 @@ public class ParserDefaultVisitor implements ParserVisitor {
         return defaultVisit(node, data);
     }
 }
-/* JavaCC - OriginalChecksum=400aeae6bdb2d6ac70ecf08919a0e253 (do not edit this line) */
+/* JavaCC - OriginalChecksum=cedc43b3b1839dc649122a44cefa6678 (do not edit this line) */
