@@ -8,6 +8,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
+import java.util.function.Function;
 import net.nokok.karaffe.parser.excptn.CompilerException;
 import net.nokok.karaffe.parser.util.ErrorType;
 import org.objectweb.asm.Type;
@@ -15,7 +16,20 @@ import org.objectweb.asm.Type;
 public class ClassResolver {
 
     private final Map<String, Class<?>> importMap = new HashMap<>();
-    private final List<String> defaultImportsPrefixes = Arrays.asList("java.lang.", "java.io.", "java.net.", "java.util.");
+    private final List<String> defaultImportsPrefixes = Arrays.asList(
+            "java.lang.",
+            "java.io.",
+            "java.net.",
+            "java.util.",
+            "java.util.stream.",
+            "java.util.function.",
+            "java.nio.",
+            "java.util.concurrent.",
+            "java.nio.file.",
+            "java.nio.channels.");
+    private final List<String> defaultImportClasses = Arrays.asList(
+            "java.util.regex.Matcher",
+            "java.util.regex.Pattern");
 
     public ClassResolver() {
         defaultImports();
@@ -39,12 +53,32 @@ public class ClassResolver {
     }
 
     public Optional<Class<?>> resolve(String className) {
-        for (String importPrefix : defaultImportsPrefixes) {
-            String path = importPrefix + className;
+        final Function<String, Optional<Class<?>>> strToClazz = str -> {
             try {
-                return Optional.of(Class.forName(path));
-            } catch (ClassNotFoundException ignored) {
-
+                return Optional.of(Class.forName(str));
+            } catch (ClassNotFoundException ex) {
+                return Optional.empty();
+            }
+        };
+        {
+            Optional<Class<?>> clazz = defaultImportClasses.stream()
+                    .filter(name -> name.equals(className))
+                    .map(strToClazz)
+                    .map(Optional::get)
+                    .findAny();
+            if (clazz.isPresent()) {
+                return clazz;
+            }
+        }
+        {
+            Optional<Class<?>> clazz = defaultImportsPrefixes.stream()
+                    .map(prefix -> prefix + className)
+                    .map(strToClazz)
+                    .filter(Optional::isPresent)
+                    .map(Optional::get)
+                    .findFirst();
+            if (clazz.isPresent()) {
+                return clazz;
             }
         }
         return Optional.ofNullable(importMap.get(className));
@@ -52,7 +86,11 @@ public class ClassResolver {
 
     public Optional<Type> resolveType(String className) {
         Optional<Class<?>> clazz = resolve(className);
-        return Optional.ofNullable(Type.getType(clazz.get()));
+        if (clazz.isPresent()) {
+            return Optional.ofNullable(Type.getType(clazz.get()));
+        } else {
+            return Optional.empty();
+        }
     }
 
     public void addImport(String shortName, String fullName) throws ClassNotFoundException {
