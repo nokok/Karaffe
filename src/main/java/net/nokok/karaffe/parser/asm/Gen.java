@@ -11,8 +11,7 @@ import net.nokok.karaffe.parser.asm.typechecker.ClassResolver;
 public class Gen {
 
     public Gen(ASTCompileUnit node) {
-        ImportCollector importCollector = new ImportCollector(node);
-        Map<String, Class<?>> imports = importCollector.getImports();
+        Map<String, Class<?>> imports = new ImportCollector(node).getImports();
         ClassResolver resolver = new ClassResolver(imports);
     }
 }
