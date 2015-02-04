@@ -6,8 +6,7 @@ import java.io.IOException;
 import net.nokok.karaffe.parser.ASTCompileUnit;
 import net.nokok.karaffe.parser.ParseException;
 import net.nokok.karaffe.parser.Parser;
-import net.nokok.karaffe.parser.asm.BytecodeGeneratorVisitor;
-import net.nokok.karaffe.parser.excptn.ParserException;
+import net.nokok.karaffe.parser.asm.Gen;
 import net.nokok.karaffe.parser.util.OutputFormatter;
 
 public class Main {
@@ -26,13 +25,10 @@ public class Main {
                 final Parser parser = new Parser(new FileReader(file));
                 final ASTCompileUnit compileUnit = parser.CompileUnit();
                 compileUnit.dump(""); //Debug
-                final BytecodeGeneratorVisitor visitor = new BytecodeGeneratorVisitor();
-                compileUnit.jjtAccept(visitor, null);
+                final Gen gen = new Gen(compileUnit);
             } catch (ParseException ex) {
                 new OutputFormatter(arg).print(ex);
             } catch (IOException ex) {
-                new OutputFormatter(arg).print(ex);
-            } catch (ParserException ex) {
                 new OutputFormatter(arg).print(ex);
             }
         }
