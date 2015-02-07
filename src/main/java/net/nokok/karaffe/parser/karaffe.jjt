@@ -10,6 +10,7 @@ options {
     MULTI = true;
     VISITOR = true;
     VISITOR_EXCEPTION = "net.nokok.karaffe.parser.excptn.ParserException";
+    TRACK_TOKENS = true;
 }
 //2_parserbegin_end.jjt
 PARSER_BEGIN(Parser)

@@ -17,6 +17,7 @@ public class Parser/*@bgen(jjtree)*/ implements ParserTreeConstants, ParserConst
         ASTCompileUnit jjtn000 = new ASTCompileUnit(JJTCOMPILEUNIT);
         boolean jjtc000 = true;
         jjtree.openNodeScope(jjtn000);
+        jjtn000.jjtSetFirstToken(getToken(1));
         try {
             switch ((jj_ntk == -1) ? jj_ntk_f() : jj_ntk) {
                 case 1: {
@@ -82,6 +83,7 @@ public class Parser/*@bgen(jjtree)*/ implements ParserTreeConstants, ParserConst
             jj_consume_token(0);
             jjtree.closeNodeScope(jjtn000, true);
             jjtc000 = false;
+            jjtn000.jjtSetLastToken(getToken(0));
             {
                 if ("" != null) {
                     return jjtn000;
@@ -116,6 +118,7 @@ public class Parser/*@bgen(jjtree)*/ implements ParserTreeConstants, ParserConst
         } finally {
             if (jjtc000) {
                 jjtree.closeNodeScope(jjtn000, true);
+                jjtn000.jjtSetLastToken(getToken(0));
             }
         }
         throw new Error("Missing return statement in function");
@@ -126,6 +129,7 @@ public class Parser/*@bgen(jjtree)*/ implements ParserTreeConstants, ParserConst
         ASTPackageDecl jjtn000 = new ASTPackageDecl(JJTPACKAGEDECL);
         boolean jjtc000 = true;
         jjtree.openNodeScope(jjtn000);
+        jjtn000.jjtSetFirstToken(getToken(1));
         try {
             jj_consume_token(1);
             ModuleName();
@@ -158,6 +162,7 @@ public class Parser/*@bgen(jjtree)*/ implements ParserTreeConstants, ParserConst
         } finally {
             if (jjtc000) {
                 jjtree.closeNodeScope(jjtn000, true);
+                jjtn000.jjtSetLastToken(getToken(0));
             }
         }
     }
@@ -171,6 +176,7 @@ public class Parser/*@bgen(jjtree)*/ implements ParserTreeConstants, ParserConst
         ASTImportStmt jjtn000 = new ASTImportStmt(JJTIMPORTSTMT);
         boolean jjtc000 = true;
         jjtree.openNodeScope(jjtn000);
+        jjtn000.jjtSetFirstToken(getToken(1));
         try {
             if (jj_2_1(2147483647)) {
                 AliasImport();
@@ -217,6 +223,7 @@ public class Parser/*@bgen(jjtree)*/ implements ParserTreeConstants, ParserConst
         } finally {
             if (jjtc000) {
                 jjtree.closeNodeScope(jjtn000, true);
+                jjtn000.jjtSetLastToken(getToken(0));
             }
         }
     }
@@ -226,6 +233,7 @@ public class Parser/*@bgen(jjtree)*/ implements ParserTreeConstants, ParserConst
         ASTSimpleImport jjtn000 = new ASTSimpleImport(JJTSIMPLEIMPORT);
         boolean jjtc000 = true;
         jjtree.openNodeScope(jjtn000);
+        jjtn000.jjtSetFirstToken(getToken(1));
         try {
             jj_consume_token(2);
             label_2:
@@ -237,11 +245,13 @@ public class Parser/*@bgen(jjtree)*/ implements ParserTreeConstants, ParserConst
                         ASTStarImport jjtn001 = new ASTStarImport(JJTSTARIMPORT);
                         boolean jjtc001 = true;
                         jjtree.openNodeScope(jjtn001);
+                        jjtn001.jjtSetFirstToken(getToken(1));
                         try {
                             jj_consume_token(5);
                         } finally {
                             if (jjtc001) {
                                 jjtree.closeNodeScope(jjtn001, true);
+                                jjtn001.jjtSetLastToken(getToken(0));
                             }
                         }
                         break;
@@ -285,6 +295,7 @@ public class Parser/*@bgen(jjtree)*/ implements ParserTreeConstants, ParserConst
         } finally {
             if (jjtc000) {
                 jjtree.closeNodeScope(jjtn000, true);
+                jjtn000.jjtSetLastToken(getToken(0));
             }
         }
     }
@@ -294,6 +305,7 @@ public class Parser/*@bgen(jjtree)*/ implements ParserTreeConstants, ParserConst
         ASTAliasImport jjtn000 = new ASTAliasImport(JJTALIASIMPORT);
         boolean jjtc000 = true;
         jjtree.openNodeScope(jjtn000);
+        jjtn000.jjtSetFirstToken(getToken(1));
         try {
             jj_consume_token(2);
             label_3:
@@ -335,6 +347,7 @@ public class Parser/*@bgen(jjtree)*/ implements ParserTreeConstants, ParserConst
         } finally {
             if (jjtc000) {
                 jjtree.closeNodeScope(jjtn000, true);
+                jjtn000.jjtSetLastToken(getToken(0));
             }
         }
     }
@@ -344,6 +357,7 @@ public class Parser/*@bgen(jjtree)*/ implements ParserTreeConstants, ParserConst
         ASTImportAfter jjtn000 = new ASTImportAfter(JJTIMPORTAFTER);
         boolean jjtc000 = true;
         jjtree.openNodeScope(jjtn000);
+        jjtn000.jjtSetFirstToken(getToken(1));
         try {
             jj_consume_token(3);
             Identifier();
@@ -376,6 +390,7 @@ public class Parser/*@bgen(jjtree)*/ implements ParserTreeConstants, ParserConst
         } finally {
             if (jjtc000) {
                 jjtree.closeNodeScope(jjtn000, true);
+                jjtn000.jjtSetLastToken(getToken(0));
             }
         }
     }
@@ -385,6 +400,7 @@ public class Parser/*@bgen(jjtree)*/ implements ParserTreeConstants, ParserConst
         ASTURLImport jjtn000 = new ASTURLImport(JJTURLIMPORT);
         boolean jjtc000 = true;
         jjtree.openNodeScope(jjtn000);
+        jjtn000.jjtSetFirstToken(getToken(1));
         try {
             jj_consume_token(2);
             label_4:
@@ -425,6 +441,7 @@ public class Parser/*@bgen(jjtree)*/ implements ParserTreeConstants, ParserConst
         } finally {
             if (jjtc000) {
                 jjtree.closeNodeScope(jjtn000, true);
+                jjtn000.jjtSetLastToken(getToken(0));
             }
         }
     }
@@ -434,6 +451,7 @@ public class Parser/*@bgen(jjtree)*/ implements ParserTreeConstants, ParserConst
         ASTTypeName jjtn000 = new ASTTypeName(JJTTYPENAME);
         boolean jjtc000 = true;
         jjtree.openNodeScope(jjtn000);
+        jjtn000.jjtSetFirstToken(getToken(1));
         try {
             AmbiguousName();
         } catch (Throwable jjte000) {
@@ -465,6 +483,7 @@ public class Parser/*@bgen(jjtree)*/ implements ParserTreeConstants, ParserConst
         } finally {
             if (jjtc000) {
                 jjtree.closeNodeScope(jjtn000, true);
+                jjtn000.jjtSetLastToken(getToken(0));
             }
         }
     }
@@ -478,6 +497,7 @@ public class Parser/*@bgen(jjtree)*/ implements ParserTreeConstants, ParserConst
         ASTStatement jjtn000 = new ASTStatement(JJTSTATEMENT);
         boolean jjtc000 = true;
         jjtree.openNodeScope(jjtn000);
+        jjtn000.jjtSetFirstToken(getToken(1));
         try {
             switch ((jj_ntk == -1) ? jj_ntk_f() : jj_ntk) {
                 case 6: {
@@ -524,6 +544,7 @@ public class Parser/*@bgen(jjtree)*/ implements ParserTreeConstants, ParserConst
         } finally {
             if (jjtc000) {
                 jjtree.closeNodeScope(jjtn000, true);
+                jjtn000.jjtSetLastToken(getToken(0));
             }
         }
     }
@@ -533,6 +554,7 @@ public class Parser/*@bgen(jjtree)*/ implements ParserTreeConstants, ParserConst
         ASTFuncAlias jjtn000 = new ASTFuncAlias(JJTFUNCALIAS);
         boolean jjtc000 = true;
         jjtree.openNodeScope(jjtn000);
+        jjtn000.jjtSetFirstToken(getToken(1));
         try {
             jj_consume_token(6);
             Identifier();
@@ -568,6 +590,7 @@ public class Parser/*@bgen(jjtree)*/ implements ParserTreeConstants, ParserConst
         } finally {
             if (jjtc000) {
                 jjtree.closeNodeScope(jjtn000, true);
+                jjtn000.jjtSetLastToken(getToken(0));
             }
         }
     }
@@ -577,6 +600,7 @@ public class Parser/*@bgen(jjtree)*/ implements ParserTreeConstants, ParserConst
         ASTFunctionName jjtn000 = new ASTFunctionName(JJTFUNCTIONNAME);
         boolean jjtc000 = true;
         jjtree.openNodeScope(jjtn000);
+        jjtn000.jjtSetFirstToken(getToken(1));
         try {
             AmbiguousName();
         } catch (Throwable jjte000) {
@@ -608,6 +632,7 @@ public class Parser/*@bgen(jjtree)*/ implements ParserTreeConstants, ParserConst
         } finally {
             if (jjtc000) {
                 jjtree.closeNodeScope(jjtn000, true);
+                jjtn000.jjtSetLastToken(getToken(0));
             }
         }
     }
@@ -617,6 +642,7 @@ public class Parser/*@bgen(jjtree)*/ implements ParserTreeConstants, ParserConst
         ASTPrivateImportStmt jjtn000 = new ASTPrivateImportStmt(JJTPRIVATEIMPORTSTMT);
         boolean jjtc000 = true;
         jjtree.openNodeScope(jjtn000);
+        jjtn000.jjtSetFirstToken(getToken(1));
         try {
             jj_consume_token(2);
             label_5:
@@ -667,6 +693,7 @@ public class Parser/*@bgen(jjtree)*/ implements ParserTreeConstants, ParserConst
         } finally {
             if (jjtc000) {
                 jjtree.closeNodeScope(jjtn000, true);
+                jjtn000.jjtSetLastToken(getToken(0));
             }
         }
     }
@@ -676,6 +703,7 @@ public class Parser/*@bgen(jjtree)*/ implements ParserTreeConstants, ParserConst
         ASTPrivateImportBlock jjtn000 = new ASTPrivateImportBlock(JJTPRIVATEIMPORTBLOCK);
         boolean jjtc000 = true;
         jjtree.openNodeScope(jjtn000);
+        jjtn000.jjtSetFirstToken(getToken(1));
         try {
             jj_consume_token(7);
             BlockStmts();
@@ -709,6 +737,7 @@ public class Parser/*@bgen(jjtree)*/ implements ParserTreeConstants, ParserConst
         } finally {
             if (jjtc000) {
                 jjtree.closeNodeScope(jjtn000, true);
+                jjtn000.jjtSetLastToken(getToken(0));
             }
         }
     }
@@ -718,6 +747,7 @@ public class Parser/*@bgen(jjtree)*/ implements ParserTreeConstants, ParserConst
         ASTAnnotation jjtn000 = new ASTAnnotation(JJTANNOTATION);
         boolean jjtc000 = true;
         jjtree.openNodeScope(jjtn000);
+        jjtn000.jjtSetFirstToken(getToken(1));
         try {
             jj_consume_token(9);
             Identifier();
@@ -759,6 +789,7 @@ public class Parser/*@bgen(jjtree)*/ implements ParserTreeConstants, ParserConst
         } finally {
             if (jjtc000) {
                 jjtree.closeNodeScope(jjtn000, true);
+                jjtn000.jjtSetLastToken(getToken(0));
             }
         }
     }
@@ -789,6 +820,7 @@ public class Parser/*@bgen(jjtree)*/ implements ParserTreeConstants, ParserConst
         ASTClassDecl jjtn000 = new ASTClassDecl(JJTCLASSDECL);
         boolean jjtc000 = true;
         jjtree.openNodeScope(jjtn000);
+        jjtn000.jjtSetFirstToken(getToken(1));
         try {
             ClassModifiers();
             jj_consume_token(10);
@@ -861,6 +893,7 @@ public class Parser/*@bgen(jjtree)*/ implements ParserTreeConstants, ParserConst
         } finally {
             if (jjtc000) {
                 jjtree.closeNodeScope(jjtn000, true);
+                jjtn000.jjtSetLastToken(getToken(0));
             }
         }
     }
@@ -870,6 +903,7 @@ public class Parser/*@bgen(jjtree)*/ implements ParserTreeConstants, ParserConst
         ASTClassModifiers jjtn000 = new ASTClassModifiers(JJTCLASSMODIFIERS);
         boolean jjtc000 = true;
         jjtree.openNodeScope(jjtn000);
+        jjtn000.jjtSetFirstToken(getToken(1));
         try {
             label_6:
             while (true) {
@@ -918,6 +952,7 @@ public class Parser/*@bgen(jjtree)*/ implements ParserTreeConstants, ParserConst
         } finally {
             if (jjtc000) {
                 jjtree.closeNodeScope(jjtn000, true);
+                jjtn000.jjtSetLastToken(getToken(0));
             }
         }
     }
@@ -960,6 +995,7 @@ public class Parser/*@bgen(jjtree)*/ implements ParserTreeConstants, ParserConst
         ASTTypeParameters jjtn000 = new ASTTypeParameters(JJTTYPEPARAMETERS);
         boolean jjtc000 = true;
         jjtree.openNodeScope(jjtn000);
+        jjtn000.jjtSetFirstToken(getToken(1));
         try {
             jj_consume_token(15);
             TypeParameter();
@@ -1007,6 +1043,7 @@ public class Parser/*@bgen(jjtree)*/ implements ParserTreeConstants, ParserConst
         } finally {
             if (jjtc000) {
                 jjtree.closeNodeScope(jjtn000, true);
+                jjtn000.jjtSetLastToken(getToken(0));
             }
         }
     }
@@ -1016,6 +1053,7 @@ public class Parser/*@bgen(jjtree)*/ implements ParserTreeConstants, ParserConst
         ASTTypeParameter jjtn000 = new ASTTypeParameter(JJTTYPEPARAMETER);
         boolean jjtc000 = true;
         jjtree.openNodeScope(jjtn000);
+        jjtn000.jjtSetFirstToken(getToken(1));
         try {
             Identifier();
             switch ((jj_ntk == -1) ? jj_ntk_f() : jj_ntk) {
@@ -1065,6 +1103,7 @@ public class Parser/*@bgen(jjtree)*/ implements ParserTreeConstants, ParserConst
         } finally {
             if (jjtc000) {
                 jjtree.closeNodeScope(jjtn000, true);
+                jjtn000.jjtSetLastToken(getToken(0));
             }
         }
     }
@@ -1074,6 +1113,7 @@ public class Parser/*@bgen(jjtree)*/ implements ParserTreeConstants, ParserConst
         ASTTypeBound jjtn000 = new ASTTypeBound(JJTTYPEBOUND);
         boolean jjtc000 = true;
         jjtree.openNodeScope(jjtn000);
+        jjtn000.jjtSetFirstToken(getToken(1));
         try {
             jj_consume_token(18);
             ClassType();
@@ -1119,6 +1159,7 @@ public class Parser/*@bgen(jjtree)*/ implements ParserTreeConstants, ParserConst
         } finally {
             if (jjtc000) {
                 jjtree.closeNodeScope(jjtn000, true);
+                jjtn000.jjtSetLastToken(getToken(0));
             }
         }
     }
@@ -1128,6 +1169,7 @@ public class Parser/*@bgen(jjtree)*/ implements ParserTreeConstants, ParserConst
         ASTType jjtn000 = new ASTType(JJTTYPE);
         boolean jjtc000 = true;
         jjtree.openNodeScope(jjtn000);
+        jjtn000.jjtSetFirstToken(getToken(1));
         try {
             if (jj_2_14(2147483647)) {
                 FuncType();
@@ -1166,6 +1208,7 @@ public class Parser/*@bgen(jjtree)*/ implements ParserTreeConstants, ParserConst
         } finally {
             if (jjtc000) {
                 jjtree.closeNodeScope(jjtn000, true);
+                jjtn000.jjtSetLastToken(getToken(0));
             }
         }
     }
@@ -1175,6 +1218,7 @@ public class Parser/*@bgen(jjtree)*/ implements ParserTreeConstants, ParserConst
         ASTClassType jjtn000 = new ASTClassType(JJTCLASSTYPE);
         boolean jjtc000 = true;
         jjtree.openNodeScope(jjtn000);
+        jjtn000.jjtSetFirstToken(getToken(1));
         try {
             AmbiguousName();
             if (jj_2_16(2147483647)) {
@@ -1211,6 +1255,7 @@ public class Parser/*@bgen(jjtree)*/ implements ParserTreeConstants, ParserConst
         } finally {
             if (jjtc000) {
                 jjtree.closeNodeScope(jjtn000, true);
+                jjtn000.jjtSetLastToken(getToken(0));
             }
         }
     }
@@ -1220,6 +1265,7 @@ public class Parser/*@bgen(jjtree)*/ implements ParserTreeConstants, ParserConst
         ASTFuncType jjtn000 = new ASTFuncType(JJTFUNCTYPE);
         boolean jjtc000 = true;
         jjtree.openNodeScope(jjtn000);
+        jjtn000.jjtSetFirstToken(getToken(1));
         try {
             ClassType();
             jj_consume_token(3);
@@ -1253,6 +1299,7 @@ public class Parser/*@bgen(jjtree)*/ implements ParserTreeConstants, ParserConst
         } finally {
             if (jjtc000) {
                 jjtree.closeNodeScope(jjtn000, true);
+                jjtn000.jjtSetLastToken(getToken(0));
             }
         }
     }
@@ -1262,6 +1309,7 @@ public class Parser/*@bgen(jjtree)*/ implements ParserTreeConstants, ParserConst
         ASTAdditionalBound jjtn000 = new ASTAdditionalBound(JJTADDITIONALBOUND);
         boolean jjtc000 = true;
         jjtree.openNodeScope(jjtn000);
+        jjtn000.jjtSetFirstToken(getToken(1));
         try {
             jj_consume_token(19);
             InterfaceType();
@@ -1294,6 +1342,7 @@ public class Parser/*@bgen(jjtree)*/ implements ParserTreeConstants, ParserConst
         } finally {
             if (jjtc000) {
                 jjtree.closeNodeScope(jjtn000, true);
+                jjtn000.jjtSetLastToken(getToken(0));
             }
         }
     }
@@ -1303,6 +1352,7 @@ public class Parser/*@bgen(jjtree)*/ implements ParserTreeConstants, ParserConst
         ASTSuperType jjtn000 = new ASTSuperType(JJTSUPERTYPE);
         boolean jjtc000 = true;
         jjtree.openNodeScope(jjtn000);
+        jjtn000.jjtSetFirstToken(getToken(1));
         try {
             jj_consume_token(18);
             ClassType();
@@ -1335,6 +1385,7 @@ public class Parser/*@bgen(jjtree)*/ implements ParserTreeConstants, ParserConst
         } finally {
             if (jjtc000) {
                 jjtree.closeNodeScope(jjtn000, true);
+                jjtn000.jjtSetLastToken(getToken(0));
             }
         }
     }
@@ -1344,6 +1395,7 @@ public class Parser/*@bgen(jjtree)*/ implements ParserTreeConstants, ParserConst
         ASTInterfaces jjtn000 = new ASTInterfaces(JJTINTERFACES);
         boolean jjtc000 = true;
         jjtree.openNodeScope(jjtn000);
+        jjtn000.jjtSetFirstToken(getToken(1));
         try {
             jj_consume_token(20);
             label_9:
@@ -1388,6 +1440,7 @@ public class Parser/*@bgen(jjtree)*/ implements ParserTreeConstants, ParserConst
         } finally {
             if (jjtc000) {
                 jjtree.closeNodeScope(jjtn000, true);
+                jjtn000.jjtSetLastToken(getToken(0));
             }
         }
     }
@@ -1397,6 +1450,7 @@ public class Parser/*@bgen(jjtree)*/ implements ParserTreeConstants, ParserConst
         ASTInterfaceType jjtn000 = new ASTInterfaceType(JJTINTERFACETYPE);
         boolean jjtc000 = true;
         jjtree.openNodeScope(jjtn000);
+        jjtn000.jjtSetFirstToken(getToken(1));
         try {
             ClassType();
         } catch (Throwable jjte000) {
@@ -1428,6 +1482,7 @@ public class Parser/*@bgen(jjtree)*/ implements ParserTreeConstants, ParserConst
         } finally {
             if (jjtc000) {
                 jjtree.closeNodeScope(jjtn000, true);
+                jjtn000.jjtSetLastToken(getToken(0));
             }
         }
     }
@@ -1437,6 +1492,7 @@ public class Parser/*@bgen(jjtree)*/ implements ParserTreeConstants, ParserConst
         ASTClassBody jjtn000 = new ASTClassBody(JJTCLASSBODY);
         boolean jjtc000 = true;
         jjtree.openNodeScope(jjtn000);
+        jjtn000.jjtSetFirstToken(getToken(1));
         try {
             jj_consume_token(7);
             label_10:
@@ -1494,6 +1550,7 @@ public class Parser/*@bgen(jjtree)*/ implements ParserTreeConstants, ParserConst
         } finally {
             if (jjtc000) {
                 jjtree.closeNodeScope(jjtn000, true);
+                jjtn000.jjtSetLastToken(getToken(0));
             }
         }
     }
@@ -1528,6 +1585,7 @@ public class Parser/*@bgen(jjtree)*/ implements ParserTreeConstants, ParserConst
         ASTClassCtorDecl jjtn000 = new ASTClassCtorDecl(JJTCLASSCTORDECL);
         boolean jjtc000 = true;
         jjtree.openNodeScope(jjtn000);
+        jjtn000.jjtSetFirstToken(getToken(1));
         try {
             CtorModifiers();
             jj_consume_token(21);
@@ -1572,6 +1630,7 @@ public class Parser/*@bgen(jjtree)*/ implements ParserTreeConstants, ParserConst
         } finally {
             if (jjtc000) {
                 jjtree.closeNodeScope(jjtn000, true);
+                jjtn000.jjtSetLastToken(getToken(0));
             }
         }
     }
@@ -1581,6 +1640,7 @@ public class Parser/*@bgen(jjtree)*/ implements ParserTreeConstants, ParserConst
         ASTCtorModifiers jjtn000 = new ASTCtorModifiers(JJTCTORMODIFIERS);
         boolean jjtc000 = true;
         jjtree.openNodeScope(jjtn000);
+        jjtn000.jjtSetFirstToken(getToken(1));
         try {
             label_11:
             while (true) {
@@ -1626,6 +1686,7 @@ public class Parser/*@bgen(jjtree)*/ implements ParserTreeConstants, ParserConst
         } finally {
             if (jjtc000) {
                 jjtree.closeNodeScope(jjtn000, true);
+                jjtn000.jjtSetLastToken(getToken(0));
             }
         }
     }
@@ -1656,6 +1717,7 @@ public class Parser/*@bgen(jjtree)*/ implements ParserTreeConstants, ParserConst
         ASTFormalParameters jjtn000 = new ASTFormalParameters(JJTFORMALPARAMETERS);
         boolean jjtc000 = true;
         jjtree.openNodeScope(jjtn000);
+        jjtn000.jjtSetFirstToken(getToken(1));
         try {
             label_12:
             while (true) {
@@ -1696,6 +1758,7 @@ public class Parser/*@bgen(jjtree)*/ implements ParserTreeConstants, ParserConst
         } finally {
             if (jjtc000) {
                 jjtree.closeNodeScope(jjtn000, true);
+                jjtn000.jjtSetLastToken(getToken(0));
             }
         }
     }
@@ -1705,6 +1768,7 @@ public class Parser/*@bgen(jjtree)*/ implements ParserTreeConstants, ParserConst
         ASTFormalParameter jjtn000 = new ASTFormalParameter(JJTFORMALPARAMETER);
         boolean jjtc000 = true;
         jjtree.openNodeScope(jjtn000);
+        jjtn000.jjtSetFirstToken(getToken(1));
         try {
             switch ((jj_ntk == -1) ? jj_ntk_f() : jj_ntk) {
                 case 24:
@@ -1748,6 +1812,7 @@ public class Parser/*@bgen(jjtree)*/ implements ParserTreeConstants, ParserConst
         } finally {
             if (jjtc000) {
                 jjtree.closeNodeScope(jjtn000, true);
+                jjtn000.jjtSetLastToken(getToken(0));
             }
         }
     }
@@ -1757,6 +1822,7 @@ public class Parser/*@bgen(jjtree)*/ implements ParserTreeConstants, ParserConst
         ASTLastFormalParamter jjtn000 = new ASTLastFormalParamter(JJTLASTFORMALPARAMTER);
         boolean jjtc000 = true;
         jjtree.openNodeScope(jjtn000);
+        jjtn000.jjtSetFirstToken(getToken(1));
         try {
             switch ((jj_ntk == -1) ? jj_ntk_f() : jj_ntk) {
                 case 24:
@@ -1775,11 +1841,13 @@ public class Parser/*@bgen(jjtree)*/ implements ParserTreeConstants, ParserConst
                     ASTVarargs jjtn001 = new ASTVarargs(JJTVARARGS);
                     boolean jjtc001 = true;
                     jjtree.openNodeScope(jjtn001);
+                    jjtn001.jjtSetFirstToken(getToken(1));
                     try {
                         jj_consume_token(5);
                     } finally {
                         if (jjtc001) {
                             jjtree.closeNodeScope(jjtn001, true);
+                            jjtn001.jjtSetLastToken(getToken(0));
                         }
                     }
                     break;
@@ -1817,6 +1885,7 @@ public class Parser/*@bgen(jjtree)*/ implements ParserTreeConstants, ParserConst
         } finally {
             if (jjtc000) {
                 jjtree.closeNodeScope(jjtn000, true);
+                jjtn000.jjtSetLastToken(getToken(0));
             }
         }
     }
@@ -1826,6 +1895,7 @@ public class Parser/*@bgen(jjtree)*/ implements ParserTreeConstants, ParserConst
         ASTVariableModifier jjtn000 = new ASTVariableModifier(JJTVARIABLEMODIFIER);
         boolean jjtc000 = true;
         jjtree.openNodeScope(jjtn000);
+        jjtn000.jjtSetFirstToken(getToken(1));
         try {
             switch ((jj_ntk == -1) ? jj_ntk_f() : jj_ntk) {
                 case 24: {
@@ -1870,6 +1940,7 @@ public class Parser/*@bgen(jjtree)*/ implements ParserTreeConstants, ParserConst
         } finally {
             if (jjtc000) {
                 jjtree.closeNodeScope(jjtn000, true);
+                jjtn000.jjtSetLastToken(getToken(0));
             }
         }
     }
@@ -1879,6 +1950,7 @@ public class Parser/*@bgen(jjtree)*/ implements ParserTreeConstants, ParserConst
         ASTCtorBody jjtn000 = new ASTCtorBody(JJTCTORBODY);
         boolean jjtc000 = true;
         jjtree.openNodeScope(jjtn000);
+        jjtn000.jjtSetFirstToken(getToken(1));
         try {
             jj_consume_token(7);
             if (jj_2_21(2147483647)) {
@@ -1917,6 +1989,7 @@ public class Parser/*@bgen(jjtree)*/ implements ParserTreeConstants, ParserConst
         } finally {
             if (jjtc000) {
                 jjtree.closeNodeScope(jjtn000, true);
+                jjtn000.jjtSetLastToken(getToken(0));
             }
         }
     }
@@ -1926,6 +1999,7 @@ public class Parser/*@bgen(jjtree)*/ implements ParserTreeConstants, ParserConst
         ASTExplicitCtorInvocation jjtn000 = new ASTExplicitCtorInvocation(JJTEXPLICITCTORINVOCATION);
         boolean jjtc000 = true;
         jjtree.openNodeScope(jjtn000);
+        jjtn000.jjtSetFirstToken(getToken(1));
         try {
             switch ((jj_ntk == -1) ? jj_ntk_f() : jj_ntk) {
                 case 22: {
@@ -2034,6 +2108,7 @@ public class Parser/*@bgen(jjtree)*/ implements ParserTreeConstants, ParserConst
         } finally {
             if (jjtc000) {
                 jjtree.closeNodeScope(jjtn000, true);
+                jjtn000.jjtSetLastToken(getToken(0));
             }
         }
     }
@@ -2043,6 +2118,7 @@ public class Parser/*@bgen(jjtree)*/ implements ParserTreeConstants, ParserConst
         ASTBlockStmts jjtn000 = new ASTBlockStmts(JJTBLOCKSTMTS);
         boolean jjtc000 = true;
         jjtree.openNodeScope(jjtn000);
+        jjtn000.jjtSetFirstToken(getToken(1));
         try {
             label_13:
             while (true) {
@@ -2082,6 +2158,7 @@ public class Parser/*@bgen(jjtree)*/ implements ParserTreeConstants, ParserConst
         } finally {
             if (jjtc000) {
                 jjtree.closeNodeScope(jjtn000, true);
+                jjtn000.jjtSetLastToken(getToken(0));
             }
         }
     }
@@ -2091,6 +2168,7 @@ public class Parser/*@bgen(jjtree)*/ implements ParserTreeConstants, ParserConst
         ASTBlockStmt jjtn000 = new ASTBlockStmt(JJTBLOCKSTMT);
         boolean jjtc000 = true;
         jjtree.openNodeScope(jjtn000);
+        jjtn000.jjtSetFirstToken(getToken(1));
         try {
             switch ((jj_ntk == -1) ? jj_ntk_f() : jj_ntk) {
                 case 23:
@@ -2163,6 +2241,7 @@ public class Parser/*@bgen(jjtree)*/ implements ParserTreeConstants, ParserConst
         } finally {
             if (jjtc000) {
                 jjtree.closeNodeScope(jjtn000, true);
+                jjtn000.jjtSetLastToken(getToken(0));
             }
         }
     }
@@ -2172,6 +2251,7 @@ public class Parser/*@bgen(jjtree)*/ implements ParserTreeConstants, ParserConst
         ASTLocalValDecl jjtn000 = new ASTLocalValDecl(JJTLOCALVALDECL);
         boolean jjtc000 = true;
         jjtree.openNodeScope(jjtn000);
+        jjtn000.jjtSetFirstToken(getToken(1));
         try {
             switch ((jj_ntk == -1) ? jj_ntk_f() : jj_ntk) {
                 case 24:
@@ -2225,6 +2305,7 @@ public class Parser/*@bgen(jjtree)*/ implements ParserTreeConstants, ParserConst
         } finally {
             if (jjtc000) {
                 jjtree.closeNodeScope(jjtn000, true);
+                jjtn000.jjtSetLastToken(getToken(0));
             }
         }
     }
@@ -2234,6 +2315,7 @@ public class Parser/*@bgen(jjtree)*/ implements ParserTreeConstants, ParserConst
         ASTVariableInitializer jjtn000 = new ASTVariableInitializer(JJTVARIABLEINITIALIZER);
         boolean jjtc000 = true;
         jjtree.openNodeScope(jjtn000);
+        jjtn000.jjtSetFirstToken(getToken(1));
         try {
             Expression();
         } catch (Throwable jjte000) {
@@ -2265,6 +2347,7 @@ public class Parser/*@bgen(jjtree)*/ implements ParserTreeConstants, ParserConst
         } finally {
             if (jjtc000) {
                 jjtree.closeNodeScope(jjtn000, true);
+                jjtn000.jjtSetLastToken(getToken(0));
             }
         }
     }
@@ -2274,6 +2357,7 @@ public class Parser/*@bgen(jjtree)*/ implements ParserTreeConstants, ParserConst
         ASTFieldDecl jjtn000 = new ASTFieldDecl(JJTFIELDDECL);
         boolean jjtc000 = true;
         jjtree.openNodeScope(jjtn000);
+        jjtn000.jjtSetFirstToken(getToken(1));
         try {
             FieldModifiers();
             jj_consume_token(23);
@@ -2327,6 +2411,7 @@ public class Parser/*@bgen(jjtree)*/ implements ParserTreeConstants, ParserConst
         } finally {
             if (jjtc000) {
                 jjtree.closeNodeScope(jjtn000, true);
+                jjtn000.jjtSetLastToken(getToken(0));
             }
         }
     }
@@ -2336,6 +2421,7 @@ public class Parser/*@bgen(jjtree)*/ implements ParserTreeConstants, ParserConst
         ASTFieldModifiers jjtn000 = new ASTFieldModifiers(JJTFIELDMODIFIERS);
         boolean jjtc000 = true;
         jjtree.openNodeScope(jjtn000);
+        jjtn000.jjtSetFirstToken(getToken(1));
         try {
             label_14:
             while (true) {
@@ -2383,6 +2469,7 @@ public class Parser/*@bgen(jjtree)*/ implements ParserTreeConstants, ParserConst
         } finally {
             if (jjtc000) {
                 jjtree.closeNodeScope(jjtn000, true);
+                jjtn000.jjtSetLastToken(getToken(0));
             }
         }
     }
@@ -2421,6 +2508,7 @@ public class Parser/*@bgen(jjtree)*/ implements ParserTreeConstants, ParserConst
         ASTFieldInitializer jjtn000 = new ASTFieldInitializer(JJTFIELDINITIALIZER);
         boolean jjtc000 = true;
         jjtree.openNodeScope(jjtn000);
+        jjtn000.jjtSetFirstToken(getToken(1));
         try {
             Expression();
         } catch (Throwable jjte000) {
@@ -2452,6 +2540,7 @@ public class Parser/*@bgen(jjtree)*/ implements ParserTreeConstants, ParserConst
         } finally {
             if (jjtc000) {
                 jjtree.closeNodeScope(jjtn000, true);
+                jjtn000.jjtSetLastToken(getToken(0));
             }
         }
     }
@@ -2461,6 +2550,7 @@ public class Parser/*@bgen(jjtree)*/ implements ParserTreeConstants, ParserConst
         ASTFuncDecl jjtn000 = new ASTFuncDecl(JJTFUNCDECL);
         boolean jjtc000 = true;
         jjtree.openNodeScope(jjtn000);
+        jjtn000.jjtSetFirstToken(getToken(1));
         try {
             FuncModifiers();
             jj_consume_token(21);
@@ -2522,6 +2612,7 @@ public class Parser/*@bgen(jjtree)*/ implements ParserTreeConstants, ParserConst
         } finally {
             if (jjtc000) {
                 jjtree.closeNodeScope(jjtn000, true);
+                jjtn000.jjtSetLastToken(getToken(0));
             }
         }
     }
@@ -2531,6 +2622,7 @@ public class Parser/*@bgen(jjtree)*/ implements ParserTreeConstants, ParserConst
         ASTFuncModifiers jjtn000 = new ASTFuncModifiers(JJTFUNCMODIFIERS);
         boolean jjtc000 = true;
         jjtree.openNodeScope(jjtn000);
+        jjtn000.jjtSetFirstToken(getToken(1));
         try {
             label_15:
             while (true) {
@@ -2582,6 +2674,7 @@ public class Parser/*@bgen(jjtree)*/ implements ParserTreeConstants, ParserConst
         } finally {
             if (jjtc000) {
                 jjtree.closeNodeScope(jjtn000, true);
+                jjtn000.jjtSetLastToken(getToken(0));
             }
         }
     }
@@ -2636,6 +2729,7 @@ public class Parser/*@bgen(jjtree)*/ implements ParserTreeConstants, ParserConst
         ASTParenFormalParams jjtn000 = new ASTParenFormalParams(JJTPARENFORMALPARAMS);
         boolean jjtc000 = true;
         jjtree.openNodeScope(jjtn000);
+        jjtn000.jjtSetFirstToken(getToken(1));
         try {
             jj_consume_token(25);
             switch ((jj_ntk == -1) ? jj_ntk_f() : jj_ntk) {
@@ -2679,6 +2773,7 @@ public class Parser/*@bgen(jjtree)*/ implements ParserTreeConstants, ParserConst
         } finally {
             if (jjtc000) {
                 jjtree.closeNodeScope(jjtn000, true);
+                jjtn000.jjtSetLastToken(getToken(0));
             }
         }
     }
@@ -2688,6 +2783,7 @@ public class Parser/*@bgen(jjtree)*/ implements ParserTreeConstants, ParserConst
         ASTReturnType jjtn000 = new ASTReturnType(JJTRETURNTYPE);
         boolean jjtc000 = true;
         jjtree.openNodeScope(jjtn000);
+        jjtn000.jjtSetFirstToken(getToken(1));
         try {
             Type();
         } catch (Throwable jjte000) {
@@ -2719,6 +2815,7 @@ public class Parser/*@bgen(jjtree)*/ implements ParserTreeConstants, ParserConst
         } finally {
             if (jjtc000) {
                 jjtree.closeNodeScope(jjtn000, true);
+                jjtn000.jjtSetLastToken(getToken(0));
             }
         }
     }
@@ -2728,6 +2825,7 @@ public class Parser/*@bgen(jjtree)*/ implements ParserTreeConstants, ParserConst
         ASTFuncBody jjtn000 = new ASTFuncBody(JJTFUNCBODY);
         boolean jjtc000 = true;
         jjtree.openNodeScope(jjtn000);
+        jjtn000.jjtSetFirstToken(getToken(1));
         try {
             jj_consume_token(7);
             BlockStmts();
@@ -2761,6 +2859,7 @@ public class Parser/*@bgen(jjtree)*/ implements ParserTreeConstants, ParserConst
         } finally {
             if (jjtc000) {
                 jjtree.closeNodeScope(jjtn000, true);
+                jjtn000.jjtSetLastToken(getToken(0));
             }
         }
     }
@@ -2773,6 +2872,7 @@ public class Parser/*@bgen(jjtree)*/ implements ParserTreeConstants, ParserConst
         ASTAlgebraicDataTypeDecl jjtn000 = new ASTAlgebraicDataTypeDecl(JJTALGEBRAICDATATYPEDECL);
         boolean jjtc000 = true;
         jjtree.openNodeScope(jjtn000);
+        jjtn000.jjtSetFirstToken(getToken(1));
         try {
             label_16:
             while (true) {
@@ -2858,6 +2958,7 @@ public class Parser/*@bgen(jjtree)*/ implements ParserTreeConstants, ParserConst
         } finally {
             if (jjtc000) {
                 jjtree.closeNodeScope(jjtn000, true);
+                jjtn000.jjtSetLastToken(getToken(0));
             }
         }
     }
@@ -2867,6 +2968,7 @@ public class Parser/*@bgen(jjtree)*/ implements ParserTreeConstants, ParserConst
         ASTAlgebraicDataTypeBody jjtn000 = new ASTAlgebraicDataTypeBody(JJTALGEBRAICDATATYPEBODY);
         boolean jjtc000 = true;
         jjtree.openNodeScope(jjtn000);
+        jjtn000.jjtSetFirstToken(getToken(1));
         try {
             Type();
             switch ((jj_ntk == -1) ? jj_ntk_f() : jj_ntk) {
@@ -2930,6 +3032,7 @@ public class Parser/*@bgen(jjtree)*/ implements ParserTreeConstants, ParserConst
         } finally {
             if (jjtc000) {
                 jjtree.closeNodeScope(jjtn000, true);
+                jjtn000.jjtSetLastToken(getToken(0));
             }
         }
     }
@@ -2939,6 +3042,7 @@ public class Parser/*@bgen(jjtree)*/ implements ParserTreeConstants, ParserConst
         ASTAlgebraicDataCtorBinding jjtn000 = new ASTAlgebraicDataCtorBinding(JJTALGEBRAICDATACTORBINDING);
         boolean jjtc000 = true;
         jjtree.openNodeScope(jjtn000);
+        jjtn000.jjtSetFirstToken(getToken(1));
         try {
             Identifier();
             Type();
@@ -2980,6 +3084,7 @@ public class Parser/*@bgen(jjtree)*/ implements ParserTreeConstants, ParserConst
         } finally {
             if (jjtc000) {
                 jjtree.closeNodeScope(jjtn000, true);
+                jjtn000.jjtSetLastToken(getToken(0));
             }
         }
     }
@@ -2992,6 +3097,7 @@ public class Parser/*@bgen(jjtree)*/ implements ParserTreeConstants, ParserConst
         ASTInterfaceDecl jjtn000 = new ASTInterfaceDecl(JJTINTERFACEDECL);
         boolean jjtc000 = true;
         jjtree.openNodeScope(jjtn000);
+        jjtn000.jjtSetFirstToken(getToken(1));
         try {
             label_19:
             while (true) {
@@ -3056,6 +3162,7 @@ public class Parser/*@bgen(jjtree)*/ implements ParserTreeConstants, ParserConst
         } finally {
             if (jjtc000) {
                 jjtree.closeNodeScope(jjtn000, true);
+                jjtn000.jjtSetLastToken(getToken(0));
             }
         }
     }
@@ -3065,6 +3172,7 @@ public class Parser/*@bgen(jjtree)*/ implements ParserTreeConstants, ParserConst
         ASTInterfaceModifier jjtn000 = new ASTInterfaceModifier(JJTINTERFACEMODIFIER);
         boolean jjtc000 = true;
         jjtree.openNodeScope(jjtn000);
+        jjtn000.jjtSetFirstToken(getToken(1));
         try {
             PublicModifier();
         } catch (Throwable jjte000) {
@@ -3096,6 +3204,7 @@ public class Parser/*@bgen(jjtree)*/ implements ParserTreeConstants, ParserConst
         } finally {
             if (jjtc000) {
                 jjtree.closeNodeScope(jjtn000, true);
+                jjtn000.jjtSetLastToken(getToken(0));
             }
         }
     }
@@ -3105,6 +3214,7 @@ public class Parser/*@bgen(jjtree)*/ implements ParserTreeConstants, ParserConst
         ASTExtendsInterfaces jjtn000 = new ASTExtendsInterfaces(JJTEXTENDSINTERFACES);
         boolean jjtc000 = true;
         jjtree.openNodeScope(jjtn000);
+        jjtn000.jjtSetFirstToken(getToken(1));
         try {
             jj_consume_token(20);
             label_20:
@@ -3149,6 +3259,7 @@ public class Parser/*@bgen(jjtree)*/ implements ParserTreeConstants, ParserConst
         } finally {
             if (jjtc000) {
                 jjtree.closeNodeScope(jjtn000, true);
+                jjtn000.jjtSetLastToken(getToken(0));
             }
         }
     }
@@ -3158,6 +3269,7 @@ public class Parser/*@bgen(jjtree)*/ implements ParserTreeConstants, ParserConst
         ASTInterfaceBody jjtn000 = new ASTInterfaceBody(JJTINTERFACEBODY);
         boolean jjtc000 = true;
         jjtree.openNodeScope(jjtn000);
+        jjtn000.jjtSetFirstToken(getToken(1));
         try {
             jj_consume_token(7);
             label_21:
@@ -3214,6 +3326,7 @@ public class Parser/*@bgen(jjtree)*/ implements ParserTreeConstants, ParserConst
         } finally {
             if (jjtc000) {
                 jjtree.closeNodeScope(jjtn000, true);
+                jjtn000.jjtSetLastToken(getToken(0));
             }
         }
     }
@@ -3223,6 +3336,7 @@ public class Parser/*@bgen(jjtree)*/ implements ParserTreeConstants, ParserConst
         ASTInterfaceMember jjtn000 = new ASTInterfaceMember(JJTINTERFACEMEMBER);
         boolean jjtc000 = true;
         jjtree.openNodeScope(jjtn000);
+        jjtn000.jjtSetFirstToken(getToken(1));
         try {
             if (jj_2_23(2147483647)) {
                 ConstantDecl();
@@ -3265,6 +3379,7 @@ public class Parser/*@bgen(jjtree)*/ implements ParserTreeConstants, ParserConst
         } finally {
             if (jjtc000) {
                 jjtree.closeNodeScope(jjtn000, true);
+                jjtn000.jjtSetLastToken(getToken(0));
             }
         }
     }
@@ -3274,6 +3389,7 @@ public class Parser/*@bgen(jjtree)*/ implements ParserTreeConstants, ParserConst
         ASTConstantDecl jjtn000 = new ASTConstantDecl(JJTCONSTANTDECL);
         boolean jjtc000 = true;
         jjtree.openNodeScope(jjtn000);
+        jjtn000.jjtSetFirstToken(getToken(1));
         try {
             switch ((jj_ntk == -1) ? jj_ntk_f() : jj_ntk) {
                 case 92: {
@@ -3335,6 +3451,7 @@ public class Parser/*@bgen(jjtree)*/ implements ParserTreeConstants, ParserConst
         } finally {
             if (jjtc000) {
                 jjtree.closeNodeScope(jjtn000, true);
+                jjtn000.jjtSetLastToken(getToken(0));
             }
         }
     }
@@ -3344,6 +3461,7 @@ public class Parser/*@bgen(jjtree)*/ implements ParserTreeConstants, ParserConst
         ASTInterfaceMethodDecl jjtn000 = new ASTInterfaceMethodDecl(JJTINTERFACEMETHODDECL);
         boolean jjtc000 = true;
         jjtree.openNodeScope(jjtn000);
+        jjtn000.jjtSetFirstToken(getToken(1));
         try {
             label_22:
             while (true) {
@@ -3426,6 +3544,7 @@ public class Parser/*@bgen(jjtree)*/ implements ParserTreeConstants, ParserConst
         } finally {
             if (jjtc000) {
                 jjtree.closeNodeScope(jjtn000, true);
+                jjtn000.jjtSetLastToken(getToken(0));
             }
         }
     }
@@ -3438,6 +3557,7 @@ public class Parser/*@bgen(jjtree)*/ implements ParserTreeConstants, ParserConst
         ASTTypeAliasDecl jjtn000 = new ASTTypeAliasDecl(JJTTYPEALIASDECL);
         boolean jjtc000 = true;
         jjtree.openNodeScope(jjtn000);
+        jjtn000.jjtSetFirstToken(getToken(1));
         try {
             label_23:
             while (true) {
@@ -3486,6 +3606,7 @@ public class Parser/*@bgen(jjtree)*/ implements ParserTreeConstants, ParserConst
         } finally {
             if (jjtc000) {
                 jjtree.closeNodeScope(jjtn000, true);
+                jjtn000.jjtSetLastToken(getToken(0));
             }
         }
     }
@@ -3495,6 +3616,7 @@ public class Parser/*@bgen(jjtree)*/ implements ParserTreeConstants, ParserConst
         ASTTypeAliasModifier jjtn000 = new ASTTypeAliasModifier(JJTTYPEALIASMODIFIER);
         boolean jjtc000 = true;
         jjtree.openNodeScope(jjtn000);
+        jjtn000.jjtSetFirstToken(getToken(1));
         try {
             switch ((jj_ntk == -1) ? jj_ntk_f() : jj_ntk) {
                 case 88: {
@@ -3543,6 +3665,7 @@ public class Parser/*@bgen(jjtree)*/ implements ParserTreeConstants, ParserConst
         } finally {
             if (jjtc000) {
                 jjtree.closeNodeScope(jjtn000, true);
+                jjtn000.jjtSetLastToken(getToken(0));
             }
         }
     }
@@ -3555,6 +3678,7 @@ public class Parser/*@bgen(jjtree)*/ implements ParserTreeConstants, ParserConst
         ASTEnumDecl jjtn000 = new ASTEnumDecl(JJTENUMDECL);
         boolean jjtc000 = true;
         jjtree.openNodeScope(jjtn000);
+        jjtn000.jjtSetFirstToken(getToken(1));
         try {
             label_24:
             while (true) {
@@ -3606,6 +3730,7 @@ public class Parser/*@bgen(jjtree)*/ implements ParserTreeConstants, ParserConst
         } finally {
             if (jjtc000) {
                 jjtree.closeNodeScope(jjtn000, true);
+                jjtn000.jjtSetLastToken(getToken(0));
             }
         }
     }
@@ -3615,6 +3740,7 @@ public class Parser/*@bgen(jjtree)*/ implements ParserTreeConstants, ParserConst
         ASTEnumModifier jjtn000 = new ASTEnumModifier(JJTENUMMODIFIER);
         boolean jjtc000 = true;
         jjtree.openNodeScope(jjtn000);
+        jjtn000.jjtSetFirstToken(getToken(1));
         try {
             switch ((jj_ntk == -1) ? jj_ntk_f() : jj_ntk) {
                 case 88: {
@@ -3667,6 +3793,7 @@ public class Parser/*@bgen(jjtree)*/ implements ParserTreeConstants, ParserConst
         } finally {
             if (jjtc000) {
                 jjtree.closeNodeScope(jjtn000, true);
+                jjtn000.jjtSetLastToken(getToken(0));
             }
         }
     }
@@ -3676,6 +3803,7 @@ public class Parser/*@bgen(jjtree)*/ implements ParserTreeConstants, ParserConst
         ASTEnumName jjtn000 = new ASTEnumName(JJTENUMNAME);
         boolean jjtc000 = true;
         jjtree.openNodeScope(jjtn000);
+        jjtn000.jjtSetFirstToken(getToken(1));
         try {
             Identifier();
         } catch (Throwable jjte000) {
@@ -3707,6 +3835,7 @@ public class Parser/*@bgen(jjtree)*/ implements ParserTreeConstants, ParserConst
         } finally {
             if (jjtc000) {
                 jjtree.closeNodeScope(jjtn000, true);
+                jjtn000.jjtSetLastToken(getToken(0));
             }
         }
     }
@@ -3716,6 +3845,7 @@ public class Parser/*@bgen(jjtree)*/ implements ParserTreeConstants, ParserConst
         ASTEnumMembers jjtn000 = new ASTEnumMembers(JJTENUMMEMBERS);
         boolean jjtc000 = true;
         jjtree.openNodeScope(jjtn000);
+        jjtn000.jjtSetFirstToken(getToken(1));
         try {
             label_25:
             while (true) {
@@ -3759,6 +3889,7 @@ public class Parser/*@bgen(jjtree)*/ implements ParserTreeConstants, ParserConst
         } finally {
             if (jjtc000) {
                 jjtree.closeNodeScope(jjtn000, true);
+                jjtn000.jjtSetLastToken(getToken(0));
             }
         }
     }
@@ -3772,6 +3903,7 @@ public class Parser/*@bgen(jjtree)*/ implements ParserTreeConstants, ParserConst
         ASTExpression jjtn000 = new ASTExpression(JJTEXPRESSION);
         boolean jjtc000 = true;
         jjtree.openNodeScope(jjtn000);
+        jjtn000.jjtSetFirstToken(getToken(1));
         try {
             if (jj_2_27(2147483647)) {
                 AssignmentExpr();
@@ -3826,6 +3958,7 @@ public class Parser/*@bgen(jjtree)*/ implements ParserTreeConstants, ParserConst
         } finally {
             if (jjtc000) {
                 jjtree.closeNodeScope(jjtn000, true);
+                jjtn000.jjtSetLastToken(getToken(0));
             }
         }
     }
@@ -3834,6 +3967,7 @@ public class Parser/*@bgen(jjtree)*/ implements ParserTreeConstants, ParserConst
         ASTAssignmentExpr jjtn001 = new ASTAssignmentExpr(JJTASSIGNMENTEXPR);
         boolean jjtc001 = true;
         jjtree.openNodeScope(jjtn001);
+        jjtn001.jjtSetFirstToken(getToken(1));
         try {
             LeftHandSide();
             AssignmentOp();
@@ -3867,6 +4001,7 @@ public class Parser/*@bgen(jjtree)*/ implements ParserTreeConstants, ParserConst
         } finally {
             if (jjtc001) {
                 jjtree.closeNodeScope(jjtn001, jjtree.nodeArity() > 1);
+                jjtn001.jjtSetLastToken(getToken(0));
             }
         }
     }
@@ -3876,6 +4011,7 @@ public class Parser/*@bgen(jjtree)*/ implements ParserTreeConstants, ParserConst
         ASTAssignmentOp jjtn000 = new ASTAssignmentOp(JJTASSIGNMENTOP);
         boolean jjtc000 = true;
         jjtree.openNodeScope(jjtn000);
+        jjtn000.jjtSetFirstToken(getToken(1));
         try {
             switch ((jj_ntk == -1) ? jj_ntk_f() : jj_ntk) {
                 case 28: {
@@ -3922,6 +4058,7 @@ public class Parser/*@bgen(jjtree)*/ implements ParserTreeConstants, ParserConst
         } finally {
             if (jjtc000) {
                 jjtree.closeNodeScope(jjtn000, true);
+                jjtn000.jjtSetLastToken(getToken(0));
             }
         }
     }
@@ -3931,6 +4068,7 @@ public class Parser/*@bgen(jjtree)*/ implements ParserTreeConstants, ParserConst
         ASTLeftHandSide jjtn000 = new ASTLeftHandSide(JJTLEFTHANDSIDE);
         boolean jjtc000 = true;
         jjtree.openNodeScope(jjtn000);
+        jjtn000.jjtSetFirstToken(getToken(1));
         try {
             ExpressionName();
         } catch (Throwable jjte000) {
@@ -3962,6 +4100,7 @@ public class Parser/*@bgen(jjtree)*/ implements ParserTreeConstants, ParserConst
         } finally {
             if (jjtc000) {
                 jjtree.closeNodeScope(jjtn000, true);
+                jjtn000.jjtSetLastToken(getToken(0));
             }
         }
     }
@@ -3971,6 +4110,7 @@ public class Parser/*@bgen(jjtree)*/ implements ParserTreeConstants, ParserConst
         ASTExprNode jjtn004 = new ASTExprNode(JJTEXPRNODE);
         boolean jjtc004 = true;
         jjtree.openNodeScope(jjtn004);
+        jjtn004.jjtSetFirstToken(getToken(1));
         try {
             label_26:
             while (true) {
@@ -3989,11 +4129,13 @@ public class Parser/*@bgen(jjtree)*/ implements ParserTreeConstants, ParserConst
                         ASTBackwardPipelineExpr jjtn001 = new ASTBackwardPipelineExpr(JJTBACKWARDPIPELINEEXPR);
                         boolean jjtc001 = true;
                         jjtree.openNodeScope(jjtn001);
+                        jjtn001.jjtSetFirstToken(getToken(1));
                         try {
                             jj_consume_token(38);
                         } finally {
                             if (jjtc001) {
                                 jjtree.closeNodeScope(jjtn001, true);
+                                jjtn001.jjtSetLastToken(getToken(0));
                             }
                         }
                         break;
@@ -4002,11 +4144,13 @@ public class Parser/*@bgen(jjtree)*/ implements ParserTreeConstants, ParserConst
                         ASTPipelineExpr jjtn002 = new ASTPipelineExpr(JJTPIPELINEEXPR);
                         boolean jjtc002 = true;
                         jjtree.openNodeScope(jjtn002);
+                        jjtn002.jjtSetFirstToken(getToken(1));
                         try {
                             jj_consume_token(39);
                         } finally {
                             if (jjtc002) {
                                 jjtree.closeNodeScope(jjtn002, true);
+                                jjtn002.jjtSetLastToken(getToken(0));
                             }
                         }
                         break;
@@ -4019,6 +4163,7 @@ public class Parser/*@bgen(jjtree)*/ implements ParserTreeConstants, ParserConst
                 ASTExprNode jjtn003 = new ASTExprNode(JJTEXPRNODE);
                 boolean jjtc003 = true;
                 jjtree.openNodeScope(jjtn003);
+                jjtn003.jjtSetFirstToken(getToken(1));
                 try {
                     BoolOrExpr();
                 } catch (Throwable jjte003) {
@@ -4050,6 +4195,7 @@ public class Parser/*@bgen(jjtree)*/ implements ParserTreeConstants, ParserConst
                 } finally {
                     if (jjtc003) {
                         jjtree.closeNodeScope(jjtn003, true);
+                        jjtn003.jjtSetLastToken(getToken(0));
                     }
                 }
             }
@@ -4082,6 +4228,7 @@ public class Parser/*@bgen(jjtree)*/ implements ParserTreeConstants, ParserConst
         } finally {
             if (jjtc004) {
                 jjtree.closeNodeScope(jjtn004, jjtree.nodeArity() > 1);
+                jjtn004.jjtSetLastToken(getToken(0));
             }
         }
     }
@@ -4091,6 +4238,7 @@ public class Parser/*@bgen(jjtree)*/ implements ParserTreeConstants, ParserConst
         ASTExprNode jjtn003 = new ASTExprNode(JJTEXPRNODE);
         boolean jjtc003 = true;
         jjtree.openNodeScope(jjtn003);
+        jjtn003.jjtSetFirstToken(getToken(1));
         try {
             label_27:
             while (true) {
@@ -4106,16 +4254,19 @@ public class Parser/*@bgen(jjtree)*/ implements ParserTreeConstants, ParserConst
                 ASTBoolOr jjtn001 = new ASTBoolOr(JJTBOOLOR);
                 boolean jjtc001 = true;
                 jjtree.openNodeScope(jjtn001);
+                jjtn001.jjtSetFirstToken(getToken(1));
                 try {
                     jj_consume_token(29);
                 } finally {
                     if (jjtc001) {
                         jjtree.closeNodeScope(jjtn001, true);
+                        jjtn001.jjtSetLastToken(getToken(0));
                     }
                 }
                 ASTExprNode jjtn002 = new ASTExprNode(JJTEXPRNODE);
                 boolean jjtc002 = true;
                 jjtree.openNodeScope(jjtn002);
+                jjtn002.jjtSetFirstToken(getToken(1));
                 try {
                     BoolAndExpr();
                 } catch (Throwable jjte002) {
@@ -4147,6 +4298,7 @@ public class Parser/*@bgen(jjtree)*/ implements ParserTreeConstants, ParserConst
                 } finally {
                     if (jjtc002) {
                         jjtree.closeNodeScope(jjtn002, true);
+                        jjtn002.jjtSetLastToken(getToken(0));
                     }
                 }
             }
@@ -4179,6 +4331,7 @@ public class Parser/*@bgen(jjtree)*/ implements ParserTreeConstants, ParserConst
         } finally {
             if (jjtc003) {
                 jjtree.closeNodeScope(jjtn003, jjtree.nodeArity() > 1);
+                jjtn003.jjtSetLastToken(getToken(0));
             }
         }
     }
@@ -4188,6 +4341,7 @@ public class Parser/*@bgen(jjtree)*/ implements ParserTreeConstants, ParserConst
         ASTExprNode jjtn003 = new ASTExprNode(JJTEXPRNODE);
         boolean jjtc003 = true;
         jjtree.openNodeScope(jjtn003);
+        jjtn003.jjtSetFirstToken(getToken(1));
         try {
             label_28:
             while (true) {
@@ -4203,16 +4357,19 @@ public class Parser/*@bgen(jjtree)*/ implements ParserTreeConstants, ParserConst
                 ASTBoolAnd jjtn001 = new ASTBoolAnd(JJTBOOLAND);
                 boolean jjtc001 = true;
                 jjtree.openNodeScope(jjtn001);
+                jjtn001.jjtSetFirstToken(getToken(1));
                 try {
                     jj_consume_token(19);
                 } finally {
                     if (jjtc001) {
                         jjtree.closeNodeScope(jjtn001, true);
+                        jjtn001.jjtSetLastToken(getToken(0));
                     }
                 }
                 ASTExprNode jjtn002 = new ASTExprNode(JJTEXPRNODE);
                 boolean jjtc002 = true;
                 jjtree.openNodeScope(jjtn002);
+                jjtn002.jjtSetFirstToken(getToken(1));
                 try {
                     EqualityExpr();
                 } catch (Throwable jjte002) {
@@ -4244,6 +4401,7 @@ public class Parser/*@bgen(jjtree)*/ implements ParserTreeConstants, ParserConst
                 } finally {
                     if (jjtc002) {
                         jjtree.closeNodeScope(jjtn002, true);
+                        jjtn002.jjtSetLastToken(getToken(0));
                     }
                 }
             }
@@ -4276,6 +4434,7 @@ public class Parser/*@bgen(jjtree)*/ implements ParserTreeConstants, ParserConst
         } finally {
             if (jjtc003) {
                 jjtree.closeNodeScope(jjtn003, jjtree.nodeArity() > 1);
+                jjtn003.jjtSetLastToken(getToken(0));
             }
         }
     }
@@ -4284,6 +4443,7 @@ public class Parser/*@bgen(jjtree)*/ implements ParserTreeConstants, ParserConst
         ASTExprNode jjtn004 = new ASTExprNode(JJTEXPRNODE);
         boolean jjtc004 = true;
         jjtree.openNodeScope(jjtn004);
+        jjtn004.jjtSetFirstToken(getToken(1));
         try {
             RelationalExpr();
             label_29:
@@ -4303,11 +4463,13 @@ public class Parser/*@bgen(jjtree)*/ implements ParserTreeConstants, ParserConst
                         ASTEqualTo jjtn001 = new ASTEqualTo(JJTEQUALTO);
                         boolean jjtc001 = true;
                         jjtree.openNodeScope(jjtn001);
+                        jjtn001.jjtSetFirstToken(getToken(1));
                         try {
                             jj_consume_token(40);
                         } finally {
                             if (jjtc001) {
                                 jjtree.closeNodeScope(jjtn001, true);
+                                jjtn001.jjtSetLastToken(getToken(0));
                             }
                         }
                         break;
@@ -4316,11 +4478,13 @@ public class Parser/*@bgen(jjtree)*/ implements ParserTreeConstants, ParserConst
                         ASTNotEqualTo jjtn002 = new ASTNotEqualTo(JJTNOTEQUALTO);
                         boolean jjtc002 = true;
                         jjtree.openNodeScope(jjtn002);
+                        jjtn002.jjtSetFirstToken(getToken(1));
                         try {
                             jj_consume_token(41);
                         } finally {
                             if (jjtc002) {
                                 jjtree.closeNodeScope(jjtn002, true);
+                                jjtn002.jjtSetLastToken(getToken(0));
                             }
                         }
                         break;
@@ -4333,6 +4497,7 @@ public class Parser/*@bgen(jjtree)*/ implements ParserTreeConstants, ParserConst
                 ASTExprNode jjtn003 = new ASTExprNode(JJTEXPRNODE);
                 boolean jjtc003 = true;
                 jjtree.openNodeScope(jjtn003);
+                jjtn003.jjtSetFirstToken(getToken(1));
                 try {
                     RelationalExpr();
                 } catch (Throwable jjte003) {
@@ -4364,6 +4529,7 @@ public class Parser/*@bgen(jjtree)*/ implements ParserTreeConstants, ParserConst
                 } finally {
                     if (jjtc003) {
                         jjtree.closeNodeScope(jjtn003, true);
+                        jjtn003.jjtSetLastToken(getToken(0));
                     }
                 }
             }
@@ -4396,6 +4562,7 @@ public class Parser/*@bgen(jjtree)*/ implements ParserTreeConstants, ParserConst
         } finally {
             if (jjtc004) {
                 jjtree.closeNodeScope(jjtn004, jjtree.nodeArity() > 1);
+                jjtn004.jjtSetLastToken(getToken(0));
             }
         }
     }
@@ -4404,6 +4571,7 @@ public class Parser/*@bgen(jjtree)*/ implements ParserTreeConstants, ParserConst
         ASTExprNode jjtn006 = new ASTExprNode(JJTEXPRNODE);
         boolean jjtc006 = true;
         jjtree.openNodeScope(jjtn006);
+        jjtn006.jjtSetFirstToken(getToken(1));
         try {
             RangeExpr();
             label_30:
@@ -4425,11 +4593,13 @@ public class Parser/*@bgen(jjtree)*/ implements ParserTreeConstants, ParserConst
                         ASTLessThan jjtn001 = new ASTLessThan(JJTLESSTHAN);
                         boolean jjtc001 = true;
                         jjtree.openNodeScope(jjtn001);
+                        jjtn001.jjtSetFirstToken(getToken(1));
                         try {
                             jj_consume_token(18);
                         } finally {
                             if (jjtc001) {
                                 jjtree.closeNodeScope(jjtn001, true);
+                                jjtn001.jjtSetLastToken(getToken(0));
                             }
                         }
                         break;
@@ -4438,11 +4608,13 @@ public class Parser/*@bgen(jjtree)*/ implements ParserTreeConstants, ParserConst
                         ASTGreaterThan jjtn002 = new ASTGreaterThan(JJTGREATERTHAN);
                         boolean jjtc002 = true;
                         jjtree.openNodeScope(jjtn002);
+                        jjtn002.jjtSetFirstToken(getToken(1));
                         try {
                             jj_consume_token(42);
                         } finally {
                             if (jjtc002) {
                                 jjtree.closeNodeScope(jjtn002, true);
+                                jjtn002.jjtSetLastToken(getToken(0));
                             }
                         }
                         break;
@@ -4451,11 +4623,13 @@ public class Parser/*@bgen(jjtree)*/ implements ParserTreeConstants, ParserConst
                         ASTLessThanEqTo jjtn003 = new ASTLessThanEqTo(JJTLESSTHANEQTO);
                         boolean jjtc003 = true;
                         jjtree.openNodeScope(jjtn003);
+                        jjtn003.jjtSetFirstToken(getToken(1));
                         try {
                             jj_consume_token(43);
                         } finally {
                             if (jjtc003) {
                                 jjtree.closeNodeScope(jjtn003, true);
+                                jjtn003.jjtSetLastToken(getToken(0));
                             }
                         }
                         break;
@@ -4464,11 +4638,13 @@ public class Parser/*@bgen(jjtree)*/ implements ParserTreeConstants, ParserConst
                         ASTGreaterThanEqTo jjtn004 = new ASTGreaterThanEqTo(JJTGREATERTHANEQTO);
                         boolean jjtc004 = true;
                         jjtree.openNodeScope(jjtn004);
+                        jjtn004.jjtSetFirstToken(getToken(1));
                         try {
                             jj_consume_token(44);
                         } finally {
                             if (jjtc004) {
                                 jjtree.closeNodeScope(jjtn004, true);
+                                jjtn004.jjtSetLastToken(getToken(0));
                             }
                         }
                         break;
@@ -4481,6 +4657,7 @@ public class Parser/*@bgen(jjtree)*/ implements ParserTreeConstants, ParserConst
                 ASTExprNode jjtn005 = new ASTExprNode(JJTEXPRNODE);
                 boolean jjtc005 = true;
                 jjtree.openNodeScope(jjtn005);
+                jjtn005.jjtSetFirstToken(getToken(1));
                 try {
                     RangeExpr();
                 } catch (Throwable jjte005) {
@@ -4512,6 +4689,7 @@ public class Parser/*@bgen(jjtree)*/ implements ParserTreeConstants, ParserConst
                 } finally {
                     if (jjtc005) {
                         jjtree.closeNodeScope(jjtn005, true);
+                        jjtn005.jjtSetLastToken(getToken(0));
                     }
                 }
             }
@@ -4544,6 +4722,7 @@ public class Parser/*@bgen(jjtree)*/ implements ParserTreeConstants, ParserConst
         } finally {
             if (jjtc006) {
                 jjtree.closeNodeScope(jjtn006, jjtree.nodeArity() > 1);
+                jjtn006.jjtSetLastToken(getToken(0));
             }
         }
     }
@@ -4552,6 +4731,7 @@ public class Parser/*@bgen(jjtree)*/ implements ParserTreeConstants, ParserConst
         ASTExprNode jjtn004 = new ASTExprNode(JJTEXPRNODE);
         boolean jjtc004 = true;
         jjtree.openNodeScope(jjtn004);
+        jjtn004.jjtSetFirstToken(getToken(1));
         try {
             AdditiveExpr();
             label_31:
@@ -4571,11 +4751,13 @@ public class Parser/*@bgen(jjtree)*/ implements ParserTreeConstants, ParserConst
                         ASTClosedRange jjtn001 = new ASTClosedRange(JJTCLOSEDRANGE);
                         boolean jjtc001 = true;
                         jjtree.openNodeScope(jjtn001);
+                        jjtn001.jjtSetFirstToken(getToken(1));
                         try {
                             jj_consume_token(45);
                         } finally {
                             if (jjtc001) {
                                 jjtree.closeNodeScope(jjtn001, true);
+                                jjtn001.jjtSetLastToken(getToken(0));
                             }
                         }
                         break;
@@ -4584,11 +4766,13 @@ public class Parser/*@bgen(jjtree)*/ implements ParserTreeConstants, ParserConst
                         ASTHalfOpenRange jjtn002 = new ASTHalfOpenRange(JJTHALFOPENRANGE);
                         boolean jjtc002 = true;
                         jjtree.openNodeScope(jjtn002);
+                        jjtn002.jjtSetFirstToken(getToken(1));
                         try {
                             jj_consume_token(46);
                         } finally {
                             if (jjtc002) {
                                 jjtree.closeNodeScope(jjtn002, true);
+                                jjtn002.jjtSetLastToken(getToken(0));
                             }
                         }
                         break;
@@ -4601,6 +4785,7 @@ public class Parser/*@bgen(jjtree)*/ implements ParserTreeConstants, ParserConst
                 ASTExprNode jjtn003 = new ASTExprNode(JJTEXPRNODE);
                 boolean jjtc003 = true;
                 jjtree.openNodeScope(jjtn003);
+                jjtn003.jjtSetFirstToken(getToken(1));
                 try {
                     AdditiveExpr();
                 } catch (Throwable jjte003) {
@@ -4632,6 +4817,7 @@ public class Parser/*@bgen(jjtree)*/ implements ParserTreeConstants, ParserConst
                 } finally {
                     if (jjtc003) {
                         jjtree.closeNodeScope(jjtn003, true);
+                        jjtn003.jjtSetLastToken(getToken(0));
                     }
                 }
             }
@@ -4664,6 +4850,7 @@ public class Parser/*@bgen(jjtree)*/ implements ParserTreeConstants, ParserConst
         } finally {
             if (jjtc004) {
                 jjtree.closeNodeScope(jjtn004, jjtree.nodeArity() > 1);
+                jjtn004.jjtSetLastToken(getToken(0));
             }
         }
     }
@@ -4672,6 +4859,7 @@ public class Parser/*@bgen(jjtree)*/ implements ParserTreeConstants, ParserConst
         ASTExprNode jjtn006 = new ASTExprNode(JJTEXPRNODE);
         boolean jjtc006 = true;
         jjtree.openNodeScope(jjtn006);
+        jjtn006.jjtSetFirstToken(getToken(1));
         try {
             MultiplicativeExpr();
             label_32:
@@ -4686,11 +4874,13 @@ public class Parser/*@bgen(jjtree)*/ implements ParserTreeConstants, ParserConst
                         ASTAdd jjtn001 = new ASTAdd(JJTADD);
                         boolean jjtc001 = true;
                         jjtree.openNodeScope(jjtn001);
+                        jjtn001.jjtSetFirstToken(getToken(1));
                         try {
                             jj_consume_token(47);
                         } finally {
                             if (jjtc001) {
                                 jjtree.closeNodeScope(jjtn001, true);
+                                jjtn001.jjtSetLastToken(getToken(0));
                             }
                         }
                         break;
@@ -4699,11 +4889,13 @@ public class Parser/*@bgen(jjtree)*/ implements ParserTreeConstants, ParserConst
                         ASTSub jjtn002 = new ASTSub(JJTSUB);
                         boolean jjtc002 = true;
                         jjtree.openNodeScope(jjtn002);
+                        jjtn002.jjtSetFirstToken(getToken(1));
                         try {
                             jj_consume_token(48);
                         } finally {
                             if (jjtc002) {
                                 jjtree.closeNodeScope(jjtn002, true);
+                                jjtn002.jjtSetLastToken(getToken(0));
                             }
                         }
                         break;
@@ -4712,11 +4904,13 @@ public class Parser/*@bgen(jjtree)*/ implements ParserTreeConstants, ParserConst
                         ASTSafeAdd jjtn003 = new ASTSafeAdd(JJTSAFEADD);
                         boolean jjtc003 = true;
                         jjtree.openNodeScope(jjtn003);
+                        jjtn003.jjtSetFirstToken(getToken(1));
                         try {
                             jj_consume_token(49);
                         } finally {
                             if (jjtc003) {
                                 jjtree.closeNodeScope(jjtn003, true);
+                                jjtn003.jjtSetLastToken(getToken(0));
                             }
                         }
                         break;
@@ -4725,11 +4919,13 @@ public class Parser/*@bgen(jjtree)*/ implements ParserTreeConstants, ParserConst
                         ASTSafeSub jjtn004 = new ASTSafeSub(JJTSAFESUB);
                         boolean jjtc004 = true;
                         jjtree.openNodeScope(jjtn004);
+                        jjtn004.jjtSetFirstToken(getToken(1));
                         try {
                             jj_consume_token(50);
                         } finally {
                             if (jjtc004) {
                                 jjtree.closeNodeScope(jjtn004, true);
+                                jjtn004.jjtSetLastToken(getToken(0));
                             }
                         }
                         break;
@@ -4742,6 +4938,7 @@ public class Parser/*@bgen(jjtree)*/ implements ParserTreeConstants, ParserConst
                 ASTExprNode jjtn005 = new ASTExprNode(JJTEXPRNODE);
                 boolean jjtc005 = true;
                 jjtree.openNodeScope(jjtn005);
+                jjtn005.jjtSetFirstToken(getToken(1));
                 try {
                     MultiplicativeExpr();
                 } catch (Throwable jjte005) {
@@ -4773,6 +4970,7 @@ public class Parser/*@bgen(jjtree)*/ implements ParserTreeConstants, ParserConst
                 } finally {
                     if (jjtc005) {
                         jjtree.closeNodeScope(jjtn005, true);
+                        jjtn005.jjtSetLastToken(getToken(0));
                     }
                 }
             }
@@ -4805,6 +5003,7 @@ public class Parser/*@bgen(jjtree)*/ implements ParserTreeConstants, ParserConst
         } finally {
             if (jjtc006) {
                 jjtree.closeNodeScope(jjtn006, jjtree.nodeArity() > 1);
+                jjtn006.jjtSetLastToken(getToken(0));
             }
         }
     }
@@ -4813,6 +5012,7 @@ public class Parser/*@bgen(jjtree)*/ implements ParserTreeConstants, ParserConst
         ASTExprNode jjtn007 = new ASTExprNode(JJTEXPRNODE);
         boolean jjtc007 = true;
         jjtree.openNodeScope(jjtn007);
+        jjtn007.jjtSetFirstToken(getToken(1));
         try {
             UnaryExpr();
             label_33:
@@ -4836,11 +5036,13 @@ public class Parser/*@bgen(jjtree)*/ implements ParserTreeConstants, ParserConst
                         ASTMul jjtn001 = new ASTMul(JJTMUL);
                         boolean jjtc001 = true;
                         jjtree.openNodeScope(jjtn001);
+                        jjtn001.jjtSetFirstToken(getToken(1));
                         try {
                             jj_consume_token(5);
                         } finally {
                             if (jjtc001) {
                                 jjtree.closeNodeScope(jjtn001, true);
+                                jjtn001.jjtSetLastToken(getToken(0));
                             }
                         }
                         break;
@@ -4849,11 +5051,13 @@ public class Parser/*@bgen(jjtree)*/ implements ParserTreeConstants, ParserConst
                         ASTDiv jjtn002 = new ASTDiv(JJTDIV);
                         boolean jjtc002 = true;
                         jjtree.openNodeScope(jjtn002);
+                        jjtn002.jjtSetFirstToken(getToken(1));
                         try {
                             jj_consume_token(51);
                         } finally {
                             if (jjtc002) {
                                 jjtree.closeNodeScope(jjtn002, true);
+                                jjtn002.jjtSetLastToken(getToken(0));
                             }
                         }
                         break;
@@ -4862,11 +5066,13 @@ public class Parser/*@bgen(jjtree)*/ implements ParserTreeConstants, ParserConst
                         ASTRem jjtn003 = new ASTRem(JJTREM);
                         boolean jjtc003 = true;
                         jjtree.openNodeScope(jjtn003);
+                        jjtn003.jjtSetFirstToken(getToken(1));
                         try {
                             jj_consume_token(52);
                         } finally {
                             if (jjtc003) {
                                 jjtree.closeNodeScope(jjtn003, true);
+                                jjtn003.jjtSetLastToken(getToken(0));
                             }
                         }
                         break;
@@ -4875,11 +5081,13 @@ public class Parser/*@bgen(jjtree)*/ implements ParserTreeConstants, ParserConst
                         ASTSafeMul jjtn004 = new ASTSafeMul(JJTSAFEMUL);
                         boolean jjtc004 = true;
                         jjtree.openNodeScope(jjtn004);
+                        jjtn004.jjtSetFirstToken(getToken(1));
                         try {
                             jj_consume_token(53);
                         } finally {
                             if (jjtc004) {
                                 jjtree.closeNodeScope(jjtn004, true);
+                                jjtn004.jjtSetLastToken(getToken(0));
                             }
                         }
                         break;
@@ -4888,11 +5096,13 @@ public class Parser/*@bgen(jjtree)*/ implements ParserTreeConstants, ParserConst
                         ASTSafeDiv jjtn005 = new ASTSafeDiv(JJTSAFEDIV);
                         boolean jjtc005 = true;
                         jjtree.openNodeScope(jjtn005);
+                        jjtn005.jjtSetFirstToken(getToken(1));
                         try {
                             jj_consume_token(54);
                         } finally {
                             if (jjtc005) {
                                 jjtree.closeNodeScope(jjtn005, true);
+                                jjtn005.jjtSetLastToken(getToken(0));
                             }
                         }
                         break;
@@ -4901,11 +5111,13 @@ public class Parser/*@bgen(jjtree)*/ implements ParserTreeConstants, ParserConst
                         ASTSafeRem jjtn006 = new ASTSafeRem(JJTSAFEREM);
                         boolean jjtc006 = true;
                         jjtree.openNodeScope(jjtn006);
+                        jjtn006.jjtSetFirstToken(getToken(1));
                         try {
                             jj_consume_token(55);
                         } finally {
                             if (jjtc006) {
                                 jjtree.closeNodeScope(jjtn006, true);
+                                jjtn006.jjtSetLastToken(getToken(0));
                             }
                         }
                         break;
@@ -4946,6 +5158,7 @@ public class Parser/*@bgen(jjtree)*/ implements ParserTreeConstants, ParserConst
         } finally {
             if (jjtc007) {
                 jjtree.closeNodeScope(jjtn007, jjtree.nodeArity() > 1);
+                jjtn007.jjtSetLastToken(getToken(0));
             }
         }
     }
@@ -4954,17 +5167,20 @@ public class Parser/*@bgen(jjtree)*/ implements ParserTreeConstants, ParserConst
         ASTExprNode jjtn003 = new ASTExprNode(JJTEXPRNODE);
         boolean jjtc003 = true;
         jjtree.openNodeScope(jjtn003);
+        jjtn003.jjtSetFirstToken(getToken(1));
         try {
             switch ((jj_ntk == -1) ? jj_ntk_f() : jj_ntk) {
                 case 47: {
                     ASTUAdd jjtn001 = new ASTUAdd(JJTUADD);
                     boolean jjtc001 = true;
                     jjtree.openNodeScope(jjtn001);
+                    jjtn001.jjtSetFirstToken(getToken(1));
                     try {
                         jj_consume_token(47);
                     } finally {
                         if (jjtc001) {
                             jjtree.closeNodeScope(jjtn001, true);
+                            jjtn001.jjtSetLastToken(getToken(0));
                         }
                     }
                     UnaryExpr();
@@ -4974,11 +5190,13 @@ public class Parser/*@bgen(jjtree)*/ implements ParserTreeConstants, ParserConst
                     ASTUSub jjtn002 = new ASTUSub(JJTUSUB);
                     boolean jjtc002 = true;
                     jjtree.openNodeScope(jjtn002);
+                    jjtn002.jjtSetFirstToken(getToken(1));
                     try {
                         jj_consume_token(48);
                     } finally {
                         if (jjtc002) {
                             jjtree.closeNodeScope(jjtn002, true);
+                            jjtn002.jjtSetLastToken(getToken(0));
                         }
                     }
                     UnaryExpr();
@@ -5038,6 +5256,7 @@ public class Parser/*@bgen(jjtree)*/ implements ParserTreeConstants, ParserConst
         } finally {
             if (jjtc003) {
                 jjtree.closeNodeScope(jjtn003, jjtree.nodeArity() > 1);
+                jjtn003.jjtSetLastToken(getToken(0));
             }
         }
     }
@@ -5046,17 +5265,20 @@ public class Parser/*@bgen(jjtree)*/ implements ParserTreeConstants, ParserConst
         ASTExprNode jjtn002 = new ASTExprNode(JJTEXPRNODE);
         boolean jjtc002 = true;
         jjtree.openNodeScope(jjtn002);
+        jjtn002.jjtSetFirstToken(getToken(1));
         try {
             switch ((jj_ntk == -1) ? jj_ntk_f() : jj_ntk) {
                 case 56: {
                     ASTUBang jjtn001 = new ASTUBang(JJTUBANG);
                     boolean jjtc001 = true;
                     jjtree.openNodeScope(jjtn001);
+                    jjtn001.jjtSetFirstToken(getToken(1));
                     try {
                         jj_consume_token(56);
                     } finally {
                         if (jjtc001) {
                             jjtree.closeNodeScope(jjtn001, true);
+                            jjtn001.jjtSetLastToken(getToken(0));
                         }
                     }
                     UnaryExpr();
@@ -5125,6 +5347,7 @@ public class Parser/*@bgen(jjtree)*/ implements ParserTreeConstants, ParserConst
         } finally {
             if (jjtc002) {
                 jjtree.closeNodeScope(jjtn002, jjtree.nodeArity() > 1);
+                jjtn002.jjtSetLastToken(getToken(0));
             }
         }
     }
@@ -5133,6 +5356,7 @@ public class Parser/*@bgen(jjtree)*/ implements ParserTreeConstants, ParserConst
         ASTExprNode jjtn001 = new ASTExprNode(JJTEXPRNODE);
         boolean jjtc001 = true;
         jjtree.openNodeScope(jjtn001);
+        jjtn001.jjtSetFirstToken(getToken(1));
         try {
             jj_consume_token(25);
             Expression();
@@ -5168,6 +5392,7 @@ public class Parser/*@bgen(jjtree)*/ implements ParserTreeConstants, ParserConst
         } finally {
             if (jjtc001) {
                 jjtree.closeNodeScope(jjtn001, jjtree.nodeArity() > 1);
+                jjtn001.jjtSetLastToken(getToken(0));
             }
         }
     }
@@ -5176,6 +5401,7 @@ public class Parser/*@bgen(jjtree)*/ implements ParserTreeConstants, ParserConst
         ASTExprNode jjtn001 = new ASTExprNode(JJTEXPRNODE);
         boolean jjtc001 = true;
         jjtree.openNodeScope(jjtn001);
+        jjtn001.jjtSetFirstToken(getToken(1));
         try {
             jj_consume_token(25);
             Expression();
@@ -5211,6 +5437,7 @@ public class Parser/*@bgen(jjtree)*/ implements ParserTreeConstants, ParserConst
         } finally {
             if (jjtc001) {
                 jjtree.closeNodeScope(jjtn001, jjtree.nodeArity() > 1);
+                jjtn001.jjtSetLastToken(getToken(0));
             }
         }
     }
@@ -5219,6 +5446,7 @@ public class Parser/*@bgen(jjtree)*/ implements ParserTreeConstants, ParserConst
         ASTExprNode jjtn001 = new ASTExprNode(JJTEXPRNODE);
         boolean jjtc001 = true;
         jjtree.openNodeScope(jjtn001);
+        jjtn001.jjtSetFirstToken(getToken(1));
         try {
             if (jj_2_32(2147483647)) {
                 Primary();
@@ -5257,6 +5485,7 @@ public class Parser/*@bgen(jjtree)*/ implements ParserTreeConstants, ParserConst
         } finally {
             if (jjtc001) {
                 jjtree.closeNodeScope(jjtn001, jjtree.nodeArity() > 1);
+                jjtn001.jjtSetLastToken(getToken(0));
             }
         }
     }
@@ -5265,6 +5494,7 @@ public class Parser/*@bgen(jjtree)*/ implements ParserTreeConstants, ParserConst
         ASTExprNode jjtn001 = new ASTExprNode(JJTEXPRNODE);
         boolean jjtc001 = true;
         jjtree.openNodeScope(jjtn001);
+        jjtn001.jjtSetFirstToken(getToken(1));
         try {
             if (jj_2_34(2147483647)) {
                 MethodInvocation();
@@ -5327,6 +5557,7 @@ public class Parser/*@bgen(jjtree)*/ implements ParserTreeConstants, ParserConst
         } finally {
             if (jjtc001) {
                 jjtree.closeNodeScope(jjtn001, jjtree.nodeArity() > 1);
+                jjtn001.jjtSetLastToken(getToken(0));
             }
         }
     }
@@ -5336,6 +5567,7 @@ public class Parser/*@bgen(jjtree)*/ implements ParserTreeConstants, ParserConst
         ASTListDisplay jjtn000 = new ASTListDisplay(JJTLISTDISPLAY);
         boolean jjtc000 = true;
         jjtree.openNodeScope(jjtn000);
+        jjtn000.jjtSetFirstToken(getToken(1));
         try {
             jj_consume_token(15);
             switch ((jj_ntk == -1) ? jj_ntk_f() : jj_ntk) {
@@ -5432,6 +5664,7 @@ public class Parser/*@bgen(jjtree)*/ implements ParserTreeConstants, ParserConst
         } finally {
             if (jjtc000) {
                 jjtree.closeNodeScope(jjtn000, true);
+                jjtn000.jjtSetLastToken(getToken(0));
             }
         }
     }
@@ -5441,6 +5674,7 @@ public class Parser/*@bgen(jjtree)*/ implements ParserTreeConstants, ParserConst
         ASTDictionaryDisplay jjtn000 = new ASTDictionaryDisplay(JJTDICTIONARYDISPLAY);
         boolean jjtc000 = true;
         jjtree.openNodeScope(jjtn000);
+        jjtn000.jjtSetFirstToken(getToken(1));
         try {
             jj_consume_token(15);
             label_35:
@@ -5486,6 +5720,7 @@ public class Parser/*@bgen(jjtree)*/ implements ParserTreeConstants, ParserConst
         } finally {
             if (jjtc000) {
                 jjtree.closeNodeScope(jjtn000, true);
+                jjtn000.jjtSetLastToken(getToken(0));
             }
         }
     }
@@ -5495,6 +5730,7 @@ public class Parser/*@bgen(jjtree)*/ implements ParserTreeConstants, ParserConst
         ASTDictionaryPair jjtn000 = new ASTDictionaryPair(JJTDICTIONARYPAIR);
         boolean jjtc000 = true;
         jjtree.openNodeScope(jjtn000);
+        jjtn000.jjtSetFirstToken(getToken(1));
         try {
             Identifier();
             jj_consume_token(3);
@@ -5528,6 +5764,7 @@ public class Parser/*@bgen(jjtree)*/ implements ParserTreeConstants, ParserConst
         } finally {
             if (jjtc000) {
                 jjtree.closeNodeScope(jjtn000, true);
+                jjtn000.jjtSetLastToken(getToken(0));
             }
         }
     }
@@ -5537,6 +5774,7 @@ public class Parser/*@bgen(jjtree)*/ implements ParserTreeConstants, ParserConst
         ASTTupleDisplay jjtn000 = new ASTTupleDisplay(JJTTUPLEDISPLAY);
         boolean jjtc000 = true;
         jjtree.openNodeScope(jjtn000);
+        jjtn000.jjtSetFirstToken(getToken(1));
         try {
             jj_consume_token(25);
             switch ((jj_ntk == -1) ? jj_ntk_f() : jj_ntk) {
@@ -5633,6 +5871,7 @@ public class Parser/*@bgen(jjtree)*/ implements ParserTreeConstants, ParserConst
         } finally {
             if (jjtc000) {
                 jjtree.closeNodeScope(jjtn000, true);
+                jjtn000.jjtSetLastToken(getToken(0));
             }
         }
     }
@@ -5642,6 +5881,7 @@ public class Parser/*@bgen(jjtree)*/ implements ParserTreeConstants, ParserConst
         ASTIfExpr jjtn000 = new ASTIfExpr(JJTIFEXPR);
         boolean jjtc000 = true;
         jjtree.openNodeScope(jjtn000);
+        jjtn000.jjtSetFirstToken(getToken(1));
         try {
             jj_consume_token(59);
             Expression();
@@ -5681,6 +5921,7 @@ public class Parser/*@bgen(jjtree)*/ implements ParserTreeConstants, ParserConst
         } finally {
             if (jjtc000) {
                 jjtree.closeNodeScope(jjtn000, true);
+                jjtn000.jjtSetLastToken(getToken(0));
             }
         }
     }
@@ -5690,6 +5931,7 @@ public class Parser/*@bgen(jjtree)*/ implements ParserTreeConstants, ParserConst
         ASTIfBody jjtn000 = new ASTIfBody(JJTIFBODY);
         boolean jjtc000 = true;
         jjtree.openNodeScope(jjtn000);
+        jjtn000.jjtSetFirstToken(getToken(1));
         try {
             switch ((jj_ntk == -1) ? jj_ntk_f() : jj_ntk) {
                 case 2:
@@ -5762,6 +6004,7 @@ public class Parser/*@bgen(jjtree)*/ implements ParserTreeConstants, ParserConst
         } finally {
             if (jjtc000) {
                 jjtree.closeNodeScope(jjtn000, true);
+                jjtn000.jjtSetLastToken(getToken(0));
             }
         }
     }
@@ -5771,6 +6014,7 @@ public class Parser/*@bgen(jjtree)*/ implements ParserTreeConstants, ParserConst
         ASTSwitchExpr jjtn000 = new ASTSwitchExpr(JJTSWITCHEXPR);
         boolean jjtc000 = true;
         jjtree.openNodeScope(jjtn000);
+        jjtn000.jjtSetFirstToken(getToken(1));
         try {
             jj_consume_token(61);
             Expression();
@@ -5818,6 +6062,7 @@ public class Parser/*@bgen(jjtree)*/ implements ParserTreeConstants, ParserConst
         } finally {
             if (jjtc000) {
                 jjtree.closeNodeScope(jjtn000, true);
+                jjtn000.jjtSetLastToken(getToken(0));
             }
         }
     }
@@ -5827,6 +6072,7 @@ public class Parser/*@bgen(jjtree)*/ implements ParserTreeConstants, ParserConst
         ASTSwitchCase jjtn000 = new ASTSwitchCase(JJTSWITCHCASE);
         boolean jjtc000 = true;
         jjtree.openNodeScope(jjtn000);
+        jjtn000.jjtSetFirstToken(getToken(1));
         try {
             jj_consume_token(12);
             SwitchCond();
@@ -5861,6 +6107,7 @@ public class Parser/*@bgen(jjtree)*/ implements ParserTreeConstants, ParserConst
         } finally {
             if (jjtc000) {
                 jjtree.closeNodeScope(jjtn000, true);
+                jjtn000.jjtSetLastToken(getToken(0));
             }
         }
     }
@@ -5870,6 +6117,7 @@ public class Parser/*@bgen(jjtree)*/ implements ParserTreeConstants, ParserConst
         ASTSwitchCond jjtn000 = new ASTSwitchCond(JJTSWITCHCOND);
         boolean jjtc000 = true;
         jjtree.openNodeScope(jjtn000);
+        jjtn000.jjtSetFirstToken(getToken(1));
         try {
             if (jj_2_43(2147483647)) {
                 IdentifierTypeBinding();
@@ -5917,6 +6165,7 @@ public class Parser/*@bgen(jjtree)*/ implements ParserTreeConstants, ParserConst
         } finally {
             if (jjtc000) {
                 jjtree.closeNodeScope(jjtn000, true);
+                jjtn000.jjtSetLastToken(getToken(0));
             }
         }
     }
@@ -5926,6 +6175,7 @@ public class Parser/*@bgen(jjtree)*/ implements ParserTreeConstants, ParserConst
         ASTSwitchGuard jjtn000 = new ASTSwitchGuard(JJTSWITCHGUARD);
         boolean jjtc000 = true;
         jjtree.openNodeScope(jjtn000);
+        jjtn000.jjtSetFirstToken(getToken(1));
         try {
             jj_consume_token(9);
             Expression();
@@ -5958,6 +6208,7 @@ public class Parser/*@bgen(jjtree)*/ implements ParserTreeConstants, ParserConst
         } finally {
             if (jjtc000) {
                 jjtree.closeNodeScope(jjtn000, true);
+                jjtn000.jjtSetLastToken(getToken(0));
             }
         }
     }
@@ -5967,6 +6218,7 @@ public class Parser/*@bgen(jjtree)*/ implements ParserTreeConstants, ParserConst
         ASTCaseBody jjtn000 = new ASTCaseBody(JJTCASEBODY);
         boolean jjtc000 = true;
         jjtree.openNodeScope(jjtn000);
+        jjtn000.jjtSetFirstToken(getToken(1));
         try {
             switch ((jj_ntk == -1) ? jj_ntk_f() : jj_ntk) {
                 case 2:
@@ -6039,6 +6291,7 @@ public class Parser/*@bgen(jjtree)*/ implements ParserTreeConstants, ParserConst
         } finally {
             if (jjtc000) {
                 jjtree.closeNodeScope(jjtn000, true);
+                jjtn000.jjtSetLastToken(getToken(0));
             }
         }
     }
@@ -6048,6 +6301,7 @@ public class Parser/*@bgen(jjtree)*/ implements ParserTreeConstants, ParserConst
         ASTWhileLoopExpr jjtn000 = new ASTWhileLoopExpr(JJTWHILELOOPEXPR);
         boolean jjtc000 = true;
         jjtree.openNodeScope(jjtn000);
+        jjtn000.jjtSetFirstToken(getToken(1));
         try {
             jj_consume_token(63);
             Expression();
@@ -6081,6 +6335,7 @@ public class Parser/*@bgen(jjtree)*/ implements ParserTreeConstants, ParserConst
         } finally {
             if (jjtc000) {
                 jjtree.closeNodeScope(jjtn000, true);
+                jjtn000.jjtSetLastToken(getToken(0));
             }
         }
     }
@@ -6090,6 +6345,7 @@ public class Parser/*@bgen(jjtree)*/ implements ParserTreeConstants, ParserConst
         ASTWhileBody jjtn000 = new ASTWhileBody(JJTWHILEBODY);
         boolean jjtc000 = true;
         jjtree.openNodeScope(jjtn000);
+        jjtn000.jjtSetFirstToken(getToken(1));
         try {
             switch ((jj_ntk == -1) ? jj_ntk_f() : jj_ntk) {
                 case 2:
@@ -6162,6 +6418,7 @@ public class Parser/*@bgen(jjtree)*/ implements ParserTreeConstants, ParserConst
         } finally {
             if (jjtc000) {
                 jjtree.closeNodeScope(jjtn000, true);
+                jjtn000.jjtSetLastToken(getToken(0));
             }
         }
     }
@@ -6174,6 +6431,7 @@ public class Parser/*@bgen(jjtree)*/ implements ParserTreeConstants, ParserConst
         ASTMethodInvocation jjtn000 = new ASTMethodInvocation(JJTMETHODINVOCATION);
         boolean jjtc000 = true;
         jjtree.openNodeScope(jjtn000);
+        jjtn000.jjtSetFirstToken(getToken(1));
         try {
             if (jj_2_45(2)) {
                 MethodName();
@@ -6396,6 +6654,7 @@ public class Parser/*@bgen(jjtree)*/ implements ParserTreeConstants, ParserConst
         } finally {
             if (jjtc000) {
                 jjtree.closeNodeScope(jjtn000, true);
+                jjtn000.jjtSetLastToken(getToken(0));
             }
         }
     }
@@ -6405,6 +6664,7 @@ public class Parser/*@bgen(jjtree)*/ implements ParserTreeConstants, ParserConst
         ASTParenArguments jjtn000 = new ASTParenArguments(JJTPARENARGUMENTS);
         boolean jjtc000 = true;
         jjtree.openNodeScope(jjtn000);
+        jjtn000.jjtSetFirstToken(getToken(1));
         try {
             jj_consume_token(25);
             switch ((jj_ntk == -1) ? jj_ntk_f() : jj_ntk) {
@@ -6467,6 +6727,7 @@ public class Parser/*@bgen(jjtree)*/ implements ParserTreeConstants, ParserConst
         } finally {
             if (jjtc000) {
                 jjtree.closeNodeScope(jjtn000, true);
+                jjtn000.jjtSetLastToken(getToken(0));
             }
         }
     }
@@ -6513,6 +6774,7 @@ public class Parser/*@bgen(jjtree)*/ implements ParserTreeConstants, ParserConst
         ASTMethodName jjtn000 = new ASTMethodName(JJTMETHODNAME);
         boolean jjtc000 = true;
         jjtree.openNodeScope(jjtn000);
+        jjtn000.jjtSetFirstToken(getToken(1));
         try {
             Identifier();
         } catch (Throwable jjte000) {
@@ -6544,6 +6806,7 @@ public class Parser/*@bgen(jjtree)*/ implements ParserTreeConstants, ParserConst
         } finally {
             if (jjtc000) {
                 jjtree.closeNodeScope(jjtn000, true);
+                jjtn000.jjtSetLastToken(getToken(0));
             }
         }
     }
@@ -6553,6 +6816,7 @@ public class Parser/*@bgen(jjtree)*/ implements ParserTreeConstants, ParserConst
         ASTExpressionName jjtn000 = new ASTExpressionName(JJTEXPRESSIONNAME);
         boolean jjtc000 = true;
         jjtree.openNodeScope(jjtn000);
+        jjtn000.jjtSetFirstToken(getToken(1));
         try {
             AmbiguousName();
         } catch (Throwable jjte000) {
@@ -6584,6 +6848,7 @@ public class Parser/*@bgen(jjtree)*/ implements ParserTreeConstants, ParserConst
         } finally {
             if (jjtc000) {
                 jjtree.closeNodeScope(jjtn000, true);
+                jjtn000.jjtSetLastToken(getToken(0));
             }
         }
     }
@@ -6593,6 +6858,7 @@ public class Parser/*@bgen(jjtree)*/ implements ParserTreeConstants, ParserConst
         ASTArguments jjtn000 = new ASTArguments(JJTARGUMENTS);
         boolean jjtc000 = true;
         jjtree.openNodeScope(jjtn000);
+        jjtn000.jjtSetFirstToken(getToken(1));
         try {
             Argument();
             label_49:
@@ -6668,6 +6934,7 @@ public class Parser/*@bgen(jjtree)*/ implements ParserTreeConstants, ParserConst
         } finally {
             if (jjtc000) {
                 jjtree.closeNodeScope(jjtn000, true);
+                jjtn000.jjtSetLastToken(getToken(0));
             }
         }
     }
@@ -6677,6 +6944,7 @@ public class Parser/*@bgen(jjtree)*/ implements ParserTreeConstants, ParserConst
         ASTArgument jjtn000 = new ASTArgument(JJTARGUMENT);
         boolean jjtc000 = true;
         jjtree.openNodeScope(jjtn000);
+        jjtn000.jjtSetFirstToken(getToken(1));
         try {
             Expression();
         } catch (Throwable jjte000) {
@@ -6708,6 +6976,7 @@ public class Parser/*@bgen(jjtree)*/ implements ParserTreeConstants, ParserConst
         } finally {
             if (jjtc000) {
                 jjtree.closeNodeScope(jjtn000, true);
+                jjtn000.jjtSetLastToken(getToken(0));
             }
         }
     }
@@ -6717,6 +6986,7 @@ public class Parser/*@bgen(jjtree)*/ implements ParserTreeConstants, ParserConst
         ASTFunctionLiteral jjtn000 = new ASTFunctionLiteral(JJTFUNCTIONLITERAL);
         boolean jjtc000 = true;
         jjtree.openNodeScope(jjtn000);
+        jjtn000.jjtSetFirstToken(getToken(1));
         try {
             FuncLiteralArg();
             jj_consume_token(3);
@@ -6750,6 +7020,7 @@ public class Parser/*@bgen(jjtree)*/ implements ParserTreeConstants, ParserConst
         } finally {
             if (jjtc000) {
                 jjtree.closeNodeScope(jjtn000, true);
+                jjtn000.jjtSetLastToken(getToken(0));
             }
         }
     }
@@ -6759,6 +7030,7 @@ public class Parser/*@bgen(jjtree)*/ implements ParserTreeConstants, ParserConst
         ASTFuncLiteralArg jjtn000 = new ASTFuncLiteralArg(JJTFUNCLITERALARG);
         boolean jjtc000 = true;
         jjtree.openNodeScope(jjtn000);
+        jjtn000.jjtSetFirstToken(getToken(1));
         try {
             if (jj_2_53(2147483647)) {
                 jj_consume_token(25);
@@ -6817,6 +7089,7 @@ public class Parser/*@bgen(jjtree)*/ implements ParserTreeConstants, ParserConst
         } finally {
             if (jjtc000) {
                 jjtree.closeNodeScope(jjtn000, true);
+                jjtn000.jjtSetLastToken(getToken(0));
             }
         }
     }
@@ -6826,6 +7099,7 @@ public class Parser/*@bgen(jjtree)*/ implements ParserTreeConstants, ParserConst
         ASTFuncLiteralBody jjtn000 = new ASTFuncLiteralBody(JJTFUNCLITERALBODY);
         boolean jjtc000 = true;
         jjtree.openNodeScope(jjtn000);
+        jjtn000.jjtSetFirstToken(getToken(1));
         try {
             jj_consume_token(7);
             BlockStmts();
@@ -6859,6 +7133,7 @@ public class Parser/*@bgen(jjtree)*/ implements ParserTreeConstants, ParserConst
         } finally {
             if (jjtc000) {
                 jjtree.closeNodeScope(jjtn000, true);
+                jjtn000.jjtSetLastToken(getToken(0));
             }
         }
     }
@@ -6868,6 +7143,7 @@ public class Parser/*@bgen(jjtree)*/ implements ParserTreeConstants, ParserConst
         ASTIdentifierTypeBindings jjtn000 = new ASTIdentifierTypeBindings(JJTIDENTIFIERTYPEBINDINGS);
         boolean jjtc000 = true;
         jjtree.openNodeScope(jjtn000);
+        jjtn000.jjtSetFirstToken(getToken(1));
         try {
             switch ((jj_ntk == -1) ? jj_ntk_f() : jj_ntk) {
                 case Identifier: {
@@ -6921,6 +7197,7 @@ public class Parser/*@bgen(jjtree)*/ implements ParserTreeConstants, ParserConst
         } finally {
             if (jjtc000) {
                 jjtree.closeNodeScope(jjtn000, true);
+                jjtn000.jjtSetLastToken(getToken(0));
             }
         }
     }
@@ -6930,6 +7207,7 @@ public class Parser/*@bgen(jjtree)*/ implements ParserTreeConstants, ParserConst
         ASTIdentifierTypeBinding jjtn000 = new ASTIdentifierTypeBinding(JJTIDENTIFIERTYPEBINDING);
         boolean jjtc000 = true;
         jjtree.openNodeScope(jjtn000);
+        jjtn000.jjtSetFirstToken(getToken(1));
         try {
             Identifier();
             Type();
@@ -6962,6 +7240,7 @@ public class Parser/*@bgen(jjtree)*/ implements ParserTreeConstants, ParserConst
         } finally {
             if (jjtc000) {
                 jjtree.closeNodeScope(jjtn000, true);
+                jjtn000.jjtSetLastToken(getToken(0));
             }
         }
     }
@@ -6971,6 +7250,7 @@ public class Parser/*@bgen(jjtree)*/ implements ParserTreeConstants, ParserConst
         ASTAmbiguousName jjtn000 = new ASTAmbiguousName(JJTAMBIGUOUSNAME);
         boolean jjtc000 = true;
         jjtree.openNodeScope(jjtn000);
+        jjtn000.jjtSetFirstToken(getToken(1));
         try {
             Identifier();
             label_52:
@@ -7012,6 +7292,7 @@ public class Parser/*@bgen(jjtree)*/ implements ParserTreeConstants, ParserConst
         } finally {
             if (jjtc000) {
                 jjtree.closeNodeScope(jjtn000, true);
+                jjtn000.jjtSetLastToken(getToken(0));
             }
         }
     }
@@ -7097,16 +7378,19 @@ public class Parser/*@bgen(jjtree)*/ implements ParserTreeConstants, ParserConst
         ASTDecimalIntLiteral jjtn000 = new ASTDecimalIntLiteral(JJTDECIMALINTLITERAL);
         boolean jjtc000 = true;
         jjtree.openNodeScope(jjtn000);
+        jjtn000.jjtSetFirstToken(getToken(1));
         Token t;
         try {
             t = jj_consume_token(DecimalNumeral);
             jjtree.closeNodeScope(jjtn000, true);
             jjtc000 = false;
+            jjtn000.jjtSetLastToken(getToken(0));
             t.image = t.image.replaceAll("_", "");
             jjtn000.jjtSetValue(Integer.valueOf(t.image));
         } finally {
             if (jjtc000) {
                 jjtree.closeNodeScope(jjtn000, true);
+                jjtn000.jjtSetLastToken(getToken(0));
             }
         }
     }
@@ -7116,16 +7400,19 @@ public class Parser/*@bgen(jjtree)*/ implements ParserTreeConstants, ParserConst
         ASTHexIntLiteral jjtn000 = new ASTHexIntLiteral(JJTHEXINTLITERAL);
         boolean jjtc000 = true;
         jjtree.openNodeScope(jjtn000);
+        jjtn000.jjtSetFirstToken(getToken(1));
         Token t;
         try {
             t = jj_consume_token(HexNumeral);
             jjtree.closeNodeScope(jjtn000, true);
             jjtc000 = false;
+            jjtn000.jjtSetLastToken(getToken(0));
             t.image = t.image.replaceAll("_", "");
             jjtn000.jjtSetValue(Integer.valueOf(t.image.substring(2, t.image.length()), 16));
         } finally {
             if (jjtc000) {
                 jjtree.closeNodeScope(jjtn000, true);
+                jjtn000.jjtSetLastToken(getToken(0));
             }
         }
     }
@@ -7135,16 +7422,19 @@ public class Parser/*@bgen(jjtree)*/ implements ParserTreeConstants, ParserConst
         ASTOctIntLiteral jjtn000 = new ASTOctIntLiteral(JJTOCTINTLITERAL);
         boolean jjtc000 = true;
         jjtree.openNodeScope(jjtn000);
+        jjtn000.jjtSetFirstToken(getToken(1));
         Token t;
         try {
             t = jj_consume_token(OctalIntLiteral);
             jjtree.closeNodeScope(jjtn000, true);
             jjtc000 = false;
+            jjtn000.jjtSetLastToken(getToken(0));
             t.image = t.image.replaceAll("_", "");
             jjtn000.jjtSetValue(Integer.valueOf(t.image.substring(2, t.image.length()), 8));
         } finally {
             if (jjtc000) {
                 jjtree.closeNodeScope(jjtn000, true);
+                jjtn000.jjtSetLastToken(getToken(0));
             }
         }
     }
@@ -7154,16 +7444,19 @@ public class Parser/*@bgen(jjtree)*/ implements ParserTreeConstants, ParserConst
         ASTBinaryIntLiteral jjtn000 = new ASTBinaryIntLiteral(JJTBINARYINTLITERAL);
         boolean jjtc000 = true;
         jjtree.openNodeScope(jjtn000);
+        jjtn000.jjtSetFirstToken(getToken(1));
         Token t;
         try {
             t = jj_consume_token(BinaryNumeral);
             jjtree.closeNodeScope(jjtn000, true);
             jjtc000 = false;
+            jjtn000.jjtSetLastToken(getToken(0));
             t.image = t.image.replaceAll("_", "");
             jjtn000.jjtSetValue(Integer.valueOf(t.image.substring(2, t.image.length()), 2));
         } finally {
             if (jjtc000) {
                 jjtree.closeNodeScope(jjtn000, true);
+                jjtn000.jjtSetLastToken(getToken(0));
             }
         }
     }
@@ -7173,6 +7466,7 @@ public class Parser/*@bgen(jjtree)*/ implements ParserTreeConstants, ParserConst
         ASTFloatLiteral jjtn000 = new ASTFloatLiteral(JJTFLOATLITERAL);
         boolean jjtc000 = true;
         jjtree.openNodeScope(jjtn000);
+        jjtn000.jjtSetFirstToken(getToken(1));
         try {
             switch ((jj_ntk == -1) ? jj_ntk_f() : jj_ntk) {
                 case DecimalFPLiteral: {
@@ -7217,6 +7511,7 @@ public class Parser/*@bgen(jjtree)*/ implements ParserTreeConstants, ParserConst
         } finally {
             if (jjtc000) {
                 jjtree.closeNodeScope(jjtn000, true);
+                jjtn000.jjtSetLastToken(getToken(0));
             }
         }
     }
@@ -7226,16 +7521,19 @@ public class Parser/*@bgen(jjtree)*/ implements ParserTreeConstants, ParserConst
         ASTDecimalFPLiteral jjtn000 = new ASTDecimalFPLiteral(JJTDECIMALFPLITERAL);
         boolean jjtc000 = true;
         jjtree.openNodeScope(jjtn000);
+        jjtn000.jjtSetFirstToken(getToken(1));
         Token t;
         try {
             t = jj_consume_token(DecimalFPLiteral);
             jjtree.closeNodeScope(jjtn000, true);
             jjtc000 = false;
+            jjtn000.jjtSetLastToken(getToken(0));
             t.image = t.image.replaceAll("_", "");
             jjtn000.jjtSetValue(Double.parseDouble(t.image));
         } finally {
             if (jjtc000) {
                 jjtree.closeNodeScope(jjtn000, true);
+                jjtn000.jjtSetLastToken(getToken(0));
             }
         }
     }
@@ -7245,16 +7543,19 @@ public class Parser/*@bgen(jjtree)*/ implements ParserTreeConstants, ParserConst
         ASTHexadecimalFPLiteral jjtn000 = new ASTHexadecimalFPLiteral(JJTHEXADECIMALFPLITERAL);
         boolean jjtc000 = true;
         jjtree.openNodeScope(jjtn000);
+        jjtn000.jjtSetFirstToken(getToken(1));
         Token t;
         try {
             t = jj_consume_token(HexadecimalFPLiteral);
             jjtree.closeNodeScope(jjtn000, true);
             jjtc000 = false;
+            jjtn000.jjtSetLastToken(getToken(0));
             t.image = t.image.replaceAll("_", "");
             jjtn000.jjtSetValue(Double.parseDouble(t.image));
         } finally {
             if (jjtc000) {
                 jjtree.closeNodeScope(jjtn000, true);
+                jjtn000.jjtSetLastToken(getToken(0));
             }
         }
     }
@@ -7264,15 +7565,18 @@ public class Parser/*@bgen(jjtree)*/ implements ParserTreeConstants, ParserConst
         ASTBoolLiteral jjtn000 = new ASTBoolLiteral(JJTBOOLLITERAL);
         boolean jjtc000 = true;
         jjtree.openNodeScope(jjtn000);
+        jjtn000.jjtSetFirstToken(getToken(1));
         Token t;
         try {
             t = jj_consume_token(BoolLiteral);
             jjtree.closeNodeScope(jjtn000, true);
             jjtc000 = false;
+            jjtn000.jjtSetLastToken(getToken(0));
             jjtn000.jjtSetValue(Boolean.parseBoolean(t.image));
         } finally {
             if (jjtc000) {
                 jjtree.closeNodeScope(jjtn000, true);
+                jjtn000.jjtSetLastToken(getToken(0));
             }
         }
     }
@@ -7282,15 +7586,18 @@ public class Parser/*@bgen(jjtree)*/ implements ParserTreeConstants, ParserConst
         ASTCharLiteral jjtn000 = new ASTCharLiteral(JJTCHARLITERAL);
         boolean jjtc000 = true;
         jjtree.openNodeScope(jjtn000);
+        jjtn000.jjtSetFirstToken(getToken(1));
         Token t;
         try {
             t = jj_consume_token(CharLiteral);
             jjtree.closeNodeScope(jjtn000, true);
             jjtc000 = false;
+            jjtn000.jjtSetLastToken(getToken(0));
             jjtn000.jjtSetValue(Character.valueOf(t.image.charAt(0)));
         } finally {
             if (jjtc000) {
                 jjtree.closeNodeScope(jjtn000, true);
+                jjtn000.jjtSetLastToken(getToken(0));
             }
         }
     }
@@ -7300,15 +7607,18 @@ public class Parser/*@bgen(jjtree)*/ implements ParserTreeConstants, ParserConst
         ASTStringLiteral jjtn000 = new ASTStringLiteral(JJTSTRINGLITERAL);
         boolean jjtc000 = true;
         jjtree.openNodeScope(jjtn000);
+        jjtn000.jjtSetFirstToken(getToken(1));
         Token t;
         try {
             t = jj_consume_token(StringLiteral);
             jjtree.closeNodeScope(jjtn000, true);
             jjtc000 = false;
+            jjtn000.jjtSetLastToken(getToken(0));
             jjtn000.jjtSetValue(t.image);
         } finally {
             if (jjtc000) {
                 jjtree.closeNodeScope(jjtn000, true);
+                jjtn000.jjtSetLastToken(getToken(0));
             }
         }
     }
@@ -7318,15 +7628,18 @@ public class Parser/*@bgen(jjtree)*/ implements ParserTreeConstants, ParserConst
         ASTUndefinedLiteral jjtn000 = new ASTUndefinedLiteral(JJTUNDEFINEDLITERAL);
         boolean jjtc000 = true;
         jjtree.openNodeScope(jjtn000);
+        jjtn000.jjtSetFirstToken(getToken(1));
         Token t;
         try {
             t = jj_consume_token(UndefinedLiteral);
             jjtree.closeNodeScope(jjtn000, true);
             jjtc000 = false;
+            jjtn000.jjtSetLastToken(getToken(0));
             jjtn000.jjtSetValue(t);
         } finally {
             if (jjtc000) {
                 jjtree.closeNodeScope(jjtn000, true);
+                jjtn000.jjtSetLastToken(getToken(0));
             }
         }
     }
@@ -7336,15 +7649,18 @@ public class Parser/*@bgen(jjtree)*/ implements ParserTreeConstants, ParserConst
         ASTNullLiteral jjtn000 = new ASTNullLiteral(JJTNULLLITERAL);
         boolean jjtc000 = true;
         jjtree.openNodeScope(jjtn000);
+        jjtn000.jjtSetFirstToken(getToken(1));
         Token t;
         try {
             t = jj_consume_token(NullLiteral);
             jjtree.closeNodeScope(jjtn000, true);
             jjtc000 = false;
+            jjtn000.jjtSetLastToken(getToken(0));
             jjtn000.jjtSetValue(t);
         } finally {
             if (jjtc000) {
                 jjtree.closeNodeScope(jjtn000, true);
+                jjtn000.jjtSetLastToken(getToken(0));
             }
         }
     }
@@ -7355,15 +7671,18 @@ public class Parser/*@bgen(jjtree)*/ implements ParserTreeConstants, ParserConst
         ASTPublicModifier jjtn000 = new ASTPublicModifier(JJTPUBLICMODIFIER);
         boolean jjtc000 = true;
         jjtree.openNodeScope(jjtn000);
+        jjtn000.jjtSetFirstToken(getToken(1));
         Token t;
         try {
             t = jj_consume_token(88);
             jjtree.closeNodeScope(jjtn000, true);
             jjtc000 = false;
+            jjtn000.jjtSetLastToken(getToken(0));
             jjtn000.jjtSetValue(t);
         } finally {
             if (jjtc000) {
                 jjtree.closeNodeScope(jjtn000, true);
+                jjtn000.jjtSetLastToken(getToken(0));
             }
         }
     }
@@ -7373,15 +7692,18 @@ public class Parser/*@bgen(jjtree)*/ implements ParserTreeConstants, ParserConst
         ASTProtectedModifier jjtn000 = new ASTProtectedModifier(JJTPROTECTEDMODIFIER);
         boolean jjtc000 = true;
         jjtree.openNodeScope(jjtn000);
+        jjtn000.jjtSetFirstToken(getToken(1));
         Token t;
         try {
             t = jj_consume_token(89);
             jjtree.closeNodeScope(jjtn000, true);
             jjtc000 = false;
+            jjtn000.jjtSetLastToken(getToken(0));
             jjtn000.jjtSetValue(t);
         } finally {
             if (jjtc000) {
                 jjtree.closeNodeScope(jjtn000, true);
+                jjtn000.jjtSetLastToken(getToken(0));
             }
         }
     }
@@ -7391,15 +7713,18 @@ public class Parser/*@bgen(jjtree)*/ implements ParserTreeConstants, ParserConst
         ASTPrivateModifier jjtn000 = new ASTPrivateModifier(JJTPRIVATEMODIFIER);
         boolean jjtc000 = true;
         jjtree.openNodeScope(jjtn000);
+        jjtn000.jjtSetFirstToken(getToken(1));
         Token t;
         try {
             t = jj_consume_token(90);
             jjtree.closeNodeScope(jjtn000, true);
             jjtc000 = false;
+            jjtn000.jjtSetLastToken(getToken(0));
             jjtn000.jjtSetValue(t);
         } finally {
             if (jjtc000) {
                 jjtree.closeNodeScope(jjtn000, true);
+                jjtn000.jjtSetLastToken(getToken(0));
             }
         }
     }
@@ -7409,15 +7734,18 @@ public class Parser/*@bgen(jjtree)*/ implements ParserTreeConstants, ParserConst
         ASTAbstractModifier jjtn000 = new ASTAbstractModifier(JJTABSTRACTMODIFIER);
         boolean jjtc000 = true;
         jjtree.openNodeScope(jjtn000);
+        jjtn000.jjtSetFirstToken(getToken(1));
         Token t;
         try {
             t = jj_consume_token(91);
             jjtree.closeNodeScope(jjtn000, true);
             jjtc000 = false;
+            jjtn000.jjtSetLastToken(getToken(0));
             jjtn000.jjtSetValue(t);
         } finally {
             if (jjtc000) {
                 jjtree.closeNodeScope(jjtn000, true);
+                jjtn000.jjtSetLastToken(getToken(0));
             }
         }
     }
@@ -7427,15 +7755,18 @@ public class Parser/*@bgen(jjtree)*/ implements ParserTreeConstants, ParserConst
         ASTStaticModifier jjtn000 = new ASTStaticModifier(JJTSTATICMODIFIER);
         boolean jjtc000 = true;
         jjtree.openNodeScope(jjtn000);
+        jjtn000.jjtSetFirstToken(getToken(1));
         Token t;
         try {
             t = jj_consume_token(92);
             jjtree.closeNodeScope(jjtn000, true);
             jjtc000 = false;
+            jjtn000.jjtSetLastToken(getToken(0));
             jjtn000.jjtSetValue(t);
         } finally {
             if (jjtc000) {
                 jjtree.closeNodeScope(jjtn000, true);
+                jjtn000.jjtSetLastToken(getToken(0));
             }
         }
     }
@@ -7445,15 +7776,18 @@ public class Parser/*@bgen(jjtree)*/ implements ParserTreeConstants, ParserConst
         ASTFinalModifier jjtn000 = new ASTFinalModifier(JJTFINALMODIFIER);
         boolean jjtc000 = true;
         jjtree.openNodeScope(jjtn000);
+        jjtn000.jjtSetFirstToken(getToken(1));
         Token t;
         try {
             t = jj_consume_token(24);
             jjtree.closeNodeScope(jjtn000, true);
             jjtc000 = false;
+            jjtn000.jjtSetLastToken(getToken(0));
             jjtn000.jjtSetValue(t);
         } finally {
             if (jjtc000) {
                 jjtree.closeNodeScope(jjtn000, true);
+                jjtn000.jjtSetLastToken(getToken(0));
             }
         }
     }
@@ -7463,15 +7797,18 @@ public class Parser/*@bgen(jjtree)*/ implements ParserTreeConstants, ParserConst
         ASTSealedModifier jjtn000 = new ASTSealedModifier(JJTSEALEDMODIFIER);
         boolean jjtc000 = true;
         jjtree.openNodeScope(jjtn000);
+        jjtn000.jjtSetFirstToken(getToken(1));
         Token t;
         try {
             t = jj_consume_token(93);
             jjtree.closeNodeScope(jjtn000, true);
             jjtc000 = false;
+            jjtn000.jjtSetLastToken(getToken(0));
             jjtn000.jjtSetValue(t);
         } finally {
             if (jjtc000) {
                 jjtree.closeNodeScope(jjtn000, true);
+                jjtn000.jjtSetLastToken(getToken(0));
             }
         }
     }
@@ -7481,15 +7818,18 @@ public class Parser/*@bgen(jjtree)*/ implements ParserTreeConstants, ParserConst
         ASTVarModifier jjtn000 = new ASTVarModifier(JJTVARMODIFIER);
         boolean jjtc000 = true;
         jjtree.openNodeScope(jjtn000);
+        jjtn000.jjtSetFirstToken(getToken(1));
         Token t;
         try {
             t = jj_consume_token(94);
             jjtree.closeNodeScope(jjtn000, true);
             jjtc000 = false;
+            jjtn000.jjtSetLastToken(getToken(0));
             jjtn000.jjtSetValue(t);
         } finally {
             if (jjtc000) {
                 jjtree.closeNodeScope(jjtn000, true);
+                jjtn000.jjtSetLastToken(getToken(0));
             }
         }
     }
@@ -7499,15 +7839,18 @@ public class Parser/*@bgen(jjtree)*/ implements ParserTreeConstants, ParserConst
         ASTOverrideModifier jjtn000 = new ASTOverrideModifier(JJTOVERRIDEMODIFIER);
         boolean jjtc000 = true;
         jjtree.openNodeScope(jjtn000);
+        jjtn000.jjtSetFirstToken(getToken(1));
         Token t;
         try {
             t = jj_consume_token(95);
             jjtree.closeNodeScope(jjtn000, true);
             jjtc000 = false;
+            jjtn000.jjtSetLastToken(getToken(0));
             jjtn000.jjtSetValue(t);
         } finally {
             if (jjtc000) {
                 jjtree.closeNodeScope(jjtn000, true);
+                jjtn000.jjtSetLastToken(getToken(0));
             }
         }
     }
@@ -7517,15 +7860,18 @@ public class Parser/*@bgen(jjtree)*/ implements ParserTreeConstants, ParserConst
         ASTAutoModifier jjtn000 = new ASTAutoModifier(JJTAUTOMODIFIER);
         boolean jjtc000 = true;
         jjtree.openNodeScope(jjtn000);
+        jjtn000.jjtSetFirstToken(getToken(1));
         Token t;
         try {
             t = jj_consume_token(96);
             jjtree.closeNodeScope(jjtn000, true);
             jjtc000 = false;
+            jjtn000.jjtSetLastToken(getToken(0));
             jjtn000.jjtSetValue(t);
         } finally {
             if (jjtc000) {
                 jjtree.closeNodeScope(jjtn000, true);
+                jjtn000.jjtSetLastToken(getToken(0));
             }
         }
     }
@@ -7539,15 +7885,18 @@ public class Parser/*@bgen(jjtree)*/ implements ParserTreeConstants, ParserConst
         ASTIdentifier jjtn000 = new ASTIdentifier(JJTIDENTIFIER);
         boolean jjtc000 = true;
         jjtree.openNodeScope(jjtn000);
+        jjtn000.jjtSetFirstToken(getToken(1));
         Token t;
         try {
             t = jj_consume_token(Identifier);
             jjtree.closeNodeScope(jjtn000, true);
             jjtc000 = false;
+            jjtn000.jjtSetLastToken(getToken(0));
             jjtn000.jjtSetValue(t);
         } finally {
             if (jjtc000) {
                 jjtree.closeNodeScope(jjtn000, true);
+                jjtn000.jjtSetLastToken(getToken(0));
             }
         }
     }
@@ -7560,15 +7909,18 @@ public class Parser/*@bgen(jjtree)*/ implements ParserTreeConstants, ParserConst
         ASTThis jjtn000 = new ASTThis(JJTTHIS);
         boolean jjtc000 = true;
         jjtree.openNodeScope(jjtn000);
+        jjtn000.jjtSetFirstToken(getToken(1));
         Token t;
         try {
             t = jj_consume_token(22);
             jjtree.closeNodeScope(jjtn000, true);
             jjtc000 = false;
+            jjtn000.jjtSetLastToken(getToken(0));
             jjtn000.jjtSetValue(t);
         } finally {
             if (jjtc000) {
                 jjtree.closeNodeScope(jjtn000, true);
+                jjtn000.jjtSetLastToken(getToken(0));
             }
         }
     }
@@ -7578,15 +7930,18 @@ public class Parser/*@bgen(jjtree)*/ implements ParserTreeConstants, ParserConst
         ASTSelf jjtn000 = new ASTSelf(JJTSELF);
         boolean jjtc000 = true;
         jjtree.openNodeScope(jjtn000);
+        jjtn000.jjtSetFirstToken(getToken(1));
         Token t;
         try {
             t = jj_consume_token(97);
             jjtree.closeNodeScope(jjtn000, true);
             jjtc000 = false;
+            jjtn000.jjtSetLastToken(getToken(0));
             jjtn000.jjtSetValue(t);
         } finally {
             if (jjtc000) {
                 jjtree.closeNodeScope(jjtn000, true);
+                jjtn000.jjtSetLastToken(getToken(0));
             }
         }
     }
