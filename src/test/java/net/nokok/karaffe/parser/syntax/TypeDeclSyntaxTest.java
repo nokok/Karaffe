@@ -60,4 +60,14 @@ public class TypeDeclSyntaxTest {
     public void testSuperTypes2() {
         testCode("type TypeName < SuperType < SuperType{}");
     }
+    
+    @Test
+    public void testTypeDeclAnnotation() {
+        testCode("@Hoge type TypeName{}");
+    }
+    
+    @Test
+    public void testTypeDeclAnnotations() {
+        testCode("@Hoge @Fuga type TypeName{}");
+    }
 }

@@ -499,6 +499,39 @@ void PrivateImportBlock():{/*@bgen(jjtree) PrivateImportBlock */
 /*@egen*/
 }
 
+void Annotations():{/*@bgen(jjtree) Annotations */
+  ASTAnnotations jjtn000 = new ASTAnnotations(JJTANNOTATIONS);
+  boolean jjtc000 = true;
+  jjtree.openNodeScope(jjtn000);
+  jjtn000.jjtSetFirstToken(getToken(1));
+/*@egen*/}
+{/*@bgen(jjtree) Annotations */
+    try {
+/*@egen*/
+    (Annotation())*/*@bgen(jjtree)*/
+    } catch (Throwable jjte000) {
+      if (jjtc000) {
+        jjtree.clearNodeScope(jjtn000);
+        jjtc000 = false;
+      } else {
+        jjtree.popNode();
+      }
+      if (jjte000 instanceof RuntimeException) {
+        throw (RuntimeException)jjte000;
+      }
+      if (jjte000 instanceof ParseException) {
+        throw (ParseException)jjte000;
+      }
+      throw (Error)jjte000;
+    } finally {
+      if (jjtc000) {
+        jjtree.closeNodeScope(jjtn000, true);
+        jjtn000.jjtSetLastToken(getToken(0));
+      }
+    }
+/*@egen*/   
+}
+
 void Annotation():{/*@bgen(jjtree) Annotation */
   ASTAnnotation jjtn000 = new ASTAnnotation(JJTANNOTATION);
   boolean jjtc000 = true;
@@ -534,11 +567,11 @@ void Annotation():{/*@bgen(jjtree) Annotation */
 //6_typedecls.jjt
 void TypeDecl()      :{}
 {
-    LOOKAHEAD((ClassModifier())* "type") ClassDecl() |
-    LOOKAHEAD((EnumModifier())* "enum") EnumDecl() |
-    LOOKAHEAD((ClassModifier())* "case" "type") AlgebraicDataTypeDecl() | 
-    LOOKAHEAD((InterfaceModifier())* "interface") InterfaceDecl() | 
-    LOOKAHEAD((TypeAliasModifier())* "typealias") TypeAliasDecl()
+    LOOKAHEAD(Annotations() ClassModifiers() "type") ClassDecl() |
+    LOOKAHEAD(Annotations() EnumModifiers() "enum") EnumDecl() |
+    LOOKAHEAD(Annotations() ClassModifiers() "case" "type") AlgebraicDataTypeDecl() | 
+    LOOKAHEAD(Annotations() InterfaceModifiers() "interface") InterfaceDecl() | 
+    LOOKAHEAD(Annotations() TypeAliasModifiers() "typealias") TypeAliasDecl()
 }
 
 //**********************************************************************
@@ -553,7 +586,7 @@ void ClassDecl():{/*@bgen(jjtree) ClassDecl */
 {/*@bgen(jjtree) ClassDecl */
     try {
 /*@egen*/
-    ClassModifiers() "type" Identifier() (TypeParameters())? (FormalParameters())? (SuperType())? (Interfaces())? ClassBody()/*@bgen(jjtree)*/
+    Annotations() ClassModifiers() "type" Identifier() (TypeParameters())? (FormalParameters())? (SuperType())? (Interfaces())? ClassBody()/*@bgen(jjtree)*/
     } catch (Throwable jjte000) {
       if (jjtc000) {
         jjtree.clearNodeScope(jjtn000);
@@ -1714,7 +1747,7 @@ void AlgebraicDataTypeDecl():{/*@bgen(jjtree) AlgebraicDataTypeDecl */
 {/*@bgen(jjtree) AlgebraicDataTypeDecl */
     try {
 /*@egen*/
-    (ClassModifier())* "case" "type" Identifier() (TypeParameters())? (Interfaces())? "=" AlgebraicDataTypeBody() ("|" AlgebraicDataTypeBody())*/*@bgen(jjtree)*/
+    Annotations() ClassModifiers() "case" "type" Identifier() (TypeParameters())? (Interfaces())? "=" AlgebraicDataTypeBody() ("|" AlgebraicDataTypeBody())*/*@bgen(jjtree)*/
     } catch (Throwable jjte000) {
       if (jjtc000) {
         jjtree.clearNodeScope(jjtn000);
@@ -1816,7 +1849,40 @@ void InterfaceDecl():{/*@bgen(jjtree) InterfaceDecl */
 {/*@bgen(jjtree) InterfaceDecl */
     try {
 /*@egen*/
-    (InterfaceModifier())* "interface" Identifier() (TypeParameters())? (ExtendsInterfaces())? InterfaceBody()/*@bgen(jjtree)*/
+    Annotations() InterfaceModifiers() "interface" Identifier() (TypeParameters())? (ExtendsInterfaces())? InterfaceBody()/*@bgen(jjtree)*/
+    } catch (Throwable jjte000) {
+      if (jjtc000) {
+        jjtree.clearNodeScope(jjtn000);
+        jjtc000 = false;
+      } else {
+        jjtree.popNode();
+      }
+      if (jjte000 instanceof RuntimeException) {
+        throw (RuntimeException)jjte000;
+      }
+      if (jjte000 instanceof ParseException) {
+        throw (ParseException)jjte000;
+      }
+      throw (Error)jjte000;
+    } finally {
+      if (jjtc000) {
+        jjtree.closeNodeScope(jjtn000, true);
+        jjtn000.jjtSetLastToken(getToken(0));
+      }
+    }
+/*@egen*/
+}
+
+void InterfaceModifiers():{/*@bgen(jjtree) InterfaceModifiers */
+  ASTInterfaceModifiers jjtn000 = new ASTInterfaceModifiers(JJTINTERFACEMODIFIERS);
+  boolean jjtc000 = true;
+  jjtree.openNodeScope(jjtn000);
+  jjtn000.jjtSetFirstToken(getToken(1));
+/*@egen*/}
+{/*@bgen(jjtree) InterfaceModifiers */
+    try {
+/*@egen*/
+    (InterfaceModifier())*/*@bgen(jjtree)*/
     } catch (Throwable jjte000) {
       if (jjtc000) {
         jjtree.clearNodeScope(jjtn000);
@@ -2053,7 +2119,40 @@ void TypeAliasDecl():{/*@bgen(jjtree) TypeAliasDecl */
 {/*@bgen(jjtree) TypeAliasDecl */
     try {
 /*@egen*/
-    (TypeAliasModifier())* "typealias" Identifier() Identifier()/*@bgen(jjtree)*/
+    Annotations() TypeAliasModifiers() "typealias" Identifier() Identifier()/*@bgen(jjtree)*/
+    } catch (Throwable jjte000) {
+      if (jjtc000) {
+        jjtree.clearNodeScope(jjtn000);
+        jjtc000 = false;
+      } else {
+        jjtree.popNode();
+      }
+      if (jjte000 instanceof RuntimeException) {
+        throw (RuntimeException)jjte000;
+      }
+      if (jjte000 instanceof ParseException) {
+        throw (ParseException)jjte000;
+      }
+      throw (Error)jjte000;
+    } finally {
+      if (jjtc000) {
+        jjtree.closeNodeScope(jjtn000, true);
+        jjtn000.jjtSetLastToken(getToken(0));
+      }
+    }
+/*@egen*/
+}
+
+void TypeAliasModifiers():{/*@bgen(jjtree) TypeAliasModifiers */
+  ASTTypeAliasModifiers jjtn000 = new ASTTypeAliasModifiers(JJTTYPEALIASMODIFIERS);
+  boolean jjtc000 = true;
+  jjtree.openNodeScope(jjtn000);
+  jjtn000.jjtSetFirstToken(getToken(1));
+/*@egen*/}
+{/*@bgen(jjtree) TypeAliasModifiers */
+    try {
+/*@egen*/
+    (TypeAliasModifier())*/*@bgen(jjtree)*/
     } catch (Throwable jjte000) {
       if (jjtc000) {
         jjtree.clearNodeScope(jjtn000);
@@ -2124,7 +2223,40 @@ void EnumDecl():{/*@bgen(jjtree) EnumDecl */
 {/*@bgen(jjtree) EnumDecl */
     try {
 /*@egen*/
-    (EnumModifier())* "enum" EnumName() "[" EnumMembers() "]"/*@bgen(jjtree)*/
+    Annotations() EnumModifiers() "enum" EnumName() "[" EnumMembers() "]"/*@bgen(jjtree)*/
+    } catch (Throwable jjte000) {
+      if (jjtc000) {
+        jjtree.clearNodeScope(jjtn000);
+        jjtc000 = false;
+      } else {
+        jjtree.popNode();
+      }
+      if (jjte000 instanceof RuntimeException) {
+        throw (RuntimeException)jjte000;
+      }
+      if (jjte000 instanceof ParseException) {
+        throw (ParseException)jjte000;
+      }
+      throw (Error)jjte000;
+    } finally {
+      if (jjtc000) {
+        jjtree.closeNodeScope(jjtn000, true);
+        jjtn000.jjtSetLastToken(getToken(0));
+      }
+    }
+/*@egen*/
+}
+
+void EnumModifiers():{/*@bgen(jjtree) EnumModifiers */
+  ASTEnumModifiers jjtn000 = new ASTEnumModifiers(JJTENUMMODIFIERS);
+  boolean jjtc000 = true;
+  jjtree.openNodeScope(jjtn000);
+  jjtn000.jjtSetFirstToken(getToken(1));
+/*@egen*/}
+{/*@bgen(jjtree) EnumModifiers */
+    try {
+/*@egen*/
+    (EnumModifier())*/*@bgen(jjtree)*/
     } catch (Throwable jjte000) {
       if (jjtc000) {
         jjtree.clearNodeScope(jjtn000);
