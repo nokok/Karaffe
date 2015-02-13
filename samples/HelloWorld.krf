@@ -1,5 +1,5 @@
 type HelloWorld{
-    def main( args:List[String] ): Void = {
+    func main(args List[String]) {
         println("Hello world")
     }
 }
