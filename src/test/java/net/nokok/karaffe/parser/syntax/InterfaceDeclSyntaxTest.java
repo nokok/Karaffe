@@ -15,12 +15,12 @@ public class InterfaceDeclSyntaxTest {
 
     @Test
     public void testInterfaceDeclarationExtendsInterface() {
-        testCode("interface Name <- SuperInterface{}\n");
+        testCode("interface Name < SuperInterface{}\n");
     }
 
     @Test
     public void testInterfaceDeclarationExtendsInterfaces() {
-        testCode("interface Name <- Interface1 Interface2{}\n");
+        testCode("interface Name < Interface1,Interface2{}\n");
     }
 
     @Test(expected = AssertionError.class)

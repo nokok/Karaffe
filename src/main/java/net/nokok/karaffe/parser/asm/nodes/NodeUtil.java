@@ -3,10 +3,13 @@
  */
 package net.nokok.karaffe.parser.asm.nodes;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
+
 import net.nokok.karaffe.parser.Node;
 import net.nokok.karaffe.parser.SimpleNode;
+
 import org.objectweb.asm.tree.ClassNode;
 import org.objectweb.asm.tree.InsnList;
 
@@ -42,6 +45,24 @@ public class NodeUtil {
         return findFirstNode(nodeClazz).get();
     }
 
+    public <T extends Node> List<T> collectNodes(Class<T> clazz) {
+        return collectNode(node, clazz);
+    }
+    
+    public <T extends Node> List<T> collectNode(Node node,Class<T> clazz){
+        List<T> nodes = new ArrayList<>();
+        for(int i = 0;i<node.jjtGetNumChildren();i++) {
+            Node child = node.jjtGetChild(i);
+            if(child.getClass().getName().equals(clazz.getName())) {
+                nodes.add(clazz.cast(child));
+            }
+            if(child.jjtGetNumChildren() > 0) {
+                nodes.addAll(collectNode(child, clazz));
+            }
+        }
+        return nodes;
+    }
+    
     public Optional<List<ClassNode>> getClassNode() {
         throw new UnsupportedOperationException();
     }

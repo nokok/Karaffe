@@ -7,7 +7,7 @@ public class TypeDeclSyntaxTest {
 
     @Test
     public void testTypeDeclSyntax() {
-        testCode("type TypeName[T] < SuperType[T] <- Interface1[T] Interface2[T] {\n"
+        testCode("type TypeName[T] < SuperType[T], Interface1[T], Interface2[T] {\n"
                 + "}");
     }
 
@@ -52,22 +52,63 @@ public class TypeDeclSyntaxTest {
     }
 
     @Test(expected = AssertionError.class)
-    public void testSuperTypes1() {
-        testCode("type TypeName < SuperType SuperType{}");
-    }
-
-    @Test(expected = AssertionError.class)
     public void testSuperTypes2() {
         testCode("type TypeName < SuperType < SuperType{}");
     }
-    
+
     @Test
     public void testTypeDeclAnnotation() {
         testCode("@Hoge type TypeName{}");
     }
-    
+
     @Test
     public void testTypeDeclAnnotations() {
         testCode("@Hoge @Fuga type TypeName{}");
+    }
+
+    @Test
+    public void testThisCtorInvocation() {
+        testCode("type Hoge{"
+                + "func this() {"
+                + "this()"
+                + "}"
+                + "}");
+    }
+
+    @Test
+    public void testThisCtorInvocation1() {
+        testCode("type Hoge{"
+                + "func this(){"
+                + "this(1)"
+                + "}"
+                + "}");
+    }
+
+    @Test
+    public void testSuperCtorInvocation() {
+        testCode("type Hoge{"
+                + "func this(){"
+                + "super()"
+                + "}"
+                + "}");
+    }
+
+    @Test
+    public void testSuperCtorInvocation1() {
+        testCode("type Hoge{"
+                + "func this(){"
+                + "super(1)"
+                + "}"
+                + "}");
+    }
+
+    @Test(expected = AssertionError.class)
+    public void testInvalidCtorInvocation() {
+        testCode("type Hoge{"
+                + "func this(){"
+                + "def a = 0"
+                + "super()"
+                + "}"
+                + "}");
     }
 }

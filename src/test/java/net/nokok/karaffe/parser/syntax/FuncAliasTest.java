@@ -12,7 +12,7 @@ public class FuncAliasTest {
     public void testFuncAliasWithoutArguments() {
         testCode("type T{"
                 + "func this(){\n"
-                + "funcalias after() before()\n"
+                + "funcalias before() -> after()\n"
                 + "}\n"
                 + "}");
     }
@@ -21,7 +21,7 @@ public class FuncAliasTest {
     public void testFuncAliasWithoutArguments1() {
         testCode("type T{\n"
                 + "func this() {\n"
-                + "funcalias after()  pa.name.Class.function()\n"
+                + "funcalias pa.name.Class.function() -> after()\n"
                 + "}\n"
                 + "}");
     }
@@ -30,7 +30,7 @@ public class FuncAliasTest {
     public void testOverloadedFunctionAlias() {
         testCode("type T{\n"
                 + "func this() {\n"
-                + "funcalias after(x Int, y Int) before(x y)\n"
+                + "funcalias before(x Int,y Int) -> after(x Int,y Int) \n"
                 + "}\n"
                 + "}");
     }
@@ -38,12 +38,12 @@ public class FuncAliasTest {
     @Test
     public void testPrivateFuncAlias() {
         testCode("type Hoge{\n"
-                + "funcalias hoge() fuga()\n"
+                + "funcalias hoge() -> fuga()\n"
                 + "}");
     }
 
     @Test
     public void testInternalFuncAlias() {
-        testCode("funcalias hoge() fuga()");
+        testCode("funcalias hoge() -> fuga()");
     }
 }

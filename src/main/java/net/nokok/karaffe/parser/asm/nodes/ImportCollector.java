@@ -5,8 +5,12 @@ package net.nokok.karaffe.parser.asm.nodes;
 
 import java.util.Collections;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
+
+import lombok.core.configuration.TypeName;
 import net.nokok.karaffe.parser.ASTCompileUnit;
+import net.nokok.karaffe.parser.ASTSimpleImport;
 import net.nokok.karaffe.parser.ASTTypeName;
 import net.nokok.karaffe.parser.Node;
 import net.nokok.karaffe.parser.ParserDefaultVisitor;
@@ -21,15 +25,19 @@ public class ImportCollector {
     private final ParserVisitor simpleImportVisitor = new ParserDefaultVisitor() {
 
         @Override
-        public Object visit(ASTTypeName node, Object data) throws ParserException {
-            AmbiguousName name = new AmbiguousName(node);
-
-            try {
-                //ambiguous name java.lang.String
-                //          String          Class<java.lang.String>
-                imports.put(name.getLast(), Class.forName(name.getPath()));
-            } catch (ClassNotFoundException ex) {
-                //TODO:
+        public Object visit(ASTSimpleImport node, Object data) throws ParserException {
+            List<ASTTypeName> typeNames = new NodeUtil(node).collectNodes(ASTTypeName.class);
+            
+            for(ASTTypeName typeName : typeNames) {
+                AmbiguousName name = new AmbiguousName(typeName);
+    
+                try {
+                    //ambiguous name java.lang.String
+                    //          String          Class<java.lang.String>
+                    imports.put(name.getLast(), Class.forName(name.getPath()));
+                } catch (ClassNotFoundException ex) {
+                    //TODO:
+                }
             }
             return null;
         }
@@ -39,12 +47,10 @@ public class ImportCollector {
 //    private final ParserVisitor aliasImportVisitor = new ParserDefaultVisitor() {
 //
 //    };
-    private final Node node;
 
     public ImportCollector(ASTCompileUnit compileUnit) {
-        this.node = compileUnit;
         try {
-            node.jjtAccept(simpleImportVisitor, null);
+            compileUnit.jjtAccept(simpleImportVisitor, null);
 //            node.jjtAccept(aliasImportVisitor, null);
         } catch (ParserException ex) {
             throw new RuntimeException(ex);

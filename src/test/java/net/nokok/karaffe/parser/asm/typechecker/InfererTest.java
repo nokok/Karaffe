@@ -3,15 +3,23 @@
  */
 package net.nokok.karaffe.parser.asm.typechecker;
 
-import static org.hamcrest.CoreMatchers.is;
+import net.nokok.karaffe.parser.ASTCompileUnit;
+import net.nokok.karaffe.parser.ASTExpression;
+import net.nokok.karaffe.parser.asm.nodes.InsnVisitor;
+import net.nokok.karaffe.parser.asm.nodes.NodeUtil;
+import static net.nokok.karaffe.parser.syntax.KaraffeParserSyntaxTest.testCode;
 import static org.junit.Assert.assertThat;
+
+import org.hamcrest.core.IsInstanceOf;
 import org.junit.Test;
 
+@SuppressWarnings("unused")
 public class InfererTest {
-
-    @Test
-    public void testInferer() {
-        Inferer inferer = new Inferer(1 + 1);
-        assertThat(inferer.inferredClass().getName(), is(Integer.class.getName()));
-    }
+//    実装中
+//    @Test
+//    public void testInferer() {
+//        ASTCompileUnit compileUnit = testCode("type D{def a = 0}");
+//        InsnVisitor insnVisitor = new InsnVisitor(new NodeUtil(compileUnit).forceGetFindFirstNode(ASTExpression.class));
+//        assertThat(insnVisitor.inferredClass(), IsInstanceOf.instanceOf(Integer.class));
+//    }
 }

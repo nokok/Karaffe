@@ -48,5 +48,12 @@ public class MethodVisitorTest {
         MethodVisitor methodVisitor = new MethodVisitor(funcDecl, new ClassResolver());
         assertThat(methodVisitor.getMethodNode().desc, is(Type.getMethodDescriptor(Type.VOID_TYPE)));
     }
+    
+    @Test
+    public void testMethodDescriptor3(){
+        ASTFuncDecl funcDecl = new NodeUtil(testCode("type Hoge{func hoge(x Int)Int{}}")).forceGetFindFirstNode(ASTFuncDecl.class);
+        MethodVisitor methodVisitor = new MethodVisitor(funcDecl, new ClassResolver());
+        assertThat(methodVisitor.getMethodNode().desc, is(Type.getMethodDescriptor(Type.getType(Integer.class),Type.getType(Integer.class))));
+    }
 
 }

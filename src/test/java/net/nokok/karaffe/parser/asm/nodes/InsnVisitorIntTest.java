@@ -106,18 +106,29 @@ public class InsnVisitorIntTest {
         //1 + 2 - 3 + 4
         //bipush 1
         IntInsnNode one = (IntInsnNode) insnList.get(0);
+        assertThat(one.operand, is(1));
+        assertThat(one.getOpcode(), is(Opcodes.BIPUSH));
         //bipush 2
         IntInsnNode two = (IntInsnNode) insnList.get(1);
+        assertThat(two.operand, is(2));
+        assertThat(two.getOpcode(), is(Opcodes.BIPUSH));
         //iadd
         InsnNode iadd = (InsnNode) insnList.get(2);
+        assertThat(iadd.getOpcode(), is(Opcodes.IADD));
         //bipush 3
         IntInsnNode three = (IntInsnNode) insnList.get(3);
+        assertThat(three.operand, is(3));
+        assertThat(three.getOpcode(), is(Opcodes.BIPUSH));
         //isub
         InsnNode isub = (InsnNode) insnList.get(4);
+        assertThat(isub.getOpcode(), is(Opcodes.ISUB));
         //bipush 4
         IntInsnNode four = (IntInsnNode) insnList.get(5);
+        assertThat(four.operand, is(4));
+        assertThat(four.getOpcode(), is(Opcodes.BIPUSH));
         //iadd
         InsnNode iadd1 = (InsnNode) insnList.get(6);
+        assertThat(iadd1.getOpcode(), is(Opcodes.IADD));
     }
 
     @Test

@@ -15,21 +15,26 @@ public class AlgebraicDataTypeSyntaxTest {
 
     @Test
     public void testAlgebraicDataType() {
-        testCode("case type Tree = Leaf leaf String | Branch left Tree, right Tree");
+        testCode("case type Tree = Leaf(leaf String) | Branch(left Tree, right Tree)");
     }
 
     @Test(expected = AssertionError.class)
     public void testAlgebraicDataTypeWithoutFieldName() {
-        testCode("case type Tree[T] = Leaf[T] | Branch Tree[T], Tree[T]");
+        testCode("case type Tree[T] = Leaf[T] | Branch(Tree[T], Tree[T])");
     }
 
     @Test
     public void testAlgebraicDataTypeDecl1() {
-        testCode("case type Tree[T] = Leaf[T] leaf T | Branch left Tree[T], right Tree[T]");
+        testCode("case type Tree[T] = Leaf[T](leaf T) | Branch (left Tree[T], right Tree[T])");
     }
 
     @Test
     public void testAlgebraicDataTypeDecl2() {
-        testCode("case type Hoge <- Interface = Fuga | Piyo");
+        testCode("case type Hoge = Fuga < SuperType | Piyo < SuperType");
+    }
+
+    @Test
+    public void testAlgebraicDataTypeDecl3() {
+        testCode("case type Hoge = Fuga < SuperType, Interface | Piyo < SuperType,Interface");
     }
 }

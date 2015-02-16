@@ -10,7 +10,7 @@ public class EnumSyntaxTest {
 
     @Test
     public void testEnumSyntax() {
-        testCode("enum EnumType [Hoge Fuga Piyo]\n");
+        testCode("enum EnumType [Hoge,Fuga,Piyo]\n");
     }
 
     @Test(expected = AssertionError.class)

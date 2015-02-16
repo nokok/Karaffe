@@ -3,15 +3,19 @@
  */
 package net.nokok.karaffe.parser.asm.nodes;
 
+import java.util.List;
 import java.util.Optional;
+
 import lombok.libs.org.objectweb.asm.Opcodes;
 import net.nokok.karaffe.parser.ASTClassBody;
 import net.nokok.karaffe.parser.ASTCompileUnit;
 import net.nokok.karaffe.parser.ASTFieldInitializer;
+import net.nokok.karaffe.parser.ASTFuncDecl;
 import net.nokok.karaffe.parser.ASTIdentifier;
 import static net.nokok.karaffe.parser.syntax.KaraffeParserSyntaxTest.testCode;
 import static org.hamcrest.CoreMatchers.is;
 import static org.junit.Assert.assertThat;
+
 import org.junit.Test;
 import org.objectweb.asm.tree.InsnList;
 import org.objectweb.asm.tree.IntInsnNode;
@@ -52,4 +56,11 @@ public class NodeUtilTest {
         assertThat(insn.operand, is(0));
     }
 
+    @Test
+    public void testCollectNodes() {
+        ASTCompileUnit compileUnit = testCode("type Hoge{func hoge(){} func fuga(){} def a = 0}");
+        NodeUtil nodeUtil = new NodeUtil(compileUnit);
+        List<ASTFuncDecl> funcDecls = nodeUtil.collectNodes(ASTFuncDecl.class);
+        assertThat(funcDecls.size(), is(2));
+    }
 }

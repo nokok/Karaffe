@@ -108,6 +108,61 @@ public class ExprTest {
         testExpr("hoge <| fuga");
     }
 
+    @Test
+    public void testBlockArgument() {
+        testExpr("someMethod {\n"
+                + "1"
+                + "}");
+    }
+
+    @Test
+    public void testBlockArguments() {
+        testExpr("someMethod {"
+                + "1\n"
+                + "}{\n"
+                + "2\n"
+                + "}{\n"
+                + "3"
+                + "}");
+    }
+
+    @Test
+    public void testBlockArgumentChain() {
+        testExpr("someMethod {\n"
+                + "1\n"
+                + "} someMethod2 {\n"
+                + "1\n"
+                + "} someMethod3 {\n"
+                + "1"
+                + "}\n");
+    }
+
+    @Test
+    public void testAmbiguousNameBlockArgument() {
+        testExpr("System.out.printf {\n"
+                + "\"Hello %s\""
+                + "}{\n"
+                + "\"World\"\n"
+                + "}\n");
+    }
+
+    @Test
+    public void testMethodReference() {
+        testExpr("list.forEach(Hoge::methodName)");
+    }
+
+    @Test
+    public void testMethodInvocationBlockArg() {
+        testExpr("list.stream().map{\n"
+                + "_ * 2"
+                + "}\n");
+    }
+
+    @Test
+    public void testMixedMethodInvocationChain() {
+        testExpr("Clazz.field.method().obj.blockArg{1}.retval.method().classField.method()");
+    }
+
     private void testExpr(String code) {
         testCode("type D{\n"
                 + "def a = "
