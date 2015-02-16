@@ -61,7 +61,7 @@ void Statement():{}
 
 void FuncAlias():{}
 {
-    "funcalias" Identifier() ParenFormalParams() FunctionName() ParenFormalParams()
+    "funcalias" FunctionName() ParenFormalParams() "->" Identifier() ParenFormalParams()
 }
 
 void FunctionName():{}
@@ -77,6 +77,11 @@ void PrivateImportStmt():{}
 void PrivateImportBlock():{}
 {
     "{" BlockStmts() "}"
+}
+
+void Annotations():{}
+{
+    (Annotation())*   
 }
 
 void Annotation():{}

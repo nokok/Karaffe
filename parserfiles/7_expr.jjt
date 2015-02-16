@@ -28,42 +28,42 @@ void LeftHandSide():{}
 
 void PipelineExpr()#void:{}
 {
-    BoolOrExpr() (("|>" #BackwardPipelineExpr() | "<|" #PipelineExpr()) BoolOrExpr() #ExprNode())* #ExprNode(>1)
+    BoolOrExpr() (("|>" #BackwardPipelineExpr() | "<|" #PipelineExpr()) BoolOrExpr() #ExprNode(2))*
 }
 
 void BoolOrExpr()#void:{}
 {
-    BoolAndExpr() ("|" #BoolOr() BoolAndExpr() #ExprNode())* #ExprNode(>1)
+    BoolAndExpr() ("|" #BoolOr() BoolAndExpr() #ExprNode(2))*
 }
 
 void BoolAndExpr()#void:{}
 {
-    EqualityExpr() ("&" #BoolAnd() EqualityExpr() #ExprNode())* #ExprNode(>1)
+    EqualityExpr() ("&" #BoolAnd() EqualityExpr() #ExprNode(2))*
 }
 
 void EqualityExpr()#void:{}
 {
-    (RelationalExpr() (("==" #EqualTo()| "!="#NotEqualTo()) RelationalExpr() #ExprNode())*)#ExprNode(>1)
+    RelationalExpr() (("==" #EqualTo()| "!="#NotEqualTo()) RelationalExpr() #ExprNode(2))*
 }
 
 void RelationalExpr()#void:{}
 {
-    (RangeExpr() (("<" #LessThan()| ">" #GreaterThan()| "<=" #LessThanEqTo()| ">=" #GreaterThanEqTo()) RangeExpr() #ExprNode())*)#ExprNode(>1)
+    RangeExpr() (("<" #LessThan()| ">" #GreaterThan()| "<=" #LessThanEqTo()| ">=" #GreaterThanEqTo()) RangeExpr() #ExprNode(2))*
 }
 
 void RangeExpr()#void:{}
 {
-    (AdditiveExpr() ((".." #ClosedRange()|".<" #HalfOpenRange()) AdditiveExpr() #ExprNode())*)#ExprNode(>1)
+    AdditiveExpr() ((".." #ClosedRange()|".<" #HalfOpenRange()) AdditiveExpr() #ExprNode(2))*
 }
 
 void AdditiveExpr()#void:{}
 {
-    (MultiplicativeExpr() (LOOKAHEAD(("+"|"-"|"+?"|"-?") MultiplicativeExpr()) ("+" #Add()|"-" #Sub()|"+?" #SafeAdd()|"-?" #SafeSub()) MultiplicativeExpr() #ExprNode())*) #ExprNode(>1)
+    MultiplicativeExpr() (LOOKAHEAD(("+"|"-"|"+?"|"-?") MultiplicativeExpr()) ("+" #Add()|"-" #Sub()|"+?" #SafeAdd()|"-?" #SafeSub()) MultiplicativeExpr() #ExprNode(2))*
 }
 
 void MultiplicativeExpr()#void:{}
 {
-    (UnaryExpr() (("*" #Mul()|"/" #Div()|"%" #Rem()|"*?" #SafeMul()|"/?"#SafeDiv()|"%?"#SafeRem()) UnaryExpr())* ) #ExprNode(>1)
+    UnaryExpr() (("*" #Mul()|"/" #Div()|"%" #Rem()|"*?" #SafeMul()|"/?"#SafeDiv()|"%?"#SafeRem()) UnaryExpr() #ExprNode(2))*
 }
 
 void UnaryExpr()#void:{}
@@ -99,7 +99,8 @@ void PostFixExpr()#void:{}
 
 void Primary()#void:{}
 {
-    (LOOKAHEAD(MethodInvocation()) MethodInvocation() |
+    LOOKAHEAD(AmbiguousName() "::") MethodReference() |
+    LOOKAHEAD(MethodInvocation()) MethodInvocation() |
     LOOKAHEAD(Literal()) Literal() |
     LOOKAHEAD(2) This() |
     Self() |
@@ -107,7 +108,13 @@ void Primary()#void:{}
     LOOKAHEAD(ListDisplay()) ListDisplay() |
     LOOKAHEAD(DictionaryDisplay()) DictionaryDisplay() |
     LOOKAHEAD(TupleDisplay()) TupleDisplay() |
-    LOOKAHEAD(AmbiguousName()) AmbiguousName() ) #ExprNode(>1)
+    LOOKAHEAD(AmbiguousName()) AmbiguousName()
+
+}
+
+void MethodReference():{}
+{
+    AmbiguousName() "::" MethodName()
 }
 
 void ListDisplay():{}
@@ -132,7 +139,7 @@ void TupleDisplay():{}
 
 void IfExpr():{}
 {
-    "if" Expression() IfBody() (LOOKAHEAD("else" IfBody()) "else" IfBody())?
+    "if" Expression() #IfBodyStart() IfBody() #IfBodyEnd() (LOOKAHEAD("else" IfBody()) "else" #ElIfBodyStart IfBody() #ElIfBodyEnd())?
 }
 
 void IfBody():{}
@@ -184,6 +191,7 @@ void WhileBody():{}
 //**********************************************************************
 void MethodInvocation():{}
 { 
+    LOOKAHEAD(AmbiguousName() "{") MethodInvocationWithBlockArguments() |
     LOOKAHEAD(2) MethodName() ParenArguments() (DotMethodNameArguments())* | 
     LOOKAHEAD(2) ExpressionName() ParenArguments() (DotMethodNameArguments())*|
     //Primary MethodInvocation
@@ -198,14 +206,16 @@ void MethodInvocation():{}
     LOOKAHEAD(2) AmbiguousName() (DotMethodNameArguments())+ 
 }
 
-void ParenArguments():{}
+void ParenArguments()#void:{}
 {
-    "(" (Arguments())? ")"
+    "(" Arguments() ")"
 }
 
 void DotMethodNameArguments() #void:{}
 {
-     "." MethodName() "(" (Arguments())? ")"
+    LOOKAHEAD("." AmbiguousName() "{") "." MethodInvocationWithBlockArguments()|
+    LOOKAHEAD("." MethodName() "(")"." MethodName() ParenArguments()|
+    LOOKAHEAD("." Identifier())"." Identifier()
 }
 
 void MethodName():{}
@@ -220,7 +230,7 @@ void ExpressionName():{}
 
 void Arguments():{}
 {
-    Argument() ((",")? Argument())*
+    (Argument() ((",")? Argument())*)?
 }
 
 void Argument():{}
@@ -259,5 +269,10 @@ void IdentifierTypeBinding():{}
 void AmbiguousName():{}
 {
     Identifier() (LOOKAHEAD("." Identifier()) "." Identifier())*
+}
+
+void MethodInvocationWithBlockArguments()#void:{}
+{
+    AmbiguousName() "{" BlockStmts() "}" (LOOKAHEAD((AmbiguousName())? "{") (AmbiguousName())? "{" BlockStmts() "}")*
 }
 

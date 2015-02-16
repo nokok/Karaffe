@@ -1,11 +1,11 @@
 //6_typedecls.jjt
 void TypeDecl() #void:{}
 {
-    LOOKAHEAD((ClassModifier())* "type") ClassDecl() |
-    LOOKAHEAD((EnumModifier())* "enum") EnumDecl() |
-    LOOKAHEAD((ClassModifier())* "case" "type") AlgebraicDataTypeDecl() | 
-    LOOKAHEAD((InterfaceModifier())* "interface") InterfaceDecl() | 
-    LOOKAHEAD((TypeAliasModifier())* "typealias") TypeAliasDecl()
+    LOOKAHEAD(Annotations() ClassModifiers() "type") ClassDecl() |
+    LOOKAHEAD(Annotations() EnumModifiers() "enum") EnumDecl() |
+    LOOKAHEAD(Annotations() ClassModifiers() "case" "type") AlgebraicDataTypeDecl() | 
+    LOOKAHEAD(Annotations() InterfaceModifiers() "interface") InterfaceDecl() | 
+    LOOKAHEAD(Annotations() TypeAliasModifiers() "typealias") TypeAliasDecl()
 }
 
 //**********************************************************************
@@ -13,7 +13,7 @@ void TypeDecl() #void:{}
 //**********************************************************************
 void ClassDecl():{}
 {
-    ClassModifiers() "type" Identifier() (TypeParameters())? (FormalParameters())? (SuperType())? (Interfaces())? ClassBody()
+    Annotations() ClassModifiers() "type" Identifier() (TypeParameters())? (ParenFormalParams())? (SuperTypeAndInterfaces())? ClassBody()
 }
 
 void ClassModifiers():{}
@@ -64,22 +64,12 @@ void FuncType():{}
 
 void AdditionalBound():{}
 {
-    "&" InterfaceType()
+    "&" ClassType()
 }
 
-void SuperType():{}
+void SuperTypeAndInterfaces():{}
 {
-    "<" ClassType()
-}
-
-void Interfaces():{}
-{
-    "<-" (InterfaceType())+
-}
-
-void InterfaceType():{}
-{
-    ClassType()
+    "<" ClassType() ("," ClassType())*
 }
 
 void ClassBody():{}
@@ -130,7 +120,7 @@ void LastFormalParamter():{}
 
 void VariableModifier():{}
 {
-    "final" |
+    FinalModifier() |
     AutoModifier()
 }
 
@@ -141,8 +131,18 @@ void CtorBody():{}
 
 void ExplicitCtorInvocation():{}
 {
-    "this" "(" (Arguments())? ")" | 
-    "super" "(" (Arguments())? ")"
+    ThisCtorInvocation() | 
+    SuperCtorInvocation()
+}
+
+void ThisCtorInvocation():{}
+{
+    "this" ParenArguments()
+}
+
+void SuperCtorInvocation():{}
+{
+    "super" ParenArguments()
 }
 
 void BlockStmts():{}
@@ -235,17 +235,12 @@ void FuncBody():{}
 //**********************************************************************
 void AlgebraicDataTypeDecl():{}
 {
-    (ClassModifier())* "case" "type" Identifier() (TypeParameters())? (Interfaces())? "=" AlgebraicDataTypeBody() ("|" AlgebraicDataTypeBody())*
+    Annotations() ClassModifiers() "case" "type" Identifier() (TypeParameters())? "=" AlgebraicDataTypeBody() ("|" AlgebraicDataTypeBody())*
 }
 
 void AlgebraicDataTypeBody():{}
 {
-    Type() (TypeParameters())? (AlgebraicDataCtorBinding() ( "," AlgebraicDataCtorBinding())*)?
-}
-
-void AlgebraicDataCtorBinding():{}
-{
-    Identifier() Type() (TypeParameters())?
+    Identifier() (TypeParameters())? (ParenFormalParams())? (SuperTypeAndInterfaces())?
 }
 
 //**********************************************************************
@@ -253,7 +248,12 @@ void AlgebraicDataCtorBinding():{}
 //**********************************************************************
 void InterfaceDecl():{}
 {
-    (InterfaceModifier())* "interface" Identifier() (TypeParameters())? (ExtendsInterfaces())? InterfaceBody()
+    Annotations() InterfaceModifiers() "interface" Identifier() (TypeParameters())? (ExtendsInterfaces())? InterfaceBody()
+}
+
+void InterfaceModifiers():{}
+{
+    (InterfaceModifier())*
 }
 
 void InterfaceModifier():{}
@@ -263,7 +263,7 @@ void InterfaceModifier():{}
 
 void ExtendsInterfaces():{}
 {
-    "<-" (InterfaceType())+
+    "<" ClassType() ("," ClassType())*
 }
 
 void InterfaceBody():{}
@@ -294,7 +294,12 @@ void InterfaceMethodDecl():{}
 //**********************************************************************
 void TypeAliasDecl():{}
 {
-    (TypeAliasModifier())* "typealias" Identifier() Identifier()
+    Annotations() TypeAliasModifiers() "typealias" Identifier() Identifier()
+}
+
+void TypeAliasModifiers():{}
+{
+    (TypeAliasModifier())*
 }
 
 void TypeAliasModifier():{}
@@ -309,7 +314,12 @@ void TypeAliasModifier():{}
 //**********************************************************************
 void EnumDecl():{}
 {
-    (EnumModifier())* "enum" EnumName() "[" EnumMembers() "]"
+    Annotations() EnumModifiers() "enum" EnumName() "[" EnumMembers() "]"
+}
+
+void EnumModifiers():{}
+{
+    (EnumModifier())*
 }
 
 void EnumModifier():{}
@@ -327,6 +337,6 @@ void EnumName():{}
 
 void EnumMembers():{}
 {
-    (Identifier())+
+    Identifier() ("," Identifier())*
 }
 
