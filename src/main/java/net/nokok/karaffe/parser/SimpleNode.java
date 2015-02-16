@@ -112,9 +112,9 @@ public class SimpleNode implements Node {
      out its children. */
     public void dump(String prefix) {
         if (value == null) {
-            System.out.println(toString(prefix + "[" + firstToken.beginLine + ":" + firstToken.beginColumn + "] - [" + firstToken.endLine + ":" + firstToken.endColumn + "] "));
+            System.out.println(toString(prefix));
         } else {
-            System.out.println(toString(prefix + "[" + firstToken.beginLine + ":" + firstToken.beginColumn + "] - [" + firstToken.endLine + ":" + firstToken.endColumn + "] ") + " : " + value);
+            System.out.println(toString(prefix) + " : " + value);
         }
         if (children != null) {
             for (int i = 0; i < children.length; ++i) {

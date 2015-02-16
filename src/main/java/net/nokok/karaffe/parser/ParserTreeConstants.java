@@ -29,19 +29,19 @@ public interface ParserTreeConstants
   public int JJTCLASSTYPE = 23;
   public int JJTFUNCTYPE = 24;
   public int JJTADDITIONALBOUND = 25;
-  public int JJTSUPERTYPE = 26;
-  public int JJTINTERFACES = 27;
-  public int JJTINTERFACETYPE = 28;
-  public int JJTCLASSBODY = 29;
-  public int JJTCLASSCTORDECL = 30;
-  public int JJTCTORMODIFIERS = 31;
-  public int JJTFORMALPARAMETERS = 32;
-  public int JJTFORMALPARAMETER = 33;
-  public int JJTLASTFORMALPARAMTER = 34;
-  public int JJTVARARGS = 35;
-  public int JJTVARIABLEMODIFIER = 36;
-  public int JJTCTORBODY = 37;
-  public int JJTEXPLICITCTORINVOCATION = 38;
+  public int JJTSUPERTYPEANDINTERFACES = 26;
+  public int JJTCLASSBODY = 27;
+  public int JJTCLASSCTORDECL = 28;
+  public int JJTCTORMODIFIERS = 29;
+  public int JJTFORMALPARAMETERS = 30;
+  public int JJTFORMALPARAMETER = 31;
+  public int JJTLASTFORMALPARAMTER = 32;
+  public int JJTVARARGS = 33;
+  public int JJTVARIABLEMODIFIER = 34;
+  public int JJTCTORBODY = 35;
+  public int JJTEXPLICITCTORINVOCATION = 36;
+  public int JJTTHISCTORINVOCATION = 37;
+  public int JJTSUPERCTORINVOCATION = 38;
   public int JJTBLOCKSTMTS = 39;
   public int JJTBLOCKSTMT = 40;
   public int JJTLOCALVALDECL = 41;
@@ -56,103 +56,106 @@ public interface ParserTreeConstants
   public int JJTFUNCBODY = 50;
   public int JJTALGEBRAICDATATYPEDECL = 51;
   public int JJTALGEBRAICDATATYPEBODY = 52;
-  public int JJTALGEBRAICDATACTORBINDING = 53;
-  public int JJTINTERFACEDECL = 54;
-  public int JJTINTERFACEMODIFIERS = 55;
-  public int JJTINTERFACEMODIFIER = 56;
-  public int JJTEXTENDSINTERFACES = 57;
-  public int JJTINTERFACEBODY = 58;
-  public int JJTINTERFACEMEMBER = 59;
-  public int JJTCONSTANTDECL = 60;
-  public int JJTINTERFACEMETHODDECL = 61;
-  public int JJTTYPEALIASDECL = 62;
-  public int JJTTYPEALIASMODIFIERS = 63;
-  public int JJTTYPEALIASMODIFIER = 64;
-  public int JJTENUMDECL = 65;
-  public int JJTENUMMODIFIERS = 66;
-  public int JJTENUMMODIFIER = 67;
-  public int JJTENUMNAME = 68;
-  public int JJTENUMMEMBERS = 69;
-  public int JJTEXPRESSION = 70;
-  public int JJTASSIGNMENTEXPR = 71;
-  public int JJTASSIGNMENTOP = 72;
-  public int JJTLEFTHANDSIDE = 73;
-  public int JJTBACKWARDPIPELINEEXPR = 74;
-  public int JJTPIPELINEEXPR = 75;
-  public int JJTEXPRNODE = 76;
-  public int JJTBOOLOR = 77;
-  public int JJTBOOLAND = 78;
-  public int JJTEQUALTO = 79;
-  public int JJTNOTEQUALTO = 80;
-  public int JJTLESSTHAN = 81;
-  public int JJTGREATERTHAN = 82;
-  public int JJTLESSTHANEQTO = 83;
-  public int JJTGREATERTHANEQTO = 84;
-  public int JJTCLOSEDRANGE = 85;
-  public int JJTHALFOPENRANGE = 86;
-  public int JJTADD = 87;
-  public int JJTSUB = 88;
-  public int JJTSAFEADD = 89;
-  public int JJTSAFESUB = 90;
-  public int JJTMUL = 91;
-  public int JJTDIV = 92;
-  public int JJTREM = 93;
-  public int JJTSAFEMUL = 94;
-  public int JJTSAFEDIV = 95;
-  public int JJTSAFEREM = 96;
-  public int JJTUADD = 97;
-  public int JJTUSUB = 98;
-  public int JJTUBANG = 99;
+  public int JJTINTERFACEDECL = 53;
+  public int JJTINTERFACEMODIFIERS = 54;
+  public int JJTINTERFACEMODIFIER = 55;
+  public int JJTEXTENDSINTERFACES = 56;
+  public int JJTINTERFACEBODY = 57;
+  public int JJTINTERFACEMEMBER = 58;
+  public int JJTCONSTANTDECL = 59;
+  public int JJTINTERFACEMETHODDECL = 60;
+  public int JJTTYPEALIASDECL = 61;
+  public int JJTTYPEALIASMODIFIERS = 62;
+  public int JJTTYPEALIASMODIFIER = 63;
+  public int JJTENUMDECL = 64;
+  public int JJTENUMMODIFIERS = 65;
+  public int JJTENUMMODIFIER = 66;
+  public int JJTENUMNAME = 67;
+  public int JJTENUMMEMBERS = 68;
+  public int JJTEXPRESSION = 69;
+  public int JJTASSIGNMENTEXPR = 70;
+  public int JJTASSIGNMENTOP = 71;
+  public int JJTLEFTHANDSIDE = 72;
+  public int JJTBACKWARDPIPELINEEXPR = 73;
+  public int JJTPIPELINEEXPR = 74;
+  public int JJTEXPRNODE = 75;
+  public int JJTBOOLOR = 76;
+  public int JJTBOOLAND = 77;
+  public int JJTEQUALTO = 78;
+  public int JJTNOTEQUALTO = 79;
+  public int JJTLESSTHAN = 80;
+  public int JJTGREATERTHAN = 81;
+  public int JJTLESSTHANEQTO = 82;
+  public int JJTGREATERTHANEQTO = 83;
+  public int JJTCLOSEDRANGE = 84;
+  public int JJTHALFOPENRANGE = 85;
+  public int JJTADD = 86;
+  public int JJTSUB = 87;
+  public int JJTSAFEADD = 88;
+  public int JJTSAFESUB = 89;
+  public int JJTMUL = 90;
+  public int JJTDIV = 91;
+  public int JJTREM = 92;
+  public int JJTSAFEMUL = 93;
+  public int JJTSAFEDIV = 94;
+  public int JJTSAFEREM = 95;
+  public int JJTUADD = 96;
+  public int JJTUSUB = 97;
+  public int JJTUBANG = 98;
+  public int JJTMETHODREFERENCE = 99;
   public int JJTLISTDISPLAY = 100;
   public int JJTDICTIONARYDISPLAY = 101;
   public int JJTDICTIONARYPAIR = 102;
   public int JJTTUPLEDISPLAY = 103;
   public int JJTIFEXPR = 104;
-  public int JJTIFBODY = 105;
-  public int JJTSWITCHEXPR = 106;
-  public int JJTSWITCHCASE = 107;
-  public int JJTSWITCHCOND = 108;
-  public int JJTSWITCHGUARD = 109;
-  public int JJTCASEBODY = 110;
-  public int JJTWHILELOOPEXPR = 111;
-  public int JJTWHILEBODY = 112;
-  public int JJTMETHODINVOCATION = 113;
-  public int JJTPARENARGUMENTS = 114;
-  public int JJTMETHODNAME = 115;
-  public int JJTEXPRESSIONNAME = 116;
-  public int JJTARGUMENTS = 117;
-  public int JJTARGUMENT = 118;
-  public int JJTFUNCTIONLITERAL = 119;
-  public int JJTFUNCLITERALARG = 120;
-  public int JJTFUNCLITERALBODY = 121;
-  public int JJTIDENTIFIERTYPEBINDINGS = 122;
-  public int JJTIDENTIFIERTYPEBINDING = 123;
-  public int JJTAMBIGUOUSNAME = 124;
-  public int JJTDECIMALINTLITERAL = 125;
-  public int JJTHEXINTLITERAL = 126;
-  public int JJTOCTINTLITERAL = 127;
-  public int JJTBINARYINTLITERAL = 128;
-  public int JJTFLOATLITERAL = 129;
-  public int JJTDECIMALFPLITERAL = 130;
-  public int JJTHEXADECIMALFPLITERAL = 131;
-  public int JJTBOOLLITERAL = 132;
-  public int JJTCHARLITERAL = 133;
-  public int JJTSTRINGLITERAL = 134;
-  public int JJTUNDEFINEDLITERAL = 135;
-  public int JJTNULLLITERAL = 136;
-  public int JJTPUBLICMODIFIER = 137;
-  public int JJTPROTECTEDMODIFIER = 138;
-  public int JJTPRIVATEMODIFIER = 139;
-  public int JJTABSTRACTMODIFIER = 140;
-  public int JJTSTATICMODIFIER = 141;
-  public int JJTFINALMODIFIER = 142;
-  public int JJTSEALEDMODIFIER = 143;
-  public int JJTVARMODIFIER = 144;
-  public int JJTOVERRIDEMODIFIER = 145;
-  public int JJTAUTOMODIFIER = 146;
-  public int JJTIDENTIFIER = 147;
-  public int JJTTHIS = 148;
-  public int JJTSELF = 149;
+  public int JJTIFBODYSTART = 105;
+  public int JJTIFBODYEND = 106;
+  public int JJTELIFBODYSTART = 107;
+  public int JJTELIFBODYEND = 108;
+  public int JJTIFBODY = 109;
+  public int JJTSWITCHEXPR = 110;
+  public int JJTSWITCHCASE = 111;
+  public int JJTSWITCHCOND = 112;
+  public int JJTSWITCHGUARD = 113;
+  public int JJTCASEBODY = 114;
+  public int JJTWHILELOOPEXPR = 115;
+  public int JJTWHILEBODY = 116;
+  public int JJTMETHODINVOCATION = 117;
+  public int JJTMETHODNAME = 118;
+  public int JJTEXPRESSIONNAME = 119;
+  public int JJTARGUMENTS = 120;
+  public int JJTARGUMENT = 121;
+  public int JJTFUNCTIONLITERAL = 122;
+  public int JJTFUNCLITERALARG = 123;
+  public int JJTFUNCLITERALBODY = 124;
+  public int JJTIDENTIFIERTYPEBINDINGS = 125;
+  public int JJTIDENTIFIERTYPEBINDING = 126;
+  public int JJTAMBIGUOUSNAME = 127;
+  public int JJTDECIMALINTLITERAL = 128;
+  public int JJTHEXINTLITERAL = 129;
+  public int JJTOCTINTLITERAL = 130;
+  public int JJTBINARYINTLITERAL = 131;
+  public int JJTFLOATLITERAL = 132;
+  public int JJTDECIMALFPLITERAL = 133;
+  public int JJTHEXADECIMALFPLITERAL = 134;
+  public int JJTBOOLLITERAL = 135;
+  public int JJTCHARLITERAL = 136;
+  public int JJTSTRINGLITERAL = 137;
+  public int JJTUNDEFINEDLITERAL = 138;
+  public int JJTNULLLITERAL = 139;
+  public int JJTPUBLICMODIFIER = 140;
+  public int JJTPROTECTEDMODIFIER = 141;
+  public int JJTPRIVATEMODIFIER = 142;
+  public int JJTABSTRACTMODIFIER = 143;
+  public int JJTSTATICMODIFIER = 144;
+  public int JJTFINALMODIFIER = 145;
+  public int JJTSEALEDMODIFIER = 146;
+  public int JJTVARMODIFIER = 147;
+  public int JJTOVERRIDEMODIFIER = 148;
+  public int JJTAUTOMODIFIER = 149;
+  public int JJTIDENTIFIER = 150;
+  public int JJTTHIS = 151;
+  public int JJTSELF = 152;
 
 
   public String[] jjtNodeName = {
@@ -182,9 +185,7 @@ public interface ParserTreeConstants
     "ClassType",
     "FuncType",
     "AdditionalBound",
-    "SuperType",
-    "Interfaces",
-    "InterfaceType",
+    "SuperTypeAndInterfaces",
     "ClassBody",
     "ClassCtorDecl",
     "CtorModifiers",
@@ -195,6 +196,8 @@ public interface ParserTreeConstants
     "VariableModifier",
     "CtorBody",
     "ExplicitCtorInvocation",
+    "ThisCtorInvocation",
+    "SuperCtorInvocation",
     "BlockStmts",
     "BlockStmt",
     "LocalValDecl",
@@ -209,7 +212,6 @@ public interface ParserTreeConstants
     "FuncBody",
     "AlgebraicDataTypeDecl",
     "AlgebraicDataTypeBody",
-    "AlgebraicDataCtorBinding",
     "InterfaceDecl",
     "InterfaceModifiers",
     "InterfaceModifier",
@@ -256,11 +258,16 @@ public interface ParserTreeConstants
     "UAdd",
     "USub",
     "UBang",
+    "MethodReference",
     "ListDisplay",
     "DictionaryDisplay",
     "DictionaryPair",
     "TupleDisplay",
     "IfExpr",
+    "IfBodyStart",
+    "IfBodyEnd",
+    "ElIfBodyStart",
+    "ElIfBodyEnd",
     "IfBody",
     "SwitchExpr",
     "SwitchCase",
@@ -270,7 +277,6 @@ public interface ParserTreeConstants
     "WhileLoopExpr",
     "WhileBody",
     "MethodInvocation",
-    "ParenArguments",
     "MethodName",
     "ExpressionName",
     "Arguments",
@@ -308,4 +314,4 @@ public interface ParserTreeConstants
     "Self",
   };
 }
-/* JavaCC - OriginalChecksum=d9ec2af076c2c7b77b1ca4873e804c08 (do not edit this line) */
+/* JavaCC - OriginalChecksum=179578e39abe6620301ccb728fc18337 (do not edit this line) */

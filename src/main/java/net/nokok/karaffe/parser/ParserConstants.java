@@ -11,53 +11,53 @@ public interface ParserConstants {
   /** End of File. */
   int EOF = 0;
   /** RegularExpression Id. */
-  int UndefinedLiteral = 64;
+  int UndefinedLiteral = 63;
   /** RegularExpression Id. */
-  int NullLiteral = 65;
+  int NullLiteral = 64;
   /** RegularExpression Id. */
-  int BoolLiteral = 66;
+  int BoolLiteral = 65;
   /** RegularExpression Id. */
-  int DecimalNumeral = 67;
+  int DecimalNumeral = 66;
   /** RegularExpression Id. */
-  int Digit = 68;
+  int Digit = 67;
   /** RegularExpression Id. */
-  int Zero = 69;
+  int Zero = 68;
   /** RegularExpression Id. */
-  int NonZero = 70;
+  int NonZero = 69;
   /** RegularExpression Id. */
-  int HexNumeral = 71;
+  int HexNumeral = 70;
   /** RegularExpression Id. */
-  int HexDigit = 72;
+  int HexDigit = 71;
   /** RegularExpression Id. */
-  int OctalIntLiteral = 73;
+  int OctalIntLiteral = 72;
   /** RegularExpression Id. */
-  int OctalDigit = 74;
+  int OctalDigit = 73;
   /** RegularExpression Id. */
-  int BinaryNumeral = 75;
+  int BinaryNumeral = 74;
   /** RegularExpression Id. */
-  int BinaryDigit = 76;
+  int BinaryDigit = 75;
   /** RegularExpression Id. */
-  int DecimalFPLiteral = 77;
+  int DecimalFPLiteral = 76;
   /** RegularExpression Id. */
-  int Exp = 78;
+  int Exp = 77;
   /** RegularExpression Id. */
-  int HexadecimalFPLiteral = 79;
+  int HexadecimalFPLiteral = 78;
   /** RegularExpression Id. */
-  int HexSignificand = 80;
+  int HexSignificand = 79;
   /** RegularExpression Id. */
-  int BinaryExp = 81;
+  int BinaryExp = 80;
   /** RegularExpression Id. */
-  int CharLiteral = 82;
+  int CharLiteral = 81;
   /** RegularExpression Id. */
-  int StringLiteral = 83;
+  int StringLiteral = 82;
   /** RegularExpression Id. */
-  int StringCharacter = 84;
+  int StringCharacter = 83;
   /** RegularExpression Id. */
-  int StringEscapeSeq = 85;
+  int StringEscapeSeq = 84;
   /** RegularExpression Id. */
-  int UnicodeEscape = 86;
+  int UnicodeEscape = 85;
   /** RegularExpression Id. */
-  int RawStringLiteral = 87;
+  int RawStringLiteral = 86;
   /** RegularExpression Id. */
   int EndOfLine = 107;
   /** RegularExpression Id. */
@@ -94,15 +94,13 @@ public interface ParserConstants {
     "\"]\"",
     "\"<\"",
     "\"&\"",
-    "\"<-\"",
     "\"func\"",
     "\"this\"",
     "\"def\"",
-    "\"final\"",
-    "\"(\"",
-    "\")\"",
     "\"super\"",
     "\"=\"",
+    "\"(\"",
+    "\")\"",
     "\"|\"",
     "\"+=\"",
     "\"-=\"",
@@ -133,6 +131,7 @@ public interface ParserConstants {
     "\"!\"",
     "\"~>\"",
     "\"~>?\"",
+    "\"::\"",
     "\"if\"",
     "\"else\"",
     "\"switch\"",
@@ -167,6 +166,7 @@ public interface ParserConstants {
     "\"private\"",
     "\"abstract\"",
     "\"static\"",
+    "\"final\"",
     "\"sealed\"",
     "\"var\"",
     "\"override\"",
