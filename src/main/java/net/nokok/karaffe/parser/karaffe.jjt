@@ -348,7 +348,8 @@ void ReturnType():{}
 
 void FuncBody():{}
 {
-    "{" BlockStmts() "}"
+    "{" BlockStmts() "}" |
+    "=" Expression()
 }
 
 //**********************************************************************
@@ -677,7 +678,7 @@ void ParenArguments()#void:{}
 void DotMethodNameArguments() #void:{}
 {
     LOOKAHEAD("." AmbiguousName() "{") "." MethodInvocationWithBlockArguments()|
-    LOOKAHEAD("." MethodName() "(")"." MethodName() ParenArguments() #MethodInvocation()|
+    LOOKAHEAD("." MethodName() "(")"." MethodName() ParenArguments()|
     LOOKAHEAD("." Identifier())"." Identifier()
 }
 

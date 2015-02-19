@@ -57,6 +57,11 @@ public class FunctionDeclSyntaxTest {
         testFunc("func hoge(x Int) ReturnType");
     }
 
+    @Test
+    public void testExprBodyFunc() {
+        testFunc("func hoge(x Int,y Int) = x + y");
+    }
+
     private void testFunc(String code) {
         testCode("type Type{\n"
                 + code
