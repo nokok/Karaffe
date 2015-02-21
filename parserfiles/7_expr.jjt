@@ -150,7 +150,7 @@ void IfBody():{}
 
 void SwitchExpr():{}
 {
-    "switch" Expression() "{" (SwitchCase())+ "}"
+    "switch" "(" Expression() ")" "{" (SwitchCase())+ "}"
 }
 
 void SwitchCase():{}
@@ -177,7 +177,7 @@ void CaseBody():{}
 
 void WhileLoopExpr():{}
 {
-    "while" Expression() WhileBody()
+    "while" "(" Expression() ")" WhileBody()
 }
 
 void WhileBody():{}

@@ -18,6 +18,11 @@ public class IfExprTest {
         testExpr("if(true){}else if(true){}else{}");
     }
 
+    @Test
+    public void testIfExprWithoutBrase() {
+        testExpr("def a = if(true) false else true");
+    }
+
     private void testExpr(String code) {
         testCode("type D{\n"
                 + "func this() {\n"

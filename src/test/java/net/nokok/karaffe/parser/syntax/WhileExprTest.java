@@ -10,7 +10,7 @@ public class WhileExprTest {
 
     @Test
     public void testWhileExpr() {
-        testExpr("while true {}");
+        testExpr("while (true) {}");
     }
 
     @Test(expected = AssertionError.class)
