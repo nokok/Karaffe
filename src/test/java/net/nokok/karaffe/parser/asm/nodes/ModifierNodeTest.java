@@ -4,12 +4,12 @@
 package net.nokok.karaffe.parser.asm.nodes;
 
 import java.util.Optional;
-import lombok.libs.org.objectweb.asm.Opcodes;
 import net.nokok.karaffe.parser.ASTCompileUnit;
 import static net.nokok.karaffe.parser.syntax.KaraffeParserSyntaxTest.testCode;
 import static org.hamcrest.CoreMatchers.is;
 import static org.junit.Assert.assertThat;
 import org.junit.Test;
+import org.objectweb.asm.Opcodes;
 
 public class ModifierNodeTest {
 
