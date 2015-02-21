@@ -134,7 +134,7 @@ public interface ParserConstants {
     "\"::\"",
     "\"if\"",
     "\"else\"",
-    "\"switch\"",
+    "\"match\"",
     "\"=>\"",
     "\"while\"",
     "\"undefined\"",

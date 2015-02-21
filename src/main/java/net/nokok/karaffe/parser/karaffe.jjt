@@ -615,7 +615,7 @@ void IfBody():{}
 
 void SwitchExpr():{}
 {
-    "switch" "(" Expression() ")" "{" (SwitchCase())+ "}"
+    "match" "(" Expression() ")" "{" (SwitchCase())+ "}"
 }
 
 void SwitchCase():{}

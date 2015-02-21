@@ -3659,7 +3659,7 @@ void SwitchExpr():{/*@bgen(jjtree) SwitchExpr */
 {/*@bgen(jjtree) SwitchExpr */
     try {
 /*@egen*/
-    "switch" "(" Expression() ")" "{" (SwitchCase())+ "}"/*@bgen(jjtree)*/
+    "match" "(" Expression() ")" "{" (SwitchCase())+ "}"/*@bgen(jjtree)*/
     } catch (Throwable jjte000) {
       if (jjtc000) {
         jjtree.clearNodeScope(jjtn000);
