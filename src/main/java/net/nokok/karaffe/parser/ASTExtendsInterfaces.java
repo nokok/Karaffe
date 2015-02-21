@@ -14,10 +14,9 @@ class ASTExtendsInterfaces extends SimpleNode {
 
 
   /** Accept the visitor. **/
-  public Object jjtAccept(ParserVisitor visitor, Object data) throws net.nokok.karaffe.parser.excptn.ParserException {
+  public void jjtAccept(ParserVisitor visitor, Object data) throws net.nokok.karaffe.parser.excptn.ParserException {
 
-    return
     visitor.visit(this, data);
   }
 }
-/* JavaCC - OriginalChecksum=9f9cd6a00d1da80972be32bbb2c5cc14 (do not edit this line) */
+/* JavaCC - OriginalChecksum=e7074aafdbe307a87bbee6f1243a60d3 (do not edit this line) */

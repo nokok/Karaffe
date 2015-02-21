@@ -14,10 +14,9 @@ class ASTTypeName extends SimpleNode {
 
 
   /** Accept the visitor. **/
-  public Object jjtAccept(ParserVisitor visitor, Object data) throws net.nokok.karaffe.parser.excptn.ParserException {
+  public void jjtAccept(ParserVisitor visitor, Object data) throws net.nokok.karaffe.parser.excptn.ParserException {
 
-    return
     visitor.visit(this, data);
   }
 }
-/* JavaCC - OriginalChecksum=a86539750394c0745b7d91085cdccd9c (do not edit this line) */
+/* JavaCC - OriginalChecksum=8874a89a45992f6489479ab720f86ce7 (do not edit this line) */

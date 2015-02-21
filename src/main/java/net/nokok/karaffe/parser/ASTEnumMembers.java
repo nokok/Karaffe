@@ -14,10 +14,9 @@ class ASTEnumMembers extends SimpleNode {
 
 
   /** Accept the visitor. **/
-  public Object jjtAccept(ParserVisitor visitor, Object data) throws net.nokok.karaffe.parser.excptn.ParserException {
+  public void jjtAccept(ParserVisitor visitor, Object data) throws net.nokok.karaffe.parser.excptn.ParserException {
 
-    return
     visitor.visit(this, data);
   }
 }
-/* JavaCC - OriginalChecksum=712cd8687f66939ce0690cd4f92c3229 (do not edit this line) */
+/* JavaCC - OriginalChecksum=a5e682430e3533e1e8a34f02154d7a3e (do not edit this line) */

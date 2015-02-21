@@ -14,10 +14,9 @@ class ASTTypeAliasModifier extends SimpleNode {
 
 
   /** Accept the visitor. **/
-  public Object jjtAccept(ParserVisitor visitor, Object data) throws net.nokok.karaffe.parser.excptn.ParserException {
+  public void jjtAccept(ParserVisitor visitor, Object data) throws net.nokok.karaffe.parser.excptn.ParserException {
 
-    return
     visitor.visit(this, data);
   }
 }
-/* JavaCC - OriginalChecksum=feb5e14b78a1989b62ae0bf543abb1c7 (do not edit this line) */
+/* JavaCC - OriginalChecksum=960ff217d9c47fa7d22fc763eb7e6f1b (do not edit this line) */

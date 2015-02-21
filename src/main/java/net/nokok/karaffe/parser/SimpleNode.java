@@ -79,20 +79,19 @@ public class SimpleNode implements Node {
     }
 
     /** Accept the visitor. * */
-    public Object jjtAccept(ParserVisitor visitor, Object data)
+    public void jjtAccept(ParserVisitor visitor, Object data)
             throws net.nokok.karaffe.parser.excptn.ParserException {
-        return visitor.visit(this, data);
+        visitor.visit(this, data);
     }
 
     /** Accept the visitor. * */
-    public Object childrenAccept(ParserVisitor visitor, Object data)
+    public void childrenAccept(ParserVisitor visitor, Object data)
             throws net.nokok.karaffe.parser.excptn.ParserException {
         if (children != null) {
             for (int i = 0; i < children.length; ++i) {
                 children[i].jjtAccept(visitor, data);
             }
         }
-        return data;
     }
 
     /* You can override these two methods in subclasses of SimpleNode to

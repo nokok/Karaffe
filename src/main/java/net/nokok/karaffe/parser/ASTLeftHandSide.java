@@ -14,10 +14,9 @@ class ASTLeftHandSide extends SimpleNode {
 
 
   /** Accept the visitor. **/
-  public Object jjtAccept(ParserVisitor visitor, Object data) throws net.nokok.karaffe.parser.excptn.ParserException {
+  public void jjtAccept(ParserVisitor visitor, Object data) throws net.nokok.karaffe.parser.excptn.ParserException {
 
-    return
     visitor.visit(this, data);
   }
 }
-/* JavaCC - OriginalChecksum=fe77794ee0e3a3a36295949a25b0b0ba (do not edit this line) */
+/* JavaCC - OriginalChecksum=5377d0823e812c0301de21de1c93f47c (do not edit this line) */

@@ -14,10 +14,9 @@ class ASTDecimalIntLiteral extends SimpleNode {
 
 
   /** Accept the visitor. **/
-  public Object jjtAccept(ParserVisitor visitor, Object data) throws net.nokok.karaffe.parser.excptn.ParserException {
+  public void jjtAccept(ParserVisitor visitor, Object data) throws net.nokok.karaffe.parser.excptn.ParserException {
 
-    return
     visitor.visit(this, data);
   }
 }
-/* JavaCC - OriginalChecksum=4a52e17f3f831c5a6a231f93cf480355 (do not edit this line) */
+/* JavaCC - OriginalChecksum=e577f3d66fa07d23869501f0608f8dfd (do not edit this line) */

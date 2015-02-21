@@ -14,10 +14,9 @@ class ASTImportStmt extends SimpleNode {
 
 
   /** Accept the visitor. **/
-  public Object jjtAccept(ParserVisitor visitor, Object data) throws net.nokok.karaffe.parser.excptn.ParserException {
+  public void jjtAccept(ParserVisitor visitor, Object data) throws net.nokok.karaffe.parser.excptn.ParserException {
 
-    return
     visitor.visit(this, data);
   }
 }
-/* JavaCC - OriginalChecksum=f088d99ffe7dab2b0cb52f1aacf2a606 (do not edit this line) */
+/* JavaCC - OriginalChecksum=4dd2f13f5184464b99297526e94c28ce (do not edit this line) */

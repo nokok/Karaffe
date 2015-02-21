@@ -14,10 +14,9 @@ class ASTDictionaryPair extends SimpleNode {
 
 
   /** Accept the visitor. **/
-  public Object jjtAccept(ParserVisitor visitor, Object data) throws net.nokok.karaffe.parser.excptn.ParserException {
+  public void jjtAccept(ParserVisitor visitor, Object data) throws net.nokok.karaffe.parser.excptn.ParserException {
 
-    return
     visitor.visit(this, data);
   }
 }
-/* JavaCC - OriginalChecksum=1921274d4bf9011083c48444c51f9487 (do not edit this line) */
+/* JavaCC - OriginalChecksum=79450d13e0828405ed276de9e94b22db (do not edit this line) */

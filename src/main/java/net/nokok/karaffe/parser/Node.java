@@ -35,6 +35,6 @@ public interface Node {
     public int getId();
 
     /** Accept the visitor. * */
-    public Object jjtAccept(ParserVisitor visitor, Object data) throws net.nokok.karaffe.parser.excptn.ParserException;
+    public void jjtAccept(ParserVisitor visitor, Object data) throws net.nokok.karaffe.parser.excptn.ParserException;
 }
 /* JavaCC - OriginalChecksum=90822218a66f41a37c3e90376b98fcf3 (do not edit this line) */

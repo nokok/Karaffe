@@ -14,10 +14,9 @@ class ASTRem extends SimpleNode {
 
 
   /** Accept the visitor. **/
-  public Object jjtAccept(ParserVisitor visitor, Object data) throws net.nokok.karaffe.parser.excptn.ParserException {
+  public void jjtAccept(ParserVisitor visitor, Object data) throws net.nokok.karaffe.parser.excptn.ParserException {
 
-    return
     visitor.visit(this, data);
   }
 }
-/* JavaCC - OriginalChecksum=a73f36eff325b12fac34e7edde31edb4 (do not edit this line) */
+/* JavaCC - OriginalChecksum=802bfb200b1ba78ecaba97809ba919b2 (do not edit this line) */

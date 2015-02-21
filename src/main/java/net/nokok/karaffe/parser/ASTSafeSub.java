@@ -14,10 +14,9 @@ class ASTSafeSub extends SimpleNode {
 
 
   /** Accept the visitor. **/
-  public Object jjtAccept(ParserVisitor visitor, Object data) throws net.nokok.karaffe.parser.excptn.ParserException {
+  public void jjtAccept(ParserVisitor visitor, Object data) throws net.nokok.karaffe.parser.excptn.ParserException {
 
-    return
     visitor.visit(this, data);
   }
 }
-/* JavaCC - OriginalChecksum=ff0f1e146ed66bc16032e3ddc41da618 (do not edit this line) */
+/* JavaCC - OriginalChecksum=8aedf51745c94329daef7c179426acee (do not edit this line) */

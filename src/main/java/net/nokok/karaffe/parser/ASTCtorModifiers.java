@@ -14,10 +14,9 @@ class ASTCtorModifiers extends SimpleNode {
 
 
   /** Accept the visitor. **/
-  public Object jjtAccept(ParserVisitor visitor, Object data) throws net.nokok.karaffe.parser.excptn.ParserException {
+  public void jjtAccept(ParserVisitor visitor, Object data) throws net.nokok.karaffe.parser.excptn.ParserException {
 
-    return
     visitor.visit(this, data);
   }
 }
-/* JavaCC - OriginalChecksum=22466d28b8f5cb0a9233c02cd3c9a1d8 (do not edit this line) */
+/* JavaCC - OriginalChecksum=ed6c3af84c409c0b1a74b80a7eb03a31 (do not edit this line) */

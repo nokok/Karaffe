@@ -14,10 +14,9 @@ class ASTSwitchGuard extends SimpleNode {
 
 
   /** Accept the visitor. **/
-  public Object jjtAccept(ParserVisitor visitor, Object data) throws net.nokok.karaffe.parser.excptn.ParserException {
+  public void jjtAccept(ParserVisitor visitor, Object data) throws net.nokok.karaffe.parser.excptn.ParserException {
 
-    return
     visitor.visit(this, data);
   }
 }
-/* JavaCC - OriginalChecksum=c4560f63fd05fb44fedab4577f2d9494 (do not edit this line) */
+/* JavaCC - OriginalChecksum=0a4fd5950012d629146f16b7cd63b458 (do not edit this line) */

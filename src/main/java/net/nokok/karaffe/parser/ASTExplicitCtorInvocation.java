@@ -14,10 +14,9 @@ class ASTExplicitCtorInvocation extends SimpleNode {
 
 
   /** Accept the visitor. **/
-  public Object jjtAccept(ParserVisitor visitor, Object data) throws net.nokok.karaffe.parser.excptn.ParserException {
+  public void jjtAccept(ParserVisitor visitor, Object data) throws net.nokok.karaffe.parser.excptn.ParserException {
 
-    return
     visitor.visit(this, data);
   }
 }
-/* JavaCC - OriginalChecksum=b389d1a782fc3838baf4de66902ab3fb (do not edit this line) */
+/* JavaCC - OriginalChecksum=16e82578a5acdfad90a5ef6f59bc8758 (do not edit this line) */

@@ -14,10 +14,9 @@ class ASTArgument extends SimpleNode {
 
 
   /** Accept the visitor. **/
-  public Object jjtAccept(ParserVisitor visitor, Object data) throws net.nokok.karaffe.parser.excptn.ParserException {
+  public void jjtAccept(ParserVisitor visitor, Object data) throws net.nokok.karaffe.parser.excptn.ParserException {
 
-    return
     visitor.visit(this, data);
   }
 }
-/* JavaCC - OriginalChecksum=ea5e37774d6e7d6178cdea3fd6c8d1f2 (do not edit this line) */
+/* JavaCC - OriginalChecksum=b9bf89fb0140f0848c29cb5de927c2f7 (do not edit this line) */

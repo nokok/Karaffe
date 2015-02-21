@@ -14,10 +14,9 @@ class ASTFieldInitializer extends SimpleNode {
 
 
   /** Accept the visitor. **/
-  public Object jjtAccept(ParserVisitor visitor, Object data) throws net.nokok.karaffe.parser.excptn.ParserException {
+  public void jjtAccept(ParserVisitor visitor, Object data) throws net.nokok.karaffe.parser.excptn.ParserException {
 
-    return
     visitor.visit(this, data);
   }
 }
-/* JavaCC - OriginalChecksum=9d227adb6575c04ddeb521043f066a44 (do not edit this line) */
+/* JavaCC - OriginalChecksum=0d8c781c17fb9899de976e34aa14eb5a (do not edit this line) */

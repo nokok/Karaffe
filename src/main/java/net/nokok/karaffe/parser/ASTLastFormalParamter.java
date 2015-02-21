@@ -14,10 +14,9 @@ class ASTLastFormalParamter extends SimpleNode {
 
 
   /** Accept the visitor. **/
-  public Object jjtAccept(ParserVisitor visitor, Object data) throws net.nokok.karaffe.parser.excptn.ParserException {
+  public void jjtAccept(ParserVisitor visitor, Object data) throws net.nokok.karaffe.parser.excptn.ParserException {
 
-    return
     visitor.visit(this, data);
   }
 }
-/* JavaCC - OriginalChecksum=b9a4f39639e55f35a53f6a3725fa43f4 (do not edit this line) */
+/* JavaCC - OriginalChecksum=28d8e597eb8bc4f3f9a2136cf308d3f1 (do not edit this line) */

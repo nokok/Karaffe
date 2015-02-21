@@ -14,10 +14,9 @@ class ASTIdentifierTypeBinding extends SimpleNode {
 
 
   /** Accept the visitor. **/
-  public Object jjtAccept(ParserVisitor visitor, Object data) throws net.nokok.karaffe.parser.excptn.ParserException {
+  public void jjtAccept(ParserVisitor visitor, Object data) throws net.nokok.karaffe.parser.excptn.ParserException {
 
-    return
     visitor.visit(this, data);
   }
 }
-/* JavaCC - OriginalChecksum=75e11edbd3332941b77dc68507b3cf8b (do not edit this line) */
+/* JavaCC - OriginalChecksum=41d4e14baa82a31187b40376d032aedd (do not edit this line) */

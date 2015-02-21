@@ -14,10 +14,9 @@ class ASTSafeMul extends SimpleNode {
 
 
   /** Accept the visitor. **/
-  public Object jjtAccept(ParserVisitor visitor, Object data) throws net.nokok.karaffe.parser.excptn.ParserException {
+  public void jjtAccept(ParserVisitor visitor, Object data) throws net.nokok.karaffe.parser.excptn.ParserException {
 
-    return
     visitor.visit(this, data);
   }
 }
-/* JavaCC - OriginalChecksum=3778764b16c805b6af709786bda5933a (do not edit this line) */
+/* JavaCC - OriginalChecksum=fb7245b87f1333086420eae7872b3c2d (do not edit this line) */

@@ -14,10 +14,9 @@ class ASTConstantDecl extends SimpleNode {
 
 
   /** Accept the visitor. **/
-  public Object jjtAccept(ParserVisitor visitor, Object data) throws net.nokok.karaffe.parser.excptn.ParserException {
+  public void jjtAccept(ParserVisitor visitor, Object data) throws net.nokok.karaffe.parser.excptn.ParserException {
 
-    return
     visitor.visit(this, data);
   }
 }
-/* JavaCC - OriginalChecksum=9693f018a0832750949bed3e3691017b (do not edit this line) */
+/* JavaCC - OriginalChecksum=7c121c6136067dbea1dff4b59a88ec4f (do not edit this line) */

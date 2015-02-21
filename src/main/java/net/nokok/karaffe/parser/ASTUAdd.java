@@ -14,10 +14,9 @@ class ASTUAdd extends SimpleNode {
 
 
   /** Accept the visitor. **/
-  public Object jjtAccept(ParserVisitor visitor, Object data) throws net.nokok.karaffe.parser.excptn.ParserException {
+  public void jjtAccept(ParserVisitor visitor, Object data) throws net.nokok.karaffe.parser.excptn.ParserException {
 
-    return
     visitor.visit(this, data);
   }
 }
-/* JavaCC - OriginalChecksum=46d274c350cda896ddd5f949f98e81e0 (do not edit this line) */
+/* JavaCC - OriginalChecksum=18ce210a1a73f022a04a9b87a977cac5 (do not edit this line) */

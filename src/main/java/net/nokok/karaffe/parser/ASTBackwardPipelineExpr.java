@@ -14,10 +14,9 @@ class ASTBackwardPipelineExpr extends SimpleNode {
 
 
   /** Accept the visitor. **/
-  public Object jjtAccept(ParserVisitor visitor, Object data) throws net.nokok.karaffe.parser.excptn.ParserException {
+  public void jjtAccept(ParserVisitor visitor, Object data) throws net.nokok.karaffe.parser.excptn.ParserException {
 
-    return
     visitor.visit(this, data);
   }
 }
-/* JavaCC - OriginalChecksum=2d323942d11943e169c180b982c19e88 (do not edit this line) */
+/* JavaCC - OriginalChecksum=118984707040c86d4c6fc18bfa9f81be (do not edit this line) */

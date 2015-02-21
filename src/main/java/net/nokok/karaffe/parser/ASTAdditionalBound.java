@@ -14,10 +14,9 @@ class ASTAdditionalBound extends SimpleNode {
 
 
   /** Accept the visitor. **/
-  public Object jjtAccept(ParserVisitor visitor, Object data) throws net.nokok.karaffe.parser.excptn.ParserException {
+  public void jjtAccept(ParserVisitor visitor, Object data) throws net.nokok.karaffe.parser.excptn.ParserException {
 
-    return
     visitor.visit(this, data);
   }
 }
-/* JavaCC - OriginalChecksum=493e00b9ed4c7bb1ee241bdd7a35ffeb (do not edit this line) */
+/* JavaCC - OriginalChecksum=b746ea58565331b22ee9e4c50ae0e7f4 (do not edit this line) */

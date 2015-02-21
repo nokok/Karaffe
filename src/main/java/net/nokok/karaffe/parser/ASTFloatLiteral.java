@@ -14,10 +14,9 @@ class ASTFloatLiteral extends SimpleNode {
 
 
   /** Accept the visitor. **/
-  public Object jjtAccept(ParserVisitor visitor, Object data) throws net.nokok.karaffe.parser.excptn.ParserException {
+  public void jjtAccept(ParserVisitor visitor, Object data) throws net.nokok.karaffe.parser.excptn.ParserException {
 
-    return
     visitor.visit(this, data);
   }
 }
-/* JavaCC - OriginalChecksum=4be60570d756ad7e82d95fe22968ea76 (do not edit this line) */
+/* JavaCC - OriginalChecksum=7c791558a50c07c614c65e4c15f5baad (do not edit this line) */

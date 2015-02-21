@@ -14,10 +14,9 @@ class ASTStaticModifier extends SimpleNode {
 
 
   /** Accept the visitor. **/
-  public Object jjtAccept(ParserVisitor visitor, Object data) throws net.nokok.karaffe.parser.excptn.ParserException {
+  public void jjtAccept(ParserVisitor visitor, Object data) throws net.nokok.karaffe.parser.excptn.ParserException {
 
-    return
     visitor.visit(this, data);
   }
 }
-/* JavaCC - OriginalChecksum=1c86461e18c4ba46a1f3f114e9f80431 (do not edit this line) */
+/* JavaCC - OriginalChecksum=2854cd9280f7f8a535748a0c5d7b19e6 (do not edit this line) */

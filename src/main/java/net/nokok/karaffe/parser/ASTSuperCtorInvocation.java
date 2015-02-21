@@ -14,10 +14,9 @@ class ASTSuperCtorInvocation extends SimpleNode {
 
 
   /** Accept the visitor. **/
-  public Object jjtAccept(ParserVisitor visitor, Object data) throws net.nokok.karaffe.parser.excptn.ParserException {
+  public void jjtAccept(ParserVisitor visitor, Object data) throws net.nokok.karaffe.parser.excptn.ParserException {
 
-    return
     visitor.visit(this, data);
   }
 }
-/* JavaCC - OriginalChecksum=3ff9bf906cb34239c6a04897c3974af2 (do not edit this line) */
+/* JavaCC - OriginalChecksum=b141a16cbf52f2dee8ee6ceaaac5d87e (do not edit this line) */

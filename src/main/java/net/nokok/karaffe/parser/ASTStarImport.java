@@ -14,10 +14,9 @@ class ASTStarImport extends SimpleNode {
 
 
   /** Accept the visitor. **/
-  public Object jjtAccept(ParserVisitor visitor, Object data) throws net.nokok.karaffe.parser.excptn.ParserException {
+  public void jjtAccept(ParserVisitor visitor, Object data) throws net.nokok.karaffe.parser.excptn.ParserException {
 
-    return
     visitor.visit(this, data);
   }
 }
-/* JavaCC - OriginalChecksum=386e3a1d21fc98ae03f4861b98b52789 (do not edit this line) */
+/* JavaCC - OriginalChecksum=3144ea0242cb097a9a93fa73ac798498 (do not edit this line) */

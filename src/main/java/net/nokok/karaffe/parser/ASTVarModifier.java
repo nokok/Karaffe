@@ -14,10 +14,9 @@ class ASTVarModifier extends SimpleNode {
 
 
   /** Accept the visitor. **/
-  public Object jjtAccept(ParserVisitor visitor, Object data) throws net.nokok.karaffe.parser.excptn.ParserException {
+  public void jjtAccept(ParserVisitor visitor, Object data) throws net.nokok.karaffe.parser.excptn.ParserException {
 
-    return
     visitor.visit(this, data);
   }
 }
-/* JavaCC - OriginalChecksum=713eca660b7b3efded75147bfce8b41d (do not edit this line) */
+/* JavaCC - OriginalChecksum=8ba0808c6fa3dead0d71d38505ee40e1 (do not edit this line) */

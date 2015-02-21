@@ -14,10 +14,9 @@ class ASTLocalValDecl extends SimpleNode {
 
 
   /** Accept the visitor. **/
-  public Object jjtAccept(ParserVisitor visitor, Object data) throws net.nokok.karaffe.parser.excptn.ParserException {
+  public void jjtAccept(ParserVisitor visitor, Object data) throws net.nokok.karaffe.parser.excptn.ParserException {
 
-    return
     visitor.visit(this, data);
   }
 }
-/* JavaCC - OriginalChecksum=600c24a1f430dbc186175c433b285138 (do not edit this line) */
+/* JavaCC - OriginalChecksum=760517be9266b712b1b031ef24d0dd3d (do not edit this line) */

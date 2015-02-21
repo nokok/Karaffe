@@ -14,10 +14,9 @@ class ASTDecimalFPLiteral extends SimpleNode {
 
 
   /** Accept the visitor. **/
-  public Object jjtAccept(ParserVisitor visitor, Object data) throws net.nokok.karaffe.parser.excptn.ParserException {
+  public void jjtAccept(ParserVisitor visitor, Object data) throws net.nokok.karaffe.parser.excptn.ParserException {
 
-    return
     visitor.visit(this, data);
   }
 }
-/* JavaCC - OriginalChecksum=d338b307756dad01c56f2455232e4adb (do not edit this line) */
+/* JavaCC - OriginalChecksum=c49468baf8443cd0ed6834ac258ed861 (do not edit this line) */

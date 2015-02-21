@@ -14,10 +14,9 @@ class ASTNotEqualTo extends SimpleNode {
 
 
   /** Accept the visitor. **/
-  public Object jjtAccept(ParserVisitor visitor, Object data) throws net.nokok.karaffe.parser.excptn.ParserException {
+  public void jjtAccept(ParserVisitor visitor, Object data) throws net.nokok.karaffe.parser.excptn.ParserException {
 
-    return
     visitor.visit(this, data);
   }
 }
-/* JavaCC - OriginalChecksum=44f117618fd29379657a78452d1d8ef0 (do not edit this line) */
+/* JavaCC - OriginalChecksum=75bf74b4fb2c9ca43599dc6e144c440f (do not edit this line) */

@@ -14,10 +14,9 @@ class ASTBlockStmts extends SimpleNode {
 
 
   /** Accept the visitor. **/
-  public Object jjtAccept(ParserVisitor visitor, Object data) throws net.nokok.karaffe.parser.excptn.ParserException {
+  public void jjtAccept(ParserVisitor visitor, Object data) throws net.nokok.karaffe.parser.excptn.ParserException {
 
-    return
     visitor.visit(this, data);
   }
 }
-/* JavaCC - OriginalChecksum=cc930188a1ed1e1b4c4f1f6bde0dcab8 (do not edit this line) */
+/* JavaCC - OriginalChecksum=feff291f41f6c39812f65d25d429a187 (do not edit this line) */

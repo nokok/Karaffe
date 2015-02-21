@@ -14,10 +14,9 @@ class ASTTypeBound extends SimpleNode {
 
 
   /** Accept the visitor. **/
-  public Object jjtAccept(ParserVisitor visitor, Object data) throws net.nokok.karaffe.parser.excptn.ParserException {
+  public void jjtAccept(ParserVisitor visitor, Object data) throws net.nokok.karaffe.parser.excptn.ParserException {
 
-    return
     visitor.visit(this, data);
   }
 }
-/* JavaCC - OriginalChecksum=3e08fb6fc06d8dd7ad14002a46fd77aa (do not edit this line) */
+/* JavaCC - OriginalChecksum=5d66fe22838c27084c8e031c62f669ed (do not edit this line) */

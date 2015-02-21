@@ -14,10 +14,9 @@ class ASTHexIntLiteral extends SimpleNode {
 
 
   /** Accept the visitor. **/
-  public Object jjtAccept(ParserVisitor visitor, Object data) throws net.nokok.karaffe.parser.excptn.ParserException {
+  public void jjtAccept(ParserVisitor visitor, Object data) throws net.nokok.karaffe.parser.excptn.ParserException {
 
-    return
     visitor.visit(this, data);
   }
 }
-/* JavaCC - OriginalChecksum=baba9d590f2da6c69af57eb9ba3df539 (do not edit this line) */
+/* JavaCC - OriginalChecksum=7ec51a4ffc7f43f8a3220e54506a5d00 (do not edit this line) */

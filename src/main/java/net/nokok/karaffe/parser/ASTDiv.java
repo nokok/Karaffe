@@ -14,10 +14,9 @@ class ASTDiv extends SimpleNode {
 
 
   /** Accept the visitor. **/
-  public Object jjtAccept(ParserVisitor visitor, Object data) throws net.nokok.karaffe.parser.excptn.ParserException {
+  public void jjtAccept(ParserVisitor visitor, Object data) throws net.nokok.karaffe.parser.excptn.ParserException {
 
-    return
     visitor.visit(this, data);
   }
 }
-/* JavaCC - OriginalChecksum=b46f591d5bcdf3e5c9d5e84f59631410 (do not edit this line) */
+/* JavaCC - OriginalChecksum=1bcb7b1648e6fe14d2775e85e86ecc14 (do not edit this line) */

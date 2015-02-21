@@ -14,10 +14,9 @@ class ASTAssignmentExpr extends SimpleNode {
 
 
   /** Accept the visitor. **/
-  public Object jjtAccept(ParserVisitor visitor, Object data) throws net.nokok.karaffe.parser.excptn.ParserException {
+  public void jjtAccept(ParserVisitor visitor, Object data) throws net.nokok.karaffe.parser.excptn.ParserException {
 
-    return
     visitor.visit(this, data);
   }
 }
-/* JavaCC - OriginalChecksum=4f90872285667e1ddfb7d3da77fb49c0 (do not edit this line) */
+/* JavaCC - OriginalChecksum=2090f33e637dad1a187b9a8e5e759c8d (do not edit this line) */

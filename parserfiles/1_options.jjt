@@ -10,5 +10,6 @@ options {
     MULTI = true;
     VISITOR = true;
     VISITOR_EXCEPTION = "net.nokok.karaffe.parser.excptn.ParserException";
+    VISITOR_RETURN_TYPE = "void";
     TRACK_TOKENS = true;
 }

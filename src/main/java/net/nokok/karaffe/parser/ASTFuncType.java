@@ -14,10 +14,9 @@ class ASTFuncType extends SimpleNode {
 
 
   /** Accept the visitor. **/
-  public Object jjtAccept(ParserVisitor visitor, Object data) throws net.nokok.karaffe.parser.excptn.ParserException {
+  public void jjtAccept(ParserVisitor visitor, Object data) throws net.nokok.karaffe.parser.excptn.ParserException {
 
-    return
     visitor.visit(this, data);
   }
 }
-/* JavaCC - OriginalChecksum=44db9b1c1ac15d2d5d8fb74bd3584d07 (do not edit this line) */
+/* JavaCC - OriginalChecksum=b34e542c9a659e19d8ca73ce80cc86e2 (do not edit this line) */

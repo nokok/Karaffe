@@ -14,10 +14,9 @@ class ASTSwitchCond extends SimpleNode {
 
 
   /** Accept the visitor. **/
-  public Object jjtAccept(ParserVisitor visitor, Object data) throws net.nokok.karaffe.parser.excptn.ParserException {
+  public void jjtAccept(ParserVisitor visitor, Object data) throws net.nokok.karaffe.parser.excptn.ParserException {
 
-    return
     visitor.visit(this, data);
   }
 }
-/* JavaCC - OriginalChecksum=4ff5da7f7c9946b5f3ddcb35880af431 (do not edit this line) */
+/* JavaCC - OriginalChecksum=fcdfc723cf79344a084983054b2c8252 (do not edit this line) */

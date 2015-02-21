@@ -14,10 +14,9 @@ class ASTGreaterThan extends SimpleNode {
 
 
   /** Accept the visitor. **/
-  public Object jjtAccept(ParserVisitor visitor, Object data) throws net.nokok.karaffe.parser.excptn.ParserException {
+  public void jjtAccept(ParserVisitor visitor, Object data) throws net.nokok.karaffe.parser.excptn.ParserException {
 
-    return
     visitor.visit(this, data);
   }
 }
-/* JavaCC - OriginalChecksum=cd36c950bacf6f662cf0cab9015e2beb (do not edit this line) */
+/* JavaCC - OriginalChecksum=3677301182d2951c0e00203dee610d93 (do not edit this line) */

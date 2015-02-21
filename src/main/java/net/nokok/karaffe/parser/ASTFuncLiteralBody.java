@@ -14,10 +14,9 @@ class ASTFuncLiteralBody extends SimpleNode {
 
 
   /** Accept the visitor. **/
-  public Object jjtAccept(ParserVisitor visitor, Object data) throws net.nokok.karaffe.parser.excptn.ParserException {
+  public void jjtAccept(ParserVisitor visitor, Object data) throws net.nokok.karaffe.parser.excptn.ParserException {
 
-    return
     visitor.visit(this, data);
   }
 }
-/* JavaCC - OriginalChecksum=db1c48829df9a3a98bd59f13125d2d7e (do not edit this line) */
+/* JavaCC - OriginalChecksum=14548c19f0d10b1434115960aab629ac (do not edit this line) */

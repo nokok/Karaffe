@@ -14,10 +14,9 @@ class ASTFieldDecl extends SimpleNode {
 
 
   /** Accept the visitor. **/
-  public Object jjtAccept(ParserVisitor visitor, Object data) throws net.nokok.karaffe.parser.excptn.ParserException {
+  public void jjtAccept(ParserVisitor visitor, Object data) throws net.nokok.karaffe.parser.excptn.ParserException {
 
-    return
     visitor.visit(this, data);
   }
 }
-/* JavaCC - OriginalChecksum=0857996078e69d4c317430f43617a711 (do not edit this line) */
+/* JavaCC - OriginalChecksum=23edcd80b87c324998cbe53be08ecc13 (do not edit this line) */

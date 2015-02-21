@@ -14,10 +14,9 @@ class ASTHexadecimalFPLiteral extends SimpleNode {
 
 
   /** Accept the visitor. **/
-  public Object jjtAccept(ParserVisitor visitor, Object data) throws net.nokok.karaffe.parser.excptn.ParserException {
+  public void jjtAccept(ParserVisitor visitor, Object data) throws net.nokok.karaffe.parser.excptn.ParserException {
 
-    return
     visitor.visit(this, data);
   }
 }
-/* JavaCC - OriginalChecksum=9afb0d95ee32fdc5696dea17c24f10f8 (do not edit this line) */
+/* JavaCC - OriginalChecksum=53bf9167ee92838e3f6ad4f2d0ba90e0 (do not edit this line) */

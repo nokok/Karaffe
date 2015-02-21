@@ -14,10 +14,9 @@ class ASTAnnotations extends SimpleNode {
 
 
   /** Accept the visitor. **/
-  public Object jjtAccept(ParserVisitor visitor, Object data) throws net.nokok.karaffe.parser.excptn.ParserException {
+  public void jjtAccept(ParserVisitor visitor, Object data) throws net.nokok.karaffe.parser.excptn.ParserException {
 
-    return
     visitor.visit(this, data);
   }
 }
-/* JavaCC - OriginalChecksum=ae5b258d12345c2da264a763c4e8a3ad (do not edit this line) */
+/* JavaCC - OriginalChecksum=76754ac17c004e71756d8f364990feb0 (do not edit this line) */

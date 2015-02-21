@@ -14,10 +14,9 @@ class ASTAliasImport extends SimpleNode {
 
 
   /** Accept the visitor. **/
-  public Object jjtAccept(ParserVisitor visitor, Object data) throws net.nokok.karaffe.parser.excptn.ParserException {
+  public void jjtAccept(ParserVisitor visitor, Object data) throws net.nokok.karaffe.parser.excptn.ParserException {
 
-    return
     visitor.visit(this, data);
   }
 }
-/* JavaCC - OriginalChecksum=eddd0e2751d71ff9439fd93ed7dce1be (do not edit this line) */
+/* JavaCC - OriginalChecksum=38f9b809f1310ff3ed49ccbbb5555abc (do not edit this line) */

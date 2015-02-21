@@ -14,10 +14,9 @@ class ASTAutoModifier extends SimpleNode {
 
 
   /** Accept the visitor. **/
-  public Object jjtAccept(ParserVisitor visitor, Object data) throws net.nokok.karaffe.parser.excptn.ParserException {
+  public void jjtAccept(ParserVisitor visitor, Object data) throws net.nokok.karaffe.parser.excptn.ParserException {
 
-    return
     visitor.visit(this, data);
   }
 }
-/* JavaCC - OriginalChecksum=bf7f09b884834a4b86091fd7a7721518 (do not edit this line) */
+/* JavaCC - OriginalChecksum=ae44d4b1853c4462f693b2327b9966e7 (do not edit this line) */

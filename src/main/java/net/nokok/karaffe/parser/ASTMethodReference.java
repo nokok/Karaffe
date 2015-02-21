@@ -14,10 +14,9 @@ class ASTMethodReference extends SimpleNode {
 
 
   /** Accept the visitor. **/
-  public Object jjtAccept(ParserVisitor visitor, Object data) throws net.nokok.karaffe.parser.excptn.ParserException {
+  public void jjtAccept(ParserVisitor visitor, Object data) throws net.nokok.karaffe.parser.excptn.ParserException {
 
-    return
     visitor.visit(this, data);
   }
 }
-/* JavaCC - OriginalChecksum=f7ea6460eec9eef2134afe8d52135630 (do not edit this line) */
+/* JavaCC - OriginalChecksum=b876941e096a4b82c860194a3f28a541 (do not edit this line) */

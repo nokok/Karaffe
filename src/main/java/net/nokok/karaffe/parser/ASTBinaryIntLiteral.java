@@ -14,10 +14,9 @@ class ASTBinaryIntLiteral extends SimpleNode {
 
 
   /** Accept the visitor. **/
-  public Object jjtAccept(ParserVisitor visitor, Object data) throws net.nokok.karaffe.parser.excptn.ParserException {
+  public void jjtAccept(ParserVisitor visitor, Object data) throws net.nokok.karaffe.parser.excptn.ParserException {
 
-    return
     visitor.visit(this, data);
   }
 }
-/* JavaCC - OriginalChecksum=95e3179145fd190a1b7ea7d9dd72aca0 (do not edit this line) */
+/* JavaCC - OriginalChecksum=50b66047820309d47d7acfc506e86879 (do not edit this line) */

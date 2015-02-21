@@ -14,10 +14,9 @@ class ASTUndefinedLiteral extends SimpleNode {
 
 
   /** Accept the visitor. **/
-  public Object jjtAccept(ParserVisitor visitor, Object data) throws net.nokok.karaffe.parser.excptn.ParserException {
+  public void jjtAccept(ParserVisitor visitor, Object data) throws net.nokok.karaffe.parser.excptn.ParserException {
 
-    return
     visitor.visit(this, data);
   }
 }
-/* JavaCC - OriginalChecksum=5b91133445c22b4d21a998153c078752 (do not edit this line) */
+/* JavaCC - OriginalChecksum=9aa3e821fc87666b74cc2860407cf743 (do not edit this line) */

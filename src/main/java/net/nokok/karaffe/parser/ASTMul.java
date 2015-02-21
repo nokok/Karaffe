@@ -14,10 +14,9 @@ class ASTMul extends SimpleNode {
 
 
   /** Accept the visitor. **/
-  public Object jjtAccept(ParserVisitor visitor, Object data) throws net.nokok.karaffe.parser.excptn.ParserException {
+  public void jjtAccept(ParserVisitor visitor, Object data) throws net.nokok.karaffe.parser.excptn.ParserException {
 
-    return
     visitor.visit(this, data);
   }
 }
-/* JavaCC - OriginalChecksum=cb0aed70106cea4e896cc43b4db1b991 (do not edit this line) */
+/* JavaCC - OriginalChecksum=1763cefffcddcd2cb1811f5754f39cd4 (do not edit this line) */

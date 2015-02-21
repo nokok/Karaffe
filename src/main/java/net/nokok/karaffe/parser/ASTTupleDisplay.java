@@ -14,10 +14,9 @@ class ASTTupleDisplay extends SimpleNode {
 
 
   /** Accept the visitor. **/
-  public Object jjtAccept(ParserVisitor visitor, Object data) throws net.nokok.karaffe.parser.excptn.ParserException {
+  public void jjtAccept(ParserVisitor visitor, Object data) throws net.nokok.karaffe.parser.excptn.ParserException {
 
-    return
     visitor.visit(this, data);
   }
 }
-/* JavaCC - OriginalChecksum=3b484f210396ba0e7429cca658e28a94 (do not edit this line) */
+/* JavaCC - OriginalChecksum=9294e8a63c5982f09c8fec918841a747 (do not edit this line) */

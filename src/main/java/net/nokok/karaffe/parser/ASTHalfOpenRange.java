@@ -14,10 +14,9 @@ class ASTHalfOpenRange extends SimpleNode {
 
 
   /** Accept the visitor. **/
-  public Object jjtAccept(ParserVisitor visitor, Object data) throws net.nokok.karaffe.parser.excptn.ParserException {
+  public void jjtAccept(ParserVisitor visitor, Object data) throws net.nokok.karaffe.parser.excptn.ParserException {
 
-    return
     visitor.visit(this, data);
   }
 }
-/* JavaCC - OriginalChecksum=9447af0723ab74b52a16a3513724205a (do not edit this line) */
+/* JavaCC - OriginalChecksum=1e8b2ad206db4b94050d3979a76d369d (do not edit this line) */

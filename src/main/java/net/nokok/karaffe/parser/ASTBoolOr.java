@@ -14,10 +14,9 @@ class ASTBoolOr extends SimpleNode {
 
 
   /** Accept the visitor. **/
-  public Object jjtAccept(ParserVisitor visitor, Object data) throws net.nokok.karaffe.parser.excptn.ParserException {
+  public void jjtAccept(ParserVisitor visitor, Object data) throws net.nokok.karaffe.parser.excptn.ParserException {
 
-    return
     visitor.visit(this, data);
   }
 }
-/* JavaCC - OriginalChecksum=f514449b00db71c8264eba4cca0730b3 (do not edit this line) */
+/* JavaCC - OriginalChecksum=6d75b224246611fe8fba1e6e645917aa (do not edit this line) */

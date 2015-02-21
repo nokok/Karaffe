@@ -14,10 +14,9 @@ class ASTListDisplay extends SimpleNode {
 
 
   /** Accept the visitor. **/
-  public Object jjtAccept(ParserVisitor visitor, Object data) throws net.nokok.karaffe.parser.excptn.ParserException {
+  public void jjtAccept(ParserVisitor visitor, Object data) throws net.nokok.karaffe.parser.excptn.ParserException {
 
-    return
     visitor.visit(this, data);
   }
 }
-/* JavaCC - OriginalChecksum=9d54048812134514064c2511cd22ccaf (do not edit this line) */
+/* JavaCC - OriginalChecksum=06d947f6232e12a873d0430a683f3b53 (do not edit this line) */

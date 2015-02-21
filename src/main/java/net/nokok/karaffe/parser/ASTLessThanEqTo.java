@@ -14,10 +14,9 @@ class ASTLessThanEqTo extends SimpleNode {
 
 
   /** Accept the visitor. **/
-  public Object jjtAccept(ParserVisitor visitor, Object data) throws net.nokok.karaffe.parser.excptn.ParserException {
+  public void jjtAccept(ParserVisitor visitor, Object data) throws net.nokok.karaffe.parser.excptn.ParserException {
 
-    return
     visitor.visit(this, data);
   }
 }
-/* JavaCC - OriginalChecksum=94cda99ebc9046eca0f8f795c890dfdb (do not edit this line) */
+/* JavaCC - OriginalChecksum=2b5537e13bc36a885678710560051a53 (do not edit this line) */

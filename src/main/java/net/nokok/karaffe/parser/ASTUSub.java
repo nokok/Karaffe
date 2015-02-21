@@ -14,10 +14,9 @@ class ASTUSub extends SimpleNode {
 
 
   /** Accept the visitor. **/
-  public Object jjtAccept(ParserVisitor visitor, Object data) throws net.nokok.karaffe.parser.excptn.ParserException {
+  public void jjtAccept(ParserVisitor visitor, Object data) throws net.nokok.karaffe.parser.excptn.ParserException {
 
-    return
     visitor.visit(this, data);
   }
 }
-/* JavaCC - OriginalChecksum=cb1c71cff7407047f46da28bf4bd21fd (do not edit this line) */
+/* JavaCC - OriginalChecksum=602da3cec9a81c34dd02eb2a384dcadc (do not edit this line) */

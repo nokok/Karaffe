@@ -14,10 +14,9 @@ class ASTOverrideModifier extends SimpleNode {
 
 
   /** Accept the visitor. **/
-  public Object jjtAccept(ParserVisitor visitor, Object data) throws net.nokok.karaffe.parser.excptn.ParserException {
+  public void jjtAccept(ParserVisitor visitor, Object data) throws net.nokok.karaffe.parser.excptn.ParserException {
 
-    return
     visitor.visit(this, data);
   }
 }
-/* JavaCC - OriginalChecksum=c4d89dd80305262c7cc324900589d063 (do not edit this line) */
+/* JavaCC - OriginalChecksum=e1173abb45ab7438ce077bcc3f6edc21 (do not edit this line) */

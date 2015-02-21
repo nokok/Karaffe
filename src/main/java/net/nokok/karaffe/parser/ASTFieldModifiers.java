@@ -14,10 +14,9 @@ class ASTFieldModifiers extends SimpleNode {
 
 
   /** Accept the visitor. **/
-  public Object jjtAccept(ParserVisitor visitor, Object data) throws net.nokok.karaffe.parser.excptn.ParserException {
+  public void jjtAccept(ParserVisitor visitor, Object data) throws net.nokok.karaffe.parser.excptn.ParserException {
 
-    return
     visitor.visit(this, data);
   }
 }
-/* JavaCC - OriginalChecksum=b50af56a2816fbf04da6fe2907e8ace7 (do not edit this line) */
+/* JavaCC - OriginalChecksum=90bda12e7ec860e2bf422af062793c29 (do not edit this line) */

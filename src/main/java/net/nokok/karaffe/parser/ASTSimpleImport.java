@@ -14,10 +14,9 @@ class ASTSimpleImport extends SimpleNode {
 
 
   /** Accept the visitor. **/
-  public Object jjtAccept(ParserVisitor visitor, Object data) throws net.nokok.karaffe.parser.excptn.ParserException {
+  public void jjtAccept(ParserVisitor visitor, Object data) throws net.nokok.karaffe.parser.excptn.ParserException {
 
-    return
     visitor.visit(this, data);
   }
 }
-/* JavaCC - OriginalChecksum=cf5e6d36f670edc6c87de2ca00cd6559 (do not edit this line) */
+/* JavaCC - OriginalChecksum=335c9cc0133b7597fa7c62fedadb53b3 (do not edit this line) */

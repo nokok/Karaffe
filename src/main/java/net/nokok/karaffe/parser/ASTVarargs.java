@@ -14,10 +14,9 @@ class ASTVarargs extends SimpleNode {
 
 
   /** Accept the visitor. **/
-  public Object jjtAccept(ParserVisitor visitor, Object data) throws net.nokok.karaffe.parser.excptn.ParserException {
+  public void jjtAccept(ParserVisitor visitor, Object data) throws net.nokok.karaffe.parser.excptn.ParserException {
 
-    return
     visitor.visit(this, data);
   }
 }
-/* JavaCC - OriginalChecksum=f7581f59215b8b14d08ea44cb1a3ac11 (do not edit this line) */
+/* JavaCC - OriginalChecksum=ff996a29fc914130f173890f1f90fbc8 (do not edit this line) */

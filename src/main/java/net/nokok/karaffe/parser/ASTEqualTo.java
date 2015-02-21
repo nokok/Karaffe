@@ -14,10 +14,9 @@ class ASTEqualTo extends SimpleNode {
 
 
   /** Accept the visitor. **/
-  public Object jjtAccept(ParserVisitor visitor, Object data) throws net.nokok.karaffe.parser.excptn.ParserException {
+  public void jjtAccept(ParserVisitor visitor, Object data) throws net.nokok.karaffe.parser.excptn.ParserException {
 
-    return
     visitor.visit(this, data);
   }
 }
-/* JavaCC - OriginalChecksum=ad08f01956e44aa2a95606ac1c0c1b42 (do not edit this line) */
+/* JavaCC - OriginalChecksum=f069a266e306d0616a7751f396b4ebcb (do not edit this line) */

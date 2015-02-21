@@ -14,10 +14,9 @@ class ASTPipelineExpr extends SimpleNode {
 
 
   /** Accept the visitor. **/
-  public Object jjtAccept(ParserVisitor visitor, Object data) throws net.nokok.karaffe.parser.excptn.ParserException {
+  public void jjtAccept(ParserVisitor visitor, Object data) throws net.nokok.karaffe.parser.excptn.ParserException {
 
-    return
     visitor.visit(this, data);
   }
 }
-/* JavaCC - OriginalChecksum=13090bdb5da01c28dbef613bff60ceaa (do not edit this line) */
+/* JavaCC - OriginalChecksum=c07aaac79510ba9d0056e35987b75dc1 (do not edit this line) */

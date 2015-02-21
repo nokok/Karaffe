@@ -14,10 +14,9 @@ class ASTBoolLiteral extends SimpleNode {
 
 
   /** Accept the visitor. **/
-  public Object jjtAccept(ParserVisitor visitor, Object data) throws net.nokok.karaffe.parser.excptn.ParserException {
+  public void jjtAccept(ParserVisitor visitor, Object data) throws net.nokok.karaffe.parser.excptn.ParserException {
 
-    return
     visitor.visit(this, data);
   }
 }
-/* JavaCC - OriginalChecksum=36da71f9ef55902cc5a1b482764b36c2 (do not edit this line) */
+/* JavaCC - OriginalChecksum=2304df09789590e6322139c51f6e0c1f (do not edit this line) */

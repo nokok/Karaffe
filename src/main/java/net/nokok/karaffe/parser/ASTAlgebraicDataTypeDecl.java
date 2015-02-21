@@ -14,10 +14,9 @@ class ASTAlgebraicDataTypeDecl extends SimpleNode {
 
 
   /** Accept the visitor. **/
-  public Object jjtAccept(ParserVisitor visitor, Object data) throws net.nokok.karaffe.parser.excptn.ParserException {
+  public void jjtAccept(ParserVisitor visitor, Object data) throws net.nokok.karaffe.parser.excptn.ParserException {
 
-    return
     visitor.visit(this, data);
   }
 }
-/* JavaCC - OriginalChecksum=1816f4c9ccd2bc602799fd964ea5274e (do not edit this line) */
+/* JavaCC - OriginalChecksum=6a9a6f5bf42829d5f7aa10b5ce6f5fda (do not edit this line) */

@@ -14,10 +14,9 @@ class ASTInterfaceBody extends SimpleNode {
 
 
   /** Accept the visitor. **/
-  public Object jjtAccept(ParserVisitor visitor, Object data) throws net.nokok.karaffe.parser.excptn.ParserException {
+  public void jjtAccept(ParserVisitor visitor, Object data) throws net.nokok.karaffe.parser.excptn.ParserException {
 
-    return
     visitor.visit(this, data);
   }
 }
-/* JavaCC - OriginalChecksum=492105e8eaae8f8effc427273d2c60a1 (do not edit this line) */
+/* JavaCC - OriginalChecksum=eb41a4705b67f949a8ebff13c011a3f3 (do not edit this line) */

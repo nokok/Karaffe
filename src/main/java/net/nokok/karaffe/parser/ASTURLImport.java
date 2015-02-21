@@ -14,10 +14,9 @@ class ASTURLImport extends SimpleNode {
 
 
   /** Accept the visitor. **/
-  public Object jjtAccept(ParserVisitor visitor, Object data) throws net.nokok.karaffe.parser.excptn.ParserException {
+  public void jjtAccept(ParserVisitor visitor, Object data) throws net.nokok.karaffe.parser.excptn.ParserException {
 
-    return
     visitor.visit(this, data);
   }
 }
-/* JavaCC - OriginalChecksum=bf9bed7a4f524df165918ac03afa6ffa (do not edit this line) */
+/* JavaCC - OriginalChecksum=b5dc7abfa7906758048fb7a39f2e9811 (do not edit this line) */

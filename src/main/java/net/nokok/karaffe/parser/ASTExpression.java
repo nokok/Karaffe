@@ -14,10 +14,9 @@ class ASTExpression extends SimpleNode {
 
 
   /** Accept the visitor. **/
-  public Object jjtAccept(ParserVisitor visitor, Object data) throws net.nokok.karaffe.parser.excptn.ParserException {
+  public void jjtAccept(ParserVisitor visitor, Object data) throws net.nokok.karaffe.parser.excptn.ParserException {
 
-    return
     visitor.visit(this, data);
   }
 }
-/* JavaCC - OriginalChecksum=8bc7a45eb2b370ee88e9a2f41dbd62a1 (do not edit this line) */
+/* JavaCC - OriginalChecksum=4e0a7dd85c066cda5dcb3e3f691bb33d (do not edit this line) */

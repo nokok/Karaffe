@@ -14,10 +14,9 @@ class ASTWhileLoopExpr extends SimpleNode {
 
 
   /** Accept the visitor. **/
-  public Object jjtAccept(ParserVisitor visitor, Object data) throws net.nokok.karaffe.parser.excptn.ParserException {
+  public void jjtAccept(ParserVisitor visitor, Object data) throws net.nokok.karaffe.parser.excptn.ParserException {
 
-    return
     visitor.visit(this, data);
   }
 }
-/* JavaCC - OriginalChecksum=cbb5d2341ec7505420f18f21c344a6f1 (do not edit this line) */
+/* JavaCC - OriginalChecksum=c7b6106a9a9ccc0f62e3b2b22e78a951 (do not edit this line) */

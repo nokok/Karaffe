@@ -14,10 +14,9 @@ class ASTClosedRange extends SimpleNode {
 
 
   /** Accept the visitor. **/
-  public Object jjtAccept(ParserVisitor visitor, Object data) throws net.nokok.karaffe.parser.excptn.ParserException {
+  public void jjtAccept(ParserVisitor visitor, Object data) throws net.nokok.karaffe.parser.excptn.ParserException {
 
-    return
     visitor.visit(this, data);
   }
 }
-/* JavaCC - OriginalChecksum=3b1efb23520d22f7103f436a89247ccd (do not edit this line) */
+/* JavaCC - OriginalChecksum=def749d76e80d5e7cb1f4063eaec9691 (do not edit this line) */

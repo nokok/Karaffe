@@ -14,10 +14,9 @@ class ASTIfBodyEnd extends SimpleNode {
 
 
   /** Accept the visitor. **/
-  public Object jjtAccept(ParserVisitor visitor, Object data) throws net.nokok.karaffe.parser.excptn.ParserException {
+  public void jjtAccept(ParserVisitor visitor, Object data) throws net.nokok.karaffe.parser.excptn.ParserException {
 
-    return
     visitor.visit(this, data);
   }
 }
-/* JavaCC - OriginalChecksum=acc6a19e3b864f6dec5b0289243cc983 (do not edit this line) */
+/* JavaCC - OriginalChecksum=12d029dc3e8fc35e7bb8d3fb5fb90e78 (do not edit this line) */

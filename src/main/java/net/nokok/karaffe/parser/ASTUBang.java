@@ -14,10 +14,9 @@ class ASTUBang extends SimpleNode {
 
 
   /** Accept the visitor. **/
-  public Object jjtAccept(ParserVisitor visitor, Object data) throws net.nokok.karaffe.parser.excptn.ParserException {
+  public void jjtAccept(ParserVisitor visitor, Object data) throws net.nokok.karaffe.parser.excptn.ParserException {
 
-    return
     visitor.visit(this, data);
   }
 }
-/* JavaCC - OriginalChecksum=79c473aaba67e54e89460b59d212e82e (do not edit this line) */
+/* JavaCC - OriginalChecksum=4e2d998d38e5195e9e513a7ec988cc0d (do not edit this line) */

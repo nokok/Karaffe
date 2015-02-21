@@ -14,10 +14,9 @@ class ASTInterfaceModifier extends SimpleNode {
 
 
   /** Accept the visitor. **/
-  public Object jjtAccept(ParserVisitor visitor, Object data) throws net.nokok.karaffe.parser.excptn.ParserException {
+  public void jjtAccept(ParserVisitor visitor, Object data) throws net.nokok.karaffe.parser.excptn.ParserException {
 
-    return
     visitor.visit(this, data);
   }
 }
-/* JavaCC - OriginalChecksum=37d3620c6f7ca358b18a845624b4f1ac (do not edit this line) */
+/* JavaCC - OriginalChecksum=60149fe85b93e54c32e72a1e3f4eafbc (do not edit this line) */

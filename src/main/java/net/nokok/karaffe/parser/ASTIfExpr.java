@@ -14,10 +14,9 @@ class ASTIfExpr extends SimpleNode {
 
 
   /** Accept the visitor. **/
-  public Object jjtAccept(ParserVisitor visitor, Object data) throws net.nokok.karaffe.parser.excptn.ParserException {
+  public void jjtAccept(ParserVisitor visitor, Object data) throws net.nokok.karaffe.parser.excptn.ParserException {
 
-    return
     visitor.visit(this, data);
   }
 }
-/* JavaCC - OriginalChecksum=db51c69472b6bd9145ea72acb24d08cd (do not edit this line) */
+/* JavaCC - OriginalChecksum=3879ee58ad5e02b21e39693efca68add (do not edit this line) */

@@ -14,10 +14,9 @@ class ASTCtorBody extends SimpleNode {
 
 
   /** Accept the visitor. **/
-  public Object jjtAccept(ParserVisitor visitor, Object data) throws net.nokok.karaffe.parser.excptn.ParserException {
+  public void jjtAccept(ParserVisitor visitor, Object data) throws net.nokok.karaffe.parser.excptn.ParserException {
 
-    return
     visitor.visit(this, data);
   }
 }
-/* JavaCC - OriginalChecksum=b3912ca27e73f0b784249a3419ba675c (do not edit this line) */
+/* JavaCC - OriginalChecksum=42a6b44819a12a11117915a4f357f80a (do not edit this line) */

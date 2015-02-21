@@ -14,10 +14,9 @@ class ASTEnumModifiers extends SimpleNode {
 
 
   /** Accept the visitor. **/
-  public Object jjtAccept(ParserVisitor visitor, Object data) throws net.nokok.karaffe.parser.excptn.ParserException {
+  public void jjtAccept(ParserVisitor visitor, Object data) throws net.nokok.karaffe.parser.excptn.ParserException {
 
-    return
     visitor.visit(this, data);
   }
 }
-/* JavaCC - OriginalChecksum=3c217dd134cfd9447cac86b6a0d37338 (do not edit this line) */
+/* JavaCC - OriginalChecksum=5045d7b12e7c47f8cf2e41257d3583e3 (do not edit this line) */

@@ -14,10 +14,9 @@ class ASTIdentifier extends SimpleNode {
 
 
   /** Accept the visitor. **/
-  public Object jjtAccept(ParserVisitor visitor, Object data) throws net.nokok.karaffe.parser.excptn.ParserException {
+  public void jjtAccept(ParserVisitor visitor, Object data) throws net.nokok.karaffe.parser.excptn.ParserException {
 
-    return
     visitor.visit(this, data);
   }
 }
-/* JavaCC - OriginalChecksum=241ca3b8445843fb61ce2fcf894c2beb (do not edit this line) */
+/* JavaCC - OriginalChecksum=ffa991174304353ffdae44eb4398678f (do not edit this line) */

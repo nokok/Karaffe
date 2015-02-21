@@ -14,10 +14,9 @@ class ASTTypeAliasDecl extends SimpleNode {
 
 
   /** Accept the visitor. **/
-  public Object jjtAccept(ParserVisitor visitor, Object data) throws net.nokok.karaffe.parser.excptn.ParserException {
+  public void jjtAccept(ParserVisitor visitor, Object data) throws net.nokok.karaffe.parser.excptn.ParserException {
 
-    return
     visitor.visit(this, data);
   }
 }
-/* JavaCC - OriginalChecksum=3efa2362b835d681b4ae241ee820e089 (do not edit this line) */
+/* JavaCC - OriginalChecksum=6cd9bf3ced8873fd481fbadc71efc7f8 (do not edit this line) */

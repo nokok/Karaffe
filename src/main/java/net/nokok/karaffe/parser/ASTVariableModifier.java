@@ -14,10 +14,9 @@ class ASTVariableModifier extends SimpleNode {
 
 
   /** Accept the visitor. **/
-  public Object jjtAccept(ParserVisitor visitor, Object data) throws net.nokok.karaffe.parser.excptn.ParserException {
+  public void jjtAccept(ParserVisitor visitor, Object data) throws net.nokok.karaffe.parser.excptn.ParserException {
 
-    return
     visitor.visit(this, data);
   }
 }
-/* JavaCC - OriginalChecksum=d6b226fb4fc3d9ac6ba42a5389cecb52 (do not edit this line) */
+/* JavaCC - OriginalChecksum=acb6685e35a2286acfdb7c3afbcba338 (do not edit this line) */

@@ -14,10 +14,9 @@ class ASTSwitchExpr extends SimpleNode {
 
 
   /** Accept the visitor. **/
-  public Object jjtAccept(ParserVisitor visitor, Object data) throws net.nokok.karaffe.parser.excptn.ParserException {
+  public void jjtAccept(ParserVisitor visitor, Object data) throws net.nokok.karaffe.parser.excptn.ParserException {
 
-    return
     visitor.visit(this, data);
   }
 }
-/* JavaCC - OriginalChecksum=1b308ad687ad2a4095cd400d9ceb23fe (do not edit this line) */
+/* JavaCC - OriginalChecksum=b1299c8e410c24ee77118de2ad41796c (do not edit this line) */

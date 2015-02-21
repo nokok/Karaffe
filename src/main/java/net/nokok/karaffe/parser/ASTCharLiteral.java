@@ -14,10 +14,9 @@ class ASTCharLiteral extends SimpleNode {
 
 
   /** Accept the visitor. **/
-  public Object jjtAccept(ParserVisitor visitor, Object data) throws net.nokok.karaffe.parser.excptn.ParserException {
+  public void jjtAccept(ParserVisitor visitor, Object data) throws net.nokok.karaffe.parser.excptn.ParserException {
 
-    return
     visitor.visit(this, data);
   }
 }
-/* JavaCC - OriginalChecksum=c4ebb6c616825ab6e061c91bfdd7be14 (do not edit this line) */
+/* JavaCC - OriginalChecksum=9913fc4742498bd0ed73a91939772ce4 (do not edit this line) */

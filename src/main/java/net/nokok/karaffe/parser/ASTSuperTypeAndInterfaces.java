@@ -14,10 +14,9 @@ class ASTSuperTypeAndInterfaces extends SimpleNode {
 
 
   /** Accept the visitor. **/
-  public Object jjtAccept(ParserVisitor visitor, Object data) throws net.nokok.karaffe.parser.excptn.ParserException {
+  public void jjtAccept(ParserVisitor visitor, Object data) throws net.nokok.karaffe.parser.excptn.ParserException {
 
-    return
     visitor.visit(this, data);
   }
 }
-/* JavaCC - OriginalChecksum=8b1a7cd1ab103a89f25900f04a46ec6c (do not edit this line) */
+/* JavaCC - OriginalChecksum=ef7d619b430c4e469520b61d7288c438 (do not edit this line) */

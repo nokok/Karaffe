@@ -14,10 +14,9 @@ class ASTAmbiguousName extends SimpleNode {
 
 
   /** Accept the visitor. **/
-  public Object jjtAccept(ParserVisitor visitor, Object data) throws net.nokok.karaffe.parser.excptn.ParserException {
+  public void jjtAccept(ParserVisitor visitor, Object data) throws net.nokok.karaffe.parser.excptn.ParserException {
 
-    return
     visitor.visit(this, data);
   }
 }
-/* JavaCC - OriginalChecksum=b5127af591593730b375e42270c1822c (do not edit this line) */
+/* JavaCC - OriginalChecksum=b06d2e6f5ee620239ecaab7527280517 (do not edit this line) */

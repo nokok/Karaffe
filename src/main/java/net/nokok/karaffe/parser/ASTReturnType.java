@@ -14,10 +14,9 @@ class ASTReturnType extends SimpleNode {
 
 
   /** Accept the visitor. **/
-  public Object jjtAccept(ParserVisitor visitor, Object data) throws net.nokok.karaffe.parser.excptn.ParserException {
+  public void jjtAccept(ParserVisitor visitor, Object data) throws net.nokok.karaffe.parser.excptn.ParserException {
 
-    return
     visitor.visit(this, data);
   }
 }
-/* JavaCC - OriginalChecksum=5448859ccadae580a63a2f732285dc86 (do not edit this line) */
+/* JavaCC - OriginalChecksum=28b9d9dee209caff6e719b8b43abe24f (do not edit this line) */

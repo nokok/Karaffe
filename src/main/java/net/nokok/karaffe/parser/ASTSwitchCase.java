@@ -14,10 +14,9 @@ class ASTSwitchCase extends SimpleNode {
 
 
   /** Accept the visitor. **/
-  public Object jjtAccept(ParserVisitor visitor, Object data) throws net.nokok.karaffe.parser.excptn.ParserException {
+  public void jjtAccept(ParserVisitor visitor, Object data) throws net.nokok.karaffe.parser.excptn.ParserException {
 
-    return
     visitor.visit(this, data);
   }
 }
-/* JavaCC - OriginalChecksum=a4d41641e014b696819a7828452a6815 (do not edit this line) */
+/* JavaCC - OriginalChecksum=3080d19f6f2d4e933dd199cb216e9ab9 (do not edit this line) */

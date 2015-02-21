@@ -14,10 +14,9 @@ class ASTOctIntLiteral extends SimpleNode {
 
 
   /** Accept the visitor. **/
-  public Object jjtAccept(ParserVisitor visitor, Object data) throws net.nokok.karaffe.parser.excptn.ParserException {
+  public void jjtAccept(ParserVisitor visitor, Object data) throws net.nokok.karaffe.parser.excptn.ParserException {
 
-    return
     visitor.visit(this, data);
   }
 }
-/* JavaCC - OriginalChecksum=6488732c193cf3d630e8c5d43508e1e2 (do not edit this line) */
+/* JavaCC - OriginalChecksum=bf65c2ae308b4a1afd8326cd44b83dff (do not edit this line) */

@@ -14,10 +14,9 @@ class ASTPrivateImportBlock extends SimpleNode {
 
 
   /** Accept the visitor. **/
-  public Object jjtAccept(ParserVisitor visitor, Object data) throws net.nokok.karaffe.parser.excptn.ParserException {
+  public void jjtAccept(ParserVisitor visitor, Object data) throws net.nokok.karaffe.parser.excptn.ParserException {
 
-    return
     visitor.visit(this, data);
   }
 }
-/* JavaCC - OriginalChecksum=0510011c5a130faead4b87616d107e2e (do not edit this line) */
+/* JavaCC - OriginalChecksum=5b4810b4ae64715340ff8e156cfb5769 (do not edit this line) */
