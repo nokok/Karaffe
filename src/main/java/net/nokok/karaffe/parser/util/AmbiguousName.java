@@ -17,9 +17,8 @@ public class AmbiguousName {
     private final ParserDefaultVisitor visitor = new ParserDefaultVisitor() {
 
         @Override
-        public Object visit(ASTIdentifier node, Object data) throws ParserException {
+        public void visit(ASTIdentifier node, Object data) throws ParserException {
             ids.add(node.jjtGetValue().toString());
-            return null;
         }
     };
 

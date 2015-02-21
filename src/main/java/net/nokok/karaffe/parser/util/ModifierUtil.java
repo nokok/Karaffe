@@ -60,78 +60,71 @@ public class ModifierUtil extends ParserDefaultVisitor {
     private boolean isAbstractVisited;
 
     @Override
-    public Object visit(ASTAbstractModifier node, Object data) throws ParserException {
+    public void visit(ASTAbstractModifier node, Object data) throws ParserException {
         if (isAbstractVisited) {
             throw new RuntimeException();
         }
         modifier += Opcodes.ACC_ABSTRACT;
         isAbstractVisited = true;
-        return null;
     }
 
     private boolean isProtectedVisited;
 
     @Override
-    public Object visit(ASTProtectedModifier node, Object data) throws ParserException {
+    public void visit(ASTProtectedModifier node, Object data) throws ParserException {
         if (isProtectedVisited) {
             throw new RuntimeException();
         }
         modifier += Opcodes.ACC_PROTECTED;
         isProtectedVisited = true;
-        return null;
     }
 
     private boolean isPrivateVisited;
 
     @Override
-    public Object visit(ASTPrivateModifier node, Object data) throws ParserException {
+    public void visit(ASTPrivateModifier node, Object data) throws ParserException {
         if (isPrivateVisited) {
             throw new RuntimeException();
         }
         modifier += Opcodes.ACC_PRIVATE;
         isPrivateVisited = true;
-        return null;
     }
 
     private boolean isPublicVisited;
 
     @Override
-    public Object visit(ASTPublicModifier node, Object data) throws ParserException {
+    public void visit(ASTPublicModifier node, Object data) throws ParserException {
         if (isPublicVisited) {
             throw new RuntimeException();
         }
         modifier += Opcodes.ACC_PUBLIC;
         isPublicVisited = true;
-        return null;
     }
 
     private boolean isStaticVisited;
 
     @Override
-    public Object visit(ASTStaticModifier node, Object data) throws ParserException {
+    public void visit(ASTStaticModifier node, Object data) throws ParserException {
         if (isStaticVisited) {
             throw new RuntimeException();
         }
         modifier += Opcodes.ACC_STATIC;
         isStaticVisited = true;
-        return null;
     }
 
     private boolean isFinalVisited;
 
     @Override
-    public Object visit(ASTFinalModifier node, Object data) throws ParserException {
+    public void visit(ASTFinalModifier node, Object data) throws ParserException {
         if (isFinalVisited) {
             throw new RuntimeException();
         }
         modifier += Opcodes.ACC_FINAL;
         isFinalVisited = true;
-        return null;
     }
 
     @Override
-    public Object visit(ASTVariableModifier node, Object data) throws ParserException {
-        return null; //TODO:
+    public void visit(ASTVariableModifier node, Object data) throws ParserException {
     }
 
 }

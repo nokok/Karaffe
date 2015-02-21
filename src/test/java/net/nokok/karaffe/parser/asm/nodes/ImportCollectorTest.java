@@ -3,6 +3,7 @@
  */
 package net.nokok.karaffe.parser.asm.nodes;
 
+import net.nokok.karaffe.parser.asm.nodes.collectors.ImportCollector;
 import static net.nokok.karaffe.parser.syntax.KaraffeParserSyntaxTest.testCode;
 import static org.hamcrest.CoreMatchers.is;
 import static org.junit.Assert.assertThat;

@@ -11,6 +11,7 @@ options {
                  
                    
                                                                           
+                                 
                         
 }
 //2_parserbegin_end.jjt
@@ -3658,7 +3659,7 @@ void SwitchExpr():{/*@bgen(jjtree) SwitchExpr */
 {/*@bgen(jjtree) SwitchExpr */
     try {
 /*@egen*/
-    "switch" Expression() "{" (SwitchCase())+ "}"/*@bgen(jjtree)*/
+    "switch" "(" Expression() ")" "{" (SwitchCase())+ "}"/*@bgen(jjtree)*/
     } catch (Throwable jjte000) {
       if (jjtc000) {
         jjtree.clearNodeScope(jjtn000);
@@ -3825,7 +3826,7 @@ void WhileLoopExpr():{/*@bgen(jjtree) WhileLoopExpr */
 {/*@bgen(jjtree) WhileLoopExpr */
     try {
 /*@egen*/
-    "while" Expression() WhileBody()/*@bgen(jjtree)*/
+    "while" "(" Expression() ")" WhileBody()/*@bgen(jjtree)*/
     } catch (Throwable jjte000) {
       if (jjtc000) {
         jjtree.clearNodeScope(jjtn000);

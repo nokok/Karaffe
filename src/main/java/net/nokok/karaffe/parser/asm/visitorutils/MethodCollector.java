@@ -20,12 +20,11 @@ public class MethodCollector {
     private final ParserVisitor visitor = new ParserDefaultVisitor() {
 
         @Override
-        public Object visit(ASTFuncDecl node, Object data) throws ParserException {
+        public void visit(ASTFuncDecl node, Object data) throws ParserException {
             ModifierNode modifierNode = new ModifierNode(node);
             int modifier = modifierNode.getModifier().orElse(0);
             NodeUtil nodeUtil = new NodeUtil(node);
             String name = nodeUtil.forceGetFindFirstNode(ASTIdentifier.class).jjtGetValue().toString();
-            return null;
         }
 
     };

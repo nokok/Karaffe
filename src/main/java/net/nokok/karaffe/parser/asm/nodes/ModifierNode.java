@@ -77,7 +77,7 @@ public class ModifierNode {
         private boolean isOverrideVisited;
 
         @Override
-        public Object visit(ASTOverrideModifier node, Object data) throws ParserException {
+        public void visit(ASTOverrideModifier node, Object data) throws ParserException {
             check(isOverrideVisited, node);
             throw new UnsupportedOperationException();
         }
@@ -85,7 +85,7 @@ public class ModifierNode {
         private boolean isVarVisited;
 
         @Override
-        public Object visit(ASTVarModifier node, Object data) throws ParserException {
+        public void visit(ASTVarModifier node, Object data) throws ParserException {
             check(isVarVisited, node);
             throw new UnsupportedOperationException();
         }
@@ -93,7 +93,7 @@ public class ModifierNode {
         private boolean isSealedVisited;
 
         @Override
-        public Object visit(ASTSealedModifier node, Object data) throws ParserException {
+        public void visit(ASTSealedModifier node, Object data) throws ParserException {
             check(isSealedVisited, node);
             throw new UnsupportedOperationException();
         }
@@ -101,61 +101,55 @@ public class ModifierNode {
         private boolean isFinalVisited;
 
         @Override
-        public Object visit(ASTFinalModifier node, Object data) throws ParserException {
+        public void visit(ASTFinalModifier node, Object data) throws ParserException {
             check(isFinalVisited, node);
             modifiers += Opcodes.ACC_FINAL;
             isFinalVisited = true;
-            return null;
         }
 
         private boolean isStaticVisited;
 
         @Override
-        public Object visit(ASTStaticModifier node, Object data) throws ParserException {
+        public void visit(ASTStaticModifier node, Object data) throws ParserException {
             check(isStaticVisited, node);
             modifiers += Opcodes.ACC_STATIC;
             isStaticVisited = true;
-            return null;
         }
 
         private boolean isAbstractVisited;
 
         @Override
-        public Object visit(ASTAbstractModifier node, Object data) throws ParserException {
+        public void visit(ASTAbstractModifier node, Object data) throws ParserException {
             check(isAbstractVisited, node);
             modifiers += Opcodes.ACC_ABSTRACT;
             isAbstractVisited = true;
-            return null;
         }
 
         private boolean isPrivateVisited;
 
         @Override
-        public Object visit(ASTPrivateModifier node, Object data) throws ParserException {
+        public void visit(ASTPrivateModifier node, Object data) throws ParserException {
             check(isPrivateVisited, node);
             modifiers += Opcodes.ACC_PRIVATE;
             isPrivateVisited = true;
-            return null;
         }
 
         private boolean isProtectedVisited;
 
         @Override
-        public Object visit(ASTProtectedModifier node, Object data) throws ParserException {
+        public void visit(ASTProtectedModifier node, Object data) throws ParserException {
             check(isProtectedVisited, node);
             modifiers += Opcodes.ACC_PROTECTED;
             isProtectedVisited = true;
-            return null;
         }
 
         private boolean isPublicVisited;
 
         @Override
-        public Object visit(ASTPublicModifier node, Object data) throws ParserException {
+        public void visit(ASTPublicModifier node, Object data) throws ParserException {
             check(isPublicVisited, node);
             modifiers += Opcodes.ACC_PUBLIC;
             isPublicVisited = true;
-            return null;
         }
 
         private void check(boolean cond, Node node) {

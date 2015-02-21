@@ -4754,7 +4754,9 @@ if (jjtc000) {
   jjtn000.jjtSetFirstToken(getToken(1));
     try {
       jj_consume_token(60);
+      jj_consume_token(25);
       Expression();
+      jj_consume_token(26);
       jj_consume_token(7);
       label_36:
       while (true) {
@@ -4976,7 +4978,9 @@ if (jjtc000) {
   jjtn000.jjtSetFirstToken(getToken(1));
     try {
       jj_consume_token(62);
+      jj_consume_token(25);
       Expression();
+      jj_consume_token(26);
       WhileBody();
     } catch (Throwable jjte000) {
 if (jjtc000) {
@@ -7536,6 +7540,12 @@ if (jjtc000) {
     return false;
   }
 
+  private boolean jj_3R_327()
+ {
+    if (jj_3R_365()) return true;
+    return false;
+  }
+
   private boolean jj_3R_367()
  {
     if (jj_scan_token(7)) return true;
@@ -7561,16 +7571,12 @@ if (jjtc000) {
     return false;
   }
 
-  private boolean jj_3R_327()
- {
-    if (jj_3R_365()) return true;
-    return false;
-  }
-
   private boolean jj_3R_254()
  {
     if (jj_scan_token(62)) return true;
+    if (jj_scan_token(25)) return true;
     if (jj_3R_88()) return true;
+    if (jj_scan_token(26)) return true;
     if (jj_3R_328()) return true;
     return false;
   }
@@ -7674,7 +7680,9 @@ if (jjtc000) {
   private boolean jj_3R_253()
  {
     if (jj_scan_token(60)) return true;
+    if (jj_scan_token(25)) return true;
     if (jj_3R_88()) return true;
+    if (jj_scan_token(26)) return true;
     if (jj_scan_token(7)) return true;
     Token xsp;
     if (jj_3R_327()) return true;

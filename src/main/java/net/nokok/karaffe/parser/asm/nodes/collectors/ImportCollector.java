@@ -1,20 +1,18 @@
 /**
  * Karaffe Programming Language
  */
-package net.nokok.karaffe.parser.asm.nodes;
+package net.nokok.karaffe.parser.asm.nodes.collectors;
 
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-
-import lombok.core.configuration.TypeName;
 import net.nokok.karaffe.parser.ASTCompileUnit;
 import net.nokok.karaffe.parser.ASTSimpleImport;
 import net.nokok.karaffe.parser.ASTTypeName;
-import net.nokok.karaffe.parser.Node;
 import net.nokok.karaffe.parser.ParserDefaultVisitor;
 import net.nokok.karaffe.parser.ParserVisitor;
+import net.nokok.karaffe.parser.asm.nodes.NodeUtil;
 import net.nokok.karaffe.parser.excptn.ParserException;
 import net.nokok.karaffe.parser.util.AmbiguousName;
 
@@ -25,12 +23,11 @@ public class ImportCollector {
     private final ParserVisitor simpleImportVisitor = new ParserDefaultVisitor() {
 
         @Override
-        public Object visit(ASTSimpleImport node, Object data) throws ParserException {
+        public void visit(ASTSimpleImport node, Object data) throws ParserException {
             List<ASTTypeName> typeNames = new NodeUtil(node).collectNodes(ASTTypeName.class);
-            
-            for(ASTTypeName typeName : typeNames) {
+            for (ASTTypeName typeName : typeNames) {
                 AmbiguousName name = new AmbiguousName(typeName);
-    
+
                 try {
                     //ambiguous name java.lang.String
                     //          String          Class<java.lang.String>
@@ -39,7 +36,6 @@ public class ImportCollector {
                     //TODO:
                 }
             }
-            return null;
         }
 
     };
@@ -47,7 +43,6 @@ public class ImportCollector {
 //    private final ParserVisitor aliasImportVisitor = new ParserDefaultVisitor() {
 //
 //    };
-
     public ImportCollector(ASTCompileUnit compileUnit) {
         try {
             compileUnit.jjtAccept(simpleImportVisitor, null);
