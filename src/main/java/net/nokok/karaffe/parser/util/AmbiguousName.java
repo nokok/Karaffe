@@ -27,6 +27,9 @@ public class AmbiguousName {
     public AmbiguousName(Node node) {
         try {
             node.jjtAccept(visitor, this);
+            if (ids.isEmpty()) {
+                throw new IllegalStateException("Empty path");
+            }
         } catch (ParserException ex) {
             throw new RuntimeException(ex);
         }
