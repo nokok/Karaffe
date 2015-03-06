@@ -1,6 +1,6 @@
 //2_parserbegin_end.jjt
 PARSER_BEGIN(Parser)
-package net.nokok.karaffe.parser;
+package karaffe.compiler.phase.parser;
 
 public class Parser{
     

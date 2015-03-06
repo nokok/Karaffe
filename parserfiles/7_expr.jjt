@@ -18,7 +18,7 @@ void AssignmentExpr()#void:{}
 
 void AssignmentOp():{}
 {
-    ("="|"+="|"-="|"*="|"/="|"%="|"&="|"|="|"^=") 
+    ("=" #Assign() |"+=" #Add() |"-=" #Sub() |"*=" #Mul()|"/=" #Div()|"%=" #Rem()|"&="#And()|"|="#Or()|"^="#Pow()) 
 }
 
 void LeftHandSide():{}
@@ -102,14 +102,26 @@ void Primary()#void:{}
     LOOKAHEAD(AmbiguousName() "::") MethodReference() |
     LOOKAHEAD(MethodInvocation()) MethodInvocation() |
     LOOKAHEAD(Literal()) Literal() |
+    LOOKAHEAD(2) ThisAmbiguousName() |
     LOOKAHEAD(2) This() |
-    Self() |
+    LOOKAHEAD(2) SelfAmbiguousName() |
+    LOOKAHEAD(2) Self() |
     LOOKAHEAD("(" Expression() ")") "(" Expression() ")" |
     LOOKAHEAD(ListDisplay()) ListDisplay() |
     LOOKAHEAD(DictionaryDisplay()) DictionaryDisplay() |
     LOOKAHEAD(TupleDisplay()) TupleDisplay() |
-    LOOKAHEAD(AmbiguousName()) AmbiguousName()
+    LOOKAHEAD(AmbiguousName()) AmbiguousName() 
 
+}
+
+void ThisAmbiguousName():{}
+{
+    "this" "." AmbiguousName()
+}
+
+void SelfAmbiguousName():{}
+{
+    "self" "." AmbiguousName()
 }
 
 void MethodReference():{}
@@ -197,8 +209,10 @@ void MethodInvocation():{}
     //Primary MethodInvocation
     LOOKAHEAD(FunctionLiteral() ParenArguments()) FunctionLiteral() ParenArguments() (DotMethodNameArguments())* |
     LOOKAHEAD(2) Literal() (DotMethodNameArguments())+ |
-    This() (DotMethodNameArguments())+ |
-    Self() (DotMethodNameArguments())+ |
+    LOOKAHEAD(ThisAmbiguousName() ".") ThisAmbiguousName() (DotMethodNameArguments())+ |
+    LOOKAHEAD(This() ".")This() (DotMethodNameArguments())+ |
+    LOOKAHEAD(SelfAmbiguousName() ".")SelfAmbiguousName() (DotMethodNameArguments())+ |
+    LOOKAHEAD(Self() ".")Self() (DotMethodNameArguments())+ |
     LOOKAHEAD("(" Expression() ")"  (DotMethodNameArguments())+) "(" Expression() ")"  (DotMethodNameArguments())+ |
     LOOKAHEAD(ListDisplay()) ListDisplay() (DotMethodNameArguments())+ |
     LOOKAHEAD(DictionaryDisplay()) DictionaryDisplay() (DotMethodNameArguments())+ |

@@ -120,8 +120,7 @@ void LastFormalParamter():{}
 
 void VariableModifier():{}
 {
-    FinalModifier() |
-    AutoModifier()
+    FinalModifier()
 }
 
 void CtorBody():{}
@@ -211,7 +210,6 @@ void FuncModifier()#void:{}
     StaticModifier() |
     VarModifier() |
     FinalModifier() |
-    SealedModifier() |
     OverrideModifier()
 }
 

@@ -8,10 +8,10 @@ ASTCompileUnit CompileUnit():{}
 
 void PackageDecl():{}
 {
-    "package" ModuleName()
+    "package" PackageName()
 }
 
-void ModuleName()#void:{}
+void PackageName()#void:{}
 {
     AmbiguousName()
 }

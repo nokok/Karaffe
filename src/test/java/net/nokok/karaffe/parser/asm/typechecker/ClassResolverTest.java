@@ -3,6 +3,7 @@
  */
 package net.nokok.karaffe.parser.asm.typechecker;
 
+import karaffe.compiler.phase.resolvers.ClassResolver;
 import java.util.Optional;
 import javax.swing.JButton;
 import static org.hamcrest.CoreMatchers.is;

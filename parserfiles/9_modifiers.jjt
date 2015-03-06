@@ -41,13 +41,6 @@ void FinalModifier():{Token t;}
     }
 }
 
-void SealedModifier():{Token t;}
-{
-    t = "sealed" {
-        jjtThis.jjtSetValue(t);
-    }
-}
-
 void VarModifier():{Token t;}
 {
     t = "var" {
@@ -62,9 +55,3 @@ void OverrideModifier():{Token t;}
     }
 }
 
-void AutoModifier():{Token t;}
-{
-    t = "auto" {
-        jjtThis.jjtSetValue(t);
-    }
-}

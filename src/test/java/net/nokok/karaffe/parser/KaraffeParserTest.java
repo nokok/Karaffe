@@ -6,6 +6,8 @@ package net.nokok.karaffe.parser;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileReader;
+import karaffe.compiler.phase.parser.ParseException;
+import karaffe.compiler.phase.parser.Parser;
 import static org.junit.Assert.fail;
 import org.junit.Test;
 
