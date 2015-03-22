@@ -1,0 +1,52 @@
+package karaffe.compiler.phase.parser;
+
+import karaffe.compiler.phase.parser.Lexer.SymInfo; 
+import karaffe.compiler.tree.*;
+
+parser code {:
+
+    public parser(java.io.Reader reader) {
+        super(new Lexer(reader));
+    }
+
+    public static void main(String[] args) throws java.lang.Exception {
+        if(args.length != 1) {
+            System.out.println("Usage: $command filename");
+        }
+        parser parser = new parser(new java.io.FileReader(args[0]));
+        parser.parse();
+    }
+:}
+
+terminal 
+IDENTIFIER,
+DOT,
+PACKAGE;
+
+non terminal
+AmbiguousName,
+CompileUnit,
+Identifier,
+PackageDecl;
+
+CompileUnit ::= PackageDecl;
+
+PackageDecl ::= PACKAGE AmbiguousName:name
+                    {:RESULT = new PackageDecl((AmbiguousName)name);:}
+              | error:err PACKAGE:p
+                    {:RESULT = new ErrorNode("PackageDecl.Before.Package",err,p);:}
+              | PACKAGE:p error:err
+                    {:RESULT = new ErrorNode("PackageDecl.After.Package",p,err);:}
+              | PACKAGE:p IDENTIFIER:id error:err
+                    {:RESULT = new ErrorNode("PackageDecl.After.Identifier",p,id,err);:}
+              ;
+
+AmbiguousName ::= Identifier:id DOT AmbiguousName:name
+                    {:RESULT = new AmbiguousName((AmbiguousName)name, (Identifier)id);:}
+                | Identifier:id
+                    {:RESULT = new AmbiguousName((Identifier)id);:}
+                ;
+
+Identifier ::= IDENTIFIER:id
+                    {:RESULT = new Identifier((String)((SymInfo)id).value().get());:}
+             ;

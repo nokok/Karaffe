@@ -3,29 +3,29 @@
  */
 package karaffe.compiler.phase.parser;
 
-import java.io.File;
-import java.io.FileNotFoundException;
 import java.io.FileReader;
 import karaffe.compiler.phase.Phase;
+import karaffe.compiler.tree.AST;
 import karaffe.core.Either;
 
-public class ParserPhase extends Phase<String, ASTCompileUnit> {
+public class ParserPhase extends Phase<String, AST> {
 
     public ParserPhase(String filePath) {
         super(filePath);
     }
 
     @Override
-    public Either<Exception, ASTCompileUnit> get() {
+    public Either<Exception, AST> get() {
         try {
-            Parser parser = new Parser(new FileReader(new File(obj)));
-            return Either.right(parser.CompileUnit());
-        } catch (FileNotFoundException | ParseException ex) {
+            parser parser = new parser(new FileReader(obj)); //filepath
+            AST ast = (AST) parser.parse().value;
+            return Either.right(ast);
+        } catch (Exception ex) {
             return Either.left(ex);
         }
     }
 
-    public static Either<Exception, ASTCompileUnit> apply(String filePath) {
+    public static Either<Exception, AST> apply(String filePath) {
         return new ParserPhase(filePath).get();
     }
 
