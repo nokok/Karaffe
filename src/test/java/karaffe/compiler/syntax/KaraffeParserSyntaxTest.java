@@ -3,11 +3,8 @@
  */
 package karaffe.compiler.syntax;
 
-import karaffe.compiler.phase.parser.ASTCompileUnit;
-import karaffe.compiler.phase.parser.ParseException;
-import karaffe.compiler.phase.parser.Parser;
-import static org.hamcrest.CoreMatchers.is;
-import static org.junit.Assert.assertThat;
+import java.io.StringReader;
+import karaffe.compiler.phase.parser.parser;
 import static org.junit.Assert.fail;
 import org.junit.Test;
 
@@ -15,40 +12,35 @@ public class KaraffeParserSyntaxTest {
 
     @Test
     public void testEmptyFile() {
-        ASTCompileUnit compileUnit = testCode("");
-        assertThat(compileUnit.jjtGetNumChildren(), is(0));
+        testCode("");
     }
 
     @Test
     public void testComment() {
-        ASTCompileUnit compileUnit = testCode("/*  /* */  */");
-        assertThat(compileUnit.jjtGetNumChildren(), is(0));
+        testCode("/*  /* */  */");
     }
 
     @Test
     public void testSingleLineComment() {
-        ASTCompileUnit compileUnit = testCode("//hoge");
-        assertThat(compileUnit.jjtGetNumChildren(), is(0));
+        testCode("//hoge");
     }
 
     @Test
     public void testEmptyMultiLineComment() {
-        ASTCompileUnit compileUnit = testCode("/**/");
-        assertThat(compileUnit.jjtGetNumChildren(), is(0));
+        testCode("/**/");
     }
 
     @Test
     public void testNestedMultiLineComment() {
-        ASTCompileUnit compileUnit = testCode("/*/**/*/");
-        assertThat(compileUnit.jjtGetNumChildren(), is(0));
+        testCode("/*/**/*/");
     }
 
-    public static ASTCompileUnit testCode(String code) {
+    public static void testCode(String code) {
         try {
-            return new Parser(code).CompileUnit();
-        } catch (ParseException ex) {
+            parser parser = new parser(new StringReader(code));
+            parser.parse();
+        } catch (Exception ex) {
             fail(ex.getMessage());
-            return null;
         }
     }
 

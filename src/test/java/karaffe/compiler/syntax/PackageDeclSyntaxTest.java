@@ -9,15 +9,17 @@ import org.junit.Test;
 public class PackageDeclSyntaxTest {
 
     @Test
-    public void testModuleDecl() {
+    public void testPackageDecl() {
         testCode("package Hoge");
     }
 
-    @Test(expected = AssertionError.class)
-    public void testEmptyModuleName() {
+    @Test
+    public void testEmptyPackageName() {
         testCode("package ");
+        //TODO
     }
 
+    @Test
     public void testJavaPackageName() {
         testCode("package foo.bar.baz");
     }

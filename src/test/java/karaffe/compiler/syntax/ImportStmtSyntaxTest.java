@@ -66,11 +66,24 @@ public class ImportStmtSyntaxTest {
 
     @Test
     public void testURLImports() {
-        testCode("import \"github.com/nokok/hoge\" \"github.com/nokok/fuga\"");
+        testCode("import {\n"
+                + "\"github.com/nokok/hoge\" \"github.com/nokok/fuga\"\n"
+                + "}");
     }
-}
 
-@interface hoge {
+    @Test
+    public void testSimpleImports() {
+        testCode("import {\n"
+                + "java.lang.Object\n"
+                + "java.lang.Integer\n"
+                + "}\n");
+    }
 
-    public Class<? extends Throwable> expected() default Test.None.class;
+    @Test
+    public void testAliasImports() {
+        testCode("import {\n"
+                + "java.lang.Object -> Object\n"
+                + "java.lang.Integer -> Integer\n"
+                + "}\n");
+    }
 }
