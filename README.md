@@ -1,7 +1,9 @@
 #Karaffe Programming Language(ja)
 [![Coverage Status](https://coveralls.io/repos/nokok/Karaffe/badge.png?branch=master)](https://coveralls.io/r/nokok/Karaffe?branch=master)
 
-**メモ帳でも書けるとにかくシンプルで現代的な機能を持つ言語**
+#この言語の開発目標
+- メモ帳でも書けるとにかくシンプルで現代的な機能を持つ言語
+- Javaから見た時に違和感の無いバイトコード生成
 
 ##ビルド方法
 ビルドする前に、Maven 3.2.5とJDK 8が必要です。
