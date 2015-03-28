@@ -3,21 +3,22 @@
  */
 package karaffe.compiler.tree;
 
-import karaffe.compiler.phase.parser.Lexer;
 import karaffe.compiler.visitor.Visitor;
 
 public class CompileUnit extends AbstractNode {
 
     private final AST packageDecl;
+    private final AST importDecl;
 
-    public CompileUnit(AST node) {
-        super(null);
-        this.packageDecl = node;
-    }
-
-    public CompileUnit(Lexer.SymInfo symInfo, PackageDecl packageDecl) {
-        super(symInfo);
-        this.packageDecl = packageDecl;
+    public CompileUnit(Object p, Object i) {
+        this.packageDecl = (AST) p;
+        this.importDecl = (AST) i;
+        if (packageDecl != null) {
+            children.add(packageDecl);
+        }
+        if (importDecl != null) {
+            children.add(importDecl);
+        }
     }
 
     @Override
@@ -27,7 +28,7 @@ public class CompileUnit extends AbstractNode {
 
     @Override
     public String toString() {
-        return "CompileUnit:" + packageDecl.toString();
+        return "(CompileUnit:" + packageDecl + importDecl + ")";
     }
 
 }

@@ -3,16 +3,18 @@
  */
 package karaffe.compiler.tree;
 
-import karaffe.compiler.phase.parser.Lexer;
 import karaffe.compiler.visitor.Visitor;
 
 public class Identifier extends AbstractNode {
 
     private final String id;
 
-    public Identifier(Lexer.SymInfo symInfo, String id) {
-        super(symInfo);
+    public Identifier(String id) {
         this.id = id;
+    }
+
+    public Identifier(Object id) {
+        this((String) id);
     }
 
     @Override
@@ -26,6 +28,6 @@ public class Identifier extends AbstractNode {
 
     @Override
     public String toString() {
-        return "Identifier:" + id;
+        return "(Identifier:" + id + ")";
     }
 }

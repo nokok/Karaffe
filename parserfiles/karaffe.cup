@@ -1,7 +1,7 @@
 package karaffe.compiler.phase.parser;
 
-import karaffe.compiler.phase.parser.Lexer.SymInfo; 
 import karaffe.compiler.tree.*;
+import karaffe.compiler.tree.imports.*;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -34,22 +34,36 @@ parser code {:
 :}
 
 terminal 
-IDENTIFIER,
+ARROW,
+COMMA,
 DOT,
+IDENTIFIER,
+IMPORT,
+LBRACE,
+RBRACE,
 PACKAGE;
 
 non terminal
+AliasImport,
 AmbiguousName,
+BlockImport,
+BlockImportBody,
+BlockImportBodyList,
 CompileUnit,
+GroupImport,
 Identifier,
+IdentifierList,
+ImportDecl,
+ImportDeclList,
+SimpleImport,
 PackageDecl;
 
-CompileUnit ::= PackageDecl:p
-                    {:RESULT = new CompileUnit((AST)p);:}
+CompileUnit ::= PackageDecl:p ImportDeclList:i
+                    {:RESULT = new CompileUnit(p, i);:}
               ;
 
 PackageDecl ::= PACKAGE AmbiguousName:name
-                    {:RESULT = new PackageDecl((AmbiguousName)name);:}
+                    {:RESULT = new PackageDecl(name);:}
               | error:err PACKAGE:p
                     {:
                         ErrorNode node = new ErrorNode(lexer.line(), lexer.column(), "PackageDecl.Before.Package",err,p);
@@ -68,17 +82,68 @@ PackageDecl ::= PACKAGE AmbiguousName:name
                         errorList.add(node);
                         RESULT = node;
                     :}
+              | 
               ;
 
 AmbiguousName ::= AmbiguousName:name DOT Identifier:id
-                    {:RESULT = new AmbiguousName((AmbiguousName)name, (Identifier)id);:}
+                    {:RESULT = new AmbiguousName(name, id);:}
                 | Identifier:id
-                    {:RESULT = new AmbiguousName((Identifier)id);:}
+                    {:RESULT = new AmbiguousName(id);:}
                 ;
 
 Identifier ::= IDENTIFIER:id
                     {:
-                        SymInfo symInfo = (SymInfo)id;
-                        RESULT = new Identifier(symInfo, (String)symInfo.value().get());
+                        RESULT = new Identifier(id);
                     :}
              ;
+
+ImportDeclList ::= ImportDecl:import_ ImportDeclList:importList
+                    {:RESULT = new ImportDeclList(import_,importList);:}
+                 |
+                 ;
+
+ImportDecl ::= SimpleImport:simpleImport
+                {:RESULT = new ImportDecl(simpleImport);:}
+             | AliasImport:aliasImport
+                {:RESULT = new ImportDecl(aliasImport);:}
+             | GroupImport:groupImport
+                {:RESULT = new ImportDecl(groupImport);:}
+             | BlockImport:blockImport
+                {:RESULT = new ImportDecl(blockImport);:}
+             ;
+
+SimpleImport ::= IMPORT AmbiguousName:name 
+                    {:RESULT = new SimpleImportDecl(name);:}
+               ;
+
+AliasImport ::= IMPORT AmbiguousName:name ARROW Identifier:id
+                    {:RESULT = new AliasImport(name, id);:}
+              ;
+
+GroupImport ::= IMPORT AmbiguousName:name DOT LBRACE IdentifierList:idList RBRACE
+                    {:RESULT = new GroupImport(name,idList);:}
+              ;
+
+IdentifierList ::= Identifier:id
+                    {:RESULT = new IdentifierList(id);:}
+                 | Identifier:id COMMA IdentifierList:list
+                    {:RESULT = new IdentifierList(id,list);:}
+                 |
+                 ;
+
+BlockImport ::= IMPORT LBRACE BlockImportBodyList:list RBRACE
+                    {:RESULT = new BlockImport(list);:}
+              ;
+
+BlockImportBodyList ::= BlockImportBody:body BlockImportBodyList:list
+                            {:RESULT = new BlockImportBodyList(body,list);:}
+                      |
+                      ;
+
+BlockImportBody ::= AmbiguousName:name
+                        {:RESULT = new SimpleImportDecl(name);:}
+                  | AmbiguousName:name ARROW Identifier:id
+                        {:RESULT = new AliasImport(name,id);:}
+                  | AmbiguousName:name DOT LBRACE IdentifierList:idList RBRACE
+                        {:RESULT = new GroupImport(name,idList);:}
+                  ;

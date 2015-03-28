@@ -26,12 +26,12 @@ public class ErrorNode extends AbstractNode {
     @Override
     public String toString() {
         StringBuilder sb = new StringBuilder();
-        sb.append("ErrorNode:").append(errorId);
+        sb.append("(ErrorNode:").append(errorId);
         errors.stream()
                 .filter(Objects::nonNull)
                 .map(err -> err.toString())
                 .forEach(sb::append);
-        return sb.toString();
+        return sb.append(")").toString();
     }
 
 }

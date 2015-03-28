@@ -4,7 +4,6 @@
 package karaffe.compiler.tree;
 
 import java.util.Optional;
-import karaffe.compiler.phase.parser.Lexer;
 import karaffe.compiler.visitor.Visitor;
 
 public class AmbiguousName extends AbstractNode {
@@ -12,22 +11,21 @@ public class AmbiguousName extends AbstractNode {
     private final AmbiguousName name;
     private final Identifier id;
 
-    public AmbiguousName(AmbiguousName name, Identifier id) {
-        this(null, name, id);
-    }
-
     public AmbiguousName(Identifier id) {
-        this(null, null, id);
+        this(null, id);
     }
 
-    public AmbiguousName(Lexer.SymInfo symInfo, AmbiguousName name, Identifier id) {
-        super(symInfo);
+    public AmbiguousName(AmbiguousName name, Identifier id) {
         this.name = name;
         this.id = id;
     }
 
-    public AmbiguousName(Lexer.SymInfo symInfo, Identifier id) {
-        this(symInfo, null, id);
+    public AmbiguousName(Object name, Object id) {
+        this((AmbiguousName) name, (Identifier) id);
+    }
+
+    public AmbiguousName(Object id) {
+        this((Identifier) id);
     }
 
     @Override
@@ -53,15 +51,15 @@ public class AmbiguousName extends AbstractNode {
 
     @Override
     public String toString() {
-        StringBuilder builder = new StringBuilder("AmbiguousName:");
+        StringBuilder builder = new StringBuilder("(AmbiguousName:");
         if (id != null) {
             builder.append(id.toString());
         }
         if (name != null) {
-            builder.append("->");
+            builder.append(",");
             builder.append(name.toString());
         }
-        return builder.toString();
+        return builder.append(")").toString();
     }
 
 }

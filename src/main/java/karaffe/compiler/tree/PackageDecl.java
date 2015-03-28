@@ -3,7 +3,6 @@
  */
 package karaffe.compiler.tree;
 
-import karaffe.compiler.phase.parser.Lexer;
 import karaffe.compiler.visitor.Visitor;
 
 public class PackageDecl extends AbstractNode {
@@ -11,13 +10,11 @@ public class PackageDecl extends AbstractNode {
     private final AmbiguousName name;
 
     public PackageDecl(AmbiguousName name) {
-        super(null);
         this.name = name;
     }
 
-    public PackageDecl(Lexer.SymInfo symInfo, AmbiguousName name) {
-        super(symInfo);
-        this.name = name;
+    public PackageDecl(Object name) {
+        this((AmbiguousName) name);
     }
 
     @Override
@@ -31,7 +28,7 @@ public class PackageDecl extends AbstractNode {
 
     @Override
     public String toString() {
-        return "PackageDecl:" + name.toString();
+        return "(PackageDecl:" + name + ")";
     }
 
 }

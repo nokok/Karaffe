@@ -8,16 +8,26 @@ package karaffe.compiler.phase.parser;
 /** CUP generated interface containing symbol constants. */
 public interface sym {
   /* terminals */
-  public static final int error = 1;
-  public static final int IDENTIFIER = 2;
-  public static final int PACKAGE = 4;
+  public static final int LBRACE = 7;
+  public static final int PACKAGE = 9;
   public static final int EOF = 0;
-  public static final int DOT = 3;
+  public static final int ARROW = 2;
+  public static final int DOT = 4;
+  public static final int error = 1;
+  public static final int COMMA = 3;
+  public static final int IDENTIFIER = 5;
+  public static final int RBRACE = 8;
+  public static final int IMPORT = 6;
   public static final String[] terminalNames = new String[] {
   "EOF",
   "error",
-  "IDENTIFIER",
+  "ARROW",
+  "COMMA",
   "DOT",
+  "IDENTIFIER",
+  "IMPORT",
+  "LBRACE",
+  "RBRACE",
   "PACKAGE"
   };
 }
