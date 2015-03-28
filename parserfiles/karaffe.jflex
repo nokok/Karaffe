@@ -27,7 +27,7 @@ import java_cup.runtime.*;
         return new Symbol(type, yyline + 1, yycolumn + 1, value);
     }
 
-    class SymInfo {
+    public class SymInfo {
         private final int line;
         private final int column;
         private final java.util.Optional<?> value;

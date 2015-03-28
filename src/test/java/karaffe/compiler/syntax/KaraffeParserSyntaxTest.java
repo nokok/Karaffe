@@ -4,7 +4,7 @@
 package karaffe.compiler.syntax;
 
 import java.io.StringReader;
-import karaffe.compiler.phase.parser.parser;
+import karaffe.compiler.phase.parser.Parser;
 import static org.junit.Assert.fail;
 import org.junit.Test;
 
@@ -37,7 +37,7 @@ public class KaraffeParserSyntaxTest {
 
     public static void testCode(String code) {
         try {
-            parser parser = new parser(new StringReader(code));
+            Parser parser = new Parser(new StringReader(code));
             parser.parse();
         } catch (Exception ex) {
             fail(ex.getMessage());

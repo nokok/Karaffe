@@ -5,6 +5,7 @@ package karaffe.compiler.tree;
 
 import java.util.Arrays;
 import java.util.List;
+import karaffe.compiler.phase.parser.Lexer;
 import karaffe.compiler.visitor.Visitor;
 
 public class ErrorNode extends AbstractNode {
@@ -13,6 +14,11 @@ public class ErrorNode extends AbstractNode {
     private final String errorId;
 
     public ErrorNode(String errorId, Object... errors) {
+        this(null, errorId, errors);
+    }
+
+    public ErrorNode(Lexer.SymInfo symInfo, String errorId, Object... errors) {
+        super(symInfo);
         this.errorId = errorId;
         this.errors = Arrays.asList(errors);
     }
@@ -20,5 +26,4 @@ public class ErrorNode extends AbstractNode {
     @Override
     public void accept(Visitor visitor) {
     }
-
 }

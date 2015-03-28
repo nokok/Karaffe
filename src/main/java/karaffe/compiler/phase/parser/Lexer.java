@@ -392,7 +392,7 @@ public class Lexer implements sym, java_cup.runtime.Scanner {
         return new Symbol(type, yyline + 1, yycolumn + 1, value);
     }
 
-    class SymInfo {
+    public class SymInfo {
 
         private final int line;
         private final int column;

@@ -16,6 +16,11 @@ parser code {:
         parser parser = new parser(new java.io.FileReader(args[0]));
         parser.parse();
     }
+
+    public CompileUnit compileUnit() throws Exception {
+        return (CompileUnit)this.parse().value;
+    }
+
 :}
 
 terminal 
@@ -29,7 +34,9 @@ CompileUnit,
 Identifier,
 PackageDecl;
 
-CompileUnit ::= PackageDecl;
+CompileUnit ::= PackageDecl:p
+                    {:RESULT = new CompileUnit((PackageDecl)p);:}
+              ;
 
 PackageDecl ::= PACKAGE AmbiguousName:name
                     {:RESULT = new PackageDecl((AmbiguousName)name);:}
@@ -41,12 +48,15 @@ PackageDecl ::= PACKAGE AmbiguousName:name
                     {:RESULT = new ErrorNode("PackageDecl.After.Identifier",p,id,err);:}
               ;
 
-AmbiguousName ::= Identifier:id DOT AmbiguousName:name
+AmbiguousName ::= AmbiguousName:name DOT Identifier:id
                     {:RESULT = new AmbiguousName((AmbiguousName)name, (Identifier)id);:}
                 | Identifier:id
                     {:RESULT = new AmbiguousName((Identifier)id);:}
                 ;
 
 Identifier ::= IDENTIFIER:id
-                    {:RESULT = new Identifier((String)((SymInfo)id).value().get());:}
+                    {:
+                        SymInfo symInfo = (SymInfo)id;
+                        RESULT = new Identifier(symInfo, (String)symInfo.value().get());
+                    :}
              ;
