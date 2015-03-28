@@ -2,23 +2,33 @@ package karaffe.compiler.phase.parser;
 
 import karaffe.compiler.phase.parser.Lexer.SymInfo; 
 import karaffe.compiler.tree.*;
+import java.util.ArrayList;
+import java.util.List;
 
 parser code {:
 
-    public parser(java.io.Reader reader) {
-        super(new Lexer(reader));
+    private final List<ErrorNode> errorList = new ArrayList<>();
+    private Lexer lexer;
+
+    Parser(Lexer lexer) {
+        super(lexer);
+        this.lexer = lexer;
     }
 
     public static void main(String[] args) throws java.lang.Exception {
         if(args.length != 1) {
             System.out.println("Usage: $command filename");
         }
-        parser parser = new parser(new java.io.FileReader(args[0]));
+        Parser parser = new Parser(new Lexer(new java.io.FileReader(args[0])));
         parser.parse();
     }
 
-    public CompileUnit compileUnit() throws Exception {
+    public CompileUnit compileUnit() throws Exception{
         return (CompileUnit)this.parse().value;
+    }
+
+    public List<ErrorNode> errors() {
+        return errorList;
     }
 
 :}
@@ -35,17 +45,29 @@ Identifier,
 PackageDecl;
 
 CompileUnit ::= PackageDecl:p
-                    {:RESULT = new CompileUnit((PackageDecl)p);:}
+                    {:RESULT = new CompileUnit((AST)p);:}
               ;
 
 PackageDecl ::= PACKAGE AmbiguousName:name
                     {:RESULT = new PackageDecl((AmbiguousName)name);:}
               | error:err PACKAGE:p
-                    {:RESULT = new ErrorNode("PackageDecl.Before.Package",err,p);:}
+                    {:
+                        ErrorNode node = new ErrorNode(lexer.line(), lexer.column(), "PackageDecl.Before.Package",err,p);
+                        errorList.add(node);
+                        RESULT = node;
+                    :}
               | PACKAGE:p error:err
-                    {:RESULT = new ErrorNode("PackageDecl.After.Package",p,err);:}
+                    {:
+                        ErrorNode node = new ErrorNode(lexer.line(), lexer.column(), "PackageDecl.After.Package",p,err);
+                        errorList.add(node);
+                        RESULT = node;
+                    :}
               | PACKAGE:p IDENTIFIER:id error:err
-                    {:RESULT = new ErrorNode("PackageDecl.After.Identifier",p,id,err);:}
+                    {:
+                        ErrorNode node = new ErrorNode(lexer.line(), lexer.column(), "PackageDecl.After.Identifier",p,id,err);
+                        errorList.add(node);
+                        RESULT = node;
+                    :}
               ;
 
 AmbiguousName ::= AmbiguousName:name DOT Identifier:id

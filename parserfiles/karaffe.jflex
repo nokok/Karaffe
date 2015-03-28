@@ -27,6 +27,14 @@ import java_cup.runtime.*;
         return new Symbol(type, yyline + 1, yycolumn + 1, value);
     }
 
+    public int line() {
+        return yyline;
+    }
+
+    public int column() {
+        return yycolumn;
+    }
+
     public class SymInfo {
         private final int line;
         private final int column;
@@ -63,7 +71,7 @@ import java_cup.runtime.*;
         }
 
         @Override public String toString() {
-            return "[line:" + line + ", column:" + column + "] = " + value;
+            return "[line:" + (line + 1) + ", column:" + (column + 1) + "] = " + value;
         }
     }
 %}

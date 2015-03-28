@@ -36,7 +36,6 @@ public class Main {
                 .map(Main::addListIfError)
                 .filter(Objects::nonNull)
                 .forEach(System.out::println);
-        System.out.println(errors);
     }
 
     private static <L extends Exception, R> R addListIfError(Either<L, R> e) {

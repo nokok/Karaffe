@@ -3,14 +3,17 @@
 //----------------------------------------------------
 package karaffe.compiler.phase.parser;
 
+import java.util.ArrayList;
+import java.util.List;
 import karaffe.compiler.phase.parser.Lexer.SymInfo;
+import karaffe.compiler.tree.AST;
 import karaffe.compiler.tree.AmbiguousName;
 import karaffe.compiler.tree.CompileUnit;
 import karaffe.compiler.tree.ErrorNode;
 import karaffe.compiler.tree.Identifier;
 import karaffe.compiler.tree.PackageDecl;
 
-/** CUP v0.11b 20150226 (SVN rev 63) generated Parser.
+/** CUP v0.11b 20150226 (SVN rev 63) generated parser.
  */
 @SuppressWarnings({"rawtypes"})
 public class Parser extends java_cup.runtime.lr_parser {
@@ -118,20 +121,28 @@ public class Parser extends java_cup.runtime.lr_parser {
         return 1;
     }
 
-    public Parser(java.io.Reader reader) {
-        super(new Lexer(reader));
+    private final List<ErrorNode> errorList = new ArrayList<>();
+    private Lexer lexer;
+
+    Parser(Lexer lexer) {
+        super(lexer);
+        this.lexer = lexer;
     }
 
     public static void main(String[] args) throws java.lang.Exception {
         if (args.length != 1) {
             System.out.println("Usage: $command filename");
         }
-        Parser parser = new Parser(new java.io.FileReader(args[0]));
+        Parser parser = new Parser(new Lexer(new java.io.FileReader(args[0])));
         parser.parse();
     }
 
     public CompileUnit compileUnit() throws Exception {
         return (CompileUnit) this.parse().value;
+    }
+
+    public List<ErrorNode> errors() {
+        return errorList;
     }
 
     /** Cup generated class to encapsulate user supplied action code. */
@@ -164,7 +175,7 @@ public class Parser extends java_cup.runtime.lr_parser {
                     int pleft = ((java_cup.runtime.Symbol) CUP$Parser$stack.peek()).left;
                     int pright = ((java_cup.runtime.Symbol) CUP$Parser$stack.peek()).right;
                     Object p = (Object) ((java_cup.runtime.Symbol) CUP$Parser$stack.peek()).value;
-                    RESULT = new CompileUnit((PackageDecl) p);
+                    RESULT = new CompileUnit((AST) p);
                     CUP$Parser$result = parser.getSymbolFactory().newSymbol("CompileUnit", 1, ((java_cup.runtime.Symbol) CUP$Parser$stack.peek()), ((java_cup.runtime.Symbol) CUP$Parser$stack.peek()), RESULT);
                 }
                 return CUP$Parser$result;
@@ -205,7 +216,11 @@ public class Parser extends java_cup.runtime.lr_parser {
                     int pleft = ((java_cup.runtime.Symbol) CUP$Parser$stack.peek()).left;
                     int pright = ((java_cup.runtime.Symbol) CUP$Parser$stack.peek()).right;
                     Object p = (Object) ((java_cup.runtime.Symbol) CUP$Parser$stack.peek()).value;
-                    RESULT = new ErrorNode("PackageDecl.Before.Package", err, p);
+
+                    ErrorNode node = new ErrorNode(lexer.line(), lexer.column(), "PackageDecl.Before.Package", err, p);
+                    errorList.add(node);
+                    RESULT = node;
+
                     CUP$Parser$result = parser.getSymbolFactory().newSymbol("PackageDecl", 3, ((java_cup.runtime.Symbol) CUP$Parser$stack.elementAt(CUP$Parser$top - 1)), ((java_cup.runtime.Symbol) CUP$Parser$stack.peek()), RESULT);
                 }
                 return CUP$Parser$result;
@@ -220,7 +235,11 @@ public class Parser extends java_cup.runtime.lr_parser {
                     int errleft = ((java_cup.runtime.Symbol) CUP$Parser$stack.peek()).left;
                     int errright = ((java_cup.runtime.Symbol) CUP$Parser$stack.peek()).right;
                     Object err = (Object) ((java_cup.runtime.Symbol) CUP$Parser$stack.peek()).value;
-                    RESULT = new ErrorNode("PackageDecl.After.Package", p, err);
+
+                    ErrorNode node = new ErrorNode(lexer.line(), lexer.column(), "PackageDecl.After.Package", p, err);
+                    errorList.add(node);
+                    RESULT = node;
+
                     CUP$Parser$result = parser.getSymbolFactory().newSymbol("PackageDecl", 3, ((java_cup.runtime.Symbol) CUP$Parser$stack.elementAt(CUP$Parser$top - 1)), ((java_cup.runtime.Symbol) CUP$Parser$stack.peek()), RESULT);
                 }
                 return CUP$Parser$result;
@@ -238,7 +257,11 @@ public class Parser extends java_cup.runtime.lr_parser {
                     int errleft = ((java_cup.runtime.Symbol) CUP$Parser$stack.peek()).left;
                     int errright = ((java_cup.runtime.Symbol) CUP$Parser$stack.peek()).right;
                     Object err = (Object) ((java_cup.runtime.Symbol) CUP$Parser$stack.peek()).value;
-                    RESULT = new ErrorNode("PackageDecl.After.Identifier", p, id, err);
+
+                    ErrorNode node = new ErrorNode(lexer.line(), lexer.column(), "PackageDecl.After.Identifier", p, id, err);
+                    errorList.add(node);
+                    RESULT = node;
+
                     CUP$Parser$result = parser.getSymbolFactory().newSymbol("PackageDecl", 3, ((java_cup.runtime.Symbol) CUP$Parser$stack.elementAt(CUP$Parser$top - 2)), ((java_cup.runtime.Symbol) CUP$Parser$stack.peek()), RESULT);
                 }
                 return CUP$Parser$result;
