@@ -3,12 +3,15 @@
 //----------------------------------------------------
 package karaffe.compiler.phase.parser;
 
+import java.io.Reader;
+import java.io.StringReader;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Scanner;
 import karaffe.compiler.tree.AmbiguousName;
-import karaffe.compiler.tree.compileunits.CompileUnit;
 import karaffe.compiler.tree.ErrorNode;
 import karaffe.compiler.tree.Identifier;
+import karaffe.compiler.tree.compileunits.CompileUnit;
 import karaffe.compiler.tree.compileunits.PackageDecl;
 import karaffe.compiler.tree.imports.AliasImport;
 import karaffe.compiler.tree.imports.BlockImport;
@@ -178,14 +181,36 @@ public class Parser extends java_cup.runtime.lr_parser {
     }
 
     public static void main(String[] args) throws java.lang.Exception {
-        if (args.length != 1) {
-            System.out.println("Usage: $command filename");
+        Reader reader;
+        String path;
+        if (args.length == 0) {
+            Scanner scanner = new Scanner(System.in);
+            StringBuilder source = new StringBuilder();
+            while (scanner.hasNext()) {
+                String next = scanner.next();
+                if (next.equals("%eof%")) {
+                    break;
+                }
+                source.append(next);
+            }
+            reader = new StringReader(source.toString());
+            path = "Standard input";
+        } else if (args.length == 1) {
+            reader = new java.io.FileReader(args[0]);
+            path = args[0];
+        } else {
+            reader = null;
+            path = "";
         }
-        Parser parser = new Parser(new Lexer(new java.io.FileReader(args[0])));
+        Parser parser = new Parser(new Lexer(reader));
+        parser.setPath(path);
         parser.parse();
     }
 
     public CompileUnit compileUnit() throws Exception {
+        if (filePath == null) {
+            throw new IllegalStateException("File path is not set.");
+        }
         return (CompileUnit) this.parse().value;
     }
 

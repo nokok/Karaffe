@@ -19,13 +19,17 @@ parser code {:
 
     public static void main(String[] args) throws java.lang.Exception {
         if(args.length != 1) {
-            System.out.println("Usage: $command filename");
+            
         }
         Parser parser = new Parser(new Lexer(new java.io.FileReader(args[0])));
+        parser.setPath(args[0]);
         parser.parse();
     }
 
     public CompileUnit compileUnit() throws Exception{
+        if( filePath == null ) {
+            throw new IllegalStateException("File path is not set.");
+        }
         return (CompileUnit)this.parse().value;
     }
 

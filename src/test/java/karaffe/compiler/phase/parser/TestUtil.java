@@ -5,11 +5,9 @@ package karaffe.compiler.phase.parser;
 
 import java.io.StringReader;
 import java.util.Optional;
-import karaffe.compiler.phase.parser.Lexer;
-import karaffe.compiler.phase.parser.Parser;
 import karaffe.compiler.tree.AST;
-import karaffe.compiler.tree.compileunits.CompileUnit;
 import karaffe.compiler.tree.ErrorNode;
+import karaffe.compiler.tree.compileunits.CompileUnit;
 import karaffe.compiler.visitor.VisitorAdaptor;
 import static org.junit.Assert.fail;
 
@@ -34,6 +32,7 @@ public class TestUtil {
 
     public static Optional<AST> testCodeWithoutErrorCheck(String code) {
         Parser parser = new Parser(new Lexer(new StringReader(code)));
+        parser.setPath("TEST_CODE");
         try {
             CompileUnit compileUnit = parser.compileUnit();
             return Optional.of(compileUnit);

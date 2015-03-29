@@ -1,10 +1,10 @@
 package karaffe;
 
-import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 import java.util.stream.Stream;
+import karaffe.compiler.phase.parser.Parser;
 import karaffe.compiler.phase.parser.ParserPhase;
 import karaffe.compiler.phase.resolvers.ResolvePhase;
 import karaffe.compiler.phase.scope.ScopePhase;
@@ -19,7 +19,8 @@ public class Main {
      *
      * @param args
      */
-    public static void main(String... args) throws IOException {
+    public static void main(String... args) throws Exception {
+        Parser.main(args);
         if (args == null || args.length == 0) {
             args = new String[]{"Int.krf"}; //debug
         }
