@@ -1,7 +1,7 @@
 /**
  * Karaffe Programming Language
  */
-package karaffe.compiler.syntax;
+package karaffe.compiler.phase.parser;
 
 import java.io.StringReader;
 import java.util.Optional;
@@ -22,6 +22,9 @@ public class TestUtil {
 
             @Override
             public void errorNode(ErrorNode aThis) {
+                if (aThis == null) {
+                    return;
+                }
                 fail(aThis.toString());
             }
 

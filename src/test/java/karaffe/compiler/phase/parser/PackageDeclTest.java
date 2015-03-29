@@ -1,9 +1,9 @@
 /**
  * Karaffe Programming Language
  */
-package karaffe.compiler.syntax;
+package karaffe.compiler.phase.parser;
 
-import static karaffe.compiler.syntax.TestUtil.testCode;
+import static karaffe.compiler.phase.parser.TestUtil.testCode;
 import org.junit.Test;
 
 public class PackageDeclTest {
