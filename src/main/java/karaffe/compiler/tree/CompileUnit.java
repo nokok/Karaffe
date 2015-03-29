@@ -3,22 +3,22 @@
  */
 package karaffe.compiler.tree;
 
+import java.io.File;
+import java.util.Optional;
 import karaffe.compiler.visitor.Visitor;
 
 public class CompileUnit extends AbstractNode {
 
-    private final AST packageDecl;
-    private final AST importDecl;
+    private final File file;
+    private final Optional<AST> packageDecl;
+    private final Optional<AST> importDecl;
 
-    public CompileUnit(Object p, Object i) {
-        this.packageDecl = (AST) p;
-        this.importDecl = (AST) i;
-        if (packageDecl != null) {
-            children.add(packageDecl);
-        }
-        if (importDecl != null) {
-            children.add(importDecl);
-        }
+    public CompileUnit(File file, Object p, Object i) {
+        this.file = file;
+        this.packageDecl = Optional.ofNullable((AST) p);
+        this.importDecl = Optional.ofNullable((AST) i);
+        packageDecl.ifPresent(children::add);
+        importDecl.ifPresent(children::add);
     }
 
     @Override
@@ -28,7 +28,7 @@ public class CompileUnit extends AbstractNode {
 
     @Override
     public String toString() {
-        return "(CompileUnit:" + packageDecl + importDecl + ")";
+        return "(CompileUnit:" + String.join(",", "(File:" + file.toString() + ")", packageDecl.toString(), importDecl.toString()) + ")";
     }
 
 }

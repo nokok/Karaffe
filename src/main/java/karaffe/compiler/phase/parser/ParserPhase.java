@@ -18,6 +18,7 @@ public class ParserPhase extends Phase<String, AST> {
     public Either<Exception, AST> get() {
         try {
             Parser parser = new Parser(new Lexer(new FileReader(obj))); //filepath
+            parser.setPath(obj);
             AST ast = parser.compileUnit();
             return Either.right(ast);
         } catch (Exception ex) {

@@ -9,6 +9,7 @@ parser code {:
 
     private final List<ErrorNode> errorList = new ArrayList<>();
     private Lexer lexer;
+    private String filePath;
 
     Parser(Lexer lexer) {
         super(lexer);
@@ -25,6 +26,10 @@ parser code {:
 
     public CompileUnit compileUnit() throws Exception{
         return (CompileUnit)this.parse().value;
+    }
+
+    public void setPath(String path) {
+        this.filePath = path;
     }
 
     public List<ErrorNode> errors() {
@@ -59,7 +64,7 @@ SimpleImport,
 PackageDecl;
 
 CompileUnit ::= PackageDecl:p ImportDeclList:i
-                    {:RESULT = new CompileUnit(p, i);:}
+                    {:RESULT = new CompileUnit(new java.io.File(filePath), p, i);:}
               ;
 
 PackageDecl ::= PACKAGE AmbiguousName:name
