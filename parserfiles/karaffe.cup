@@ -2,6 +2,7 @@ package karaffe.compiler.phase.parser;
 
 import karaffe.compiler.tree.*;
 import karaffe.compiler.tree.imports.*;
+import karaffe.compiler.tree.compileunits.*;
 import java.util.ArrayList;
 import java.util.List;
 

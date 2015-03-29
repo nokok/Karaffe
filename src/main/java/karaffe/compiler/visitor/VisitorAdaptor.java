@@ -4,11 +4,11 @@
 package karaffe.compiler.visitor;
 
 import karaffe.compiler.tree.AmbiguousName;
-import karaffe.compiler.tree.CompileUnit;
+import karaffe.compiler.tree.compileunits.CompileUnit;
 import karaffe.compiler.tree.ErrorNode;
-import karaffe.compiler.tree.FileNode;
+import karaffe.compiler.tree.compileunits.FileNode;
 import karaffe.compiler.tree.Identifier;
-import karaffe.compiler.tree.PackageDecl;
+import karaffe.compiler.tree.compileunits.PackageDecl;
 import karaffe.compiler.tree.imports.AliasImport;
 import karaffe.compiler.tree.imports.BlockImport;
 import karaffe.compiler.tree.imports.BlockImportBodyList;

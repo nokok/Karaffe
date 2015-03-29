@@ -8,7 +8,7 @@ import java.util.Optional;
 import karaffe.compiler.phase.parser.Lexer;
 import karaffe.compiler.phase.parser.Parser;
 import karaffe.compiler.tree.AST;
-import karaffe.compiler.tree.CompileUnit;
+import karaffe.compiler.tree.compileunits.CompileUnit;
 import karaffe.compiler.tree.ErrorNode;
 import karaffe.compiler.visitor.VisitorAdaptor;
 import static org.junit.Assert.fail;

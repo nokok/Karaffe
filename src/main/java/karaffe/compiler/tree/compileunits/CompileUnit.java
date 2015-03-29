@@ -1,10 +1,12 @@
 /**
  * Karaffe Programming Language
  */
-package karaffe.compiler.tree;
+package karaffe.compiler.tree.compileunits;
 
 import java.io.File;
 import java.util.Optional;
+import karaffe.compiler.tree.AST;
+import karaffe.compiler.tree.AbstractNode;
 import karaffe.compiler.visitor.Visitor;
 
 public class CompileUnit extends AbstractNode {
