@@ -19,6 +19,16 @@ public class ImportDeclTest {
     }
 
     @Test
+    public void testAliasImport() {
+        testCode("import java.lang.Integer -> Int");
+    }
+
+    @Test
+    public void testEmptyBlockImport() {
+        testCode("import {}");
+    }
+
+    @Test
     public void testBlockImport() {
         testCode("import {" //BlockImport
                 + "java.lang.Integer " //SimpleImport
