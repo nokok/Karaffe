@@ -13,7 +13,6 @@ import java_cup.runtime.*;
 %unicode
 
 %cup
-%cupdebug
 
 %line
 %column
