@@ -15,7 +15,7 @@ import karaffe.compiler.tree.imports.IdentifierList;
 import karaffe.compiler.tree.imports.ImportDecl;
 import karaffe.compiler.tree.imports.ImportDeclList;
 import karaffe.compiler.tree.PackageDecl;
-import karaffe.compiler.tree.imports.SimpleImportDecl;
+import karaffe.compiler.tree.imports.SimpleImport;
 
 public interface Visitor {
 
@@ -29,7 +29,7 @@ public interface Visitor {
 
     public void errorNode(ErrorNode aThis);
 
-    public void simpleImportDecl(SimpleImportDecl aThis);
+    public void simpleImportDecl(SimpleImport aThis);
 
     public void aliasImport(AliasImport aThis);
 

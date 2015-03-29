@@ -113,7 +113,7 @@ ImportDecl ::= SimpleImport:simpleImport
              ;
 
 SimpleImport ::= IMPORT AmbiguousName:name 
-                    {:RESULT = new SimpleImportDecl(name);:}
+                    {:RESULT = new SimpleImport(name);:}
                ;
 
 AliasImport ::= IMPORT AmbiguousName:name ARROW Identifier:id
