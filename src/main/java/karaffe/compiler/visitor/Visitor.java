@@ -3,18 +3,19 @@
  */
 package karaffe.compiler.visitor;
 
-import karaffe.compiler.tree.imports.AliasImport;
 import karaffe.compiler.tree.AmbiguousName;
-import karaffe.compiler.tree.imports.BlockImport;
-import karaffe.compiler.tree.imports.BlockImportBodyList;
 import karaffe.compiler.tree.CompileUnit;
 import karaffe.compiler.tree.ErrorNode;
-import karaffe.compiler.tree.imports.GroupImport;
+import karaffe.compiler.tree.FileNode;
 import karaffe.compiler.tree.Identifier;
+import karaffe.compiler.tree.PackageDecl;
+import karaffe.compiler.tree.imports.AliasImport;
+import karaffe.compiler.tree.imports.BlockImport;
+import karaffe.compiler.tree.imports.BlockImportBodyList;
+import karaffe.compiler.tree.imports.GroupImport;
 import karaffe.compiler.tree.imports.IdentifierList;
 import karaffe.compiler.tree.imports.ImportDecl;
 import karaffe.compiler.tree.imports.ImportDeclList;
-import karaffe.compiler.tree.PackageDecl;
 import karaffe.compiler.tree.imports.SimpleImport;
 
 public interface Visitor {
@@ -44,4 +45,6 @@ public interface Visitor {
     public void blockImport(BlockImport aThis);
 
     public void blockImportBodyList(BlockImportBodyList aThis);
+
+    public void fileNode(FileNode aThis);
 }
