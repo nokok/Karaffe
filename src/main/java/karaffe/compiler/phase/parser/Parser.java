@@ -8,6 +8,8 @@ import java.io.StringReader;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
+import karaffe.Main;
+import karaffe.compiler.tree.AST;
 import karaffe.compiler.tree.AmbiguousName;
 import karaffe.compiler.tree.ErrorNode;
 import karaffe.compiler.tree.Identifier;
@@ -49,15 +51,16 @@ public class Parser extends java_cup.runtime.lr_parser {
     /** Production table. */
     protected static final short _production_table[][]
             = unpackFromStrings(new String[]{
-                "\000\034\000\002\007\004\000\002\002\004\000\002\016"
-                + "\004\000\002\016\004\000\002\016\004\000\002\016\005"
-                + "\000\002\016\002\000\002\003\005\000\002\003\003\000"
-                + "\002\011\003\000\002\014\004\000\002\014\002\000\002"
-                + "\013\003\000\002\013\003\000\002\013\003\000\002\013"
-                + "\003\000\002\015\004\000\002\002\006\000\002\010\010"
-                + "\000\002\012\003\000\002\012\005\000\002\012\002\000"
-                + "\002\004\006\000\002\006\004\000\002\006\002\000\002"
-                + "\005\003\000\002\005\005\000\002\005\007"});
+                "\000\035\000\002\007\004\000\002\002\004\000\002\007"
+                + "\003\000\002\016\004\000\002\016\004\000\002\016\004"
+                + "\000\002\016\005\000\002\016\002\000\002\003\005\000"
+                + "\002\003\003\000\002\011\003\000\002\014\004\000\002"
+                + "\014\002\000\002\013\003\000\002\013\003\000\002\013"
+                + "\003\000\002\013\003\000\002\015\004\000\002\002\006"
+                + "\000\002\010\010\000\002\012\003\000\002\012\005\000"
+                + "\002\012\002\000\002\004\006\000\002\006\004\000\002"
+                + "\006\002\000\002\005\003\000\002\005\005\000\002\005"
+                + "\007"});
 
     /** Access to production table. */
     public short[][] production_table() {
@@ -67,36 +70,36 @@ public class Parser extends java_cup.runtime.lr_parser {
     /** Parse-action table. */
     protected static final short[][] _action_table
             = unpackFromStrings(new String[]{
-                "\000\055\000\012\002\ufffb\003\005\010\ufffb\013\007\001"
-                + "\002\000\006\002\ufff6\010\023\001\002\000\004\013\021"
-                + "\001\002\000\004\002\020\001\002\000\006\003\010\007"
-                + "\012\001\002\000\006\002\ufffd\010\ufffd\001\002\000\010"
-                + "\002\uffff\006\015\010\uffff\001\002\000\012\002\ufff8\003"
-                + "\014\006\ufff8\010\ufff8\001\002\000\016\002\ufff9\004\ufff9"
-                + "\006\ufff9\007\ufff9\010\ufff9\012\ufff9\001\002\000\006\002"
-                + "\ufffc\010\ufffc\001\002\000\004\007\016\001\002\000\020"
-                + "\002\ufff8\004\ufff8\005\ufff8\006\ufff8\007\ufff8\010\ufff8\012"
-                + "\ufff8\001\002\000\016\002\ufffa\004\ufffa\006\ufffa\007\ufffa"
-                + "\010\ufffa\012\ufffa\001\002\000\004\002\000\001\002\000"
-                + "\006\002\ufffe\010\ufffe\001\002\000\006\002\ufff6\010\023"
-                + "\001\002\000\006\007\016\011\031\001\002\000\006\002"
-                + "\ufff5\010\ufff5\001\002\000\006\002\ufff2\010\ufff2\001\002"
-                + "\000\004\002\001\001\002\000\006\002\ufff4\010\ufff4\001"
-                + "\002\000\006\002\ufff3\010\ufff3\001\002\000\006\007\016"
-                + "\012\uffe9\001\002\000\012\002\ufff1\004\033\006\034\010"
-                + "\ufff1\001\002\000\004\007\016\001\002\000\006\007\016"
-                + "\011\035\001\002\000\006\007\016\012\uffec\001\002\000"
-                + "\004\012\042\001\002\000\006\005\040\012\uffee\001\002"
-                + "\000\006\007\016\012\uffec\001\002\000\004\012\uffed\001"
-                + "\002\000\006\002\uffef\010\uffef\001\002\000\006\002\ufff0"
-                + "\010\ufff0\001\002\000\006\007\016\012\uffe9\001\002\000"
-                + "\012\004\050\006\051\007\uffe8\012\uffe8\001\002\000\004"
-                + "\012\047\001\002\000\006\002\uffeb\010\uffeb\001\002\000"
-                + "\004\007\016\001\002\000\006\007\016\011\052\001\002"
-                + "\000\006\007\016\012\uffec\001\002\000\004\012\054\001"
-                + "\002\000\006\007\uffe6\012\uffe6\001\002\000\006\007\uffe7"
-                + "\012\uffe7\001\002\000\004\012\uffea\001\002\000\004\002"
-                + "\ufff7\001\002"});
+                "\000\055\000\012\002\ufffa\003\005\010\ufffa\013\007\001"
+                + "\002\000\006\002\ufff5\010\023\001\002\000\006\002\uffff"
+                + "\013\021\001\002\000\004\002\020\001\002\000\006\003"
+                + "\010\007\012\001\002\000\006\002\ufffc\010\ufffc\001\002"
+                + "\000\010\002\ufffe\006\015\010\ufffe\001\002\000\012\002"
+                + "\ufff7\003\014\006\ufff7\010\ufff7\001\002\000\016\002\ufff8"
+                + "\004\ufff8\006\ufff8\007\ufff8\010\ufff8\012\ufff8\001\002\000"
+                + "\006\002\ufffb\010\ufffb\001\002\000\004\007\016\001\002"
+                + "\000\020\002\ufff7\004\ufff7\005\ufff7\006\ufff7\007\ufff7\010"
+                + "\ufff7\012\ufff7\001\002\000\016\002\ufff9\004\ufff9\006\ufff9"
+                + "\007\ufff9\010\ufff9\012\ufff9\001\002\000\004\002\000\001"
+                + "\002\000\006\002\ufffd\010\ufffd\001\002\000\006\002\ufff5"
+                + "\010\023\001\002\000\006\007\016\011\031\001\002\000"
+                + "\006\002\ufff4\010\ufff4\001\002\000\006\002\ufff1\010\ufff1"
+                + "\001\002\000\004\002\001\001\002\000\006\002\ufff3\010"
+                + "\ufff3\001\002\000\006\002\ufff2\010\ufff2\001\002\000\006"
+                + "\007\016\012\uffe8\001\002\000\012\002\ufff0\004\033\006"
+                + "\034\010\ufff0\001\002\000\004\007\016\001\002\000\006"
+                + "\007\016\011\035\001\002\000\006\007\016\012\uffeb\001"
+                + "\002\000\004\012\042\001\002\000\006\005\040\012\uffed"
+                + "\001\002\000\006\007\016\012\uffeb\001\002\000\004\012"
+                + "\uffec\001\002\000\006\002\uffee\010\uffee\001\002\000\006"
+                + "\002\uffef\010\uffef\001\002\000\006\007\016\012\uffe8\001"
+                + "\002\000\012\004\050\006\051\007\uffe7\012\uffe7\001\002"
+                + "\000\004\012\047\001\002\000\006\002\uffea\010\uffea\001"
+                + "\002\000\004\007\016\001\002\000\006\007\016\011\052"
+                + "\001\002\000\006\007\016\012\uffeb\001\002\000\004\012"
+                + "\054\001\002\000\006\007\uffe5\012\uffe5\001\002\000\006"
+                + "\007\uffe6\012\uffe6\001\002\000\004\012\uffe9\001\002\000"
+                + "\004\002\ufff6\001\002"});
 
     /** Access to parse-action table. */
     public short[][] action_table() {
@@ -180,38 +183,68 @@ public class Parser extends java_cup.runtime.lr_parser {
         this.lexer = lexer;
     }
 
-    public static void main(String[] args) throws java.lang.Exception {
+    public static void main(String[] args) {
         Reader reader;
         String path;
         if (args.length == 0) {
+            path = "Unavailable(Standard Input)";
+            System.out.println("Karaffe " + Main.VERSION + " [Standard Input Mode]");
+            System.out.println("Type :help for help");
+            System.out.print("> ");
             Scanner scanner = new Scanner(System.in);
             StringBuilder source = new StringBuilder();
-            while (scanner.hasNext()) {
-                String next = scanner.next();
-                if (next.equals("%eof%")) {
+            while (scanner.hasNextLine()) {
+                String next = scanner.nextLine();
+                if (next.equals(":exit")) {
+                    System.out.println("Bye");
                     break;
                 }
-                source.append(next);
+                if (isShouldAppend(next)) {
+                    source.append(next).append("\n");
+                }
+                reader = new StringReader(source.toString());
+                Parser parser = new Parser(new Lexer(reader));
+                parser.setPath(path);
+                try {
+                    System.out.println("Generated AST:\n" + parser.compileUnit()); //debug
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+                source.setLength(0); //Clear Text
+                System.out.print("> ");
             }
-            reader = new StringReader(source.toString());
-            path = "Standard input";
         } else if (args.length == 1) {
-            reader = new java.io.FileReader(args[0]);
-            path = args[0];
+            try {
+                reader = new java.io.FileReader(args[0]);
+                path = args[0];
+                Parser parser = new Parser(new Lexer(reader));
+                System.out.println(parser.compileUnit());
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
         } else {
-            reader = null;
-            path = "";
+            return;
         }
-        Parser parser = new Parser(new Lexer(reader));
-        parser.setPath(path);
-        parser.parse();
     }
 
-    public CompileUnit compileUnit() throws Exception {
+    private static boolean isShouldAppend(String line) {
+        switch (line) {
+            case ":help":
+                System.out.println("");
+                System.out.println("Karaffe Compiler HelpPage:\n"
+                        + ":exit");
+                System.out.println("");
+                return false;
+            default:
+                return true;
+        }
+    }
+
+    public AST compileUnit() throws Exception {
         if (filePath == null) {
             throw new IllegalStateException("File path is not set.");
         }
-        return (CompileUnit) this.parse().value;
+        return (AST) this.parse().value;
     }
 
     public void setPath(String path) {
@@ -275,7 +308,19 @@ public class Parser extends java_cup.runtime.lr_parser {
                 return CUP$Parser$result;
 
                 /*. . . . . . . . . . . . . . . . . . . .*/
-                case 2: // PackageDecl ::= PACKAGE AmbiguousName
+                case 2: // CompileUnit ::= error
+                {
+                    Object RESULT = null;
+                    int errleft = ((java_cup.runtime.Symbol) CUP$Parser$stack.peek()).left;
+                    int errright = ((java_cup.runtime.Symbol) CUP$Parser$stack.peek()).right;
+                    Object err = (Object) ((java_cup.runtime.Symbol) CUP$Parser$stack.peek()).value;
+                    RESULT = new ErrorNode(lexer.line(), lexer.column(), "CompileUnit", err);
+                    CUP$Parser$result = parser.getSymbolFactory().newSymbol("CompileUnit", 5, ((java_cup.runtime.Symbol) CUP$Parser$stack.peek()), ((java_cup.runtime.Symbol) CUP$Parser$stack.peek()), RESULT);
+                }
+                return CUP$Parser$result;
+
+                /*. . . . . . . . . . . . . . . . . . . .*/
+                case 3: // PackageDecl ::= PACKAGE AmbiguousName
                 {
                     Object RESULT = null;
                     int nameleft = ((java_cup.runtime.Symbol) CUP$Parser$stack.peek()).left;
@@ -287,7 +332,7 @@ public class Parser extends java_cup.runtime.lr_parser {
                 return CUP$Parser$result;
 
                 /*. . . . . . . . . . . . . . . . . . . .*/
-                case 3: // PackageDecl ::= error PACKAGE
+                case 4: // PackageDecl ::= error PACKAGE
                 {
                     Object RESULT = null;
                     int errleft = ((java_cup.runtime.Symbol) CUP$Parser$stack.elementAt(CUP$Parser$top - 1)).left;
@@ -306,7 +351,7 @@ public class Parser extends java_cup.runtime.lr_parser {
                 return CUP$Parser$result;
 
                 /*. . . . . . . . . . . . . . . . . . . .*/
-                case 4: // PackageDecl ::= PACKAGE error
+                case 5: // PackageDecl ::= PACKAGE error
                 {
                     Object RESULT = null;
                     int pleft = ((java_cup.runtime.Symbol) CUP$Parser$stack.elementAt(CUP$Parser$top - 1)).left;
@@ -325,7 +370,7 @@ public class Parser extends java_cup.runtime.lr_parser {
                 return CUP$Parser$result;
 
                 /*. . . . . . . . . . . . . . . . . . . .*/
-                case 5: // PackageDecl ::= PACKAGE IDENTIFIER error
+                case 6: // PackageDecl ::= PACKAGE IDENTIFIER error
                 {
                     Object RESULT = null;
                     int pleft = ((java_cup.runtime.Symbol) CUP$Parser$stack.elementAt(CUP$Parser$top - 2)).left;
@@ -347,7 +392,7 @@ public class Parser extends java_cup.runtime.lr_parser {
                 return CUP$Parser$result;
 
                 /*. . . . . . . . . . . . . . . . . . . .*/
-                case 6: // PackageDecl ::=
+                case 7: // PackageDecl ::=
                 {
                     Object RESULT = null;
 
@@ -356,7 +401,7 @@ public class Parser extends java_cup.runtime.lr_parser {
                 return CUP$Parser$result;
 
                 /*. . . . . . . . . . . . . . . . . . . .*/
-                case 7: // AmbiguousName ::= AmbiguousName DOT Identifier
+                case 8: // AmbiguousName ::= AmbiguousName DOT Identifier
                 {
                     Object RESULT = null;
                     int nameleft = ((java_cup.runtime.Symbol) CUP$Parser$stack.elementAt(CUP$Parser$top - 2)).left;
@@ -371,7 +416,7 @@ public class Parser extends java_cup.runtime.lr_parser {
                 return CUP$Parser$result;
 
                 /*. . . . . . . . . . . . . . . . . . . .*/
-                case 8: // AmbiguousName ::= Identifier
+                case 9: // AmbiguousName ::= Identifier
                 {
                     Object RESULT = null;
                     int idleft = ((java_cup.runtime.Symbol) CUP$Parser$stack.peek()).left;
@@ -383,7 +428,7 @@ public class Parser extends java_cup.runtime.lr_parser {
                 return CUP$Parser$result;
 
                 /*. . . . . . . . . . . . . . . . . . . .*/
-                case 9: // Identifier ::= IDENTIFIER
+                case 10: // Identifier ::= IDENTIFIER
                 {
                     Object RESULT = null;
                     int idleft = ((java_cup.runtime.Symbol) CUP$Parser$stack.peek()).left;
@@ -397,7 +442,7 @@ public class Parser extends java_cup.runtime.lr_parser {
                 return CUP$Parser$result;
 
                 /*. . . . . . . . . . . . . . . . . . . .*/
-                case 10: // ImportDeclList ::= ImportDecl ImportDeclList
+                case 11: // ImportDeclList ::= ImportDecl ImportDeclList
                 {
                     Object RESULT = null;
                     int import_left = ((java_cup.runtime.Symbol) CUP$Parser$stack.elementAt(CUP$Parser$top - 1)).left;
@@ -412,7 +457,7 @@ public class Parser extends java_cup.runtime.lr_parser {
                 return CUP$Parser$result;
 
                 /*. . . . . . . . . . . . . . . . . . . .*/
-                case 11: // ImportDeclList ::=
+                case 12: // ImportDeclList ::=
                 {
                     Object RESULT = null;
 
@@ -421,7 +466,7 @@ public class Parser extends java_cup.runtime.lr_parser {
                 return CUP$Parser$result;
 
                 /*. . . . . . . . . . . . . . . . . . . .*/
-                case 12: // ImportDecl ::= SimpleImport
+                case 13: // ImportDecl ::= SimpleImport
                 {
                     Object RESULT = null;
                     int simpleImportleft = ((java_cup.runtime.Symbol) CUP$Parser$stack.peek()).left;
@@ -433,7 +478,7 @@ public class Parser extends java_cup.runtime.lr_parser {
                 return CUP$Parser$result;
 
                 /*. . . . . . . . . . . . . . . . . . . .*/
-                case 13: // ImportDecl ::= AliasImport
+                case 14: // ImportDecl ::= AliasImport
                 {
                     Object RESULT = null;
                     int aliasImportleft = ((java_cup.runtime.Symbol) CUP$Parser$stack.peek()).left;
@@ -445,7 +490,7 @@ public class Parser extends java_cup.runtime.lr_parser {
                 return CUP$Parser$result;
 
                 /*. . . . . . . . . . . . . . . . . . . .*/
-                case 14: // ImportDecl ::= GroupImport
+                case 15: // ImportDecl ::= GroupImport
                 {
                     Object RESULT = null;
                     int groupImportleft = ((java_cup.runtime.Symbol) CUP$Parser$stack.peek()).left;
@@ -457,7 +502,7 @@ public class Parser extends java_cup.runtime.lr_parser {
                 return CUP$Parser$result;
 
                 /*. . . . . . . . . . . . . . . . . . . .*/
-                case 15: // ImportDecl ::= BlockImport
+                case 16: // ImportDecl ::= BlockImport
                 {
                     Object RESULT = null;
                     int blockImportleft = ((java_cup.runtime.Symbol) CUP$Parser$stack.peek()).left;
@@ -469,7 +514,7 @@ public class Parser extends java_cup.runtime.lr_parser {
                 return CUP$Parser$result;
 
                 /*. . . . . . . . . . . . . . . . . . . .*/
-                case 16: // SimpleImport ::= IMPORT AmbiguousName
+                case 17: // SimpleImport ::= IMPORT AmbiguousName
                 {
                     Object RESULT = null;
                     int nameleft = ((java_cup.runtime.Symbol) CUP$Parser$stack.peek()).left;
@@ -481,7 +526,7 @@ public class Parser extends java_cup.runtime.lr_parser {
                 return CUP$Parser$result;
 
                 /*. . . . . . . . . . . . . . . . . . . .*/
-                case 17: // AliasImport ::= IMPORT AmbiguousName ARROW Identifier
+                case 18: // AliasImport ::= IMPORT AmbiguousName ARROW Identifier
                 {
                     Object RESULT = null;
                     int nameleft = ((java_cup.runtime.Symbol) CUP$Parser$stack.elementAt(CUP$Parser$top - 2)).left;
@@ -496,7 +541,7 @@ public class Parser extends java_cup.runtime.lr_parser {
                 return CUP$Parser$result;
 
                 /*. . . . . . . . . . . . . . . . . . . .*/
-                case 18: // GroupImport ::= IMPORT AmbiguousName DOT LBRACE IdentifierList RBRACE
+                case 19: // GroupImport ::= IMPORT AmbiguousName DOT LBRACE IdentifierList RBRACE
                 {
                     Object RESULT = null;
                     int nameleft = ((java_cup.runtime.Symbol) CUP$Parser$stack.elementAt(CUP$Parser$top - 4)).left;
@@ -511,7 +556,7 @@ public class Parser extends java_cup.runtime.lr_parser {
                 return CUP$Parser$result;
 
                 /*. . . . . . . . . . . . . . . . . . . .*/
-                case 19: // IdentifierList ::= Identifier
+                case 20: // IdentifierList ::= Identifier
                 {
                     Object RESULT = null;
                     int idleft = ((java_cup.runtime.Symbol) CUP$Parser$stack.peek()).left;
@@ -523,7 +568,7 @@ public class Parser extends java_cup.runtime.lr_parser {
                 return CUP$Parser$result;
 
                 /*. . . . . . . . . . . . . . . . . . . .*/
-                case 20: // IdentifierList ::= Identifier COMMA IdentifierList
+                case 21: // IdentifierList ::= Identifier COMMA IdentifierList
                 {
                     Object RESULT = null;
                     int idleft = ((java_cup.runtime.Symbol) CUP$Parser$stack.elementAt(CUP$Parser$top - 2)).left;
@@ -538,7 +583,7 @@ public class Parser extends java_cup.runtime.lr_parser {
                 return CUP$Parser$result;
 
                 /*. . . . . . . . . . . . . . . . . . . .*/
-                case 21: // IdentifierList ::=
+                case 22: // IdentifierList ::=
                 {
                     Object RESULT = null;
 
@@ -547,7 +592,7 @@ public class Parser extends java_cup.runtime.lr_parser {
                 return CUP$Parser$result;
 
                 /*. . . . . . . . . . . . . . . . . . . .*/
-                case 22: // BlockImport ::= IMPORT LBRACE BlockImportBodyList RBRACE
+                case 23: // BlockImport ::= IMPORT LBRACE BlockImportBodyList RBRACE
                 {
                     Object RESULT = null;
                     int listleft = ((java_cup.runtime.Symbol) CUP$Parser$stack.elementAt(CUP$Parser$top - 1)).left;
@@ -559,7 +604,7 @@ public class Parser extends java_cup.runtime.lr_parser {
                 return CUP$Parser$result;
 
                 /*. . . . . . . . . . . . . . . . . . . .*/
-                case 23: // BlockImportBodyList ::= BlockImportBody BlockImportBodyList
+                case 24: // BlockImportBodyList ::= BlockImportBody BlockImportBodyList
                 {
                     Object RESULT = null;
                     int bodyleft = ((java_cup.runtime.Symbol) CUP$Parser$stack.elementAt(CUP$Parser$top - 1)).left;
@@ -574,7 +619,7 @@ public class Parser extends java_cup.runtime.lr_parser {
                 return CUP$Parser$result;
 
                 /*. . . . . . . . . . . . . . . . . . . .*/
-                case 24: // BlockImportBodyList ::=
+                case 25: // BlockImportBodyList ::=
                 {
                     Object RESULT = null;
 
@@ -583,7 +628,7 @@ public class Parser extends java_cup.runtime.lr_parser {
                 return CUP$Parser$result;
 
                 /*. . . . . . . . . . . . . . . . . . . .*/
-                case 25: // BlockImportBody ::= AmbiguousName
+                case 26: // BlockImportBody ::= AmbiguousName
                 {
                     Object RESULT = null;
                     int nameleft = ((java_cup.runtime.Symbol) CUP$Parser$stack.peek()).left;
@@ -595,7 +640,7 @@ public class Parser extends java_cup.runtime.lr_parser {
                 return CUP$Parser$result;
 
                 /*. . . . . . . . . . . . . . . . . . . .*/
-                case 26: // BlockImportBody ::= AmbiguousName ARROW Identifier
+                case 27: // BlockImportBody ::= AmbiguousName ARROW Identifier
                 {
                     Object RESULT = null;
                     int nameleft = ((java_cup.runtime.Symbol) CUP$Parser$stack.elementAt(CUP$Parser$top - 2)).left;
@@ -610,7 +655,7 @@ public class Parser extends java_cup.runtime.lr_parser {
                 return CUP$Parser$result;
 
                 /*. . . . . . . . . . . . . . . . . . . .*/
-                case 27: // BlockImportBody ::= AmbiguousName DOT LBRACE IdentifierList RBRACE
+                case 28: // BlockImportBody ::= AmbiguousName DOT LBRACE IdentifierList RBRACE
                 {
                     Object RESULT = null;
                     int nameleft = ((java_cup.runtime.Symbol) CUP$Parser$stack.elementAt(CUP$Parser$top - 4)).left;

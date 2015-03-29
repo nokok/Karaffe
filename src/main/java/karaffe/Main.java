@@ -13,6 +13,7 @@ import karaffe.core.Either;
 public class Main {
 
     private static final List<Exception> errors = new ArrayList<>(1);
+    public static final String VERSION = "0.0.0";
 
     /**
      * krfcコマンドのエントリポイントです。
@@ -21,9 +22,6 @@ public class Main {
      */
     public static void main(String... args) throws Exception {
         Parser.main(args);
-        if (args == null || args.length == 0) {
-            args = new String[]{"Int.krf"}; //debug
-        }
         Stream.of(args)
                 .map(ParserPhase::apply)
                 .map(Main::addListIfError)

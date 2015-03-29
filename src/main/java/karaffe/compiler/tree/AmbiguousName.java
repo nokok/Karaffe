@@ -8,7 +8,7 @@ import karaffe.compiler.visitor.Visitor;
 
 public class AmbiguousName extends AbstractNode {
 
-    private final AmbiguousName name;
+    private final Optional<AmbiguousName> name;
     private final Identifier id;
 
     public AmbiguousName(Identifier id) {
@@ -16,7 +16,7 @@ public class AmbiguousName extends AbstractNode {
     }
 
     public AmbiguousName(AmbiguousName name, Identifier id) {
-        this.name = name;
+        this.name = Optional.ofNullable(name);
         this.id = id;
     }
 
@@ -34,7 +34,7 @@ public class AmbiguousName extends AbstractNode {
     }
 
     public Optional<AmbiguousName> name() {
-        return Optional.ofNullable(name);
+        return name;
     }
 
     public Optional<Identifier> id() {

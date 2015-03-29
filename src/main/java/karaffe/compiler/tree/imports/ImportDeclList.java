@@ -3,6 +3,7 @@
  */
 package karaffe.compiler.tree.imports;
 
+import java.util.Optional;
 import karaffe.compiler.tree.AST;
 import karaffe.compiler.tree.AbstractNode;
 import karaffe.compiler.visitor.Visitor;
@@ -10,11 +11,11 @@ import karaffe.compiler.visitor.Visitor;
 public class ImportDeclList extends AbstractNode {
 
     private final AST import_;
-    private final AST importList;
+    private final Optional<AST> importList;
 
     public ImportDeclList(Object import_, Object importList) {
         this.import_ = (AST) import_;
-        this.importList = (AST) importList;
+        this.importList = Optional.ofNullable((AST) importList);
     }
 
     @Override

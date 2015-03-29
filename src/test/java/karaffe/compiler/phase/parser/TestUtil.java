@@ -5,9 +5,9 @@ package karaffe.compiler.phase.parser;
 
 import java.io.StringReader;
 import java.util.Optional;
+import java.util.function.Function;
 import karaffe.compiler.tree.AST;
 import karaffe.compiler.tree.ErrorNode;
-import karaffe.compiler.tree.compileunits.CompileUnit;
 import karaffe.compiler.visitor.VisitorAdaptor;
 import static org.junit.Assert.fail;
 
@@ -34,10 +34,14 @@ public class TestUtil {
         Parser parser = new Parser(new Lexer(new StringReader(code)));
         parser.setPath("TEST_CODE");
         try {
-            CompileUnit compileUnit = parser.compileUnit();
+            AST compileUnit = parser.compileUnit();
             return Optional.of(compileUnit);
         } catch (Exception e) {
             return Optional.empty();
         }
+    }
+
+    public void assertOutput(Function function, String output) {
+
     }
 }

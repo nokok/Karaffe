@@ -3,6 +3,10 @@ package karaffe.compiler.phase.parser;
 import karaffe.compiler.tree.*;
 import karaffe.compiler.tree.imports.*;
 import karaffe.compiler.tree.compileunits.*;
+import java.util.Scanner;
+import java.io.StringReader;
+import java.io.Reader;
+import karaffe.Main;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -17,20 +21,68 @@ parser code {:
         this.lexer = lexer;
     }
 
-    public static void main(String[] args) throws java.lang.Exception {
-        if(args.length != 1) {
-            
+    public static void main(String[] args) {
+        Reader reader;
+        String path;
+        if (args.length == 0) {
+            path = "Unavailable(Standard Input)";
+            System.out.println("Karaffe " + Main.VERSION + " [Standard Input Mode]");
+            System.out.println("Type :help for help");
+            System.out.print("> ");
+            Scanner scanner = new Scanner(System.in);
+            StringBuilder source = new StringBuilder();
+            while (scanner.hasNextLine()) {
+                String next = scanner.nextLine();
+                if (next.equals(":exit")) {
+                    System.out.println("Bye");
+                    break;
+                }
+                if (isShouldAppend(next)) {
+                    source.append(next).append("\n");
+                }
+                reader = new StringReader(source.toString());
+                Parser parser = new Parser(new Lexer(reader));
+                parser.setPath(path);
+                try {
+                    System.out.println("Generated AST:\n" + parser.compileUnit()); //debug
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+                source.setLength(0); //Clear Text
+                System.out.print("> ");
+            }
+        } else if (args.length == 1) {
+            try {
+                reader = new java.io.FileReader(args[0]);
+                path = args[0];
+                Parser parser = new Parser(new Lexer(reader));
+                System.out.println(parser.compileUnit());
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+        } else {
+            return;
         }
-        Parser parser = new Parser(new Lexer(new java.io.FileReader(args[0])));
-        parser.setPath(args[0]);
-        parser.parse();
     }
 
-    public CompileUnit compileUnit() throws Exception{
+    private static boolean isShouldAppend(String line) {
+        switch (line) {
+            case ":help":
+                System.out.println("");
+                System.out.println("Karaffe Compiler HelpPage:\n"
+                        + ":exit");
+                System.out.println("");
+                return false;
+            default:
+                return true;
+        }
+    }
+    
+    public AST compileUnit() throws Exception{
         if( filePath == null ) {
             throw new IllegalStateException("File path is not set.");
         }
-        return (CompileUnit)this.parse().value;
+        return (AST)this.parse().value;
     }
 
     public void setPath(String path) {
@@ -70,6 +122,8 @@ PackageDecl;
 
 CompileUnit ::= PackageDecl:p ImportDeclList:i
                     {:RESULT = new CompileUnit(new java.io.File(filePath), p, i);:}
+              | error:err
+                    {:RESULT = new ErrorNode(lexer.line(),lexer.column(),"CompileUnit", err);:}
               ;
 
 PackageDecl ::= PACKAGE AmbiguousName:name

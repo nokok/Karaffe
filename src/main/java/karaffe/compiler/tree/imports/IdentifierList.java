@@ -3,6 +3,7 @@
  */
 package karaffe.compiler.tree.imports;
 
+import java.util.Optional;
 import karaffe.compiler.tree.AST;
 import karaffe.compiler.tree.AbstractNode;
 import karaffe.compiler.visitor.Visitor;
@@ -10,7 +11,7 @@ import karaffe.compiler.visitor.Visitor;
 public class IdentifierList extends AbstractNode {
 
     private final AST id;
-    private final AST list;
+    private final Optional<AST> list;
 
     public IdentifierList(Object id) {
         this(id, null);
@@ -18,7 +19,7 @@ public class IdentifierList extends AbstractNode {
 
     public IdentifierList(Object id, Object list) {
         this.id = (AST) id;
-        this.list = (AST) list;
+        this.list = Optional.ofNullable((AST) list);
     }
 
     @Override
