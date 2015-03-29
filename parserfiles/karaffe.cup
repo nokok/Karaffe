@@ -141,7 +141,7 @@ BlockImportBodyList ::= BlockImportBody:body BlockImportBodyList:list
                       ;
 
 BlockImportBody ::= AmbiguousName:name
-                        {:RESULT = new SimpleImportDecl(name);:}
+                        {:RESULT = new SimpleImport(name);:}
                   | AmbiguousName:name ARROW Identifier:id
                         {:RESULT = new AliasImport(name,id);:}
                   | AmbiguousName:name DOT LBRACE IdentifierList:idList RBRACE
