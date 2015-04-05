@@ -8,27 +8,55 @@ package karaffe.compiler.phase.parser;
 /** CUP generated interface containing symbol constants. */
 public interface sym {
   /* terminals */
-  public static final int LBRACE = 7;
-  public static final int PACKAGE = 9;
+  public static final int IMPORT = 12;
+  public static final int CLASS = 5;
+  public static final int NULLABLE = 17;
+  public static final int RBRACE = 21;
+  public static final int RPAREN = 16;
+  public static final int PRIVATE = 19;
+  public static final int IDENTIFIER = 11;
+  public static final int AT = 4;
+  public static final int LBRACKET = 14;
+  public static final int LPAREN = 15;
+  public static final int LBRACE = 13;
+  public static final int PUBLIC = 20;
+  public static final int RBRACKET = 22;
+  public static final int STATIC = 23;
+  public static final int COMMA = 6;
   public static final int EOF = 0;
-  public static final int ARROW = 2;
-  public static final int DOT = 4;
+  public static final int DEF = 7;
+  public static final int FINAL = 10;
   public static final int error = 1;
-  public static final int COMMA = 3;
-  public static final int IDENTIFIER = 5;
-  public static final int RBRACE = 8;
-  public static final int IMPORT = 6;
+  public static final int DOT = 8;
+  public static final int ARROW = 3;
+  public static final int EQ = 9;
+  public static final int ABSTRACT = 2;
+  public static final int PACKAGE = 18;
   public static final String[] terminalNames = new String[] {
   "EOF",
   "error",
+  "ABSTRACT",
   "ARROW",
+  "AT",
+  "CLASS",
   "COMMA",
+  "DEF",
   "DOT",
+  "EQ",
+  "FINAL",
   "IDENTIFIER",
   "IMPORT",
   "LBRACE",
+  "LBRACKET",
+  "LPAREN",
+  "RPAREN",
+  "NULLABLE",
+  "PACKAGE",
+  "PRIVATE",
+  "PUBLIC",
   "RBRACE",
-  "PACKAGE"
+  "RBRACKET",
+  "STATIC"
   };
 }
 

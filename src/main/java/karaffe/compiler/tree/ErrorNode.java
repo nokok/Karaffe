@@ -38,4 +38,8 @@ public class ErrorNode extends AbstractNode {
         return sb.append(")").toString();
     }
 
+    public String errorId() {
+        return errorId;
+    }
+
 }

@@ -58,11 +58,25 @@ Identifier = [:jletter:][:jletterdigit:]*
 
 %%
 <YYINITIAL> {
+    "abstract"                  {return sym(ABSTRACT);}
+    "nullable"                  {return sym(NULLABLE);}
     "package"                   {return sym(PACKAGE);}
+    "private"                   {return sym(PRIVATE);}
+    "public"                    {return sym(PUBLIC);}
+    "static"                    {return sym(STATIC);}
     "import"                    {return sym(IMPORT);}
+    "final"                     {return sym(FINAL);}
+    "class"                     {return sym(CLASS);}
+    "def"                       {return sym(DEF);}
     "->"                        {return sym(ARROW);}
+    "@"                         {return sym(AT);}
+    "="                         {return sym(EQ);}
+    "["                         {return sym(LBRACKET);}
+    "]"                         {return sym(RBRACKET);}
     "{"                         {return sym(LBRACE);}
     "}"                         {return sym(RBRACE);}
+    "("                         {return sym(LPAREN);}
+    ")"                         {return sym(RPAREN);}
     "."                         {return sym(DOT);}
     ","                         {return sym(COMMA);}
 

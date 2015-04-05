@@ -4,10 +4,13 @@
 package karaffe.compiler.visitor;
 
 import karaffe.compiler.tree.AmbiguousName;
-import karaffe.compiler.tree.compileunits.CompileUnit;
 import karaffe.compiler.tree.ErrorNode;
-import karaffe.compiler.tree.compileunits.FileNode;
 import karaffe.compiler.tree.Identifier;
+import karaffe.compiler.tree.classdecls.AutoDecl;
+import karaffe.compiler.tree.classdecls.AutoDeclBlock;
+import karaffe.compiler.tree.classdecls.AutoDeclList;
+import karaffe.compiler.tree.compileunits.CompileUnit;
+import karaffe.compiler.tree.compileunits.FileNode;
 import karaffe.compiler.tree.compileunits.PackageDecl;
 import karaffe.compiler.tree.imports.AliasImport;
 import karaffe.compiler.tree.imports.BlockImport;
@@ -17,6 +20,8 @@ import karaffe.compiler.tree.imports.IdentifierList;
 import karaffe.compiler.tree.imports.ImportDecl;
 import karaffe.compiler.tree.imports.ImportDeclList;
 import karaffe.compiler.tree.imports.SimpleImport;
+import karaffe.compiler.tree.modifiers.NullableModifier;
+import karaffe.compiler.tree.modifiers.StaticModifier;
 
 public class VisitorAdaptor implements Visitor {
 
@@ -74,6 +79,26 @@ public class VisitorAdaptor implements Visitor {
 
     @Override
     public void fileNode(FileNode aThis) {
+    }
+
+    @Override
+    public void staticModifier(StaticModifier aThis) {
+    }
+
+    @Override
+    public void nullableModifier(NullableModifier aThis) {
+    }
+
+    @Override
+    public void autoDeclBlock(AutoDeclBlock aThis) {
+    }
+
+    @Override
+    public void autoDecl(AutoDecl aThis) {
+    }
+
+    @Override
+    public void autoDeclList(AutoDeclList aThis) {
     }
 
 }

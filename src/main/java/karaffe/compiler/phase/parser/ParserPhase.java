@@ -22,6 +22,7 @@ public class ParserPhase extends Phase<String, AST> {
             AST ast = parser.compileUnit();
             return Either.right(ast);
         } catch (Exception ex) {
+            ex.printStackTrace(); //debug
             return Either.left(ex);
         }
     }
