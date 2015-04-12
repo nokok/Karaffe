@@ -18,6 +18,8 @@ public class AmbiguousName extends AbstractNode {
     public AmbiguousName(AmbiguousName name, Identifier id) {
         this.name = Optional.ofNullable(name);
         this.id = id;
+        this.name.ifPresent(children::add);
+        children.add(id);
     }
 
     public AmbiguousName(Object name, Object id) {
@@ -60,6 +62,16 @@ public class AmbiguousName extends AbstractNode {
             builder.append(name.toString());
         }
         return builder.append(")").toString();
+    }
+
+    /**
+     * @return hoge.fuga.piyo
+     */
+    public String toPath() {
+        if (name.isPresent() == false) {
+            return id.name();
+        }
+        return name.get().toPath() + "." + id.name();
     }
 
 }

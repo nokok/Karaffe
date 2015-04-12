@@ -23,8 +23,10 @@ import karaffe.compiler.tree.classdecls.ClassDecl;
 import karaffe.compiler.tree.classdecls.ClassDeclList;
 import karaffe.compiler.tree.classdecls.FieldDecl;
 import karaffe.compiler.tree.classdecls.SimpleClassDecl;
+import karaffe.compiler.tree.classdecls.fields.Initializer;
 import karaffe.compiler.tree.compileunits.CompileUnit;
 import karaffe.compiler.tree.compileunits.PackageDecl;
+import karaffe.compiler.tree.expr.Expr;
 import karaffe.compiler.tree.imports.AliasImport;
 import karaffe.compiler.tree.imports.BlockImport;
 import karaffe.compiler.tree.imports.BlockImportBodyList;
@@ -40,6 +42,13 @@ import karaffe.compiler.tree.modifiers.NullableModifier;
 import karaffe.compiler.tree.modifiers.PrivateModifier;
 import karaffe.compiler.tree.modifiers.PublicModifier;
 import karaffe.compiler.tree.modifiers.StaticModifier;
+import karaffe.compiler.tree.type.FunctionType;
+import karaffe.compiler.tree.type.ParameterizedType;
+import karaffe.compiler.tree.type.SimpleType;
+import karaffe.compiler.tree.type.SimpleTypeList;
+import karaffe.compiler.tree.type.Type;
+import karaffe.compiler.tree.type.TypeParameter;
+import karaffe.compiler.tree.type.UnresolvedType;
 
 /** CUP v0.11b 20150226 (SVN rev 63) generated parser.
  */
@@ -587,9 +596,7 @@ public class Parser extends java_cup.runtime.lr_parser {
                     int idleft = ((java_cup.runtime.Symbol) CUP$Parser$stack.peek()).left;
                     int idright = ((java_cup.runtime.Symbol) CUP$Parser$stack.peek()).right;
                     Object id = (Object) ((java_cup.runtime.Symbol) CUP$Parser$stack.peek()).value;
-
                     RESULT = new Identifier(id);
-
                     CUP$Parser$result = parser.getSymbolFactory().newSymbol("Identifier", 22, ((java_cup.runtime.Symbol) CUP$Parser$stack.peek()), ((java_cup.runtime.Symbol) CUP$Parser$stack.peek()), RESULT);
                 }
                 return CUP$Parser$result;
@@ -1177,7 +1184,10 @@ public class Parser extends java_cup.runtime.lr_parser {
                 case 59: // Initializer ::= EQ Expr
                 {
                     Object RESULT = null;
-
+                    int exprleft = ((java_cup.runtime.Symbol) CUP$Parser$stack.peek()).left;
+                    int exprright = ((java_cup.runtime.Symbol) CUP$Parser$stack.peek()).right;
+                    Object expr = (Object) ((java_cup.runtime.Symbol) CUP$Parser$stack.peek()).value;
+                    RESULT = new Initializer(expr);
                     CUP$Parser$result = parser.getSymbolFactory().newSymbol("Initializer", 26, ((java_cup.runtime.Symbol) CUP$Parser$stack.elementAt(CUP$Parser$top - 1)), ((java_cup.runtime.Symbol) CUP$Parser$stack.peek()), RESULT);
                 }
                 return CUP$Parser$result;
@@ -1186,7 +1196,7 @@ public class Parser extends java_cup.runtime.lr_parser {
                 case 60: // Initializer ::=
                 {
                     Object RESULT = null;
-
+                    RESULT = new Initializer();
                     CUP$Parser$result = parser.getSymbolFactory().newSymbol("Initializer", 26, ((java_cup.runtime.Symbol) CUP$Parser$stack.peek()), ((java_cup.runtime.Symbol) CUP$Parser$stack.peek()), RESULT);
                 }
                 return CUP$Parser$result;
@@ -1195,7 +1205,10 @@ public class Parser extends java_cup.runtime.lr_parser {
                 case 61: // Type ::= SimpleType
                 {
                     Object RESULT = null;
-
+                    int sleft = ((java_cup.runtime.Symbol) CUP$Parser$stack.peek()).left;
+                    int sright = ((java_cup.runtime.Symbol) CUP$Parser$stack.peek()).right;
+                    Object s = (Object) ((java_cup.runtime.Symbol) CUP$Parser$stack.peek()).value;
+                    RESULT = new Type(s);
                     CUP$Parser$result = parser.getSymbolFactory().newSymbol("Type", 34, ((java_cup.runtime.Symbol) CUP$Parser$stack.peek()), ((java_cup.runtime.Symbol) CUP$Parser$stack.peek()), RESULT);
                 }
                 return CUP$Parser$result;
@@ -1204,7 +1217,10 @@ public class Parser extends java_cup.runtime.lr_parser {
                 case 62: // Type ::= FunctionType
                 {
                     Object RESULT = null;
-
+                    int tleft = ((java_cup.runtime.Symbol) CUP$Parser$stack.peek()).left;
+                    int tright = ((java_cup.runtime.Symbol) CUP$Parser$stack.peek()).right;
+                    Object t = (Object) ((java_cup.runtime.Symbol) CUP$Parser$stack.peek()).value;
+                    RESULT = new Type(t);
                     CUP$Parser$result = parser.getSymbolFactory().newSymbol("Type", 34, ((java_cup.runtime.Symbol) CUP$Parser$stack.peek()), ((java_cup.runtime.Symbol) CUP$Parser$stack.peek()), RESULT);
                 }
                 return CUP$Parser$result;
@@ -1213,7 +1229,10 @@ public class Parser extends java_cup.runtime.lr_parser {
                 case 63: // OmissibleType ::= Type
                 {
                     Object RESULT = null;
-
+                    int tleft = ((java_cup.runtime.Symbol) CUP$Parser$stack.peek()).left;
+                    int tright = ((java_cup.runtime.Symbol) CUP$Parser$stack.peek()).right;
+                    Object t = (Object) ((java_cup.runtime.Symbol) CUP$Parser$stack.peek()).value;
+                    RESULT = new Type(t);
                     CUP$Parser$result = parser.getSymbolFactory().newSymbol("OmissibleType", 27, ((java_cup.runtime.Symbol) CUP$Parser$stack.peek()), ((java_cup.runtime.Symbol) CUP$Parser$stack.peek()), RESULT);
                 }
                 return CUP$Parser$result;
@@ -1222,7 +1241,7 @@ public class Parser extends java_cup.runtime.lr_parser {
                 case 64: // OmissibleType ::=
                 {
                     Object RESULT = null;
-
+                    RESULT = new UnresolvedType();
                     CUP$Parser$result = parser.getSymbolFactory().newSymbol("OmissibleType", 27, ((java_cup.runtime.Symbol) CUP$Parser$stack.peek()), ((java_cup.runtime.Symbol) CUP$Parser$stack.peek()), RESULT);
                 }
                 return CUP$Parser$result;
@@ -1234,7 +1253,7 @@ public class Parser extends java_cup.runtime.lr_parser {
                     int idleft = ((java_cup.runtime.Symbol) CUP$Parser$stack.peek()).left;
                     int idright = ((java_cup.runtime.Symbol) CUP$Parser$stack.peek()).right;
                     Object id = (Object) ((java_cup.runtime.Symbol) CUP$Parser$stack.peek()).value;
-
+                    RESULT = new SimpleType(id);
                     CUP$Parser$result = parser.getSymbolFactory().newSymbol("SimpleType", 32, ((java_cup.runtime.Symbol) CUP$Parser$stack.peek()), ((java_cup.runtime.Symbol) CUP$Parser$stack.peek()), RESULT);
                 }
                 return CUP$Parser$result;
@@ -1243,7 +1262,10 @@ public class Parser extends java_cup.runtime.lr_parser {
                 case 66: // SimpleType ::= ParameterizedType
                 {
                     Object RESULT = null;
-
+                    int tleft = ((java_cup.runtime.Symbol) CUP$Parser$stack.peek()).left;
+                    int tright = ((java_cup.runtime.Symbol) CUP$Parser$stack.peek()).right;
+                    Object t = (Object) ((java_cup.runtime.Symbol) CUP$Parser$stack.peek()).value;
+                    RESULT = new SimpleType(t);
                     CUP$Parser$result = parser.getSymbolFactory().newSymbol("SimpleType", 32, ((java_cup.runtime.Symbol) CUP$Parser$stack.peek()), ((java_cup.runtime.Symbol) CUP$Parser$stack.peek()), RESULT);
                 }
                 return CUP$Parser$result;
@@ -1258,7 +1280,7 @@ public class Parser extends java_cup.runtime.lr_parser {
                     int paramleft = ((java_cup.runtime.Symbol) CUP$Parser$stack.peek()).left;
                     int paramright = ((java_cup.runtime.Symbol) CUP$Parser$stack.peek()).right;
                     Object param = (Object) ((java_cup.runtime.Symbol) CUP$Parser$stack.peek()).value;
-
+                    RESULT = new ParameterizedType(id, param);
                     CUP$Parser$result = parser.getSymbolFactory().newSymbol("ParameterizedType", 29, ((java_cup.runtime.Symbol) CUP$Parser$stack.elementAt(CUP$Parser$top - 1)), ((java_cup.runtime.Symbol) CUP$Parser$stack.peek()), RESULT);
                 }
                 return CUP$Parser$result;
@@ -1267,7 +1289,13 @@ public class Parser extends java_cup.runtime.lr_parser {
                 case 68: // FunctionType ::= Type ARROW SimpleType
                 {
                     Object RESULT = null;
-
+                    int tleft = ((java_cup.runtime.Symbol) CUP$Parser$stack.elementAt(CUP$Parser$top - 2)).left;
+                    int tright = ((java_cup.runtime.Symbol) CUP$Parser$stack.elementAt(CUP$Parser$top - 2)).right;
+                    Object t = (Object) ((java_cup.runtime.Symbol) CUP$Parser$stack.elementAt(CUP$Parser$top - 2)).value;
+                    int sleft = ((java_cup.runtime.Symbol) CUP$Parser$stack.peek()).left;
+                    int sright = ((java_cup.runtime.Symbol) CUP$Parser$stack.peek()).right;
+                    Object s = (Object) ((java_cup.runtime.Symbol) CUP$Parser$stack.peek()).value;
+                    RESULT = new FunctionType(t, s);
                     CUP$Parser$result = parser.getSymbolFactory().newSymbol("FunctionType", 20, ((java_cup.runtime.Symbol) CUP$Parser$stack.elementAt(CUP$Parser$top - 2)), ((java_cup.runtime.Symbol) CUP$Parser$stack.peek()), RESULT);
                 }
                 return CUP$Parser$result;
@@ -1276,7 +1304,10 @@ public class Parser extends java_cup.runtime.lr_parser {
                 case 69: // TypeParameter ::= LBRACKET SimpleTypeList RBRACKET
                 {
                     Object RESULT = null;
-
+                    int lleft = ((java_cup.runtime.Symbol) CUP$Parser$stack.elementAt(CUP$Parser$top - 1)).left;
+                    int lright = ((java_cup.runtime.Symbol) CUP$Parser$stack.elementAt(CUP$Parser$top - 1)).right;
+                    Object l = (Object) ((java_cup.runtime.Symbol) CUP$Parser$stack.elementAt(CUP$Parser$top - 1)).value;
+                    RESULT = new TypeParameter(l);
                     CUP$Parser$result = parser.getSymbolFactory().newSymbol("TypeParameter", 35, ((java_cup.runtime.Symbol) CUP$Parser$stack.elementAt(CUP$Parser$top - 2)), ((java_cup.runtime.Symbol) CUP$Parser$stack.peek()), RESULT);
                 }
                 return CUP$Parser$result;
@@ -1285,7 +1316,10 @@ public class Parser extends java_cup.runtime.lr_parser {
                 case 70: // SimpleTypeList ::= SimpleType
                 {
                     Object RESULT = null;
-
+                    int sleft = ((java_cup.runtime.Symbol) CUP$Parser$stack.peek()).left;
+                    int sright = ((java_cup.runtime.Symbol) CUP$Parser$stack.peek()).right;
+                    Object s = (Object) ((java_cup.runtime.Symbol) CUP$Parser$stack.peek()).value;
+                    RESULT = new SimpleType(s);
                     CUP$Parser$result = parser.getSymbolFactory().newSymbol("SimpleTypeList", 33, ((java_cup.runtime.Symbol) CUP$Parser$stack.peek()), ((java_cup.runtime.Symbol) CUP$Parser$stack.peek()), RESULT);
                 }
                 return CUP$Parser$result;
@@ -1294,7 +1328,13 @@ public class Parser extends java_cup.runtime.lr_parser {
                 case 71: // SimpleTypeList ::= SimpleType COMMA SimpleTypeList
                 {
                     Object RESULT = null;
-
+                    int sleft = ((java_cup.runtime.Symbol) CUP$Parser$stack.elementAt(CUP$Parser$top - 2)).left;
+                    int sright = ((java_cup.runtime.Symbol) CUP$Parser$stack.elementAt(CUP$Parser$top - 2)).right;
+                    Object s = (Object) ((java_cup.runtime.Symbol) CUP$Parser$stack.elementAt(CUP$Parser$top - 2)).value;
+                    int lleft = ((java_cup.runtime.Symbol) CUP$Parser$stack.peek()).left;
+                    int lright = ((java_cup.runtime.Symbol) CUP$Parser$stack.peek()).right;
+                    Object l = (Object) ((java_cup.runtime.Symbol) CUP$Parser$stack.peek()).value;
+                    RESULT = new SimpleTypeList(s, l);
                     CUP$Parser$result = parser.getSymbolFactory().newSymbol("SimpleTypeList", 33, ((java_cup.runtime.Symbol) CUP$Parser$stack.elementAt(CUP$Parser$top - 2)), ((java_cup.runtime.Symbol) CUP$Parser$stack.peek()), RESULT);
                 }
                 return CUP$Parser$result;
@@ -1312,7 +1352,10 @@ public class Parser extends java_cup.runtime.lr_parser {
                 case 73: // Expr ::= Identifier
                 {
                     Object RESULT = null;
-
+                    int idleft = ((java_cup.runtime.Symbol) CUP$Parser$stack.peek()).left;
+                    int idright = ((java_cup.runtime.Symbol) CUP$Parser$stack.peek()).right;
+                    Object id = (Object) ((java_cup.runtime.Symbol) CUP$Parser$stack.peek()).value;
+                    RESULT = new Expr(id);
                     CUP$Parser$result = parser.getSymbolFactory().newSymbol("Expr", 16, ((java_cup.runtime.Symbol) CUP$Parser$stack.peek()), ((java_cup.runtime.Symbol) CUP$Parser$stack.peek()), RESULT);
                 }
                 return CUP$Parser$result;

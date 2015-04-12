@@ -1,18 +1,16 @@
 package karaffe;
 
-import java.util.ArrayList;
 import java.util.List;
-import java.util.Objects;
 import java.util.stream.Stream;
-import karaffe.compiler.phase.parser.Parser;
+import karaffe.compiler.phase.checker.PackagePathChecker;
+import karaffe.compiler.phase.gencode.ClassGen;
+import karaffe.compiler.phase.gencode.KClassWriter;
 import karaffe.compiler.phase.parser.ParserPhase;
 import karaffe.compiler.phase.resolvers.ResolvePhase;
 import karaffe.compiler.phase.scope.ScopePhase;
-import karaffe.core.Either;
 
 public class Main {
 
-    private static final List<Exception> errors = new ArrayList<>(1);
     public static final String VERSION = "0.0.0";
 
     /**
@@ -21,27 +19,16 @@ public class Main {
      * @param args
      */
     public static void main(String... args) throws Exception {
-        Parser.main(args);
-        Stream.of(args)
-                .map(ParserPhase::apply)
-                .map(Main::addListIfError)
-                .filter(Objects::nonNull)
-                //
-                .map(ScopePhase::apply)
-                .map(Main::addListIfError)
-                .filter(Objects::nonNull)
-                //
-                .map(ResolvePhase::apply)
-                .map(Main::addListIfError)
-                .filter(Objects::nonNull)
-                .forEach(System.out::println);
-    }
+        //Parser.main(args);
 
-    private static <L extends Exception, R> R addListIfError(Either<L, R> e) {
-        if (e.isLeft()) {
-            errors.add(e.left());
-            return null;
-        }
-        return e.right();
+        args = new String[]{"Int.krf"};
+        Stream.of(args)
+                .map(new ParserPhase())
+                .map(new ScopePhase())
+                .map(new ResolvePhase())
+                .map(new PackagePathChecker())
+                .map(new ClassGen())
+                .flatMap(List::stream)
+                .forEach(new KClassWriter());
     }
 }

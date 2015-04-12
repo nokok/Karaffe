@@ -15,6 +15,8 @@ public class AliasImport extends AbstractNode {
     public AliasImport(Object name, Object id) {
         this.name = (AST) name;
         this.id = (AST) id;
+        children.add(this.name);
+        children.add(this.id);
     }
 
     @Override

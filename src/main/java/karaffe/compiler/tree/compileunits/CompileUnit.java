@@ -21,6 +21,7 @@ public class CompileUnit extends AbstractNode {
         this.packageDecl = Optional.ofNullable((AST) p);
         this.importDecl = Optional.ofNullable((AST) i);
         this.classDecl = Optional.ofNullable((AST) c);
+        children.add(this.file);
         packageDecl.ifPresent(children::add);
         importDecl.ifPresent(children::add);
         classDecl.ifPresent(children::add);
@@ -33,7 +34,7 @@ public class CompileUnit extends AbstractNode {
 
     @Override
     public String toString() {
-        return "(CompileUnit:" + String.join(",", file.toString(), packageDecl.toString(), importDecl.toString()) + ")";
+        return "(CompileUnit:" + String.join(",", file.toString(), packageDecl.toString(), importDecl.toString(), classDecl.toString()) + ")";
     }
 
 }

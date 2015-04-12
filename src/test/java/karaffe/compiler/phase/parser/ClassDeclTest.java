@@ -3,15 +3,7 @@
  */
 package karaffe.compiler.phase.parser;
 
-import java.util.concurrent.atomic.AtomicInteger;
 import static karaffe.compiler.phase.parser.TestUtil.testCode;
-import static karaffe.compiler.phase.parser.TestUtil.testCodeWithoutErrorCheck;
-import karaffe.compiler.tree.AST;
-import karaffe.compiler.tree.ErrorNode;
-import karaffe.compiler.visitor.VisitorAdaptor;
-import static org.hamcrest.CoreMatchers.is;
-import static org.junit.Assert.assertThat;
-import static org.junit.Assert.fail;
 import org.junit.Test;
 
 public class ClassDeclTest {
@@ -97,28 +89,15 @@ public class ClassDeclTest {
     }
 
     @Test
+    public void testEmptyAutoDecl() {
+        testCode("class User(){}");
+    }
+
+    @Test
     public void testAutoDecl() {
         testCode("class User(name String, age Int) {"
                 + ""
                 + "}");
     }
 
-    @Test
-    public void testSimpleClassDeclFinalAbstractModifier() {
-        AST ast = testCodeWithoutErrorCheck("final abstract class Id {}").get();
-        AtomicInteger errorCounter = new AtomicInteger();
-        ast.accept(new VisitorAdaptor() {
-
-            @Override
-            public void errorNode(ErrorNode aThis) {
-                if (errorCounter.incrementAndGet() > 1) {
-                    fail();
-                }
-                assertThat(aThis.errorId(), is("ClassDecl.Before.Class.InvalidModifier"));
-            }
-
-        });
-        assertThat(errorCounter.get(), is(1));
-
-    }
 }

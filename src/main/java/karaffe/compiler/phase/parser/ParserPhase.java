@@ -6,29 +6,21 @@ package karaffe.compiler.phase.parser;
 import java.io.FileReader;
 import karaffe.compiler.phase.Phase;
 import karaffe.compiler.tree.AST;
-import karaffe.core.Either;
 
 public class ParserPhase extends Phase<String, AST> {
 
-    public ParserPhase(String filePath) {
-        super(filePath);
-    }
-
     @Override
-    public Either<Exception, AST> get() {
+    public AST apply(String path) {
         try {
-            Parser parser = new Parser(new Lexer(new FileReader(obj))); //filepath
-            parser.setPath(obj);
+            Parser parser = new Parser(new Lexer(new FileReader(path))); //filepath
+            parser.setPath(path);
             AST ast = parser.compileUnit();
-            return Either.right(ast);
+            return ast;
         } catch (Exception ex) {
             ex.printStackTrace(); //debug
-            return Either.left(ex);
+            return null;
         }
-    }
 
-    public static Either<Exception, AST> apply(String filePath) {
-        return new ParserPhase(filePath).get();
     }
 
 }

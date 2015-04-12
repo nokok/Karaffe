@@ -30,4 +30,8 @@ public class Identifier extends AbstractNode {
     public String toString() {
         return "(Identifier:" + id + ")";
     }
+
+    public String name() {
+        return id;
+    }
 }

@@ -10,6 +10,7 @@ public class FinalModifier extends AbstractNode {
 
     @Override
     public void accept(Visitor visitor) {
+        visitor.finalModifier(this);
     }
 
 }

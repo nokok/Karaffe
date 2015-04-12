@@ -1,16 +1,16 @@
 /**
  * Karaffe Programming Language
  */
-package karaffe.compiler.tree.modifiers;
+package karaffe.compiler.tree.type;
 
 import karaffe.compiler.tree.AbstractNode;
 import karaffe.compiler.visitor.Visitor;
 
-public class PrivateModifier extends AbstractNode {
+public class UnresolvedType extends AbstractNode {
 
     @Override
     public void accept(Visitor visitor) {
-        visitor.privateModifier(this);
+        visitor.unresolvedType(this);
     }
 
 }

@@ -25,4 +25,8 @@ public class FileNode extends AbstractNode {
         return "(FileNode:" + file.toString() + ")";
     }
 
+    public String fileName() {
+        return file.getName();
+    }
+
 }

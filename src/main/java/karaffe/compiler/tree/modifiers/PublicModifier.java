@@ -10,6 +10,7 @@ public class PublicModifier extends AbstractNode {
 
     @Override
     public void accept(Visitor visitor) {
+        visitor.publicModifier(this);
     }
 
 }

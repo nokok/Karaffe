@@ -10,6 +10,10 @@ public interface AST {
 
     public void accept(Visitor visitor);
 
+    public default void childrenAccept(Visitor visitor) {
+        children().forEach(c -> c.accept(visitor));
+    }
+
     public List<AST> children();
 
 }

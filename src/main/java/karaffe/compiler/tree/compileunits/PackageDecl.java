@@ -13,6 +13,7 @@ public class PackageDecl extends AbstractNode {
 
     public PackageDecl(AmbiguousName name) {
         this.name = name;
+        children.add(this.name);
     }
 
     public PackageDecl(Object name) {

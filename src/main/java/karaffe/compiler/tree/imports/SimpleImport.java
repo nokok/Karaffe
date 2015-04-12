@@ -13,6 +13,7 @@ public class SimpleImport extends AbstractNode {
 
     public SimpleImport(Object name) {
         this.name = (AST) name;
+        children.add(this.name);
     }
 
     @Override

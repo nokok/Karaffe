@@ -3,14 +3,8 @@
  */
 package karaffe.compiler.phase;
 
-import java.util.function.Supplier;
-import karaffe.core.Either;
+import java.util.function.Function;
 
-public abstract class Phase<T, R> implements Supplier<Either<Exception, R>> {
+public abstract class Phase<T, R> implements Function<T, R> {
 
-    protected final T obj;
-
-    public Phase(T obj) {
-        this.obj = obj;
-    }
 }

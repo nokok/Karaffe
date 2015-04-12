@@ -210,9 +210,7 @@ AmbiguousName ::= AmbiguousName:name DOT Identifier:id
                 ;
 
 Identifier ::= IDENTIFIER:id
-                    {:
-                        RESULT = new Identifier(id);
-                    :}
+                    {:RESULT = new Identifier(id);:}
              ;
 
 ImportDeclList ::= ImportDecl:import_ ImportDeclList:importList
@@ -347,34 +345,49 @@ FieldModifier ::= PUBLIC
                     {:RESULT = new StaticModifier();:}
                 ;
 
-Initializer ::= EQ Expr
+Initializer ::= EQ Expr:expr
+                    {:RESULT = new Initializer(expr);:}
               |
+                    {:RESULT = new Initializer();:}
               ;
 
-Type ::= SimpleType
-       | FunctionType
+Type ::= SimpleType:s
+            {:RESULT = new Type(s);:}
+       | FunctionType:t
+            {:RESULT = new Type(t);:}
        ;
 
-OmissibleType ::= Type
+OmissibleType ::= Type:t
+                    {:RESULT = new Type(t);:}
                 |
+                    {:RESULT = new UnresolvedType();:}
                 ;
 
 SimpleType ::= Identifier:id
-             | ParameterizedType
+                    {:RESULT = new SimpleType(id);:}
+             | ParameterizedType:t
+                    {:RESULT = new SimpleType(t);:}
              ;
 
-ParameterizedType ::= Identifier:id TypeParameter:param;
+ParameterizedType ::= Identifier:id TypeParameter:param
+                        {:RESULT = new ParameterizedType(id, param);:}
+                    ;
 
-FunctionType ::= Type ARROW SimpleType
+FunctionType ::= Type:t ARROW SimpleType:s  
+                    {:RESULT = new FunctionType(t, s);:}
                ;
 
-TypeParameter ::= LBRACKET SimpleTypeList RBRACKET
+TypeParameter ::= LBRACKET SimpleTypeList:l RBRACKET
+                    {:RESULT = new TypeParameter(l);:}
                 ;
 
-SimpleTypeList ::= SimpleType
-                 | SimpleType COMMA SimpleTypeList
+SimpleTypeList ::= SimpleType:s
+                    {:RESULT = new SimpleType(s);:}
+                 | SimpleType:s COMMA SimpleTypeList:l
+                    {:RESULT = new SimpleTypeList(s, l);:}
                  |
                  ;
 
-Expr ::= Identifier
+Expr ::= Identifier:id
+            {:RESULT = new Expr(id);:}
        ;
