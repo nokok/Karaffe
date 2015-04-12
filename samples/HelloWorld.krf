@@ -1,7 +1,6 @@
-type HelloWorld{
-    func main(args List[String]) {
+class HelloWorld{
+    def main() {
         println("Hello world")
     }
 }
-
 
