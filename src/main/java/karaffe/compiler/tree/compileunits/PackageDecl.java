@@ -34,4 +34,8 @@ public class PackageDecl extends AbstractNode {
         return "(PackageDecl:" + name + ")";
     }
 
+    public String toPath() {
+        return name.toPath();
+    }
+
 }

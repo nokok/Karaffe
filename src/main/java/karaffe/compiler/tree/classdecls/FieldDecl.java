@@ -7,6 +7,8 @@ import java.util.Optional;
 import karaffe.compiler.tree.AST;
 import karaffe.compiler.tree.AbstractNode;
 import karaffe.compiler.visitor.Visitor;
+import org.objectweb.asm.Opcodes;
+import org.objectweb.asm.Type;
 
 public class FieldDecl extends AbstractNode {
 
@@ -34,4 +36,30 @@ public class FieldDecl extends AbstractNode {
         visitor.fieldDecl(this);
     }
 
+    public int access() {
+        return Opcodes.ACC_PUBLIC;
+    }
+
+    public String name() {
+        return "hoge";
+    }
+
+    public String desc() {
+        karaffe.compiler.tree.type.Type t = (karaffe.compiler.tree.type.Type) type.get();
+        System.out.println(t);
+        return Type.getDescriptor(Object.class);
+    }
+
+    public String signature() {
+        return null;
+    }
+
+    public Object value() {
+        return null;
+    }
+
+    @Override
+    public String toString() {
+        return "(FieldDecl:" + String.join(",", annotationList.toString(), modifierList.toString(), identifier.toString(), type.toString(), initializer.toString()) + ")";
+    }
 }
