@@ -18,7 +18,7 @@ public class ClassGen implements Function<AST, List<ByteCode>> {
 
     private final List<ByteCode> bytecodes = new ArrayList<>();
 
-    private final Visitor visitor = new VisitorAdaptor() {
+    private final Visitor classVisitor = new VisitorAdaptor() {
         private final ClassWriter classWriter = new ClassWriter(ClassWriter.COMPUTE_MAXS);
 
         @Override
@@ -40,7 +40,7 @@ public class ClassGen implements Function<AST, List<ByteCode>> {
 
     @Override
     public List<ByteCode> apply(AST ast) {
-        ast.accept(visitor);
+        ast.accept(classVisitor);
         return bytecodes;
     }
 
