@@ -9,6 +9,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
 import karaffe.Main;
+import karaffe.compiler.KCompiler;
 import karaffe.compiler.tree.AST;
 import karaffe.compiler.tree.AmbiguousName;
 import karaffe.compiler.tree.Annotation;
@@ -333,7 +334,7 @@ public class Parser extends java_cup.runtime.lr_parser {
         String path;
         if (args.length == 0) {
             path = "Unavailable(Standard Input)";
-            System.out.println("Karaffe " + Main.VERSION + " [Standard Input Mode]");
+            System.out.println("Karaffe " + KCompiler.VERSION + " [Standard Input Mode]");
             System.out.println("Type :help for help");
             System.out.print("> ");
             Scanner scanner = new Scanner(System.in);

@@ -14,6 +14,7 @@ import karaffe.compiler.phase.resolvers.ResolvePhase;
 import karaffe.compiler.phase.scope.ScopePhase;
 
 public class KCompiler {
+    public static final String VERSION = "0.0.0";
 
     private final File file;
 
