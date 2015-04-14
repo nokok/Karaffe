@@ -46,7 +46,6 @@ public class FieldDecl extends AbstractNode {
 
     public String desc() {
         karaffe.compiler.tree.type.Type t = (karaffe.compiler.tree.type.Type) type.get();
-        System.out.println(t);
         return Type.getDescriptor(Object.class);
     }
 
