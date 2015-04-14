@@ -1,13 +1,8 @@
 package karaffe;
 
-import java.util.List;
+import java.io.File;
 import java.util.stream.Stream;
-import karaffe.compiler.phase.checker.PackagePathChecker;
-import karaffe.compiler.phase.gencode.ClassGen;
-import karaffe.compiler.phase.gencode.KClassWriter;
-import karaffe.compiler.phase.parser.ParserPhase;
-import karaffe.compiler.phase.resolvers.ResolvePhase;
-import karaffe.compiler.phase.scope.ScopePhase;
+import karaffe.compiler.KCompiler;
 
 public class Main {
 
@@ -21,14 +16,10 @@ public class Main {
     public static void main(String... args) throws Exception {
         //Parser.main(args);
 
-        args = new String[]{"Int.krf"};
+        args = new String[]{"Int.krf"}; //debug
         Stream.of(args)
-                .map(new ParserPhase())
-                .map(new ScopePhase())
-                .map(new ResolvePhase())
-                .map(new PackagePathChecker())
-                .map(new ClassGen())
-                .flatMap(List::stream)
-                .forEach(new KClassWriter());
+                .map(File::new)
+                .map(KCompiler::new)
+                .forEach(KCompiler::compile);
     }
 }
