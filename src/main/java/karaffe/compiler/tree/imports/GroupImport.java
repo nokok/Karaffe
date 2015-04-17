@@ -26,7 +26,7 @@ public class GroupImport extends AbstractNode {
 
     @Override
     public String toString() {
-        return "(GroupImport:" + name + "," + idList + ")";
+        return "(GroupImport:" + ambiguousName + "," + otherImports + ")";
     }
 
 }

@@ -26,7 +26,7 @@ public class AliasImport extends AbstractNode {
 
     @Override
     public String toString() {
-        return "(AliasImport:" + name + "," + id + ")";
+        return "(AliasImport:" + beforeAmbiguousName + "," + identifier + ")";
     }
 
 }
