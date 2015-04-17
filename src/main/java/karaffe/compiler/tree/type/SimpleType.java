@@ -13,7 +13,7 @@ public class SimpleType extends AbstractNode {
 
     public SimpleType(Object s) {
         this.simpleType = (AST) s;
-        children.add(this.simpleType);
+        addChildren(simpleType);
     }
 
     @Override

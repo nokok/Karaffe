@@ -11,9 +11,9 @@ public class BlockImport extends AbstractNode {
 
     private final AST body;
 
-    public BlockImport(Object body) {
-        this.body = (AST) body;
-        children.add(this.body);
+    public BlockImport(Object b) {
+        this.body = (AST) b;
+        addChildren(body);
     }
 
     @Override

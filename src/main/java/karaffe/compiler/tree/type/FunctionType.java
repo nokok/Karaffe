@@ -16,8 +16,8 @@ public class FunctionType extends AbstractNode {
     public FunctionType(Object t, Object f) {
         this.type = (AST) t;
         this.functionType = Optional.ofNullable((AST) f);
-        children.add(type);
-        functionType.ifPresent(children::add);
+        addChildren(type);
+        addChildren(functionType);
     }
 
     @Override

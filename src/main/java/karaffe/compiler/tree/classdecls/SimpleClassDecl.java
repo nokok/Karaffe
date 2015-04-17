@@ -19,17 +19,17 @@ public class SimpleClassDecl extends AbstractNode {
     private final Optional<AST> autoDeclList;
     private final Optional<AST> body;
 
-    public SimpleClassDecl(Object a, Object m, Object id, Object b, Object body) {
+    public SimpleClassDecl(Object a, Object m, Object id, Object b, Object bd) {
         this.annotationList = Optional.ofNullable((AST) a);
         this.modifierList = Optional.ofNullable((AST) m);
         this.identifier = (Identifier) id;
-        this.autoDeclList = Optional.ofNullable((AST) b);
-        this.body = Optional.ofNullable((AST) body);
-        annotationList.ifPresent(children::add);
-        modifierList.ifPresent(children::add);
-        children.add(this.identifier);
-        autoDeclList.ifPresent(children::add);
-        this.body.ifPresent(children::add);
+        this.autoDeclList = Optional.ofNullable((AST) bd);
+        this.body = Optional.ofNullable((AST) bd);
+        addChildren(annotationList);
+        addChildren(modifierList);
+        addChildren(identifier);
+        addChildren(autoDeclList);
+        addChildren(body);
     }
 
     @Override

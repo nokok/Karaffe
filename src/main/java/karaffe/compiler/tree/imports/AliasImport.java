@@ -9,14 +9,14 @@ import karaffe.compiler.visitor.Visitor;
 
 public class AliasImport extends AbstractNode {
 
-    private final AST name;
-    private final AST id;
+    private final AST beforeAmbiguousName;
+    private final AST identifier;
 
-    public AliasImport(Object name, Object id) {
-        this.name = (AST) name;
-        this.id = (AST) id;
-        children.add(this.name);
-        children.add(this.id);
+    public AliasImport(Object n, Object i) {
+        this.beforeAmbiguousName = (AST) n;
+        this.identifier = (AST) i;
+        addChildren(beforeAmbiguousName);
+        addChildren(identifier);
     }
 
     @Override

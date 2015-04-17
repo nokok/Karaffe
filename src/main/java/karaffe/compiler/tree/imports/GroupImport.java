@@ -9,14 +9,14 @@ import karaffe.compiler.visitor.Visitor;
 
 public class GroupImport extends AbstractNode {
 
-    private final AST name;
-    private final AST idList;
+    private final AST ambiguousName;
+    private final AST otherImports;
 
     public GroupImport(Object name, Object idList) {
-        this.name = (AST) name;
-        this.idList = (AST) idList;
-        children.add(this.name);
-        children.add(this.idList);
+        this.ambiguousName = (AST) name;
+        this.otherImports = (AST) idList;
+        addChildren(ambiguousName);
+        addChildren(otherImports);
     }
 
     @Override

@@ -16,15 +16,15 @@ public class CompileUnit extends AbstractNode {
     private final Optional<AST> importDecl;
     private final Optional<AST> classDecl;
 
-    public CompileUnit(File file, Object p, Object i, Object c) {
-        this.file = new FileNode(file);
+    public CompileUnit(File f, Object p, Object i, Object c) {
+        this.file = new FileNode(f);
         this.packageDecl = Optional.ofNullable((AST) p);
         this.importDecl = Optional.ofNullable((AST) i);
         this.classDecl = Optional.ofNullable((AST) c);
-        children.add(this.file);
-        packageDecl.ifPresent(children::add);
-        importDecl.ifPresent(children::add);
-        classDecl.ifPresent(children::add);
+        addChildren(file);
+        addChildren(packageDecl);
+        addChildren(importDecl);
+        addChildren(classDecl);
     }
 
     @Override

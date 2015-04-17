@@ -16,8 +16,8 @@ public class ClassDeclList extends AbstractNode {
     public ClassDeclList(Object c, Object l) {
         this.classDecl = (AST) c;
         this.classDeclList = Optional.ofNullable((AST) l);
-        children.add(classDecl);
-        classDeclList.ifPresent(children::add);
+        addChildren(classDecl);
+        addChildren(classDeclList);
     }
 
     @Override

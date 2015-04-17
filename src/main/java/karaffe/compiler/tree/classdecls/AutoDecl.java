@@ -15,8 +15,8 @@ public class AutoDecl extends AbstractNode {
     public AutoDecl(Object id, Object t) {
         this.id = (AST) id;
         this.type = (AST) t;
-        children.add(this.id);
-        children.add(this.type);
+        addChildren(this.id);
+        addChildren(this.type);
     }
 
     @Override

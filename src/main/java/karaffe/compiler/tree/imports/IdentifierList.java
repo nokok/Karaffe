@@ -17,11 +17,11 @@ public class IdentifierList extends AbstractNode {
         this(id, null);
     }
 
-    public IdentifierList(Object id, Object list) {
-        this.id = (AST) id;
-        this.list = Optional.ofNullable((AST) list);
-        children.add(this.id);
-        this.list.ifPresent(children::add);
+    public IdentifierList(Object i, Object l) {
+        this.id = (AST) i;
+        this.list = Optional.ofNullable((AST) l);
+        addChildren(id);
+        addChildren(list);
     }
 
     @Override

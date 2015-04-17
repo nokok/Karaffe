@@ -24,11 +24,11 @@ public class FieldDecl extends AbstractNode {
         this.identifier = (AST) id;
         this.type = Optional.ofNullable((AST) t);
         this.initializer = Optional.ofNullable((AST) init);
-        annotationList.ifPresent(children::add);
-        modifierList.ifPresent(children::add);
-        children.add(identifier);
-        type.ifPresent(children::add);
-        initializer.ifPresent(children::add);
+        addChildren(annotationList);
+        addChildren(modifierList);
+        addChildren(identifier);
+        addChildren(type);
+        addChildren(initializer);
     }
 
     @Override

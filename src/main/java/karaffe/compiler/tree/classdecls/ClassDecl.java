@@ -13,7 +13,7 @@ public class ClassDecl extends AbstractNode {
 
     public ClassDecl(Object c) {
         this.classDecl = (AST) c;
-        children.add(this.classDecl);
+        addChildren(classDecl);
     }
 
     @Override

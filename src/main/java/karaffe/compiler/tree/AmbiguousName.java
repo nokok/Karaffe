@@ -18,8 +18,8 @@ public class AmbiguousName extends AbstractNode {
     public AmbiguousName(AmbiguousName name, Identifier id) {
         this.name = Optional.ofNullable(name);
         this.id = id;
-        this.name.ifPresent(children::add);
-        children.add(id);
+        addChildren(name);
+        addChildren(id);
     }
 
     public AmbiguousName(Object name, Object id) {

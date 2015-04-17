@@ -11,9 +11,9 @@ public class Expr extends AbstractNode {
 
     private final AST expr;
 
-    public Expr(Object id) {
-        this.expr = (AST) id;
-        children.add(expr);
+    public Expr(Object e) {
+        this.expr = (AST) e;
+        addChildren(expr);
     }
 
     @Override

@@ -11,9 +11,9 @@ public class ImportDecl extends AbstractNode {
 
     private final AST importDecl;
 
-    public ImportDecl(Object importDecl) {
-        this.importDecl = (AST) importDecl;
-        children.add(this.importDecl);
+    public ImportDecl(Object i) {
+        this.importDecl = (AST) i;
+        addChildren(importDecl);
     }
 
     @Override

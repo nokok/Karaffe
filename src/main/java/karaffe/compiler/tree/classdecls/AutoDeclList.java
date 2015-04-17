@@ -10,7 +10,7 @@ import karaffe.compiler.visitor.Visitor;
 
 public class AutoDeclList extends AbstractNode {
 
-    private final AST autoDecl;
+    private final Optional<AST> autoDecl;
     private final Optional<AST> autoDeclList;
 
     public AutoDeclList(Object d) {
@@ -18,10 +18,10 @@ public class AutoDeclList extends AbstractNode {
     }
 
     public AutoDeclList(Object d, Object l) {
-        this.autoDecl = (AST) d;
+        this.autoDecl = Optional.ofNullable((AST) d);
         this.autoDeclList = Optional.ofNullable((AST) l);
-        children.add(autoDecl);
-        autoDeclList.ifPresent(children::add);
+        addChildren(autoDecl);
+        addChildren(autoDeclList);
     }
 
     @Override

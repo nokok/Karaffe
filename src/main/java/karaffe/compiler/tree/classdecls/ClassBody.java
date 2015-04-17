@@ -13,7 +13,7 @@ public class ClassBody extends AbstractNode {
 
     public ClassBody(Object f) {
         this.fieldDecl = (AST) f;
-        children.add(fieldDecl);
+        addChildren(fieldDecl);
     }
 
     @Override

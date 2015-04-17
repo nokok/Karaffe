@@ -12,11 +12,11 @@ public class ParameterizedType extends AbstractNode {
     private final AST identifier;
     private final AST type;
 
-    public ParameterizedType(Object identifier, Object type) {
-        this.identifier = (AST) identifier;
-        this.type = (AST) type;
-        children.add(this.identifier);
-        children.add(this.type);
+    public ParameterizedType(Object i, Object t) {
+        this.identifier = (AST) i;
+        this.type = (AST) t;
+        addChildren(identifier);
+        addChildren(type);
     }
 
     @Override

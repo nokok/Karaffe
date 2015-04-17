@@ -12,11 +12,11 @@ public class BlockImportBodyList extends AbstractNode {
     private final AST body;
     private final AST list;
 
-    public BlockImportBodyList(Object body, Object list) {
-        this.body = (AST) body;
-        this.list = (AST) list;
-        children.add(this.body);
-        children.add(this.list);
+    public BlockImportBodyList(Object b, Object l) {
+        this.body = (AST) b;
+        this.list = (AST) l;
+        addChildren(body);
+        addChildren(list);
     }
 
     @Override

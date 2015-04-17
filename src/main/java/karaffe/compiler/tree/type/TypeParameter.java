@@ -13,7 +13,7 @@ public class TypeParameter extends AbstractNode {
 
     public TypeParameter(Object t) {
         this.type = (AST) t;
-        children.add(this.type);
+        addChildren(type);
     }
 
     @Override

@@ -13,7 +13,7 @@ public class Type extends AbstractNode {
 
     public Type(Object t) {
         this.type = (AST) t;
-        children.add(type);
+        addChildren(type);
     }
 
     @Override

@@ -9,9 +9,9 @@ public class Annotation extends AbstractNode {
 
     private final AST name;
 
-    public Annotation(Object name) {
-        this.name = (AST) name;
-        children.add(this.name);
+    public Annotation(Object n) {
+        this.name = (AST) n;
+        addChildren(name);
     }
 
     @Override
