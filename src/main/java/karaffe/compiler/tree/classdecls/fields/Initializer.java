@@ -3,17 +3,21 @@
  */
 package karaffe.compiler.tree.classdecls.fields;
 
+import java.util.Optional;
+import karaffe.compiler.tree.AST;
 import karaffe.compiler.tree.AbstractNode;
 import karaffe.compiler.visitor.Visitor;
 
 public class Initializer extends AbstractNode {
 
-    public Initializer() {
+    private final Optional<AST> initializer;
 
+    public Initializer() {
+        initializer = Optional.empty();
     }
 
     public Initializer(Object expr) {
-
+        this.initializer = Optional.of((AST) expr);
     }
 
     @Override
