@@ -8,7 +8,6 @@ import java.io.StringReader;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
-import karaffe.Main;
 import karaffe.compiler.KCompiler;
 import karaffe.compiler.tree.AST;
 import karaffe.compiler.tree.AmbiguousName;
@@ -17,7 +16,6 @@ import karaffe.compiler.tree.AnnotationList;
 import karaffe.compiler.tree.ErrorNode;
 import karaffe.compiler.tree.Identifier;
 import karaffe.compiler.tree.classdecls.AutoDecl;
-import karaffe.compiler.tree.classdecls.AutoDeclBlock;
 import karaffe.compiler.tree.classdecls.AutoDeclList;
 import karaffe.compiler.tree.classdecls.ClassBody;
 import karaffe.compiler.tree.classdecls.ClassDecl;
@@ -585,7 +583,7 @@ public class Parser extends java_cup.runtime.lr_parser {
                     int idleft = ((java_cup.runtime.Symbol) CUP$Parser$stack.peek()).left;
                     int idright = ((java_cup.runtime.Symbol) CUP$Parser$stack.peek()).right;
                     Object id = (Object) ((java_cup.runtime.Symbol) CUP$Parser$stack.peek()).value;
-                    RESULT = new AmbiguousName(id);
+                    RESULT = new AmbiguousName(null, id);
                     CUP$Parser$result = parser.getSymbolFactory().newSymbol("AmbiguousName", 1, ((java_cup.runtime.Symbol) CUP$Parser$stack.peek()), ((java_cup.runtime.Symbol) CUP$Parser$stack.peek()), RESULT);
                 }
                 return CUP$Parser$result;
@@ -1002,7 +1000,7 @@ public class Parser extends java_cup.runtime.lr_parser {
                     int lleft = ((java_cup.runtime.Symbol) CUP$Parser$stack.elementAt(CUP$Parser$top - 1)).left;
                     int lright = ((java_cup.runtime.Symbol) CUP$Parser$stack.elementAt(CUP$Parser$top - 1)).right;
                     Object l = (Object) ((java_cup.runtime.Symbol) CUP$Parser$stack.elementAt(CUP$Parser$top - 1)).value;
-                    RESULT = new AutoDeclBlock(l);
+                    RESULT = l;
                     CUP$Parser$result = parser.getSymbolFactory().newSymbol("AutoDeclBlock", 4, ((java_cup.runtime.Symbol) CUP$Parser$stack.elementAt(CUP$Parser$top - 2)), ((java_cup.runtime.Symbol) CUP$Parser$stack.peek()), RESULT);
                 }
                 return CUP$Parser$result;
