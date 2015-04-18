@@ -3,17 +3,14 @@
  */
 package karaffe.compiler.tree;
 
+import java.util.Objects;
 import java.util.Optional;
 import karaffe.compiler.visitor.Visitor;
 
 public class AmbiguousName extends AbstractNode {
 
-    private final Optional<AmbiguousName> name;
+    private final Optional<AST> name;
     private final Identifier id;
-
-    public AmbiguousName(Identifier id) {
-        this(null, id);
-    }
 
     public AmbiguousName(AmbiguousName name, Identifier id) {
         this.name = Optional.ofNullable(name);
@@ -23,11 +20,8 @@ public class AmbiguousName extends AbstractNode {
     }
 
     public AmbiguousName(Object name, Object id) {
-        this((AmbiguousName) name, (Identifier) id);
-    }
-
-    public AmbiguousName(Object id) {
-        this((Identifier) id);
+        this.name = Optional.ofNullable((AST) name);
+        this.id = Objects.requireNonNull((Identifier) id);
     }
 
     @Override
@@ -35,7 +29,7 @@ public class AmbiguousName extends AbstractNode {
         visitor.ambiguousName(this);
     }
 
-    public Optional<AmbiguousName> name() {
+    public Optional<AST> name() {
         return name;
     }
 
@@ -71,7 +65,7 @@ public class AmbiguousName extends AbstractNode {
         if (name.isPresent() == false) {
             return id.name();
         }
-        return name.get().toPath() + "." + id.name();
+        return AmbiguousName.class.cast(name.get()).toPath() + "." + id.name();
     }
 
 }

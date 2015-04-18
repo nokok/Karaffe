@@ -209,7 +209,7 @@ PackageDecl ::= PACKAGE AmbiguousName:name
 AmbiguousName ::= AmbiguousName:name DOT Identifier:id
                     {:RESULT = new AmbiguousName(name, id);:}
                 | Identifier:id
-                    {:RESULT = new AmbiguousName(id);:}
+                    {:RESULT = new AmbiguousName(null, id);:}
                 ;
 
 Identifier ::= IDENTIFIER:id
