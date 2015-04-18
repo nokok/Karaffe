@@ -61,4 +61,9 @@ public class FieldDecl extends AbstractNode {
     public String toString() {
         return "(FieldDecl:" + String.join(",", annotationList.toString(), modifierList.toString(), identifier.toString(), type.toString(), initializer.toString()) + ")";
     }
+
+    @Override
+    public FieldNode toNode() {
+        return new FieldNode(access(), name(), desc(), signature(), value());
+    }
 }

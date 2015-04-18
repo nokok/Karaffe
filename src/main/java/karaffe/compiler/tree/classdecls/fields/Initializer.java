@@ -25,4 +25,9 @@ public class Initializer extends AbstractNode {
         visitor.initializer(this);
     }
 
+    @Override
+    public String toString() {
+        return "(Initializer:" + initializer + ")";
+    }
+
 }

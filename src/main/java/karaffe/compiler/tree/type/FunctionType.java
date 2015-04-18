@@ -25,4 +25,9 @@ public class FunctionType extends AbstractNode {
         visitor.functionType(this);
     }
 
+    @Override
+    public String toString() {
+        return "(FunctionType:" + String.join(",", type.toString(), functionType.toString()) + ")";
+    }
+
 }
