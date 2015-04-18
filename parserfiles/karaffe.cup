@@ -7,6 +7,7 @@ import karaffe.compiler.tree.compileunits.*;
 import karaffe.compiler.tree.classdecls.*;
 import karaffe.compiler.tree.classdecls.fields.*;
 import karaffe.compiler.tree.modifiers.*;
+import karaffe.compiler.tree.name.*;
 import karaffe.compiler.tree.type.*;
 import karaffe.compiler.tree.expr.*;
 import java.util.Scanner;
@@ -157,6 +158,7 @@ ImportDeclList,
 Initializer,
 OmissibleType,
 PackageDecl,
+PackageOrTypeName,
 ParameterizedType,
 SimpleClassDecl,
 SimpleImport,
@@ -235,11 +237,11 @@ ImportDecl ::= SimpleImport:simpleImport
                 {:RESULT = new ImportDecl(blockImport);:}
              ;
 
-SimpleImport ::= IMPORT AmbiguousName:name 
+SimpleImport ::= IMPORT PackageOrTypeName:name 
                     {:RESULT = new SimpleImport(name);:}
                ;
 
-AliasImport ::= IMPORT AmbiguousName:name ARROW Identifier:id
+AliasImport ::= IMPORT PackageOrTypeName:name ARROW Identifier:id
                     {:RESULT = new AliasImport(name, id);:}
               ;
 
@@ -263,9 +265,9 @@ BlockImportBodyList ::= BlockImportBody:body BlockImportBodyList:list
                       |
                       ;
 
-BlockImportBody ::= AmbiguousName:name
+BlockImportBody ::= PackageOrTypeName:name
                         {:RESULT = new SimpleImport(name);:}
-                  | AmbiguousName:name ARROW Identifier:id
+                  | PackageOrTypeName:name ARROW Identifier:id
                         {:RESULT = new AliasImport(name,id);:}
                   | AmbiguousName:name DOT LBRACE IdentifierList:idList RBRACE
                         {:RESULT = new GroupImport(name,idList);:}
@@ -289,7 +291,7 @@ AnnotationList ::= Annotation:a AnnotationList:l
                  |
                  ;
 
-Annotation ::= AT AmbiguousName:name
+Annotation ::= AT TypeName:name
                 {:RESULT = new Annotation(name);:}
              ;
 
@@ -402,6 +404,10 @@ SimpleTypeList ::= SimpleType:s
 TypeName ::= AmbiguousName:n
                 {:RESULT = new TypeName(n);:}
            ;
+
+PackageOrTypeName ::= AmbiguousName:n
+                        {:RESULT = new PackageOrTypeName(n);:}
+                    ;
 
 Expr ::= Identifier:id
             {:RESULT = new Expr(id);:}
