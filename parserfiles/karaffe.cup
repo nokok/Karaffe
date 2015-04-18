@@ -5,6 +5,7 @@ import karaffe.compiler.tree.*;
 import karaffe.compiler.tree.imports.*;
 import karaffe.compiler.tree.compileunits.*;
 import karaffe.compiler.tree.classdecls.*;
+import karaffe.compiler.tree.classdecls.fields.*;
 import karaffe.compiler.tree.modifiers.*;
 import karaffe.compiler.tree.type.*;
 import karaffe.compiler.tree.expr.*;
