@@ -374,7 +374,7 @@ Type ::= SimpleType:s
 OmissibleType ::= Type:t
                     {:RESULT = new Type(t);:}
                 |
-                    {:RESULT = new UnresolvedType();:}
+                    {:RESULT = new Type(null);:}
                 ;
 
 SimpleType ::= TypeName:t
