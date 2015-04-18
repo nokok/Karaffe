@@ -3,15 +3,20 @@
  */
 package karaffe.compiler.tree.classdecls;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Optional;
+import karaffe.compiler.tree.ASMConvertible;
 import karaffe.compiler.tree.AST;
 import karaffe.compiler.tree.AbstractNode;
 import karaffe.compiler.tree.Identifier;
 import karaffe.compiler.visitor.Visitor;
+import karaffe.compiler.visitor.VisitorAdaptor;
 import org.objectweb.asm.Opcodes;
 import org.objectweb.asm.Type;
+import org.objectweb.asm.tree.ClassNode;
 
-public class SimpleClassDecl extends AbstractNode {
+public class SimpleClassDecl extends AbstractNode implements ASMConvertible<ClassNode> {
 
     private final Optional<AST> annotationList;
     private final Optional<AST> modifierList;
@@ -60,5 +65,30 @@ public class SimpleClassDecl extends AbstractNode {
 
     public String[] interfaces() {
         return null;
+    }
+
+    public List<String> interfacesList() {
+        return new ArrayList<>();
+    }
+
+    @Override
+    public ClassNode toNode() {
+        ClassNode classNode = new ClassNode();
+        classNode.access = access();
+        classNode.name = name();
+        classNode.signature = signature();
+        classNode.superName = superName();
+        classNode.interfaces = interfacesList();
+        classNode.version = Opcodes.V1_8;
+        Visitor visitor = new VisitorAdaptor() {
+
+            @Override
+            public void fieldDecl(FieldDecl aThis) {
+                classNode.fields.add(aThis.toNode());
+            }
+
+        };
+        this.childrenAccept(visitor);
+        return classNode;
     }
 }

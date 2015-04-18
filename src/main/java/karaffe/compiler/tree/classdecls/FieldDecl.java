@@ -4,13 +4,16 @@
 package karaffe.compiler.tree.classdecls;
 
 import java.util.Optional;
+import karaffe.compiler.tree.ASMConvertible;
 import karaffe.compiler.tree.AST;
 import karaffe.compiler.tree.AbstractNode;
+import karaffe.compiler.tree.Identifier;
 import karaffe.compiler.visitor.Visitor;
 import org.objectweb.asm.Opcodes;
 import org.objectweb.asm.Type;
+import org.objectweb.asm.tree.FieldNode;
 
-public class FieldDecl extends AbstractNode {
+public class FieldDecl extends AbstractNode implements ASMConvertible<FieldNode> {
 
     private final Optional<AST> annotationList;
     private final Optional<AST> modifierList;
@@ -41,11 +44,10 @@ public class FieldDecl extends AbstractNode {
     }
 
     public String name() {
-        return "hoge";
+        return Identifier.class.cast(identifier).name();
     }
 
     public String desc() {
-        karaffe.compiler.tree.type.Type t = (karaffe.compiler.tree.type.Type) type.get();
         return Type.getDescriptor(Object.class);
     }
 
