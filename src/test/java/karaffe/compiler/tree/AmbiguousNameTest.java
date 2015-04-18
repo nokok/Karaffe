@@ -3,6 +3,7 @@
  */
 package karaffe.compiler.tree;
 
+import karaffe.compiler.tree.name.AmbiguousName;
 import static karaffe.compiler.phase.parser.TestUtil.testCode;
 import karaffe.compiler.tree.compileunits.PackageDecl;
 import karaffe.compiler.visitor.VisitorAdaptor;
