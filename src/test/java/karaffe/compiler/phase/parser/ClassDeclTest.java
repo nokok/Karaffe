@@ -100,4 +100,9 @@ public class ClassDeclTest {
                 + "}");
     }
 
+    @Test
+    public void testExtendsOrImplements() {
+        testCode("class User < java.io.Serializable {}");
+    }
+
 }

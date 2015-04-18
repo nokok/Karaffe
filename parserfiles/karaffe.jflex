@@ -79,6 +79,7 @@ Identifier = [:jletter:][:jletterdigit:]*
     ")"                         {return sym(RPAREN);}
     "."                         {return sym(DOT);}
     ","                         {return sym(COMMA);}
+    "<"                         {return sym(LT);}
 
     {Identifier}                {return sym(IDENTIFIER, yytext());}
     {WhiteSpace}                {}

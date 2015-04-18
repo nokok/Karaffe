@@ -116,8 +116,9 @@ IMPORT,
 LBRACE,
 LBRACKET,
 LPAREN,
-RPAREN,
+LT,
 NULLABLE,
+RPAREN,
 PACKAGE,
 PRIVATE,
 PUBLIC,
@@ -143,6 +144,7 @@ ClassModifier,
 ClassModifierList,
 CompileUnit,
 Expr,
+ExtendsOrImplements,
 FieldDecl,
 FieldModifier,
 FieldModifierList,
@@ -161,6 +163,7 @@ SimpleImport,
 SimpleType,
 SimpleTypeList,
 Type,
+TypeName,
 TypeParameter;
 
 CompileUnit ::= PackageDecl:p ImportDeclList:i ClassDeclList:c
@@ -277,8 +280,8 @@ ClassDecl ::= SimpleClassDecl:c
                 {:RESULT = new ClassDecl(c);:}
             ;
 
-SimpleClassDecl ::= AnnotationList:a ClassModifierList:m CLASS Identifier:id AutoDeclBlock:b LBRACE ClassBody:body RBRACE
-                        {:RESULT = new SimpleClassDecl(a, m, id, b, body);:}
+SimpleClassDecl ::= AnnotationList:a ClassModifierList:m CLASS Identifier:id AutoDeclBlock:b ExtendsOrImplements:ex LBRACE ClassBody:body RBRACE
+                        {:RESULT = new SimpleClassDecl(a, m, id, b, ex, body);:}
                   ;
 
 AnnotationList ::= Annotation:a AnnotationList:l
@@ -322,6 +325,11 @@ AutoDeclList ::= AutoDecl:d
 AutoDecl ::= Identifier:id Type:t
                 {:RESULT = new AutoDecl(id, t);:}
            ;
+
+ExtendsOrImplements ::= LT SimpleTypeList:t
+                            {:RESULT = new ExtendsOrImplements(t);:}
+                      |
+                      ;
 
 ClassBody ::= FieldDecl:f
                 {:RESULT = new ClassBody(f);:}
@@ -367,14 +375,14 @@ OmissibleType ::= Type:t
                     {:RESULT = new UnresolvedType();:}
                 ;
 
-SimpleType ::= Identifier:id
-                    {:RESULT = new SimpleType(id);:}
+SimpleType ::= TypeName:t
+                    {:RESULT = new SimpleType(t);:}
              | ParameterizedType:t
                     {:RESULT = new SimpleType(t);:}
              ;
 
-ParameterizedType ::= Identifier:id TypeParameter:param
-                        {:RESULT = new ParameterizedType(id, param);:}
+ParameterizedType ::= TypeName:t TypeParameter:param
+                        {:RESULT = new ParameterizedType(t, param);:}
                     ;
 
 FunctionType ::= Type:t ARROW SimpleType:s  
@@ -389,8 +397,11 @@ SimpleTypeList ::= SimpleType:s
                     {:RESULT = new SimpleType(s);:}
                  | SimpleType:s COMMA SimpleTypeList:l
                     {:RESULT = new SimpleTypeList(s, l);:}
-                 |
                  ;
+
+TypeName ::= AmbiguousName:n
+                {:RESULT = new TypeName(n);:}
+           ;
 
 Expr ::= Identifier:id
             {:RESULT = new Expr(id);:}

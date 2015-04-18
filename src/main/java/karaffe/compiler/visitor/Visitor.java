@@ -14,6 +14,7 @@ import karaffe.compiler.tree.classdecls.AutoDeclList;
 import karaffe.compiler.tree.classdecls.ClassBody;
 import karaffe.compiler.tree.classdecls.ClassDecl;
 import karaffe.compiler.tree.classdecls.ClassDeclList;
+import karaffe.compiler.tree.classdecls.ExtendsOrImplements;
 import karaffe.compiler.tree.classdecls.FieldDecl;
 import karaffe.compiler.tree.classdecls.SimpleClassDecl;
 import karaffe.compiler.tree.classdecls.fields.Initializer;
@@ -41,6 +42,7 @@ import karaffe.compiler.tree.type.ParameterizedType;
 import karaffe.compiler.tree.type.SimpleType;
 import karaffe.compiler.tree.type.SimpleTypeList;
 import karaffe.compiler.tree.type.Type;
+import karaffe.compiler.tree.type.TypeName;
 import karaffe.compiler.tree.type.TypeParameter;
 import karaffe.compiler.tree.type.UnresolvedType;
 
@@ -125,4 +127,8 @@ public interface Visitor {
     public void privateModifier(PrivateModifier aThis);
 
     public void publicModifier(PublicModifier aThis);
+
+    public void typeName(TypeName aThis);
+
+    public void extendsOrImplements(ExtendsOrImplements aThis);
 }

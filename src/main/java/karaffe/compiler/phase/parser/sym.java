@@ -9,19 +9,20 @@ package karaffe.compiler.phase.parser;
 public interface sym {
   /* terminals */
   public static final int IMPORT = 12;
+  public static final int LT = 16;
   public static final int CLASS = 5;
   public static final int NULLABLE = 17;
-  public static final int RBRACE = 21;
-  public static final int RPAREN = 16;
-  public static final int PRIVATE = 19;
+  public static final int RBRACE = 22;
+  public static final int RPAREN = 18;
+  public static final int PRIVATE = 20;
   public static final int IDENTIFIER = 11;
   public static final int AT = 4;
   public static final int LBRACKET = 14;
   public static final int LPAREN = 15;
   public static final int LBRACE = 13;
-  public static final int PUBLIC = 20;
-  public static final int RBRACKET = 22;
-  public static final int STATIC = 23;
+  public static final int PUBLIC = 21;
+  public static final int RBRACKET = 23;
+  public static final int STATIC = 24;
   public static final int COMMA = 6;
   public static final int EOF = 0;
   public static final int DEF = 7;
@@ -31,7 +32,7 @@ public interface sym {
   public static final int ARROW = 3;
   public static final int EQ = 9;
   public static final int ABSTRACT = 2;
-  public static final int PACKAGE = 18;
+  public static final int PACKAGE = 19;
   public static final String[] terminalNames = new String[] {
   "EOF",
   "error",
@@ -49,8 +50,9 @@ public interface sym {
   "LBRACE",
   "LBRACKET",
   "LPAREN",
-  "RPAREN",
+  "LT",
   "NULLABLE",
+  "RPAREN",
   "PACKAGE",
   "PRIVATE",
   "PUBLIC",
