@@ -14,20 +14,27 @@ import static org.junit.Assert.fail;
 public class TestUtil {
 
     public static AST testCode(String code) {
-        Optional<AST> maybeCompileUnit = testCodeWithoutErrorCheck(code);
-        AST compileUnit = maybeCompileUnit.orElseThrow(AssertionError::new);
-        compileUnit.accept(new VisitorAdaptor() {
+        try {
+            Optional<AST> maybeCompileUnit = testCodeWithoutErrorCheck(code);
+            AST compileUnit = maybeCompileUnit.orElseThrow(AssertionError::new);
+            compileUnit.accept(new VisitorAdaptor() {
 
-            @Override
-            public void errorNode(ErrorNode aThis) {
-                if (aThis == null) {
-                    return;
+                @Override
+                public void errorNode(ErrorNode aThis) {
+                    if (aThis == null) {
+                        fail();
+                        return;
+                    }
+                    fail(aThis.toString());
                 }
-                fail(aThis.toString());
-            }
 
-        });
-        return compileUnit;
+            });
+            return compileUnit;
+        } catch (Throwable e) {
+            e.printStackTrace();
+            fail(e.toString());
+            return null; //unreachable stmt
+        }
     }
 
     public static Optional<AST> testCodeWithoutErrorCheck(String code) {
