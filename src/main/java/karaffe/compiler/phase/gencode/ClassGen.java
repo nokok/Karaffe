@@ -35,8 +35,7 @@ public class ClassGen implements Function<AST, List<ByteCode>> {
         @Override
         public void simpleClassDecl(SimpleClassDecl clazz) {
             super.simpleClassDecl(clazz);
-            String classNamePrefix = packagePrefix.isPresent() ? packagePrefix.get() + "/" : "";
-            classWriter.visit(Opcodes.V1_8, clazz.access(), classNamePrefix + clazz.name(), clazz.signature(), clazz.superName(), clazz.interfaces());
+            classWriter.visit(Opcodes.V1_8, clazz.access(), getClassNamePrefix() + clazz.name(), clazz.signature(), clazz.superName(), clazz.interfaces());
             bytecodes.add(new ByteCode(classWriter.toByteArray(), clazz.name() + ".class", packagePrefix.orElse("")));
         }
 
@@ -49,6 +48,10 @@ public class ClassGen implements Function<AST, List<ByteCode>> {
         public void packageDecl(PackageDecl aThis) {
             super.packageDecl(aThis);
             packagePrefix = Optional.of(aThis.toPath("/"));
+        }
+
+        private String getClassNamePrefix() {
+            return packagePrefix.isPresent() ? packagePrefix.get() + "/" : "";
         }
     };
 
