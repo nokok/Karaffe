@@ -3,16 +3,17 @@
  */
 package karaffe.compiler.tree.imports;
 
+import java.util.Optional;
 import karaffe.compiler.tree.AST;
 import karaffe.compiler.tree.AbstractNode;
 import karaffe.compiler.visitor.Visitor;
 
 public class BlockImport extends AbstractNode {
 
-    private final AST body;
+    private final Optional<AST> body;
 
     public BlockImport(Object b) {
-        this.body = (AST) b;
+        this.body = Optional.ofNullable((AST) b);
         addChildren(body);
     }
 

@@ -3,6 +3,7 @@
  */
 package karaffe.compiler.tree.imports;
 
+import java.util.Optional;
 import karaffe.compiler.tree.AST;
 import karaffe.compiler.tree.AbstractNode;
 import karaffe.compiler.visitor.Visitor;
@@ -10,11 +11,11 @@ import karaffe.compiler.visitor.Visitor;
 public class BlockImportBodyList extends AbstractNode {
 
     private final AST body;
-    private final AST list;
+    private final Optional<AST> list;
 
     public BlockImportBodyList(Object b, Object l) {
         this.body = (AST) b;
-        this.list = (AST) l;
+        this.list = Optional.ofNullable((AST) l);
         addChildren(body);
         addChildren(list);
     }
