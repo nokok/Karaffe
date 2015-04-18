@@ -4,7 +4,7 @@
 package karaffe.compiler.tree.compileunits;
 
 import karaffe.compiler.tree.AbstractNode;
-import karaffe.compiler.tree.AmbiguousName;
+import karaffe.compiler.tree.name.AmbiguousName;
 import karaffe.compiler.visitor.Visitor;
 
 public class PackageDecl extends AbstractNode {
