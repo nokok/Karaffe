@@ -44,6 +44,7 @@ public class TestUtil {
             AST compileUnit = parser.compileUnit();
             return Optional.of(compileUnit);
         } catch (Exception e) {
+            e.printStackTrace();
             return Optional.empty();
         }
     }
