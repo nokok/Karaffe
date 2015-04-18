@@ -3,7 +3,6 @@
  */
 package karaffe.compiler.visitor;
 
-import karaffe.compiler.tree.AmbiguousName;
 import karaffe.compiler.tree.Annotation;
 import karaffe.compiler.tree.AnnotationList;
 import karaffe.compiler.tree.ErrorNode;
@@ -37,6 +36,8 @@ import karaffe.compiler.tree.modifiers.NullableModifier;
 import karaffe.compiler.tree.modifiers.PrivateModifier;
 import karaffe.compiler.tree.modifiers.PublicModifier;
 import karaffe.compiler.tree.modifiers.StaticModifier;
+import karaffe.compiler.tree.name.AmbiguousName;
+import karaffe.compiler.tree.name.PackageOrTypeName;
 import karaffe.compiler.tree.type.FunctionType;
 import karaffe.compiler.tree.type.ParameterizedType;
 import karaffe.compiler.tree.type.SimpleType;
@@ -44,7 +45,6 @@ import karaffe.compiler.tree.type.SimpleTypeList;
 import karaffe.compiler.tree.type.Type;
 import karaffe.compiler.tree.type.TypeName;
 import karaffe.compiler.tree.type.TypeParameter;
-import karaffe.compiler.tree.type.UnresolvedType;
 
 public class VisitorAdaptor implements Visitor {
 
@@ -219,11 +219,6 @@ public class VisitorAdaptor implements Visitor {
     }
 
     @Override
-    public void unresolvedType(UnresolvedType aThis) {
-        aThis.childrenAccept(this);
-    }
-
-    @Override
     public void abstractModifier(AbstractModifier aThis) {
         aThis.childrenAccept(this);
     }
@@ -255,6 +250,11 @@ public class VisitorAdaptor implements Visitor {
 
     @Override
     public void extendsOrImplements(ExtendsOrImplements aThis) {
+        aThis.childrenAccept(this);
+    }
+
+    @Override
+    public void packageOrTypeName(PackageOrTypeName aThis) {
         aThis.childrenAccept(this);
     }
 
