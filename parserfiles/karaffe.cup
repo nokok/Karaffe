@@ -1,10 +1,13 @@
 package karaffe.compiler.phase.parser;
 
+import karaffe.compiler.KCompiler;
 import karaffe.compiler.tree.*;
 import karaffe.compiler.tree.imports.*;
 import karaffe.compiler.tree.compileunits.*;
 import karaffe.compiler.tree.classdecls.*;
 import karaffe.compiler.tree.modifiers.*;
+import karaffe.compiler.tree.type.*;
+import karaffe.compiler.tree.expr.*;
 import java.util.Scanner;
 import java.io.StringReader;
 import java.io.Reader;
@@ -28,7 +31,7 @@ parser code {:
         String path;
         if (args.length == 0) {
             path = "Unavailable(Standard Input)";
-            System.out.println("Karaffe " + Main.VERSION + " [Standard Input Mode]");
+            System.out.println("Karaffe " + KCompiler.VERSION + " [Standard Input Mode]");
             System.out.println("Type :help for help");
             System.out.print("> ");
             Scanner scanner = new Scanner(System.in);
