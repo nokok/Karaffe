@@ -9,6 +9,10 @@ import karaffe.compiler.tree.AST;
 
 public class ParserPhase extends Phase<String, AST> {
 
+    public ParserPhase() {
+        super("parser");
+    }
+
     @Override
     public AST apply(String path) {
         try {

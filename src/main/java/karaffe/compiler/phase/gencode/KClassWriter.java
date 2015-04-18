@@ -12,6 +12,10 @@ import karaffe.compiler.phase.Phase;
 
 public class KClassWriter extends Phase<ByteCode, Void> implements Consumer<ByteCode> {
 
+    public KClassWriter() {
+        super("classwriter");
+    }
+
     @Override
     public Void apply(ByteCode t) {
         File outputDir = new File(t.packagePrefix().replaceAll("/", File.separator));

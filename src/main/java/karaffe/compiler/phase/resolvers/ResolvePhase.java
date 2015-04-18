@@ -8,6 +8,10 @@ import karaffe.compiler.tree.AST;
 
 public class ResolvePhase extends Phase<AST, AST> {
 
+    public ResolvePhase() {
+        super("resolver");
+    }
+
     @Override
     public AST apply(AST t) {
         return t;

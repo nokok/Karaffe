@@ -8,6 +8,10 @@ import karaffe.compiler.tree.AST;
 
 public class ScopePhase extends Phase<AST, AST> {
 
+    public ScopePhase() {
+        super("scope");
+    }
+
     @Override
     public AST apply(AST t) {
         return t;

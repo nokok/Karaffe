@@ -8,6 +8,10 @@ import karaffe.compiler.tree.AST;
 
 public class PackagePathChecker extends Phase<AST, AST> {
 
+    public PackagePathChecker() {
+        super("packagepathchecker");
+    }
+
     @Override
     public AST apply(AST t) {
         return t;
