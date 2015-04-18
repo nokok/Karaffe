@@ -7,10 +7,12 @@ public class ByteCode {
 
     private final byte[] bytecode;
     private final String fileName;
+    private final String packagePrefix;
 
-    public ByteCode(byte[] bytecode, String fileName) {
+    public ByteCode(byte[] bytecode, String fileName, String packagePrefix) {
         this.bytecode = bytecode;
         this.fileName = fileName;
+        this.packagePrefix = packagePrefix;
     }
 
     public String fileName() {
@@ -19,5 +21,9 @@ public class ByteCode {
 
     public byte[] get() {
         return bytecode;
+    }
+
+    public String packagePrefix() {
+        return packagePrefix;
     }
 }

@@ -3,6 +3,7 @@
  */
 package karaffe.compiler.phase.gencode;
 
+import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
@@ -13,7 +14,11 @@ public class KClassWriter extends Phase<ByteCode, Void> implements Consumer<Byte
 
     @Override
     public Void apply(ByteCode t) {
-        try (FileOutputStream stream = new FileOutputStream(t.fileName())) {
+        File outputDir = new File(t.packagePrefix().replaceAll("/", File.separator));
+        if (!outputDir.exists()) {
+            outputDir.mkdirs();
+        }
+        try (FileOutputStream stream = new FileOutputStream(t.packagePrefix().replaceAll("/", File.separator) + File.separator + t.fileName())) {
             stream.write(t.get());
         } catch (FileNotFoundException ex) {
             ex.printStackTrace();

@@ -1,10 +1,13 @@
 /**
  * Karaffe Programming Language
  */
-package karaffe.compiler.tree;
+package karaffe.compiler.tree.name;
 
 import java.util.Objects;
 import java.util.Optional;
+import karaffe.compiler.tree.AST;
+import karaffe.compiler.tree.AbstractNode;
+import karaffe.compiler.tree.Identifier;
 import karaffe.compiler.visitor.Visitor;
 
 public class AmbiguousName extends AbstractNode {
@@ -62,10 +65,14 @@ public class AmbiguousName extends AbstractNode {
      * @return hoge.fuga.piyo
      */
     public String toPath() {
+        return toPath(".");
+    }
+
+    public String toPath(String delimiter) {
         if (name.isPresent() == false) {
             return id.name();
         }
-        return AmbiguousName.class.cast(name.get()).toPath() + "." + id.name();
+        return AmbiguousName.class.cast(name.get()).toPath(delimiter) + delimiter + id.name();
     }
 
 }

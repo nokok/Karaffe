@@ -5,6 +5,7 @@ package karaffe.compiler.phase.gencode;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 import java.util.function.Function;
 import karaffe.compiler.tree.AST;
 import karaffe.compiler.tree.classdecls.FieldDecl;
@@ -23,6 +24,8 @@ public class ClassGen implements Function<AST, List<ByteCode>> {
     private final Visitor classVisitor = new VisitorAdaptor() {
         private final ClassWriter classWriter = new ClassWriter(ClassWriter.COMPUTE_MAXS);
 
+        private Optional<String> packagePrefix = Optional.empty();
+
         @Override
         public void fileNode(FileNode aThis) {
             super.fileNode(aThis);
@@ -32,22 +35,21 @@ public class ClassGen implements Function<AST, List<ByteCode>> {
         @Override
         public void simpleClassDecl(SimpleClassDecl clazz) {
             super.simpleClassDecl(clazz);
-            classWriter.visit(Opcodes.V1_8, clazz.access(), clazz.name(), clazz.signature(), clazz.superName(), clazz.interfaces());
-            bytecodes.add(new ByteCode(classWriter.toByteArray(), clazz.name() + ".class"));
+            String classNamePrefix = packagePrefix.isPresent() ? packagePrefix.get() + "/" : "";
+            classWriter.visit(Opcodes.V1_8, clazz.access(), classNamePrefix + clazz.name(), clazz.signature(), clazz.superName(), clazz.interfaces());
+            bytecodes.add(new ByteCode(classWriter.toByteArray(), clazz.name() + ".class", packagePrefix.orElse("")));
         }
 
         @Override
         public void fieldDecl(FieldDecl aThis) {
-            super.fieldDecl(aThis);
             classWriter.visitField(aThis.access(), aThis.name(), aThis.desc(), aThis.signature(), aThis.value());
         }
 
         @Override
         public void packageDecl(PackageDecl aThis) {
             super.packageDecl(aThis);
-
+            packagePrefix = Optional.of(aThis.toPath("/"));
         }
-
     };
 
     public List<ByteCode> getBytecodes() {
