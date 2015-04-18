@@ -38,4 +38,8 @@ public class PackageDecl extends AbstractNode {
         return name.toPath();
     }
 
+    public String toPath(String delimiter) {
+        return name.toPath(delimiter);
+    }
+
 }
