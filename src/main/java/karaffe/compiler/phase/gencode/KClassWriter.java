@@ -18,11 +18,17 @@ public class KClassWriter extends Phase<ByteCode, Void> implements Consumer<Byte
 
     @Override
     public Void apply(ByteCode t) {
-        File outputDir = new File(t.packagePrefix().replaceAll("/", File.separator));
-        if (!outputDir.exists()) {
-            outputDir.mkdirs();
+        String outputPath;
+        if (t.packagePrefix().isEmpty()) {
+            outputPath = "";
+        } else {
+            File outputDir = new File(t.packagePrefix().replaceAll("/", File.separator));
+            if (!outputDir.exists()) {
+                outputDir.mkdirs();
+            }
+            outputPath = t.packagePrefix().replaceAll("/", File.separator) + File.separator;
         }
-        try (FileOutputStream stream = new FileOutputStream(t.packagePrefix().replaceAll("/", File.separator) + File.separator + t.fileName())) {
+        try (FileOutputStream stream = new FileOutputStream(outputPath + t.fileName())) {
             stream.write(t.get());
         } catch (FileNotFoundException ex) {
             ex.printStackTrace();
