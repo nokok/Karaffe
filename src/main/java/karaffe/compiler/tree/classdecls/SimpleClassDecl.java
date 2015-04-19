@@ -11,10 +11,10 @@ import karaffe.compiler.tree.AST;
 import karaffe.compiler.tree.AbstractNode;
 import karaffe.compiler.tree.Identifier;
 import karaffe.compiler.visitor.Visitor;
-import karaffe.compiler.visitor.VisitorAdaptor;
 import org.objectweb.asm.Opcodes;
 import org.objectweb.asm.Type;
 import org.objectweb.asm.tree.ClassNode;
+import org.objectweb.asm.tree.FieldNode;
 
 public class SimpleClassDecl extends AbstractNode implements ASMConvertible<ClassNode> {
 
@@ -80,15 +80,8 @@ public class SimpleClassDecl extends AbstractNode implements ASMConvertible<Clas
         classNode.superName = superName();
         classNode.interfaces = interfacesList();
         classNode.version = Opcodes.V1_8;
-        Visitor visitor = new VisitorAdaptor() {
-
-            @Override
-            public void fieldDecl(FieldDecl aThis) {
-                classNode.fields.add(aThis.toNode());
-            }
-
-        };
-        this.childrenAccept(visitor);
+        List<FieldNode> fieldNodes = new ArrayList<>();
+        body.ifPresent(b -> ClassBody.class.cast(body).toNode());
         return classNode;
     }
 }
