@@ -44,7 +44,7 @@ public class FieldDecl extends AbstractNode implements ASMConvertible<FieldNode>
     }
 
     public String name() {
-        return Identifier.class.cast(identifier).name();
+        return Identifier.class.cast(identifier).get();
     }
 
     public String desc() {

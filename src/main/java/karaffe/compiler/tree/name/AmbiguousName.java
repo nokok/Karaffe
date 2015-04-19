@@ -70,9 +70,9 @@ public class AmbiguousName extends AbstractNode {
 
     public String toPath(String delimiter) {
         if (name.isPresent() == false) {
-            return id.name();
+            return id.get();
         }
-        return AmbiguousName.class.cast(name.get()).toPath(delimiter) + delimiter + id.name();
+        return AmbiguousName.class.cast(name.get()).toPath(delimiter) + delimiter + id.get();
     }
 
 }

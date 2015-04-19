@@ -22,7 +22,7 @@ public class Identifier extends AbstractNode {
         visitor.identifier(this);
     }
 
-    public String id() {
+    public String get() {
         return id;
     }
 
@@ -31,7 +31,4 @@ public class Identifier extends AbstractNode {
         return "(Identifier:" + id + ")";
     }
 
-    public String name() {
-        return id;
-    }
 }

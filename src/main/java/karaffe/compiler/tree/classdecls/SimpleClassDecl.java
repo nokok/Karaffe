@@ -52,7 +52,7 @@ public class SimpleClassDecl extends AbstractNode implements ASMConvertible<Clas
     }
 
     public String name() {
-        return identifier.name();
+        return identifier.get();
     }
 
     public String signature() {
