@@ -3,13 +3,16 @@
  */
 package karaffe.compiler.tree.classdecls;
 
+import karaffe.compiler.tree.AST;
 import karaffe.compiler.tree.AbstractNode;
 import karaffe.compiler.visitor.Visitor;
 
 public class ExtendsOrImplements extends AbstractNode {
 
-    public ExtendsOrImplements(Object t) {
+    private final AST t;
 
+    public ExtendsOrImplements(Object t) {
+        this.t = (AST) t;
     }
 
     @Override

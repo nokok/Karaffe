@@ -6,6 +6,7 @@ package karaffe.compiler.tree.classdecls;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
+import static java.util.stream.Collectors.toList;
 import karaffe.compiler.tree.ASMConvertible;
 import karaffe.compiler.tree.AST;
 import karaffe.compiler.tree.AbstractNode;
@@ -14,7 +15,6 @@ import karaffe.compiler.visitor.Visitor;
 import org.objectweb.asm.Opcodes;
 import org.objectweb.asm.Type;
 import org.objectweb.asm.tree.ClassNode;
-import org.objectweb.asm.tree.FieldNode;
 
 public class SimpleClassDecl extends AbstractNode implements ASMConvertible<ClassNode> {
 
@@ -80,8 +80,13 @@ public class SimpleClassDecl extends AbstractNode implements ASMConvertible<Clas
         classNode.superName = superName();
         classNode.interfaces = interfacesList();
         classNode.version = Opcodes.V1_8;
-        List<FieldNode> fieldNodes = new ArrayList<>();
-        body.ifPresent(b -> ClassBody.class.cast(body).toNode());
+        List<ASMConvertible<?>> convertible = new ArrayList<>();
+        body.ifPresent(b -> convertible.addAll(ClassBody.class.cast(b).toNode()));
+        classNode.fields = convertible.stream()
+                .filter(c -> c instanceof FieldDecl)
+                .map(FieldDecl.class::cast)
+                .map(FieldDecl::toNode)
+                .collect(toList());
         return classNode;
     }
 }

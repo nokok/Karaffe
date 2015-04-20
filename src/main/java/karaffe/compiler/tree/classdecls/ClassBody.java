@@ -37,7 +37,7 @@ public class ClassBody extends AbstractNode implements ASMConvertible<List<ASMCo
     public List<ASMConvertible<?>> toNode() {
         List<ASMConvertible<?>> list = new ArrayList<>();
         list.add(ASMConvertible.class.cast(body));
-        list.addAll(ClassBody.class.cast(classBody).toNode());
+        classBody.ifPresent(c -> list.addAll(ClassBody.class.cast(c).toNode()));
         return list;
     }
 

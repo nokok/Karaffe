@@ -13,6 +13,7 @@ import karaffe.compiler.tree.AST;
 import karaffe.compiler.tree.AbstractNode;
 import karaffe.compiler.tree.classdecls.ClassDeclList;
 import karaffe.compiler.visitor.Visitor;
+import org.objectweb.asm.ClassWriter;
 import org.objectweb.asm.tree.ClassNode;
 
 public class CompileUnit extends AbstractNode implements ASMConvertible<List<ByteCode>> {
@@ -47,7 +48,13 @@ public class CompileUnit extends AbstractNode implements ASMConvertible<List<Byt
     public List<ByteCode> toNode() {
         List<ClassNode> classNodes = new ArrayList<>();
         classDeclList.ifPresent(l -> classNodes.addAll(ClassDeclList.class.cast(l).toNode()));
-        return null;
+        ClassWriter classWriter = new ClassWriter(ClassWriter.COMPUTE_MAXS);
+        List<ByteCode> byteCodes = new ArrayList<>();
+        classNodes.forEach(n -> {
+            n.accept(classWriter);
+            byteCodes.add(new ByteCode(classWriter.toByteArray(), n.name + ".class", ""));
+        });
+        return byteCodes;
     }
 
 }
