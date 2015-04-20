@@ -86,6 +86,7 @@ public class SimpleClassDecl extends AbstractNode implements ASMConvertible<Clas
                 .filter(c -> c instanceof FieldDecl)
                 .map(FieldDecl.class::cast)
                 .map(FieldDecl::toNode)
+                .sorted((f1, f2) -> f1.name.compareTo(f2.name))
                 .collect(toList());
         return classNode;
     }
