@@ -10,7 +10,6 @@ import karaffe.compiler.tree.AbstractNode;
 import karaffe.compiler.tree.Identifier;
 import karaffe.compiler.visitor.Visitor;
 import org.objectweb.asm.Opcodes;
-import org.objectweb.asm.Type;
 import org.objectweb.asm.tree.FieldNode;
 
 public class FieldDecl extends AbstractNode implements ASMConvertible<FieldNode> {
@@ -18,14 +17,14 @@ public class FieldDecl extends AbstractNode implements ASMConvertible<FieldNode>
     private final Optional<AST> annotationList;
     private final Optional<AST> modifierList;
     private final AST identifier;
-    private final Optional<AST> type;
+    private final karaffe.compiler.tree.type.Type type;
     private final Optional<AST> initializer;
 
     public FieldDecl(Object a, Object m, Object id, Object t, Object init) {
         this.annotationList = Optional.ofNullable((AST) a);
         this.modifierList = Optional.ofNullable((AST) m);
         this.identifier = (AST) id;
-        this.type = Optional.ofNullable((AST) t);
+        this.type = (karaffe.compiler.tree.type.Type) (AST) t;
         this.initializer = Optional.ofNullable((AST) init);
         addChildren(annotationList);
         addChildren(modifierList);
@@ -48,7 +47,7 @@ public class FieldDecl extends AbstractNode implements ASMConvertible<FieldNode>
     }
 
     public String desc() {
-        return Type.getDescriptor(Object.class);
+        return type.toNode().getDescriptor();
     }
 
     public String signature() {
