@@ -23,7 +23,6 @@ public class ParserPhase extends Phase<String, AST> {
             AST ast = parser.compileUnit();
             return ast;
         } catch (Exception ex) {
-            ex.printStackTrace(); //debug
             return new CompileUnit(new File("."), null, null, null);
         }
 
