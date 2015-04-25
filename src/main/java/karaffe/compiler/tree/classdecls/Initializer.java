@@ -1,7 +1,7 @@
 /**
  * Karaffe Programming Language
  */
-package karaffe.compiler.tree.classdecls.fields;
+package karaffe.compiler.tree.classdecls;
 
 import java.util.Optional;
 import karaffe.compiler.tree.AST;
