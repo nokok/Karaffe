@@ -1,7 +1,0 @@
-package hoge.fuga.piyo
-
-private static type Hoge{
-    def this() = {
-
-    }
-}

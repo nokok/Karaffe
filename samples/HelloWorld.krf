@@ -1,3 +1,6 @@
-type HelloWorld
-def main : List[String] -> ()
-println("Hello world")
+class HelloWorld{
+    def main() {
+        println("Hello world")
+    }
+}
+

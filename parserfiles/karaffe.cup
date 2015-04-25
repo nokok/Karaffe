@@ -1,0 +1,414 @@
+package karaffe.compiler.phase.parser;
+
+import karaffe.compiler.KCompiler;
+import karaffe.compiler.tree.*;
+import karaffe.compiler.tree.imports.*;
+import karaffe.compiler.tree.compileunits.*;
+import karaffe.compiler.tree.classdecls.*;
+import karaffe.compiler.tree.classdecls.fields.*;
+import karaffe.compiler.tree.modifiers.*;
+import karaffe.compiler.tree.name.*;
+import karaffe.compiler.tree.type.*;
+import karaffe.compiler.tree.expr.*;
+import java.util.Scanner;
+import java.io.StringReader;
+import java.io.Reader;
+import karaffe.Main;
+import java.util.ArrayList;
+import java.util.List;
+
+parser code {:
+
+    private final List<ErrorNode> errorList = new ArrayList<>();
+    private Lexer lexer;
+    private String filePath;
+
+    Parser(Lexer lexer) {
+        super(lexer);
+        this.lexer = lexer;
+    }
+
+    public static void main(String[] args) {
+        Reader reader;
+        String path;
+        if (args.length == 0) {
+            path = "Unavailable(Standard Input)";
+            System.out.println("Karaffe " + KCompiler.VERSION + " [Standard Input Mode]");
+            System.out.println("Type :help for help");
+            System.out.print("> ");
+            Scanner scanner = new Scanner(System.in);
+            StringBuilder source = new StringBuilder();
+            while (scanner.hasNextLine()) {
+                String next = scanner.nextLine();
+                if (next.equals(":exit")) {
+                    System.out.println("Bye");
+                    break;
+                }
+                if (isShouldAppend(next)) {
+                    source.append(next).append("\n");
+                }
+                reader = new StringReader(source.toString());
+                Parser parser = new Parser(new Lexer(reader));
+                parser.setPath(path);
+                try {
+                    System.out.println("Generated AST:\n" + parser.compileUnit()); //debug
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+                source.setLength(0); //Clear Text
+                System.out.print("> ");
+            }
+        } else if (args.length == 1) {
+            try {
+                reader = new java.io.FileReader(args[0]);
+                path = args[0];
+                Parser parser = new Parser(new Lexer(reader));
+                System.out.println(parser.compileUnit());
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+        } else {
+            return;
+        }
+    }
+
+    private static boolean isShouldAppend(String line) {
+        switch (line) {
+            case ":help":
+                System.out.println("");
+                System.out.println("Karaffe Compiler HelpPage:\n"
+                        + ":exit");
+                System.out.println("");
+                return false;
+            default:
+                return true;
+        }
+    }
+    
+    public AST compileUnit() throws Exception{
+        if( filePath == null ) {
+            throw new IllegalStateException("File path is not set.");
+        }
+        return (AST)this.parse().value;
+    }
+
+    public void setPath(String path) {
+        this.filePath = path;
+    }
+
+    public List<ErrorNode> errors() {
+        return errorList;
+    }
+
+:}
+
+terminal 
+ABSTRACT,
+ARROW,
+AT,
+CLASS,
+COMMA,
+DEF,
+DOT,
+EQ,
+FINAL,
+IDENTIFIER,
+IMPORT,
+LBRACE,
+LBRACKET,
+LPAREN,
+LT,
+NULLABLE,
+RPAREN,
+PACKAGE,
+PRIVATE,
+PUBLIC,
+RBRACE,
+RBRACKET,
+STATIC;
+
+non terminal
+AliasImport,
+AmbiguousName,
+Annotation,
+AutoDecl,
+AutoDeclBlock,
+AutoDeclList,
+AnnotationList,
+BlockImport,
+BlockImportBody,
+BlockImportBodyList,
+ClassBody,
+ClassDecl,
+ClassDeclList,
+ClassModifier,
+ClassModifierList,
+CompileUnit,
+Expr,
+ExtendsOrImplements,
+FieldDecl,
+FieldModifier,
+FieldModifierList,
+FunctionType,
+GroupImport,
+Identifier,
+IdentifierList,
+ImportDecl,
+ImportDeclList,
+Initializer,
+OmissibleType,
+PackageDecl,
+PackageOrTypeName,
+ParameterizedType,
+SimpleClassDecl,
+SimpleImport,
+SimpleType,
+SimpleTypeList,
+Type,
+TypeName,
+TypeParameter;
+
+CompileUnit ::= PackageDecl:p ImportDeclList:i ClassDeclList:c
+                    {:RESULT = new CompileUnit(new java.io.File(filePath), p, i, c);:}
+              | error:err
+                    {:RESULT = new ErrorNode(lexer.line(),lexer.column(),"CompileUnit", err);:}
+              ;
+
+PackageDecl ::= PACKAGE AmbiguousName:name
+                    {:RESULT = new PackageDecl(name);:}
+
+              | error:err PACKAGE:p
+                    {:
+                        /*
+                            hoge package ...
+                            ^^^^
+                        */
+                        ErrorNode node = new ErrorNode(lexer.line(), lexer.column(), "PackageDecl.Before.Package",err,p);
+                        errorList.add(node);
+                        RESULT = node;
+                    :}
+              | PACKAGE:p error:err
+                    {:
+                        /*
+                            package .
+                                    ^
+                        */
+                        ErrorNode node = new ErrorNode(lexer.line(), lexer.column(), "PackageDecl.After.Package",p,err);
+                        errorList.add(node);
+                        RESULT = node;
+                    :}
+              | PACKAGE:p AmbiguousName:name error:err
+                    {:
+                        /*
+                            package hoge..
+                                         ^
+                            package hoge.fuga.piyo fff
+                                                   ^^^
+                        */
+                        ErrorNode node = new ErrorNode(lexer.line(), lexer.column(), "PackageDecl.After.Identifier",p,name,err);
+                        errorList.add(node);
+                        RESULT = node;
+                    :}
+              | 
+              ;
+
+AmbiguousName ::= AmbiguousName:name DOT Identifier:id
+                    {:RESULT = new AmbiguousName(name, id);:}
+                | Identifier:id
+                    {:RESULT = new AmbiguousName(null, id);:}
+                ;
+
+Identifier ::= IDENTIFIER:id
+                    {:RESULT = new Identifier(id);:}
+             ;
+
+ImportDeclList ::= ImportDecl:import_ ImportDeclList:importList
+                    {:RESULT = new ImportDeclList(import_,importList);:}
+                 |
+                 ;
+
+ImportDecl ::= SimpleImport:simpleImport
+                {:RESULT = new ImportDecl(simpleImport);:}
+             | AliasImport:aliasImport
+                {:RESULT = new ImportDecl(aliasImport);:}
+             | GroupImport:groupImport
+                {:RESULT = new ImportDecl(groupImport);:}
+             | BlockImport:blockImport
+                {:RESULT = new ImportDecl(blockImport);:}
+             ;
+
+SimpleImport ::= IMPORT PackageOrTypeName:name 
+                    {:RESULT = new SimpleImport(name);:}
+               ;
+
+AliasImport ::= IMPORT PackageOrTypeName:name ARROW Identifier:id
+                    {:RESULT = new AliasImport(name, id);:}
+              ;
+
+GroupImport ::= IMPORT AmbiguousName:name DOT LBRACE IdentifierList:idList RBRACE
+                    {:RESULT = new GroupImport(name,idList);:}
+              ;
+
+IdentifierList ::= Identifier:id
+                    {:RESULT = new IdentifierList(id);:}
+                 | Identifier:id COMMA IdentifierList:list
+                    {:RESULT = new IdentifierList(id,list);:}
+                 |
+                 ;
+
+BlockImport ::= IMPORT LBRACE BlockImportBodyList:list RBRACE
+                    {:RESULT = new BlockImport(list);:}
+              ;
+
+BlockImportBodyList ::= BlockImportBody:body BlockImportBodyList:list
+                            {:RESULT = new BlockImportBodyList(body,list);:}
+                      |
+                      ;
+
+BlockImportBody ::= PackageOrTypeName:name
+                        {:RESULT = new SimpleImport(name);:}
+                  | PackageOrTypeName:name ARROW Identifier:id
+                        {:RESULT = new AliasImport(name,id);:}
+                  | AmbiguousName:name DOT LBRACE IdentifierList:idList RBRACE
+                        {:RESULT = new GroupImport(name,idList);:}
+                  ;
+
+ClassDeclList ::= ClassDecl:c ClassDeclList:l
+                    {:RESULT = new ClassDeclList(c, l);:}
+                |
+                ;
+
+ClassDecl ::= SimpleClassDecl:c
+                {:RESULT = new ClassDecl(c);:}
+            ;
+
+SimpleClassDecl ::= AnnotationList:a ClassModifierList:m CLASS Identifier:id AutoDeclBlock:b ExtendsOrImplements:ex LBRACE ClassBody:body RBRACE
+                        {:RESULT = new SimpleClassDecl(a, m, id, b, ex, body);:}
+                  ;
+
+AnnotationList ::= Annotation:a AnnotationList:l
+                    {:RESULT = new AnnotationList(a, l);:}
+                 |
+                 ;
+
+Annotation ::= AT TypeName:name
+                {:RESULT = new Annotation(name);:}
+             ;
+
+ClassModifierList ::= ClassModifier:m ClassModifierList:l
+                        {:RESULT = new ModifierList(m, l);:}
+                    |
+                    ;
+
+ClassModifier ::= PUBLIC
+                    {:RESULT = new PublicModifier();:}
+                | PRIVATE
+                    {:RESULT = new PrivateModifier();:}
+                | FINAL
+                    {:RESULT = new FinalModifier();:}
+                | ABSTRACT
+                    {:RESULT = new AbstractModifier();:}
+                | STATIC
+                    {:RESULT = new StaticModifier();:}
+                ;
+
+AutoDeclBlock ::= LPAREN AutoDeclList:l RPAREN
+                    {:RESULT = l;:}
+                |
+                ;
+
+AutoDeclList ::= AutoDecl:d
+                    {:RESULT = new AutoDeclList(d);:}
+               | AutoDecl:d COMMA AutoDeclList:l
+                    {:RESULT = new AutoDeclList(d, l);:}
+               |
+               ;
+
+AutoDecl ::= Identifier:id Type:t
+                {:RESULT = new AutoDecl(id, t);:}
+           ;
+
+ExtendsOrImplements ::= LT SimpleTypeList:t
+                            {:RESULT = new ExtendsOrImplements(t);:}
+                      |
+                      ;
+
+ClassBody ::= FieldDecl:f
+                {:RESULT = new ClassBody(f);:}
+            |
+            ;
+
+FieldDecl ::= AnnotationList:a FieldModifierList:m DEF Identifier:id OmissibleType:t Initializer:init
+                {:RESULT = new FieldDecl(a, m, id, t, init);:}
+            ;
+
+FieldModifierList ::= FieldModifier:m FieldModifierList:l
+                        {:RESULT = new ModifierList(m, l);:}
+                    |
+                    ;
+
+FieldModifier ::= PUBLIC
+                    {:RESULT = new PublicModifier();:}
+                | PRIVATE
+                    {:RESULT = new PrivateModifier();:}
+                | FINAL
+                    {:RESULT = new FinalModifier();:}
+                | NULLABLE
+                    {:RESULT = new NullableModifier();:}
+                | STATIC
+                    {:RESULT = new StaticModifier();:}
+                ;
+
+Initializer ::= EQ Expr:expr
+                    {:RESULT = new Initializer(expr);:}
+              |
+                    {:RESULT = new Initializer();:}
+              ;
+
+Type ::= SimpleType:s
+            {:RESULT = new Type(s);:}
+       | FunctionType:t
+            {:RESULT = new Type(t);:}
+       ;
+
+OmissibleType ::= Type:t
+                    {:RESULT = new Type(t);:}
+                |
+                    {:RESULT = new Type(null);:}
+                ;
+
+SimpleType ::= TypeName:t
+                    {:RESULT = new SimpleType(t);:}
+             | ParameterizedType:t
+                    {:RESULT = new SimpleType(t);:}
+             ;
+
+ParameterizedType ::= TypeName:t TypeParameter:param
+                        {:RESULT = new ParameterizedType(t, param);:}
+                    ;
+
+FunctionType ::= Type:t ARROW SimpleType:s  
+                    {:RESULT = new FunctionType(t, s);:}
+               ;
+
+TypeParameter ::= LBRACKET SimpleTypeList:l RBRACKET
+                    {:RESULT = new TypeParameter(l);:}
+                ;
+
+SimpleTypeList ::= SimpleType:s
+                    {:RESULT = new SimpleType(s);:}
+                 | SimpleType:s COMMA SimpleTypeList:l
+                    {:RESULT = new SimpleTypeList(s, l);:}
+                 ;
+
+TypeName ::= AmbiguousName:n
+                {:RESULT = new TypeName(n);:}
+           ;
+
+PackageOrTypeName ::= AmbiguousName:n
+                        {:RESULT = new PackageOrTypeName(n);:}
+                    ;
+
+Expr ::= Identifier:id
+            {:RESULT = new Expr(id);:}
+       ;
