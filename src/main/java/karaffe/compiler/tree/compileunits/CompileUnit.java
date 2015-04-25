@@ -52,7 +52,7 @@ public class CompileUnit extends AbstractNode implements ASMConvertible<List<Byt
         List<ByteCode> byteCodes = new ArrayList<>();
         classNodes.forEach(n -> {
             n.accept(classWriter);
-            byteCodes.add(new ByteCode(classWriter.toByteArray(), n.name + ".class", ""));
+            byteCodes.add(new ByteCode(classWriter.toByteArray(), n.name + ".class", packageDecl.map(p -> PackageDecl.class.cast(p).toPath(File.separator)).orElse("")));
         });
         return byteCodes;
     }
