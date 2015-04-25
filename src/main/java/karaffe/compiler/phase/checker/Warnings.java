@@ -18,9 +18,7 @@ public class Warnings extends Phase<AST, AST> {
     public AST apply(AST t) {
         if (t instanceof CompileUnit) {
             CompileUnit compileUnit = (CompileUnit) t;
-            if (!compileUnit.hasPackageDecl()
-                    || !compileUnit.hasImportDecl()
-                    || !compileUnit.hasClassDecl()) {
+            if (compileUnit.isEmpty()) {
                 System.err.println(new Warning("ファイルが空です", "何も宣言がされていないか、認識できません。"));
             }
         }

@@ -16,14 +16,32 @@ public class KClassWriter extends Phase<ByteCode, Void> implements Consumer<Byte
         super("classwriter");
     }
 
+    /**
+     * 渡されたByteCodeオブジェクトをclassファイルに書き込みます。
+     *
+     * パッケージ宣言されていた場合は
+     * その宣言通りのディレクトリを作成する。
+     *
+     * 例:
+     * {@code package hoge.fuga.piyo}と宣言されていた場合は
+     * {@code ./hoge/fuga/piyo}のディレクトリを作成後、piyoへclassファイルを書き込む。
+     *
+     * @param t
+     * @return
+     */
     @Override
     public Void apply(ByteCode t) {
         String outputPath;
         if (t.packagePrefix().isEmpty()) {
+            //パッケージプレフィックスが空=パッケージ宣言がされていないなら
+            //出力先はカレントディレクトリ
             outputPath = "";
         } else {
+            //パッケージプレフィックスが空じゃない=パッケージ宣言がされている
+            //パッケージ宣言された通りにディレクトリを作成し、作成したディレクトリに出力する。
             File outputDir = new File(t.packagePrefix().replaceAll("/", File.separator));
             if (!outputDir.exists()) {
+                //出力先が無いなら作成する
                 outputDir.mkdirs();
             }
             outputPath = t.packagePrefix().replaceAll("/", File.separator) + File.separator;
