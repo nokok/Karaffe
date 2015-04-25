@@ -47,6 +47,6 @@ public class AutoDecl extends AbstractNode implements Supplier<FieldNode> {
 
     @Override
     public FieldNode get() {
-        return new FieldNode(Opcodes.ACC_PUBLIC + Opcodes.ACC_FINAL, name(), desc(), signature(), null);
+        return new FieldNode(Opcodes.ACC_PRIVATE + Opcodes.ACC_FINAL, name(), desc(), signature(), null);
     }
 }
