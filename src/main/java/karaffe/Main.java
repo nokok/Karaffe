@@ -14,10 +14,13 @@ public class Main {
     public static void main(String... args) throws Exception {
         //Parser.main(args);
 
-        args = new String[]{"Int.krf"}; //debug
+        args = new String[]{"DataInfo.krf"}; //debug
+        long start = System.nanoTime();
         Stream.of(args)
                 .map(File::new)
                 .map(KCompiler::new)
                 .forEach(KCompiler::compile);
+        long end = System.nanoTime();
+        System.out.println("CompileTime " + (end - start) / 1000000 + "ms");
     }
 }
