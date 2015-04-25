@@ -24,7 +24,7 @@ public class FieldDecl extends AbstractNode implements ASMConvertible<FieldNode>
         this.annotationList = Optional.ofNullable((AST) a);
         this.modifierList = Optional.ofNullable((AST) m);
         this.identifier = (AST) id;
-        this.type = (karaffe.compiler.tree.type.Type) (AST) t;
+        this.type = (karaffe.compiler.tree.type.Type) t;
         this.initializer = Optional.ofNullable((AST) init);
         addChildren(annotationList);
         addChildren(modifierList);

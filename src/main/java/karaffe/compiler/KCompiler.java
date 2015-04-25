@@ -49,6 +49,6 @@ public class KCompiler {
     }
 
     public static void compileBySource(String src) {
-        new KCompiler(null).compile(src);
+        new KCompiler(new File(".")).compile(src);
     }
 }

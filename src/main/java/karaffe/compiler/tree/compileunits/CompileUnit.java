@@ -18,7 +18,7 @@ import org.objectweb.asm.tree.ClassNode;
 
 public class CompileUnit extends AbstractNode implements ASMConvertible<List<ByteCode>> {
 
-    private final AST file;
+    private final FileNode file;
     private final Optional<AST> packageDecl;
     private final Optional<AST> importDecl;
     private final Optional<AST> classDeclList;

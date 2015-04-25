@@ -15,6 +15,7 @@ import karaffe.compiler.visitor.Visitor;
 import org.objectweb.asm.Opcodes;
 import org.objectweb.asm.Type;
 import org.objectweb.asm.tree.ClassNode;
+import org.objectweb.asm.tree.FieldNode;
 
 public class SimpleClassDecl extends AbstractNode implements ASMConvertible<ClassNode> {
 
@@ -28,7 +29,7 @@ public class SimpleClassDecl extends AbstractNode implements ASMConvertible<Clas
         this.annotationList = Optional.ofNullable((AST) a);
         this.modifierList = Optional.ofNullable((AST) m);
         this.identifier = (Identifier) id;
-        this.autoDeclList = Optional.ofNullable((AST) bd);
+        this.autoDeclList = Optional.ofNullable((AST) b);
         this.body = Optional.ofNullable((AST) bd);
         addChildren(annotationList);
         addChildren(modifierList);
@@ -81,11 +82,12 @@ public class SimpleClassDecl extends AbstractNode implements ASMConvertible<Clas
         classNode.interfaces = interfacesList();
         classNode.version = Opcodes.V1_8;
         List<ASMConvertible<?>> convertible = new ArrayList<>();
+        autoDeclList.ifPresent(d -> convertible.addAll(AutoDeclList.class.cast(d).toNode()));
         body.ifPresent(b -> convertible.addAll(ClassBody.class.cast(b).toNode()));
         classNode.fields = convertible.stream()
-                .filter(c -> c instanceof FieldDecl)
-                .map(FieldDecl.class::cast)
-                .map(FieldDecl::toNode)
+                .map(ASMConvertible.class::cast)
+                .map(ASMConvertible<?>::toNode)
+                .map(FieldNode.class::cast)
                 .sorted((f1, f2) -> f1.name.compareTo(f2.name))
                 .collect(toList());
         return classNode;

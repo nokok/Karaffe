@@ -9,17 +9,16 @@ import karaffe.compiler.tree.AbstractNode;
 import karaffe.compiler.tree.Identifier;
 import karaffe.compiler.visitor.Visitor;
 import org.objectweb.asm.Opcodes;
-import org.objectweb.asm.Type;
 import org.objectweb.asm.tree.FieldNode;
 
 public class AutoDecl extends AbstractNode implements ASMConvertible<FieldNode> {
 
     private final AST id;
-    private final AST type;
+    private final karaffe.compiler.tree.type.Type type;
 
     public AutoDecl(Object id, Object t) {
         this.id = (AST) id;
-        this.type = (AST) t;
+        this.type = (karaffe.compiler.tree.type.Type) t;
         addChildren(this.id);
         addChildren(this.type);
     }
@@ -39,7 +38,7 @@ public class AutoDecl extends AbstractNode implements ASMConvertible<FieldNode> 
     }
 
     public String desc() {
-        return Type.getInternalName(Object.class);
+        return type.toNode().getDescriptor();
     }
 
     public String signature() {

@@ -3,9 +3,11 @@
  */
 package karaffe.compiler.phase.parser;
 
+import java.io.File;
 import java.io.FileReader;
 import karaffe.compiler.phase.Phase;
 import karaffe.compiler.tree.AST;
+import karaffe.compiler.tree.compileunits.CompileUnit;
 
 public class ParserPhase extends Phase<String, AST> {
 
@@ -22,7 +24,7 @@ public class ParserPhase extends Phase<String, AST> {
             return ast;
         } catch (Exception ex) {
             ex.printStackTrace(); //debug
-            return null;
+            return new CompileUnit(new File("."), null, null, null);
         }
 
     }

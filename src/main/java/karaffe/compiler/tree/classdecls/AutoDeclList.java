@@ -10,9 +10,8 @@ import karaffe.compiler.tree.ASMConvertible;
 import karaffe.compiler.tree.AST;
 import karaffe.compiler.tree.AbstractNode;
 import karaffe.compiler.visitor.Visitor;
-import org.objectweb.asm.tree.FieldNode;
 
-public class AutoDeclList extends AbstractNode implements ASMConvertible<List<FieldNode>> {
+public class AutoDeclList extends AbstractNode implements ASMConvertible<List<ASMConvertible<?>>> {
 
     private final Optional<AST> autoDecl;
     private final Optional<AST> autoDeclList;
@@ -39,9 +38,9 @@ public class AutoDeclList extends AbstractNode implements ASMConvertible<List<Fi
     }
 
     @Override
-    public List<FieldNode> toNode() {
-        List<FieldNode> fieldNodes = new ArrayList<>();
-        fieldNodes.add(AutoDecl.class.cast(autoDecl.get()).toNode());
+    public List<ASMConvertible<?>> toNode() {
+        List<ASMConvertible<?>> fieldNodes = new ArrayList<>();
+        fieldNodes.add(AutoDecl.class.cast(autoDecl.get()));
         autoDeclList.ifPresent(l -> fieldNodes.addAll(AutoDeclList.class.cast(l).toNode()));
         return fieldNodes;
     }
