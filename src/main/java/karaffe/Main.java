@@ -6,18 +6,13 @@ import karaffe.compiler.KCompiler;
 
 public class Main {
 
-    /**
-     * krfcコマンドのエントリポイントです。
-     *
-     * @param args
-     */
     public static void main(String... args) throws Exception {
-        //Parser.main(args);
-
-        args = new String[]{"DataInfo.krf"}; //debug
         Stream.of(args)
                 .map(File::new)
                 .map(KCompiler::new)
-                .forEach(KCompiler::compile);
+                .map(KCompiler::compile)
+                .forEach(l -> {
+                    l.forEach(System.out::println);
+                });
     }
 }

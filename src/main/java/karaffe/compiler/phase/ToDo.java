@@ -21,12 +21,30 @@ public class ToDo {
         return message;
     }
 
+    @Override
+    public String toString() {
+        StringBuilder stringBuilder = new StringBuilder();
+        stringBuilder.append(type.toString()).append(System.lineSeparator());
+        stringBuilder.append(message).append(System.lineSeparator());
+        return stringBuilder.toString();
+    }
+
     public static enum Type {
 
-        CRITICAL,
-        ERROR,
-        WARNING,
-        INFO,
-        DEBUG,;
+        ERROR("エラー:"),
+        WARNING("警告:"),
+        INFO("情報:"),
+        DEBUG("デバッグ:"),;
+
+        private final String type;
+
+        Type(String type) {
+            this.type = type;
+        }
+
+        @Override
+        public String toString() {
+            return type;
+        }
     }
 }

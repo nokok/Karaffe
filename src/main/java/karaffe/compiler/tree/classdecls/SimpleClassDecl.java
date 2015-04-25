@@ -8,7 +8,8 @@ import java.util.Collections;
 import java.util.List;
 import java.util.Optional;
 import static java.util.stream.Collectors.toList;
-import karaffe.compiler.output.CompileError;
+import karaffe.compiler.KCompiler;
+import karaffe.compiler.phase.ToDo;
 import karaffe.compiler.tree.ASMConvertible;
 import karaffe.compiler.tree.AST;
 import karaffe.compiler.tree.AbstractNode;
@@ -105,14 +106,14 @@ public class SimpleClassDecl extends AbstractNode implements ASMConvertible<Clas
                 .distinct()
                 .toArray().length) {
             //フィールド名が重複している
-            throw new RuntimeException(new CompileError("フィールドが重複しています", "").toString());
+            KCompiler.todoList.add(new ToDo(ToDo.Type.ERROR, "フィールド名が重複しています"));
         }
         if (methods.size()
                 != methods.stream()
                 .map(m -> m.name)
                 .distinct()
                 .toArray().length) {
-            throw new RuntimeException(new CompileError("メソッドが重複しています", "").toString());
+            KCompiler.todoList.add(new ToDo(ToDo.Type.ERROR, "メソッド名が重複しています"));
         }
         classNode.fields = fields;
         classNode.methods = methods;
