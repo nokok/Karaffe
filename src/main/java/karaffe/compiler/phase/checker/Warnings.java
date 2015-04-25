@@ -6,7 +6,7 @@ package karaffe.compiler.phase.checker;
 import karaffe.compiler.phase.Phase;
 import karaffe.compiler.tree.AST;
 import karaffe.compiler.tree.compileunits.CompileUnit;
-import karaffe.compiler.warn.Warning;
+import karaffe.compiler.output.Warning;
 
 public class Warnings extends Phase<AST, AST> {
 
