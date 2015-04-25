@@ -23,7 +23,13 @@ public class KCompiler {
     public KCompiler(File file) {
         this.file = file;
         if (!file.exists()) {
-            throw new RuntimeException(new CompileError("ファイルが見つかりません", file.getAbsolutePath() + " が渡されましたが、ファイルが存在しないか、アクセスできません").toString());
+            throw new RuntimeException(
+                    new CompileError(
+                            "ファイルが見つかりません",
+                            file.getAbsolutePath() + " が渡されました。"
+                            + "ファイルが存在しないか、アクセスできません。\n"
+                            + "ファイルが存在することと、ソースファイルのパーミッションが正しいか確認して下さい。\n"
+                            + "続行できません。コンパイラを終了します。").toString());
         }
     }
 

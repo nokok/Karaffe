@@ -14,7 +14,7 @@ public class Warning {
     @Override
     public String toString() {
         return String.format("警告: %s\n"
-                + "   %s", msg.title(), msg.get());
+                + "%s", msg.title(), msg.get());
     }
 
 }

@@ -14,6 +14,6 @@ public class CompileError {
     @Override
     public String toString() {
         return String.format("エラー: %s\n"
-                + "  %s", msg.title(), msg.get());
+                + "%s", msg.title(), msg.get());
     }
 }
