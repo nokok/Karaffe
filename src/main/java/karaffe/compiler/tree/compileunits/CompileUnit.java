@@ -57,4 +57,16 @@ public class CompileUnit extends AbstractNode implements ASMConvertible<List<Byt
         return byteCodes;
     }
 
+    public boolean hasPackageDecl() {
+        return packageDecl.isPresent();
+    }
+
+    public boolean hasImportDecl() {
+        return importDecl.isPresent();
+    }
+
+    public boolean hasClassDecl() {
+        return classDeclList.isPresent();
+    }
+
 }
