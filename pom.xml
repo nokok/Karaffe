@@ -57,7 +57,7 @@
                     </descriptorRefs>
                     <archive>
                         <manifest>
-                            <mainClass>net.nokok.karaffe.Main</mainClass>
+                            <mainClass>karaffe.Main</mainClass>
                         </manifest>
                     </archive>
                 </configuration>
