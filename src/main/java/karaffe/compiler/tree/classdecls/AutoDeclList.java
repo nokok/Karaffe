@@ -6,12 +6,13 @@ package karaffe.compiler.tree.classdecls;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
-import karaffe.compiler.tree.ASMConvertible;
+import java.util.function.Supplier;
 import karaffe.compiler.tree.AST;
 import karaffe.compiler.tree.AbstractNode;
 import karaffe.compiler.visitor.Visitor;
+import org.objectweb.asm.tree.FieldNode;
 
-public class AutoDeclList extends AbstractNode implements ASMConvertible<List<ASMConvertible<?>>> {
+public class AutoDeclList extends AbstractNode implements Supplier<List<FieldNode>> {
 
     private final Optional<AST> autoDecl;
     private final Optional<AST> autoDeclList;
@@ -38,10 +39,10 @@ public class AutoDeclList extends AbstractNode implements ASMConvertible<List<AS
     }
 
     @Override
-    public List<ASMConvertible<?>> toNode() {
-        List<ASMConvertible<?>> fieldNodes = new ArrayList<>();
-        fieldNodes.add(AutoDecl.class.cast(autoDecl.get()));
-        autoDeclList.ifPresent(l -> fieldNodes.addAll(AutoDeclList.class.cast(l).toNode()));
+    public List<FieldNode> get() {
+        List<FieldNode> fieldNodes = new ArrayList<>();
+        fieldNodes.add(AutoDecl.class.cast(autoDecl.get()).get());
+        autoDeclList.ifPresent(l -> fieldNodes.addAll(AutoDeclList.class.cast(l).get()));
         return fieldNodes;
     }
 

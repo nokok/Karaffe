@@ -4,7 +4,7 @@
 package karaffe.compiler.tree.classdecls;
 
 import java.util.Optional;
-import karaffe.compiler.tree.ASMConvertible;
+import java.util.function.Supplier;
 import karaffe.compiler.tree.AST;
 import karaffe.compiler.tree.AbstractNode;
 import karaffe.compiler.tree.Identifier;
@@ -12,7 +12,7 @@ import karaffe.compiler.visitor.Visitor;
 import org.objectweb.asm.Opcodes;
 import org.objectweb.asm.tree.FieldNode;
 
-public class FieldDecl extends AbstractNode implements ASMConvertible<FieldNode> {
+public class FieldDecl extends AbstractNode implements Supplier<FieldNode> {
 
     private final Optional<AST> annotationList;
     private final Optional<AST> modifierList;
@@ -64,7 +64,7 @@ public class FieldDecl extends AbstractNode implements ASMConvertible<FieldNode>
     }
 
     @Override
-    public FieldNode toNode() {
+    public FieldNode get() {
         return new FieldNode(access(), name(), desc(), signature(), value());
     }
 }

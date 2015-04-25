@@ -6,12 +6,13 @@ package karaffe.compiler.tree.classdecls;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
-import karaffe.compiler.tree.ASMConvertible;
+import java.util.function.Supplier;
 import karaffe.compiler.tree.AST;
 import karaffe.compiler.tree.AbstractNode;
 import karaffe.compiler.visitor.Visitor;
+import org.objectweb.asm.tree.FieldNode;
 
-public class ClassBody extends AbstractNode implements ASMConvertible<List<ASMConvertible<?>>> {
+public class ClassBody extends AbstractNode implements Supplier<List<? extends FieldNode>> {
 
     private final AST body;
     private final Optional<AST> classBody;
@@ -34,10 +35,11 @@ public class ClassBody extends AbstractNode implements ASMConvertible<List<ASMCo
     }
 
     @Override
-    public List<ASMConvertible<?>> toNode() {
-        List<ASMConvertible<?>> list = new ArrayList<>();
-        list.add(ASMConvertible.class.cast(body));
-        classBody.ifPresent(c -> list.addAll(ClassBody.class.cast(c).toNode()));
+    public List<FieldNode> get() {
+        List<FieldNode> list = new ArrayList<>();
+        FieldDecl decl = (FieldDecl) body;
+        list.add(decl.get());
+        classBody.ifPresent(c -> list.addAll(ClassBody.class.cast(c).get()));
         return list;
     }
 
