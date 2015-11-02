@@ -1,0 +1,6 @@
+class Hoge {
+    main {
+        def localVarDef String = "Hello World"
+        println(localVarDef)
+    }
+}
