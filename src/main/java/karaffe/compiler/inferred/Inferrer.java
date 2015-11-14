@@ -49,8 +49,6 @@ public class Inferrer {
                 System.out.println("other:" + node.getClass());
             }
         }
-        System.out.println("stack===");
-        System.out.println(stack);
         return stack.peek();
     }
 
