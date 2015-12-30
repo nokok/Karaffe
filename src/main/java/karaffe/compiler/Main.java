@@ -24,7 +24,7 @@ class Main {
         List<ClassNode> classNodes = program.toClassNodes();
         classNodes.stream()
             .forEach(c -> {
-                ClassWriter classWriter = new ClassWriter(ClassWriter.COMPUTE_MAXS);
+                ClassWriter classWriter = new ClassWriter(ClassWriter.COMPUTE_FRAMES);
                 c.accept(classWriter);
                 byte[] bytecode = classWriter.toByteArray();
                 try {
