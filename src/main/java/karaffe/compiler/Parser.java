@@ -529,6 +529,7 @@ public class Parser extends java_cup.runtime.lr_parser {
 
     public Program program() throws Exception{
         Program prog = (Program)this.parse().value;
+        Context.INSTANCE.beforeGenClassNode();
         return prog;
     }
 

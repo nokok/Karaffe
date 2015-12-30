@@ -20,8 +20,6 @@ class Main {
         Parser parser = new Parser(new Lexer(new FileReader(args[0])));
         Program program = parser.program();
 
-        Context.INSTANCE.generatePaths();
-        Context.INSTANCE.updateLocalVarIndexes();
 
         List<ClassNode> classNodes = program.toClassNodes();
         classNodes.stream()

@@ -12,6 +12,7 @@ parser code {:
 
     public Program program() throws Exception{
         Program prog = (Program)this.parse().value;
+        Context.INSTANCE.beforeGenClassNode();
         return prog;
     }
 
