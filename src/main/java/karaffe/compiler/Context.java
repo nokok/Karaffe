@@ -2,7 +2,7 @@ package karaffe.compiler;
 
 import java.util.ArrayList;
 import java.util.Collections;
-import java.util.HashMap;
+import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Objects;
@@ -33,8 +33,8 @@ public enum Context {
         this.fieldDefs = new ArrayList<>();
         this.localVarDefs = new ArrayList<>();
         this.identifiers = new ArrayList<>();
-        this.localVarMap = new HashMap<>();
-        this.pathList = new HashMap<>();
+        this.localVarMap = new LinkedHashMap<>();
+        this.pathList = new LinkedHashMap<>();
     }
 
     public void setPackageDef(PackageDef def) {
