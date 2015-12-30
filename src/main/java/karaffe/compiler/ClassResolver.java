@@ -13,7 +13,12 @@ public class ClassResolver {
     private final List<String> packageNames = new ArrayList<>();
     private final Map<String, String> aliases = new HashMap<>();
 
-    {
+    public ClassResolver() {
+        initNameAndAliases();
+    }
+
+    private void initNameAndAliases() {
+        packageNames.clear();
         packageNames.add("karaffe.");
         packageNames.add("karaffe.compiler.");
         packageNames.add("java.lang.");
@@ -25,9 +30,8 @@ public class ClassResolver {
         packageNames.add("java.nio.");
         packageNames.add("java.nio.file.");
         packageNames.add("java.nio.channels.");
-    }
 
-    {
+        aliases.clear();
         aliases.put("Int", "java.math.BigInteger");
         aliases.put("Bool", "java.lang.Boolean");
     }
@@ -82,5 +86,9 @@ public class ClassResolver {
         } catch (ClassNotFoundException ex) {
             return Optional.empty();
         }
+    }
+
+    public void clear() {
+        initNameAndAliases();
     }
 }
