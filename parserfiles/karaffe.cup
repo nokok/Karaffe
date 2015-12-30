@@ -60,7 +60,9 @@ non terminal Annotation                 Annotation;
 non terminal Argument                   Arg;
 non terminal ClassDef                   ClassDef,InnerClassDef;
 non terminal Expression                 Expr,Expr1,Expr2,MethodInvocation,Primary,Primary1,Literal,IfExpr,WhileExpr,AssignmentExpr;
-non terminal FieldDef                   FieldDef;
+non terminal FieldDef                   FieldDef, FieldDefInn;
+non terminal List<FieldDef>             FieldDefBlockInn;
+non terminal FieldDefBlock              FieldDefBlock;
 non terminal Identifier                 Ident,IdentOpt;
 non terminal ImportDef                  ImportDef;
 non terminal List<Annotation>           AnnotationList, AnnotationListOpt;
@@ -83,8 +85,9 @@ non terminal Program                    CompileUnit;
 non terminal Statement                  ClassBody;
 
 precedence left PLUS, MINUS, STAR, SLASH;
-precedence right LPAREN;
+precedence left LPAREN;
 precedence left DEF,ELSE;
+precedence left PUBLIC, PROTECTED, PRIVATE, ABSTRACT, STATIC, FINAL;
 
 start with CompileUnit;
 
@@ -179,6 +182,8 @@ ClassBodyList ::= ClassBodyList:list ClassBody:c
 
 ClassBody ::= FieldDef:f
                 {:RESULT = f;:}
+            | FieldDefBlock:fb
+                {:RESULT = fb;:}
             | InnerClassDef:c
                 {:RESULT = c;:}
             | MethodDef:m
@@ -188,8 +193,26 @@ ClassBody ::= FieldDef:f
             ;
 
 FieldDef ::= AnnotationListOpt:a ClassModifierListOpt:m DEF Ident:id TypeName:type EQ Expr:e
-                {:RESULT = Stmt.fieldDef(id, type, e);:}
+                {:RESULT = Stmt.fieldDef(a, m, id, type, e);:}
+           | error:err
+                {:Context.INSTANCE.reportSyntaxError(errleft, errright);:}
            ;
+
+FieldDefBlock ::= AnnotationListOpt:a ClassModifierList:m LBRACE FieldDefBlockInn:l RBRACE
+                    {:RESULT = Stmt.fieldDefBlock(a, m, l); :}
+                ;
+
+FieldDefBlockInn ::= FieldDefBlockInn:l FieldDefInn:f
+                {:l.add(f); RESULT = l;:}
+               |
+                {:RESULT = new LinkedList<>();:}
+               ;
+
+FieldDefInn ::= DEF Ident:id TypeName:type EQ Expr:e
+                {:RESULT = Stmt.fieldDef(id, type, e);:}
+              | error:err
+                {:Context.INSTANCE.reportSyntaxError(errleft, errright);:}
+              ;
 
 MethodDef ::= AnnotationListOpt:a ClassModifierListOpt:m DEF Ident:id LPAREN ParameterListOpt:p RPAREN TypeNameOpt:retType LBRACE MethodBodyList:b RBRACE
                 {:RESULT = Stmt.methodDef(a, m, id, p, retType, b);:}

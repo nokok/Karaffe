@@ -15,6 +15,18 @@ class Stmt {
         return new FieldDef(id, type, e);
     }
 
+    static FieldDef fieldDef(List<Annotation> a, List<Modifier> m, Identifier id, TypeElement type, Expression e) {
+        return new FieldDef(a, m, id, type, e);
+    }
+
+    static FieldDef fieldDef(List<Annotation> a, List<Modifier> m, List<FieldDef> f) {
+        return new FieldDef(f.get(0).id(), f.get(0).type(), f.get(0).expr());
+    }
+
+    static FieldDefBlock fieldDefBlock(List<Annotation> a, List<Modifier> m, List<FieldDef> l) {
+        return new FieldDefBlock(a, m, l);
+    }
+
     static ImportDef importDef(List<Identifier> il, int illeft, int ilright) {
         return new ImportDef(il, illeft, ilright);
     }
