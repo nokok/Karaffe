@@ -76,7 +76,8 @@ class LocalVarDef implements Statement, NodeGeneratable<LocalVariableNode> {
         return index;
     }
 
-    String getPath() {
+    @Override
+    public String getPath() {
         return this.path;
     }
 

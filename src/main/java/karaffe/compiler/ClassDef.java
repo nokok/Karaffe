@@ -66,7 +66,7 @@ public class ClassDef implements Statement, NodeGeneratable<ClassNode> {
         return id.id();
     }
 
-    String getPath() {
+    public String getPath() {
         return path;
     }
 }

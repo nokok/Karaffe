@@ -163,7 +163,8 @@ class MethodDef implements Statement, NodeGeneratable<MethodNode> {
         return parent;
     }
 
-    String getPath() {
+    @Override
+    public String getPath() {
         return this.path;
     }
 
