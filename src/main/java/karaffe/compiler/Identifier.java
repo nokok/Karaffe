@@ -9,7 +9,7 @@ public class Identifier implements Expression, NodeGeneratable<InsnList> {
 
     private static final String NONE = "$$none$$";
     private Expression body;
-    private MethodDef parent;
+    private Statement parent;
 
     public static final Identifier NONE_IDENTIFIER = new Identifier(NONE, -1, -1);
 
@@ -47,14 +47,14 @@ public class Identifier implements Expression, NodeGeneratable<InsnList> {
         return pos.getColumn();
     }
 
-    public void setParent(MethodDef methodDef) {
+    public void setParent(Statement methodDef) {
         if ( this.parent != null ) {
             return;
         }
         this.parent = Objects.requireNonNull(methodDef);
     }
 
-    public MethodDef getParent() {
+    public Statement getParent() {
         return parent;
     }
 
