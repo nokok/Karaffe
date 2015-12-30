@@ -219,4 +219,13 @@ public enum Context {
         return Collections.unmodifiableMap(pathList);
     }
 
+    void reportTypeError(Position e1Pos) {
+        throw new TypeCheckException(e1Pos);
+    }
+
+    public void reportSyntaxError(int line, int column) {
+        System.out.println("Syntax Error at " + (line + 1) + ":" + column);
+        throw new RuntimeException();
+    }
+
 }
