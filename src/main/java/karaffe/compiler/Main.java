@@ -20,6 +20,10 @@ class Main {
         Parser parser = new Parser(new Lexer(new FileReader(args[0])));
         Program program = parser.program();
 
+        boolean isDebugMode = Arrays.asList(args).contains("--debug");
+        if ( isDebugMode ) {
+            System.out.println(program);
+        }
 
         List<ClassNode> classNodes = program.toClassNodes();
         classNodes.stream()
@@ -33,9 +37,7 @@ class Main {
                     throw new UncheckedIOException(e);
                 }
             });
-        if ( Arrays.asList(args).contains("--debug") ) {
-            System.out.println("Generated AST");
-            System.out.println(program);
+        if ( isDebugMode ) {
             System.out.println(Context.INSTANCE.getPathList());
         }
     }
