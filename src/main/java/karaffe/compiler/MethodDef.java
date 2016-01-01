@@ -132,7 +132,6 @@ class MethodDef implements Statement, NodeGeneratable<MethodNode> {
             }
         }
         methodNode.exceptions = Collections.emptyList();
-        methodNode.visitMaxs(0, 0);
 
         return methodNode;
     }
