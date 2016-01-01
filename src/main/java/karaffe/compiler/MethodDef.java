@@ -108,13 +108,10 @@ class MethodDef implements Statement, NodeGeneratable<MethodNode> {
             .filter(node -> !(node instanceof LocalVariableNode))
             .forEach(n -> {
                 if ( n instanceof JumpInsnNode ) {
-                    System.out.println("jump");
                     methodNode.instructions.add((AbstractInsnNode) n);
                 } else if ( n instanceof AbstractInsnNode ) {
-                    System.out.println("abst");
                     methodNode.instructions.add((AbstractInsnNode) n);
                 } else if ( n instanceof InsnList ) {
-                    System.out.println("insn");
                     methodNode.instructions.add((InsnList) n);
                 } else {
                     throw new RuntimeException();
