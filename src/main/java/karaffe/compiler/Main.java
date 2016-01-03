@@ -10,7 +10,7 @@ import java.util.List;
 import org.objectweb.asm.ClassWriter;
 import org.objectweb.asm.tree.ClassNode;
 
-class Main {
+public class Main {
 
     public static void main(String... args) throws Exception {
         if ( args == null || args.length < 1 ) {
