@@ -262,4 +262,81 @@ public enum Context {
         throw new RuntimeException();
     }
 
+    public Map<Expression, TypeElement> typeCheck(Expression... expressions) {
+        Map<Expression, TypeElement> map = new HashMap<>();
+        for ( Expression expression : expressions ) {
+            map.put(expression, getType(expression));
+        }
+        return map;
+    }
+
+    public TypeElement getType(Expression expression) {
+        Objects.requireNonNull(expression);
+
+        if ( expression == Expression.UNINITIALIZED ) {
+            return new TypeElement(Identifier.NONE_IDENTIFIER, createIdList("UNRESOLVED"));
+        }
+        if ( expression instanceof StringLiteral ) {
+            return new TypeElement(Identifier.NONE_IDENTIFIER,
+                                   createIdList("java", "lang", "String"));
+        } else if ( expression instanceof IntLiteral ) {
+            return new TypeElement(Identifier.NONE_IDENTIFIER, createIdList("java", "math", "BigInteger"));
+        } else if ( expression instanceof TrueLiteral || expression instanceof FalseLiteral ) {
+            return new TypeElement(Identifier.NONE_IDENTIFIER, createIdList("java", "lang", "Boolean"));
+        } else if ( expression instanceof Identifier ) {
+            Identifier id = (Identifier) expression;
+            Statement parent = id.getParent();
+            if ( parent instanceof MethodDef ) {
+                List<LocalVarDef> varDefs = localVarMap.get(parent);
+                for ( LocalVarDef varDef : varDefs ) {
+                    if ( id.id().equals(varDef.name()) ) {
+                        TypeElement type = varDef.getType();
+                        type.doResolve();
+                        return type;
+                    }
+                }
+            }
+            System.out.println("other1");
+            return new TypeElement(Identifier.NONE_IDENTIFIER, createIdList("java", "lang", "Object"));
+        } else if ( expression instanceof BinaryExpression ) {
+            BinaryExpression b = (BinaryExpression) expression;
+            Expression left = b.leftExpr();
+            Expression right = b.rightExpr();
+            TypeElement leftType = getType(left);
+            TypeElement rightType = getType(right);
+
+            if ( leftType.equals(rightType) ) {
+                return leftType;
+            }
+            return new TypeElement(Identifier.NONE_IDENTIFIER, createIdList("java", "lang", "Object"));
+        } else {
+            System.out.println("other2");
+            return new TypeElement(Identifier.NONE_IDENTIFIER, createIdList("java", "lang", "Object"));
+        }
+    }
+
+    private List<Identifier> createIdList(String... ids) {
+        return Arrays.asList(ids).stream().map(Identifier::new).collect(toList());
+    }
+
+    void reportTypeError(Position e1Pos, List<Identifier> tTypes, List<Identifier> eTypes) {
+        System.out.println("型の不一致 " + e1Pos + " :");
+        System.out.println(source.get(e1Pos.getLine() - 1));
+        for ( int i = 0; i < e1Pos.getColumn() - 1; i++ ) {
+            System.out.print(" ");
+        }
+        System.out.println("^");
+
+        System.out.println("期待された型: " + genSimpleFQCN(tTypes));
+        System.out.println("実際の型: " + genSimpleFQCN(eTypes));
+    }
+
+    public String genSimpleFQCN(List<Identifier> ids) {
+        StringBuilder sb = new StringBuilder();
+        for ( Identifier id : ids ) {
+            sb.append(".").append(id.id());
+        }
+        return sb.toString().substring(1, sb.length()); //最初の.を取る
+    }
+
 }
