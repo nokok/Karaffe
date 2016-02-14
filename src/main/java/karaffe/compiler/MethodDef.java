@@ -92,12 +92,7 @@ class MethodDef implements Statement, NodeGeneratable<MethodNode> {
         methodNode.attrs = new ArrayList<>();
         methodNode.desc = Type.getMethodDescriptor(returnType, argumentTypes.toArray(new Type[]{}));
         methodNode.instructions = new InsnList();
-        List<LocalVarDef> localVarDefs = b.stream().filter(e -> e instanceof LocalVarDef).map(LocalVarDef.class::cast).collect(toList());
         methodNode.localVariables = new ArrayList<>();
-        for ( LocalVarDef def : localVarDefs ) {
-            Context.INSTANCE.add(def);
-            //methodNode.localVariables.add(def.toNode());
-        }
         b.stream()
             .filter(e -> e instanceof LocalVarDef)
             .map(LocalVarDef.class::cast)
