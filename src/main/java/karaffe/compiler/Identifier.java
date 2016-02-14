@@ -109,4 +109,10 @@ public class Identifier implements Expression, NodeGeneratable<InsnList> {
         return pos;
     }
 
+    public boolean softEquals(Identifier that) {
+        if ( that == null ) {
+            return false;
+        }
+        return this.id.equals(that.id);
+    }
 }
