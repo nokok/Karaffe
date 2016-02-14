@@ -20,6 +20,16 @@ class MulExpr implements Expression, BinaryExpression {
     }
 
     @Override
+    public Expression leftExpr() {
+        return e1;
+    }
+
+    @Override
+    public Expression rightExpr() {
+        return e2;
+    }
+
+    @Override
     public Class<?> leftInferredType() {
         return e1.inferredType();
     }

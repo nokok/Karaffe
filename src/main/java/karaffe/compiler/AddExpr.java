@@ -21,6 +21,16 @@ public class AddExpr implements Expression, BinaryExpression {
     }
 
     @Override
+    public Expression leftExpr() {
+        return e1;
+    }
+
+    @Override
+    public Expression rightExpr() {
+        return e2;
+    }
+
+    @Override
     public InsnList toNode() {
         InsnList insnList = new InsnList();
         insnList.add(e1.toNode());
