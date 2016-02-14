@@ -1,5 +1,7 @@
 package karaffe.compiler;
 
+import java.util.Objects;
+
 class Position {
 
     private final int column;
@@ -24,6 +26,11 @@ class Position {
             return "(auto-generated-pos)";
         }
         return "(pos " + line + "," + column + ")";
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(line, column);
     }
 
 }
