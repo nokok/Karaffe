@@ -1,5 +1,9 @@
 package karaffe.compiler;
 
+import java.io.File;
+import java.io.IOException;
+import java.io.UncheckedIOException;
+import java.nio.file.Files;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.LinkedHashMap;
@@ -14,6 +18,8 @@ public enum Context {
 
     INSTANCE;
 
+    private final List<String> source;
+
     private final ClassResolver resolver;
     private PackageDef packageDef = null;
     private final List<ImportDef> importDefs;
@@ -26,6 +32,7 @@ public enum Context {
     private final Map<String, Object> pathList;
 
     private Context() {
+        this.source = new ArrayList<>();
         this.resolver = new ClassResolver();
         this.importDefs = new ArrayList<>();
         this.classDefs = new ArrayList<>(1);
@@ -42,6 +49,13 @@ public enum Context {
             throw new IllegalStateException("duplicate packagedef or clear missing");
         }
         this.packageDef = Objects.requireNonNull(def);
+    public void add(File file) {
+        try {
+            this.source.clear();
+            this.source.addAll(Files.readAllLines(file.toPath()));
+        } catch (IOException ex) {
+            throw new UncheckedIOException(ex);
+        }
     }
 
     public void add(ImportDef importDef) {
