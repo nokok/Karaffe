@@ -1,5 +1,6 @@
 package karaffe.compiler;
 
+import java.util.List;
 import java.util.Objects;
 import org.objectweb.asm.Opcodes;
 import org.objectweb.asm.tree.InsnList;
@@ -22,6 +23,29 @@ class LocalVarDef implements Statement, NodeGeneratable<LocalVariableNode> {
         this.e = Objects.requireNonNull(e);
         this.id.setBody(this.e);
         Context.INSTANCE.add(this);
+
+        type.doResolve();
+
+        TypeElement exprType = Context.INSTANCE.getType(e);
+        List<Identifier> tTypes = type.args();
+        List<Identifier> eTypes = exprType.args();
+        if ( eTypes.size() == 1 && eTypes.get(0).id().equals("UNRESOLVED") ) {
+            //Parameterの場合ここに来る。
+            //Expression.UNINITIALIZEDを使用すると式が取れないため絶対Objectになる。なのでthis.typeを利用した上でOKとする
+            return;
+        }
+        if ( tTypes.size() == eTypes.size() ) {
+            for ( int i = 0; i < tTypes.size(); i++ ) {
+                Identifier id1 = tTypes.get(i);
+                Identifier id2 = eTypes.get(i);
+                if ( !id1.id().equals(id2.id()) ) {
+                    Context.INSTANCE.reportTypeError(id.getPosition(), tTypes, eTypes);
+                    return;
+                }
+            }
+        } else {
+            Context.INSTANCE.reportTypeError(id.getPosition(), tTypes, eTypes);
+        }
     }
 
     public String name() {
