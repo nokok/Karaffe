@@ -51,6 +51,7 @@ public enum Context {
             throw new IllegalStateException("duplicate packagedef or clear missing");
         }
         this.packageDef = Objects.requireNonNull(def);
+        this.packageDef.setPath("Root");
     public void add(File file) {
         try {
             this.source.clear();
