@@ -25,9 +25,42 @@ class TypeElement {
         return Collections.unmodifiableList(targ);
     }
 
+    public void doResolve() {
+        if ( !targ.isEmpty() ) {
+            return;
+        }
+        this.targ.addAll(Context.INSTANCE.resolveByTypeElementId(this));
+    }
+
     @Override
     public String toString() {
-        return "(tpe:" + String.join(" ", id.toString(), targ.toString()) + ")";
+        return "(tpe:" + String.join(" ", "Id: " + id.toString(), "Type: " + targ.toString()) + ")";
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        if ( obj == null ) {
+            return false;
+        }
+        if ( obj instanceof TypeElement ) {
+            TypeElement that = (TypeElement) obj;
+            if ( this.id.equals(that.id) ) {
+                if ( this.targ.size() == that.targ.size() ) {
+                    for ( int i = 0; i < this.targ.size(); i++ ) {
+                        if ( !this.targ.get(i).softEquals(that.targ.get(i)) ) {
+                            return false;
+                        }
+                    }
+                    return true;
+                } else {
+                    return false;
+                }
+            } else {
+                return false;
+            }
+        } else {
+            return false;
+        }
     }
 
 }
