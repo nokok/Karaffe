@@ -136,14 +136,17 @@ public enum Context {
     }
 
     public void clear() {
+        resolver.clear();
         packageDef = null;
         importDefs.clear();
         classDefs.clear();
         methodDefs.clear();
         fieldDefs.clear();
+        identifiers.clear();
         localVarDefs.clear();
         localVarMap.clear();
         parameters.clear();
+        pathList.clear();
     }
 
     public void updateLocalVarIndexes() {
