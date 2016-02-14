@@ -203,10 +203,17 @@ public enum Context {
                 }
                 pathList.put(classdef.getPath(), classdef);
             });
+        fieldDefs
+            .stream()
+            .map(fieldDef -> {
+                fieldDef.setPath(fieldDef.getParent().getPath() + fieldDef.id());
+                return fieldDef;
+            }
+            );
         methodDefs
             .stream()
             .map(methoddef -> {
-                methoddef.setPath(methoddef.getParent().getPath());
+                methoddef.setPath(methoddef.getParent().getPath() + methoddef.name());
                 return methoddef;
             })
             .forEach(methoddef -> {
@@ -218,7 +225,7 @@ public enum Context {
         localVarDefs
             .stream()
             .map(localVardef -> {
-                localVardef.setPath(localVardef.getParent().getPath());
+                localVardef.setPath(localVardef.getParent().getPath() + localVardef.name());
                 return localVardef;
             })
             .forEach(localVarDef -> {
@@ -230,7 +237,7 @@ public enum Context {
         AtomicInteger index = new AtomicInteger(0);
         identifiers.stream()
             .map(identifier -> {
-                identifier.setPath(identifier.getParent().getPath());
+                identifier.setPath(identifier.getParent().getPath() + identifier.id());
                 return identifier;
             })
             .forEach(id -> {
