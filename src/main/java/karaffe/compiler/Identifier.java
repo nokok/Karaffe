@@ -21,6 +21,15 @@ public class Identifier implements Expression, NodeGeneratable<InsnList> {
     private final Position pos;
     private String path;
 
+    public Identifier(String id) {
+        this.id = id;
+        this.pos = new Position(-1, -1);
+    }
+
+    Identifier(String id, Position position) {
+        this(id, position.getLine(), position.getColumn());
+    }
+
     public void setPath(String path) {
         this.path = Objects.requireNonNull(path) + (path.isEmpty() ? "" : ".") + id;
     }
