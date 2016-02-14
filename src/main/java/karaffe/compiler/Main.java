@@ -17,11 +17,17 @@ public class Main {
             System.out.println("Usage: krfc FileName.krf [options...]");
             return;
         }
-        Parser parser = new Parser(new Lexer(new FileReader(args[0])));
+        File file = new File(args[0]);
+
+        Context.INSTANCE.add(file);
+
+        Parser parser = new Parser(new Lexer(new FileReader(file)));
         Program program = parser.program();
 
         boolean isDebugMode = Arrays.asList(args).contains("--debug");
         if ( isDebugMode ) {
+            System.out.println("\n\n");
+            System.out.println("DEBUG");
             System.out.println(program);
         }
 
