@@ -1,0 +1,5 @@
+class Hoge {
+    private final {
+        def field Int = 1
+    }
+}
