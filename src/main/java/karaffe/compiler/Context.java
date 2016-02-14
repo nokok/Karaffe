@@ -194,6 +194,28 @@ public enum Context {
         return resolver.resolveClassByFullName(idents);
     }
 
+    public List<Identifier> resolveByTypeElementId(TypeElement unresolvedType) {
+        Optional<String> internalName = resolver.resolveInternalNameByIdent(unresolvedType.id());
+        List<Identifier> identifiers = internalName.map(name -> name.split("/")).map(names -> {
+            List<String> str = new ArrayList<>();
+            for ( String name : names ) {
+                str.add(name);
+            }
+            return str;
+        }).map(
+            list -> list.stream()
+            .map(Identifier::new)
+            .collect(toList())
+        ).orElse(new ArrayList<>());
+
+        return identifiers;
+    }
+
+    public void beforeGenClassNode() {
+        Context.INSTANCE.generatePaths();
+        Context.INSTANCE.updateLocalVarIndexes();
+    }
+
     void generatePaths() {
         classDefs
             .stream()
