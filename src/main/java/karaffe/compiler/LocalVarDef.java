@@ -81,4 +81,7 @@ class LocalVarDef implements Statement, NodeGeneratable<LocalVariableNode> {
         return this.path;
     }
 
+    public TypeElement getType() {
+        return type;
+    }
 }
