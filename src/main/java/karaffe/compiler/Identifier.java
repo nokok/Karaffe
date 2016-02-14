@@ -105,4 +105,8 @@ public class Identifier implements Expression, NodeGeneratable<InsnList> {
         return id.equals(NONE);
     }
 
+    Position getPosition() {
+        return pos;
+    }
+
 }
