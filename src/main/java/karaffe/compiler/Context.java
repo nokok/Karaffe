@@ -220,7 +220,7 @@ public enum Context {
     }
 
     void reportTypeError(Position e1Pos) {
-        throw new TypeCheckException(e1Pos);
+        reportTypeError(e1Pos, Collections.emptyList(), Collections.emptyList());
     }
 
     public void reportSyntaxError(int line, int column) {
