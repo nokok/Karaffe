@@ -27,6 +27,7 @@ public enum Context {
     private final List<MethodDef> methodDefs;
     private final List<FieldDef> fieldDefs;
     private final List<LocalVarDef> localVarDefs;
+    private final List<Parameter> parameters;
     private final List<Identifier> identifiers;
     private final Map<MethodDef, List<LocalVarDef>> localVarMap;
     private final Map<String, Object> pathList;
@@ -39,6 +40,7 @@ public enum Context {
         this.methodDefs = new ArrayList<>();
         this.fieldDefs = new ArrayList<>();
         this.localVarDefs = new ArrayList<>();
+        this.parameters = new ArrayList<>();
         this.identifiers = new ArrayList<>();
         this.localVarMap = new LinkedHashMap<>();
         this.pathList = new LinkedHashMap<>();
@@ -70,6 +72,7 @@ public enum Context {
     public void add(MethodDef methodDef) {
         this.methodDefs.add(Objects.requireNonNull(methodDef));
         this.localVarDefs.forEach(l -> l.setParent(methodDef));
+        this.parameters.forEach(l -> l.setParent(methodDef));
         this.identifiers.forEach(l -> l.setParent(methodDef));
     }
 
@@ -79,6 +82,12 @@ public enum Context {
 
     public void add(FieldDef fieldDef) {
         this.fieldDefs.add(Objects.requireNonNull(fieldDef));
+    }
+
+    public void add(Parameter param) {
+        Position position = param.position();
+        //この中でaddされるので this.localVarDefs.add(varDef);は不要
+        LocalVarDef varDef = new LocalVarDef(new Identifier(param.id(), position), param.getTypeElement(), param.getExpr());
     }
 
     public void add(Identifier identifier) {
@@ -111,6 +120,9 @@ public enum Context {
             if ( key.startsWith(prefix.toString()) && value instanceof LocalVarDef ) {
                 localPaths.add(key);
             }
+            if ( key.startsWith(prefix.toString()) && value instanceof Parameter ) {
+                localPaths.add(key);
+            }
         }
         Collections.reverse(localPaths);
         int index = localPaths.indexOf(path);
@@ -130,6 +142,7 @@ public enum Context {
         fieldDefs.clear();
         localVarDefs.clear();
         localVarMap.clear();
+        parameters.clear();
     }
 
     public void updateLocalVarIndexes() {
