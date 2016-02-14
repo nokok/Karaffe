@@ -5,13 +5,16 @@ import java.io.IOException;
 import java.io.UncheckedIOException;
 import java.nio.file.Files;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Collections;
+import java.util.HashMap;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Objects;
 import java.util.Optional;
 import java.util.concurrent.atomic.AtomicInteger;
+import static java.util.stream.Collectors.toList;
 import org.objectweb.asm.Type;
 
 public enum Context {
@@ -52,6 +55,9 @@ public enum Context {
         }
         this.packageDef = Objects.requireNonNull(def);
         this.packageDef.setPath("Root");
+        this.identifiers.forEach(l -> l.setParent(def));
+    }
+
     public void add(File file) {
         try {
             this.source.clear();
@@ -68,6 +74,7 @@ public enum Context {
     public void add(ClassDef classDef) {
         this.classDefs.add(Objects.requireNonNull(classDef));
         this.methodDefs.stream().forEach(m -> m.setParent(classDef));
+        this.identifiers.forEach(l -> l.setParent(classDef));
     }
 
     public void add(MethodDef methodDef) {
@@ -112,7 +119,7 @@ public enum Context {
     }
 
     public int findLocalVarIndex(String path) {
-        int lastIndex = path.lastIndexOf(".");
+        int lastIndex = path.lastIndexOf('.');
         CharSequence prefix = path.subSequence(0, lastIndex);
         List<String> localPaths = new ArrayList<>();
         for ( Map.Entry<String, Object> entry : pathList.entrySet() ) {
@@ -217,6 +224,7 @@ public enum Context {
     }
 
     void generatePaths() {
+        pathList.clear();
         classDefs
             .stream()
             .map(classdef -> {
@@ -256,7 +264,8 @@ public enum Context {
             })
             .forEach(localVarDef -> {
                 if ( pathList.containsKey(localVarDef.getPath()) ) {
-                    throw new RuntimeException("duplicate");
+                    System.out.println("error. duplicate localvardef : " + localVarDef);
+                    throw new RuntimeException("duplicate localvardef" + localVarDef);
                 }
                 pathList.put(localVarDef.getPath(), localVarDef);
             });
