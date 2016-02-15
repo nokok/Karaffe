@@ -46,4 +46,15 @@ class MethodInvocation implements Expression {
         return "(method-invocation " + String.join(" ", target.toString(), methodName.toString(), args.toString()) + ")";
     }
 
+    public Expression getTarget() {
+        return target;
+    }
+
+    public Identifier methodName() {
+        return methodName;
+    }
+
+    public List<Argument> args() {
+        return args;
+    }
 }
