@@ -12,6 +12,7 @@ public class ImportDef implements Statement {
     ImportDef(List<Identifier> il, int illeft, int ilright) {
         this.fqcn = il;
         this.pos = new Position(illeft, ilright);
+        il.forEach(i -> i.setParent(this));
         Context.INSTANCE.add(this);
     }
 
