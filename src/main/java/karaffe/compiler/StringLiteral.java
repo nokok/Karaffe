@@ -19,11 +19,6 @@ class StringLiteral implements Expression {
     }
 
     @Override
-    public Class<String> inferredType() {
-        return String.class;
-    }
-
-    @Override
     public String toString() {
         return "(string-literal " + s + ")";
     }

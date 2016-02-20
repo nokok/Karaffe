@@ -32,11 +32,6 @@ class FieldDefBlock implements Statement {
         return path;
     }
 
-    @Override
-    public Class<?> inferredType() {
-        return Object.class;
-    }
-
     public List<FieldNode> toNodes() {
         int flag = modifiers
             .stream()

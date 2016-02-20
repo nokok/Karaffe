@@ -49,11 +49,6 @@ class FieldDef implements Statement, NodeGeneratable<FieldNode> {
         return e;
     }
 
-    @Override
-    public Class<?> inferredType() {
-        return e.inferredType();
-    }
-
     public void setParent(ClassDef classDef) {
         if ( this.parent != null ) {
             return;

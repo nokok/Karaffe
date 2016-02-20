@@ -1,6 +1,5 @@
 package karaffe.compiler;
 
-import java.math.BigInteger;
 import org.objectweb.asm.Opcodes;
 import org.objectweb.asm.tree.InsnList;
 import org.objectweb.asm.tree.InsnNode;
@@ -30,27 +29,12 @@ class DivExpr implements Expression, BinaryExpression {
     }
 
     @Override
-    public Class<?> leftInferredType() {
-        return e1.inferredType();
-    }
-
-    @Override
-    public Class<?> rightInferredType() {
-        return e2.inferredType();
-    }
-
-    @Override
     public InsnList toNode() {
         InsnList insnList = new InsnList();
         insnList.add(e1.toNode());
         insnList.add(e2.toNode());
         insnList.add(new InsnNode(Opcodes.IDIV));
         return insnList;
-    }
-
-    @Override
-    public Class<?> inferredType() {
-        return BigInteger.class;
     }
 
     @Override

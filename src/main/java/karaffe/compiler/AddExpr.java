@@ -48,21 +48,6 @@ public class AddExpr implements Expression, BinaryExpression {
     }
 
     @Override
-    public Class<?> inferredType() {
-        return BigInteger.class;
-    }
-
-    @Override
-    public Class<?> leftInferredType() {
-        return e1.inferredType();
-    }
-
-    @Override
-    public Class<?> rightInferredType() {
-        return e2.inferredType();
-    }
-
-    @Override
     public String toString() {
         return "(+ " + e1.toString() + e1Pos + e2.toString() + e2Pos + ")";
     }

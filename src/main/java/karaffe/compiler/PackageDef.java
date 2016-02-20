@@ -33,11 +33,6 @@ class PackageDef implements Statement {
         return path;
     }
 
-    @Override
-    public Class<?> inferredType() {
-        return Void.class;
-    }
-
     public String toPath(String delimiter) {
         if ( packageName.isEmpty() ) {
             return "";

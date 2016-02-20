@@ -34,11 +34,6 @@ class GotoNode implements Statement, NodeGeneratable<AbstractInsnNode> {
     }
 
     @Override
-    public Class<?> inferredType() {
-        return Object.class;
-    }
-
-    @Override
     public AbstractInsnNode toNode() {
         return new JumpInsnNode(Opcodes.GOTO, labelNode);
     }

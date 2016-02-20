@@ -1,6 +1,5 @@
 package karaffe.compiler;
 
-import java.math.BigInteger;
 import org.objectweb.asm.Opcodes;
 import org.objectweb.asm.tree.InsnList;
 import org.objectweb.asm.tree.InsnNode;
@@ -30,27 +29,12 @@ class SubExpr implements Expression, BinaryExpression {
     }
 
     @Override
-    public Class<?> leftInferredType() {
-        return e1.inferredType();
-    }
-
-    @Override
-    public Class<?> rightInferredType() {
-        return e2.inferredType();
-    }
-
-    @Override
     public InsnList toNode() {
         InsnList list = new InsnList();
         list.add(e1.toNode());
         list.add(e2.toNode());
         list.add(new InsnNode(Opcodes.ISUB));
         return list;
-    }
-
-    @Override
-    public Class<?> inferredType() {
-        return BigInteger.class;
     }
 
     @Override

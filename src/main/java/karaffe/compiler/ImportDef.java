@@ -28,11 +28,6 @@ public class ImportDef implements Statement {
         return path;
     }
 
-    @Override
-    public Class<?> inferredType() {
-        return Void.class;
-    }
-
     public String simpleIdent() {
         return fqcn.get(fqcn.size() - 1).id();
     }

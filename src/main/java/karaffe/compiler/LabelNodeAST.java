@@ -28,11 +28,6 @@ class LabelNodeAST implements Statement, NodeGeneratable<LabelNode> {
     }
 
     @Override
-    public Class<?> inferredType() {
-        return Object.class;
-    }
-
-    @Override
     public LabelNode toNode() {
         return labelNode;
     }

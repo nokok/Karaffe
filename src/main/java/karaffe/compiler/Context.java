@@ -225,6 +225,18 @@ public enum Context {
 
     void generatePaths() {
         pathList.clear();
+        importDefs
+            .stream()
+            .map(importDef -> {
+                importDef.setPath(".");
+                return importDef;
+            })
+            .forEach(importDef -> {
+                if ( pathList.containsKey(importDef.getPath()) ) {
+                    throw new RuntimeException();
+                }
+                pathList.put(importDef.getPath(), importDef);
+            });
         classDefs
             .stream()
             .map(classdef -> {
@@ -294,7 +306,6 @@ public enum Context {
 
     public void reportSyntaxError(int line, int column) {
         System.out.println("Syntax Error at " + (line + 1) + ":" + column);
-        throw new RuntimeException();
     }
 
     public Map<Expression, TypeElement> typeCheck(Expression... expressions) {
@@ -343,6 +354,13 @@ public enum Context {
             if ( leftType.equals(rightType) ) {
                 return leftType;
             }
+            return new TypeElement(Identifier.NONE_IDENTIFIER, createIdList("java", "lang", "Object"));
+        } else if ( expression instanceof MethodInvocation ) {
+            MethodInvocation methodInvocation = (MethodInvocation) expression;
+            Expression target = methodInvocation.getTarget();
+            TypeElement targetType = getType(target);
+
+            System.out.println("method");
             return new TypeElement(Identifier.NONE_IDENTIFIER, createIdList("java", "lang", "Object"));
         } else {
             System.out.println("other2");

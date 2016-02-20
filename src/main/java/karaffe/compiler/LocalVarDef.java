@@ -73,10 +73,6 @@ class LocalVarDef implements Statement, NodeGeneratable<LocalVariableNode> {
         this.index = index;
     }
 
-    public Class<?> inferredType() {
-        return e.inferredType();
-    }
-
     @Override
     public LocalVariableNode toNode() {
         LocalVariableNode node = new LocalVariableNode(id.id(), Context.INSTANCE.resolveInternalNameByIdent(type.id()).orElse("Object"), null, new LabelNode(), new LabelNode(), index);

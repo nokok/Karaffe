@@ -2,6 +2,7 @@ package karaffe.compiler;
 
 import java.util.Collections;
 import java.util.List;
+import java.util.Objects;
 
 class TypeElement {
 
@@ -61,6 +62,11 @@ class TypeElement {
         } else {
             return false;
         }
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(id, targ);
     }
 
 }

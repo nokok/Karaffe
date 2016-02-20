@@ -7,11 +7,9 @@ import org.objectweb.asm.tree.InsnNode;
 public class UnaryMinus implements Expression {
 
     private final Expression e;
-    private final Position pos;
 
-    UnaryMinus(Expression e, int eleft, int eright) {
+    UnaryMinus(Expression e) {
         this.e = e;
-        this.pos = new Position(eleft, eright);
     }
 
     @Override
@@ -23,13 +21,8 @@ public class UnaryMinus implements Expression {
     }
 
     @Override
-    public Class<?> inferredType() {
-        return e.inferredType();
-    }
-
-    @Override
     public String toString() {
-        return "(unary-minus " + e + pos + ")";
+        return "(unary-minus " + e + ")";
     }
 
 }

@@ -82,10 +82,25 @@ Identifier = [:jletter:][:jletterdigit:]*
     "main"                      {return sym(MAIN);}
     "true"                      {return sym(TRUE);}
     "else"                      {return sym(ELSE);}
+    "and"                       {return sym(ANDC);}
     "def"                       {return sym(DEF);}
     "if"                        {return sym(IF);}
+    "~>"                        {return sym(TILARROW);}
+    "->"                        {return sym(ARROW);}
+    "=="                        {return sym(EQEQ);}
+    "!="                        {return sym(BEQ);}
+    "<="                        {return sym(LTEQ);}
+    ">="                        {return sym(GTEQ);}
+    "+="                        {return sym(PLUSEQ);}
+    "-="                        {return sym(MINUSEQ);}
+    "or"                        {return sym(ORC);}
+    "!"                         {return sym(BANG);}
     "@"                         {return sym(AT);}
     "="                         {return sym(EQ);}
+    "|"                         {return sym(OR);}
+    "&"                         {return sym(AND);}
+    "<"                         {return sym(LT);}
+    ">"                         {return sym(GT);}
     "{"                         {return sym(LBRACE);}
     "}"                         {return sym(RBRACE);}
     "("                         {return sym(LPAREN);}

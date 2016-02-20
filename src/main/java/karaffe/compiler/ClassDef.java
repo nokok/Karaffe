@@ -26,11 +26,6 @@ public class ClassDef implements Statement, NodeGeneratable<ClassNode> {
         Context.INSTANCE.add(this);
     }
 
-    @Override
-    public Class<?> inferredType() {
-        return Void.class;
-    }
-
     public void setPath(String path) {
         this.path = Objects.requireNonNull(path) + (path.isEmpty() ? "" : ".") + id.id();
     }

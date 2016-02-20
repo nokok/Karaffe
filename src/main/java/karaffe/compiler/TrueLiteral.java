@@ -12,11 +12,6 @@ class TrueLiteral implements Expression {
     }
 
     @Override
-    public Class<?> inferredType() {
-        return Boolean.class;
-    }
-
-    @Override
     public InsnList toNode() {
         InsnList list = new InsnList();
         list.add(new FieldInsnNode(Opcodes.GETSTATIC, Type.getInternalName(Boolean.class), "TRUE", Type.getDescriptor(Boolean.class)));

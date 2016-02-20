@@ -30,11 +30,6 @@ public class IntLiteral implements Expression {
     }
 
     @Override
-    public Class<?> inferredType() {
-        return BigInteger.class;
-    }
-
-    @Override
     public String toString() {
         return "(int-value " + value.toString() + ")";
     }

@@ -6,12 +6,12 @@ import org.objectweb.asm.tree.InsnNode;
 
 public interface Expression extends NodeGeneratable<InsnList>, Inferable {
 
-    public static final Expression UNINITIALIZED = new Expression() {
+    @Override
+    public default InsnList toNode() {
+        return new InsnList();
+    }
 
-        @Override
-        public Class<?> inferredType() {
-            return Object.class;
-        }
+    public static final Expression UNINITIALIZED = new Expression() {
 
         @Override
         public InsnList toNode() {

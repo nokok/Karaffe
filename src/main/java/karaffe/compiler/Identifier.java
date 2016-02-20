@@ -75,14 +75,6 @@ public class Identifier implements Expression, NodeGeneratable<InsnList> {
     }
 
     @Override
-    public Class<?> inferredType() {
-        if ( body == null ) {
-            return Object.class;
-        }
-        return body.inferredType();
-    }
-
-    @Override
     public InsnList toNode() {
         InsnList insnList = new InsnList();
         if ( path != null ) {

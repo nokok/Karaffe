@@ -37,11 +37,6 @@ class MethodDef implements Statement, NodeGeneratable<MethodNode> {
         Context.INSTANCE.add(this);
     }
 
-    @Override
-    public Class<?> inferredType() {
-        return Void.class;
-    }
-
     public void setParent(ClassDef classDef) {
         if ( this.parent != null ) {
             return;
