@@ -347,7 +347,7 @@ AdditiveExpr ::= MultiplicativeExpr:e
         ;
 
 MultiplicativeExpr ::= UnaryExpr:e 
-            {:RESULT = e::}
+            {:RESULT = e;:}
         | MultiplicativeExpr:e1 STAR UnaryExpr:e2
             {:RESULT = Expr.mul(e1, e2, e1left, e1right, e2left, e2right); :}
         | MultiplicativeExpr:e1 SLASH UnaryExpr:e2
