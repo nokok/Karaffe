@@ -1,8 +1,10 @@
 package karaffe.compiler;
 
+import karaffe.core.Int;
 import org.objectweb.asm.Opcodes;
+import org.objectweb.asm.Type;
 import org.objectweb.asm.tree.InsnList;
-import org.objectweb.asm.tree.InsnNode;
+import org.objectweb.asm.tree.MethodInsnNode;
 
 class DivExpr implements Expression, BinaryExpression {
 
@@ -33,7 +35,7 @@ class DivExpr implements Expression, BinaryExpression {
         InsnList insnList = new InsnList();
         insnList.add(e1.toNode());
         insnList.add(e2.toNode());
-        insnList.add(new InsnNode(Opcodes.IDIV));
+        insnList.add(new MethodInsnNode(Opcodes.INVOKEVIRTUAL, Type.getInternalName(Int.class), "div", Type.getMethodDescriptor(Type.getType(karaffe.core.Double.class), Type.getType(Int.class)), false));
         return insnList;
     }
 

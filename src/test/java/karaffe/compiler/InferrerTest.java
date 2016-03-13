@@ -1,52 +1,90 @@
-package karaffe.compiler.inferred;
+package karaffe.compiler;
 
-import java.io.PrintStream;
-import java.math.BigInteger;
-import karaffe.compiler.AddExpr;
-import karaffe.compiler.IntLiteral;
+import java.util.ArrayList;
+import java.util.List;
 import static org.hamcrest.CoreMatchers.is;
 import static org.junit.Assert.assertThat;
+import static org.junit.Assert.assertTrue;
+import org.junit.Before;
 import org.junit.Test;
-import org.objectweb.asm.Opcodes;
-import org.objectweb.asm.Type;
-import org.objectweb.asm.tree.FieldInsnNode;
-import org.objectweb.asm.tree.InsnList;
-import org.objectweb.asm.tree.InsnNode;
-import org.objectweb.asm.tree.LdcInsnNode;
-import org.objectweb.asm.tree.MethodInsnNode;
 
 public class InferrerTest {
 
-    @Test
-    public void testGetInferredType1() {
-        InsnList insnList = new InsnList();
-
-        //System.out.println("HelloWorld!");
-        insnList.add(new FieldInsnNode(Opcodes.GETSTATIC, Type.getInternalName(System.class), "out", Type.getDescriptor(PrintStream.class)));
-        insnList.add(new LdcInsnNode("Hello World!"));
-        insnList.add(new MethodInsnNode(Opcodes.INVOKEVIRTUAL, Type.getInternalName(PrintStream.class), "println", Type.getMethodDescriptor(Type.VOID_TYPE, Type.getType(String.class)), false));
-        insnList.add(new InsnNode(Opcodes.RETURN));
-        Class<?> clazz = new Inferrer().getInferredType(insnList);
-        assertThat(clazz.toString(), is(Void.class.toString()));
+    @Before
+    public void setUp() {
+        Context.INSTANCE.clear();
     }
 
     @Test
-    public void testGetInferredType2() {
-        InsnList insnList = new InsnList();
-
-        //"HelloWorld!"
-        insnList.add(new LdcInsnNode("Hello World!"));
-        Class<?> clazz = new Inferrer().getInferredType(insnList);
-        assertThat(clazz.toString(), is(String.class.toString()));
+    public void testInt() {
+        TypeElement type = Context.INSTANCE.getType(new IntLiteral("1", 1, 1));
+        test(type, "karaffe", "core", "Int");
     }
 
     @Test
-    public void testGetInferredType3() {
-        IntLiteral a = new IntLiteral("0", -1, -1);
-        IntLiteral b = new IntLiteral("1", -1, -1);
-        AddExpr expr = new AddExpr(a, b, -1, -1, -1, -1);
-        Class<?> clazz = new Inferrer().getInferredType(expr.toNode());
-        assertThat(clazz.toString(), is(BigInteger.class.toString()));
+    public void testTrue() {
+        TypeElement type = Context.INSTANCE.getType(new TrueLiteral());
+        test(type, "java", "lang", "Boolean");
+    }
+
+    @Test
+    public void testFalse() {
+        TypeElement type = Context.INSTANCE.getType(new FalseLiteral());
+        test(type, "java", "lang", "Boolean");
+    }
+
+    @Test
+    public void testString() {
+        TypeElement type = Context.INSTANCE.getType(new StringLiteral("hoge"));
+        test(type, "java", "lang", "String");
+    }
+
+    @Test
+    public void testAddExpr() {
+        TypeElement type = Context.INSTANCE.getType(new AddExpr(new IntLiteral("1", 1, 1), new IntLiteral("2", 1, 3), 1, 1, 1, 3));
+        test(type, "karaffe", "core", "Int");
+    }
+
+    @Test
+    public void testAddExpr2() {
+        LocalVarDef x = new LocalVarDef(new Identifier("x"), new TypeElement(new Identifier("Int"), new ArrayList<>()), new IntLiteral("1", 1, 5));
+        LocalVarDef y = new LocalVarDef(new Identifier("y"), new TypeElement(new Identifier("Int"), new ArrayList<>()), new IntLiteral("1", 1, 5));
+        List<NodeGeneratable<?>> defs = new ArrayList<>();
+        defs.add(x);
+        defs.add(y);
+
+        MethodDef methodDef = new MethodDef(
+            new ArrayList<>(0),
+            new ArrayList<>(0),
+            new Identifier("doSomething"),
+            new ArrayList<>(0),
+            new TypeElement(new Identifier("hoge"), new ArrayList<>()),
+            defs
+        );
+
+        List<Statement> stmt = new ArrayList<>();
+        stmt.add(methodDef);
+
+        ClassDef classDef = new ClassDef(new ArrayList<>(), new ArrayList<>(), new Identifier("Cls"), stmt);
+
+        PackageDef packageDef = PackageDef.none();
+
+        Context.INSTANCE.beforeGenClassNode();
+        TypeElement type = Context.INSTANCE.getType(new AddExpr(x.getIdentifier(), y.getIdentifier(), 1, 1, 1, 3));
+        test(type, "karaffe", "core", "Int");
+    }
+
+    private void test(TypeElement type, String... clazz) {
+        if ( !type.isResolved() ) {
+            type.doResolve();
+        }
+        List<Identifier> args = type.resolvedType();
+        assertThat(args.size(), is(clazz.length));
+        for ( int i = 0; i < args.size(); i++ ) {
+            System.out.println("arg  : " + args.get(i).id());
+            System.out.println("clazz: " + clazz[i]);
+            assertTrue(args.get(i).softEquals(new Identifier(clazz[i])));
+        }
     }
 
 }

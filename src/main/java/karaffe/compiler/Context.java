@@ -203,7 +203,7 @@ public enum Context {
 
     public List<Identifier> resolveByTypeElementId(TypeElement unresolvedType) {
         Optional<String> internalName = resolver.resolveInternalNameByIdent(unresolvedType.id());
-        List<Identifier> identifiers = internalName.map(name -> name.split("/")).map(names -> {
+        List<Identifier> ids = internalName.map(name -> name.split("/")).map(names -> {
             List<String> str = new ArrayList<>();
             for ( String name : names ) {
                 str.add(name);
@@ -215,7 +215,7 @@ public enum Context {
             .collect(toList())
         ).orElse(new ArrayList<>());
 
-        return identifiers;
+        return ids;
     }
 
     public void beforeGenClassNode() {
@@ -320,15 +320,22 @@ public enum Context {
         Objects.requireNonNull(expression);
 
         if ( expression == Expression.UNINITIALIZED ) {
-            return new TypeElement(Identifier.NONE_IDENTIFIER, createIdList("UNRESOLVED"));
+            TypeElement type = new TypeElement(Identifier.NONE_IDENTIFIER, new ArrayList<>(0));
+            type.setType(createIdList("java", "lang", "Object"));
+            return type;
         }
         if ( expression instanceof StringLiteral ) {
-            return new TypeElement(Identifier.NONE_IDENTIFIER,
-                                   createIdList("java", "lang", "String"));
+            TypeElement type = new TypeElement(Identifier.NONE_IDENTIFIER, new ArrayList<>(0));
+            type.setType(createIdList("java", "lang", "String"));
+            return type;
         } else if ( expression instanceof IntLiteral ) {
-            return new TypeElement(Identifier.NONE_IDENTIFIER, createIdList("java", "math", "BigInteger"));
+            TypeElement type = new TypeElement(Identifier.NONE_IDENTIFIER, new ArrayList<>(0));
+            type.setType(createIdList("karaffe", "core", "Int"));
+            return type;
         } else if ( expression instanceof TrueLiteral || expression instanceof FalseLiteral ) {
-            return new TypeElement(Identifier.NONE_IDENTIFIER, createIdList("java", "lang", "Boolean"));
+            TypeElement type = new TypeElement(Identifier.NONE_IDENTIFIER, new ArrayList<>(0));
+            type.setType(createIdList("java", "lang", "Boolean"));
+            return type;
         } else if ( expression instanceof Identifier ) {
             Identifier id = (Identifier) expression;
             Statement parent = id.getParent();
@@ -342,8 +349,10 @@ public enum Context {
                     }
                 }
             }
-            System.out.println("other1");
-            return new TypeElement(Identifier.NONE_IDENTIFIER, createIdList("java", "lang", "Object"));
+            System.out.println("other1: " + id);
+            TypeElement type = new TypeElement(Identifier.NONE_IDENTIFIER, new ArrayList<>(0));
+            type.setType(createIdList("java", "lang", "Object"));
+            return type;
         } else if ( expression instanceof BinaryExpression ) {
             BinaryExpression b = (BinaryExpression) expression;
             Expression left = b.leftExpr();
@@ -353,18 +362,29 @@ public enum Context {
 
             if ( leftType.equals(rightType) ) {
                 return leftType;
+            } else {
+                System.out.println("left : " + leftType);
+                System.out.println("right: " + rightType);
             }
-            return new TypeElement(Identifier.NONE_IDENTIFIER, createIdList("java", "lang", "Object"));
+            System.out.println("bi other2: " + left);
+            TypeElement type = new TypeElement(Identifier.NONE_IDENTIFIER, new ArrayList<>(0));
+            type.setType(createIdList("java", "lang", "Object"));
+            return type;
         } else if ( expression instanceof MethodInvocation ) {
             MethodInvocation methodInvocation = (MethodInvocation) expression;
             Expression target = methodInvocation.getTarget();
             TypeElement targetType = getType(target);
 
+            //ClassNode的なやつを動的に作る仕組みが必要
             System.out.println("method");
-            return new TypeElement(Identifier.NONE_IDENTIFIER, createIdList("java", "lang", "Object"));
+            TypeElement type = new TypeElement(Identifier.NONE_IDENTIFIER, new ArrayList<>(0));
+            type.setType(createIdList("java", "lang", "Object"));
+            return type;
         } else {
             System.out.println("other2");
-            return new TypeElement(Identifier.NONE_IDENTIFIER, createIdList("java", "lang", "Object"));
+            TypeElement type = new TypeElement(Identifier.NONE_IDENTIFIER, new ArrayList<>(0));
+            type.setType(createIdList("java", "lang", "Object"));
+            return type;
         }
     }
 

@@ -32,7 +32,7 @@ public class ClassResolver {
         packageNames.add("java.nio.channels.");
 
         aliases.clear();
-        aliases.put("Int", "java.math.BigInteger");
+        aliases.put("Int", "karaffe.core.Int");
         aliases.put("Bool", "java.lang.Boolean");
     }
 

@@ -1,10 +1,11 @@
 package karaffe.compiler;
 
+import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 import java.util.Objects;
 
-class TypeElement {
+public class TypeElement {
 
     static TypeElement none() {
         return new TypeElement(Identifier.none(), Collections.emptyList());
@@ -12,10 +13,12 @@ class TypeElement {
 
     private final Identifier id;
     private final List<Identifier> targ;
+    private final List<Identifier> resolvedType;
 
     TypeElement(Identifier id, List<Identifier> targ) {
         this.id = id;
         this.targ = targ;
+        this.resolvedType = new ArrayList<>();
     }
 
     public String id() {
@@ -26,11 +29,19 @@ class TypeElement {
         return Collections.unmodifiableList(targ);
     }
 
+    public List<Identifier> resolvedType() {
+        return resolvedType;
+    }
+
+    public boolean isResolved() {
+        return !resolvedType.isEmpty();
+    }
+
     public void doResolve() {
-        if ( !targ.isEmpty() ) {
+        if ( isResolved() ) {
             return;
         }
-        this.targ.addAll(Context.INSTANCE.resolveByTypeElementId(this));
+        this.resolvedType.addAll(Context.INSTANCE.resolveByTypeElementId(this));
     }
 
     @Override
@@ -41,32 +52,56 @@ class TypeElement {
     @Override
     public boolean equals(Object obj) {
         if ( obj == null ) {
+            System.out.println("null");
             return false;
         }
         if ( obj instanceof TypeElement ) {
             TypeElement that = (TypeElement) obj;
-            if ( this.id.equals(that.id) ) {
-                if ( this.targ.size() == that.targ.size() ) {
-                    for ( int i = 0; i < this.targ.size(); i++ ) {
-                        if ( !this.targ.get(i).softEquals(that.targ.get(i)) ) {
-                            return false;
-                        }
-                    }
-                    return true;
-                } else {
-                    return false;
-                }
-            } else {
+
+            if ( !this.id.softEquals(that.id) ) {
+                System.out.println("1");
                 return false;
             }
+            if ( this.resolvedType.size() != that.resolvedType.size() ) {
+                System.out.println("2");
+                return false;
+            }
+            for ( int i = 0; i < this.resolvedType.size(); i++ ) {
+                if ( !this.resolvedType.get(i).softEquals(that.resolvedType.get(i)) ) {
+                    System.out.println("3");
+                    return false;
+                }
+            }
+
+            if ( this.targ.size() != that.targ.size() ) {
+                System.out.println("4");
+                return false;
+            }
+
+            for ( int i = 0; i < this.targ.size(); i++ ) {
+                if ( !this.targ.get(i).softEquals(that.targ.get(i)) ) {
+                    System.out.println("5");
+                    return false;
+                }
+            }
+            return true;
+
         } else {
+            System.out.println("not TypeElement");
             return false;
         }
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(id, targ);
+        return Objects.hash(id, targ, resolvedType);
+    }
+
+    void setType(List<Identifier> idList) {
+        if ( !resolvedType.isEmpty() ) {
+            resolvedType.clear();
+        }
+        this.resolvedType.addAll(idList);
     }
 
 }

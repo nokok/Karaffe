@@ -14,7 +14,20 @@ class LtExpr implements Expression {
 
     @Override
     public InsnList toNode() {
-        return new InsnList();
+        InsnList insnList = new InsnList();
+        TypeElement e1Type = Context.INSTANCE.getType(e1);
+        TypeElement e2Type = Context.INSTANCE.getType(e2);
+        if ( !e1Type.equals(e2Type) ) {
+            Context.INSTANCE.reportTypeError(null, e1Type.resolvedType(), e2Type.resolvedType());
+        }
+        insnList.add(e1.toNode());
+        insnList.add(e2.toNode());
+        return insnList;
+    }
+
+    @Override
+    public String toString() {
+        return "(lt(<) : " + e1 + e2 + ")";
     }
 
 }

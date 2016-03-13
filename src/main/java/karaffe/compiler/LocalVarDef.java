@@ -27,8 +27,8 @@ class LocalVarDef implements Statement, NodeGeneratable<LocalVariableNode> {
         type.doResolve();
 
         TypeElement exprType = Context.INSTANCE.getType(e);
-        List<Identifier> tTypes = type.args();
-        List<Identifier> eTypes = exprType.args();
+        List<Identifier> tTypes = type.resolvedType();
+        List<Identifier> eTypes = exprType.resolvedType();
         if ( eTypes.size() == 1 && eTypes.get(0).id().equals("UNRESOLVED") ) {
             //Parameterの場合ここに来る。
             //Expression.UNINITIALIZEDを使用すると式が取れないため絶対Objectになる。なのでthis.typeを利用した上でOKとする
@@ -103,5 +103,9 @@ class LocalVarDef implements Statement, NodeGeneratable<LocalVariableNode> {
 
     public TypeElement getType() {
         return type;
+    }
+
+    public Identifier getIdentifier() {
+        return id;
     }
 }

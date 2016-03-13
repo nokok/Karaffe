@@ -1,8 +1,10 @@
 package karaffe.compiler;
 
+import karaffe.core.Int;
 import org.objectweb.asm.Opcodes;
+import org.objectweb.asm.Type;
 import org.objectweb.asm.tree.InsnList;
-import org.objectweb.asm.tree.InsnNode;
+import org.objectweb.asm.tree.MethodInsnNode;
 
 class MulExpr implements Expression, BinaryExpression {
 
@@ -33,7 +35,7 @@ class MulExpr implements Expression, BinaryExpression {
         InsnList list = new InsnList();
         list.add(e1.toNode());
         list.add(e2.toNode());
-        list.add(new InsnNode(Opcodes.IMUL));
+        list.add(new MethodInsnNode(Opcodes.INVOKEVIRTUAL, Type.getInternalName(Int.class), "mul", Type.getMethodDescriptor(Type.getType(Int.class), Type.getType(Int.class)), false));
         return list;
     }
 
