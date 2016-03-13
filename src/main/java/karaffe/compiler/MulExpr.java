@@ -1,9 +1,10 @@
 package karaffe.compiler;
 
-import java.math.BigInteger;
+import karaffe.core.Int;
 import org.objectweb.asm.Opcodes;
+import org.objectweb.asm.Type;
 import org.objectweb.asm.tree.InsnList;
-import org.objectweb.asm.tree.InsnNode;
+import org.objectweb.asm.tree.MethodInsnNode;
 
 class MulExpr implements Expression, BinaryExpression {
 
@@ -20,13 +21,13 @@ class MulExpr implements Expression, BinaryExpression {
     }
 
     @Override
-    public Class<?> leftInferredType() {
-        return e1.inferredType();
+    public Expression leftExpr() {
+        return e1;
     }
 
     @Override
-    public Class<?> rightInferredType() {
-        return e2.inferredType();
+    public Expression rightExpr() {
+        return e2;
     }
 
     @Override
@@ -34,13 +35,8 @@ class MulExpr implements Expression, BinaryExpression {
         InsnList list = new InsnList();
         list.add(e1.toNode());
         list.add(e2.toNode());
-        list.add(new InsnNode(Opcodes.IMUL));
+        list.add(new MethodInsnNode(Opcodes.INVOKEVIRTUAL, Type.getInternalName(Int.class), "mul", Type.getMethodDescriptor(Type.getType(Int.class), Type.getType(Int.class)), false));
         return list;
-    }
-
-    @Override
-    public Class<?> inferredType() {
-        return BigInteger.class;
     }
 
     @Override

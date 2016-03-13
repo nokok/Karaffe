@@ -37,13 +37,19 @@ class MethodInvocation implements Expression {
     }
 
     @Override
-    public Class<?> inferredType() {
-        return Object.class;
-    }
-
-    @Override
     public String toString() {
         return "(method-invocation " + String.join(" ", target.toString(), methodName.toString(), args.toString()) + ")";
     }
 
+    public Expression getTarget() {
+        return target;
+    }
+
+    public Identifier methodName() {
+        return methodName;
+    }
+
+    public List<Argument> args() {
+        return args;
+    }
 }

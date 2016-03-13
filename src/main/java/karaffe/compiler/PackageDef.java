@@ -2,12 +2,14 @@ package karaffe.compiler;
 
 import java.util.Collections;
 import java.util.List;
+import java.util.Objects;
 import static java.util.stream.Collectors.toList;
 
 class PackageDef implements Statement {
 
     private final List<Identifier> packageName;
     private final Position pos;
+    private String path;
 
     public static PackageDef none() {
         return new PackageDef(Collections.emptyList(), -1, -1);
@@ -19,9 +21,16 @@ class PackageDef implements Statement {
         Context.INSTANCE.setPackageDef(this);
     }
 
+    public void setPath(String path) {
+        if ( this.path != null ) {
+            throw new IllegalStateException();
+        }
+        this.path = Objects.requireNonNull(path);
+    }
+
     @Override
-    public Class<?> inferredType() {
-        return Void.class;
+    public String getPath() {
+        return path;
     }
 
     public String toPath(String delimiter) {

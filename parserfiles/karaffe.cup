@@ -12,34 +12,49 @@ parser code {:
 
     public Program program() throws Exception{
         Program prog = (Program)this.parse().value;
+        Context.INSTANCE.beforeGenClassNode();
         return prog;
     }
 
 :}
 
 terminal        ABSTRACT;
+terminal        AND;
+terminal        ANDC;
+terminal        ARROW;
 terminal        AT;
+terminal        BANG;
+terminal        BEQ;
 terminal        CLASS;
-terminal        COMMA;
 terminal        COLON;
+terminal        COMMA;
+terminal        CONST;
 terminal        DEF;
 terminal        DOT;
 terminal        ELSE;
 terminal        EQ;
+terminal        EQEQ;
 terminal        FALSE;
 terminal        FINAL;
 terminal        GOTO;
+terminal        GT;
+terminal        GTEQ;
 terminal        IF;
 terminal        IMPORT;
 terminal        LBRACE;
 terminal        LBRACKET;
 terminal        LPAREN;
+terminal        LT;
+terminal        LTEQ;
 terminal        MAIN;
 terminal        MINUS;
+terminal        MINUSEQ;
+terminal        OR;
+terminal        ORC;
 terminal        PACKAGE;
 terminal        PLUS;
+terminal        PLUSEQ;
 terminal        PRIVATE;
-terminal        PROTECTED;
 terminal        PUBLIC;
 terminal        RBRACE;
 terminal        RBRACKET;
@@ -48,6 +63,7 @@ terminal        SEMICOLON;
 terminal        SLASH;
 terminal        STAR;
 terminal        STATIC;
+terminal        TILARROW;
 terminal        TRUE;
 terminal        WHILE;
 terminal String COMMENT;
@@ -58,32 +74,36 @@ terminal String STRING_LITERAL;
 non terminal Annotation                 Annotation;
 non terminal Argument                   Arg;
 non terminal ClassDef                   ClassDef,InnerClassDef;
-non terminal Expression                 Expr,Expr1,Expr2,MethodInvocation,Primary,Primary1,Literal,IfExpr,WhileExpr,AssignmentExpr;
-non terminal FieldDef                   FieldDef;
-non terminal Identifier                 Ident,IdentOpt;
+non terminal Expression                 Expr,AdditiveExpr,MultiplicativeExpr,MethodInvocation,Primary,UnaryExpr,Literal,IfExpr,WhileExpr,AssignmentExpr, OrExpr, AndExpr, EqExpr, RelExpr, CastExpr;
+non terminal FieldDef                   FieldDef, FieldDefInn;
+non terminal List<FieldDef>             FieldDefBlockInn;
+non terminal FieldDefBlock              FieldDefBlock;
+non terminal Identifier                 Ident;
 non terminal ImportDef                  ImportDef;
 non terminal List<Annotation>           AnnotationList, AnnotationListOpt;
 non terminal List<Argument>             ArgList,ArgListOpt;
 non terminal List<ClassDef>             ClassDefList,ClassDefListOpt;
 non terminal List<Identifier>           IdentList,IdentListComma,TypeArg,TypeArgOpt;
 non terminal List<ImportDef>            ImportDefList;
-non terminal List<Modifier>             ClassModifierList, ClassModifierListOpt;
+non terminal List<Modifier>             ModifierList, ModifierListOpt;
 non terminal List<NodeGeneratable<?>>   MethodBodyList;
 non terminal List<Parameter>            ParameterList, ParameterListOpt;
 non terminal List<Statement>            ClassBodyList;
-non terminal TypeElement                TypeName,TypeNameOpt;
+non terminal TypeElement                TypeName, TypeNameOpt, UnionType;
 non terminal LocalVarDef                LocalVarDef;
 non terminal MethodDef                  MethodDef,MainDef;
-non terminal Modifier                   ClassModifier;
+non terminal Modifier                   Modifier;
 non terminal NodeGeneratable            MethodBody, Goto, Label;
 non terminal PackageDef                 PackageDef;
 non terminal Parameter                  Parameter;
 non terminal Program                    CompileUnit;
 non terminal Statement                  ClassBody;
 
-precedence left PLUS, MINUS, STAR, SLASH;
-precedence right LPAREN;
+precedence left PLUS, MINUS, STAR, SLASH, OR, ORC, AND, ANDC;
+precedence left LPAREN;
 precedence left DEF,ELSE;
+precedence left PUBLIC, PRIVATE, ABSTRACT, STATIC, FINAL;
+precedence right BANG;
 
 start with CompileUnit;
 
@@ -120,7 +140,7 @@ ImportDef ::= IMPORT IdentList:il
                 {:RESULT = Stmt.importDef(il, illeft, ilright); :}
             ;
 
-ClassDef ::= AnnotationListOpt:a ClassModifierListOpt:m CLASS Ident:i LBRACE ClassBodyList:l RBRACE
+ClassDef ::= AnnotationListOpt:a ModifierListOpt:m CLASS Ident:i LBRACE ClassBodyList:l RBRACE
                 {:RESULT = Stmt.classDef(a, m, i, l);:}
            ;
 
@@ -140,33 +160,33 @@ Annotation ::= AT Ident:id
                 {:RESULT = new Annotation(id, idleft, idright);:}
              ;
 
-ClassModifierListOpt ::= ClassModifierList:l
+ModifierListOpt ::= ModifierList:l
                             {:RESULT = l;:}
                        |
                             {:RESULT = new LinkedList<>();:}
                        ;
 
-ClassModifierList ::= ClassModifier:m ClassModifierList:list
-                        {:RESULT = list; RESULT.add(m);:}
-                    | ClassModifier:m
-                        {:RESULT = new LinkedList<>(); RESULT.add(m);:}
-                    ;
+ModifierList ::= Modifier:m ModifierList:list
+                   {:RESULT = list; RESULT.add(m);:}
+               | Modifier:m
+                   {:RESULT = new LinkedList<>(); RESULT.add(m);:}
+               ;
 
-ClassModifier ::= PUBLIC
-                    {:RESULT = Modifiers.PUBLIC;:}
-                | PROTECTED
-                    {:RESULT = Modifiers.PROTECTED;:}
-                | PRIVATE
-                    {:RESULT = Modifiers.PRIVATE;:}
-                | ABSTRACT
-                    {:RESULT = Modifiers.ABSTRACT;:}
-                | STATIC
-                    {:RESULT = Modifiers.STATIC;:}
-                | FINAL
-                    {:RESULT = Modifiers.FINAL;:}
-                ;
+Modifier ::= PUBLIC
+               {:RESULT = Modifiers.PUBLIC;:}
+           | PRIVATE
+               {:RESULT = Modifiers.PRIVATE;:}
+           | ABSTRACT
+               {:RESULT = Modifiers.ABSTRACT;:}
+           | STATIC
+               {:RESULT = Modifiers.STATIC;:}
+           | FINAL
+               {:RESULT = Modifiers.FINAL;:}
+           | CONST
+               {:RESULT = Modifiers.CONST;:}
+           ;
 
-InnerClassDef ::= AnnotationListOpt:a ClassModifierListOpt:m CLASS Ident:i LBRACE ClassBodyList:l RBRACE
+InnerClassDef ::= AnnotationListOpt:a ModifierListOpt:m CLASS Ident:i LBRACE ClassBodyList:l RBRACE
                     {:RESULT = Stmt.innerClassDef(a, m, i, l);:}
                 ;
 
@@ -178,6 +198,8 @@ ClassBodyList ::= ClassBodyList:list ClassBody:c
 
 ClassBody ::= FieldDef:f
                 {:RESULT = f;:}
+            | FieldDefBlock:fb
+                {:RESULT = fb;:}
             | InnerClassDef:c
                 {:RESULT = c;:}
             | MethodDef:m
@@ -186,24 +208,35 @@ ClassBody ::= FieldDef:f
                 {:RESULT = m;:}
             ;
 
-FieldDef ::= AnnotationListOpt:a ClassModifierListOpt:m DEF Ident:id TypeName:type EQ Expr:e
-                {:RESULT = Stmt.fieldDef(id, type, e);:}
+FieldDef ::= AnnotationListOpt:a ModifierListOpt:m DEF Ident:id TypeName:type EQ Expr:e
+                {:RESULT = Stmt.fieldDef(a, m, id, type, e);:}
+           | error:err
+                {:Context.INSTANCE.reportSyntaxError(errleft, errright);:}
            ;
 
-MethodDef ::= AnnotationListOpt:a ClassModifierListOpt:m DEF Ident:id LPAREN ParameterListOpt:p RPAREN TypeNameOpt:retType LBRACE MethodBodyList:b RBRACE
+FieldDefBlock ::= AnnotationListOpt:a ModifierList:m LBRACE FieldDefBlockInn:l RBRACE
+                    {:RESULT = Stmt.fieldDefBlock(a, m, l); :}
+                ;
+
+FieldDefBlockInn ::= FieldDefBlockInn:l FieldDefInn:f
+                {:l.add(f); RESULT = l;:}
+               |
+                {:RESULT = new LinkedList<>();:}
+               ;
+
+FieldDefInn ::= DEF Ident:id TypeName:type EQ Expr:e
+                {:RESULT = Stmt.fieldDef(id, type, e);:}
+              | error:err
+                {:Context.INSTANCE.reportSyntaxError(errleft, errright);:}
+              ;
+
+MethodDef ::= AnnotationListOpt:a ModifierListOpt:m DEF Ident:id LPAREN ParameterListOpt:p RPAREN TypeNameOpt:retType LBRACE MethodBodyList:b RBRACE
                 {:RESULT = Stmt.methodDef(a, m, id, p, retType, b);:}
             ;
 
 MainDef ::= MAIN LBRACE MethodBodyList:b RBRACE
                 {:RESULT = Stmt.mainDef(b);:}
           ;
-
-
-IdentOpt ::= Ident:id
-                {:RESULT = id;:}
-           |
-                {:RESULT = Identifier.none();:}
-           ;
 
 ParameterListOpt ::= ParameterList:list
                     {:RESULT = list;:}
@@ -257,38 +290,88 @@ Expr ::= IfExpr:e
             {:RESULT = e;:}
        | AssignmentExpr:e
             {:RESULT = e;:}
-       | Expr1:e
-        {:RESULT = e;:}
        ;
 
-AssignmentExpr ::= Ident:target EQ Expr:e
+AssignmentExpr ::= OrExpr:e
+                    {:RESULT = e;:}
+                 | Ident:target EQ OrExpr:e
                     {:RESULT = Expr.assignmentExpr(target, e);:}
+                 | Ident:target PLUSEQ OrExpr:e
+                    {:RESULT = Expr.plusAssignmentExpr(target,e); :}
+                 | Ident:target MINUSEQ OrExpr:e
+                    {:RESULT = Expr.minusAssignmentExpr(target, e); :}
                  ;
 
-Expr1 ::= Expr1:e1 PLUS Expr2:e2
+OrExpr ::= AndExpr:e
+            {:RESULT = e;:}
+         | OrExpr:e1 OR OrExpr:e2
+            {:RESULT = Expr.orExpr(e1, e2);:}
+         | OrExpr:e1 ORC OrExpr:e2
+            {:RESULT = Expr.orExpr(e1, e2);:}
+         ;
+
+AndExpr ::= EqExpr:e
+            {:RESULT = e;:}
+          | AndExpr:e1 AND EqExpr:e2
+            {:RESULT = Expr.andExpr(e1, e2);:}
+          | AndExpr:e1 ANDC EqExpr:e2
+            {:RESULT = Expr.andExpr(e1, e2);:}
+          ;
+
+EqExpr ::= RelExpr:e
+            {:RESULT = e;:}
+         | EqExpr:e1 EQEQ RelExpr:e2
+            {:RESULT = Expr.eqeqExpr(e1, e2);:}
+         | EqExpr:e1 BEQ RelExpr:e2
+            {:RESULT = Expr.beqExpr(e1, e2);:}
+         ;
+
+RelExpr ::= AdditiveExpr:e
+            {:RESULT = e;:}
+          | RelExpr:e1 LT AdditiveExpr:e2
+            {:RESULT = Expr.ltExpr(e1, e2);:}
+          | RelExpr:e1 GT AdditiveExpr:e2
+            {:RESULT = Expr.gtExpr(e1, e2);:}
+          | RelExpr:e1 LTEQ AdditiveExpr:e2
+            {:RESULT = Expr.lteqExpr(e1, e2);:}
+          | RelExpr:e1 GTEQ AdditiveExpr:e2
+            {:RESULT = Expr.gteqExpr(e1, e2);:}
+          ;
+
+AdditiveExpr ::= MultiplicativeExpr:e 
+            {:RESULT = e;:}
+        | AdditiveExpr:e1 PLUS MultiplicativeExpr:e2
             {:RESULT = Expr.add(e1, e2, e1left, e1right, e2left, e2right); :}
-        | Expr1:e1 MINUS Expr2:e2
+        | AdditiveExpr:e1 MINUS MultiplicativeExpr:e2
             {:RESULT = Expr.sub(e1, e2, e1left, e1right, e2left, e2right); :}
-        | Expr2:e
-            {:RESULT = e;:}
         ;
 
-Expr2 ::= Expr2:e1 STAR Primary1:e2
+MultiplicativeExpr ::= UnaryExpr:e 
+            {:RESULT = e;:}
+        | MultiplicativeExpr:e1 STAR UnaryExpr:e2
             {:RESULT = Expr.mul(e1, e2, e1left, e1right, e2left, e2right); :}
-        | Expr2:e1 SLASH Primary1:e2
+        | MultiplicativeExpr:e1 SLASH UnaryExpr:e2
             {:RESULT = Expr.div(e1, e2, e1left, e1right, e2left, e2right); :}
-        | Primary1:e
-            {:RESULT = e;:}
         ;
 
-Primary1 ::= Primary:e
-            {:RESULT = e;:}
+UnaryExpr ::= MINUS UnaryExpr:e
+              {:RESULT = Expr.unaryMinus(e);:}
+            | BANG UnaryExpr:e
+              {:RESULT = Expr.bangExpr(e);:}
+            | CastExpr:e
+              {:RESULT = e;:}
+            | Primary:e
+              {:RESULT = e;:}
+            ;
+
+CastExpr ::= LPAREN Expr:e RPAREN TILARROW Ident:to
+               {:RESULT = Expr.safeCastExpr(e, to); :}
+           | LPAREN Expr:e RPAREN ARROW Ident:to
+               {:RESULT = Expr.castExpr(e, to);:}
            ;
 
 Primary ::= Literal:l
             {:RESULT = l;:}
-          | MINUS Primary:e
-            {:RESULT = Expr.unaryMinus(e, eleft, eright);:}
           | LPAREN Expr:e RPAREN
             {:RESULT = e;:}
           | Ident:e 
@@ -338,6 +421,8 @@ TypeNameOpt ::= TypeName:t
 
 TypeName ::= Ident:id TypeArgOpt:targ
                 {:RESULT = Stmt.typeName(id, targ);:}
+           | TypeName:t1 OR TypeName:t2
+                {:RESULT = Stmt.unionType(t1, t2);:}
            ;
 
 TypeArgOpt ::= TypeArg:arg

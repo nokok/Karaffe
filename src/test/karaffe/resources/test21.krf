@@ -1,0 +1,5 @@
+class Hoge {
+    main {
+        def union Int | Long = 1
+    }
+}

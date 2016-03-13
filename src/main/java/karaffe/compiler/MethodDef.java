@@ -37,11 +37,6 @@ class MethodDef implements Statement, NodeGeneratable<MethodNode> {
         Context.INSTANCE.add(this);
     }
 
-    @Override
-    public Class<?> inferredType() {
-        return Void.class;
-    }
-
     public void setParent(ClassDef classDef) {
         if ( this.parent != null ) {
             return;
@@ -92,12 +87,7 @@ class MethodDef implements Statement, NodeGeneratable<MethodNode> {
         methodNode.attrs = new ArrayList<>();
         methodNode.desc = Type.getMethodDescriptor(returnType, argumentTypes.toArray(new Type[]{}));
         methodNode.instructions = new InsnList();
-        List<LocalVarDef> localVarDefs = b.stream().filter(e -> e instanceof LocalVarDef).map(LocalVarDef.class::cast).collect(toList());
         methodNode.localVariables = new ArrayList<>();
-        for ( LocalVarDef def : localVarDefs ) {
-            Context.INSTANCE.add(def);
-            //methodNode.localVariables.add(def.toNode());
-        }
         b.stream()
             .filter(e -> e instanceof LocalVarDef)
             .map(LocalVarDef.class::cast)
@@ -108,13 +98,10 @@ class MethodDef implements Statement, NodeGeneratable<MethodNode> {
             .filter(node -> !(node instanceof LocalVariableNode))
             .forEach(n -> {
                 if ( n instanceof JumpInsnNode ) {
-                    System.out.println("jump");
                     methodNode.instructions.add((AbstractInsnNode) n);
                 } else if ( n instanceof AbstractInsnNode ) {
-                    System.out.println("abst");
                     methodNode.instructions.add((AbstractInsnNode) n);
                 } else if ( n instanceof InsnList ) {
-                    System.out.println("insn");
                     methodNode.instructions.add((InsnList) n);
                 } else {
                     throw new RuntimeException();
@@ -135,7 +122,6 @@ class MethodDef implements Statement, NodeGeneratable<MethodNode> {
             }
         }
         methodNode.exceptions = Collections.emptyList();
-        methodNode.visitMaxs(0, 0);
 
         return methodNode;
     }
@@ -163,7 +149,8 @@ class MethodDef implements Statement, NodeGeneratable<MethodNode> {
         return parent;
     }
 
-    String getPath() {
+    @Override
+    public String getPath() {
         return this.path;
     }
 

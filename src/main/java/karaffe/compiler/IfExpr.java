@@ -7,6 +7,7 @@ import org.objectweb.asm.Opcodes;
 import org.objectweb.asm.Type;
 import org.objectweb.asm.tree.AbstractInsnNode;
 import org.objectweb.asm.tree.InsnList;
+import org.objectweb.asm.tree.InsnNode;
 import org.objectweb.asm.tree.JumpInsnNode;
 import org.objectweb.asm.tree.LabelNode;
 import org.objectweb.asm.tree.MethodInsnNode;
@@ -51,11 +52,6 @@ class IfExpr implements Expression {
     }
 
     @Override
-    public Class<?> inferredType() {
-        return Object.class;
-    }
-
-    @Override
     public InsnList toNode() {
         InsnList insnList = new InsnList();
         insnList.add(e.toNode());
@@ -79,6 +75,9 @@ class IfExpr implements Expression {
         LabelNode end = new LabelNode();
         insnList.add(new JumpInsnNode(Opcodes.GOTO, end));
         insnList.add(labelNode);
+        if ( b2.isEmpty() ) {
+            insnList.add(new InsnNode(Opcodes.NOP));
+        }
         for ( NodeGeneratable<?> g : b2 ) {
             Object node = g.toNode();
             if ( node instanceof AbstractInsnNode ) {

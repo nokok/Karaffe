@@ -15,11 +15,6 @@ class AssignmentExpr implements Expression {
     }
 
     @Override
-    public Class<?> inferredType() {
-        return Object.class;
-    }
-
-    @Override
     public InsnList toNode() {
         InsnList insnList = new InsnList();
         insnList.add(e.toNode());

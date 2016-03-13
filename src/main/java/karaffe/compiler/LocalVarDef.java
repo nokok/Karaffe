@@ -1,5 +1,6 @@
 package karaffe.compiler;
 
+import java.util.List;
 import java.util.Objects;
 import org.objectweb.asm.Opcodes;
 import org.objectweb.asm.tree.InsnList;
@@ -22,6 +23,29 @@ class LocalVarDef implements Statement, NodeGeneratable<LocalVariableNode> {
         this.e = Objects.requireNonNull(e);
         this.id.setBody(this.e);
         Context.INSTANCE.add(this);
+
+        type.doResolve();
+
+        TypeElement exprType = Context.INSTANCE.getType(e);
+        List<Identifier> tTypes = type.resolvedType();
+        List<Identifier> eTypes = exprType.resolvedType();
+        if ( eTypes.size() == 1 && eTypes.get(0).id().equals("UNRESOLVED") ) {
+            //Parameterの場合ここに来る。
+            //Expression.UNINITIALIZEDを使用すると式が取れないため絶対Objectになる。なのでthis.typeを利用した上でOKとする
+            return;
+        }
+        if ( tTypes.size() == eTypes.size() ) {
+            for ( int i = 0; i < tTypes.size(); i++ ) {
+                Identifier id1 = tTypes.get(i);
+                Identifier id2 = eTypes.get(i);
+                if ( !id1.id().equals(id2.id()) ) {
+                    Context.INSTANCE.reportTypeError(id.getPosition(), tTypes, eTypes);
+                    return;
+                }
+            }
+        } else {
+            Context.INSTANCE.reportTypeError(id.getPosition(), tTypes, eTypes);
+        }
     }
 
     public String name() {
@@ -49,10 +73,6 @@ class LocalVarDef implements Statement, NodeGeneratable<LocalVariableNode> {
         this.index = index;
     }
 
-    public Class<?> inferredType() {
-        return e.inferredType();
-    }
-
     @Override
     public LocalVariableNode toNode() {
         LocalVariableNode node = new LocalVariableNode(id.id(), Context.INSTANCE.resolveInternalNameByIdent(type.id()).orElse("Object"), null, new LabelNode(), new LabelNode(), index);
@@ -76,8 +96,16 @@ class LocalVarDef implements Statement, NodeGeneratable<LocalVariableNode> {
         return index;
     }
 
-    String getPath() {
+    @Override
+    public String getPath() {
         return this.path;
     }
 
+    public TypeElement getType() {
+        return type;
+    }
+
+    public Identifier getIdentifier() {
+        return id;
+    }
 }

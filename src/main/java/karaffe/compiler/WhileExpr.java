@@ -28,11 +28,6 @@ class WhileExpr implements Expression {
     }
 
     @Override
-    public Class<?> inferredType() {
-        return Object.class;
-    }
-
-    @Override
     public InsnList toNode() {
         InsnList insnList = new InsnList();
         LabelNode before = new LabelNode();

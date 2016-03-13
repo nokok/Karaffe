@@ -1,5 +1,6 @@
 package karaffe.compiler;
 
+import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 import java.util.Objects;
@@ -7,6 +8,7 @@ import static java.util.stream.Collectors.toList;
 import org.objectweb.asm.Opcodes;
 import org.objectweb.asm.Type;
 import org.objectweb.asm.tree.ClassNode;
+import org.objectweb.asm.tree.FieldNode;
 
 public class ClassDef implements Statement, NodeGeneratable<ClassNode> {
 
@@ -22,11 +24,6 @@ public class ClassDef implements Statement, NodeGeneratable<ClassNode> {
         this.id = id;
         this.c = c;
         Context.INSTANCE.add(this);
-    }
-
-    @Override
-    public Class<?> inferredType() {
-        return Void.class;
     }
 
     public void setPath(String path) {
@@ -53,6 +50,15 @@ public class ClassDef implements Statement, NodeGeneratable<ClassNode> {
             .map(FieldDef.class::cast)
             .map(f -> f.toNode())
             .collect(toList());
+        classNode.fields.addAll(c.stream().filter(c -> c instanceof FieldDefBlock)
+            .map(FieldDefBlock.class::cast)
+            .map(f -> f.toNodes())
+            .reduce((list1, list2) -> {
+                List<FieldNode> ret = new ArrayList<>(list1.size() + list2.size());
+                ret.addAll(list1);
+                ret.addAll(list2);
+                return ret;
+            }).orElseGet(ArrayList::new));
         classNode.methods = c.stream().filter(c -> c instanceof MethodDef)
             .map(MethodDef.class::cast)
             .map(m -> m.toNode())
@@ -66,7 +72,7 @@ public class ClassDef implements Statement, NodeGeneratable<ClassNode> {
         return id.id();
     }
 
-    String getPath() {
+    public String getPath() {
         return path;
     }
 }

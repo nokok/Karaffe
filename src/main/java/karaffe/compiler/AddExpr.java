@@ -1,6 +1,7 @@
 package karaffe.compiler;
 
-import java.math.BigInteger;
+import java.util.Map;
+import karaffe.core.Int;
 import org.objectweb.asm.Opcodes;
 import org.objectweb.asm.Type;
 import org.objectweb.asm.tree.InsnList;
@@ -21,27 +22,28 @@ public class AddExpr implements Expression, BinaryExpression {
     }
 
     @Override
+    public Expression leftExpr() {
+        return e1;
+    }
+
+    @Override
+    public Expression rightExpr() {
+        return e2;
+    }
+
+    @Override
     public InsnList toNode() {
         InsnList insnList = new InsnList();
+        Map<Expression, TypeElement> typeCheck = Context.INSTANCE.typeCheck(e1, e2);
+        TypeElement type1 = typeCheck.get(e1);
+        TypeElement type2 = typeCheck.get(e2);
+        if ( !type1.equals(type2) ) {
+            Context.INSTANCE.reportTypeError(e2Pos, type1.resolvedType(), type2.resolvedType());
+        }
         insnList.add(e1.toNode());
         insnList.add(e2.toNode());
-        insnList.add(new MethodInsnNode(Opcodes.INVOKEVIRTUAL, Type.getInternalName(BigInteger.class), "add", Type.getMethodDescriptor(Type.getType(BigInteger.class), Type.getType(BigInteger.class)), false));
+        insnList.add(new MethodInsnNode(Opcodes.INVOKEVIRTUAL, Type.getInternalName(Int.class), "plus", Type.getMethodDescriptor(Type.getType(Int.class), Type.getType(Int.class)), false));
         return insnList;
-    }
-
-    @Override
-    public Class<?> inferredType() {
-        return BigInteger.class;
-    }
-
-    @Override
-    public Class<?> leftInferredType() {
-        return e1.inferredType();
-    }
-
-    @Override
-    public Class<?> rightInferredType() {
-        return e2.inferredType();
     }
 
     @Override
