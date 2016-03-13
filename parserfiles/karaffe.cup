@@ -27,6 +27,7 @@ terminal        BANG;
 terminal        BEQ;
 terminal        CLASS;
 terminal        COLON;
+terminal        CONST;
 terminal        COMMA;
 terminal        DEF;
 terminal        DOT;
@@ -54,7 +55,6 @@ terminal        PACKAGE;
 terminal        PLUS;
 terminal        PLUSEQ;
 terminal        PRIVATE;
-terminal        PROTECTED;
 terminal        PUBLIC;
 terminal        RBRACE;
 terminal        RBRACKET;
@@ -85,14 +85,14 @@ non terminal List<Argument>             ArgList,ArgListOpt;
 non terminal List<ClassDef>             ClassDefList,ClassDefListOpt;
 non terminal List<Identifier>           IdentList,IdentListComma,TypeArg,TypeArgOpt;
 non terminal List<ImportDef>            ImportDefList;
-non terminal List<Modifier>             ClassModifierList, ClassModifierListOpt;
+non terminal List<Modifier>             ClassModifierList, ClassModifierListOpt, FieldModifierList, FieldModifierListOpt;
 non terminal List<NodeGeneratable<?>>   MethodBodyList;
 non terminal List<Parameter>            ParameterList, ParameterListOpt;
 non terminal List<Statement>            ClassBodyList;
 non terminal TypeElement                TypeName,TypeNameOpt;
 non terminal LocalVarDef                LocalVarDef;
 non terminal MethodDef                  MethodDef,MainDef;
-non terminal Modifier                   ClassModifier;
+non terminal Modifier                   ClassModifier, FieldModifier;
 non terminal NodeGeneratable            MethodBody, Goto, Label;
 non terminal PackageDef                 PackageDef;
 non terminal Parameter                  Parameter;
@@ -102,7 +102,7 @@ non terminal Statement                  ClassBody;
 precedence left PLUS, MINUS, STAR, SLASH, OR, ORC, AND, ANDC;
 precedence left LPAREN;
 precedence left DEF,ELSE;
-precedence left PUBLIC, PROTECTED, PRIVATE, ABSTRACT, STATIC, FINAL;
+precedence left PUBLIC, PRIVATE, ABSTRACT, STATIC, FINAL;
 precedence right BANG;
 
 start with CompileUnit;
@@ -174,8 +174,6 @@ ClassModifierList ::= ClassModifier:m ClassModifierList:list
 
 ClassModifier ::= PUBLIC
                     {:RESULT = Modifiers.PUBLIC;:}
-                | PROTECTED
-                    {:RESULT = Modifiers.PROTECTED;:}
                 | PRIVATE
                     {:RESULT = Modifiers.PRIVATE;:}
                 | ABSTRACT
@@ -213,6 +211,31 @@ FieldDef ::= AnnotationListOpt:a ClassModifierListOpt:m DEF Ident:id TypeName:ty
            | error:err
                 {:Context.INSTANCE.reportSyntaxError(errleft, errright);:}
            ;
+
+FieldModifierListOpt ::= FieldModifierList:l
+                            {:RESULT = l;:}
+                       |
+                            {:RESULT = new ArrayList<>(0);:}
+                       ;
+
+FieldModifierList ::= FieldModifier:m FieldModifierList:l
+                        {:RESULT = l; RESULT.add(m);:}
+                    | FieldModifier:f
+                        {:RESULT = new LinkedList<>(); RESULT.add(f);:}
+                    ;
+
+FieldModifier ::= PUBLIC
+                    {:RESULT = Modifiers.PUBLIC;:}
+                | PRIVATE
+                    {:RESULT = Modifiers.PRIVATE;:}
+                | STATIC
+                    {:RESULT = Modifiers.STATIC;:}
+                | CONST
+                    {:RESULT = Modifiers.CONST;:}
+                | FINAL
+                    {:RESULT = Modifiers.FINAL;:}
+                ;
+
 
 FieldDefBlock ::= AnnotationListOpt:a ClassModifierList:m LBRACE FieldDefBlockInn:l RBRACE
                     {:RESULT = Stmt.fieldDefBlock(a, m, l); :}

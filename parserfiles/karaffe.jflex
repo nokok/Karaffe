@@ -67,13 +67,13 @@ Identifier = [:jletter:][:jletterdigit:]*
 %%
 <YYINITIAL> {
 
-    "protected"                 {return sym(PROTECTED);}
     "abstract"                  {return sym(ABSTRACT);}
     "package"                   {return sym(PACKAGE);}
     "private"                   {return sym(PRIVATE);}
     "public"                    {return sym(PUBLIC);}
     "static"                    {return sym(STATIC);}
     "import"                    {return sym(IMPORT);}
+    "const"                     {return sym(CONST);}
     "final"                     {return sym(FINAL);}
     "class"                     {return sym(CLASS);}
     "while"                     {return sym(WHILE);}
