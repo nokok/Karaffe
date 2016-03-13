@@ -33,7 +33,6 @@ public class Main {
 
         boolean isDebugMode = Arrays.asList(args).contains("--debug");
         if ( isDebugMode ) {
-            System.out.println("\n\n");
             System.out.println("DEBUG");
             System.out.println(program);
         }
