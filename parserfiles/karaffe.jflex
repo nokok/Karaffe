@@ -84,37 +84,39 @@ Identifier = [:jletter:][:jletterdigit:]*
     "else"                      {return sym(ELSE);}
     "and"                       {return sym(ANDC);}
     "def"                       {return sym(DEF);}
-    "if"                        {return sym(IF);}
-    "~>"                        {return sym(TILARROW);}
-    "->"                        {return sym(ARROW);}
-    "=="                        {return sym(EQEQ);}
-    "!="                        {return sym(BEQ);}
-    "<="                        {return sym(LTEQ);}
-    ">="                        {return sym(GTEQ);}
+    "not"                       {return sym(NOT);}
+    "!="                        {return sym(NEQ);}
     "+="                        {return sym(PLUSEQ);}
     "-="                        {return sym(MINUSEQ);}
+    "->"                        {return sym(ARROW);}
+    "<="                        {return sym(LTEQ);}
+    "=="                        {return sym(EQEQ);}
+    ">="                        {return sym(GTEQ);}
+    "if"                        {return sym(IF);}
+    "is"                        {return sym(IS);}
     "or"                        {return sym(ORC);}
+    "~>"                        {return sym(TILARROW);}
     "!"                         {return sym(BANG);}
-    "@"                         {return sym(AT);}
-    "="                         {return sym(EQ);}
-    "|"                         {return sym(OR);}
     "&"                         {return sym(AND);}
-    "<"                         {return sym(LT);}
-    ">"                         {return sym(GT);}
-    "{"                         {return sym(LBRACE);}
-    "}"                         {return sym(RBRACE);}
     "("                         {return sym(LPAREN);}
     ")"                         {return sym(RPAREN);}
-    "["                         {return sym(LBRACKET);}
-    "]"                         {return sym(RBRACKET);}
-    ","                         {return sym(COMMA);}
-    "."                         {return sym(DOT);}
-    "+"                         {return sym(PLUS);}
-    "-"                         {return sym(MINUS);}
     "*"                         {return sym(STAR);}
+    "+"                         {return sym(PLUS);}
+    ","                         {return sym(COMMA);}
+    "-"                         {return sym(MINUS);}
+    "."                         {return sym(DOT);}
     "/"                         {return sym(SLASH);}
     ":"                         {return sym(COLON);}
     ";"                         {return sym(SEMICOLON);}
+    "<"                         {return sym(LT);}
+    "="                         {return sym(EQ);}
+    ">"                         {return sym(GT);}
+    "@"                         {return sym(AT);}
+    "["                         {return sym(LBRACKET);}
+    "]"                         {return sym(RBRACKET);}
+    "{"                         {return sym(LBRACE);}
+    "|"                         {return sym(OR);}
+    "}"                         {return sym(RBRACE);}
 
     {Identifier}                {return sym(IDENTIFIER, yytext());}
     {WhiteSpace}                {}

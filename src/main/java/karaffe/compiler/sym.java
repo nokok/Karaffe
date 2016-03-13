@@ -8,60 +8,63 @@ package karaffe.compiler;
 /** CUP generated interface containing symbol constants. */
 public interface sym {
   /* terminals */
-  public static final int STRING_LITERAL = 53;
+  public static final int STRING_LITERAL = 56;
   public static final int GTEQ = 22;
-  public static final int LBRACKET = 26;
+  public static final int LBRACKET = 27;
   public static final int CONST = 12;
-  public static final int LTEQ = 29;
-  public static final int SLASH = 44;
-  public static final int COMMENT = 50;
-  public static final int PRIVATE = 38;
-  public static final int LPAREN = 27;
-  public static final int MINUS = 31;
-  public static final int STAR = 45;
-  public static final int STATIC = 46;
-  public static final int RPAREN = 42;
-  public static final int SEMICOLON = 43;
+  public static final int LTEQ = 30;
+  public static final int SLASH = 47;
+  public static final int COMMENT = 53;
+  public static final int PRIVATE = 41;
+  public static final int LPAREN = 28;
+  public static final int MINUS = 32;
+  public static final int STAR = 48;
+  public static final int STATIC = 49;
+  public static final int RPAREN = 45;
+  public static final int SEMICOLON = 46;
+  public static final int NOT = 36;
+  public static final int IS = 25;
   public static final int AND = 3;
-  public static final int LT = 28;
-  public static final int OR = 33;
+  public static final int LT = 29;
+  public static final int OR = 34;
   public static final int BANG = 7;
   public static final int COMMA = 11;
   public static final int CLASS = 9;
-  public static final int ORC = 34;
-  public static final int PLUSEQ = 37;
-  public static final int MINUSEQ = 32;
-  public static final int PLUS = 36;
-  public static final int MAIN = 30;
+  public static final int ORC = 35;
+  public static final int PLUSEQ = 40;
+  public static final int MINUSEQ = 33;
+  public static final int PLUS = 39;
+  public static final int MAIN = 31;
   public static final int IF = 23;
   public static final int DOT = 14;
   public static final int ABSTRACT = 2;
   public static final int EOF = 0;
-  public static final int RBRACKET = 41;
-  public static final int TRUE = 48;
+  public static final int RBRACKET = 44;
+  public static final int TRUE = 51;
   public static final int error = 1;
   public static final int EQEQ = 17;
+  public static final int NEQ = 37;
   public static final int EQ = 16;
-  public static final int TILARROW = 47;
+  public static final int TILARROW = 50;
   public static final int IMPORT = 24;
   public static final int ARROW = 5;
   public static final int COLON = 10;
-  public static final int LBRACE = 25;
+  public static final int LBRACE = 26;
   public static final int ELSE = 15;
-  public static final int PACKAGE = 35;
+  public static final int PACKAGE = 38;
   public static final int ANDC = 4;
   public static final int GOTO = 20;
-  public static final int WHILE = 49;
+  public static final int WHILE = 52;
   public static final int FINAL = 19;
-  public static final int PUBLIC = 39;
-  public static final int RBRACE = 40;
+  public static final int PUBLIC = 42;
+  public static final int RBRACE = 43;
   public static final int DEF = 13;
   public static final int AT = 6;
   public static final int FALSE = 18;
   public static final int GT = 21;
-  public static final int INT_LITERAL = 52;
+  public static final int INT_LITERAL = 55;
   public static final int BEQ = 8;
-  public static final int IDENTIFIER = 51;
+  public static final int IDENTIFIER = 54;
   public static final String[] terminalNames = new String[] {
   "EOF",
   "error",
@@ -88,6 +91,7 @@ public interface sym {
   "GTEQ",
   "IF",
   "IMPORT",
+  "IS",
   "LBRACE",
   "LBRACKET",
   "LPAREN",
@@ -98,6 +102,8 @@ public interface sym {
   "MINUSEQ",
   "OR",
   "ORC",
+  "NOT",
+  "NEQ",
   "PACKAGE",
   "PLUS",
   "PLUSEQ",
