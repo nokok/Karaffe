@@ -69,4 +69,8 @@ class Stmt {
         return new TypeElement(id, targ);
     }
 
+    static TypeElement unionType(TypeElement t1, TypeElement t2) {
+        return new UnionTypeElement(t1, t2);
+    }
+
 }

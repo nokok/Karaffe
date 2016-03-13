@@ -11,7 +11,7 @@ public interface sym {
   public static final int STRING_LITERAL = 53;
   public static final int GTEQ = 22;
   public static final int LBRACKET = 26;
-  public static final int CONST = 11;
+  public static final int CONST = 12;
   public static final int LTEQ = 29;
   public static final int SLASH = 44;
   public static final int COMMENT = 50;
@@ -26,7 +26,7 @@ public interface sym {
   public static final int LT = 28;
   public static final int OR = 33;
   public static final int BANG = 7;
-  public static final int COMMA = 12;
+  public static final int COMMA = 11;
   public static final int CLASS = 9;
   public static final int ORC = 34;
   public static final int PLUSEQ = 37;
@@ -74,8 +74,8 @@ public interface sym {
   "BEQ",
   "CLASS",
   "COLON",
-  "CONST",
   "COMMA",
+  "CONST",
   "DEF",
   "DOT",
   "ELSE",
