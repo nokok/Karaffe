@@ -1,5 +1,6 @@
 #Karaffe Programming Language(ja)
 [![Coverage Status](https://coveralls.io/repos/nokok/Karaffe/badge.png?branch=master)](https://coveralls.io/r/nokok/Karaffe?branch=master)
+[![Build Status](https://travis-ci.org/Karaffe/Karaffe.svg?branch=master)](https://travis-ci.org/Karaffe/Karaffe)
 
 #この言語の開発目標
 - メモ帳でも書けるとにかくシンプルで現代的な機能を持つ言語
