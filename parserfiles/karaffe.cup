@@ -421,6 +421,8 @@ TypeNameOpt ::= TypeName:t
 
 TypeName ::= Ident:id TypeArgOpt:targ
                 {:RESULT = Stmt.typeName(id, targ);:}
+           | TypeName:t1 OR TypeName:t2
+                {:RESULT = Stmt.unionType(t1, t2);:}
            ;
 
 TypeArgOpt ::= TypeArg:arg
