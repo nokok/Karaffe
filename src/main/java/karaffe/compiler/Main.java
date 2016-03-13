@@ -12,8 +12,15 @@ import org.objectweb.asm.tree.ClassNode;
 
 public class Main {
 
+    public static final String COMPILER_VERSION;
+
+    static {
+        COMPILER_VERSION = "0.0.1";
+    }
+
     public static void main(String... args) throws Exception {
         if ( args == null || args.length < 1 ) {
+            System.out.println("Karaffe Compiler: " + Main.COMPILER_VERSION);
             System.out.println("Usage: krfc FileName.krf [options...]");
             return;
         }
