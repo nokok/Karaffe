@@ -85,14 +85,14 @@ non terminal List<Argument>             ArgList,ArgListOpt;
 non terminal List<ClassDef>             ClassDefList,ClassDefListOpt;
 non terminal List<Identifier>           IdentList,IdentListComma,TypeArg,TypeArgOpt;
 non terminal List<ImportDef>            ImportDefList;
-non terminal List<Modifier>             ClassModifierList, ClassModifierListOpt, FieldModifierList, FieldModifierListOpt;
+non terminal List<Modifier>             ModifierList, ModifierListOpt;
 non terminal List<NodeGeneratable<?>>   MethodBodyList;
 non terminal List<Parameter>            ParameterList, ParameterListOpt;
 non terminal List<Statement>            ClassBodyList;
-non terminal TypeElement                TypeName,TypeNameOpt;
+non terminal TypeElement                TypeName, TypeNameOpt, UnionType;
 non terminal LocalVarDef                LocalVarDef;
 non terminal MethodDef                  MethodDef,MainDef;
-non terminal Modifier                   ClassModifier, FieldModifier;
+non terminal Modifier                   Modifier;
 non terminal NodeGeneratable            MethodBody, Goto, Label;
 non terminal PackageDef                 PackageDef;
 non terminal Parameter                  Parameter;
@@ -140,7 +140,7 @@ ImportDef ::= IMPORT IdentList:il
                 {:RESULT = Stmt.importDef(il, illeft, ilright); :}
             ;
 
-ClassDef ::= AnnotationListOpt:a ClassModifierListOpt:m CLASS Ident:i LBRACE ClassBodyList:l RBRACE
+ClassDef ::= AnnotationListOpt:a ModifierListOpt:m CLASS Ident:i LBRACE ClassBodyList:l RBRACE
                 {:RESULT = Stmt.classDef(a, m, i, l);:}
            ;
 
@@ -160,31 +160,33 @@ Annotation ::= AT Ident:id
                 {:RESULT = new Annotation(id, idleft, idright);:}
              ;
 
-ClassModifierListOpt ::= ClassModifierList:l
+ModifierListOpt ::= ModifierList:l
                             {:RESULT = l;:}
                        |
                             {:RESULT = new LinkedList<>();:}
                        ;
 
-ClassModifierList ::= ClassModifier:m ClassModifierList:list
-                        {:RESULT = list; RESULT.add(m);:}
-                    | ClassModifier:m
-                        {:RESULT = new LinkedList<>(); RESULT.add(m);:}
-                    ;
+ModifierList ::= Modifier:m ModifierList:list
+                   {:RESULT = list; RESULT.add(m);:}
+               | Modifier:m
+                   {:RESULT = new LinkedList<>(); RESULT.add(m);:}
+               ;
 
-ClassModifier ::= PUBLIC
-                    {:RESULT = Modifiers.PUBLIC;:}
-                | PRIVATE
-                    {:RESULT = Modifiers.PRIVATE;:}
-                | ABSTRACT
-                    {:RESULT = Modifiers.ABSTRACT;:}
-                | STATIC
-                    {:RESULT = Modifiers.STATIC;:}
-                | FINAL
-                    {:RESULT = Modifiers.FINAL;:}
-                ;
+Modifier ::= PUBLIC
+               {:RESULT = Modifiers.PUBLIC;:}
+           | PRIVATE
+               {:RESULT = Modifiers.PRIVATE;:}
+           | ABSTRACT
+               {:RESULT = Modifiers.ABSTRACT;:}
+           | STATIC
+               {:RESULT = Modifiers.STATIC;:}
+           | FINAL
+               {:RESULT = Modifiers.FINAL;:}
+           | CONST
+               {:RESULT = Modifiers.CONST;:}
+           ;
 
-InnerClassDef ::= AnnotationListOpt:a ClassModifierListOpt:m CLASS Ident:i LBRACE ClassBodyList:l RBRACE
+InnerClassDef ::= AnnotationListOpt:a ModifierListOpt:m CLASS Ident:i LBRACE ClassBodyList:l RBRACE
                     {:RESULT = Stmt.innerClassDef(a, m, i, l);:}
                 ;
 
@@ -206,38 +208,13 @@ ClassBody ::= FieldDef:f
                 {:RESULT = m;:}
             ;
 
-FieldDef ::= AnnotationListOpt:a ClassModifierListOpt:m DEF Ident:id TypeName:type EQ Expr:e
+FieldDef ::= AnnotationListOpt:a ModifierListOpt:m DEF Ident:id TypeName:type EQ Expr:e
                 {:RESULT = Stmt.fieldDef(a, m, id, type, e);:}
            | error:err
                 {:Context.INSTANCE.reportSyntaxError(errleft, errright);:}
            ;
 
-FieldModifierListOpt ::= FieldModifierList:l
-                            {:RESULT = l;:}
-                       |
-                            {:RESULT = new ArrayList<>(0);:}
-                       ;
-
-FieldModifierList ::= FieldModifier:m FieldModifierList:l
-                        {:RESULT = l; RESULT.add(m);:}
-                    | FieldModifier:f
-                        {:RESULT = new LinkedList<>(); RESULT.add(f);:}
-                    ;
-
-FieldModifier ::= PUBLIC
-                    {:RESULT = Modifiers.PUBLIC;:}
-                | PRIVATE
-                    {:RESULT = Modifiers.PRIVATE;:}
-                | STATIC
-                    {:RESULT = Modifiers.STATIC;:}
-                | CONST
-                    {:RESULT = Modifiers.CONST;:}
-                | FINAL
-                    {:RESULT = Modifiers.FINAL;:}
-                ;
-
-
-FieldDefBlock ::= AnnotationListOpt:a ClassModifierList:m LBRACE FieldDefBlockInn:l RBRACE
+FieldDefBlock ::= AnnotationListOpt:a ModifierList:m LBRACE FieldDefBlockInn:l RBRACE
                     {:RESULT = Stmt.fieldDefBlock(a, m, l); :}
                 ;
 
@@ -253,7 +230,7 @@ FieldDefInn ::= DEF Ident:id TypeName:type EQ Expr:e
                 {:Context.INSTANCE.reportSyntaxError(errleft, errright);:}
               ;
 
-MethodDef ::= AnnotationListOpt:a ClassModifierListOpt:m DEF Ident:id LPAREN ParameterListOpt:p RPAREN TypeNameOpt:retType LBRACE MethodBodyList:b RBRACE
+MethodDef ::= AnnotationListOpt:a ModifierListOpt:m DEF Ident:id LPAREN ParameterListOpt:p RPAREN TypeNameOpt:retType LBRACE MethodBodyList:b RBRACE
                 {:RESULT = Stmt.methodDef(a, m, id, p, retType, b);:}
             ;
 
