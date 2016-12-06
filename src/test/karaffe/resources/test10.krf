@@ -1,9 +1,0 @@
-class Hoge {
-    main {
-        def localVarDef String = "Hello World"
-        println(localVarDef)
-    }
-    def add(a Int, b Int) Int {
-        a + b
-    }
-}

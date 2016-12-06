@@ -1,6 +1,0 @@
-package hoge.fuga
-
-import hoge.fuga.piyo
-
-class Hoge {
-}

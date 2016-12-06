@@ -1,5 +1,0 @@
-class Main {
-    main {
-        print("1" + 2)
-    }
-}

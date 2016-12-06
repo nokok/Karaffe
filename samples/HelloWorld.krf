@@ -1,6 +1,0 @@
-class HelloWorld{
-    def main() {
-        println("Hello world")
-    }
-}
-

@@ -1,3 +1,0 @@
-class Hoge {
-    def field Int = 1
-}

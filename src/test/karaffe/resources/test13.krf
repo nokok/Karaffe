@@ -1,5 +1,0 @@
-class Hoge {
-    main {
-        def f Int = new()
-    }
-}

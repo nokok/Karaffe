@@ -1,6 +1,10 @@
 language: java
 jdk:
 - oraclejdk8
-install: mvn package
+install: "./gradlew clean cleanTest build jacocoTestReport"
 after_success:
-    - mvn clean test jacoco:report coveralls:report
+- bash <(curl -s https://codecov.io/bash)
+notifications:
+  slack:
+    secure: ccL7MrB1GKP1NJMq6/wvP4pWxeCg5AGhfhEGyay9xfIw2m8hnIUG2xV8OYpo4zJ/JpSkak1ftqIiJpOcln1r0d9JRuePQ0erJfyQXbOLUUHDteTkXDUT0tCI8GpHbPD6ZydfPVQZYgen6J1OdMq4jRbN1ZvxAetmoiqW/XGdDi4=
+

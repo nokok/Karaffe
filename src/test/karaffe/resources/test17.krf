@@ -1,6 +1,0 @@
-class Hoge {
-    private final {
-        def hoge Int = 1
-    }
-    private final def fuga Int = 2
-}

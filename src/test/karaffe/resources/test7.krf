@@ -1,5 +1,0 @@
-class Hoge {
-    main {
-        def localVarDef String = "Hello World"
-    }
-}
