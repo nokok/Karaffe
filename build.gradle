@@ -1,18 +1,10 @@
-buildscript {
-    repositories {
-        jcenter()
-    }
-    dependencies {
-        classpath 'eu.appsatori:gradle-fatjar-plugin:0.3'
-    }
-}
-
 plugins {
-  id 'eu.appsatori.fatjar' version '0.3'
+  id 'com.github.johnrengelman.shadow' version '2.0.1'
   id 'java'
   id 'maven'
   id 'jacoco'
   id 'antlr'
+  id 'application'
 } 
 
 group = 'org.karaffe'
@@ -21,23 +13,25 @@ version = '0.1'
 if( !JavaVersion.current().java8Compatible ) {
   def errorString = """
 ***************************************************
-      Java 8 compatible compiler is required!
+Java 8 compatible compiler is required!
 ***************************************************
 """
   throw new GradleException(errorString)
 }
 
 description = """Karaffe Compiler"""
+defaultTasks 'build', 'test', 'shadowJar'
+mainClassName = 'org.karaffe.compiler.Main'
 
 sourceCompatibility = 1.8
 targetCompatibility = 1.8
 
 repositories {
-    mavenCentral()
+  mavenCentral()
 }
 
 ext {
-  antlrVersion = '4.5.3'
+  antlrVersion = '4.7'
   junitVersion = '4.12'
 }
 
@@ -51,25 +45,26 @@ dependencies {
   compile group: 'ch.qos.logback', name: 'logback-classic', version: '1.1.8'
   compile group: 'org.slf4j', name: 'slf4j-api', version: '1.7.22'
 }
+compileJava.options.compilerArgs = ['-Xlint:processing']
 
 jacocoTestReport {
-    reports {
-        xml.enabled true
-    }
+  reports {
+    xml.enabled true
+  }
 
-    afterEvaluate {
-        classDirectories = files(classDirectories.files.collect {
-                fileTree(dir: it,
-                    exclude: ['**/org/karaffe/compiler/antlr/**', '**/org/karaffe/compiler/arg/KaraffeFileHandler*'])
-            })
-    }
+  afterEvaluate {
+    classDirectories = files(classDirectories.files.collect {
+        fileTree(dir: it,
+            exclude: ['**/org/karaffe/compiler/antlr/**', '**/org/karaffe/compiler/arg/KaraffeFileHandler*'])
+        })
+  }
 }
 
 
 def destDir = file("${projectDir}/src/main/java/org/karaffe/compiler/antlr/")
 
 clean {
-    delete destDir
+  delete destDir
 }
 
 generateGrammarSource {
@@ -85,14 +80,3 @@ def jarBaseName = 'Karaffe-Compiler'
 def jarName = jarBaseName + '.jar'
 def krfHome = java.lang.System.getenv()['KRF_HOME'] ?: "krf"
 def compilerMainClass = 'org.karaffe.compiler.Main'
-
-fatJar {
-    baseName = jarBaseName
-    manifest {
-        attributes('Main-Class': compilerMainClass)
-    }
-}
-
-task lexparTest(type :Exec, dependsOn: test){
-  commandLine "bash", "runtest.sh"
-}
