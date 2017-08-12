@@ -1,13 +1,33 @@
-apply plugin: 'java'
-apply plugin: 'maven'
-apply plugin: 'jacoco'
-apply plugin: 'eu.appsatori.fatjar'
-apply plugin: 'antlr'
+buildscript {
+    repositories {
+        jcenter()
+    }
+    dependencies {
+        classpath 'eu.appsatori:gradle-fatjar-plugin:0.3'
+    }
+}
+
+plugins {
+  id 'eu.appsatori.fatjar' version '0.3'
+  id 'java'
+  id 'maven'
+  id 'jacoco'
+  id 'antlr'
+} 
 
 group = 'org.karaffe'
 version = '0.1'
 
-description = """"""
+if( !JavaVersion.current().java8Compatible ) {
+  def errorString = """
+***************************************************
+      Java 8 compatible compiler is required!
+***************************************************
+"""
+  throw new GradleException(errorString)
+}
+
+description = """Karaffe Compiler"""
 
 sourceCompatibility = 1.8
 targetCompatibility = 1.8
@@ -18,30 +38,18 @@ repositories {
 
 ext {
   antlrVersion = '4.5.3'
-  junitVersion = '4.11'
+  junitVersion = '4.12'
 }
 
 dependencies {
-    testCompile group: 'junit', name: 'junit', version: junitVersion
-    compile group: 'org.antlr', name: 'antlr4', version: antlrVersion
-    compile group: 'org.antlr', name: 'antlr4-maven-plugin', version: antlrVersion
-    antlr "org.antlr:antlr4:$antlrVersion"
-}
-
-buildscript {
-    repositories {
-        jcenter()
-    }
-    dependencies {
-        classpath 'eu.appsatori:gradle-fatjar-plugin:0.3'
-    }
-}
-
-fatJar {
-    baseName = 'fatjar'
-    manifest {
-        attributes('Main-Class': 'org.karaffe.compiler.Main')
-    }
+  testCompile group: 'junit', name: 'junit', version: junitVersion
+  compile group: 'org.antlr', name: 'antlr4', version: antlrVersion
+  compile group: 'org.antlr', name: 'antlr4-maven-plugin', version: antlrVersion
+  compile group: 'org.antlr', name: 'antlr4-maven-plugin', version: antlrVersion
+  antlr "org.antlr:antlr4:$antlrVersion"
+  compile group: 'org.ow2.asm', name: 'asm-all', version: '5.1'
+  compile group: 'ch.qos.logback', name: 'logback-classic', version: '1.1.8'
+  compile group: 'org.slf4j', name: 'slf4j-api', version: '1.7.22'
 }
 
 jacocoTestReport {
@@ -52,7 +60,39 @@ jacocoTestReport {
     afterEvaluate {
         classDirectories = files(classDirectories.files.collect {
                 fileTree(dir: it,
-                    exclude: ['**/org/karaffe/antlr/**'])
+                    exclude: ['**/org/karaffe/compiler/antlr/**', '**/org/karaffe/compiler/arg/KaraffeFileHandler*'])
             })
     }
+}
+
+
+def destDir = file("${projectDir}/src/main/java/org/karaffe/compiler/antlr/")
+
+clean {
+    delete destDir
+}
+
+generateGrammarSource {
+  outputDirectory = destDir
+  arguments += ["-visitor", "-listener", "-package", "org.karaffe.compiler.antlr"]
+}
+
+import java.nio.file.Files
+import java.nio.file.Paths
+import java.nio.file.Path
+
+def jarBaseName = 'Karaffe-Compiler'
+def jarName = jarBaseName + '.jar'
+def krfHome = java.lang.System.getenv()['KRF_HOME'] ?: "krf"
+def compilerMainClass = 'org.karaffe.compiler.Main'
+
+fatJar {
+    baseName = jarBaseName
+    manifest {
+        attributes('Main-Class': compilerMainClass)
+    }
+}
+
+task lexparTest(type :Exec, dependsOn: test){
+  commandLine "bash", "runtest.sh"
 }
