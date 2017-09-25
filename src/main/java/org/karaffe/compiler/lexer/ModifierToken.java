@@ -8,21 +8,29 @@ public abstract class ModifierToken extends CommonToken {
     }
 
     public static class Public extends ModifierToken {
-        protected Public(final Position position) {
+        public Public(final Position position) {
             super("public", position);
         }
     }
 
     public static class Static extends ModifierToken {
-        protected Static(final Position position) {
+        public Static(final Position position) {
             super("static", position);
         }
     }
 
     public static class Private extends ModifierToken {
-        protected Private(final Position position) {
+        public Private(final Position position) {
             super("private", position);
         }
+    }
+
+    public static class Parameter extends ModifierToken {
+
+        public Parameter() {
+            super("", Position.noPos());
+        }
+
     }
 
     @Override

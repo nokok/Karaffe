@@ -111,11 +111,23 @@ public class KaraffeLexer extends Lexer {
 
     private final Pattern LEXER_PATTERN;
 
+    private final boolean insertEOF;
+
+    private final boolean insertParenMatchError;
+
     public KaraffeLexer(final String source) {
         this(source, 4, 2);
     }
 
     public KaraffeLexer(final String source, final int tabColumnCount, final int wideSpaceColumnCount) {
+        this(source, tabColumnCount, wideSpaceColumnCount, true);
+    }
+
+    public KaraffeLexer(final String source, final int tabColumnCount, final int wideSpaceColumnCount, final boolean insertEOF) {
+        this(source, tabColumnCount, wideSpaceColumnCount, insertEOF, true);
+    }
+
+    public KaraffeLexer(final String source, final int tabColumnCount, final int wideSpaceColumnCount, final boolean insertEOF, final boolean insertParenMatchError) {
         super(source);
         this.tabColumnCount = tabColumnCount;
         this.wideSpaceColumncount = wideSpaceColumnCount;
@@ -128,6 +140,8 @@ public class KaraffeLexer extends Lexer {
         this.LEXER_PATTERN = Pattern.compile(pat.toString().substring(1));
 
         KaraffeLexer.LOGGER.debug("LexerPattern : {}", this.LEXER_PATTERN);
+        this.insertEOF = insertEOF;
+        this.insertParenMatchError = insertParenMatchError;
     }
 
     @Override
@@ -201,18 +215,21 @@ public class KaraffeLexer extends Lexer {
             KaraffeLexer.LOGGER.debug("Added. {} ", token);
             tokens.add(token);
         }
-        tokens.add(Token.EOF(Position.ofLineWithColumn(lineIndex, columnIndex)));
-
-        if (parenPair != 0) {
-            tokens.add(new CommonToken.ErrorToken("() pair failed.", Position.noPos()));
-        }
-        if (bracePair != 0) {
-            tokens.add(new CommonToken.ErrorToken("{} pair failed.", Position.noPos()));
-        }
-        if (bracketPair != 0) {
-            tokens.add(new CommonToken.ErrorToken("[] pair failed.", Position.noPos()));
+        if (this.insertEOF) {
+            tokens.add(Token.EOF(Position.ofLineWithColumn(lineIndex, columnIndex)));
         }
 
+        if (this.insertParenMatchError) {
+            if (parenPair != 0) {
+                tokens.add(new CommonToken.ErrorToken("() pair failed.", Position.noPos()));
+            }
+            if (bracePair != 0) {
+                tokens.add(new CommonToken.ErrorToken("{} pair failed.", Position.noPos()));
+            }
+            if (bracketPair != 0) {
+                tokens.add(new CommonToken.ErrorToken("[] pair failed.", Position.noPos()));
+            }
+        }
         if (KaraffeLexer.LOGGER.isDebugEnabled()) {
             tokens.stream().filter(t -> t.is(ErrorToken.class)).forEach(token -> {
                 KaraffeLexer.LOGGER.error("ErrorToken Found. : {} at {}", token.getText(), token.getPosition());

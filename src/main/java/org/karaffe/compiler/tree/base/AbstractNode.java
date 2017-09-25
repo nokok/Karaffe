@@ -1,9 +1,12 @@
 package org.karaffe.compiler.tree.base;
 
+import java.util.UUID;
+
 import org.karaffe.compiler.util.Position;
 
 public abstract class AbstractNode implements Node {
 
+    private final String id = UUID.randomUUID().toString();
     private final NodeType nodeType;
     private final Position position;
 
@@ -18,7 +21,7 @@ public abstract class AbstractNode implements Node {
 
     @Override
     public String getID() {
-        return "";
+        return this.id;
     }
 
     @Override

@@ -4,14 +4,14 @@ import org.junit.Assert;
 import org.junit.Test;
 import org.karaffe.compiler.lexer.KaraffeLexer;
 import org.karaffe.compiler.parser.util.MatchResult;
-import org.karaffe.compiler.tree.Selector.DefaultSelector;
+import org.karaffe.compiler.tree.Select;
 
 public class PathParserTest {
 
     @Test
     public void simple() {
         final MatchResult result = this.runTest("p", true);
-        final DefaultSelector selector = (DefaultSelector) result.getNode().orElseThrow(AssertionError::new);
+        final Select selector = (Select) result.getNode().orElseThrow(AssertionError::new);
         final String path = selector.toString("/");
         Assert.assertEquals("p", path);
     }
@@ -19,7 +19,7 @@ public class PathParserTest {
     @Test
     public void path1() {
         final MatchResult result = this.runTest("pkg.i", true);
-        final DefaultSelector selector = (DefaultSelector) result.getNode().orElseThrow(AssertionError::new);
+        final Select selector = (Select) result.getNode().orElseThrow(AssertionError::new);
         final String path = selector.toString("/");
         Assert.assertEquals("pkg/i", path);
     }
@@ -27,7 +27,7 @@ public class PathParserTest {
     @Test
     public void path2() {
         final MatchResult result = this.runTest("pkg.i.foo", true);
-        final DefaultSelector selector = (DefaultSelector) result.getNode().orElseThrow(AssertionError::new);
+        final Select selector = (Select) result.getNode().orElseThrow(AssertionError::new);
         final String path = selector.toString("/");
         Assert.assertEquals("pkg/i/foo", path);
     }
@@ -35,7 +35,7 @@ public class PathParserTest {
     @Test
     public void path3() {
         final MatchResult result = this.runTest("a . b. \t b ", true);
-        final DefaultSelector selector = (DefaultSelector) result.getNode().orElseThrow(AssertionError::new);
+        final Select selector = (Select) result.getNode().orElseThrow(AssertionError::new);
         final String path = selector.toString("/");
         Assert.assertEquals("a/b/b", path);
     }

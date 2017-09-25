@@ -6,7 +6,8 @@ import java.util.Optional;
 
 import org.karaffe.compiler.lexer.Token;
 import org.karaffe.compiler.lexer.Tokens;
-import org.karaffe.compiler.tree.base.NodeD;
+import org.karaffe.compiler.tree.base.Empty;
+import org.karaffe.compiler.tree.base.Node;
 
 public interface MatchResult extends NodeContainer {
 
@@ -19,7 +20,7 @@ public interface MatchResult extends NodeContainer {
     public Tokens next();
 
     @Override
-    public default Optional<NodeD> getNode() {
+    public default Optional<Node> getNode() {
         return Optional.empty();
     }
 
@@ -29,6 +30,10 @@ public interface MatchResult extends NodeContainer {
             return Optional.of(s.matchedTokens());
         }
         return Optional.empty();
+    }
+
+    public default List<Token> matchedF() {
+        return this.matched().orElseGet(ArrayList::new);
     }
 
     public default Optional<Token> erroredHead() {
@@ -57,17 +62,13 @@ public interface MatchResult extends NodeContainer {
 
         private final Tokens next;
         private final List<Token> matchedTokens;
-        private final NodeD node;
-
-        public Success(final Tokens next) {
-            this(next, new ArrayList<Token>(0));
-        }
+        private final Node node;
 
         public Success(final Tokens next, final List<Token> matchedTokens) {
-            this(next, matchedTokens, null);
+            this(next, matchedTokens, new Empty());
         }
 
-        public Success(final Tokens next, final List<Token> matchedTokens, final NodeD node) {
+        public Success(final Tokens next, final List<Token> matchedTokens, final Node node) {
             this.next = next;
             this.matchedTokens = matchedTokens;
             this.node = node;
@@ -84,7 +85,7 @@ public interface MatchResult extends NodeContainer {
         }
 
         @Override
-        public Optional<NodeD> getNode() {
+        public Optional<Node> getNode() {
             return Optional.ofNullable(this.node);
         }
 
@@ -94,13 +95,17 @@ public interface MatchResult extends NodeContainer {
 
         @Override
         public String toString() {
-            return String.format("Success Node:%s %s Next: %s", this.getNode(), this.matched().toString(), this.next());
+            return String.format("Success Node:%s %s Next: %s", this.getNode(), this.matchedF().toString(), this.next());
         }
     }
 
     public static class Failure implements MatchResult {
         private final Token erroredToken;
         private final Tokens next;
+
+        public Failure(final Tokens next) {
+            this(next.get(0), next);
+        }
 
         public Failure(final Token erroredToken, final Tokens next) {
             this.erroredToken = erroredToken;

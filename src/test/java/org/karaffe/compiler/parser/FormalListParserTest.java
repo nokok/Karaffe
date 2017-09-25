@@ -31,8 +31,13 @@ public class FormalListParserTest {
         this.runTest("String a, b[] a", true);
     }
 
+    @Test
+    public void testParameter5() {
+        this.runTest("int a", true);
+    }
+
     private void runTest(final String source, final boolean v) {
-        final KaraffeLexer lexer = new KaraffeLexer(source);
+        final KaraffeLexer lexer = new KaraffeLexer(source, 4, 2, false);
         final List<Token> input = lexer.run();
         final MatchResult result = new FormalListParser().match(input);
         Assert.assertEquals(v, result.isSuccess());

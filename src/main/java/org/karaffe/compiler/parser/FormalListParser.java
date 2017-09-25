@@ -3,52 +3,62 @@ package org.karaffe.compiler.parser;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.karaffe.compiler.lexer.ModifierToken;
 import org.karaffe.compiler.lexer.OperatorToken.Comma;
 import org.karaffe.compiler.lexer.Token;
 import org.karaffe.compiler.lexer.Tokens;
 import org.karaffe.compiler.parser.util.MatchResult;
-import org.karaffe.compiler.parser.util.MatchResult.Success;
-import org.karaffe.compiler.parser.util.ManyTokenMatcher;
 import org.karaffe.compiler.parser.util.TokenMatcher;
-import org.karaffe.compiler.tree.Argument;
-import org.karaffe.compiler.tree.Arguments;
+import org.karaffe.compiler.tree.Modifier;
+import org.karaffe.compiler.tree.Modifiers;
+import org.karaffe.compiler.tree.Parameters;
+import org.karaffe.compiler.tree.TypeName;
+import org.karaffe.compiler.tree.ValDef;
+import org.karaffe.compiler.tree.base.Name;
 
 public class FormalListParser implements Parser {
 
     @Override
     public MatchResult parse(final Tokens input) {
-        final TokenMatcher formalHead = TokenMatcher.concat(new TypeParser(), TokenMatcher.identifier());
+        final List<ValDef> parameters = new ArrayList<>();
+        final List<Token> matched = new ArrayList<>();
 
-        final MatchResult headResult = formalHead.match(input);
-        if (headResult.isFailure()) {
-            return headResult;
-        }
+        MatchResult last = null;
+        Tokens before = input;
+        do {
+            final Modifiers modifiers = new Modifiers(new Modifier(new ModifierToken.Parameter()));
 
-        final List<Argument> arguments = new ArrayList<>();
-        final Success head = headResult.toSuccess().get();
-        final List<Token> matchedHead = head.matched().get();
-        final Argument argument = new Argument(matchedHead.get(0), matchedHead.get(1));
-        arguments.add(argument);
+            if (last != null) {
+                final MatchResult result = TokenMatcher.create(Comma.class).match(before);
+                if (result.isFailure()) {
+                    break;
+                }
+                before = result.next();
+            }
+            final MatchResult typeMatch = new TypeParser().match(before);
 
-        final TokenMatcher formalRest = TokenMatcher.concat(TokenMatcher.create(Comma.class), new TypeParser(), TokenMatcher.identifier());
-        final ManyTokenMatcher repeatableTokenMatcher = new ManyTokenMatcher(formalRest);
-        final MatchResult formalRestResult = repeatableTokenMatcher.match(headResult.next());
-        if (headResult.isFailure() && formalRestResult.isFailure()) {
-            return formalRestResult;
-        } else if (headResult.isSuccess() && formalRestResult.isFailure()) {
-            return new MatchResult.Success(headResult.next(), headResult.matched().orElseGet(ArrayList::new), new Arguments(arguments));
-        }
+            last = typeMatch;
 
-        final List<Token> matchedRest = formalRestResult.matched().get();
+            if (typeMatch.isFailure()) {
+                return typeMatch;
+            }
+            before = typeMatch.next();
+            final TypeName typeName = typeMatch.getNode().map(TypeName.class::cast).orElseThrow(IllegalStateException::new);
+            matched.addAll(typeMatch.matchedF());
 
-        for (int i = 0; i < matchedRest.size(); i += 3) {
-            final Argument arg = new Argument(matchedRest.get(i + 1), matchedRest.get(i + 2));
-            arguments.add(arg);
-        }
+            final MatchResult idMatch = new IdentifierParser().match(before);
 
-        matchedHead.addAll(matchedRest);
-
-        return new MatchResult.Success(formalRestResult.next(), matchedHead, new Arguments(arguments));
+            if (idMatch.isFailure()) {
+                return idMatch;
+            }
+            last = idMatch;
+            before = idMatch.next();
+            matched.addAll(idMatch.matchedF());
+            final Name name = idMatch.getNode().map(Name.class::cast).orElseThrow(IllegalStateException::new);
+            final ValDef val = new ValDef(modifiers, name, typeName);
+            parameters.add(val);
+        } while (last.isSuccess() && before.size() > 0);
+        return new MatchResult.Success(last.next(), matched, new Parameters(parameters));
     }
 
 }

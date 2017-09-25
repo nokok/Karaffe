@@ -2,9 +2,9 @@ package org.karaffe.compiler.parser.util;
 
 import java.util.Optional;
 
-import org.karaffe.compiler.tree.base.NodeD;
+import org.karaffe.compiler.tree.base.Node;
 
 public interface NodeContainer {
 
-    public Optional<NodeD> getNode();
+    public Optional<Node> getNode();
 }

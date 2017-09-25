@@ -14,7 +14,7 @@ public class EOFParser implements Parser {
     public MatchResult parse(final Tokens input) {
         if (input.isEmpty()) {
             EOFParser.LOGGER.debug("FIRST OK EOF");
-            return new MatchResult.Success(new Tokens());
+            return new MatchResult.Success(new Tokens(), new Tokens());
         }
         EOFParser.LOGGER.debug("InputTokens :{}", input);
         int loopCount = 0;
@@ -30,7 +30,7 @@ public class EOFParser implements Parser {
                     return new MatchResult.Failure(input.get(loopCount + 1), input);
                 }
                 EOFParser.LOGGER.debug("OK2");
-                return new MatchResult.Success(new Tokens());
+                return new MatchResult.Success(new Tokens(), new Tokens());
             }
             EOFParser.LOGGER.debug("NG2");
             return new MatchResult.Failure(token, input);

@@ -23,6 +23,7 @@ import org.karaffe.compiler.lexer.WhitespaceToken.NewLine;
 import org.karaffe.compiler.lexer.WhitespaceToken.Space;
 import org.karaffe.compiler.lexer.WhitespaceToken.Tab;
 import org.karaffe.compiler.lexer.WhitespaceToken.WideSpace;
+import org.karaffe.compiler.parser.IdentifierParser;
 
 public interface TokenMatcher {
     public MatchResult match(Tokens tokens);
@@ -59,7 +60,7 @@ public interface TokenMatcher {
             }
             if (!hitSkipToken) {
                 final List<Token> retTokens = tokens.subList(reducedCount, tokens.size());
-                return new MatchResult.Success(new Tokens(retTokens));
+                return new MatchResult.Success(new Tokens(retTokens), new Tokens());
             }
             reducedCount++;
         }
@@ -81,7 +82,7 @@ public interface TokenMatcher {
     }
 
     public static TokenMatcher identifier() {
-        return TokenMatcher.create(IdentifierToken.class);
+        return new IdentifierParser();
     }
 
     public static TokenMatcher intLiteral() {

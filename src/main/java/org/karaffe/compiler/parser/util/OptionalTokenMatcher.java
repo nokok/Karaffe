@@ -13,10 +13,7 @@ public class OptionalTokenMatcher implements TokenMatcher {
     @Override
     public MatchResult match(final Tokens tokens) {
         final MatchResult result = this.matcher.match(tokens);
-        if (result.isFailure()) {
-            return new MatchResult.Success(tokens);
-        }
-        return new MatchResult.Success(result.next());
+        return new MatchResult.Success(result.next(), result.matchedF());
     }
 
 }

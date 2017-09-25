@@ -1,6 +1,5 @@
 package org.karaffe.compiler.parser.util;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import org.junit.Assert;
@@ -12,7 +11,6 @@ import org.karaffe.compiler.lexer.KeywordToken.Package;
 import org.karaffe.compiler.lexer.OperatorToken.LeftBracket;
 import org.karaffe.compiler.lexer.OperatorToken.RightBracket;
 import org.karaffe.compiler.lexer.Token;
-import org.karaffe.compiler.parser.IdentifierParser;
 
 public class TokenSelectorMatcherTest {
 
@@ -22,7 +20,7 @@ public class TokenSelectorMatcherTest {
         final KaraffeLexer lexer = new KaraffeLexer("package");
         final MatchResult result = matcher.match(lexer.run());
         Assert.assertEquals(true, result.isSuccess());
-        final List<Token> matchedToken = result.matched().orElseGet(ArrayList::new);
+        final List<Token> matchedToken = result.matchedF();
         Assert.assertEquals(1, matchedToken.size());
         Assert.assertTrue(matchedToken.get(0).is(Package.class));
     }
@@ -35,7 +33,7 @@ public class TokenSelectorMatcherTest {
         final KaraffeLexer lexer = new KaraffeLexer("class A[A]");
         final MatchResult result = tokenMatcher.match(lexer.run());
         Assert.assertEquals(true, result.isSuccess());
-        final List<Token> matchedToken = result.matched().orElseGet(ArrayList::new);
+        final List<Token> matchedToken = result.matchedF();
         Assert.assertEquals(5, matchedToken.size()); // Class Identifier [ Identifier ]
         Assert.assertTrue(matchedToken.get(0).is(Class.class));
         Assert.assertTrue(matchedToken.get(1).is(IdentifierToken.class));
@@ -53,28 +51,11 @@ public class TokenSelectorMatcherTest {
         final KaraffeLexer lexer = new KaraffeLexer("class A[]");
         final MatchResult result = tokenMatcher.match(lexer.run());
         Assert.assertEquals(true, result.isSuccess());
-        final List<Token> matchedToken = result.matched().orElseGet(ArrayList::new);
+        final List<Token> matchedToken = result.matchedF();
         Assert.assertEquals(2, matchedToken.size()); // Class Identifier
         Assert.assertTrue(matchedToken.get(0).is(Class.class));
         Assert.assertTrue(matchedToken.get(1).is(IdentifierToken.class));
         Assert.assertEquals(3, result.next().size()); // [ ] EOF
     }
 
-    @Test
-    public void testParser() {
-        final TokenMatcher tokenMatcher = new OrTokenMatcher(
-                TokenMatcher.concat(TokenMatcher.create(Class.class), new IdentifierParser()),
-                TokenMatcher.concat(TokenMatcher.create(Class.class), new IdentifierParser(), TokenMatcher.create(LeftBracket.class), TokenMatcher.create(RightBracket.class))); // < -- Select
-        final KaraffeLexer lexer = new KaraffeLexer("class A[A]");
-        final MatchResult result = tokenMatcher.match(lexer.run());
-        Assert.assertEquals(true, result.isSuccess());
-        final List<Token> matchedToken = result.matched().orElseGet(ArrayList::new);
-        Assert.assertEquals(5, matchedToken.size()); // Class Identifier [ Identifier ]
-        Assert.assertTrue(matchedToken.get(0).is(Class.class));
-        Assert.assertTrue(matchedToken.get(1).is(IdentifierToken.class));
-        Assert.assertTrue(matchedToken.get(2).is(LeftBracket.class));
-        Assert.assertTrue(matchedToken.get(3).is(IdentifierToken.class));
-        Assert.assertTrue(matchedToken.get(4).is(RightBracket.class));
-        Assert.assertEquals(1, result.next().size()); // EOF
-    }
 }

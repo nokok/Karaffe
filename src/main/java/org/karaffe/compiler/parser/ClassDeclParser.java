@@ -17,8 +17,8 @@ public class ClassDeclParser implements Parser {
                 TokenMatcher.identifier(),
                 TokenMatcher.opt(TokenMatcher.create(Extends.class, IdentifierToken.class)),
                 TokenMatcher.opt(TokenMatcher.concat(TokenMatcher.create(LeftBrace.class),
-                        TokenMatcher.zeroOrMore(new VarDeclParser()),
-                        TokenMatcher.zeroOrMore(new MethodDeclParser()),
+                        TokenMatcher.zeroOrMore(new VarDefParser()),
+                        TokenMatcher.zeroOrMore(new MethodDefParser()),
                         TokenMatcher.create(RightBrace.class))))
                 .match(input);
     }

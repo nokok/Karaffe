@@ -92,7 +92,7 @@ public class TokenMatcherHeadTest {
         tokens.add(new KeywordToken.Package());
         final MatchResult headResult = matcher.head(new Tokens(tokens));
         Assert.assertEquals(true, headResult.isSuccess());
-        final List<Token> matchedTokens = headResult.toSuccess().map(Success::matchedTokens).orElseGet(ArrayList::new);
+        final List<Token> matchedTokens = headResult.matchedF();
         Assert.assertEquals(0, matchedTokens.size());
     }
 

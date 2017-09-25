@@ -61,12 +61,14 @@ public class MethodDeclParserTest {
 
     @Test
     public void test7() {
-        this.runTest("public int doSomething(int a) {}", true);
+        this.runTest("     public int doSomething() {\n"
+                + "       return a;\n"
+                + "     }\n", true);
     }
 
     private void runTest(final String source, final boolean v) {
         final KaraffeLexer lexer = new KaraffeLexer(source);
-        final Parser parser = new MethodDeclParser();
+        final Parser parser = new MethodDefParser();
         final MatchResult result = parser.parse(lexer.run());
         Assert.assertEquals(source + " " + result, v, result.isSuccess());
         if (v) {

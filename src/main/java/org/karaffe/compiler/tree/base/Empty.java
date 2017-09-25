@@ -1,7 +1,5 @@
 package org.karaffe.compiler.tree.base;
 
-import java.util.Optional;
-
 import org.karaffe.compiler.util.Position;
 
 public class Empty extends AbstractNode {
@@ -15,13 +13,7 @@ public class Empty extends AbstractNode {
     }
 
     @Override
-    public Optional<Node> getChildNode() {
-        return Optional.empty();
+    public String toString() {
+        return "()";
     }
-
-    @Override
-    public Optional<Node> getNextNode() {
-        return Optional.empty();
-    }
-
 }

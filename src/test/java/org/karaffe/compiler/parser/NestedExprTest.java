@@ -13,7 +13,17 @@ import org.karaffe.compiler.parser.util.MatchResult;
 public class NestedExprTest {
     @Test
     public void testNestedExpr() {
-        this.runTest("(1+2)*3", true);
+        this.runTest("(1+2)", true);
+    }
+
+    @Test
+    public void testNestedExpr2() {
+        this.runTest("(1)", true);
+    }
+
+    @Test
+    public void testNestedExpr3() {
+        this.runTest("((1))", true);
     }
 
     private void runTest(final String source, final boolean v) {

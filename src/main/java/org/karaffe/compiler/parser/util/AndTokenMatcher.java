@@ -35,7 +35,7 @@ public class AndTokenMatcher implements TokenMatcher {
             }
             last = result;
             before = result.next();
-            matched.addAll(result.matched().orElseGet(ArrayList::new));
+            matched.addAll(result.matchedF());
         }
         if (last == null) {
             return new MatchResult.Failure(tokens.get(0), tokens);

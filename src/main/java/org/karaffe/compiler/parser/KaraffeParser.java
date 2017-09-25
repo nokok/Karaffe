@@ -17,22 +17,22 @@ public class KaraffeParser implements Parser {
 
     @Override
     public MatchResult parse(final Tokens tokens) {
-        final MatchResult packageDeclResult = TokenMatcher.opt(new PackageDeclParser()).match(tokens);
+        final MatchResult packageDeclResult = TokenMatcher.opt(new PackageDefParser()).match(tokens);
         KaraffeParser.LOGGER.debug("PackageDecl   : {}", packageDeclResult);
         final List<Token> matchedTokens = new ArrayList<>();
         Tokens next = packageDeclResult.next();
-        matchedTokens.addAll(packageDeclResult.matched().orElseGet(ArrayList::new));
+        matchedTokens.addAll(packageDeclResult.matchedF());
 
         final MatchResult mainClassResult = new MainClassDeclParser().match(next);
         KaraffeParser.LOGGER.debug("MainClassDecl : {}", mainClassResult);
 
         next = mainClassResult.next();
-        matchedTokens.addAll(mainClassResult.matched().orElseGet(ArrayList::new));
+        matchedTokens.addAll(mainClassResult.matchedF());
         final MatchResult classdeclResult = TokenMatcher.zeroOrMore(new ClassDeclParser()).match(next);
         KaraffeParser.LOGGER.debug("ClassDecls    : {}", classdeclResult);
 
         next = classdeclResult.next();
-        matchedTokens.addAll(classdeclResult.matched().orElseGet(ArrayList::new));
+        matchedTokens.addAll(classdeclResult.matchedF());
 
         final MatchResult eofResult = new EOFParser().match(next);
         KaraffeParser.LOGGER.debug("EOF           : {}", eofResult);
@@ -42,7 +42,7 @@ public class KaraffeParser implements Parser {
         }
 
         next = eofResult.next();
-        matchedTokens.addAll(eofResult.matched().orElseGet(ArrayList::new));
+        matchedTokens.addAll(eofResult.matchedF());
 
         return new MatchResult.Success(next, matchedTokens, new CompileUnit(null, null));
     }

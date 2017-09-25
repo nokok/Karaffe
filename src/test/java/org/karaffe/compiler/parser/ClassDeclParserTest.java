@@ -56,7 +56,7 @@ public class ClassDeclParserTest {
 
     @Test
     public void testClassDecl8() {
-        this.runTest("class A{public int doSomething(int a) {}}", true);
+        this.runTest("class A{public int doSomething(int a) {return false;}}", true);
     }
 
     private void runTest(final String source, final boolean v) {

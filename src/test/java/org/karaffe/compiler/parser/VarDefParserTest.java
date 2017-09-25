@@ -5,7 +5,7 @@ import org.junit.Test;
 import org.karaffe.compiler.lexer.KaraffeLexer;
 import org.karaffe.compiler.parser.util.MatchResult;
 
-public class VarDeclParserTest {
+public class VarDefParserTest {
 
     @Test
     public void testVarDecl() {
@@ -19,7 +19,7 @@ public class VarDeclParserTest {
 
     private void runTest(final String source, final boolean v) {
         final KaraffeLexer lexer = new KaraffeLexer(source);
-        final Parser varDeclParser = new VarDeclParser();
+        final Parser varDeclParser = new VarDefParser();
         final MatchResult result = varDeclParser.parse(lexer.run());
         Assert.assertEquals(result.toString(), v, result.isSuccess());
         if (v) {

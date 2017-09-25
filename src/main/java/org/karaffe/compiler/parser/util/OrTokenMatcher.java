@@ -50,7 +50,7 @@ public class OrTokenMatcher implements TokenMatcher {
         Success maxMatch = null;
         int maxMatchCount = 0;
         for (final Success success : successes) {
-            final int currentMatch = success.matched().orElseGet(ArrayList::new).size();
+            final int currentMatch = success.matchedF().size();
             OrTokenMatcher.LOGGER.debug("CurrentMatch : {}, {}", currentMatch, success.next().size());
             if (maxMatch == null) {
                 maxMatch = success;

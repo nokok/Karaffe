@@ -34,14 +34,14 @@ public class TokenMatcherTest {
 
         final MatchResult result1 = identifierMatcher1.match(input);
         Assert.assertTrue(result1.isSuccess());
-        final List<Token> matched1 = result1.matched().orElseGet(ArrayList::new);
+        final List<Token> matched1 = result1.matchedF();
         Assert.assertTrue(matched1.get(0).is(Class.class));
         Assert.assertTrue(matched1.get(1).is(IdentifierToken.class));
         Assert.assertEquals(0, result1.next().size());
 
         final MatchResult result2 = identifierMatcher2.match(input);
         Assert.assertTrue(result2.isSuccess());
-        final List<Token> matched2 = result1.matched().orElseGet(ArrayList::new);
+        final List<Token> matched2 = result1.matchedF();
         Assert.assertTrue(matched2.get(0).is(Class.class));
         Assert.assertTrue(matched2.get(1).is(IdentifierToken.class));
         Assert.assertEquals(0, result2.next().size());

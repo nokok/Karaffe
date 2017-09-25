@@ -91,6 +91,11 @@ public class ExprParserTest {
         this.runTest("((1 + 2)+ 3 * 5)", true);
     }
 
+    @Test
+    public void test18() {
+        this.runTest("(1+2)*3", true);
+    }
+
     private void runTest(final String source, final boolean v) {
         final KaraffeLexer lexer = new KaraffeLexer(source);
         final ExprParser parser = new ExprParser();
