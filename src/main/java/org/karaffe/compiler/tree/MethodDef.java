@@ -1,7 +1,9 @@
 package org.karaffe.compiler.tree;
 
+import java.util.ArrayList;
 import java.util.List;
 
+import org.karaffe.compiler.lexer.ModifierToken;
 import org.karaffe.compiler.tree.base.AbstractNode;
 import org.karaffe.compiler.tree.base.Name;
 import org.karaffe.compiler.tree.base.NodeType;
@@ -25,4 +27,27 @@ public class MethodDef extends AbstractNode {
         this.statements = statements;
     }
 
+    public boolean hasModifier(final Class<? extends ModifierToken> clazz) {
+        return this.modifiers.stream().filter(c -> c.is(clazz)).count() == this.modifiers.size();
+    }
+
+    public String getMethodName() {
+        return this.name.getText();
+    }
+
+    public String getReturnName() {
+        return this.returnType.getText();
+    }
+
+    public Parameters getParameters() {
+        return this.parameters;
+    }
+
+    public List<VarDef> localVarDefs() {
+        return new ArrayList<>(this.localVarDecl);
+    }
+
+    public List<Statement> statements() {
+        return new ArrayList<>(this.statements);
+    }
 }

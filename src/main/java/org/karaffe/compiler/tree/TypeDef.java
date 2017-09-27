@@ -36,6 +36,18 @@ public abstract class TypeDef extends AbstractNode {
             this.fields = fieldDefs == null ? new ArrayList<>(0) : fieldDefs;
             this.methodDefs = methodDefs == null ? new ArrayList<>(0) : methodDefs;
         }
+
+        public String getSuperName() {
+            return this.superName.getText();
+        }
+
+        public List<VarDef> getFields() {
+            return new ArrayList<>(this.fields);
+        }
+
+        public List<MethodDef> getMethods() {
+            return new ArrayList<>(this.methodDefs);
+        }
     }
 
 }
