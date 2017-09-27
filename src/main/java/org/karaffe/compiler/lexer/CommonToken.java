@@ -52,12 +52,6 @@ public abstract class CommonToken implements Token {
         }
     }
 
-    public static class EmptyToken extends CommonToken {
-        public EmptyToken() {
-            super("", Position.noPos(), "<empty>");
-        }
-    }
-
     public static class EOF extends CommonToken {
         public EOF() {
             this(Position.noPos());
