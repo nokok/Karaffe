@@ -30,7 +30,7 @@ public class MethodDefParser implements Parser {
         final List<Token> matched = new ArrayList<>();
         final MatchResult modifierMatch = TokenMatcher.create(Public.class).match(input);
         if (modifierMatch.isFailure()) {
-            return modifierMatch;
+            return new MatchResult.Failure(modifierMatch.erroredHead().orElse(input.get(0)), input);
         }
 
         Tokens before = modifierMatch.next();
@@ -39,7 +39,7 @@ public class MethodDefParser implements Parser {
         final MatchResult returnTypeMatch = new TypeParser().match(before);
 
         if (returnTypeMatch.isFailure()) {
-            return returnTypeMatch;
+            return new MatchResult.Failure(returnTypeMatch.erroredHead().orElse(input.get(0)), input);
         }
 
         before = returnTypeMatch.next();
@@ -47,7 +47,7 @@ public class MethodDefParser implements Parser {
 
         final MatchResult methodNameMatch = new IdentifierParser().match(before);
         if (methodNameMatch.isFailure()) {
-            return methodNameMatch;
+            return new MatchResult.Failure(methodNameMatch.erroredHead().orElse(input.get(0)), input);
         }
 
         before = methodNameMatch.next();
@@ -55,14 +55,14 @@ public class MethodDefParser implements Parser {
 
         final MatchResult paramStart = TokenMatcher.create(LeftParen.class).match(before);
         if (paramStart.isFailure()) {
-            return paramStart;
+            return new MatchResult.Failure(paramStart.erroredHead().orElse(input.get(0)), input);
         }
         before = paramStart.next();
         matched.addAll(paramStart.matchedF());
 
         final MatchResult formalParameter = new FormalListParser().match(before);
         if (formalParameter.isFailure() && formalParameter.next().size() != before.size()) {
-            return formalParameter;
+            return new MatchResult.Failure(formalParameter.erroredHead().orElse(input.get(0)), input);
         }
 
         before = formalParameter.next();
@@ -70,14 +70,14 @@ public class MethodDefParser implements Parser {
 
         final MatchResult paramEnd = TokenMatcher.create(RightParen.class).match(before);
         if (paramEnd.isFailure()) {
-            return paramEnd;
+            return new MatchResult.Failure(paramEnd.erroredHead().orElse(input.get(0)), input);
         }
         before = paramEnd.next();
         matched.addAll(paramEnd.matchedF());
 
         final MatchResult bodyStart = TokenMatcher.create(LeftBrace.class).match(before);
         if (bodyStart.isFailure()) {
-            return bodyStart;
+            return new MatchResult.Failure(bodyStart.erroredHead().orElse(input.get(0)), input);
         }
         before = bodyStart.next();
         matched.addAll(bodyStart.matchedF());
@@ -115,13 +115,13 @@ public class MethodDefParser implements Parser {
         final MatchResult returnMatch = TokenMatcher.create(Return.class).match(before);
 
         if (returnMatch.isFailure()) {
-            return returnMatch;
+            return new MatchResult.Failure(returnMatch.erroredHead().orElse(input.get(0)), input);
         }
         before = returnMatch.next();
 
         final MatchResult returnExprMatch = new ExprParser().match(before);
         if (returnExprMatch.isFailure()) {
-            return returnExprMatch;
+            return new MatchResult.Failure(returnExprMatch.erroredHead().orElse(input.get(0)), input);
         }
         before = returnExprMatch.next();
         matched.addAll(returnExprMatch.matchedF());
@@ -129,13 +129,13 @@ public class MethodDefParser implements Parser {
         final MatchResult semiMatch = TokenMatcher.create(Semi.class).match(before);
 
         if (semiMatch.isFailure()) {
-            return semiMatch;
+            return new MatchResult.Failure(semiMatch.erroredHead().orElse(input.get(0)), input);
         }
         before = semiMatch.next();
 
         final MatchResult bodyEnd = TokenMatcher.create(RightBrace.class).match(before);
         if (bodyEnd.isFailure()) {
-            return bodyEnd;
+            return new MatchResult.Failure(bodyEnd.erroredHead().orElse(input.get(0)), input);
         }
 
         final Token modifierToken = modifierMatch.matchedF().get(0);
