@@ -1,11 +1,14 @@
 package org.karaffe.compiler.parser;
 
+import java.util.List;
+
 import org.junit.Assert;
 import org.junit.Test;
 import org.karaffe.compiler.lexer.KaraffeLexer;
+import org.karaffe.compiler.lexer.Token;
 import org.karaffe.compiler.parser.util.MatchResult;
 
-public class MethodDeclParserTest {
+public class MethodDefParserTest {
 
     @Test
     public void test1() {
@@ -66,10 +69,51 @@ public class MethodDeclParserTest {
                 + "     }\n", true);
     }
 
+    @Test
+    public void test8() {
+        this.runTest("public", false);
+    }
+
+    @Test
+    public void test9() {
+        this.runTest("public private", false);
+    }
+
+    @Test
+    public void test10() {
+        this.runTest("void", false);
+    }
+
+    @Test
+    public void test11() {
+        this.runTest("public int int", false);
+    }
+
+    @Test
+    public void test12() {
+        this.runTest("public int doSomething{", false);
+    }
+
+    @Test
+    public void test13() {
+        this.runTest("public int doSomething(int)", false);
+    }
+
+    @Test
+    public void test14() {
+        this.runTest("public int doSomething(int|", false);
+    }
+
+    @Test
+    public void test15() {
+        this.runTest("public int doSomething(int| {", false);
+    }
+
     private void runTest(final String source, final boolean v) {
         final KaraffeLexer lexer = new KaraffeLexer(source);
         final Parser parser = new MethodDefParser();
-        final MatchResult result = parser.parse(lexer.run());
+        final List<Token> input = lexer.run();
+        final MatchResult result = parser.parse(input);
         Assert.assertEquals(source + " " + result, v, result.isSuccess());
         if (v) {
             if (result.next().isEmpty()) {
@@ -80,6 +124,8 @@ public class MethodDeclParserTest {
                 Assert.fail(eofResult.toString());
             }
             Assert.assertEquals(0, eofResult.next().size());
+        } else {
+            Assert.assertEquals(input.size(), result.next().size());
         }
     }
 }
