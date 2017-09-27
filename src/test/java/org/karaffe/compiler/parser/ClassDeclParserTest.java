@@ -61,7 +61,7 @@ public class ClassDeclParserTest {
 
     private void runTest(final String source, final boolean v) {
         final KaraffeLexer lexer = new KaraffeLexer(source);
-        final Parser parser = new ClassDeclParser();
+        final Parser parser = new ClassDefParser();
         final MatchResult result = parser.parse(new Tokens(lexer.run()));
         Assert.assertEquals(source + " " + result, v, result.isSuccess());
         if (v) {

@@ -28,7 +28,7 @@ public class KaraffeParser implements Parser {
 
         next = mainClassResult.next();
         matchedTokens.addAll(mainClassResult.matchedF());
-        final MatchResult classdeclResult = TokenMatcher.zeroOrMore(new ClassDeclParser()).match(next);
+        final MatchResult classdeclResult = TokenMatcher.zeroOrMore(new ClassDefParser()).match(next);
         KaraffeParser.LOGGER.debug("ClassDecls    : {}", classdeclResult);
 
         next = classdeclResult.next();

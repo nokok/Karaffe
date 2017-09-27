@@ -8,7 +8,7 @@ import org.karaffe.compiler.lexer.Tokens;
 import org.karaffe.compiler.parser.util.MatchResult;
 import org.karaffe.compiler.parser.util.TokenMatcher;
 
-public class ClassDeclParser implements Parser {
+public class ClassDefParser implements Parser {
 
     @Override
     public MatchResult parse(final Tokens input) {
