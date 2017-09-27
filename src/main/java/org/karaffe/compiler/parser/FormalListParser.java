@@ -58,6 +58,9 @@ public class FormalListParser implements Parser {
             final ValDef val = new ValDef(modifiers, name, typeName);
             parameters.add(val);
         } while (last.isSuccess() && before.size() > 0);
+        if (last == null) {
+            throw new IllegalStateException();
+        }
         return new MatchResult.Success(last.next(), matched, new Parameters(parameters));
     }
 
