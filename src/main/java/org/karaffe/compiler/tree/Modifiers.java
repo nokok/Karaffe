@@ -23,6 +23,10 @@ public class Modifiers extends AbstractNode implements ImmutableCollections<Modi
         this(new ArrayList<>(Arrays.asList(modifier)));
     }
 
+    public Modifiers(final Modifier... modifiers) {
+        this(new ArrayList<>(Arrays.asList(modifiers)));
+    }
+
     public Modifiers(final List<Modifier> modifiers) {
         super(NodeType.S_MODIFIER);
         this.modifiers = modifiers;
