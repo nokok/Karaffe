@@ -17,6 +17,7 @@ public interface Parser extends TokenMatcher {
 
     @Override
     default MatchResult match(final Tokens tokens) {
+
         return this.parse(tokens);
     }
 }

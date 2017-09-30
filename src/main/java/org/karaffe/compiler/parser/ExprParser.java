@@ -1,5 +1,7 @@
 package org.karaffe.compiler.parser;
 
+import java.util.Optional;
+
 import org.karaffe.compiler.lexer.IdentifierToken;
 import org.karaffe.compiler.lexer.KeywordToken;
 import org.karaffe.compiler.lexer.KeywordToken.New;
@@ -11,8 +13,12 @@ import org.karaffe.compiler.lexer.OperatorToken.LeftParen;
 import org.karaffe.compiler.lexer.OperatorToken.RightBracket;
 import org.karaffe.compiler.lexer.OperatorToken.RightParen;
 import org.karaffe.compiler.lexer.Tokens;
+import org.karaffe.compiler.parser.util.ChainParser;
 import org.karaffe.compiler.parser.util.MatchResult;
 import org.karaffe.compiler.parser.util.TokenMatcher;
+import org.karaffe.compiler.tree.Expr;
+import org.karaffe.compiler.tree.Select;
+import org.karaffe.compiler.tree.VarName;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -22,20 +28,52 @@ public class ExprParser implements Parser {
 
     @Override
     public MatchResult parse(final Tokens tokens) {
+        if (tokens.isEmpty()) {
+            return new MatchResult.Failure(tokens);
+        }
         ExprParser.LOGGER.debug("Input : {}", tokens);
-        final TokenMatcher selector = TokenMatcher.select(
-                new InfixOpExpr(),
-                new ArrayAccess(),
-                new LengthAccess(),
-                new MethodInvocation(),
-                new Primary());
-        return selector.match(tokens);
+        final ChainParser parser = new ChainParser(tokens);
+        boolean isPass = false;
+        isPass |= parser.testNext(new InfixOpExpr(), Expr.class);
+        isPass |= parser.testNext(new ArrayAccess(), Expr.class);
+        isPass |= parser.testNext(new LengthAccess(), Expr.class);
+        isPass |= parser.testNext(new MethodInvocation(), Expr.class);
+        isPass |= parser.testNext(new Primary(), Expr.class);
+
+        if (!isPass) {
+            return parser.toFailure();
+        }
+
+        return new MatchResult.Success(parser.next(), parser.matched(), parser.lastMatch());
     }
 
-    public static class InfixOpExpr implements TokenMatcher {
+    public static class OperatorParser implements Parser {
 
         @Override
-        public MatchResult match(final Tokens tokens) {
+        public MatchResult parse(final Tokens input) {
+            if (input.isEmpty()) {
+                return new MatchResult.Failure(input);
+            }
+            final MatchResult result = TokenMatcher.create(OperatorToken.class).match(input);
+            if (result.isFailure()) {
+                return result;
+            }
+            return new MatchResult.Success(result.next(), result.matchedF(), new Select(new VarName(result)));
+        }
+
+    }
+
+    public static class InfixOpExpr implements Parser {
+
+        @Override
+        public MatchResult parse(final Tokens tokens) {
+            if (tokens.isEmpty()) {
+                return new MatchResult.Failure(tokens);
+            }
+            final ChainParser parser = new ChainParser(tokens);
+            final Optional<Expr> leftExpr = parser.nextMatch(new Primary(), Expr.class);
+            parser.nextMatch(,)
+
             return TokenMatcher.concat(new Primary(), TokenMatcher.create(OperatorToken.class), new ExprParser()).match(tokens);
         }
 

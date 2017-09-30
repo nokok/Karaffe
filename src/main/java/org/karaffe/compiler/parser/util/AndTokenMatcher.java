@@ -10,6 +10,7 @@ import org.karaffe.compiler.lexer.Tokens;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+@Deprecated
 public class AndTokenMatcher implements TokenMatcher {
 
     private static final Logger LOGGER = LoggerFactory.getLogger(AndTokenMatcher.class);

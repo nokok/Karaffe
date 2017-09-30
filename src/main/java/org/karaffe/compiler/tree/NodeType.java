@@ -1,34 +1,28 @@
-package org.karaffe.compiler.tree.base;
+package org.karaffe.compiler.tree;
 
 public enum NodeType {
-    // Applying
+    // Base
     APPLY,
-
-    // Trees
-    COMPILEUNIT,
+    BLOCK,
     EMPTY,
     ERROR,
 
-    // Terms
+    COMPILEUNIT,
     CONSTANT,
     MODIFIER,
     LITERAL,
     VARNAME,
     TYPENAME,
-
-    // Defs
     DEFCLASS,
     DEFMETHOD,
     DEFPACKAGE,
     DEFVAR,
     DEFVAL,
-
-    // Selector
     PATH,
     SELECT,
 
-    // Collections
     S_TYPEDEF,
     S_MODIFIER,
     S_PARAM,
+    S_METHODDEF,
 }

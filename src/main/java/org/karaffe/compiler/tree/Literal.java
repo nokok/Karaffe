@@ -1,11 +1,11 @@
-package org.karaffe.compiler.tree.base;
+package org.karaffe.compiler.tree;
 
 import org.karaffe.compiler.lexer.Token;
 
 public class Literal extends TermNode {
 
     public Literal(final Token token) {
-        super(token, NodeType.LITERAL);
+        super(NodeType.LITERAL, token);
     }
 
     @Override

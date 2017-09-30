@@ -2,14 +2,14 @@ package org.karaffe.compiler.parser;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
-import org.karaffe.compiler.lexer.OperatorToken.Dot;
-import org.karaffe.compiler.lexer.Token;
 import org.karaffe.compiler.lexer.Tokens;
+import org.karaffe.compiler.parser.util.ChainParser;
 import org.karaffe.compiler.parser.util.MatchResult;
 import org.karaffe.compiler.parser.util.TokenMatcher;
 import org.karaffe.compiler.tree.Select;
-import org.karaffe.compiler.tree.base.Name;
+import org.karaffe.compiler.tree.VarName;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -19,40 +19,26 @@ public class PathParser implements Parser {
 
     @Override
     public MatchResult parse(final Tokens input) {
+        if (input.isEmpty()) {
+            return new MatchResult.Failure(input);
+        }
         PathParser.LOGGER.debug("Input : {}", input);
-        final List<Name> selectedName = new ArrayList<>();
-        final List<Token> matched = new ArrayList<>();
-        final MatchResult firstIdMatch = new IdentifierParser().match(input);
-        PathParser.LOGGER.debug("First Id : {}", firstIdMatch);
-        if (firstIdMatch.isFailure()) {
-            return firstIdMatch;
+        final ChainParser parser = new ChainParser(input);
+
+        final List<VarName> pathName = new ArrayList<>();
+        final Optional<VarName> head = parser.nextMatch(new IdentifierParser(), VarName.class);
+        if (!head.isPresent()) {
+            return parser.toFailure();
         }
 
-        selectedName.add(firstIdMatch.getNode().map(Name.class::cast).orElseThrow(IllegalStateException::new));
-        Tokens before = firstIdMatch.next();
-        matched.addAll(firstIdMatch.matchedF());
-        MatchResult last = null;
-        while (before.size() > 0 || last != null && last.isSuccess()) {
-            PathParser.LOGGER.debug("Before : {}", before);
-            final MatchResult dotM = TokenMatcher.create(Dot.class).match(before);
-            if (dotM.isFailure()) {
-                break;
-            }
-            before = dotM.next();
-            matched.addAll(dotM.matchedF());
-            final MatchResult idM = new IdentifierParser().match(before);
+        pathName.add(head.get());
 
-            if (idM.isFailure()) {
-                // path.to.
-                return new MatchResult.Failure(before);
-            }
-            selectedName.add(idM.getNode().map(Name.class::cast).orElseThrow(IllegalStateException::new));
-            before = idM.next();
-            matched.addAll(idM.matched().orElseGet(ArrayList::new));
-            last = idM;
+        while (parser.testNext(TokenMatcher.dot()) && parser.testNext(new IdentifierParser())) {
+            final VarName name = parser.lastMatch();
+            pathName.add(name);
         }
 
-        return new MatchResult.Success(before, matched, new Select(selectedName));
+        return new MatchResult.Success(parser.next(), parser.matched(), new Select(pathName));
     }
 
 }

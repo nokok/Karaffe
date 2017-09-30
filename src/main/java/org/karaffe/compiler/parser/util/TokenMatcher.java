@@ -5,7 +5,6 @@ import java.util.Arrays;
 import java.util.List;
 
 import org.karaffe.compiler.lexer.CommonToken.EOF;
-import org.karaffe.compiler.lexer.IdentifierToken;
 import org.karaffe.compiler.lexer.KeywordToken;
 import org.karaffe.compiler.lexer.KeywordToken.False;
 import org.karaffe.compiler.lexer.KeywordToken.Int;
@@ -26,6 +25,7 @@ import org.karaffe.compiler.lexer.WhitespaceToken.WideSpace;
 import org.karaffe.compiler.parser.IdentifierParser;
 
 public interface TokenMatcher {
+
     public MatchResult match(Tokens tokens);
 
     public default MatchResult match(final List<Token> tokens) {
@@ -123,42 +123,6 @@ public interface TokenMatcher {
 
     public static TokenMatcher classKeyword() {
         return TokenMatcher.create(KeywordToken.Class.class);
-    }
-
-    public static TokenMatcher manyDotIdentifier() {
-        return new ManyTokenMatcher(TokenMatcher.dotIdentifier());
-    }
-
-    public static TokenMatcher dotIdentifier() {
-        return TokenMatcher.create(Dot.class, IdentifierToken.class);
-    }
-
-    public static TokenMatcher EOF() {
-        return TokenMatcher.create(EOF.class);
-    }
-
-    public static TokenMatcher path() {
-        return TokenMatcher.concat(TokenMatcher.identifier(), TokenMatcher.manyDotIdentifier());
-    }
-
-    public static TokenMatcher select(final TokenMatcher... matchers) {
-        return new OrTokenMatcher(matchers);
-    }
-
-    public static TokenMatcher selectFirst(final TokenMatcher... matchers) {
-        return new OrTokenMatcher(true, matchers);
-    }
-
-    public static TokenMatcher concat(final TokenMatcher... matchers) {
-        return new AndTokenMatcher(matchers);
-    }
-
-    public static TokenMatcher zeroOrMore(final TokenMatcher tokenMatcher) {
-        return new OptionalTokenMatcher(new ManyTokenMatcher(tokenMatcher));
-    }
-
-    public static TokenMatcher opt(final TokenMatcher tokenMatcher) {
-        return new OptionalTokenMatcher(tokenMatcher);
     }
 
 }

@@ -2,6 +2,7 @@ package org.karaffe.compiler.parser.util;
 
 import org.karaffe.compiler.lexer.Tokens;
 
+@Deprecated
 public class OptionalTokenMatcher implements TokenMatcher {
 
     private final TokenMatcher matcher;

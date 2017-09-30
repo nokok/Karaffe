@@ -6,19 +6,8 @@ import java.util.Optional;
 
 import org.karaffe.compiler.lexer.Token;
 import org.karaffe.compiler.lexer.Tokens;
-import org.karaffe.compiler.parser.util.MatchResult.Success;
-import org.karaffe.compiler.tree.MethodDef;
-import org.karaffe.compiler.tree.VarDef;
-import org.karaffe.compiler.tree.base.Name;
-
-import com.google.common.base.Function;
 
 public class ChainParser {
-    public static final Function<MatchResult.Success, String> NO_OP = m -> "1";
-    public static final Function<MatchResult.Success, Name> ID_NAME = c -> c.getNode().map(Name.class::cast).orElseThrow(IllegalStateException::new);
-    public static final Function<MatchResult.Success, VarDef> VARDEF = c -> c.getNode().map(VarDef.class::cast).orElseThrow(IllegalStateException::new);
-    public static final Function<MatchResult.Success, MethodDef> METHODDEF = c -> c.getNode().map(MethodDef.class::cast).orElseThrow(IllegalStateException::new);
-
     private final Tokens input;
     private Tokens nextInput;
     private final List<Token> matched = new ArrayList<>();
@@ -28,6 +17,9 @@ public class ChainParser {
 
     public ChainParser(final Tokens input) {
         this.input = input;
+        if (input.isEmpty()) {
+            throw new IllegalArgumentException("Empty input");
+        }
         this.nextInput = new Tokens(new ArrayList<>(input));
     }
 
@@ -37,7 +29,11 @@ public class ChainParser {
         this.hasError = false;
     }
 
-    public <T> Optional<T> nextMatch(final TokenMatcher matcher, final Function<MatchResult.Success, T> f) {
+    public boolean nextMatch(final TokenMatcher matcher) {
+        return this.nextMatch(matcher, Object.class).isPresent();
+    }
+
+    public <T> Optional<T> nextMatch(final TokenMatcher matcher, final Class<T> clazz) {
         if (this.hasError) {
             return Optional.empty();
         }
@@ -45,7 +41,7 @@ public class ChainParser {
         if (result.isSuccess()) {
             this.matched.addAll(result.matchedF());
             this.nextInput = result.next();
-            final T n = f.apply((Success) result);
+            final T n = result.getNode().map(clazz::cast).orElseThrow(IllegalStateException::new);
             this.lastMatch = n;
             return Optional.of(n);
         }
@@ -56,26 +52,34 @@ public class ChainParser {
         return Optional.empty();
     }
 
-    public <T> boolean testNext(final TokenMatcher matcher, final Function<MatchResult.Success, T> f) {
-        return this.testNext(matcher, f, true);
+    public boolean testNext(final TokenMatcher matcher) {
+        return this.testNext(matcher, Object.class, true);
     }
 
-    public <T> boolean testNext(final TokenMatcher matcher, final Function<MatchResult.Success, T> f, final boolean moveCursorOnSuccess) {
+    public <T> boolean testNext(final TokenMatcher matcher, final Class<T> clazz) {
+        return this.testNext(matcher, clazz, true);
+    }
+
+    public <T> boolean testNext(final TokenMatcher matcher, final Class<T> clazz, final boolean moveCursorOnSuccess) {
         final MatchResult result = matcher.match(this.nextInput);
         if (result.isSuccess()) {
             if (moveCursorOnSuccess) {
                 this.matched.addAll(result.matchedF());
                 this.nextInput = result.next();
             }
-            final T n = f.apply((Success) result);
+            final T n = clazz.cast(result.getNode().orElseThrow(IllegalStateException::new));
             this.lastMatch = n;
             return true;
         }
         return false;
     }
 
+    public boolean hasLastMatch() {
+        return this.lastMatch != null;
+    }
+
     public <T> T lastMatch() {
-        if (this.lastMatch == null) {
+        if (!this.hasLastMatch()) {
             throw new IllegalStateException();
         }
         return (T) this.lastMatch;

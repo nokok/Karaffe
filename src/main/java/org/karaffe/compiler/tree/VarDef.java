@@ -1,26 +1,27 @@
 package org.karaffe.compiler.tree;
 
+import java.util.ArrayList;
+import java.util.Arrays;
+
+import org.karaffe.compiler.lexer.ModifierToken;
 import org.karaffe.compiler.tree.base.AbstractNode;
-import org.karaffe.compiler.tree.base.Name;
-import org.karaffe.compiler.tree.base.NodeType;
 
 public class VarDef extends AbstractNode {
 
-    private final Name name;
-    private final TypeName type;
+    public VarDef(final Modifiers modifiers, final VarName name, final TypeName type) {
+        super(NodeType.DEFVAR, new ArrayList<>(Arrays.asList(modifiers, name, type)));
+    }
 
-    public VarDef(final Name name, final TypeName type) {
-        super(NodeType.DEFVAR);
-        this.name = name;
-        this.type = type;
+    public boolean has(final Class<? extends ModifierToken> modifier) {
+        return ((Modifiers) this.getChildren().get(0)).stream().filter(t -> t.is(modifier)).count() != 0;
     }
 
     public String getVarName() {
-        return this.name.getText();
+        return ((VarName) this.getChildren().get(1)).getText();
     }
 
     public String getTypeName() {
-        return this.type.getText();
+        return ((TypeName) this.getChildren().get(2)).getText();
     }
 
 }

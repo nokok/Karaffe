@@ -77,4 +77,8 @@ public interface Position {
     public static Position ofLineWithRangeColumn(final int line, final int startColumnIndex, final int endColumnIndex) {
         return new RangePositionImpl(line, startColumnIndex, endColumnIndex);
     }
+
+    public static Position ofRange(final Position start, final Position end) {
+        return new RangePositionImpl(start, end);
+    }
 }

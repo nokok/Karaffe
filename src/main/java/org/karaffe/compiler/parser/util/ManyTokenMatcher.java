@@ -7,6 +7,7 @@ import org.karaffe.compiler.lexer.Token;
 import org.karaffe.compiler.lexer.Tokens;
 import org.karaffe.compiler.parser.util.MatchResult.Success;
 
+@Deprecated
 public class ManyTokenMatcher implements TokenMatcher {
 
     private final TokenMatcher matcher;

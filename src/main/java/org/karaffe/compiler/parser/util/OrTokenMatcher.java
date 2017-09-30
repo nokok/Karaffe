@@ -9,6 +9,7 @@ import org.karaffe.compiler.parser.util.MatchResult.Success;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+@Deprecated
 public class OrTokenMatcher implements TokenMatcher {
 
     private static final Logger LOGGER = LoggerFactory.getLogger(OrTokenMatcher.class);

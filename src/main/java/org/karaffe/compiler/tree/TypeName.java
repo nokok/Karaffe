@@ -1,15 +1,13 @@
 package org.karaffe.compiler.tree;
 
 import org.karaffe.compiler.lexer.IdentifierToken;
-import org.karaffe.compiler.tree.base.NodeType;
-import org.karaffe.compiler.tree.base.TermNode;
 
 public class TypeName extends TermNode {
 
     private final boolean isArrayType;
 
     public TypeName(final IdentifierToken typeName, final boolean isArray) {
-        super(typeName, NodeType.TYPENAME);
+        super(NodeType.TYPENAME, typeName);
         this.isArrayType = isArray;
     }
 

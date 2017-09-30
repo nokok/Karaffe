@@ -10,6 +10,11 @@ public class RangePositionImpl implements RangePosition {
         this.end = Position.ofLineWithColumn(line, endColumnIndex);
     }
 
+    public RangePositionImpl(final Position start, final Position end) {
+        this.start = start;
+        this.end = end;
+    }
+
     @Override
     public int getColumn() {
         return this.start.match(n -> {

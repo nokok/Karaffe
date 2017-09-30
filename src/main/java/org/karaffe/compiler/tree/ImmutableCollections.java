@@ -1,4 +1,4 @@
-package org.karaffe.compiler.tree.base;
+package org.karaffe.compiler.tree;
 
 import java.util.Iterator;
 import java.util.function.Consumer;

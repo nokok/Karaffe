@@ -7,6 +7,8 @@ import java.util.List;
 import java.util.ListIterator;
 import java.util.stream.Collectors;
 
+import org.karaffe.compiler.lexer.CommonToken.EOF;
+
 public class Tokens implements List<Token> {
     private final List<Token> tokens;
 
@@ -25,7 +27,18 @@ public class Tokens implements List<Token> {
 
     @Override
     public boolean isEmpty() {
-        return this.tokens.isEmpty();
+        if (this.tokens.isEmpty()) {
+            return true;
+        }
+        if (this.tokens.size() == 1 && this.tokens.get(0).is(EOF.class)) {
+            return true;
+        }
+        for (final Token token : this.tokens) {
+            if (!(token.isWhiteSpace() || token.is(EOF.class))) {
+                return false;
+            }
+        }
+        return true;
     }
 
     @Override

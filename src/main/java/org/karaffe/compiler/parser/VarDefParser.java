@@ -10,7 +10,7 @@ import org.karaffe.compiler.parser.util.MatchResult;
 import org.karaffe.compiler.parser.util.TokenMatcher;
 import org.karaffe.compiler.tree.TypeName;
 import org.karaffe.compiler.tree.VarDef;
-import org.karaffe.compiler.tree.base.Name;
+import org.karaffe.compiler.tree.VarName;
 
 public class VarDefParser implements Parser {
 
@@ -33,7 +33,7 @@ public class VarDefParser implements Parser {
 
         before = identifierResult.next();
         matched.addAll(identifierResult.matchedF());
-        final Name nameNode = identifierResult.getNode().map(Name.class::cast).orElseThrow(IllegalStateException::new);
+        final VarName nameNode = identifierResult.getNode().map(VarName.class::cast).orElseThrow(IllegalStateException::new);
 
         final MatchResult matchResult = TokenMatcher.create(Semi.class).match(before);
         if (matchResult.isFailure()) {

@@ -6,10 +6,10 @@ import java.util.Optional;
 
 import org.karaffe.compiler.lexer.Token;
 import org.karaffe.compiler.lexer.Tokens;
-import org.karaffe.compiler.tree.base.Empty;
+import org.karaffe.compiler.tree.Empty;
 import org.karaffe.compiler.tree.base.Node;
 
-public interface MatchResult extends NodeContainer {
+public interface MatchResult {
 
     public boolean isSuccess();
 
@@ -19,7 +19,6 @@ public interface MatchResult extends NodeContainer {
 
     public Tokens next();
 
-    @Override
     public default Optional<Node> getNode() {
         return Optional.empty();
     }

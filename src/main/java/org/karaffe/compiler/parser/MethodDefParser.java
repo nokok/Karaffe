@@ -21,7 +21,7 @@ import org.karaffe.compiler.tree.Parameters;
 import org.karaffe.compiler.tree.Statement;
 import org.karaffe.compiler.tree.TypeName;
 import org.karaffe.compiler.tree.VarDef;
-import org.karaffe.compiler.tree.base.Name;
+import org.karaffe.compiler.tree.VarName;
 
 public class MethodDefParser implements Parser {
 
@@ -141,7 +141,7 @@ public class MethodDefParser implements Parser {
         final Token modifierToken = modifierMatch.matchedF().get(0);
         final Modifiers methodModifiers = new Modifiers(new Modifier(modifierToken));
 
-        final Name methodName = methodNameMatch.getNode().map(Name.class::cast).orElseThrow(IllegalStateException::new);
+        final VarName methodName = methodNameMatch.getNode().map(VarName.class::cast).orElseThrow(IllegalStateException::new);
 
         final Parameters methodParameters = formalParameter.getNode().map(Parameters.class::cast).orElseGet(Parameters::new);
 
