@@ -43,11 +43,6 @@ public class ExprParser implements Parser {
         }
         ExprParser.LOGGER.debug("Input : {}", tokens);
         final ChainParser parser = new ChainParser(tokens);
-        final MatchResult i = new InfixOpExpr().match(tokens);
-        final MatchResult a = new ArrayAccess().match(tokens);
-        final MatchResult l = new LengthAccess().match(tokens);
-        final MatchResult m = new MethodInvocation().match(tokens);
-        final MatchResult p = new Primary().match(tokens);
         if (parser.testNext(new InfixOpExpr())) {
             return parser.toSuccess();
         }
