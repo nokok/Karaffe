@@ -14,12 +14,12 @@ public interface ImmutableCollections<T> {
 
     boolean contains(Object o);
 
-    Iterator<T> iterator();
+    Iterator<? extends T> iterator();
 
     T get(int index);
 
-    Stream<T> stream();
+    Stream<? extends T> stream();
 
-    Stream<T> parallelStream();
+    Stream<? extends T> parallelStream();
 
 }

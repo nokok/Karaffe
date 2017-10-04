@@ -32,6 +32,16 @@ public class InfixOpExprTest {
         this.runTest("2*!(1+2)", true);
     }
 
+    @Test
+    public void testInfixExpr2() {
+        this.runTest("num-1", true);
+    }
+
+    @Test
+    public void testFailExpr() {
+        this.runTest("a[", false);
+    }
+
     private void runTest(final String source, final boolean v) {
         final KaraffeLexer lexer = new KaraffeLexer(source);
         final List<Token> input = lexer.run();

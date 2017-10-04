@@ -1,5 +1,11 @@
 package org.karaffe.compiler.tree;
 
-public class Expr {
+import org.karaffe.compiler.tree.base.AbstractNode;
+
+public class Expr extends AbstractNode {
+
+    public Expr() {
+        super(NodeType.EXPR);
+    }
 
 }

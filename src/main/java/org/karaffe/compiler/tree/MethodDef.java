@@ -1,15 +1,13 @@
 package org.karaffe.compiler.tree;
 
-import java.util.ArrayList;
-import java.util.Arrays;
-
 import org.karaffe.compiler.lexer.ModifierToken;
 import org.karaffe.compiler.tree.base.AbstractNode;
+import org.karaffe.compiler.tree.base.Node;
 
 public class MethodDef extends AbstractNode {
 
-    public MethodDef(final Modifiers modifiers, final VarName name, final Parameters parameters, final TypeName returnType, final Block block) {
-        super(NodeType.DEFMETHOD, new ArrayList<>(Arrays.asList(modifiers, name, parameters, returnType, block)));
+    public MethodDef(final Node modifiers, final Node name, final Node parameters, final Node returnType, final Node block) {
+        super(NodeType.DEFMETHOD, modifiers, name, parameters, returnType, block);
     }
 
     public Modifiers getModifiers() {
@@ -18,11 +16,11 @@ public class MethodDef extends AbstractNode {
     }
 
     public boolean hasModifier(final Class<? extends ModifierToken> clazz) {
-        return this.getModifiers().stream().filter(c -> c.is(clazz)).count() == this.getModifiers().size();
+        return this.getModifiers().stream().filter(f -> f.getClass().equals(clazz)).count() == this.getModifiers().size();
     }
 
     public String getMethodName() {
-        return ((VarName) super.getChildren().get(1)).getText();
+        return ((Name) super.getChildren().get(1)).getText();
     }
 
     public Parameters getParameters() {

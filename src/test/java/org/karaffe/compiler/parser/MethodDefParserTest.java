@@ -34,7 +34,7 @@ public class MethodDefParserTest {
                 + "}", true);
     }
 
-    @Test
+    @Test(timeout = 1000)
     public void test4() {
         this.runTest("public int doSomething() {\n"
                 + "  if (true) {\n"
@@ -46,7 +46,7 @@ public class MethodDefParserTest {
                 + "}", true);
     }
 
-    @Test
+    @Test(timeout = 1000)
     public void test5() {
         this.runTest("public int doSomething() {\n"
                 + "int a;"
@@ -55,31 +55,31 @@ public class MethodDefParserTest {
                 + "}", true);
     }
 
-    @Test
+    @Test(timeout = 1000)
     public void test6() {
         this.runTest("     public int doSomething(int a) {\n"
                 + "       return a;\n"
                 + "     }\n", true);
     }
 
-    @Test
+    @Test(timeout = 1000)
     public void test7() {
         this.runTest("     public int doSomething() {\n"
                 + "       return a;\n"
                 + "     }\n", true);
     }
 
-    @Test
+    @Test(timeout = 1000)
     public void test8() {
         this.runTest("public", false);
     }
 
-    @Test
+    @Test(timeout = 1000)
     public void test9() {
         this.runTest("public private", false);
     }
 
-    @Test
+    @Test(timeout = 1000)
     public void test10() {
         this.runTest("void", false);
     }
@@ -107,6 +107,19 @@ public class MethodDefParserTest {
     @Test
     public void test15() {
         this.runTest("public int doSomething(int| {", false);
+    }
+
+    @Test
+    public void test16() {
+        this.runTest("    public int computeFac(int num){\n" +
+                "        int numAux ;\n" +
+                "        if (num < 1) {\n" +
+                "            numAux = 1 ;\n" +
+                "        } else {\n" +
+                "            numAux = num * (this.ComputeFac(num-1)) ;\n" +
+                "        }" +
+                "        return numAux ;\n" +
+                "    }\n", true);
     }
 
     private void runTest(final String source, final boolean v) {

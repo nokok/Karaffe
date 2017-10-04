@@ -1,12 +1,10 @@
 package org.karaffe.compiler.parser.util;
 
-import java.util.Optional;
-
 import org.junit.Assert;
 import org.junit.Test;
 import org.karaffe.compiler.lexer.KaraffeLexer;
 import org.karaffe.compiler.lexer.Tokens;
-import org.karaffe.compiler.tree.VarName;
+import org.karaffe.compiler.tree.Name;
 
 public class ChainParserTest {
 
@@ -46,9 +44,8 @@ public class ChainParserTest {
     @Test
     public void testNextClass() {
         final ChainParser parser = this.mkParser("id");
-        final Optional<VarName> name = parser.nextMatch(TokenMatcher.identifier(), VarName.class);
-        Assert.assertTrue(name.isPresent());
-        final VarName n = name.get();
+        Assert.assertTrue(parser.nextMatch(TokenMatcher.identifier()));
+        final Name n = parser.lastMatch();
         Assert.assertEquals("id", n.getText());
     }
 

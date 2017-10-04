@@ -8,16 +8,16 @@ import org.karaffe.compiler.tree.base.AbstractNode;
 
 public class ValDef extends AbstractNode {
 
-    public ValDef(final Modifiers modifiers, final VarName name, final TypeName type) {
+    public ValDef(final Modifiers modifiers, final Name name, final TypeName type) {
         super(NodeType.DEFVAL, new ArrayList<>(Arrays.asList(modifiers, name, type)));
     }
 
     public boolean has(final Class<? extends ModifierToken> modifier) {
-        return ((Modifiers) this.getChildren().get(0)).stream().filter(t -> t.is(modifier)).count() != 0;
+        return ((Modifiers) this.getChildren().get(0)).stream().filter(t -> t.getClass().equals(modifier)).count() != 0;
     }
 
     public String getName() {
-        return ((VarName) this.getChildren().get(1)).getText();
+        return ((Name) this.getChildren().get(1)).getText();
     }
 
     public String getTypeName() {

@@ -2,20 +2,19 @@ package org.karaffe.compiler.parser;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Optional;
 
+import org.karaffe.compiler.lexer.CommonToken;
+import org.karaffe.compiler.lexer.CommonToken.RightBrace;
 import org.karaffe.compiler.lexer.KeywordToken.Extends;
-import org.karaffe.compiler.lexer.OperatorToken.LeftBrace;
-import org.karaffe.compiler.lexer.OperatorToken.RightBrace;
 import org.karaffe.compiler.lexer.Tokens;
 import org.karaffe.compiler.parser.util.ChainParser;
 import org.karaffe.compiler.parser.util.MatchResult;
 import org.karaffe.compiler.parser.util.TokenMatcher;
 import org.karaffe.compiler.tree.Block;
 import org.karaffe.compiler.tree.MethodDef;
+import org.karaffe.compiler.tree.Name;
 import org.karaffe.compiler.tree.TypeDef.ClassDef;
 import org.karaffe.compiler.tree.VarDef;
-import org.karaffe.compiler.tree.VarName;
 import org.karaffe.compiler.tree.base.Node;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -32,24 +31,22 @@ public class ClassDefParser implements Parser {
         ClassDefParser.LOGGER.debug("Input : {}", input);
         final ChainParser parser = new ChainParser(input);
         parser.nextMatch(TokenMatcher.classKeyword());
-        final Optional<VarName> c = parser.nextMatch(TokenMatcher.identifier(), VarName.class);
-        if (!c.isPresent()) {
+        if (!parser.nextMatch(TokenMatcher.identifier())) {
             ClassDefParser.LOGGER.debug("className not found.");
             return parser.toFailure();
         }
-        final VarName className = c.get();
-
+        final Node className = parser.lastMatch();
         final boolean hasExtends = parser.testNext(TokenMatcher.create(Extends.class));
-        final boolean hasSuperClass = parser.testNext(TokenMatcher.identifier(), VarName.class);
+        final boolean hasSuperClass = parser.testNext(TokenMatcher.identifier(), Name.class);
 
         if (hasExtends != hasSuperClass) {
             ClassDefParser.LOGGER.debug("superClass not found. 1");
             return parser.toFailure();
         }
 
-        final VarName superClassName = hasExtends ? parser.lastMatch() : null;
+        final Name superClassName = hasExtends ? parser.lastMatch() : new Name("Object");
 
-        parser.testNext(TokenMatcher.create(LeftBrace.class));
+        parser.testNext(TokenMatcher.create(CommonToken.LeftBrace.class));
 
         final List<Node> defs = new ArrayList<>();
         while (parser.testNext(new VarDefParser(), VarDef.class)) {

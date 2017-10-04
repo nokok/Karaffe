@@ -7,10 +7,13 @@ import org.karaffe.compiler.lexer.Tokens;
 import org.karaffe.compiler.parser.util.ChainParser;
 import org.karaffe.compiler.parser.util.MatchResult;
 import org.karaffe.compiler.tree.CompileUnit;
+import org.karaffe.compiler.tree.Name;
 import org.karaffe.compiler.tree.PackageDef;
+import org.karaffe.compiler.tree.Select;
 import org.karaffe.compiler.tree.TypeDef;
 import org.karaffe.compiler.tree.TypeDef.ClassDef;
 import org.karaffe.compiler.tree.TypeDefs;
+import org.karaffe.compiler.tree.base.Node;
 
 public class KaraffeParser implements Parser {
 
@@ -18,9 +21,9 @@ public class KaraffeParser implements Parser {
     public MatchResult parse(final Tokens tokens) {
         final ChainParser parser = new ChainParser(tokens);
         final boolean hasPackageDef = parser.testNext(new PackageDefParser(), PackageDef.class);
-        final PackageDef packageDef = hasPackageDef ? parser.lastMatch() : null;
+        final PackageDef packageDef = hasPackageDef ? parser.lastMatch() : new PackageDef(new Select(new Name("<root>")));
 
-        final List<TypeDef> typeDefs = new ArrayList<>();
+        final List<Node> typeDefs = new ArrayList<>();
         if (parser.testNext(new MainClassDeclParser(), TypeDef.class)) {
             typeDefs.add(parser.lastMatch());
         }

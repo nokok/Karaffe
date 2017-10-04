@@ -32,6 +32,11 @@ public class ArrayAccessTest {
         this.runTest("ababa[1*5]", true);
     }
 
+    @Test
+    public void testArrayAccessExpr2() {
+        this.runTest("i[1]", true);
+    }
+
     private void runTest(final String source, final boolean v) {
         final KaraffeLexer lexer = new KaraffeLexer(source);
         final List<Token> input = lexer.run();

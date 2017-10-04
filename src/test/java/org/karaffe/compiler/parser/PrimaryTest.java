@@ -89,7 +89,7 @@ public class PrimaryTest {
     public void testPrimary10() {
         final List<Token> input = new ArrayList<>();
         input.add(new OperatorToken.Bang());
-        input.add(new IdentifierToken.VarName("a"));
+        input.add(new IdentifierToken.VarName("true"));
         this.runSuccessTest(input);
     }
 
@@ -100,6 +100,11 @@ public class PrimaryTest {
         input.add(new IdentifierToken.VarName("a"));
         input.add(new OperatorToken.RightParen());
         this.runSuccessTest(input);
+    }
+
+    @Test
+    public void testNodeTypeIntLiteral() {
+
     }
 
     private void runSuccessTest(final List<Token> input) {

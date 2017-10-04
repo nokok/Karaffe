@@ -9,16 +9,16 @@ import org.karaffe.compiler.tree.base.Node;
 
 public abstract class TypeDef extends AbstractNode {
 
-    public TypeDef(final NodeType type, final List<? extends Node> children) {
+    public TypeDef(final NodeType type, final List<Node> children) {
         super(type, children);
     }
 
     public String getClassName() {
-        return ((VarName) this.getChildren().get(0)).getText();
+        return ((Name) this.getChildren().get(0)).getText();
     }
 
     public static class ClassDef extends TypeDef {
-        public ClassDef(final VarName className, final VarName superClassName, final Block block) {
+        public ClassDef(final Node className, final Node superClassName, final Node block) {
             super(NodeType.DEFCLASS, new ArrayList<>(Arrays.asList(className, superClassName, block)));
         }
     }

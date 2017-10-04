@@ -96,11 +96,21 @@ public class ExprParserTest {
         this.runTest("(1+2)*3", true);
     }
 
+    @Test
+    public void test19() {
+        this.runTest("!1", true);
+    }
+
+    @Test
+    public void test20() {
+        this.runTest("num < 1", true);
+    }
+
     private void runTest(final String source, final boolean v) {
         final KaraffeLexer lexer = new KaraffeLexer(source);
         final ExprParser parser = new ExprParser();
         final MatchResult result = parser.parse(lexer.run());
-        Assert.assertEquals(source + " " + result, v, result.isSuccess());
+        Assert.assertEquals(v, result.isSuccess());
         if (v) {
             if (result.next().isEmpty()) {
                 return;

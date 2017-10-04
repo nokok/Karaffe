@@ -67,6 +67,96 @@ public abstract class CommonToken implements Token {
         }
     }
 
+    public static class Semi extends CommonToken {
+        public Semi() {
+            this(Position.noPos());
+        }
+
+        public Semi(final Position position) {
+            super(";", position, "semi colon");
+        }
+    }
+
+    public static class LeftBrace extends CommonToken {
+        public LeftBrace() {
+            this(Position.noPos());
+        }
+
+        public LeftBrace(final Position position) {
+            super("{", position, "{");
+        }
+    }
+
+    public static class RightBrace extends CommonToken {
+        public RightBrace() {
+            this(Position.noPos());
+        }
+
+        public RightBrace(final Position position) {
+            super("}", position, "}");
+        }
+    }
+
+    public static class LeftParen extends CommonToken {
+        public LeftParen() {
+            this(Position.noPos());
+        }
+
+        public LeftParen(final Position position) {
+            super("(", position, "(");
+        }
+    }
+
+    public static class RightParen extends CommonToken {
+        public RightParen() {
+            this(Position.noPos());
+        }
+
+        public RightParen(final Position position) {
+            super(")", position, ")");
+        }
+    }
+
+    public static class LeftBracket extends CommonToken {
+        public LeftBracket() {
+            this(Position.noPos());
+        }
+
+        public LeftBracket(final Position position) {
+            super("[", position, "[");
+        }
+    }
+
+    public static class RightBracket extends CommonToken {
+        public RightBracket() {
+            this(Position.noPos());
+        }
+
+        public RightBracket(final Position position) {
+            super("]", position, "]");
+        }
+    }
+
+    public static class Comma extends CommonToken {
+        public Comma() {
+            this(Position.noPos());
+        }
+
+        public Comma(final Position position) {
+            super(",", position, ",");
+        }
+    }
+
+    public static class Dot extends CommonToken {
+        public Dot() {
+            this(Position.noPos());
+        }
+
+        public Dot(final Position position) {
+            super(".", position, ".");
+        }
+    }
+
     @Override
     public String toString() {
         return this.getText();

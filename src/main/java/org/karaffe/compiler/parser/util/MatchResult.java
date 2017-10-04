@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
+import org.karaffe.compiler.lexer.CommonToken;
 import org.karaffe.compiler.lexer.Token;
 import org.karaffe.compiler.lexer.Tokens;
 import org.karaffe.compiler.tree.Empty;
@@ -103,7 +104,7 @@ public interface MatchResult {
         private final Tokens next;
 
         public Failure(final Tokens next) {
-            this(next.get(0), next);
+            this(next.size() == 0 ? new CommonToken.ErrorToken("Empty") : next.get(0), next);
         }
 
         public Failure(final Token erroredToken, final Tokens next) {

@@ -3,24 +3,25 @@ package org.karaffe.compiler.parser;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.karaffe.compiler.lexer.CommonToken.Comma;
 import org.karaffe.compiler.lexer.ModifierToken;
-import org.karaffe.compiler.lexer.OperatorToken.Comma;
 import org.karaffe.compiler.lexer.Token;
 import org.karaffe.compiler.lexer.Tokens;
 import org.karaffe.compiler.parser.util.MatchResult;
 import org.karaffe.compiler.parser.util.TokenMatcher;
 import org.karaffe.compiler.tree.Modifier;
 import org.karaffe.compiler.tree.Modifiers;
+import org.karaffe.compiler.tree.Name;
 import org.karaffe.compiler.tree.Parameters;
 import org.karaffe.compiler.tree.TypeName;
 import org.karaffe.compiler.tree.ValDef;
-import org.karaffe.compiler.tree.VarName;
+import org.karaffe.compiler.tree.base.Node;
 
 public class FormalListParser implements Parser {
 
     @Override
     public MatchResult parse(final Tokens input) {
-        final List<ValDef> parameters = new ArrayList<>();
+        final List<Node> parameters = new ArrayList<>();
         final List<Token> matched = new ArrayList<>();
 
         MatchResult last = null;
@@ -54,7 +55,7 @@ public class FormalListParser implements Parser {
             last = idMatch;
             before = idMatch.next();
             matched.addAll(idMatch.matchedF());
-            final VarName name = idMatch.getNode().map(VarName.class::cast).orElseThrow(IllegalStateException::new);
+            final Name name = idMatch.getNode().map(Name.class::cast).orElseThrow(IllegalStateException::new);
             final ValDef val = new ValDef(modifiers, name, typeName);
             parameters.add(val);
         } while (last.isSuccess() && before.size() > 0);

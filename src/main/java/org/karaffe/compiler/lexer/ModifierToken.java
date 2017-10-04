@@ -8,6 +8,10 @@ public abstract class ModifierToken extends CommonToken {
     }
 
     public static class Public extends ModifierToken {
+        public Public() {
+            this(Position.noPos());
+        }
+
         public Public(final Position position) {
             super("public", position);
         }

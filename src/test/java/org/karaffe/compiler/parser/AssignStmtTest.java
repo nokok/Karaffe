@@ -17,6 +17,16 @@ public class AssignStmtTest {
         this.runTest("a=1;", true);
     }
 
+    @Test
+    public void test2() {
+        this.runTest(" numAux = 1 ;", true);
+    }
+
+    @Test
+    public void test3() {
+        this.runTest("numAux = num * (this.ComputeFac(num-1)) ;", true);
+    }
+
     private void runTest(final String source, final boolean v) {
         final KaraffeLexer lexer = new KaraffeLexer(source);
         final List<Token> input = lexer.run();

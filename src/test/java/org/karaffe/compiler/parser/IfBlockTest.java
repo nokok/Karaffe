@@ -38,6 +38,15 @@ public class IfBlockTest {
                 + "}", true);
     }
 
+    @Test
+    public void testIf() {
+        this.runTest("        if (num < 1) {\n" +
+                "            numAux = 1 ;\n" +
+                "        } else {\n" +
+                "            numAux = num * (this.ComputeFac(num-1)) ;\n" +
+                "        }", true);
+    }
+
     private void runTest(final String source, final boolean v) {
         final KaraffeLexer lexer = new KaraffeLexer(source);
         final List<Token> input = lexer.run();

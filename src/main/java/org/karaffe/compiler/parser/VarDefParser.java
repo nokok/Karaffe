@@ -3,14 +3,15 @@ package org.karaffe.compiler.parser;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.karaffe.compiler.lexer.OperatorToken.Semi;
+import org.karaffe.compiler.lexer.CommonToken.Semi;
 import org.karaffe.compiler.lexer.Token;
 import org.karaffe.compiler.lexer.Tokens;
 import org.karaffe.compiler.parser.util.MatchResult;
 import org.karaffe.compiler.parser.util.TokenMatcher;
+import org.karaffe.compiler.tree.Modifiers;
+import org.karaffe.compiler.tree.Name;
 import org.karaffe.compiler.tree.TypeName;
 import org.karaffe.compiler.tree.VarDef;
-import org.karaffe.compiler.tree.VarName;
 
 public class VarDefParser implements Parser {
 
@@ -33,7 +34,7 @@ public class VarDefParser implements Parser {
 
         before = identifierResult.next();
         matched.addAll(identifierResult.matchedF());
-        final VarName nameNode = identifierResult.getNode().map(VarName.class::cast).orElseThrow(IllegalStateException::new);
+        final Name nameNode = identifierResult.getNode().map(Name.class::cast).orElseThrow(IllegalStateException::new);
 
         final MatchResult matchResult = TokenMatcher.create(Semi.class).match(before);
         if (matchResult.isFailure()) {
@@ -41,7 +42,7 @@ public class VarDefParser implements Parser {
         }
         matched.addAll(matchResult.matchedF());
 
-        return new MatchResult.Success(matchResult.next(), matched, new VarDef(nameNode, typeNode));
+        return new MatchResult.Success(matchResult.next(), matched, new VarDef(new Modifiers(), nameNode, typeNode));
     }
 
 }

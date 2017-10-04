@@ -10,58 +10,58 @@ import java.util.stream.Stream;
 import org.karaffe.compiler.tree.ImmutableCollections;
 import org.karaffe.compiler.tree.NodeType;
 
-public class AbstractNodes<T extends Node> extends AbstractNode implements ImmutableCollections<T> {
+public class AbstractNodes extends AbstractNode implements ImmutableCollections<Node> {
 
     public AbstractNodes(final NodeType nodeType) {
         this(nodeType, new ArrayList<>());
     }
 
-    public AbstractNodes(final NodeType nodeType, final T node) {
+    public AbstractNodes(final NodeType nodeType, final Node node) {
         this(nodeType, new ArrayList<>(Arrays.asList(node)));
     }
 
-    public AbstractNodes(final NodeType nodeType, final List<T> nodes) {
+    public AbstractNodes(final NodeType nodeType, final List<Node> nodes) {
         super(nodeType, nodes);
     }
 
     @Override
-    public void forEach(final Consumer<? super T> action) {
-        ((List<T>) this.getChildren()).forEach(action);
+    public void forEach(final Consumer<? super Node> action) {
+        this.getChildren().forEach(action);
     }
 
     @Override
     public int size() {
-        return ((List<T>) this.getChildren()).size();
+        return this.getChildren().size();
     }
 
     @Override
     public boolean isEmpty() {
-        return ((List<T>) this.getChildren()).isEmpty();
+        return this.getChildren().isEmpty();
     }
 
     @Override
     public boolean contains(final Object o) {
-        return ((List<T>) this.getChildren()).contains(o);
+        return this.getChildren().contains(o);
     }
 
     @Override
-    public Iterator<T> iterator() {
-        return ((List<T>) this.getChildren()).iterator();
+    public Iterator<? extends Node> iterator() {
+        return this.getChildren().iterator();
     }
 
     @Override
-    public T get(final int index) {
-        return ((List<T>) this.getChildren()).get(index);
+    public Node get(final int index) {
+        return this.getChildren().get(index);
     }
 
     @Override
-    public Stream<T> stream() {
-        return ((List<T>) this.getChildren()).stream();
+    public Stream<? extends Node> stream() {
+        return this.getChildren().stream();
     }
 
     @Override
-    public Stream<T> parallelStream() {
-        return ((List<T>) this.getChildren()).parallelStream();
+    public Stream<? extends Node> parallelStream() {
+        return this.getChildren().parallelStream();
     }
 
 }

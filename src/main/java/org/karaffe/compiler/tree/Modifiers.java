@@ -5,8 +5,9 @@ import java.util.Arrays;
 import java.util.List;
 
 import org.karaffe.compiler.tree.base.AbstractNodes;
+import org.karaffe.compiler.tree.base.Node;
 
-public class Modifiers extends AbstractNodes<Modifier> {
+public class Modifiers extends AbstractNodes {
 
     public Modifiers() {
         this(new ArrayList<>(0));
@@ -20,7 +21,7 @@ public class Modifiers extends AbstractNodes<Modifier> {
         this(new ArrayList<>(Arrays.asList(modifiers)));
     }
 
-    public Modifiers(final List<Modifier> modifiers) {
+    public Modifiers(final List<Node> modifiers) {
         super(NodeType.S_MODIFIER, modifiers);
     }
 

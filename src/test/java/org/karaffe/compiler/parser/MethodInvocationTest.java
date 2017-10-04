@@ -22,6 +22,21 @@ public class MethodInvocationTest {
         this.runTest("target.doSomething(1 + 5)", true);
     }
 
+    @Test
+    public void testMethodInvocationExpr2() {
+        this.runTest("target.doSomething(1, 5)", true);
+    }
+
+    @Test
+    public void testMethodInvocationExpr3() {
+        this.runTest("target.doSomething(1, new int[3])", true);
+    }
+
+    @Test
+    public void testMethodInvocationExpr4() {
+        this.runTest("this.ComputeFac(num-1)", true);
+    }
+
     private void runTest(final String source, final boolean v) {
         final KaraffeLexer lexer = new KaraffeLexer(source);
         final List<Token> input = lexer.run();

@@ -2,32 +2,35 @@ package org.karaffe.compiler.parser;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Optional;
 
+import org.karaffe.compiler.lexer.CommonToken.LeftBrace;
+import org.karaffe.compiler.lexer.CommonToken.LeftBracket;
+import org.karaffe.compiler.lexer.CommonToken.LeftParen;
+import org.karaffe.compiler.lexer.CommonToken.RightBrace;
+import org.karaffe.compiler.lexer.CommonToken.RightBracket;
+import org.karaffe.compiler.lexer.CommonToken.RightParen;
+import org.karaffe.compiler.lexer.CommonToken.Semi;
+import org.karaffe.compiler.lexer.KeywordToken;
 import org.karaffe.compiler.lexer.KeywordToken.Else;
 import org.karaffe.compiler.lexer.KeywordToken.If;
 import org.karaffe.compiler.lexer.KeywordToken.While;
 import org.karaffe.compiler.lexer.OperatorToken.Equals;
-import org.karaffe.compiler.lexer.OperatorToken.LeftBrace;
-import org.karaffe.compiler.lexer.OperatorToken.LeftBracket;
-import org.karaffe.compiler.lexer.OperatorToken.LeftParen;
-import org.karaffe.compiler.lexer.OperatorToken.RightBrace;
-import org.karaffe.compiler.lexer.OperatorToken.RightBracket;
-import org.karaffe.compiler.lexer.OperatorToken.RightParen;
-import org.karaffe.compiler.lexer.OperatorToken.Semi;
 import org.karaffe.compiler.lexer.Tokens;
 import org.karaffe.compiler.parser.util.ChainParser;
 import org.karaffe.compiler.parser.util.MatchResult;
 import org.karaffe.compiler.parser.util.TokenMatcher;
+import org.karaffe.compiler.tree.Apply;
+import org.karaffe.compiler.tree.Assign;
 import org.karaffe.compiler.tree.Block;
-import org.karaffe.compiler.tree.Expr;
-import org.karaffe.compiler.tree.Statement;
+import org.karaffe.compiler.tree.Goto;
+import org.karaffe.compiler.tree.LabelDef;
+import org.karaffe.compiler.tree.Name;
+import org.karaffe.compiler.tree.Select;
+import org.karaffe.compiler.tree.base.Node;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 public class StatementParser implements Parser {
-
-    private static final Logger LOGGER = LoggerFactory.getLogger(StatementParser.class);
 
     private ChainParser parser;
 
@@ -37,23 +40,23 @@ public class StatementParser implements Parser {
             return new MatchResult.Failure(input);
         }
         this.parser = new ChainParser(input);
-        if (this.parser.testNext(new StmtBlock(), Statement.class)) {
-            return new MatchResult.Success(this.parser.next(), this.parser.matched(), this.parser.lastMatch());
+        if (this.parser.testNext(new StmtBlock())) {
+            return this.parser.toSuccess();
         }
-        if (this.parser.testNext(new IfBlock(), Statement.class)) {
-            return new MatchResult.Success(this.parser.next(), this.parser.matched(), this.parser.lastMatch());
+        if (this.parser.testNext(new IfBlock())) {
+            return this.parser.toSuccess();
         }
-        if (this.parser.testNext(new WhileBlock(), Statement.class)) {
-            return new MatchResult.Success(this.parser.next(), this.parser.matched(), this.parser.lastMatch());
+        if (this.parser.testNext(new WhileBlock())) {
+            return this.parser.toSuccess();
         }
-        if (this.parser.testNext(new SystemOutPrintln(), Statement.class)) {
-            return new MatchResult.Success(this.parser.next(), this.parser.matched(), this.parser.lastMatch());
+        if (this.parser.testNext(new SystemOutPrintln())) {
+            return this.parser.toSuccess();
         }
-        if (this.parser.testNext(new AssignStmt(), Statement.class)) {
-            return new MatchResult.Success(this.parser.next(), this.parser.matched(), this.parser.lastMatch());
+        if (this.parser.testNext(new AssignStmt())) {
+            return this.parser.toSuccess();
         }
-        if (this.parser.testNext(new ArrayAssignStmt(), Statement.class)) {
-            return new MatchResult.Success(this.parser.next(), this.parser.matched(), this.parser.lastMatch());
+        if (this.parser.testNext(new ArrayAssignStmt())) {
+            return this.parser.toSuccess();
         }
         return this.parser.toFailure();
     }
@@ -64,7 +67,7 @@ public class StatementParser implements Parser {
 
         @Override
         public MatchResult parse(final Tokens input) {
-            StmtBlock.L.debug("Input :{}");
+            StmtBlock.L.debug("Input :{}", input);
             if (input.isEmpty()) {
                 return new MatchResult.Failure(input);
             }
@@ -73,15 +76,15 @@ public class StatementParser implements Parser {
                 return parser.toFailure();
             }
 
-            final List<Statement> statements = new ArrayList<>();
-            while (parser.testNext(new StatementParser(), Statement.class)) {
+            final List<Node> statements = new ArrayList<>();
+            while (parser.testNext(new StatementParser(), Node.class)) {
                 statements.add(parser.lastMatch());
             }
             if (!parser.nextMatch(TokenMatcher.create(RightBrace.class))) {
                 return parser.toFailure();
             }
-
-            return new MatchResult.Success(parser.next(), parser.matched(), );
+            final Block block = new Block(statements);
+            return new MatchResult.Success(parser.next(), parser.matched(), block);
         }
     }
 
@@ -101,28 +104,30 @@ public class StatementParser implements Parser {
             if (!parser.nextMatch(TokenMatcher.create(LeftParen.class))) {
                 return parser.toFailure();
             }
-            final Optional<Expr> expr = parser.nextMatch(new ExprParser(), Expr.class);
-            if (!expr.isPresent()) {
+            if (!parser.nextMatch(new ExprParser())) {
                 return parser.toFailure();
             }
+            final Node expr = parser.lastMatch();
             if (!parser.nextMatch(TokenMatcher.create(RightParen.class))) {
                 return parser.toFailure();
             }
 
-            final Optional<Statement> stmtThen = parser.nextMatch(new StatementParser(), Statement.class);
-            if (!stmtThen.isPresent()) {
+            if (!parser.nextMatch(new StatementParser())) {
                 return parser.toFailure();
             }
+            final Node stmtThen = parser.lastMatch();
 
             if (!parser.nextMatch(TokenMatcher.create(Else.class))) {
                 return parser.toFailure();
             }
-            final Optional<Statement> stmtElse = parser.nextMatch(new StatementParser(), Statement.class);
-            if (!stmtElse.isPresent()) {
+            if (!parser.nextMatch(new StatementParser())) {
                 return parser.toFailure();
             }
+            final Node stmtElse = parser.lastMatch();
 
-            return new MatchResult.Success(input, input, null);
+            // if cond ? goto then : goto else
+            //
+            return new MatchResult.Success(parser.next(), parser.matched(), new org.karaffe.compiler.tree.If(expr, stmtThen, stmtElse));
         }
 
     }
@@ -132,69 +137,140 @@ public class StatementParser implements Parser {
 
         @Override
         public MatchResult parse(final Tokens input) {
+            if (input.isEmpty()) {
+                return new MatchResult.Failure(input);
+            }
             WhileBlock.L.debug("Input :{}");
-            final MatchResult result = TokenMatcher.concat(
-                    TokenMatcher.create(While.class),
-                    TokenMatcher.create(LeftParen.class),
-                    new ExprParser(),
-                    TokenMatcher.create(RightParen.class),
-                    new StatementParser()).match(input);
-            WhileBlock.L.debug("Result : {} {}", result, input);
-            return result;
+            final ChainParser cp = new ChainParser(input);
+            if (!cp.nextMatch(TokenMatcher.create(While.class))) {
+                return cp.toFailure();
+            }
+            if (!cp.nextMatch(TokenMatcher.create(LeftParen.class))) {
+                return cp.toFailure();
+            }
+            if (!cp.nextMatch(new ExprParser())) {
+                return cp.toFailure();
+            }
+            final Node cond = cp.lastMatch();
+            if (!cp.nextMatch(TokenMatcher.create(RightParen.class))) {
+                return cp.toFailure();
+            }
+            if (!cp.nextMatch(new StatementParser())) {
+                return cp.toFailure();
+            }
+            final Node stmt = cp.lastMatch();
+
+            // label: a
+            // if (cond) {
+            // stmt
+            // goto a
+            // }
+            final List<Node> nodes = new ArrayList<>();
+            final LabelDef labelDef = new LabelDef();
+            nodes.add(labelDef);
+            stmt.addChild(new Goto(labelDef));
+            nodes.add(new org.karaffe.compiler.tree.If(cond, stmt));
+            final Block whileBlock = new Block(nodes);
+
+            return new MatchResult.Success(cp.next(), cp.matched(), whileBlock);
         }
     }
 
     public static class SystemOutPrintln implements Parser {
-        private static final Logger L = LoggerFactory.getLogger(SystemOutPrintln.class);
 
         @Override
         public MatchResult parse(final Tokens input) {
-            SystemOutPrintln.L.debug("Input :{}");
-            final MatchResult result = TokenMatcher.concat(
-                    TokenMatcher.create(org.karaffe.compiler.lexer.KeywordToken.SystemOutPrintln.class),
-                    TokenMatcher.create(LeftParen.class),
-                    new ExprParser(),
-                    TokenMatcher.create(RightParen.class),
-                    TokenMatcher.create(Semi.class)).match(input);
-            SystemOutPrintln.L.debug("Result : {} {}", result, input);
-            return result;
+            if (input.isEmpty()) {
+                return new MatchResult.Failure(input);
+            }
+            final ChainParser cp = new ChainParser(input);
+            if (!cp.nextMatch(TokenMatcher.create(KeywordToken.SystemOutPrintln.class))) {
+                return cp.toFailure();
+            }
+            if (!cp.nextMatch(TokenMatcher.create(LeftParen.class))) {
+                return cp.toFailure();
+            }
+            if (!cp.nextMatch(new ExprParser())) {
+                return cp.toFailure();
+            }
+            if (!cp.nextMatch(TokenMatcher.create(RightParen.class))) {
+                return cp.toFailure();
+            }
+            final Node exprNode = cp.lastMatch();
+            if (!cp.nextMatch(TokenMatcher.create(Semi.class))) {
+                return cp.toFailure();
+            }
+            // System.out.println(expr)
+            return new MatchResult.Success(cp.next(), cp.matched(), new Apply(new Select(new Name("java"), new Name("lang"), new Name("System"), new Name("println")), exprNode));
         }
 
     }
 
     public static class AssignStmt implements Parser {
-        private static final Logger L = LoggerFactory.getLogger(AssignStmt.class);
 
         @Override
         public MatchResult parse(final Tokens input) {
-            AssignStmt.L.debug("Input :{}");
-            final MatchResult result = TokenMatcher.concat(
-                    TokenMatcher.identifier(),
-                    TokenMatcher.create(Equals.class),
-                    new ExprParser(),
-                    TokenMatcher.create(Semi.class)).match(input);
-            AssignStmt.L.debug("Result : {} {}", result, input);
-            return result;
+            if (input.isEmpty()) {
+                return new MatchResult.Failure(input);
+            }
+            final ChainParser cp = new ChainParser(input);
+            if (!cp.nextMatch(new IdentifierParser())) {
+                return cp.toFailure();
+            }
+            final Node target = cp.lastMatch();
+            if (!cp.nextMatch(TokenMatcher.create(Equals.class))) {
+                return cp.toFailure();
+            }
+
+            if (!cp.nextMatch(new ExprParser())) {
+                return cp.toFailure();
+            }
+            final Node exprNode = cp.lastMatch();
+            if (!cp.nextMatch(TokenMatcher.create(Semi.class))) {
+                return cp.toFailure();
+            }
+
+            return new MatchResult.Success(cp.next(), cp.matched(), new Assign(target, exprNode));
         }
 
     }
 
     public static class ArrayAssignStmt implements Parser {
-        private static final Logger L = LoggerFactory.getLogger(ArrayAssignStmt.class);
 
         @Override
         public MatchResult parse(final Tokens input) {
-            ArrayAssignStmt.L.debug("Input :{}");
-            final MatchResult result = TokenMatcher.concat(
-                    TokenMatcher.identifier(),
-                    TokenMatcher.create(LeftBracket.class),
-                    new ExprParser(),
-                    TokenMatcher.create(RightBracket.class),
-                    TokenMatcher.create(Equals.class),
-                    new ExprParser(),
-                    TokenMatcher.create(Semi.class)).match(input);
-            ArrayAssignStmt.L.debug("Result : {} {}", result, input);
-            return result;
+            if (input.isEmpty()) {
+                return new MatchResult.Failure(input);
+            }
+            final ChainParser cp = new ChainParser(input);
+            if (!cp.nextMatch(new IdentifierParser())) {
+                return cp.toFailure();
+            }
+            if (!cp.nextMatch(TokenMatcher.create(LeftBracket.class))) {
+                return cp.toFailure();
+            }
+            if (!cp.nextMatch(new ExprParser())) {
+                return cp.toFailure();
+            }
+            final Node arrayAccess = cp.lastMatch();
+            if (!cp.nextMatch(TokenMatcher.create(RightBracket.class))) {
+                return cp.toFailure();
+            }
+            final Node target = cp.lastMatch();
+            if (!cp.nextMatch(TokenMatcher.create(Equals.class))) {
+                return cp.toFailure();
+            }
+
+            if (!cp.nextMatch(new ExprParser())) {
+                return cp.toFailure();
+            }
+            final Node exprNode = cp.lastMatch();
+            if (!cp.nextMatch(TokenMatcher.create(Semi.class))) {
+                return cp.toFailure();
+            }
+            target.addChild(arrayAccess);
+            return new MatchResult.Success(cp.next(), cp.matched(), new Assign(target, exprNode));
+
         }
 
     }

@@ -6,6 +6,7 @@ import java.util.Optional;
 
 import org.karaffe.compiler.lexer.Token;
 import org.karaffe.compiler.lexer.Tokens;
+import org.karaffe.compiler.tree.base.Node;
 
 public class ChainParser {
     private final Tokens input;
@@ -30,9 +31,10 @@ public class ChainParser {
     }
 
     public boolean nextMatch(final TokenMatcher matcher) {
-        return this.nextMatch(matcher, Object.class).isPresent();
+        return this.nextMatch(matcher, Node.class).isPresent();
     }
 
+    @Deprecated
     public <T> Optional<T> nextMatch(final TokenMatcher matcher, final Class<T> clazz) {
         if (this.hasError) {
             return Optional.empty();
@@ -53,7 +55,7 @@ public class ChainParser {
     }
 
     public boolean testNext(final TokenMatcher matcher) {
-        return this.testNext(matcher, Object.class, true);
+        return this.testNext(matcher, Node.class, true);
     }
 
     public <T> boolean testNext(final TokenMatcher matcher, final Class<T> clazz) {
@@ -95,6 +97,10 @@ public class ChainParser {
 
     public boolean hasError() {
         return this.hasError;
+    }
+
+    public MatchResult.Success toSuccess() {
+        return new MatchResult.Success(this.next(), this.matched(), this.lastMatch());
     }
 
     public MatchResult.Failure toFailure() {

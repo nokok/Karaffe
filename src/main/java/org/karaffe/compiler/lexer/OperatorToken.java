@@ -28,16 +28,6 @@ public abstract class OperatorToken extends CommonToken {
         }
     }
 
-    public static class Dot extends OperatorToken {
-        public Dot() {
-            this(Position.noPos());
-        }
-
-        public Dot(final Position position) {
-            super(".", position);
-        }
-    }
-
     public static class LessThan extends OperatorToken {
         public LessThan() {
             this(Position.noPos());
@@ -108,16 +98,6 @@ public abstract class OperatorToken extends CommonToken {
         }
     }
 
-    public static class Comma extends OperatorToken {
-        public Comma() {
-            this(Position.noPos());
-        }
-
-        public Comma(final Position position) {
-            super(",", position);
-        }
-    }
-
     public static class Bang extends OperatorToken {
         public Bang() {
             this(Position.noPos());
@@ -125,76 +105,6 @@ public abstract class OperatorToken extends CommonToken {
 
         public Bang(final Position position) {
             super("!", position);
-        }
-    }
-
-    public static class Semi extends OperatorToken {
-        public Semi() {
-            this(Position.noPos());
-        }
-
-        public Semi(final Position position) {
-            super(";", position);
-        }
-    }
-
-    public static class LeftBrace extends OperatorToken {
-        public LeftBrace() {
-            this(Position.noPos());
-        }
-
-        public LeftBrace(final Position position) {
-            super("{", position);
-        }
-    }
-
-    public static class RightBrace extends OperatorToken {
-        public RightBrace() {
-            this(Position.noPos());
-        }
-
-        public RightBrace(final Position position) {
-            super("}", position);
-        }
-    }
-
-    public static class LeftParen extends OperatorToken {
-        public LeftParen() {
-            this(Position.noPos());
-        }
-
-        public LeftParen(final Position position) {
-            super("(", position);
-        }
-    }
-
-    public static class RightParen extends OperatorToken {
-        public RightParen() {
-            this(Position.noPos());
-        }
-
-        public RightParen(final Position position) {
-            super(")", position);
-        }
-    }
-
-    public static class LeftBracket extends OperatorToken {
-        public LeftBracket() {
-            this(Position.noPos());
-        }
-
-        public LeftBracket(final Position position) {
-            super("[", position);
-        }
-    }
-
-    public static class RightBracket extends OperatorToken {
-        public RightBracket() {
-            this(Position.noPos());
-        }
-
-        public RightBracket(final Position position) {
-            super("]", position);
         }
     }
 

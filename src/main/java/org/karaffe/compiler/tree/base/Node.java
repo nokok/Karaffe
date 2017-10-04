@@ -13,4 +13,6 @@ public interface Node {
     public Position getPosition();
 
     public List<? extends Node> getChildren();
+
+    public void addChild(Node n);
 }

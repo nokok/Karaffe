@@ -6,7 +6,7 @@ import org.karaffe.compiler.lexer.IdentifierToken;
 import org.karaffe.compiler.lexer.Tokens;
 import org.karaffe.compiler.parser.util.MatchResult;
 import org.karaffe.compiler.parser.util.TokenMatcher;
-import org.karaffe.compiler.tree.VarName;
+import org.karaffe.compiler.tree.Name;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -28,7 +28,7 @@ public class IdentifierParser implements Parser {
         }
         final IdentifierToken identifierToken = idResult.matched().map(t -> t.get(0)).map(IdentifierToken.class::cast).get(); // Not Empty
 
-        return new MatchResult.Success(idResult.next(), idResult.matched().orElseGet(ArrayList::new), new VarName(identifierToken));
+        return new MatchResult.Success(idResult.next(), idResult.matched().orElseGet(ArrayList::new), new Name(identifierToken));
     }
 
 }

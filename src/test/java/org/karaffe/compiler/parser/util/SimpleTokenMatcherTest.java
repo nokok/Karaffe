@@ -4,11 +4,11 @@ import java.util.List;
 
 import org.junit.Assert;
 import org.junit.Test;
+import org.karaffe.compiler.lexer.CommonToken.Semi;
 import org.karaffe.compiler.lexer.IdentifierToken;
 import org.karaffe.compiler.lexer.IdentifierToken.TypeName;
 import org.karaffe.compiler.lexer.KaraffeLexer;
 import org.karaffe.compiler.lexer.KeywordToken.Class;
-import org.karaffe.compiler.lexer.OperatorToken.Semi;
 import org.karaffe.compiler.lexer.Token;
 import org.karaffe.compiler.lexer.Tokens;
 

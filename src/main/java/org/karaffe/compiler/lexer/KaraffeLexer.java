@@ -7,12 +7,6 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 import org.karaffe.compiler.lexer.CommonToken.ErrorToken;
-import org.karaffe.compiler.lexer.OperatorToken.LeftBrace;
-import org.karaffe.compiler.lexer.OperatorToken.LeftBracket;
-import org.karaffe.compiler.lexer.OperatorToken.LeftParen;
-import org.karaffe.compiler.lexer.OperatorToken.RightBrace;
-import org.karaffe.compiler.lexer.OperatorToken.RightBracket;
-import org.karaffe.compiler.lexer.OperatorToken.RightParen;
 import org.karaffe.compiler.lexer.WhitespaceToken.Tab;
 import org.karaffe.compiler.lexer.WhitespaceToken.WideSpace;
 import org.karaffe.compiler.util.Position;
@@ -59,7 +53,7 @@ public class KaraffeLexer extends Lexer {
         STATIC("static", (text, pos) -> new ModifierToken.Static(pos)),
 
         // Literals
-        INTEGER("-?([1-9][0-9]*|0)", (text, pos) -> new LiteralToken.IntLiteral(text, pos)),
+        INTEGER("([1-9][0-9]*|0)", (text, pos) -> new LiteralToken.IntLiteral(text, pos)),
 
         // Ids
         UPPERID("[A-Z][a-zA-Z0-9]*", (text, pos) -> new IdentifierToken.TypeName(text, pos)),
@@ -197,19 +191,19 @@ public class KaraffeLexer extends Lexer {
             } else {
                 columnIndex += token.getText().length();
             }
-            if (token.is(LeftParen.class)) {
+            if (token.is(CommonToken.LeftParen.class)) {
                 parenPair++;
-            } else if (token.is(RightParen.class)) {
+            } else if (token.is(CommonToken.RightParen.class)) {
                 parenPair--;
             }
-            if (token.is(LeftBrace.class)) {
+            if (token.is(CommonToken.LeftBrace.class)) {
                 bracePair++;
-            } else if (token.is(RightBrace.class)) {
+            } else if (token.is(CommonToken.RightBrace.class)) {
                 bracePair--;
             }
-            if (token.is(LeftBracket.class)) {
+            if (token.is(CommonToken.LeftBracket.class)) {
                 bracketPair++;
-            } else if (token.is(RightBracket.class)) {
+            } else if (token.is(CommonToken.RightBracket.class)) {
                 bracketPair--;
             }
             KaraffeLexer.LOGGER.debug("Added. {} ", token);

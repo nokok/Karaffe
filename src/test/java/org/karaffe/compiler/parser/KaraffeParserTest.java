@@ -48,23 +48,18 @@ public class KaraffeParserTest {
 
     @Test
     public void testMiniJava() {
-        final KaraffeLexer lexer = new KaraffeLexer("class Factorial{\n" +
-                "    public static void main(String[] a){\n" +
-                "        System.out.println(new Fac().computeFac(10));\n" +
-                "    }\n" +
-                "}\n" +
-                "\n" +
-                "class Fac {\n" +
+        final KaraffeLexer lexer = new KaraffeLexer("class Fac {\n" +
                 "    public int computeFac(int num){\n" +
                 "        int numAux ;\n" +
-                "        if (num < 1)\n" +
+                "        if (num < 1) {\n" +
                 "            numAux = 1 ;\n" +
-                "        else\n" +
+                "        } else {\n" +
                 "            numAux = num * (this.ComputeFac(num-1)) ;\n" +
+                "        }" +
                 "        return numAux ;\n" +
                 "    }\n" +
                 "}\n" +
-                "\n");
+                "");
         final KaraffeParser parser = new KaraffeParser();
         final List<Token> tokens = lexer.run();
 

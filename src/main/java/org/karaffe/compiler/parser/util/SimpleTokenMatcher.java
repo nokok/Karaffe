@@ -50,14 +50,14 @@ public class SimpleTokenMatcher implements TokenMatcher {
             cursor += current.size() - next.size();
             current = head.next();
             if (!current.get(0).is(expected)) {
-                SimpleTokenMatcher.LOGGER.debug("  -> Failure {}", current);
+                SimpleTokenMatcher.LOGGER.debug("  -> Failure");
                 return new MatchResult.Failure(current.get(0), current);
             }
             matchedTokens.add(current.remove(0));
             cursor++;
         }
         final Tokens next = new Tokens(inputTokens.subList(cursor, inputTokens.size()));
-        SimpleTokenMatcher.LOGGER.debug("  -> Success {}", next);
+        SimpleTokenMatcher.LOGGER.debug("  -> Success");
         return new MatchResult.Success(next, matchedTokens);
     }
 
