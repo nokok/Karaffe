@@ -44,10 +44,18 @@ public class NodeStringTest {
         Assert.assertEquals("(Literal false)", this.getNodeString(new Primary(), "false"));
         Assert.assertEquals("(Apply (New (Select (Name IntArray))) (Literal 1))", this.getNodeString(new Primary(), "new int[1]"));
         Assert.assertEquals("(Apply (Select (Name num) (Select (Name <))) (Literal 1))", this.getNodeString(new ExprParser(), "num < 1"));
+        Assert.assertEquals("(Apply (New (Select (Name Fac))))", this.getNodeString(new ExprParser(), "new Fac()"));
+        Assert.assertEquals("(Apply (Apply (Select (Apply (Apply (New (Select (Name Fac))))) (Name computeFac)) (Literal 10)))", this.getNodeString(new ExprParser(), "(new Fac()).computeFac(10)"));
         // 3.*(1+(2))
         // (Apply (Select (Literal 1) (Select (Name +))) (Apply (Select (Literal 2)
         // (Select (Name *))) (Literal 3)))
         Assert.assertEquals("(Apply (Select (Literal 1) (Select (Name +))) (Apply (Select (Literal 2) (Select (Name *))) (Literal 3)))", this.getNodeString(new ExprParser(), "1+2*3"));
+    }
+
+    @Test
+    public void testStmtString() {
+        Assert.assertEquals("(Apply (Select (Name java) (Name lang) (Name System) (Name println)) (Literal 10))", this.getNodeString(new StatementParser(), "System.out.println(10);"));
+        Assert.assertEquals("(Apply (Select (Name java) (Name lang) (Name System) (Name println)) (Apply (Apply (Select (Apply (Apply (New (Select (Name Fac))))) (Name computeFac)) (Literal 10))))", this.getNodeString(new StatementParser(), "System.out.println((new Fac()).computeFac(10));"));
     }
 
     @Test

@@ -192,10 +192,10 @@ public class StatementParser implements Parser {
             if (!cp.testNext(new ExprParser())) {
                 return cp.toFailure();
             }
+            final Node exprNode = cp.lastMatch();
             if (!cp.testNext(RightParen.class)) {
                 return cp.toFailure();
             }
-            final Node exprNode = cp.lastMatch();
             if (!cp.testNext(Semi.class)) {
                 return cp.toFailure();
             }
