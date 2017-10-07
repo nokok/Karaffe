@@ -7,7 +7,7 @@ import org.junit.Test;
 import org.karaffe.compiler.lexer.CommonToken.EOF;
 import org.karaffe.compiler.lexer.KaraffeLexer;
 import org.karaffe.compiler.lexer.Token;
-import org.karaffe.compiler.parser.ExprParser.MethodInvocation;
+import org.karaffe.compiler.parser.ExprParser.Primary;
 import org.karaffe.compiler.parser.util.MatchResult;
 
 public class MethodInvocationTest {
@@ -37,10 +37,15 @@ public class MethodInvocationTest {
         this.runTest("this.ComputeFac(num-1)", true);
     }
 
+    @Test
+    public void testMethodInvocationExpr5() {
+        this.runTest("this.compute()", true);
+    }
+
     private void runTest(final String source, final boolean v) {
         final KaraffeLexer lexer = new KaraffeLexer(source);
         final List<Token> input = lexer.run();
-        final MatchResult result = new MethodInvocation().match(input);
+        final MatchResult result = new Primary.MethodInvocationParser().match(input);
         Assert.assertEquals(v, result.isSuccess());
         if (v) {
             if (result.next().isEmpty()) {

@@ -27,6 +27,8 @@ public enum NodeType {
     GOTO,
     ASSIGN,
 
+    OP_PLUS,
+
     S_TYPEDEF,
     S_MODIFIER,
     S_PARAM,

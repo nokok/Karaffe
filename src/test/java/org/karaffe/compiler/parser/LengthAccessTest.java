@@ -7,7 +7,7 @@ import org.junit.Test;
 import org.karaffe.compiler.lexer.CommonToken.EOF;
 import org.karaffe.compiler.lexer.KaraffeLexer;
 import org.karaffe.compiler.lexer.Token;
-import org.karaffe.compiler.parser.ExprParser.LengthAccess;
+import org.karaffe.compiler.parser.ExprParser.Primary;
 import org.karaffe.compiler.parser.util.MatchResult;
 
 public class LengthAccessTest {
@@ -19,13 +19,13 @@ public class LengthAccessTest {
 
     @Test
     public void testlengthAccessNewArray() {
-        this.runTest("new int[100].length", true);
+        this.runTest("(new int[100]).length", true);
     }
 
     private void runTest(final String source, final boolean v) {
         final KaraffeLexer lexer = new KaraffeLexer(source);
         final List<Token> input = lexer.run();
-        final MatchResult result = new LengthAccess().match(input);
+        final MatchResult result = new Primary.LengthAccessParser().match(input);
         Assert.assertEquals(v, result.isSuccess());
         if (v) {
             if (result.next().isEmpty()) {

@@ -13,7 +13,7 @@ public class PathParserTest {
         final MatchResult result = this.runTest("p", true);
         final Select selector = (Select) result.getNode().orElseThrow(AssertionError::new);
         final String path = selector.toString("/");
-        Assert.assertEquals("p", path);
+        Assert.assertEquals("(Name p)", path);
     }
 
     @Test
@@ -21,7 +21,7 @@ public class PathParserTest {
         final MatchResult result = this.runTest("pkg.i", true);
         final Select selector = (Select) result.getNode().orElseThrow(AssertionError::new);
         final String path = selector.toString("/");
-        Assert.assertEquals("pkg/i", path);
+        Assert.assertEquals("(Name pkg)/(Name i)", path);
     }
 
     @Test
@@ -29,7 +29,7 @@ public class PathParserTest {
         final MatchResult result = this.runTest("pkg.i.foo", true);
         final Select selector = (Select) result.getNode().orElseThrow(AssertionError::new);
         final String path = selector.toString("/");
-        Assert.assertEquals("pkg/i/foo", path);
+        Assert.assertEquals("(Name pkg)/(Name i)/(Name foo)", path);
     }
 
     @Test
@@ -37,7 +37,7 @@ public class PathParserTest {
         final MatchResult result = this.runTest("a . b. \t b ", true);
         final Select selector = (Select) result.getNode().orElseThrow(AssertionError::new);
         final String path = selector.toString("/");
-        Assert.assertEquals("a/b/b", path);
+        Assert.assertEquals("(Name a)/(Name b)/(Name b)", path);
     }
 
     private MatchResult runTest(final String source, final boolean v) {

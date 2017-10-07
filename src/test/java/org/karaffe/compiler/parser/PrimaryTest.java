@@ -65,17 +65,6 @@ public class PrimaryTest {
     }
 
     @Test
-    public void testPrimary8() {
-        final List<Token> input = new ArrayList<>();
-        input.add(new KeywordToken.New());
-        input.add(new KeywordToken.Int());
-        input.add(new OperatorToken.LeftBracket());
-        input.add(new LiteralToken.IntLiteral("1"));
-        input.add(new OperatorToken.RightBracket());
-        this.runSuccessTest(input);
-    }
-
-    @Test
     public void testPrimary9() {
         final List<Token> input = new ArrayList<>();
         input.add(new KeywordToken.New());
@@ -83,28 +72,6 @@ public class PrimaryTest {
         input.add(new OperatorToken.LeftParen());
         input.add(new OperatorToken.RightParen());
         this.runSuccessTest(input);
-    }
-
-    @Test
-    public void testPrimary10() {
-        final List<Token> input = new ArrayList<>();
-        input.add(new OperatorToken.Bang());
-        input.add(new IdentifierToken.VarName("true"));
-        this.runSuccessTest(input);
-    }
-
-    @Test
-    public void testPrimary11() {
-        final List<Token> input = new ArrayList<>();
-        input.add(new OperatorToken.LeftParen());
-        input.add(new IdentifierToken.VarName("a"));
-        input.add(new OperatorToken.RightParen());
-        this.runSuccessTest(input);
-    }
-
-    @Test
-    public void testNodeTypeIntLiteral() {
-
     }
 
     private void runSuccessTest(final List<Token> input) {

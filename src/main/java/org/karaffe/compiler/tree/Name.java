@@ -11,4 +11,5 @@ public class Name extends TermNode {
     public Name(final String name) {
         this(new IdentifierToken.VarName(name));
     }
+
 }

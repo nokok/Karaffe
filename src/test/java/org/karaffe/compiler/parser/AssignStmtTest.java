@@ -24,7 +24,7 @@ public class AssignStmtTest {
 
     @Test
     public void test3() {
-        this.runTest("numAux = num * (this.ComputeFac(num-1)) ;", true);
+        this.runTest("numAux = num * this.ComputeFac(num-1) ;", true);
     }
 
     private void runTest(final String source, final boolean v) {

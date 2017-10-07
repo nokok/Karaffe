@@ -7,8 +7,18 @@ import org.karaffe.compiler.parser.util.MatchResult;
 
 public class ExprParserTest {
     @Test
-    public void testExpr() {
+    public void testPlusExpr() {
         this.runTest("1 + 1", true);
+    }
+
+    @Test
+    public void testCondExpr() {
+        this.runTest("1 < 1", true);
+    }
+
+    @Test
+    public void testCondExpr2() {
+        this.runTest("1 < 1 + 2", true);
     }
 
     @Test
@@ -104,6 +114,26 @@ public class ExprParserTest {
     @Test
     public void test20() {
         this.runTest("num < 1", true);
+    }
+
+    @Test
+    public void test21() {
+        this.runTest("num * this.computeFac(num-1)", true);
+    }
+
+    @Test
+    public void test22() {
+        this.runTest("num * a", true);
+    }
+
+    @Test
+    public void test23() {
+        this.runTest("num * a - 5", true);
+    }
+
+    @Test
+    public void test24() {
+        this.runTest("num * this.compute()", true);
     }
 
     private void runTest(final String source, final boolean v) {

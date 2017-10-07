@@ -7,7 +7,7 @@ import org.junit.Test;
 import org.karaffe.compiler.lexer.CommonToken.EOF;
 import org.karaffe.compiler.lexer.KaraffeLexer;
 import org.karaffe.compiler.lexer.Token;
-import org.karaffe.compiler.parser.ExprParser.Primary.ArrayInitializer;
+import org.karaffe.compiler.parser.ExprParser.Primary.ArrayInitializerParser;
 import org.karaffe.compiler.parser.util.MatchResult;
 
 public class ArrayInitializerTest {
@@ -29,7 +29,7 @@ public class ArrayInitializerTest {
     private void runTest(final String source, final boolean v) {
         final KaraffeLexer lexer = new KaraffeLexer(source);
         final List<Token> input = lexer.run();
-        final MatchResult result = new ArrayInitializer().match(input);
+        final MatchResult result = new ArrayInitializerParser().match(input);
         Assert.assertEquals(v, result.isSuccess());
         if (v) {
             if (result.next().isEmpty()) {

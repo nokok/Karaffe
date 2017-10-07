@@ -15,4 +15,5 @@ public interface Node {
     public List<? extends Node> getChildren();
 
     public void addChild(Node n);
+
 }

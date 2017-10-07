@@ -7,19 +7,19 @@ import org.junit.Test;
 import org.karaffe.compiler.lexer.CommonToken.EOF;
 import org.karaffe.compiler.lexer.KaraffeLexer;
 import org.karaffe.compiler.lexer.Token;
-import org.karaffe.compiler.parser.ExprParser.ArrayAccess;
+import org.karaffe.compiler.parser.ExprParser.Primary.ArrayAccessParser;
 import org.karaffe.compiler.parser.util.MatchResult;
 
-public class ArrayAccessTest {
+public class ArrayAccessParserTest {
 
     @Test
     public void testNewArrayAccessAtom() {
-        this.runTest("new int[2][1]", true);
+        this.runTest("(new int[2])[1]", true);
     }
 
     @Test
     public void testNewArrayAccessExpr() {
-        this.runTest("new int[2][1+1]", true);
+        this.runTest("(new int[2])[1+1]", true);
     }
 
     @Test
@@ -40,7 +40,7 @@ public class ArrayAccessTest {
     private void runTest(final String source, final boolean v) {
         final KaraffeLexer lexer = new KaraffeLexer(source);
         final List<Token> input = lexer.run();
-        final MatchResult result = new ArrayAccess().match(input);
+        final MatchResult result = new ArrayAccessParser().match(input);
         Assert.assertEquals(v, result.isSuccess());
         if (v) {
             if (result.next().isEmpty()) {

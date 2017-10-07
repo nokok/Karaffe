@@ -7,7 +7,7 @@ import org.junit.Test;
 import org.karaffe.compiler.lexer.CommonToken.EOF;
 import org.karaffe.compiler.lexer.KaraffeLexer;
 import org.karaffe.compiler.lexer.Token;
-import org.karaffe.compiler.parser.ExprParser.Primary.NegativeExpr;
+import org.karaffe.compiler.parser.ExprParser.Primary;
 import org.karaffe.compiler.parser.util.MatchResult;
 
 public class NegativeExprTest {
@@ -29,7 +29,7 @@ public class NegativeExprTest {
     private void runTest(final String source, final boolean v) {
         final KaraffeLexer lexer = new KaraffeLexer(source);
         final List<Token> input = lexer.run();
-        final MatchResult result = new NegativeExpr().match(input);
+        final MatchResult result = new Primary.NegativeExprParser().match(input);
         Assert.assertEquals(v, result.isSuccess());
         if (v) {
             if (result.next().isEmpty()) {

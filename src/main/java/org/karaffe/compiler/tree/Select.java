@@ -26,8 +26,8 @@ public class Select extends AbstractNode {
         super(NodeType.SELECT, names);
     }
 
-    public List<Name> getNames() {
-        return (List<Name>) this.getChildren();
+    public List<Node> getNames() {
+        return (List<Node>) this.getChildren();
     }
 
     @Override
