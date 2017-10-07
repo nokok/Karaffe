@@ -6,7 +6,7 @@ import org.junit.Assert;
 import org.junit.Test;
 import org.karaffe.compiler.lexer.KaraffeLexer;
 import org.karaffe.compiler.lexer.Token;
-import org.karaffe.compiler.parser.util.MatchResult;
+import org.karaffe.compiler.parser.util.ResultState;
 
 public class KaraffeParserTest {
 
@@ -18,7 +18,7 @@ public class KaraffeParserTest {
 
         Assert.assertEquals(8, tokens.size());
 
-        final MatchResult result = parser.parse(tokens);
+        final ResultState result = parser.parse(tokens);
         Assert.assertTrue(result.isSuccess());
     }
 
@@ -30,7 +30,7 @@ public class KaraffeParserTest {
 
         Assert.assertEquals(12, tokens.size());
 
-        final MatchResult result = parser.parse(tokens);
+        final ResultState result = parser.parse(tokens);
         Assert.assertTrue("should be failure but success.", result.isFailure());
     }
 
@@ -42,7 +42,7 @@ public class KaraffeParserTest {
 
         Assert.assertEquals(22, tokens.size());
 
-        final MatchResult result = parser.parse(tokens);
+        final ResultState result = parser.parse(tokens);
         Assert.assertTrue(result.isSuccess());
     }
 
@@ -67,7 +67,7 @@ public class KaraffeParserTest {
         final KaraffeParser parser = new KaraffeParser();
         final List<Token> tokens = lexer.run();
 
-        final MatchResult result = parser.parse(tokens);
+        final ResultState result = parser.parse(tokens);
         Assert.assertTrue(result.isSuccess());
     }
 

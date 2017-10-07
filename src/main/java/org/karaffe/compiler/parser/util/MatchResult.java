@@ -10,13 +10,7 @@ import org.karaffe.compiler.lexer.Tokens;
 import org.karaffe.compiler.tree.Empty;
 import org.karaffe.compiler.tree.base.Node;
 
-public interface MatchResult {
-
-    public boolean isSuccess();
-
-    public default boolean isFailure() {
-        return !this.isSuccess();
-    }
+public interface MatchResult extends ResultState, ResultConverter<MatchResult.Success, MatchResult.Failure> {
 
     public Tokens next();
 
@@ -44,20 +38,6 @@ public interface MatchResult {
         return Optional.empty();
     }
 
-    public default Optional<Success> toSuccess() {
-        if (this instanceof Success) {
-            return Optional.of((Success) this);
-        }
-        return Optional.empty();
-    }
-
-    public default Optional<Failure> toFailure() {
-        if (this instanceof Failure) {
-            return Optional.of((Failure) this);
-        }
-        return Optional.empty();
-    }
-
     public static class Success implements MatchResult {
 
         private final Tokens next;
@@ -77,6 +57,16 @@ public interface MatchResult {
         @Override
         public boolean isSuccess() {
             return true;
+        }
+
+        @Override
+        public Optional<Success> toSuccess() {
+            return Optional.of(this);
+        }
+
+        @Override
+        public Optional<Failure> toFailure() {
+            return Optional.empty();
         }
 
         @Override
@@ -115,6 +105,16 @@ public interface MatchResult {
         @Override
         public boolean isSuccess() {
             return false;
+        }
+
+        @Override
+        public Optional<Success> toSuccess() {
+            return Optional.empty();
+        }
+
+        @Override
+        public Optional<Failure> toFailure() {
+            return Optional.of(this);
         }
 
         @Override

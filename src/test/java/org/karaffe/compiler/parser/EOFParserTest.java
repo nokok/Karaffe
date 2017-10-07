@@ -9,6 +9,7 @@ import org.karaffe.compiler.lexer.CommonToken;
 import org.karaffe.compiler.lexer.KaraffeLexer;
 import org.karaffe.compiler.lexer.Token;
 import org.karaffe.compiler.parser.util.MatchResult;
+import org.karaffe.compiler.parser.util.ResultState;
 
 public class EOFParserTest {
     @Test
@@ -50,7 +51,7 @@ public class EOFParserTest {
     public void testEOF5() {
         final Parser eof = new EOFParser();
         final KaraffeLexer lexer = new KaraffeLexer("a ");
-        final MatchResult result = eof.parse(lexer.run());
+        final ResultState result = eof.parse(lexer.run());
         Assert.assertEquals(false, result.isSuccess());
     }
 
@@ -58,7 +59,7 @@ public class EOFParserTest {
     public void testEOF6() {
         final Parser eof = new EOFParser();
         final KaraffeLexer lexer = new KaraffeLexer(" b");
-        final MatchResult result = eof.parse(lexer.run());
+        final ResultState result = eof.parse(lexer.run());
         Assert.assertEquals(false, result.isSuccess());
     }
 
@@ -68,7 +69,7 @@ public class EOFParserTest {
         final KaraffeLexer lexer = new KaraffeLexer(" b");
         final List<Token> input = lexer.run();
         input.add(new CommonToken.ErrorToken("ERROR"));
-        final MatchResult result = eof.parse(input);
+        final ResultState result = eof.parse(input);
         Assert.assertEquals(false, result.isSuccess());
     }
 }

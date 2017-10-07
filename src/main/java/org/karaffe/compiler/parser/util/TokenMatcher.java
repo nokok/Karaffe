@@ -30,7 +30,7 @@ public interface TokenMatcher {
         return TokenMatcher.DEFAULT_SKIP_TOKENS;
     }
 
-    public default MatchResult head(final List<Token> tokens) {
+    public default ResultState head(final List<Token> tokens) {
         return this.head(new Tokens(tokens));
     }
 
