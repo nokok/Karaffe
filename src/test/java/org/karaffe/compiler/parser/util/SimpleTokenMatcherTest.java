@@ -33,7 +33,7 @@ public class SimpleTokenMatcherTest {
         final TokenMatcher matcher = TokenMatcher.create(Class.class, TypeName.class);
         final MatchResult result = matcher.match(lexer.run());
         Assert.assertEquals(true, result.isFailure());
-        final Token erroredToken = result.erroredHead().orElseThrow(IllegalStateException::new);
+        final Token erroredToken = result.errorHeadF().orElseThrow(IllegalStateException::new);
         Assert.assertTrue(erroredToken.is(Semi.class));
     }
 

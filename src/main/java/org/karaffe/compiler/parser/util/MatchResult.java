@@ -22,12 +22,8 @@ public interface MatchResult extends ResultState, ResultConverter<MatchResult.Su
         return this.toSuccess().map(Success::matchedTokens).orElseGet(ArrayList::new);
     }
 
-    public default Optional<Token> erroredHead() {
-        if (this.isFailure()) {
-            final Failure f = (Failure) this;
-            return f.errorHead();
-        }
-        return Optional.empty();
+    public default Optional<Token> errorHeadF() {
+        return this.toFailure().flatMap(Failure::errorHead);
     }
 
     public static class Success implements MatchResult {
@@ -120,7 +116,7 @@ public interface MatchResult extends ResultState, ResultConverter<MatchResult.Su
 
         @Override
         public String toString() {
-            return String.format("Failure %s %s Next: %s", this.getNode().toString(), this.erroredHead().map(errorToken -> String.format("ErrorToken : %s at %s , ID:%s", errorToken.getDescription(), errorToken.getPosition(), errorToken.getTokenId())), this.next());
+            return String.format("Failure %s %s Next: %s", this.getNode().toString(), this.errorHeadF().map(errorToken -> String.format("ErrorToken : %s at %s , ID:%s", errorToken.getDescription(), errorToken.getPosition(), errorToken.getTokenId())), this.next());
         }
     }
 }

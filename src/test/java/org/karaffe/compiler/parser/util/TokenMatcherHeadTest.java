@@ -60,7 +60,7 @@ public class TokenMatcherHeadTest {
         final MatchResult headResult = matcher.head(new Tokens(tokens));
         Assert.assertEquals(true, headResult.isFailure());
         Assert.assertArrayEquals(tokens.toArray(), headResult.next().toArray());
-        Assert.assertTrue(headResult.erroredHead().get().is(EOF.class));
+        Assert.assertTrue(headResult.errorHeadF().get().is(EOF.class));
     }
 
     @Test
@@ -76,7 +76,7 @@ public class TokenMatcherHeadTest {
         final MatchResult headResult = matcher.head(new Tokens(tokens));
         Assert.assertEquals(true, headResult.isFailure());
         Assert.assertArrayEquals(tokens.toArray(), headResult.next().toArray());
-        Assert.assertFalse(headResult.erroredHead().isPresent());
+        Assert.assertFalse(headResult.errorHeadF().isPresent());
     }
 
     @Test
