@@ -28,9 +28,9 @@ public class NewInstanceTest {
         final List<Token> input = lexer.run();
         final MatchResult result = new Primary.NewInstanceParser().match(input);
         Assert.assertEquals(v, result.isSuccess());
-        final Optional<Node> node = result.getNode();
-        Assert.assertTrue(node.isPresent());
         if (v) {
+            final Optional<Node> node = result.getNode();
+            Assert.assertTrue(node.isPresent());
             if (result.next().isEmpty()) {
                 return;
             }
