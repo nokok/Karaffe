@@ -66,16 +66,8 @@ public interface Position {
         return new NoPos();
     }
 
-    public static Position ofLine(final int line) {
-        return new LinePositionImpl(line);
-    }
-
     public static Position ofLineWithColumn(final int line, final int column) {
         return new LineColumnPositionImpl(line, column);
-    }
-
-    public static Position ofLineWithRangeColumn(final int line, final int startColumnIndex, final int endColumnIndex) {
-        return new RangePositionImpl(line, startColumnIndex, endColumnIndex);
     }
 
     public static Position ofRange(final Position start, final Position end) {

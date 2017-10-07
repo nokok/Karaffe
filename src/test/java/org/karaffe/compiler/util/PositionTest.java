@@ -30,23 +30,6 @@ public class PositionTest {
     }
 
     @Test
-    public void testMatchLinePos() {
-        Position.ofLine(1).match(
-                noPos -> {
-                    Assert.fail();
-                    return "";
-                },
-                l -> {
-                    Assert.assertEquals(1, l.getLine());
-                    return "OK";
-                },
-                lc -> {
-                    Assert.fail();
-                    return "";
-                });
-    }
-
-    @Test
     public void testMatchLineColPos() {
         Position.ofLineWithColumn(1, 2).match(
                 noPos -> {
@@ -62,17 +45,6 @@ public class PositionTest {
                     Assert.assertEquals(2, lc.getColumn());
                     return "OK";
                 });
-    }
-
-    @Test
-    public void testRangePos() {
-        final Position position = Position.ofLineWithRangeColumn(1, 3, 5);
-        position.toRangePosition().map(range -> {
-            Assert.assertEquals(1, range.getLine());
-            Assert.assertEquals(3, range.getColumn());
-            Assert.assertEquals(5, range.getEndColumn());
-            return "";
-        });
     }
 
 }
