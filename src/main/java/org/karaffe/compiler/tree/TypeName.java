@@ -31,4 +31,9 @@ public class TypeName extends TermNode {
         return new TypeName(new IdentifierToken.TypeName(typeName), false);
     }
 
+    @Override
+    public String toString() {
+        return String.format("(TypeName %s%s)", super.getText(), this.isArrayType ? "[]" : "");
+    }
+
 }

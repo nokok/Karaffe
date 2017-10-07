@@ -25,4 +25,9 @@ public abstract class TermNode extends AbstractNode {
     protected Token getToken() {
         return this.token;
     }
+
+    @Override
+    public String toString() {
+        return String.format("(%s %s)", this.getClass().getSimpleName(), this.token.getText());
+    }
 }

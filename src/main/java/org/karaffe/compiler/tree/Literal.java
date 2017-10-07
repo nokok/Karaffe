@@ -8,8 +8,4 @@ public class Literal extends TermNode {
         super(NodeType.LITERAL, token);
     }
 
-    @Override
-    public String toString() {
-        return this.getText();
-    }
 }

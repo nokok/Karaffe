@@ -32,7 +32,7 @@ public class Select extends AbstractNode {
 
     @Override
     public String toString() {
-        return String.format("(Select %s)", this.toString("."));
+        return String.format("(Select %s)", this.toString(" "));
     }
 
     public String toString(final String delimiter) {
@@ -40,7 +40,7 @@ public class Select extends AbstractNode {
                 delimiter,
                 this.getNames()
                         .stream()
-                        .map(TermNode::getText)
+                        .map(t -> t.toString())
                         .collect(Collectors.toList()));
     }
 
