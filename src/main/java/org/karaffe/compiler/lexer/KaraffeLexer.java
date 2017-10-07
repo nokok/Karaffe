@@ -7,8 +7,6 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 import org.karaffe.compiler.lexer.CommonToken.ErrorToken;
-import org.karaffe.compiler.lexer.WhitespaceToken.Tab;
-import org.karaffe.compiler.lexer.WhitespaceToken.WideSpace;
 import org.karaffe.compiler.util.Position;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -16,9 +14,6 @@ import org.slf4j.LoggerFactory;
 public class KaraffeLexer extends Lexer {
 
     private static final Logger LOGGER = LoggerFactory.getLogger(KaraffeLexer.class);
-
-    private final int tabColumnCount;
-    private final int wideSpaceColumncount;
 
     private enum LexerPattern {
 
@@ -110,21 +105,15 @@ public class KaraffeLexer extends Lexer {
     private final boolean insertParenMatchError;
 
     public KaraffeLexer(final String source) {
-        this(source, 4, 2);
+        this(source, true);
     }
 
-    public KaraffeLexer(final String source, final int tabColumnCount, final int wideSpaceColumnCount) {
-        this(source, tabColumnCount, wideSpaceColumnCount, true);
+    public KaraffeLexer(final String source, final boolean insertEOF) {
+        this(source, insertEOF, true);
     }
 
-    public KaraffeLexer(final String source, final int tabColumnCount, final int wideSpaceColumnCount, final boolean insertEOF) {
-        this(source, tabColumnCount, wideSpaceColumnCount, insertEOF, true);
-    }
-
-    public KaraffeLexer(final String source, final int tabColumnCount, final int wideSpaceColumnCount, final boolean insertEOF, final boolean insertParenMatchError) {
+    public KaraffeLexer(final String source, final boolean insertEOF, final boolean insertParenMatchError) {
         super(source);
-        this.tabColumnCount = tabColumnCount;
-        this.wideSpaceColumncount = wideSpaceColumnCount;
         final StringBuilder pat = new StringBuilder();
         KaraffeLexer.LOGGER.debug("OriginalSource: {}", source);
 
@@ -140,8 +129,6 @@ public class KaraffeLexer extends Lexer {
 
     @Override
     public List<Token> run() {
-        int lineIndex = 1;
-        int columnIndex = 1;
         int parenPair = 0;
         int bracePair = 0;
         int bracketPair = 0;
@@ -152,7 +139,7 @@ public class KaraffeLexer extends Lexer {
         final Matcher matcher = this.LEXER_PATTERN.matcher(target);
         while (matcher.find()) {
             KaraffeLexer.LOGGER.debug("Find : {}:{} {}", matcher.start(), matcher.end(), matcher.group());
-            final Position position = Position.ofLineWithColumn(lineIndex, columnIndex);
+            final Position position = Position.of(matcher.start(), matcher.end());
             Token token = null;
 
             for (final LexerPattern pattern : LexerPattern.values()) {
@@ -180,17 +167,6 @@ public class KaraffeLexer extends Lexer {
                 }
             }
 
-            if (token.is(Tab.class)) {
-                columnIndex += this.tabColumnCount;
-            } else if (token.is(WideSpace.class)) {
-                columnIndex += this.wideSpaceColumncount;
-            }
-            if (token.isNeedLineReset()) {
-                lineIndex++;
-                columnIndex = 1;
-            } else {
-                columnIndex += token.getText().length();
-            }
             if (token.is(CommonToken.LeftParen.class)) {
                 parenPair++;
             } else if (token.is(CommonToken.RightParen.class)) {
@@ -210,7 +186,7 @@ public class KaraffeLexer extends Lexer {
             tokens.add(token);
         }
         if (this.insertEOF) {
-            tokens.add(Token.EOF(Position.ofLineWithColumn(lineIndex, columnIndex)));
+            tokens.add(Token.EOF(Position.of(matcher.start(), matcher.end())));
         }
 
         if (this.insertParenMatchError) {

@@ -46,7 +46,7 @@ public abstract class AbstractNode implements Node {
         if (children.isEmpty()) {
             this.position = Position.noPos();
         } else {
-            this.position = Position.ofRange(children.get(0).getPosition(), children.get(children.size() - 1).getPosition());
+            this.position = Position.of(children.get(0).getPosition(), children.get(children.size() - 1).getPosition());
         }
         this.children = (List<Node>) children;
 

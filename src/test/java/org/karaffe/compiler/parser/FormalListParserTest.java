@@ -41,7 +41,7 @@ public class FormalListParserTest {
     }
 
     private void runTest(final String source, final boolean v) {
-        final KaraffeLexer lexer = new KaraffeLexer(source, 4, 2, false);
+        final KaraffeLexer lexer = new KaraffeLexer(source, false);
         final List<Token> input = lexer.run();
         final MatchResult result = new FormalListParser().match(input);
         Assert.assertEquals(v, result.isSuccess());

@@ -24,7 +24,6 @@ import org.karaffe.compiler.lexer.OperatorToken.Minus;
 import org.karaffe.compiler.lexer.OperatorToken.Plus;
 import org.karaffe.compiler.lexer.OperatorToken.Slash;
 import org.karaffe.compiler.lexer.OperatorToken.Star;
-import org.karaffe.compiler.util.Position;
 
 public class KaraffeLexerTest {
 
@@ -34,19 +33,6 @@ public class KaraffeLexerTest {
         final List<Token> tokens = lexer.run();
         Assert.assertEquals(1, tokens.size());
         Assert.assertEquals(WhitespaceToken.EOF.class, tokens.get(0).getClass());
-        final Token token = tokens.get(0);
-        final Position position = token.getPosition();
-        position.match(n -> {
-            Assert.fail();
-            return "";
-        }, n -> {
-            Assert.fail();
-            return "";
-        }, n -> {
-            Assert.assertEquals(1, n.getLine());
-            Assert.assertEquals(1, n.getColumn());
-            return "";
-        });
     }
 
     @Test
