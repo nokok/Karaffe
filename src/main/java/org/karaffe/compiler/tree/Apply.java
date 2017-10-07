@@ -10,15 +10,16 @@ import org.karaffe.compiler.tree.base.Node;
 public class Apply extends AbstractNode {
 
     public Apply(final Node target) {
-        super(NodeType.APPLY, new ArrayList<>(Arrays.asList(target)));
+        this(target, new ArrayList<>());
     }
 
     public Apply(final Node target, final Node... args) {
-        super(NodeType.APPLY, Arrays.asList(args));
+        this(target, Arrays.asList(args));
     }
 
     public Apply(final Node target, final List<Node> args) {
-        super(NodeType.APPLY, args);
+        super(NodeType.APPLY, target);
+        args.stream().forEach(this::addChild);
     }
 
 }
