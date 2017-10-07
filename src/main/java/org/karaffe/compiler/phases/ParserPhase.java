@@ -7,7 +7,11 @@ import org.karaffe.compiler.parser.KaraffeParser;
 import org.karaffe.compiler.parser.util.MatchResult;
 import org.karaffe.compiler.tree.CompileUnit;
 
-public class ParserPhase implements Transformer<Tokens, CompileUnit> {
+public class ParserPhase extends AbstractTransformer<Tokens, CompileUnit> {
+
+    public ParserPhase() {
+        super(Tokens.class, CompileUnit.class);
+    }
 
     @Override
     public Optional<CompileUnit> transform(final Tokens input) {

@@ -5,8 +5,17 @@ import java.util.Optional;
 import com.google.common.base.Function;
 
 public interface Transformer<I, O> extends Function<I, Optional<O>> {
+
+    public Class<I> getInputType();
+
+    public Class<O> getOutputType();
+
     public default boolean checkPreCondition(final I input) {
         return true;
+    }
+
+    public default Optional<O> transform(final Optional<I> input) {
+        return input.flatMap(this::transform);
     }
 
     public Optional<O> transform(I input);
