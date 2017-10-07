@@ -14,7 +14,6 @@ import org.karaffe.compiler.parser.ExprParser.Primary;
 import org.karaffe.compiler.parser.util.MatchResult;
 
 public class PrimaryTest {
-
     @Test
     public void testPrimary1() {
         final List<Token> input = new ArrayList<>();

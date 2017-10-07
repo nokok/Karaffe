@@ -11,6 +11,10 @@ import org.karaffe.compiler.parser.ExprParser.Primary;
 import org.karaffe.compiler.parser.util.MatchResult;
 
 public class LengthAccessTest {
+    @Test
+    public void testEmpty() {
+        this.runTest("", false);
+    }
 
     @Test
     public void testlengthAccess() {

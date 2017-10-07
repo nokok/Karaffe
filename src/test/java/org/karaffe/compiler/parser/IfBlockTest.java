@@ -11,6 +11,10 @@ import org.karaffe.compiler.parser.StatementParser.IfBlock;
 import org.karaffe.compiler.parser.util.MatchResult;
 
 public class IfBlockTest {
+    @Test
+    public void testEmpty() {
+        this.runTest("", false);
+    }
 
     @Test
     public void test1() {

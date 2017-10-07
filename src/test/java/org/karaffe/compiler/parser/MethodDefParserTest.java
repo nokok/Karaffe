@@ -9,6 +9,10 @@ import org.karaffe.compiler.lexer.Token;
 import org.karaffe.compiler.parser.util.MatchResult;
 
 public class MethodDefParserTest {
+    @Test
+    public void testEmpty() {
+        this.runTest("", false);
+    }
 
     @Test
     public void test1() {

@@ -13,6 +13,10 @@ import org.karaffe.compiler.parser.util.MatchResult;
 import org.karaffe.compiler.tree.base.Node;
 
 public class NewInstanceTest {
+    @Test
+    public void testEmpty() {
+        this.runTest("", false);
+    }
 
     @Test
     public void testNewInstance() {

@@ -12,6 +12,11 @@ import org.karaffe.compiler.parser.util.MatchResult;
 
 public class StmtBlockTest {
     @Test
+    public void testEmpty() {
+        this.runTest("", false);
+    }
+
+    @Test
     public void test1() {
         this.runTest("{}", true);
     }

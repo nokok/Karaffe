@@ -13,6 +13,11 @@ import org.karaffe.compiler.parser.util.MatchResult;
 public class ArrayAccessParserTest {
 
     @Test
+    public void testEmpty() {
+        this.runTest("", false);
+    }
+
+    @Test
     public void testNewArrayAccessAtom() {
         this.runTest("(new int[2])[1]", true);
     }

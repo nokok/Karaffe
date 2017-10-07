@@ -12,6 +12,11 @@ import org.karaffe.compiler.parser.util.MatchResult;
 
 public class NegativeExprTest {
     @Test
+    public void testEmpty() {
+        this.runTest("", false);
+    }
+
+    @Test
     public void testNeg() {
         this.runTest("!1", true);
     }

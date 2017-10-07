@@ -7,6 +7,10 @@ import org.karaffe.compiler.lexer.Tokens;
 import org.karaffe.compiler.parser.util.MatchResult;
 
 public class MainClassDeclParserTest {
+    @Test
+    public void testEmpty() {
+        this.runTest("", false);
+    }
 
     @Test
     public void test1() {

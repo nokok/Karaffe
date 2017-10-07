@@ -12,6 +12,11 @@ import org.karaffe.compiler.parser.util.MatchResult;
 
 public class NestedExprTest {
     @Test
+    public void testEmpty() {
+        this.runTest("", false);
+    }
+
+    @Test
     public void testNestedExpr() {
         this.runTest("(1+2)", true);
     }

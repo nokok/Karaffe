@@ -11,6 +11,12 @@ import org.karaffe.compiler.parser.ExprParser.Primary.ArrayInitializerParser;
 import org.karaffe.compiler.parser.util.MatchResult;
 
 public class ArrayInitializerTest {
+
+    @Test
+    public void testEmpty() {
+        this.runTest("", false);
+    }
+
     @Test
     public void testArrayInitializerInt() {
         this.runTest("new int[1]", true);

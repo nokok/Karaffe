@@ -9,6 +9,11 @@ import org.karaffe.compiler.parser.util.MatchResult;
 public class ClassDeclParserTest {
 
     @Test
+    public void testEmpty() {
+        this.runTest("", false);
+    }
+
+    @Test
     public void testClassDecl1() {
         this.runTest("class A", true);
     }

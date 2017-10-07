@@ -12,6 +12,11 @@ import org.karaffe.compiler.parser.util.MatchResult;
 public class StatementParserTest {
 
     @Test
+    public void testEmpty() {
+        this.runTest("", false);
+    }
+
+    @Test
     public void testStmt1() {
         this.runTest("{}", true);
     }

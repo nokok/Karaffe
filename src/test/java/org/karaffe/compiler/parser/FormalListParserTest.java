@@ -10,6 +10,10 @@ import org.karaffe.compiler.lexer.Token;
 import org.karaffe.compiler.parser.util.MatchResult;
 
 public class FormalListParserTest {
+    @Test
+    public void testEmpty() {
+        this.runTest("", false);
+    }
 
     @Test
     public void testParameter() {

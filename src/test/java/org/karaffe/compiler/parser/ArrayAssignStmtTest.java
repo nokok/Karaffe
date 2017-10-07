@@ -13,6 +13,11 @@ import org.karaffe.compiler.parser.util.MatchResult;
 public class ArrayAssignStmtTest {
 
     @Test
+    public void testEmpty() {
+        this.runTest("", false);
+    }
+
+    @Test
     public void test1() {
         this.runTest("arr[1] = 30;", true);
     }

@@ -11,6 +11,10 @@ import org.karaffe.compiler.parser.StatementParser.SystemOutPrintln;
 import org.karaffe.compiler.parser.util.MatchResult;
 
 public class SystemOutPrintlnTest {
+    @Test
+    public void testEmpty() {
+        this.runTest("", false);
+    }
 
     @Test
     public void test1() {

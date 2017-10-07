@@ -11,6 +11,10 @@ import org.karaffe.compiler.parser.StatementParser.WhileBlock;
 import org.karaffe.compiler.parser.util.MatchResult;
 
 public class WhileBlockTest {
+    @Test
+    public void testEmpty() {
+        this.runTest("", false);
+    }
 
     @Test
     public void testWhileExpr() {

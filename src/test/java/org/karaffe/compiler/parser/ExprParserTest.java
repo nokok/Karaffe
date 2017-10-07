@@ -7,6 +7,11 @@ import org.karaffe.compiler.parser.util.MatchResult;
 
 public class ExprParserTest {
     @Test
+    public void testEmpty() {
+        this.runTest("", false);
+    }
+
+    @Test
     public void testPlusExpr() {
         this.runTest("1 + 1", true);
     }
