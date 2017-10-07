@@ -18,16 +18,8 @@ public interface MatchResult extends ResultState, ResultConverter<MatchResult.Su
         return Optional.empty();
     }
 
-    public default Optional<List<Token>> matched() {
-        if (this.isSuccess()) {
-            final Success s = (Success) this;
-            return Optional.of(s.matchedTokens());
-        }
-        return Optional.empty();
-    }
-
     public default List<Token> matchedF() {
-        return this.matched().orElseGet(ArrayList::new);
+        return this.toSuccess().map(Success::matchedTokens).orElseGet(ArrayList::new);
     }
 
     public default Optional<Token> erroredHead() {

@@ -1,7 +1,5 @@
 package org.karaffe.compiler.parser;
 
-import java.util.ArrayList;
-
 import org.karaffe.compiler.lexer.IdentifierToken;
 import org.karaffe.compiler.lexer.Tokens;
 import org.karaffe.compiler.parser.util.MatchResult;
@@ -26,9 +24,8 @@ public class IdentifierParser implements Parser {
             return idResult;
 
         }
-        final IdentifierToken identifierToken = idResult.matched().map(t -> t.get(0)).map(IdentifierToken.class::cast).get(); // Not Empty
-
-        return new MatchResult.Success(idResult.next(), idResult.matched().orElseGet(ArrayList::new), new Name(identifierToken));
+        final IdentifierToken identifierToken = (IdentifierToken) idResult.matchedF().get(0);
+        return new MatchResult.Success(idResult.next(), idResult.matchedF(), new Name(identifierToken));
     }
 
 }
