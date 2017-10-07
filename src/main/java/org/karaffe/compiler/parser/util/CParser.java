@@ -8,15 +8,15 @@ import org.karaffe.compiler.lexer.Token;
 import org.karaffe.compiler.lexer.Tokens;
 import org.karaffe.compiler.tree.base.Node;
 
-public class ChainParser {
+public class CParser {
     private final Tokens input;
     private Tokens nextInput;
     private final List<Token> matched = new ArrayList<>();
-    private Token erroredToken = null;
+    private final Token erroredToken = null;
     private boolean hasError = false;
     private Object lastMatch = null;
 
-    public ChainParser(final Tokens input) {
+    public CParser(final Tokens input) {
         this.input = input;
         if (input.isEmpty()) {
             throw new IllegalArgumentException("Empty input");
@@ -30,28 +30,8 @@ public class ChainParser {
         this.hasError = false;
     }
 
-    public boolean nextMatch(final TokenMatcher matcher) {
-        return this.nextMatch(matcher, Node.class).isPresent();
-    }
-
-    @Deprecated
-    public <T> Optional<T> nextMatch(final TokenMatcher matcher, final Class<T> clazz) {
-        if (this.hasError) {
-            return Optional.empty();
-        }
-        final MatchResult result = matcher.match(this.nextInput);
-        if (result.isSuccess()) {
-            this.matched.addAll(result.matchedF());
-            this.nextInput = result.next();
-            final T n = result.getNode().map(clazz::cast).orElseThrow(IllegalStateException::new);
-            this.lastMatch = n;
-            return Optional.of(n);
-        }
-        this.hasError = true;
-        if (result.erroredHead().isPresent()) {
-            this.erroredToken = result.erroredHead().get();
-        }
-        return Optional.empty();
+    public boolean testNext(final Class<? extends Token> clazz) {
+        return this.testNext(TokenMatcher.create(clazz), Node.class, true);
     }
 
     public boolean testNext(final TokenMatcher matcher) {

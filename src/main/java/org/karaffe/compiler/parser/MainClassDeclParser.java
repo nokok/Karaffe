@@ -12,7 +12,7 @@ import org.karaffe.compiler.lexer.KeywordToken.Void;
 import org.karaffe.compiler.lexer.ModifierToken.Public;
 import org.karaffe.compiler.lexer.ModifierToken.Static;
 import org.karaffe.compiler.lexer.Tokens;
-import org.karaffe.compiler.parser.util.ChainParser;
+import org.karaffe.compiler.parser.util.CParser;
 import org.karaffe.compiler.parser.util.MatchResult;
 import org.karaffe.compiler.parser.util.TokenMatcher;
 import org.karaffe.compiler.tree.Block;
@@ -32,55 +32,55 @@ public class MainClassDeclParser implements Parser {
         if (input.isEmpty()) {
             return new MatchResult.Failure(input);
         }
-        final ChainParser parser = new ChainParser(input);
-        if (!parser.testNext(TokenMatcher.classKeyword())) {
-            return parser.toFailure();
+        final CParser cp = new CParser(input);
+        if (!cp.testNext(TokenMatcher.classKeyword())) {
+            return cp.toFailure();
         }
 
-        if (!parser.nextMatch(TokenMatcher.identifier())) {
-            return parser.toFailure();
+        if (!cp.testNext(TokenMatcher.identifier())) {
+            return cp.toFailure();
         }
-        final Node mainClassName = parser.lastMatch();
+        final Node mainClassName = cp.lastMatch();
 
-        boolean validDef = parser.testNext(TokenMatcher.create(LeftBrace.class));
-        validDef |= parser.testNext(TokenMatcher.create(Public.class));
-        validDef |= parser.testNext(TokenMatcher.create(Static.class));
-        validDef |= parser.testNext(TokenMatcher.create(Void.class));
+        boolean validDef = cp.testNext(LeftBrace.class);
+        validDef |= cp.testNext(Public.class);
+        validDef |= cp.testNext(Static.class);
+        validDef |= cp.testNext(Void.class);
 
         if (!validDef) {
-            return parser.toFailure();
+            return cp.toFailure();
         }
 
-        if (!parser.nextMatch(TokenMatcher.identifier())) {
-            return parser.toFailure();
+        if (!cp.testNext(TokenMatcher.identifier())) {
+            return cp.toFailure();
         }
-        final Node mainMethod = parser.lastMatch();
+        final Node mainMethod = cp.lastMatch();
 
-        if (!parser.testNext(TokenMatcher.create(LeftParen.class))) {
-            return parser.toFailure();
-        }
-
-        if (!parser.nextMatch(new TypeParser())) {
-            return parser.toFailure();
-        }
-        final Node argType = parser.lastMatch();
-
-        if (!parser.nextMatch(TokenMatcher.identifier())) {
-            return parser.toFailure();
-        }
-        final Name argName = parser.lastMatch();
-
-        if (!parser.testNext(TokenMatcher.create(RightParen.class)) | !parser.testNext(TokenMatcher.create(LeftBrace.class))) {
-            return parser.toFailure();
+        if (!cp.testNext(LeftParen.class)) {
+            return cp.toFailure();
         }
 
-        if (!parser.nextMatch(new StatementParser())) {
-            return parser.toFailure();
+        if (!cp.testNext(new TypeParser())) {
+            return cp.toFailure();
         }
-        final Node statement = parser.lastMatch();
+        final Node argType = cp.lastMatch();
 
-        if (!parser.testNext(TokenMatcher.create(RightBrace.class)) | !parser.testNext(TokenMatcher.create(RightBrace.class))) {
-            return parser.toFailure();
+        if (!cp.testNext(TokenMatcher.identifier())) {
+            return cp.toFailure();
+        }
+        final Name argName = cp.lastMatch();
+
+        if (!cp.testNext(TokenMatcher.create(RightParen.class)) | !cp.testNext(TokenMatcher.create(LeftBrace.class))) {
+            return cp.toFailure();
+        }
+
+        if (!cp.testNext(new StatementParser())) {
+            return cp.toFailure();
+        }
+        final Node statement = cp.lastMatch();
+
+        if (!cp.testNext(TokenMatcher.create(RightBrace.class)) | !cp.testNext(TokenMatcher.create(RightBrace.class))) {
+            return cp.toFailure();
         }
 
         final List<Node> stmt = new ArrayList<>(1);
@@ -92,7 +92,7 @@ public class MainClassDeclParser implements Parser {
         final List<Node> methodDefs = new ArrayList<>();
         methodDefs.add(methodDef);
         final ClassDef classDef = new ClassDef(mainClassName, new Name(new IdentifierToken.TypeName("Object")), new Block(methodDefs));
-        return new MatchResult.Success(parser.next(), parser.matched(), classDef);
+        return new MatchResult.Success(cp.next(), cp.matched(), classDef);
     }
 
 }

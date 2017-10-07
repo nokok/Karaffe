@@ -19,16 +19,16 @@ public abstract class AbstractBinaryExprLeftAssoc implements Parser {
         if (input.isEmpty()) {
             return new MatchResult.Failure(input);
         }
-        final ChainParser parser = new ChainParser(input);
-        if (!parser.testNext(this.upper)) {
-            return parser.toFailure();
+        final CParser cp = new CParser(input);
+        if (!cp.testNext(this.upper)) {
+            return cp.toFailure();
         }
-        Node leftExpr = parser.lastMatch();
+        Node leftExpr = cp.lastMatch();
         int loopCount = 0;
         while (true) {
             boolean isBreak = false;
             for (final TokenMatcher p : this.parsers) {
-                if (parser.testNext(p)) {
+                if (cp.testNext(p)) {
                     isBreak = true;
                     break;
                 }
@@ -36,14 +36,14 @@ public abstract class AbstractBinaryExprLeftAssoc implements Parser {
             if (!isBreak) {
                 break;
             }
-            final Node operator = parser.lastMatch();
-            if (!parser.testNext(this.upper)) {
-                return parser.toFailure();
+            final Node operator = cp.lastMatch();
+            if (!cp.testNext(this.upper)) {
+                return cp.toFailure();
             }
-            final Node rightExpr = parser.lastMatch();
+            final Node rightExpr = cp.lastMatch();
             leftExpr = new BinaryExpr(leftExpr, operator, rightExpr);
             loopCount++;
         }
-        return new MatchResult.Success(parser.next(), parser.matched(), loopCount == 0 ? leftExpr : ((BinaryExpr) leftExpr).toApplyNode());
+        return new MatchResult.Success(cp.next(), cp.matched(), loopCount == 0 ? leftExpr : ((BinaryExpr) leftExpr).toApplyNode());
     }
 }

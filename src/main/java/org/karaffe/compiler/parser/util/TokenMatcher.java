@@ -6,16 +6,8 @@ import java.util.List;
 
 import org.karaffe.compiler.lexer.CommonToken.Dot;
 import org.karaffe.compiler.lexer.CommonToken.EOF;
-import org.karaffe.compiler.lexer.CommonToken.LeftBracket;
-import org.karaffe.compiler.lexer.CommonToken.RightBracket;
 import org.karaffe.compiler.lexer.KeywordToken;
-import org.karaffe.compiler.lexer.KeywordToken.False;
-import org.karaffe.compiler.lexer.KeywordToken.Int;
-import org.karaffe.compiler.lexer.KeywordToken.New;
 import org.karaffe.compiler.lexer.KeywordToken.Package;
-import org.karaffe.compiler.lexer.KeywordToken.This;
-import org.karaffe.compiler.lexer.KeywordToken.True;
-import org.karaffe.compiler.lexer.LiteralToken.IntLiteral;
 import org.karaffe.compiler.lexer.Token;
 import org.karaffe.compiler.lexer.Tokens;
 import org.karaffe.compiler.lexer.WhitespaceToken.NewLine;
@@ -83,38 +75,6 @@ public interface TokenMatcher {
 
     public static TokenMatcher identifier() {
         return new IdentifierParser();
-    }
-
-    public static TokenMatcher intLiteral() {
-        return TokenMatcher.create(IntLiteral.class);
-    }
-
-    public static TokenMatcher trueLiteral() {
-        return TokenMatcher.create(True.class);
-    }
-
-    public static TokenMatcher falseLiteral() {
-        return TokenMatcher.create(False.class);
-    }
-
-    public static TokenMatcher thisKeyword() {
-        return TokenMatcher.create(This.class);
-    }
-
-    public static TokenMatcher newKeyword() {
-        return TokenMatcher.create(New.class);
-    }
-
-    public static TokenMatcher intKeyword() {
-        return TokenMatcher.create(Int.class);
-    }
-
-    public static TokenMatcher leftBracket() {
-        return TokenMatcher.create(LeftBracket.class);
-    }
-
-    public static TokenMatcher rightBracket() {
-        return TokenMatcher.create(RightBracket.class);
     }
 
     public static TokenMatcher dot() {

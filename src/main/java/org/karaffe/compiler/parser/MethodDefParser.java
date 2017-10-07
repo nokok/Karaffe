@@ -12,9 +12,8 @@ import org.karaffe.compiler.lexer.KeywordToken.Return;
 import org.karaffe.compiler.lexer.ModifierToken;
 import org.karaffe.compiler.lexer.ModifierToken.Public;
 import org.karaffe.compiler.lexer.Tokens;
-import org.karaffe.compiler.parser.util.ChainParser;
+import org.karaffe.compiler.parser.util.CParser;
 import org.karaffe.compiler.parser.util.MatchResult;
-import org.karaffe.compiler.parser.util.TokenMatcher;
 import org.karaffe.compiler.tree.Block;
 import org.karaffe.compiler.tree.Empty;
 import org.karaffe.compiler.tree.MethodDef;
@@ -30,29 +29,29 @@ public class MethodDefParser implements Parser {
         if (input.isEmpty()) {
             return new MatchResult.Failure(input);
         }
-        final ChainParser cp = new ChainParser(input);
-        if (!cp.nextMatch(TokenMatcher.create(Public.class))) {
+        final CParser cp = new CParser(input);
+        if (!cp.testNext(Public.class)) {
             return cp.toFailure();
         }
-        if (!cp.nextMatch(new TypeParser())) {
+        if (!cp.testNext(new TypeParser())) {
             return cp.toFailure();
         }
         final org.karaffe.compiler.tree.TypeName returnType = cp.lastMatch();
-        if (!cp.nextMatch(new IdentifierParser())) {
+        if (!cp.testNext(new IdentifierParser())) {
             return cp.toFailure();
         }
         final Name name = cp.lastMatch();
-        if (!cp.nextMatch(TokenMatcher.create(LeftParen.class))) {
+        if (!cp.testNext(LeftParen.class)) {
             return cp.toFailure();
         }
         final boolean hasParameter = cp.testNext(new FormalListParser());
 
         final Node params = hasParameter ? cp.lastMatch() : new Empty();
 
-        if (!cp.nextMatch(TokenMatcher.create(RightParen.class))) {
+        if (!cp.testNext(RightParen.class)) {
             return cp.toFailure();
         }
-        if (!cp.nextMatch(TokenMatcher.create(LeftBrace.class))) {
+        if (!cp.testNext(LeftBrace.class)) {
             return cp.toFailure();
         }
         final List<Node> stmts = new ArrayList<>();
@@ -62,16 +61,16 @@ public class MethodDefParser implements Parser {
         while (cp.testNext(new StatementParser())) {
             stmts.add(cp.lastMatch());
         }
-        if (!cp.nextMatch(TokenMatcher.create(Return.class))) {
+        if (!cp.testNext(Return.class)) {
             return cp.toFailure();
         }
-        if (!cp.nextMatch(new ExprParser())) {
+        if (!cp.testNext(new ExprParser())) {
             return cp.toFailure();
         }
-        if (!cp.nextMatch(TokenMatcher.create(Semi.class))) {
+        if (!cp.testNext(Semi.class)) {
             return cp.toFailure();
         }
-        if (!cp.nextMatch(TokenMatcher.create(RightBrace.class))) {
+        if (!cp.testNext(RightBrace.class)) {
             return cp.toFailure();
         }
 

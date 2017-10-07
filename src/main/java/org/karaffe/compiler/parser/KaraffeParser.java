@@ -4,7 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.karaffe.compiler.lexer.Tokens;
-import org.karaffe.compiler.parser.util.ChainParser;
+import org.karaffe.compiler.parser.util.CParser;
 import org.karaffe.compiler.parser.util.MatchResult;
 import org.karaffe.compiler.tree.CompileUnit;
 import org.karaffe.compiler.tree.Name;
@@ -19,25 +19,25 @@ public class KaraffeParser implements Parser {
 
     @Override
     public MatchResult parse(final Tokens tokens) {
-        final ChainParser parser = new ChainParser(tokens);
-        final boolean hasPackageDef = parser.testNext(new PackageDefParser(), PackageDef.class);
-        final PackageDef packageDef = hasPackageDef ? parser.lastMatch() : new PackageDef(new Select(new Name("<root>")));
+        final CParser cp = new CParser(tokens);
+        final boolean hasPackageDef = cp.testNext(new PackageDefParser(), PackageDef.class);
+        final PackageDef packageDef = hasPackageDef ? cp.lastMatch() : new PackageDef(new Select(new Name("<root>")));
 
         final List<Node> typeDefs = new ArrayList<>();
-        if (parser.testNext(new MainClassDeclParser(), TypeDef.class)) {
-            typeDefs.add(parser.lastMatch());
+        if (cp.testNext(new MainClassDeclParser(), TypeDef.class)) {
+            typeDefs.add(cp.lastMatch());
         }
 
-        while (parser.testNext(new ClassDefParser(), ClassDef.class)) {
-            final ClassDef classDef = parser.lastMatch();
+        while (cp.testNext(new ClassDefParser(), ClassDef.class)) {
+            final ClassDef classDef = cp.lastMatch();
             typeDefs.add(classDef);
         }
 
-        if (!parser.nextMatch(new EOFParser())) {
-            return parser.toFailure();
+        if (!cp.testNext(new EOFParser())) {
+            return cp.toFailure();
         }
 
-        return new MatchResult.Success(parser.next(), parser.matched(), new CompileUnit(packageDef, new TypeDefs(typeDefs)));
+        return new MatchResult.Success(cp.next(), cp.matched(), new CompileUnit(packageDef, new TypeDefs(typeDefs)));
     }
 
 }

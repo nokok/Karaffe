@@ -19,26 +19,26 @@ public class AbstractBinaryExprRightAssoc implements Parser {
         if (input.isEmpty()) {
             return new MatchResult.Failure(input);
         }
-        final ChainParser parser = new ChainParser(input);
-        if (!parser.testNext(this.upper)) {
-            return parser.toFailure();
+        final CParser cp = new CParser(input);
+        if (!cp.testNext(this.upper)) {
+            return cp.toFailure();
         }
-        final Node leftExpr = parser.lastMatch();
+        final Node leftExpr = cp.lastMatch();
         boolean isBreak = false;
         for (final TokenMatcher p : this.parsers) {
-            if (parser.testNext(p)) {
+            if (cp.testNext(p)) {
                 isBreak = true;
                 break;
             }
         }
         if (!isBreak) {
-            return parser.toFailure();
+            return cp.toFailure();
         }
-        final Node operator = parser.lastMatch();
-        if (!parser.testNext(this.upper)) {
-            return parser.toFailure();
+        final Node operator = cp.lastMatch();
+        if (!cp.testNext(this.upper)) {
+            return cp.toFailure();
         }
-        final Node rightExpr = parser.lastMatch();
-        return new MatchResult.Success(parser.next(), parser.matched(), new BinaryExpr(leftExpr, operator, rightExpr));
+        final Node rightExpr = cp.lastMatch();
+        return new MatchResult.Success(cp.next(), cp.matched(), new BinaryExpr(leftExpr, operator, rightExpr));
     }
 }

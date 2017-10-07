@@ -1,9 +1,9 @@
 package org.karaffe.compiler.parser;
 
+import org.karaffe.compiler.lexer.KeywordToken.Package;
 import org.karaffe.compiler.lexer.Tokens;
-import org.karaffe.compiler.parser.util.ChainParser;
+import org.karaffe.compiler.parser.util.CParser;
 import org.karaffe.compiler.parser.util.MatchResult;
-import org.karaffe.compiler.parser.util.TokenMatcher;
 import org.karaffe.compiler.tree.PackageDef;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -17,11 +17,11 @@ public class PackageDefParser implements Parser {
             return new MatchResult.Failure(input);
         }
         PackageDefParser.LOGGER.debug("Input : {}", input);
-        final ChainParser cp = new ChainParser(input);
-        if (!cp.nextMatch(TokenMatcher.packageKeyword())) {
+        final CParser cp = new CParser(input);
+        if (!cp.testNext(Package.class)) {
             return cp.toFailure();
         }
-        if (!cp.nextMatch(new PathParser())) {
+        if (!cp.testNext(new PathParser())) {
             return cp.toFailure();
         }
 

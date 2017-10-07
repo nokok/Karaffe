@@ -4,7 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.karaffe.compiler.lexer.Tokens;
-import org.karaffe.compiler.parser.util.ChainParser;
+import org.karaffe.compiler.parser.util.CParser;
 import org.karaffe.compiler.parser.util.MatchResult;
 import org.karaffe.compiler.parser.util.TokenMatcher;
 import org.karaffe.compiler.tree.Name;
@@ -23,21 +23,21 @@ public class PathParser implements Parser {
             return new MatchResult.Failure(input);
         }
         PathParser.LOGGER.debug("Input : {}", input);
-        final ChainParser parser = new ChainParser(input);
+        final CParser cp = new CParser(input);
 
         final List<Node> pathName = new ArrayList<>();
-        if (!parser.nextMatch(new IdentifierParser())) {
-            return parser.toFailure();
+        if (!cp.testNext(new IdentifierParser())) {
+            return cp.toFailure();
         }
 
-        pathName.add(parser.lastMatch());
+        pathName.add(cp.lastMatch());
 
-        while (parser.testNext(TokenMatcher.dot()) && parser.testNext(new IdentifierParser())) {
-            final Name name = parser.lastMatch();
+        while (cp.testNext(TokenMatcher.dot()) && cp.testNext(new IdentifierParser())) {
+            final Name name = cp.lastMatch();
             pathName.add(name);
         }
 
-        return new MatchResult.Success(parser.next(), parser.matched(), new Select(pathName));
+        return new MatchResult.Success(cp.next(), cp.matched(), new Select(pathName));
     }
 
 }

@@ -28,7 +28,7 @@ import org.karaffe.compiler.lexer.Tokens;
 import org.karaffe.compiler.parser.ExprParser.Primary.LiteralsParser;
 import org.karaffe.compiler.parser.ExprParser.Primary.NestedExprParser;
 import org.karaffe.compiler.parser.util.AbstractBinaryExprLeftAssoc;
-import org.karaffe.compiler.parser.util.ChainParser;
+import org.karaffe.compiler.parser.util.CParser;
 import org.karaffe.compiler.parser.util.MatchResult;
 import org.karaffe.compiler.parser.util.TokenMatcher;
 import org.karaffe.compiler.tree.Apply;
@@ -105,7 +105,7 @@ public class ExprParser implements Parser {
             if (input.isEmpty()) {
                 return new MatchResult.Failure(input);
             }
-            final ChainParser cp = new ChainParser(input);
+            final CParser cp = new CParser(input);
             if (cp.testNext(new LiteralsParser())) {
                 return cp.toSuccess();
             }
@@ -185,35 +185,35 @@ public class ExprParser implements Parser {
             if (input.isEmpty()) {
                 return new MatchResult.Failure(input);
             }
-            final ChainParser parser = new ChainParser(input);
-            if (parser.testNext(new MethodInvocationParser())) {
-                return parser.toSuccess();
+            final CParser cp = new CParser(input);
+            if (cp.testNext(new MethodInvocationParser())) {
+                return cp.toSuccess();
             }
-            if (parser.testNext(new ArrayAccessParser())) {
-                return parser.toSuccess();
+            if (cp.testNext(new ArrayAccessParser())) {
+                return cp.toSuccess();
             }
-            if (parser.testNext(new LiteralsParser())) {
-                return parser.toSuccess();
+            if (cp.testNext(new LiteralsParser())) {
+                return cp.toSuccess();
             }
-            if (parser.testNext(new NewInstanceParser())) {
-                return parser.toSuccess();
+            if (cp.testNext(new NewInstanceParser())) {
+                return cp.toSuccess();
             }
-            if (parser.testNext(new NegativeExprParser())) {
-                return parser.toSuccess();
+            if (cp.testNext(new NegativeExprParser())) {
+                return cp.toSuccess();
             }
-            if (parser.testNext(new NestedExprParser())) {
-                return parser.toSuccess();
+            if (cp.testNext(new NestedExprParser())) {
+                return cp.toSuccess();
             }
-            if (parser.testNext(new LengthAccessParser())) {
-                return parser.toSuccess();
+            if (cp.testNext(new LengthAccessParser())) {
+                return cp.toSuccess();
             }
-            if (parser.testNext(new ArrayInitializerParser())) {
-                return parser.toSuccess();
+            if (cp.testNext(new ArrayInitializerParser())) {
+                return cp.toSuccess();
             }
-            if (parser.testNext(new IdentifierParser())) {
-                return parser.toSuccess();
+            if (cp.testNext(new IdentifierParser())) {
+                return cp.toSuccess();
             }
-            return parser.toFailure();
+            return cp.toFailure();
         }
 
         @Override
@@ -228,30 +228,30 @@ public class ExprParser implements Parser {
                 if (input.isEmpty()) {
                     return new MatchResult.Failure(input);
                 }
-                final ChainParser parser = new ChainParser(input);
-                if (!parser.testNext(TokenMatcher.create(KeywordToken.New.class))) {
-                    return parser.toFailure();
+                final CParser cp = new CParser(input);
+                if (!cp.testNext(KeywordToken.New.class)) {
+                    return cp.toFailure();
                 }
-                if (!parser.testNext(TokenMatcher.create(Int.class))) {
-                    return parser.toFailure();
+                if (!cp.testNext(Int.class)) {
+                    return cp.toFailure();
                 }
-                if (!parser.testNext(TokenMatcher.create(LeftBracket.class))) {
-                    return parser.toFailure();
+                if (!cp.testNext(LeftBracket.class)) {
+                    return cp.toFailure();
                 }
-                if (!parser.testNext(new ExprParser())) {
-                    return parser.toFailure();
+                if (!cp.testNext(new ExprParser())) {
+                    return cp.toFailure();
                 }
-                final Node arrayLength = parser.lastMatch();
+                final Node arrayLength = cp.lastMatch();
 
-                if (!parser.testNext(TokenMatcher.create(RightBracket.class))) {
-                    return parser.toFailure();
+                if (!cp.testNext(RightBracket.class)) {
+                    return cp.toFailure();
                 }
                 // IntArray.<init>(expr)
                 final Name arrayType = new Name("IntArray");
                 final Select arrayTypeSelect = new Select(arrayType);
                 final New newInstanceTarget = new New(arrayTypeSelect);
                 final Apply apply = new Apply(newInstanceTarget, arrayLength);
-                return new MatchResult.Success(parser.next(), parser.matched(), apply);
+                return new MatchResult.Success(cp.next(), cp.matched(), apply);
             }
 
         }
@@ -263,25 +263,25 @@ public class ExprParser implements Parser {
                 if (input.isEmpty()) {
                     return new MatchResult.Failure(input);
                 }
-                final ChainParser parser = new ChainParser(input);
-                if (!parser.testNext(TokenMatcher.create(KeywordToken.New.class))) {
-                    return parser.toFailure();
+                final CParser cp = new CParser(input);
+                if (!cp.testNext(KeywordToken.New.class)) {
+                    return cp.toFailure();
                 }
 
-                if (!parser.testNext(new IdentifierParser())) {
-                    return parser.toFailure();
+                if (!cp.testNext(new IdentifierParser())) {
+                    return cp.toFailure();
                 }
-                final Node identifier = parser.lastMatch();
-                if (!parser.testNext(TokenMatcher.create(LeftParen.class))) {
-                    return parser.toFailure();
+                final Node identifier = cp.lastMatch();
+                if (!cp.testNext(LeftParen.class)) {
+                    return cp.toFailure();
                 }
-                if (!parser.testNext(TokenMatcher.create(RightParen.class))) {
-                    return parser.toFailure();
+                if (!cp.testNext(RightParen.class)) {
+                    return cp.toFailure();
                 }
 
                 // id.<init>()
                 final Apply n = new Apply(new New(new Select(identifier)));
-                return new MatchResult.Success(parser.next(), parser.matched(), n);
+                return new MatchResult.Success(cp.next(), cp.matched(), n);
             }
 
         }
@@ -293,20 +293,20 @@ public class ExprParser implements Parser {
                 if (input.isEmpty()) {
                     return new MatchResult.Failure(input);
                 }
-                final ChainParser parser = new ChainParser(input);
-                if (parser.testNext(new IntLiteralParser())) {
-                    return parser.toSuccess();
+                final CParser cp = new CParser(input);
+                if (cp.testNext(new IntLiteralParser())) {
+                    return cp.toSuccess();
                 }
-                if (parser.testNext(new ThisParser())) {
-                    return parser.toSuccess();
+                if (cp.testNext(new ThisParser())) {
+                    return cp.toSuccess();
                 }
-                if (parser.testNext(new TrueLiteralParser())) {
-                    return parser.toSuccess();
+                if (cp.testNext(new TrueLiteralParser())) {
+                    return cp.toSuccess();
                 }
-                if (parser.testNext(new FalseLiteralParser())) {
-                    return parser.toSuccess();
+                if (cp.testNext(new FalseLiteralParser())) {
+                    return cp.toSuccess();
                 }
-                return parser.toFailure();
+                return cp.toFailure();
             }
 
         }
@@ -318,15 +318,15 @@ public class ExprParser implements Parser {
                 if (input.isEmpty()) {
                     return new MatchResult.Failure(input);
                 }
-                final ChainParser parser = new ChainParser(input);
-                if (!parser.testNext(TokenMatcher.create(Bang.class))) {
-                    return parser.toFailure();
+                final CParser cp = new CParser(input);
+                if (!cp.testNext(Bang.class)) {
+                    return cp.toFailure();
                 }
-                if (!parser.testNext(new ExprParser())) {
-                    return parser.toFailure();
+                if (!cp.testNext(new ExprParser())) {
+                    return cp.toFailure();
                 }
-                final Node exprNode = parser.lastMatch();
-                return new MatchResult.Success(parser.next(), parser.matched(), new Apply(new Select(exprNode, new Name("minus"))));
+                final Node exprNode = cp.lastMatch();
+                return new MatchResult.Success(cp.next(), cp.matched(), new Apply(new Select(exprNode, new Name("minus"))));
             }
 
         }
@@ -338,19 +338,19 @@ public class ExprParser implements Parser {
                 if (input.isEmpty()) {
                     return new MatchResult.Failure(input);
                 }
-                final ChainParser parser = new ChainParser(input);
-                if (!parser.testNext(TokenMatcher.create(LeftParen.class))) {
-                    return parser.toFailure();
+                final CParser cp = new CParser(input);
+                if (!cp.testNext(LeftParen.class)) {
+                    return cp.toFailure();
                 }
-                if (!parser.testNext(new ExprParser())) {
-                    return parser.toFailure();
+                if (!cp.testNext(new ExprParser())) {
+                    return cp.toFailure();
                 }
-                final Node exprNode = parser.lastMatch();
-                if (!parser.testNext(TokenMatcher.create(RightParen.class))) {
-                    return parser.toFailure();
+                final Node exprNode = cp.lastMatch();
+                if (!cp.testNext(RightParen.class)) {
+                    return cp.toFailure();
                 }
                 final Apply apply = new Apply(exprNode);
-                return new MatchResult.Success(parser.next(), parser.matched(), apply);
+                return new MatchResult.Success(cp.next(), cp.matched(), apply);
             }
 
         }
@@ -362,19 +362,19 @@ public class ExprParser implements Parser {
                 if (input.isEmpty()) {
                     return new MatchResult.Failure(input);
                 }
-                final ChainParser cp = new ChainParser(input);
+                final CParser cp = new CParser(input);
                 if (!cp.testNext(new ExprHeadParser())) {
                     return cp.toFailure();
                 }
                 final Node arrayNode = cp.lastMatch();
-                if (!cp.testNext(TokenMatcher.create(LeftBracket.class))) {
+                if (!cp.testNext(LeftBracket.class)) {
                     return cp.toFailure();
                 }
                 if (!cp.testNext(new ExprParser())) {
                     return cp.toFailure();
                 }
                 final Node accessTarget = cp.lastMatch();
-                if (!cp.testNext(TokenMatcher.create(RightBracket.class))) {
+                if (!cp.testNext(RightBracket.class)) {
                     return cp.toFailure();
                 }
                 // array.apply(expr)
@@ -391,15 +391,15 @@ public class ExprParser implements Parser {
                 if (input.isEmpty()) {
                     return new MatchResult.Failure(input);
                 }
-                final ChainParser cp = new ChainParser(input);
+                final CParser cp = new CParser(input);
                 if (!cp.testNext(new ExprHeadParser())) {
                     return cp.toFailure();
                 }
                 final Node objNode = cp.lastMatch();
-                if (!cp.testNext(TokenMatcher.create(Dot.class))) {
+                if (!cp.testNext(Dot.class)) {
                     return cp.toFailure();
                 }
-                if (!cp.testNext(TokenMatcher.create(KeywordToken.Length.class))) {
+                if (!cp.testNext(KeywordToken.Length.class)) {
                     return cp.toFailure();
                 }
                 // obj.length
@@ -416,19 +416,19 @@ public class ExprParser implements Parser {
                 if (input.isEmpty()) {
                     return new MatchResult.Failure(input);
                 }
-                final ChainParser cp = new ChainParser(input);
+                final CParser cp = new CParser(input);
                 if (!cp.testNext(new ExprHeadParser())) {
                     return cp.toFailure();
                 }
                 final Node obj = cp.lastMatch();
-                if (!cp.testNext(TokenMatcher.create(Dot.class))) {
+                if (!cp.testNext(Dot.class)) {
                     return cp.toFailure();
                 }
                 if (!cp.testNext(new IdentifierParser())) {
                     return cp.toFailure();
                 }
                 final Node name = cp.lastMatch();
-                if (!cp.testNext(TokenMatcher.create(LeftParen.class))) {
+                if (!cp.testNext(LeftParen.class)) {
                     return cp.toFailure();
                 }
 
@@ -439,11 +439,11 @@ public class ExprParser implements Parser {
                     arguments.add(cp.lastMatch());
                 }
 
-                while (cp.testNext(TokenMatcher.create(Comma.class)) && cp.testNext(new ExprParser())) {
+                while (cp.testNext(Comma.class) && cp.testNext(new ExprParser())) {
                     arguments.add(cp.lastMatch());
                 }
 
-                if (!cp.testNext(TokenMatcher.create(RightParen.class))) {
+                if (!cp.testNext(RightParen.class)) {
                     return cp.toFailure();
                 }
                 // obj.name(expr);
