@@ -108,12 +108,24 @@ public class KaraffeLexer extends Lexer {
         this(source, true);
     }
 
+    public KaraffeLexer(final String filePath, final String source) {
+        this(filePath, source, true, true);
+    }
+
     public KaraffeLexer(final String source, final boolean insertEOF) {
         this(source, insertEOF, true);
     }
 
+    public KaraffeLexer(final String filePath, final String source, final boolean insertEOF) {
+        this(filePath, source, insertEOF, true);
+    }
+
     public KaraffeLexer(final String source, final boolean insertEOF, final boolean insertParenMatchError) {
-        super(source);
+        this("no-file", source, insertEOF, insertParenMatchError);
+    }
+
+    public KaraffeLexer(final String filePath, final String source, final boolean insertEOF, final boolean insertParenMatchError) {
+        super(filePath, source);
         final StringBuilder pat = new StringBuilder();
         KaraffeLexer.LOGGER.debug("OriginalSource: {}", source);
 
@@ -139,7 +151,7 @@ public class KaraffeLexer extends Lexer {
         final Matcher matcher = this.LEXER_PATTERN.matcher(target);
         while (matcher.find()) {
             KaraffeLexer.LOGGER.debug("Find : {}:{} {}", matcher.start(), matcher.end(), matcher.group());
-            final Position position = Position.of(matcher.start(), matcher.end());
+            final Position position = Position.of(this.filePath, matcher.start(), matcher.end());
             Token token = null;
 
             for (final LexerPattern pattern : LexerPattern.values()) {
@@ -186,7 +198,7 @@ public class KaraffeLexer extends Lexer {
             tokens.add(token);
         }
         if (this.insertEOF) {
-            tokens.add(Token.EOF(Position.of(matcher.start(), matcher.end())));
+            tokens.add(Token.EOF(Position.of(this.filePath, matcher.start(), matcher.end())));
         }
 
         if (this.insertParenMatchError) {

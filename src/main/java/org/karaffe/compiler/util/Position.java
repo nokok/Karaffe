@@ -32,10 +32,6 @@ public interface Position {
         return new RangeSource(sourceName, start, end);
     }
 
-    public static Position of(final int start, final int end) {
-        return new Range(start, end);
-    }
-
     public static Position of(final Position start, final Position end) {
         if (start.hasSource()) {
             return new RangeSource(start.getSource(), start.getStartIndex(), end.getEndIndex());
