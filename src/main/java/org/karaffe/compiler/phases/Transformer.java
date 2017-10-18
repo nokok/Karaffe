@@ -21,6 +21,10 @@ public interface Transformer<I, O> extends Function<I, Optional<O>> {
     public Optional<O> transform(I input);
 
     public default boolean checkPostCondition(final O output) {
+        return this.checkPostCondition(Optional.ofNullable(output));
+    }
+
+    public default boolean checkPostCondition(final Optional<O> output) {
         return true;
     }
 
