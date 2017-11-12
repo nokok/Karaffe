@@ -4,7 +4,6 @@ import java.io.File;
 import java.nio.file.Files;
 import java.util.List;
 import java.util.Optional;
-import java.util.stream.Stream;
 
 import org.karaffe.compiler.lexer.KaraffeLexer;
 import org.karaffe.compiler.parser.KaraffeParser;
@@ -48,11 +47,7 @@ public class Main implements Traceable {
         final ParserPhase parserPhase = new ParserPhase(context);
 
         context.sourceStream()
-                .map(PhaseRunner.mkTransformer(lexerPhase))
-                .map(PhaseRunner.after(parserPhase));
-
-        Stream.of(new String[][] { this.args })
-                .map(PhaseRunner.after(lexerPhase))
+                .map(PhaseRunner.first(lexerPhase))
                 .map(PhaseRunner.after(parserPhase));
 
         final List<String> lines = Files.readAllLines(new File(this.args[0]).toPath());
@@ -61,7 +56,7 @@ public class Main implements Traceable {
         final KaraffeParser parser = new KaraffeParser();
         final MatchResult result = parser.parse(new KaraffeLexer(source).run());
 
-        Traceable.LOGGER.debug("Parse OK ? : " + result.isSuccess());
+        Traceable.INTERNAL_LOGGER.debug("Parse OK ? : " + result.isSuccess());
         if (result.isFailure()) {
             final Failure failure = result.toFailure().get();
             this.error(failure.toString());

@@ -4,7 +4,7 @@ import java.util.Optional;
 import java.util.function.Function;
 
 public final class PhaseRunner {
-    public static <I, O> Function<I, Optional<O>> mkTransformer(final Transformer<I, O> transformer) {
+    public static <I, O> Function<I, Optional<O>> first(final Transformer<I, O> transformer) {
         return i -> Optional.ofNullable(i)
                 .filter(transformer::checkPreCondition)
                 .flatMap(transformer::transform)
