@@ -59,7 +59,7 @@ public abstract class AbstractBinaryExprLeftAssoc implements Parser, Traceable {
             this.debug("apply node: {}", ((BinaryExpr) leftExpr).toApplyNode());
         }
         if (leftExpr instanceof BinaryExpr) {
-            return new MatchResult.Success(cp.next(), cp.matched(), loopCount == 0 ? ((BinaryExpr) leftExpr).toApplyNode() : this.lastNode);
+            return new MatchResult.Success(cp.next(), cp.matched(), ((BinaryExpr) leftExpr).toApplyNode());
         }
         return new MatchResult.Success(cp.next(), cp.matched(), loopCount == 0 ? leftExpr : this.lastNode);
     }
