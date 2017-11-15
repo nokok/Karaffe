@@ -13,5 +13,6 @@ public class SetupPhaseTest {
         final Optional<CompilerContext> contextOpt = phase.transform(new String[] {});
         Assert.assertTrue(contextOpt.isPresent());
         final CompilerContext context = contextOpt.get();
+        Assert.assertFalse(context.hasSource());
     }
 }

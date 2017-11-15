@@ -67,6 +67,7 @@ public class MethodDefParser implements Parser {
         if (!cp.testNext(new ExprParser())) {
             return cp.toFailure();
         }
+        stmts.add(cp.lastMatch());
         if (!cp.testNext(Semi.class)) {
             return cp.toFailure();
         }

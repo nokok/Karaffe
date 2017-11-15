@@ -17,4 +17,5 @@ public final class PhaseRunner {
                 .flatMap(transformer::transform)
                 .filter(transformer::checkPostCondition);
     }
+
 }

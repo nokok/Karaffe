@@ -56,7 +56,7 @@ public class KaraffeLexerTest {
         final Map<String, Class<? extends Token>> map = new HashMap<>();
         map.put("Hoge", TypeName.class);
         map.put("var", VarName.class);
-        map.put("class", org.karaffe.compiler.lexer.KeywordToken.Class.class);
+        map.put("class", KeywordToken.Class.class);
         map.put("package", Package.class);
         map.put("new", New.class);
         map.put("0", IntLiteral.class);
@@ -74,15 +74,29 @@ public class KaraffeLexerTest {
         map.put(".", Dot.class);
         map.put("=", Equals.class);
         map.put(";", Semi.class);
-        // map.put("{", LeftBrace.class);
-        // map.put("}", RightBrace.class);
-        // map.put("(", LeftParen.class);
-        // map.put(")", RightParen.class);
-        // map.put("[", LeftBracket.class);
-        // map.put("]", RightBracket.class);
         for (final Map.Entry<String, Class<? extends Token>> m : map.entrySet()) {
             this.testToken(m.getKey(), m.getValue());
         }
+    }
+
+    @Test
+    public void testIdentifierToken1() {
+        this.testToken("classf", VarName.class);
+    }
+
+    @Test
+    public void testIdentifierToken2() {
+        this.testToken("newint", VarName.class);
+    }
+
+    @Test
+    public void testIdentifierToken3() {
+        this.testToken("fooclass", VarName.class);
+    }
+
+    @Test
+    public void testIdentifierToken4() {
+        this.testToken("Idclass", TypeName.class);
     }
 
     private void testToken(final String token, final Class<? extends Token> clazz) {

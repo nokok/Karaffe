@@ -4,6 +4,7 @@ import java.io.File;
 import java.util.EnumMap;
 import java.util.Map;
 import java.util.Objects;
+import java.util.Set;
 import java.util.stream.Stream;
 
 import org.karaffe.compiler.ConfigKeys.Config;
@@ -16,15 +17,16 @@ public interface CompilerContext {
 
     public boolean hasSource();
 
-    public static CompilerContext defaultContext() {
-        return new CompilerContextImpl();
+    public static CompilerContext defaultContext(final Set<File> sourceFiles) {
+        final SourceContainer container = new SourceContainer(sourceFiles);
+        return new CompilerContextImpl(container);
     }
 }
 
 class CompilerContextImpl implements CompilerContext {
 
-    private final SourceContainer sourceRepository;
-    private final Map<ConfigKeys.FlagConfigs, Boolean> configs;
+    private final SourceContainer sourceContainer;
+    private final Map<ConfigKeys.FlagConfigs, Boolean> flags;
     private final Map<ConfigKeys.StringConfigs, String> stringConfigs;
 
     public CompilerContextImpl() {
@@ -32,32 +34,28 @@ class CompilerContextImpl implements CompilerContext {
     }
 
     public CompilerContextImpl(final SourceContainer sourceRepository) {
-        this.sourceRepository = sourceRepository;
-        this.configs = new EnumMap<>(ConfigKeys.FlagConfigs.class);
+        this.sourceContainer = sourceRepository;
+        this.flags = new EnumMap<>(ConfigKeys.FlagConfigs.class);
         this.stringConfigs = new EnumMap<>(ConfigKeys.StringConfigs.class);
     }
 
     @Override
     public Stream<File> sourceStream() {
-        return this.sourceRepository.sourceStream();
+        return this.sourceContainer.sourceStream();
     }
 
     @Override
     public boolean hasSource() {
-        return !this.sourceRepository.isEmpty();
-    }
-
-    public void add(final File f) {
-        this.sourceRepository.add(f);
+        return !this.sourceContainer.isEmpty();
     }
 
     public void add(final FlagConfigs config) {
-        this.configs.put(config, Boolean.TRUE);
+        this.flags.put(config, Boolean.TRUE);
     }
 
     @SuppressWarnings("boxing")
     public void add(final FlagConfigs config, final boolean value) {
-        this.configs.put(config, value);
+        this.flags.put(config, value);
     }
 
     public void add(final StringConfigs config, final String value) {
@@ -65,7 +63,7 @@ class CompilerContextImpl implements CompilerContext {
     }
 
     public void remove(final Config config) {
-        this.configs.remove(config);
+        this.flags.remove(config);
         this.stringConfigs.remove(config);
     }
 

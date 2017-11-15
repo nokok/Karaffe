@@ -23,14 +23,14 @@ public class BinaryExpr extends AbstractNode {
 
     public Node toLeftApplyNode() {
         if (this.getLeft() instanceof BinaryExpr) {
-            return new Apply(((BinaryExpr) this.getLeft()).toLeftApplyNode());
+            return new Apply(((BinaryExpr) this.getLeft()).toApplyNode());
         }
         return this.getLeft();
     }
 
     public Node toRightApplyNode() {
         if (this.getRight() instanceof BinaryExpr) {
-            return new Apply(((BinaryExpr) this.getRight()).toLeftApplyNode());
+            return new Apply(((BinaryExpr) this.getRight()).toApplyNode());
         }
         return this.getRight();
     }

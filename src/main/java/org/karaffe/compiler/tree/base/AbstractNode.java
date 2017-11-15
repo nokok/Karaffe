@@ -88,6 +88,6 @@ public abstract class AbstractNode implements Node {
 
     @Override
     public String toString() {
-        return String.format("(%s %s)", this.getClass().getSimpleName(), this.children.stream().map(Object::toString).reduce((l, r) -> l + " " + r).orElse(""));
+        return String.format("(%s %s)", this.getClass().getSimpleName(), this.children.stream().map(Object::toString).reduce((l, r) -> l + " " + r).orElse("()"));
     }
 }

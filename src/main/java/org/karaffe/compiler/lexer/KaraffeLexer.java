@@ -148,37 +148,54 @@ public class KaraffeLexer extends Lexer {
         final String target = this.source.replaceAll("\\r\\n", "\n");
         final List<Token> tokens = new ArrayList<>();
 
+        int line = 1;
+        int column = 0;
         final Matcher matcher = this.LEXER_PATTERN.matcher(target);
         while (matcher.find()) {
             KaraffeLexer.LOGGER.debug("Find : {}:{} {}", matcher.start(), matcher.end(), matcher.group());
-            final Position position = Position.of(this.filePath, matcher.start(), matcher.end());
             Token token = null;
 
+            int maxMatch = 0;
+            Token lastToken = null;
             for (final LexerPattern pattern : LexerPattern.values()) {
                 final String text = matcher.group(pattern.name());
-                if (text != null) {
-                    token = pattern.applyToken(position, text);
-                    break;
+                if (text == null) {
+                    continue;
                 }
+                column += text.length();
+                final Position position = Position.of(this.filePath, matcher.start(), matcher.end(), line, column);
+                if (maxMatch < text.length()) {
+                    maxMatch = text.length();
+                    lastToken = pattern.applyToken(position, text);
+                }
+                token = lastToken;
             }
             if (token == null) {
                 throw new IllegalStateException("null token");
             }
+
             if (!tokens.isEmpty()) {
-                final Token lastToken = tokens.get(tokens.size() - 1);
-                final String lastCurrent = lastToken.getText() + token.getText();
-                if (!lastToken.isWhiteSpace() && lastCurrent.matches(LexerPattern.UPPERID.getPattern())) {
-                    tokens.remove(lastToken);
-                    tokens.add(new IdentifierToken.TypeName(lastCurrent, lastToken.getPosition()));
+                final Token beforeToken = tokens.get(tokens.size() - 1);
+                final String concatTokenString = beforeToken.getText() + token.getText();
+                KaraffeLexer.LOGGER.debug("concat: {}", concatTokenString);
+                if (!beforeToken.isWhiteSpace() && concatTokenString.matches(LexerPattern.UPPERID.getPattern())) {
+                    tokens.remove(beforeToken);
+                    tokens.add(new IdentifierToken.TypeName(concatTokenString, Position.of(beforeToken.getPosition(), token.getPosition())));
+                    KaraffeLexer.LOGGER.debug("concat 1");
                     continue;
                 }
-                if (!lastToken.isWhiteSpace() && lastCurrent.matches(LexerPattern.LOWERID.getPattern())) {
-                    tokens.remove(lastToken);
-                    tokens.add(new IdentifierToken.VarName(lastCurrent, lastToken.getPosition()));
+                if (!beforeToken.isWhiteSpace() && concatTokenString.matches(LexerPattern.LOWERID.getPattern())) {
+                    tokens.remove(beforeToken);
+                    tokens.add(new IdentifierToken.VarName(concatTokenString, Position.of(beforeToken.getPosition(), token.getPosition())));
+                    KaraffeLexer.LOGGER.debug("concat 2");
                     continue;
                 }
             }
 
+            if (token.isNeedLineReset()) {
+                line++;
+                column = 0;
+            }
             if (token.is(CommonToken.LeftParen.class)) {
                 parenPair++;
             } else if (token.is(CommonToken.RightParen.class)) {
@@ -194,11 +211,11 @@ public class KaraffeLexer extends Lexer {
             } else if (token.is(CommonToken.RightBracket.class)) {
                 bracketPair--;
             }
-            KaraffeLexer.LOGGER.debug("Added. {} ", token);
+            KaraffeLexer.LOGGER.debug("Added. {} {}", token, token.getPosition());
             tokens.add(token);
         }
         if (this.insertEOF) {
-            tokens.add(Token.EOF(Position.of(this.filePath, matcher.start(), matcher.end())));
+            tokens.add(Token.EOF(Position.noPos()));
         }
 
         if (this.insertParenMatchError) {

@@ -1,18 +1,12 @@
 package org.karaffe.compiler;
 
-import java.io.File;
-import java.nio.file.Files;
-import java.util.List;
 import java.util.Optional;
 
-import org.karaffe.compiler.lexer.KaraffeLexer;
-import org.karaffe.compiler.parser.KaraffeParser;
-import org.karaffe.compiler.parser.util.MatchResult;
-import org.karaffe.compiler.parser.util.MatchResult.Failure;
-import org.karaffe.compiler.parser.util.MatchResult.Success;
+import org.karaffe.compiler.phases.GenByteCodePhase;
 import org.karaffe.compiler.phases.LexerPhase;
 import org.karaffe.compiler.phases.ParserPhase;
 import org.karaffe.compiler.phases.PhaseRunner;
+import org.karaffe.compiler.phases.ReportPhase;
 import org.karaffe.compiler.phases.SetupPhase;
 import org.karaffe.compiler.phases.Transformer;
 import org.karaffe.compiler.tree.CompileUnit;
@@ -32,10 +26,11 @@ public class Main implements Traceable {
     }
 
     public static String usage() {
-        return "";
+        return "Usage not available";
     }
 
     public int run() throws Exception {
+        System.out.println("Launching Karaffe Compiler...");
         final Transformer<String[], CompilerContext> setup = new SetupPhase();
         final Optional<CompilerContext> cOpt = setup.transform(this.args);
         if (!cOpt.isPresent()) {
@@ -45,26 +40,22 @@ public class Main implements Traceable {
         final CompilerContext context = cOpt.get();
         final LexerPhase lexerPhase = new LexerPhase(context);
         final ParserPhase parserPhase = new ParserPhase(context);
+        final ReportPhase reportPhase = new ReportPhase(context);
+        final GenByteCodePhase genByteCode = new GenByteCodePhase();
 
-        context.sourceStream()
+        final Optional<CompileUnit> mayBeCompileUnit = context.sourceStream()
                 .map(PhaseRunner.first(lexerPhase))
-                .map(PhaseRunner.after(parserPhase));
+                .map(PhaseRunner.after(parserPhase))
+                .map(PhaseRunner.after(reportPhase))
+                .map(PhaseRunner.after(genByteCode))
+                .findFirst()
+                .flatMap(f -> f);
 
-        final List<String> lines = Files.readAllLines(new File(this.args[0]).toPath());
-        final String source = lines.stream().reduce((l1, l2) -> l1 + "\n" + l2).get();
+        mayBeCompileUnit.ifPresent(compileUnit -> {
+            this.debug(compileUnit.toString());
+        });
 
-        final KaraffeParser parser = new KaraffeParser();
-        final MatchResult result = parser.parse(new KaraffeLexer(source).run());
-
-        Traceable.INTERNAL_LOGGER.debug("Parse OK ? : " + result.isSuccess());
-        if (result.isFailure()) {
-            final Failure failure = result.toFailure().get();
-            this.error(failure.toString());
-        }
-
-        final Success success = result.toSuccess().get();
-        final CompileUnit compileUnit = (CompileUnit) success.getNode().orElse(null);
-        this.debug(compileUnit.toString());
+        System.out.println("Terminating...");
         return 0;
     }
 }

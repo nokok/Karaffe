@@ -22,10 +22,12 @@ public class LexerPhase extends AbstractTransformer<File, Tokens> implements Tra
 
     @Override
     public Optional<Tokens> transform(final File source) {
+        this.info("Lexing...");
         final String fileName = source.toPath().toString();
         try {
             final String code = Files.readAllLines(source.toPath()).stream().reduce((l1, l2) -> l1 + "\n" + l2).get();
             final Tokens tokens = new Tokens(new KaraffeLexer(fileName, code).run());
+            this.info("Lexer Completed.");
             return Optional.of(tokens);
         } catch (final IOException e) {
             this.error("file not found.", e);

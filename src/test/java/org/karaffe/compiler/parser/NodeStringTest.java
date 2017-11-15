@@ -50,6 +50,14 @@ public class NodeStringTest {
         // (Apply (Select (Literal 1) (Select (Name +))) (Apply (Select (Literal 2)
         // (Select (Name *))) (Literal 3)))
         Assert.assertEquals("(Apply (Select (Literal 1) (Select (Name +))) (Apply (Select (Literal 2) (Select (Name *))) (Literal 3)))", this.getNodeString(new ExprParser(), "1+2*3"));
+
+    }
+
+    @Test
+    public void testExprString2() {
+        // 1+2+3+4
+        // 1+(2+(3+(4)))
+        Assert.assertEquals("(Apply (Select (Apply (Apply (Select (Apply (Apply (Select (Literal 1) (Select (Name +))) (Literal 2))) (Select (Name +))) (Literal 3))) (Select (Name +))) (Literal 4))", this.getNodeString(new ExprParser(), "1+2+3+4"));
     }
 
     @Test

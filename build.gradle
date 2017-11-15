@@ -1,5 +1,6 @@
 plugins {
   id 'com.github.johnrengelman.shadow' version '2.0.1'
+  id 'edu.sc.seis.launch4j' version '2.4.2'
   id 'java'
   id 'maven'
   id 'jacoco'
@@ -58,4 +59,8 @@ jacocoTestReport {
             exclude: [])
         })
   }
+}
+
+launch4j {
+  mainClassName = 'org.karaffe.compiler.Main'
 }

@@ -28,13 +28,13 @@ public interface Position {
         return new NoPos();
     }
 
-    public static Position of(final String sourceName, final int start, final int end) {
-        return new RangeSource(sourceName, start, end);
+    public static Position of(final String sourceName, final int start, final int end, final int line, final int column) {
+        return new RangeSource(sourceName, start, end, line, column);
     }
 
     public static Position of(final Position start, final Position end) {
         if (start.hasSource()) {
-            return new RangeSource(start.getSource(), start.getStartIndex(), end.getEndIndex());
+            return Position.of(start.getSource(), start.getStartIndex(), end.getEndIndex(), start.getLineF().orElse(-1), start.getColumnF().orElse(-1));
         }
         return new Range(start.getStartIndex(), end.getEndIndex());
     }
@@ -100,10 +100,14 @@ public interface Position {
     public static class RangeSource implements Position {
         private final String source;
         private final Range range;
+        private final int line;
+        private final int column;
 
-        public RangeSource(final String source, final int start, final int end) {
+        public RangeSource(final String source, final int start, final int end, final int line, final int column) {
             this.source = source;
             this.range = new Range(start, end);
+            this.line = line;
+            this.column = column;
         }
 
         @Override
@@ -117,6 +121,16 @@ public interface Position {
         }
 
         @Override
+        public Optional<Integer> getColumnF() {
+            return Optional.of(this.column);
+        }
+
+        @Override
+        public Optional<Integer> getLineF() {
+            return Optional.of(this.line);
+        }
+
+        @Override
         public boolean hasSource() {
             return true;
         }
@@ -124,6 +138,11 @@ public interface Position {
         @Override
         public String getSource() {
             return this.source;
+        }
+
+        @Override
+        public String toString() {
+            return String.format("%s:%s at %s", this.getStartIndex(), this.getEndIndex(), this.getSource());
         }
     }
 }
