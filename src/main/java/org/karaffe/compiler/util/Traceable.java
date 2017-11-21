@@ -4,7 +4,8 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 public interface Traceable {
-    Logger INTERNAL_LOGGER = LoggerFactory.getLogger(Traceable.class);
+
+    final Logger INTERNAL_LOGGER = LoggerFactory.getLogger(Traceable.class);
 
     public default String getName() {
         return Traceable.INTERNAL_LOGGER.getName();
