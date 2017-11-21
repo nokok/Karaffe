@@ -16,7 +16,6 @@ public class ParserPhase extends AbstractTransformer<Tokens, CompileUnit> implem
     public ParserPhase(final CompilerContext context) {
         super(Tokens.class, CompileUnit.class);
         this.context = context;
-        this.context.toString();
     }
 
     @Override

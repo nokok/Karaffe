@@ -17,7 +17,6 @@ public class LexerPhase extends AbstractTransformer<File, Tokens> implements Tra
     public LexerPhase(final CompilerContext context) {
         super(File.class, Tokens.class);
         this.context = context;
-        this.context.toString();
     }
 
     @Override

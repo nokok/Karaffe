@@ -12,7 +12,6 @@ public class ReportPhase extends AbstractTransformer<CompileUnit, CompileUnit> {
     public ReportPhase(final CompilerContext context) {
         super(CompileUnit.class, CompileUnit.class);
         this.context = context;
-        this.context.toString();
     }
 
     @Override
