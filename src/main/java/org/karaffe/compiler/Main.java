@@ -41,7 +41,7 @@ public class Main implements Traceable {
         final LexerPhase lexerPhase = new LexerPhase(context);
         final ParserPhase parserPhase = new ParserPhase(context);
         final ReportPhase reportPhase = new ReportPhase(context);
-        final GenByteCodePhase genByteCode = new GenByteCodePhase();
+        final GenByteCodePhase genByteCode = new GenByteCodePhase(context);
 
         final Optional<CompileUnit> mayBeCompileUnit = context.sourceStream()
                 .map(PhaseRunner.first(lexerPhase))
