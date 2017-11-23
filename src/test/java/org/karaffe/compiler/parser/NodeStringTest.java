@@ -1,5 +1,7 @@
 package org.karaffe.compiler.parser;
 
+import static org.junit.Assert.assertEquals;
+
 import java.util.ArrayList;
 import java.util.Arrays;
 
@@ -50,7 +52,7 @@ public class NodeStringTest {
         // (Apply (Select (Literal 1) (Select (Name +))) (Apply (Select (Literal 2)
         // (Select (Name *))) (Literal 3)))
         Assert.assertEquals("(Apply (Select (Literal 1) (Select (Name +))) (Apply (Select (Literal 2) (Select (Name *))) (Literal 3)))", this.getNodeString(new ExprParser(), "1+2*3"));
-
+        assertEquals("(Apply (Select (Name negate)) (Apply (Select (Name negate)) (Literal true)))", this.getNodeString(new ExprParser(), "!!true"));
     }
 
     @Test

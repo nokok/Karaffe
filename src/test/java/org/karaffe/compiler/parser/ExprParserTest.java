@@ -141,6 +141,11 @@ public class ExprParserTest {
         this.runTest("num * this.compute()", true);
     }
 
+    @Test
+    public void test25() {
+        this.runTest("!!true", true);
+    }
+
     private void runTest(final String source, final boolean v) {
         final KaraffeLexer lexer = new KaraffeLexer(source);
         final ExprParser parser = new ExprParser();
