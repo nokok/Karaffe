@@ -2,6 +2,7 @@ package org.karaffe.compiler.lexer;
 
 import java.util.Optional;
 
+import org.karaffe.compiler.lexer.CommonToken.ErrorToken;
 import org.karaffe.compiler.util.Position;
 
 public interface Token {
@@ -13,6 +14,10 @@ public interface Token {
     public Position getPosition();
 
     public String getDescription();
+
+    public default boolean isErrorToken() {
+        return this instanceof ErrorToken;
+    }
 
     public default boolean isNeedLineReset() {
         return this instanceof WhitespaceToken.NewLine;
