@@ -326,7 +326,7 @@ public class ExprParser implements Parser {
                     return cp.toFailure();
                 }
                 final Node exprNode = cp.lastMatch();
-                return new MatchResult.Success(cp.next(), cp.matched(), new Apply(new Select(exprNode, new Name("minus"))));
+                return new MatchResult.Success(cp.next(), cp.matched(), new Apply(new Select(exprNode, new Name("negate"))));
             }
 
         }
