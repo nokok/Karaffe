@@ -19,7 +19,6 @@ public class GenByteCodePhase extends AbstractTransformer<CompileUnit, CompileUn
 
     @Override
     public Optional<CompileUnit> transform(final CompileUnit input) {
-        System.out.println(this.printChildren(input.getChildren()));
         return Optional.of(input);
     }
 
