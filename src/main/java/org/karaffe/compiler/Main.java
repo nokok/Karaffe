@@ -10,9 +10,10 @@ import org.karaffe.compiler.phases.ReportPhase;
 import org.karaffe.compiler.phases.SetupPhase;
 import org.karaffe.compiler.phases.Transformer;
 import org.karaffe.compiler.tree.CompileUnit;
+import org.karaffe.compiler.util.ProgressTraceable;
 import org.karaffe.compiler.util.Traceable;
 
-public class Main implements Traceable {
+public class Main implements Traceable, ProgressTraceable {
 
     private final String[] args;
 
@@ -30,11 +31,11 @@ public class Main implements Traceable {
     }
 
     public int run() throws Exception {
-        System.out.println("Launching Karaffe Compiler...");
+        this.progress("Launching Karaffe Compiler...");
         final Transformer<String[], CompilerContext> setup = new SetupPhase();
         final Optional<CompilerContext> cOpt = setup.transform(this.args);
         if (!cOpt.isPresent()) {
-            System.out.println(Main.usage());
+            this.progress(Main.usage());
             return -1;
         }
         final CompilerContext context = cOpt.get();
@@ -55,7 +56,7 @@ public class Main implements Traceable {
             this.debug(compileUnit.toString());
         });
 
-        System.out.println("Terminating...");
+        this.progress("Terminating...");
         return 0;
     }
 }

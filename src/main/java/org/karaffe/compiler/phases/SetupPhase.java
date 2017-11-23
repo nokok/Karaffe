@@ -9,9 +9,10 @@ import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
 import org.karaffe.compiler.CompilerContext;
+import org.karaffe.compiler.util.ProgressTraceable;
 import org.karaffe.compiler.util.Traceable;
 
-public class SetupPhase extends AbstractTransformer<String[], CompilerContext> implements Traceable {
+public class SetupPhase extends AbstractTransformer<String[], CompilerContext> implements Traceable, ProgressTraceable {
 
     public SetupPhase() {
         super(String[].class, CompilerContext.class);
@@ -19,7 +20,7 @@ public class SetupPhase extends AbstractTransformer<String[], CompilerContext> i
 
     @Override
     public Optional<CompilerContext> transform(final String[] args) {
-        this.info("Loading Configurations...");
+        this.progress("Building Task...");
         final List<File> sourceFiles = Stream.of(args).filter(arg -> arg.endsWith(".krf")).map(File::new).collect(Collectors.toList());
 
         final Set<File> sourceSet = new HashSet<>(sourceFiles);
