@@ -26,6 +26,9 @@ public class LexerPhase extends AbstractTransformer<File, Tokens> implements Tra
         try {
             final String code = Files.readAllLines(source.toPath()).stream().reduce((l1, l2) -> l1 + "\n" + l2).get();
             final Tokens tokens = new Tokens(new KaraffeLexer(fileName, code).run());
+            if (tokens.hasErrorToken()) {
+                return Optional.empty();
+            }
             this.info("Lexer Completed.");
             return Optional.of(tokens);
         } catch (final IOException e) {
