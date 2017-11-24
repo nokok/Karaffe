@@ -20,6 +20,20 @@ public class Tokens implements List<Token> {
         this.tokens = tokens;
     }
 
+    public boolean hasErrorToken() {
+        return this.tokens
+                .stream()
+                .filter(Token::isErrorToken)
+                .count() > 0;
+    }
+
+    public List<Token> getErrorTokens() {
+        return this.tokens
+                .stream()
+                .filter(Token::isErrorToken)
+                .collect(Collectors.toList());
+    }
+
     @Override
     public int size() {
         return this.tokens.size();
