@@ -1,7 +1,7 @@
 package org.karaffe.compiler.tree;
 
+import org.karaffe.compiler.pos.Position;
 import org.karaffe.compiler.tree.base.AbstractNode;
-import org.karaffe.compiler.util.Position;
 
 public class Empty extends AbstractNode {
 

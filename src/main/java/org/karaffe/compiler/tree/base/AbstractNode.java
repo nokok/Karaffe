@@ -6,8 +6,8 @@ import java.util.List;
 import java.util.Objects;
 import java.util.UUID;
 
+import org.karaffe.compiler.pos.Position;
 import org.karaffe.compiler.tree.NodeType;
-import org.karaffe.compiler.util.Position;
 
 public abstract class AbstractNode implements Node {
 

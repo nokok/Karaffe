@@ -7,7 +7,7 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 import org.karaffe.compiler.lexer.CommonToken.ErrorToken;
-import org.karaffe.compiler.util.Position;
+import org.karaffe.compiler.pos.Position;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 

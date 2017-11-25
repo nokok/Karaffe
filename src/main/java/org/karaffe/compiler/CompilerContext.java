@@ -10,6 +10,7 @@ import java.util.stream.Stream;
 import org.karaffe.compiler.ConfigKeys.Config;
 import org.karaffe.compiler.ConfigKeys.FlagConfigs;
 import org.karaffe.compiler.ConfigKeys.StringConfigs;
+import org.karaffe.compiler.pos.Position;
 import org.karaffe.compiler.util.SourceContainer;
 
 public interface CompilerContext {

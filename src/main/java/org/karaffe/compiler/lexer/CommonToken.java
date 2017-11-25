@@ -2,7 +2,7 @@ package org.karaffe.compiler.lexer;
 
 import java.util.UUID;
 
-import org.karaffe.compiler.util.Position;
+import org.karaffe.compiler.pos.Position;
 
 public abstract class CommonToken implements Token {
 

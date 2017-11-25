@@ -1,6 +1,6 @@
 package org.karaffe.compiler.lexer;
 
-import org.karaffe.compiler.util.Position;
+import org.karaffe.compiler.pos.Position;
 
 public abstract class LiteralToken extends CommonToken {
 

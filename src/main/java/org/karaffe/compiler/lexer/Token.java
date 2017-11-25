@@ -3,7 +3,7 @@ package org.karaffe.compiler.lexer;
 import java.util.Optional;
 
 import org.karaffe.compiler.lexer.CommonToken.ErrorToken;
-import org.karaffe.compiler.util.Position;
+import org.karaffe.compiler.pos.Position;
 
 public interface Token {
 
