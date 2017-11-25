@@ -1,2 +1,4 @@
 rootProject.name = 'Karaffe-lang'
 include 'core'
+include 'buildtool'
+include 'compiler'
