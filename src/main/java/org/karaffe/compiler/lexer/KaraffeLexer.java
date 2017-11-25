@@ -11,7 +11,7 @@ import org.karaffe.compiler.pos.Position;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-public class KaraffeLexer extends Lexer {
+public class KaraffeLexer extends AbstractLexer {
 
     private static final Logger LOGGER = LoggerFactory.getLogger(KaraffeLexer.class);
 
