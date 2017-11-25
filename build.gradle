@@ -39,6 +39,7 @@ ext {
 }
 
 dependencies {
+  compile project(':core')
   testCompile group: 'nl.jqno.equalsverifier', name: 'equalsverifier', version: '2.3.3'
   testCompile group: 'junit', name: 'junit', version: junitVersion
   compile group: 'org.ow2.asm', name: 'asm-all', version: '5.1'
