@@ -1,4 +1,4 @@
-package org.karaffe.core.io;
+package org.karaffe.core;
 
 import java.nio.file.Path;
 import java.nio.file.Paths;

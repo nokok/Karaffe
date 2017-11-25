@@ -7,6 +7,7 @@ import java.nio.file.Paths;
 import java.util.Optional;
 
 import org.junit.Test;
+import org.karaffe.core.PathUtil;
 
 public class RawSourceCodeReadablesTest {
     @Test
