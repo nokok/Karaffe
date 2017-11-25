@@ -29,7 +29,7 @@ public class KaraffeLexerTest {
 
     @Test
     public void testEmpty() {
-        final AbstractLexer lexer = new KaraffeLexer("");
+        final Lexer lexer = new KaraffeLexer("");
         final List<Token> tokens = lexer.run();
         Assert.assertEquals(1, tokens.size());
         Assert.assertEquals(WhitespaceToken.EOF.class, tokens.get(0).getClass());
@@ -37,7 +37,7 @@ public class KaraffeLexerTest {
 
     @Test
     public void testSimpleClassDef() {
-        final AbstractLexer lexer = new KaraffeLexer("class A");
+        final Lexer lexer = new KaraffeLexer("class A");
         final List<Token> tokens = lexer.run();
         Assert.assertEquals(4, tokens.size());
         Assert.assertEquals(KeywordToken.Class.class, tokens.get(0).getClass());
