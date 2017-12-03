@@ -23,19 +23,7 @@ public abstract class Pos {
         return new Location(filePath, line, column);
     }
 
-    public Optional<NoPos> asNoPos() {
-        return this.as(NoPos.class);
-    }
-
-    public Optional<LineColumnPosition> asLineAndColumn() {
-        return this.as(LineColumnPosition.class);
-    }
-
-    public Optional<Location> asLocation() {
-        return this.as(Location.class);
-    }
-
-    private <T extends Pos> Optional<T> as(Class<T> clazz) {
+    public <T extends Pos> Optional<T> asOpt(Class<T> clazz) {
         if (clazz.isInstance(this)) {
             return Optional.of(clazz.cast(this));
         }

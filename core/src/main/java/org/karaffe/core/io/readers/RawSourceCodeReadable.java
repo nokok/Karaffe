@@ -1,4 +1,4 @@
-package org.karaffe.core.io;
+package org.karaffe.core.io.readers;
 
 import java.util.Optional;
 
