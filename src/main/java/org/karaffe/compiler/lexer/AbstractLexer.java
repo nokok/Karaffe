@@ -2,7 +2,7 @@ package org.karaffe.compiler.lexer;
 
 import java.util.List;
 
-public abstract class AbstractLexer {
+public abstract class AbstractLexer implements Lexer {
 
     protected final String filePath;
     protected final String source;
@@ -17,5 +17,6 @@ public abstract class AbstractLexer {
         this.source = source;
     }
 
+    @Override
     public abstract List<Token> run();
 }

@@ -84,6 +84,6 @@ public class CParser {
     }
 
     public MatchResult.Failure toFailure() {
-        return new MatchResult.Failure(Optional.ofNullable(this.erroredToken).orElse(this.input.get(0)), this.input);
+        return new MatchResult.Failure(Optional.ofNullable(this.erroredToken).orElse(this.input.iterator().next()), this.input);
     }
 }

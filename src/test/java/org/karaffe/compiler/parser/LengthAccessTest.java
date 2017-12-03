@@ -1,5 +1,6 @@
 package org.karaffe.compiler.parser;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import org.junit.Assert;
@@ -38,7 +39,7 @@ public class LengthAccessTest {
             if (result.next().size() >= 2) {
                 Assert.fail(result.next().toString());
             }
-            Assert.assertTrue(result.next().get(0).is(EOF.class));
+            Assert.assertTrue(new ArrayList<>(result.next()).get(0).is(EOF.class));
         } else {
             Assert.assertEquals(String.format("%s vs %s", input, result.next()), input.size(), result.next().size());
         }

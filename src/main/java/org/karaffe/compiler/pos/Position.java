@@ -28,6 +28,10 @@ public interface Position {
         return new NoPos();
     }
 
+    public static Position of(final String sourceName, final int line, final int column) {
+        return new RangeSource(sourceName, column, column, line, column);
+    }
+
     public static Position of(final String sourceName, final int start, final int end, final int line, final int column) {
         return new RangeSource(sourceName, start, end, line, column);
     }

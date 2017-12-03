@@ -24,7 +24,7 @@ public class IdentifierParser implements Parser {
             return idResult;
 
         }
-        final IdentifierToken identifierToken = (IdentifierToken) idResult.matchedF().get(0);
+        final IdentifierToken identifierToken = (IdentifierToken) idResult.matchedF().iterator().next();
         return new MatchResult.Success(idResult.next(), idResult.matchedF(), new Name(identifierToken));
     }
 

@@ -4,9 +4,9 @@ import java.nio.file.Path;
 
 public class Location {
     private final Path path;
-    private final Position position;
+    private final Pos position;
 
-    public Location(Path path, Position position) {
+    public Location(Path path, Pos position) {
         this.path = path;
         this.position = position;
     }

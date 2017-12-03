@@ -1,5 +1,6 @@
 package org.karaffe.compiler.parser.util;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import org.junit.Assert;
@@ -19,7 +20,7 @@ public class SimpleTokenMatcherTest {
         final TokenMatcher matcher = TokenMatcher.create(Class.class, TypeName.class);
         final MatchResult result = matcher.match(lexer.run());
         Assert.assertEquals(true, result.isSuccess());
-        final List<Token> matchedTokens = result.matchedF();
+        final List<Token> matchedTokens = new ArrayList<>(result.matchedF());
         Assert.assertEquals(2, matchedTokens.size());
         Assert.assertTrue(matchedTokens.get(0).is(Class.class));
         Assert.assertTrue(matchedTokens.get(1).is(TypeName.class));

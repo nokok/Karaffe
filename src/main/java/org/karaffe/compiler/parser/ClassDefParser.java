@@ -4,9 +4,9 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.karaffe.compiler.lexer.CommonToken;
+import org.karaffe.compiler.lexer.Tokens;
 import org.karaffe.compiler.lexer.CommonToken.RightBrace;
 import org.karaffe.compiler.lexer.KeywordToken.Extends;
-import org.karaffe.compiler.lexer.Tokens;
 import org.karaffe.compiler.parser.util.CParser;
 import org.karaffe.compiler.parser.util.MatchResult;
 import org.karaffe.compiler.parser.util.TokenMatcher;

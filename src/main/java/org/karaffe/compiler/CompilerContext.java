@@ -11,12 +11,16 @@ import org.karaffe.compiler.ConfigKeys.Config;
 import org.karaffe.compiler.ConfigKeys.FlagConfigs;
 import org.karaffe.compiler.ConfigKeys.StringConfigs;
 import org.karaffe.compiler.pos.Position;
+import org.karaffe.compiler.util.Report;
+import org.karaffe.compiler.util.Report.AdditionalInfo;
 import org.karaffe.compiler.util.SourceContainer;
 
 public interface CompilerContext {
     public Stream<File> sourceStream();
 
     public boolean hasSource();
+
+    public void reportError(String title, String message, int line, int column, AdditionalInfo... infomations);
 
     public static CompilerContext defaultContext(final Set<File> sourceFiles) {
         final SourceContainer container = new SourceContainer(sourceFiles);
@@ -66,6 +70,11 @@ class CompilerContextImpl implements CompilerContext {
     public void remove(final Config config) {
         this.flags.remove(config);
         this.stringConfigs.remove(config);
+    }
+
+    @Override
+    public void reportError(String title, String message, int line, int column, AdditionalInfo... infomations) {
+        Report.createError(title, Position.of(null, line, column), message, infomations);
     }
 
 }

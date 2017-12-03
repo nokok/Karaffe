@@ -4,19 +4,18 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Iterator;
 import java.util.List;
-import java.util.ListIterator;
 import java.util.stream.Collectors;
 
 import org.karaffe.compiler.lexer.CommonToken.EOF;
 
-public class Tokens implements List<Token> {
-    private final List<Token> tokens;
+public class Tokens implements Collection<Token> {
+    private final Collection<Token> tokens;
 
     public Tokens() {
         this(new ArrayList<>(0));
     }
 
-    public Tokens(final List<Token> tokens) {
+    public Tokens(final Collection<Token> tokens) {
         this.tokens = tokens;
     }
 
@@ -44,7 +43,7 @@ public class Tokens implements List<Token> {
         if (this.tokens.isEmpty()) {
             return true;
         }
-        if (this.tokens.size() == 1 && this.tokens.get(0).is(EOF.class)) {
+        if (this.tokens.size() == 1 && this.tokens.iterator().next().is(EOF.class)) {
             return true;
         }
         for (final Token token : this.tokens) {
@@ -96,11 +95,6 @@ public class Tokens implements List<Token> {
     }
 
     @Override
-    public boolean addAll(final int index, final Collection<? extends Token> c) {
-        return this.tokens.addAll(index, c);
-    }
-
-    @Override
     public boolean removeAll(final Collection<?> c) {
         return this.tokens.removeAll(c);
     }
@@ -123,51 +117,6 @@ public class Tokens implements List<Token> {
     @Override
     public int hashCode() {
         return this.tokens.hashCode();
-    }
-
-    @Override
-    public Token get(final int index) {
-        return this.tokens.get(index);
-    }
-
-    @Override
-    public Token set(final int index, final Token element) {
-        return this.tokens.set(index, element);
-    }
-
-    @Override
-    public void add(final int index, final Token element) {
-        this.tokens.add(index, element);
-    }
-
-    @Override
-    public Token remove(final int index) {
-        return this.tokens.remove(index);
-    }
-
-    @Override
-    public int indexOf(final Object o) {
-        return this.tokens.indexOf(o);
-    }
-
-    @Override
-    public int lastIndexOf(final Object o) {
-        return this.tokens.lastIndexOf(o);
-    }
-
-    @Override
-    public ListIterator<Token> listIterator() {
-        return this.tokens.listIterator();
-    }
-
-    @Override
-    public ListIterator<Token> listIterator(final int index) {
-        return this.tokens.listIterator(index);
-    }
-
-    @Override
-    public List<Token> subList(final int fromIndex, final int toIndex) {
-        return this.tokens.subList(fromIndex, toIndex);
     }
 
     @Override

@@ -3,8 +3,8 @@ package org.karaffe.compiler.parser.util;
 import org.junit.Assert;
 import org.junit.Test;
 import org.karaffe.compiler.lexer.KaraffeLexer;
-import org.karaffe.compiler.lexer.KeywordToken.Package;
 import org.karaffe.compiler.lexer.Tokens;
+import org.karaffe.compiler.lexer.KeywordToken.Package;
 import org.karaffe.compiler.tree.Name;
 
 public class ChainParserTest {

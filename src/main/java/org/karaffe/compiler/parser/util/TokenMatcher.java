@@ -51,7 +51,7 @@ public interface TokenMatcher {
                 return new MatchResult.Failure(token, tokens);
             }
             if (!hitSkipToken) {
-                final List<Token> retTokens = tokens.subList(reducedCount, tokens.size());
+                final List<Token> retTokens = new ArrayList<>(tokens).subList(reducedCount, tokens.size());
                 return new MatchResult.Success(new Tokens(retTokens), new Tokens());
             }
             reducedCount++;

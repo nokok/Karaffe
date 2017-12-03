@@ -1,5 +1,8 @@
 package org.karaffe.compiler.parser;
 
+import java.util.Iterator;
+
+import org.karaffe.compiler.lexer.CommonToken.EOF;
 import org.karaffe.compiler.lexer.Token;
 import org.karaffe.compiler.lexer.Tokens;
 import org.karaffe.compiler.parser.util.MatchResult;
@@ -12,28 +15,23 @@ public class EOFParser implements Parser {
 
     @Override
     public MatchResult parse(final Tokens input) {
-        if (input.isEmpty()) {
-            EOFParser.LOGGER.debug("FIRST OK EOF");
+        Iterator<Token> tokenIter = input.iterator();
+        if (!tokenIter.hasNext()) {
             return new MatchResult.Success(new Tokens(), new Tokens());
         }
-        EOFParser.LOGGER.debug("InputTokens :{}", input);
-        int loopCount = 0;
-        for (final Token token : input) {
-            EOFParser.LOGGER.debug("Current : {}", token);
-            loopCount++;
+        while (tokenIter.hasNext()) {
+            Token token = tokenIter.next();
             if (token.isWhiteSpace()) {
                 continue;
             }
-            if (token.is(org.karaffe.compiler.lexer.CommonToken.EOF.class)) {
-                if (input.size() > loopCount) {
-                    EOFParser.LOGGER.debug("NG1");
-                    return new MatchResult.Failure(input.get(loopCount + 1), input);
+            if (token.is(EOF.class)) {
+                if (tokenIter.hasNext()) {
+                    return new MatchResult.Failure(tokenIter.next(), input);
                 }
-                EOFParser.LOGGER.debug("OK2");
                 return new MatchResult.Success(new Tokens(), new Tokens());
+            } else {
+                return new MatchResult.Failure(token, input);
             }
-            EOFParser.LOGGER.debug("NG2");
-            return new MatchResult.Failure(token, input);
         }
         EOFParser.LOGGER.debug("BAD EOF");
         return new MatchResult.Failure(null, input);

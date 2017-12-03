@@ -5,7 +5,7 @@ plugins {
   id 'maven'
   id 'jacoco'
   id 'application'
-} 
+}
 
 group = 'org.karaffe'
 version = '0.1'

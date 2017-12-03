@@ -1,7 +1,7 @@
 package org.karaffe.compiler.parser.util;
 
 import java.util.ArrayList;
-import java.util.List;
+import java.util.Collection;
 import java.util.Optional;
 
 import org.karaffe.compiler.lexer.CommonToken;
@@ -18,7 +18,7 @@ public interface MatchResult extends ResultState, ResultConverter<MatchResult.Su
         return Optional.empty();
     }
 
-    public default List<Token> matchedF() {
+    public default Collection<Token> matchedF() {
         return this.toSuccess().map(Success::matchedTokens).orElseGet(ArrayList::new);
     }
 
@@ -29,14 +29,14 @@ public interface MatchResult extends ResultState, ResultConverter<MatchResult.Su
     public static class Success implements MatchResult {
 
         private final Tokens next;
-        private final List<Token> matchedTokens;
+        private final Collection<Token> matchedTokens;
         private final Node node;
 
-        public Success(final Tokens next, final List<Token> matchedTokens) {
+        public Success(final Tokens next, final Collection<Token> matchedTokens) {
             this(next, matchedTokens, new Empty());
         }
 
-        public Success(final Tokens next, final List<Token> matchedTokens, final Node node) {
+        public Success(final Tokens next, final Collection<Token> matchedTokens, final Node node) {
             this.next = next;
             this.matchedTokens = matchedTokens;
             this.node = node;
@@ -67,7 +67,7 @@ public interface MatchResult extends ResultState, ResultConverter<MatchResult.Su
             return Optional.ofNullable(this.node);
         }
 
-        List<Token> matchedTokens() {
+        Collection<Token> matchedTokens() {
             return this.matchedTokens;
         }
 
@@ -82,7 +82,7 @@ public interface MatchResult extends ResultState, ResultConverter<MatchResult.Su
         private final Tokens next;
 
         public Failure(final Tokens next) {
-            this(next.size() == 0 ? new CommonToken.ErrorToken("Empty") : next.get(0), next);
+            this(next.size() == 0 ? new CommonToken.ErrorToken("Empty") : next.iterator().next(), next);
         }
 
         public Failure(final Token erroredToken, final Tokens next) {

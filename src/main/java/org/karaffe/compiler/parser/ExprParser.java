@@ -84,7 +84,7 @@ public class ExprParser implements Parser {
                 return result;
             }
             if (result.matchedF().size() == 1) {
-                final Token token = result.matchedF().get(0);
+                final Token token = result.matchedF().iterator().next();
                 if (!token.is(this.clazz)) {
                     return new MatchResult.Failure(input);
                 }
@@ -93,7 +93,7 @@ public class ExprParser implements Parser {
                 return new MatchResult.Success(result.next(), result.matchedF(), new Select(new Name(opStr)));
             }
             final String operatorString = result.matchedF().stream().map(Token::getText).reduce((lt, rt) -> lt + rt).get();
-            return new MatchResult.Success(result.next(), result.matchedF(), new Select(new Name(new IdentifierToken.VarName(operatorString, result.matchedF().get(0).getPosition()))));
+            return new MatchResult.Success(result.next(), result.matchedF(), new Select(new Name(new IdentifierToken.VarName(operatorString, result.matchedF().iterator().next().getPosition()))));
         }
 
     }
@@ -130,7 +130,7 @@ public class ExprParser implements Parser {
             if (result.isFailure()) {
                 return result;
             }
-            return new MatchResult.Success(result.next(), result.matchedF(), new Literal(result.matchedF().get(0)));
+            return new MatchResult.Success(result.next(), result.matchedF(), new Literal(result.matchedF().iterator().next()));
         }
     }
 
@@ -144,7 +144,7 @@ public class ExprParser implements Parser {
             if (result.isFailure()) {
                 return result;
             }
-            return new MatchResult.Success(result.next(), result.matchedF(), new Literal(result.matchedF().get(0)));
+            return new MatchResult.Success(result.next(), result.matchedF(), new Literal(result.matchedF().iterator().next()));
         }
     }
 
@@ -158,7 +158,7 @@ public class ExprParser implements Parser {
             if (result.isFailure()) {
                 return result;
             }
-            return new MatchResult.Success(result.next(), result.matchedF(), new Literal(result.matchedF().get(0)));
+            return new MatchResult.Success(result.next(), result.matchedF(), new Literal(result.matchedF().iterator().next()));
         }
     }
 
@@ -173,7 +173,7 @@ public class ExprParser implements Parser {
             if (result.isFailure()) {
                 return result;
             }
-            return new MatchResult.Success(result.next(), result.matchedF(), new Literal(result.matchedF().get(0)));
+            return new MatchResult.Success(result.next(), result.matchedF(), new Literal(result.matchedF().iterator().next()));
         }
 
     }

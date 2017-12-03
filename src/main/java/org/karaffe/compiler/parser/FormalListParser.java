@@ -3,10 +3,10 @@ package org.karaffe.compiler.parser;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.karaffe.compiler.lexer.CommonToken.Comma;
 import org.karaffe.compiler.lexer.ModifierToken;
 import org.karaffe.compiler.lexer.Token;
 import org.karaffe.compiler.lexer.Tokens;
+import org.karaffe.compiler.lexer.CommonToken.Comma;
 import org.karaffe.compiler.parser.util.MatchResult;
 import org.karaffe.compiler.parser.util.TokenMatcher;
 import org.karaffe.compiler.tree.Modifier;

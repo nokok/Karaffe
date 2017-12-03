@@ -49,14 +49,16 @@ public class SimpleTokenMatcher implements TokenMatcher {
             final Tokens next = head.next();
             cursor += current.size() - next.size();
             current = head.next();
-            if (!current.get(0).is(expected)) {
+            Token first = current.iterator().next();
+            if (!first.is(expected)) {
                 SimpleTokenMatcher.LOGGER.debug("  -> Failure");
-                return new MatchResult.Failure(current.get(0), current);
+                return new MatchResult.Failure(first, current);
             }
-            matchedTokens.add(current.remove(0));
+            current.remove(first);
+            matchedTokens.add(first);
             cursor++;
         }
-        final Tokens next = new Tokens(inputTokens.subList(cursor, inputTokens.size()));
+        final Tokens next = new Tokens(new ArrayList<>(inputTokens).subList(cursor, inputTokens.size()));
         SimpleTokenMatcher.LOGGER.debug("  -> Success");
         return new MatchResult.Success(next, matchedTokens);
     }

@@ -37,11 +37,9 @@ public class TokenMatcherHeadTest {
         Assert.assertEquals(true, headResult.isSuccess());
 
         final Optional<Success> success = headResult.toSuccess();
-        final List<Token> matchedTokens = success
-                .map(Success::matchedTokens)
-                .orElseGet(ArrayList::new);
+        final List<Token> matchedTokens = success.map(s -> new ArrayList<>(s.matchedTokens())).orElseGet(ArrayList::new);
 
-        final Tokens next = success.map(Success::next).orElse(new Tokens());
+        final List<Token> next = new ArrayList<>(success.map(Success::next).orElse(new Tokens()));
         Assert.assertEquals(0, matchedTokens.size());
         Assert.assertTrue(next.get(0).is(KeywordToken.Class.class));
     }
@@ -92,7 +90,7 @@ public class TokenMatcherHeadTest {
         tokens.add(new KeywordToken.Package());
         final MatchResult headResult = matcher.head(new Tokens(tokens));
         Assert.assertEquals(true, headResult.isSuccess());
-        final List<Token> matchedTokens = headResult.matchedF();
+        final List<Token> matchedTokens = new ArrayList<>(headResult.matchedF());
         Assert.assertEquals(0, matchedTokens.size());
     }
 
@@ -104,7 +102,7 @@ public class TokenMatcherHeadTest {
         final MatchResult head = matcher.head(new Tokens(tokens));
         Assert.assertEquals(true, head.isSuccess());
         Assert.assertEquals(1, head.next().size());
-        Assert.assertEquals(Dot.class, head.next().get(0).getClass());
+        Assert.assertEquals(Dot.class, new ArrayList<>(head.next()).get(0).getClass());
     }
 
     @Test
