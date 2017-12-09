@@ -15,10 +15,7 @@ import org.karaffe.compiler.util.Report;
 import org.karaffe.compiler.util.Report.AdditionalInfo;
 import org.karaffe.compiler.util.SourceCodeContainer;
 
-public interface CompilerContext {
-    public Stream<File> sourceStream();
-
-    public boolean hasSource();
+public interface CompilerContext extends SourceStream {
 
     public void reportError(String title, String message, int line, int column, AdditionalInfo... infomations);
 
