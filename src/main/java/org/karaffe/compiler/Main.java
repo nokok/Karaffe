@@ -1,7 +1,15 @@
 package org.karaffe.compiler;
 
+import java.io.File;
+import java.util.HashSet;
+import java.util.List;
 import java.util.Optional;
+import java.util.Set;
+import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
+import org.karaffe.compiler.context.CompilerConfig;
+import org.karaffe.compiler.context.SourceStream;
 import org.karaffe.compiler.phases.GenByteCodePhase;
 import org.karaffe.compiler.phases.LexerPhase;
 import org.karaffe.compiler.phases.ParserPhase;
@@ -11,14 +19,15 @@ import org.karaffe.compiler.phases.SetupPhase;
 import org.karaffe.compiler.phases.Transformer;
 import org.karaffe.compiler.tree.CompileUnit;
 import org.karaffe.compiler.util.ProgressTraceable;
+import org.karaffe.compiler.util.SourceCodeContainer;
 import org.karaffe.compiler.util.Traceable;
 
 public class Main implements Traceable, ProgressTraceable {
 
-    private final String[] args;
+    private final String[] commandlineArgs;
 
     public Main(final String[] args) {
-        this.args = args;
+        this.commandlineArgs = args;
     }
 
     public static void main(final String[] args) throws Exception {
@@ -32,19 +41,21 @@ public class Main implements Traceable, ProgressTraceable {
 
     public int run() throws Exception {
         this.progress("Launching Karaffe Compiler...");
-        final Transformer<String[], CompilerContext> setup = new SetupPhase();
-        final Optional<CompilerContext> cOpt = setup.transform(this.args);
+        final Transformer<String[], CompilerConfig> setup = new SetupPhase();
+        final Optional<CompilerConfig> cOpt = setup.transform(this.commandlineArgs);
         if (!cOpt.isPresent()) {
             this.progress(Main.usage());
             return -1;
         }
-        final CompilerContext context = cOpt.get();
+
+        CompilerConfig context = cOpt.get();
         final LexerPhase lexerPhase = new LexerPhase(context);
         final ParserPhase parserPhase = new ParserPhase(context);
         final ReportPhase reportPhase = new ReportPhase(context);
         final GenByteCodePhase genByteCode = new GenByteCodePhase(context);
 
-        final Optional<CompileUnit> mayBeCompileUnit = context.sourceStream()
+        final SourceStream stream = createSourceStream(this.commandlineArgs);
+        final Optional<CompileUnit> mayBeCompileUnit = stream.sourceStream()
                 .map(PhaseRunner.first(lexerPhase))
                 .map(PhaseRunner.after(parserPhase))
                 .map(PhaseRunner.after(reportPhase))
@@ -58,5 +69,15 @@ public class Main implements Traceable, ProgressTraceable {
 
         this.progress("Terminating...");
         return 0;
+    }
+
+    private SourceStream createSourceStream(String[] args) {
+        List<File> sourceList = Stream.of(args).filter(arg -> arg.endsWith(".krf")).map(File::new).collect(Collectors.toList());
+        Set<File> sourceSet = new HashSet<>(sourceList);
+        if (sourceList.size() != sourceSet.size()) {
+            this.error("source duplicated");
+        }
+        SourceCodeContainer container = new SourceCodeContainer(sourceSet);
+        return container;
     }
 }

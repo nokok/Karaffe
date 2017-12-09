@@ -5,16 +5,16 @@ import java.io.IOException;
 import java.nio.file.Files;
 import java.util.Optional;
 
-import org.karaffe.compiler.CompilerContext;
+import org.karaffe.compiler.context.CompilerConfig;
 import org.karaffe.compiler.lexer.KaraffeLexer;
 import org.karaffe.compiler.lexer.Tokens;
 import org.karaffe.compiler.util.Traceable;
 
 public class LexerPhase extends AbstractTransformer<File, Tokens> implements Traceable {
 
-    private final CompilerContext context;
+    private final CompilerConfig context;
 
-    public LexerPhase(final CompilerContext context) {
+    public LexerPhase(final CompilerConfig context) {
         super(File.class, Tokens.class);
         this.context = context;
     }

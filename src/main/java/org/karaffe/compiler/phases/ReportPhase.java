@@ -2,14 +2,14 @@ package org.karaffe.compiler.phases;
 
 import java.util.Optional;
 
-import org.karaffe.compiler.CompilerContext;
+import org.karaffe.compiler.context.CompilerConfig;
 import org.karaffe.compiler.tree.CompileUnit;
 
 public class ReportPhase extends AbstractTransformer<CompileUnit, CompileUnit> {
 
-    private final CompilerContext context;
+    private final CompilerConfig context;
 
-    public ReportPhase(final CompilerContext context) {
+    public ReportPhase(final CompilerConfig context) {
         super(CompileUnit.class, CompileUnit.class);
         this.context = context;
     }

@@ -1,4 +1,4 @@
-package org.karaffe.compiler;
+package org.karaffe.compiler.context;
 
 import java.io.File;
 import java.util.stream.Stream;

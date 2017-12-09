@@ -1,4 +1,4 @@
-package org.karaffe.compiler;
+package org.karaffe.compiler.context;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -15,16 +15,20 @@ public final class ConfigKeys {
     }
 
     public static interface Config {
-        public String getShortArgs();
+        public String getShortArg();
 
         public List<String> getAliases();
 
         public default boolean is(final String cmd) {
-            if (this.getShortArgs().equals(cmd)) {
+            if (cmd.startsWith("-")) {
+                throw new IllegalArgumentException("- can not be included. : " + cmd);
+            }
+            String s = cmd;
+            if (this.getShortArg().toLowerCase().equals(s.toLowerCase())) {
                 return true;
             }
             for (final String alias : this.getAliases()) {
-                if (alias.equals(cmd)) {
+                if (alias.toLowerCase().equals(s.toLowerCase())) {
                     return true;
                 }
             }
@@ -33,7 +37,11 @@ public final class ConfigKeys {
     }
 
     public static enum FlagConfigs implements Config {
-        SHOW_VERSION("v", "version");
+        SHOW_VERSION("v", "version"),
+
+        COMPILER_INSERT_EOF("compiler.insertEOF"),
+        COMPILER_AUTO_CRLF_TO_LF("compiler.autoCRLFtoLF"),
+        ;
 
         private final String shortArg;
         private final String[] aliases;
@@ -44,7 +52,7 @@ public final class ConfigKeys {
         }
 
         @Override
-        public String getShortArgs() {
+        public String getShortArg() {
             return this.shortArg;
         }
 
@@ -56,7 +64,8 @@ public final class ConfigKeys {
     }
 
     public static enum StringConfigs implements Config {
-        LOG_LEVEL("logLevel");
+        LOG_LEVEL("logLevel"),
+        ;
 
         private final String shortArg;
         private final String[] aliases;
@@ -67,7 +76,7 @@ public final class ConfigKeys {
         }
 
         @Override
-        public String getShortArgs() {
+        public String getShortArg() {
             return this.shortArg;
         }
 

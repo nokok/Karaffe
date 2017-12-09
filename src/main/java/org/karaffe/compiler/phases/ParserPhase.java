@@ -2,7 +2,7 @@ package org.karaffe.compiler.phases;
 
 import java.util.Optional;
 
-import org.karaffe.compiler.CompilerContext;
+import org.karaffe.compiler.context.CompilerConfig;
 import org.karaffe.compiler.lexer.Tokens;
 import org.karaffe.compiler.parser.KaraffeParser;
 import org.karaffe.compiler.parser.util.MatchResult;
@@ -11,9 +11,9 @@ import org.karaffe.compiler.util.Traceable;
 
 public class ParserPhase extends AbstractTransformer<Tokens, CompileUnit> implements Traceable {
 
-    private final CompilerContext context;
+    private final CompilerConfig context;
 
-    public ParserPhase(final CompilerContext context) {
+    public ParserPhase(final CompilerConfig context) {
         super(Tokens.class, CompileUnit.class);
         this.context = context;
     }

@@ -6,7 +6,7 @@ import java.util.HashSet;
 import java.util.Set;
 import java.util.stream.Stream;
 
-import org.karaffe.compiler.SourceStream;
+import org.karaffe.compiler.context.SourceStream;
 
 public class SourceCodeContainer implements SourceStream {
     private final Set<File> compileTargetFiles;

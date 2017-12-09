@@ -56,7 +56,6 @@ public class KaraffeLexer extends AbstractLexer {
         int parenPair = 0;
         int bracePair = 0;
         int bracketPair = 0;
-
         final String target = this.source.replaceAll("\\r\\n", "\n");
         final List<Token> tokens = new ArrayList<>();
 
