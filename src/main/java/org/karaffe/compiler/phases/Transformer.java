@@ -1,8 +1,7 @@
 package org.karaffe.compiler.phases;
 
 import java.util.Optional;
-
-import com.google.common.base.Function;
+import java.util.function.Function;
 
 public interface Transformer<I, O> extends Function<I, Optional<O>> {
 
