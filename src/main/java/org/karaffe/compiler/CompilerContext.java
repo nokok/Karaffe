@@ -13,7 +13,7 @@ import org.karaffe.compiler.ConfigKeys.StringConfigs;
 import org.karaffe.compiler.pos.Position;
 import org.karaffe.compiler.util.Report;
 import org.karaffe.compiler.util.Report.AdditionalInfo;
-import org.karaffe.compiler.util.SourceContainer;
+import org.karaffe.compiler.util.SourceCodeContainer;
 
 public interface CompilerContext {
     public Stream<File> sourceStream();
@@ -23,22 +23,22 @@ public interface CompilerContext {
     public void reportError(String title, String message, int line, int column, AdditionalInfo... infomations);
 
     public static CompilerContext defaultContext(final Set<File> sourceFiles) {
-        final SourceContainer container = new SourceContainer(sourceFiles);
+        final SourceCodeContainer container = new SourceCodeContainer(sourceFiles);
         return new CompilerContextImpl(container);
     }
 }
 
 class CompilerContextImpl implements CompilerContext {
 
-    private final SourceContainer sourceContainer;
+    private final SourceCodeContainer sourceContainer;
     private final Map<ConfigKeys.FlagConfigs, Boolean> flags;
     private final Map<ConfigKeys.StringConfigs, String> stringConfigs;
 
     public CompilerContextImpl() {
-        this(new SourceContainer());
+        this(new SourceCodeContainer());
     }
 
-    public CompilerContextImpl(final SourceContainer sourceRepository) {
+    public CompilerContextImpl(final SourceCodeContainer sourceRepository) {
         this.sourceContainer = sourceRepository;
         this.flags = new EnumMap<>(ConfigKeys.FlagConfigs.class);
         this.stringConfigs = new EnumMap<>(ConfigKeys.StringConfigs.class);
