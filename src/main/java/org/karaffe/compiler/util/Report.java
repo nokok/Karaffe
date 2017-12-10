@@ -27,7 +27,7 @@ public class Report {
 
     public enum ReportType {
         ERROR,
-        WARNING,
+        WARN,
         INFO,
 
     }
