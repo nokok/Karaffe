@@ -1,5 +1,6 @@
 package org.karaffe.compiler.context;
 
+import java.io.PrintStream;
 import java.util.Arrays;
 import java.util.EnumMap;
 import java.util.List;
@@ -20,6 +21,10 @@ public interface CompilerConfig {
     public Optional<Boolean> getFlag(ConfigKeys.FlagConfigs flagName);
 
     public Optional<String> getValue(ConfigKeys.StringConfigs configName);
+
+    public default PrintStream getOutput() {
+        return System.out;
+    }
 
     public static CompilerConfig defaultConfig() {
         return new CompilerConfigImpl();
