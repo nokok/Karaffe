@@ -29,7 +29,7 @@ public interface Position {
     }
 
     public static Position of(final String sourceName, final int line, final int column) {
-        return new RangeSource(sourceName, column, column, line, column);
+        return new RangeSource(sourceName, -1, -1, line, column);
     }
 
     public static Position of(final String sourceName, final int start, final int end, final int line, final int column) {
@@ -146,6 +146,9 @@ public interface Position {
 
         @Override
         public String toString() {
+            if (this.getStartIndex() == -1) {
+                return String.format("%s:%s:%s", this.getSource(), this.line, this.column);
+            }
             return String.format("%s:%s at %s", this.getStartIndex(), this.getEndIndex(), this.getSource());
         }
     }
