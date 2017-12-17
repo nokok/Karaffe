@@ -8,12 +8,12 @@ public class DiagnosticInfoTest {
     @Test
     public void testMethods() {
         DiagnosticInfo info = DiagnosticInfo.INSTANCE;
-        assertEquals(System.getenv("java.version"), info.javaVersion());
-        assertEquals(System.getenv("java.vendor"), info.vendor());
-        assertEquals(System.getenv("java.vm.specification.version"), info.vmSpecVersion());
-        assertEquals(System.getenv("os.name"), info.osName());
-        assertEquals(System.getenv("os.arch"), info.osArch());
-        assertEquals(System.getenv("os.version"), info.osVersion());
-        assertEquals(System.getenv("file.encoding"), info.fileEncoding());
+        assertEquals(System.getProperty("java.version"), info.javaVersion());
+        assertEquals(System.getProperty("java.vendor"), info.vendor());
+        assertEquals(System.getProperty("java.vm.specification.version"), info.vmSpecVersion());
+        assertEquals(System.getProperty("os.name"), info.osName());
+        assertEquals(System.getProperty("os.arch"), info.osArch());
+        assertEquals(System.getProperty("os.version"), info.osVersion());
+        assertEquals(System.getProperty("file.encoding"), info.fileEncoding());
     }
 }
