@@ -67,7 +67,7 @@ public class Report {
         private final String todoMessage;
 
         public Todo(String todoMessage) {
-            this.todoMessage = toString();
+            this.todoMessage = todoMessage;
         }
 
         @Override
