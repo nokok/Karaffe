@@ -17,7 +17,7 @@ public class Main {
             System.out.println("=====STACK TRACE=====");
             e.printStackTrace();
             System.out.println("=====================");
-            DiagnosticInfo.INSTANCE.toString();
+            System.out.println(DiagnosticInfo.INSTANCE.toString());
         });
 
         try (Scanner scanner = new Scanner(System.in)) {
