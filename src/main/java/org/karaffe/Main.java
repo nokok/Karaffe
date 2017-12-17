@@ -13,7 +13,7 @@ public class Main {
 
         System.out.println("Launching Karaffe Tools...");
         Thread.setDefaultUncaughtExceptionHandler((t, e) -> {
-            System.out.println("\nKaraffeCompiler: UncaughtException: " + e.getMessage());
+            System.out.println("\nKaraffeCompiler: UncaughtException: " + e.getMessage() + " , Thread: " + t.getName());
             System.out.println("=====STACK TRACE=====");
             e.printStackTrace();
             System.out.println("=====================");
