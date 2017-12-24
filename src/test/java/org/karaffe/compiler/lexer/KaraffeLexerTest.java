@@ -105,10 +105,10 @@ public class KaraffeLexerTest {
     }
 
     private void testToken(final String token, final Class<? extends Token> clazz) {
-        final List<Token> tokens = new KaraffeLexer(token).run();
-        Assert.assertEquals("1Token : " + token, 2, tokens.size());
-        Assert.assertTrue("2Token : " + token, tokens.get(0).getClass().equals(clazz));
-        Assert.assertTrue("3Token : " + token, tokens.get(1).getClass().equals(EOF.class));
+        final List<Token> tokens = new KaraffeLexer("", token, true, true, false).run();
+        Assert.assertEquals("1Token : " + tokens, 2, tokens.size());
+        Assert.assertTrue("2Token : " + tokens.get(0), tokens.get(0).is(clazz));
+        Assert.assertTrue("3Token : " + tokens.get(1), tokens.get(1).is(EOF.class));
     }
 
 }
