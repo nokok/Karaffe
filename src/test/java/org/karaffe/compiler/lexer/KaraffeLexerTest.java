@@ -24,6 +24,7 @@ import org.karaffe.compiler.lexer.OperatorToken.Minus;
 import org.karaffe.compiler.lexer.OperatorToken.Plus;
 import org.karaffe.compiler.lexer.OperatorToken.Slash;
 import org.karaffe.compiler.lexer.OperatorToken.Star;
+import org.karaffe.compiler.lexer.WhitespaceToken.CR;
 
 public class KaraffeLexerTest {
 
@@ -101,7 +102,7 @@ public class KaraffeLexerTest {
 
     @Test
     public void testCR() {
-        this.testToken("\r", WhitespaceToken.class);
+        this.testToken("\r", CR.class);
     }
 
     private void testToken(final String token, final Class<? extends Token> clazz) {

@@ -8,7 +8,7 @@ public enum LexerPattern {
 
     // Skip Tokens
     NEWLINE("\\n", (text, pos) -> new WhitespaceToken.NewLine(pos)),
-    CRNEWLINE("\\r", (text, pos) -> new WhitespaceToken.NewLine(pos)),
+    CRNEWLINE("\\r", (text, pos) -> new WhitespaceToken.CR(pos)),
     SPACE(" ", (text, pos) -> new WhitespaceToken.Space(pos)),
     TAB("\\t", (text, pos) -> new WhitespaceToken.Tab(pos)),
     WIDESPACE("　", (text, pos) -> new WhitespaceToken.WideSpace(pos)),

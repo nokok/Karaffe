@@ -48,6 +48,16 @@ public abstract class WhitespaceToken extends CommonToken {
         }
     }
 
+    public static class CR extends WhitespaceToken {
+        public CR() {
+            this(Position.noPos());
+        }
+
+        public CR(final Position position) {
+            super("\r", position, "new line(CR)");
+        }
+    }
+
     @Override
     public String toString() {
         return String.format("WS[0x%02X]", this.getText().getBytes()[0]);
