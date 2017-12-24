@@ -5,8 +5,8 @@ import java.util.Optional;
 import java.util.concurrent.Callable;
 
 import org.karaffe.compiler.context.SourceStream;
-import org.karaffe.compiler.phases.GenByteCodePhase;
 import org.karaffe.compiler.phases.FileLexerPhase;
+import org.karaffe.compiler.phases.GenByteCodePhase;
 import org.karaffe.compiler.phases.ParserPhase;
 import org.karaffe.compiler.phases.PhaseRunner;
 import org.karaffe.compiler.phases.ReportPhase;
