@@ -99,6 +99,11 @@ public class KaraffeLexerTest {
         this.testToken("Idclass", TypeName.class);
     }
 
+    @Test
+    public void testCR() {
+        this.testToken("\r", WhitespaceToken.class);
+    }
+
     private void testToken(final String token, final Class<? extends Token> clazz) {
         final List<Token> tokens = new KaraffeLexer(token).run();
         Assert.assertEquals("1Token : " + token, 2, tokens.size());
