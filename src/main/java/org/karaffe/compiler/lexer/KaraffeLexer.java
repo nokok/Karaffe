@@ -20,6 +20,8 @@ public class KaraffeLexer extends AbstractLexer {
 
     private final boolean insertParenMatchError;
 
+    private final boolean replaceCR;
+
     public KaraffeLexer(final String source) {
         this(source, true);
     }
@@ -37,6 +39,10 @@ public class KaraffeLexer extends AbstractLexer {
     }
 
     public KaraffeLexer(final String filePath, final String source, final boolean insertEOF, final boolean insertParenMatchError) {
+        this(filePath, source, insertEOF, insertParenMatchError, true);
+    }
+
+    public KaraffeLexer(final String filePath, final String source, final boolean insertEOF, final boolean insertParenMatchError, boolean replaceCR) {
         super(filePath, source);
         final StringBuilder pat = new StringBuilder();
         KaraffeLexer.LOGGER.debug("OriginalSource: {}", source);
@@ -49,6 +55,7 @@ public class KaraffeLexer extends AbstractLexer {
         KaraffeLexer.LOGGER.debug("LexerPattern : {}", this.LEXER_PATTERN);
         this.insertEOF = insertEOF;
         this.insertParenMatchError = insertParenMatchError;
+        this.replaceCR = replaceCR;
     }
 
     @Override
@@ -56,7 +63,12 @@ public class KaraffeLexer extends AbstractLexer {
         int parenPair = 0;
         int bracePair = 0;
         int bracketPair = 0;
-        final String target = this.source.replaceAll("\\r\\n", "\n");
+        final String target;
+        if (this.replaceCR) {
+            target = this.source.replaceAll("\\r\\n", "\n");
+        } else {
+            target = this.source;
+        }
         final List<Token> tokens = new ArrayList<>();
 
         int line = 1;
