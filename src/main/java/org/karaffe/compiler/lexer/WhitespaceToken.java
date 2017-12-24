@@ -50,6 +50,6 @@ public abstract class WhitespaceToken extends CommonToken {
 
     @Override
     public String toString() {
-        return "";
+        return String.format("WS[0x%02X]", this.getText().getBytes()[0]);
     }
 }
