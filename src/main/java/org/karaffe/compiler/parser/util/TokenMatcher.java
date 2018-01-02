@@ -90,10 +90,13 @@ public interface TokenMatcher {
         Iterator<Token> tokenIterator = tokens.iterator();
         while (tokenIterator.hasNext()) {
             Token nextToken = tokenIterator.next();
+            if (nextToken.isNeedLineReset()) {
+                return true;
+            }
             if (nextToken.isWhiteSpace()) {
                 continue;
             }
-            if (nextToken.isNeedLineReset() || nextToken.is(EOF.class)) {
+            if (nextToken.is(EOF.class)) {
                 return true;
             }
             return false;
