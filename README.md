@@ -1,7 +1,6 @@
 # Karaffe-lang
 
-master: 
-[![Build Status](https://travis-ci.org/Karaffe/Karaffe.svg?branch=master)](https://travis-ci.org/Karaffe/Karaffe)
-v0.1.0: 
+[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
 [![Build Status](https://travis-ci.org/Karaffe/Karaffe.svg?branch=v0.1.0)](https://travis-ci.org/Karaffe/Karaffe)
 [![codecov](https://codecov.io/gh/nokok/Karaffe/branch/v0.1.0-dev/graph/badge.svg)](https://codecov.io/gh/nokok/Karaffe)
+[![Maintainability](https://api.codeclimate.com/v1/badges/aa20a7b3efcbe8ebfc41/maintainability)](https://codeclimate.com/github/nokok/Karaffe/maintainability)
