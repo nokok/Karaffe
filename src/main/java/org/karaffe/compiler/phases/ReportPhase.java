@@ -8,12 +8,11 @@ import org.karaffe.compiler.context.CompilerConfig;
 import org.karaffe.compiler.tree.CompileUnit;
 import org.karaffe.compiler.util.Report;
 
-public class ReportPhase extends AbstractTransformer<CompileUnit, CompileUnit> {
+public class ReportPhase extends AbstractCompileUnitTransformer {
 
     private final CompilerConfig context;
 
     public ReportPhase(final CompilerConfig context) {
-        super(CompileUnit.class, CompileUnit.class);
         this.context = context;
     }
 

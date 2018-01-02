@@ -6,12 +6,11 @@ import org.karaffe.compiler.context.CompilerConfig;
 import org.karaffe.compiler.tree.CompileUnit;
 import org.karaffe.compiler.util.Traceable;
 
-public class GenByteCodePhase extends AbstractTransformer<CompileUnit, CompileUnit> implements Traceable {
+public class GenByteCodePhase extends AbstractCompileUnitTransformer implements Traceable {
 
     private final CompilerConfig context;
 
     public GenByteCodePhase(final CompilerConfig context) {
-        super(CompileUnit.class, CompileUnit.class);
         this.context = context;
     }
 
