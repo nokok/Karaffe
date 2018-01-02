@@ -1,8 +1,12 @@
 package org.karaffe.compiler.parser;
 
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertTrue;
+
 import org.junit.Assert;
 import org.junit.Test;
 import org.karaffe.compiler.lexer.KaraffeLexer;
+import org.karaffe.compiler.lexer.Token;
 import org.karaffe.compiler.lexer.Tokens;
 import org.karaffe.compiler.parser.util.MatchResult;
 
@@ -64,6 +68,11 @@ public class ClassDeclParserTest {
         this.runTest("class A{public int doSomething(int a) {return false;}}", true);
     }
 
+    @Test
+    public void testClassDecl9Fail() {
+        this.runFailureTest("class A{public void doSomething(int _) {return false;}}", 1, 36);
+    }
+
     private void runTest(final String source, final boolean v) {
         final KaraffeLexer lexer = new KaraffeLexer(source);
         final Parser parser = new ClassDefParser();
@@ -79,6 +88,17 @@ public class ClassDeclParserTest {
             }
             Assert.assertEquals(0, eofResult.next().size());
         }
+    }
+
+    private void runFailureTest(final String source, int line, int column) {
+        final KaraffeLexer lexer = new KaraffeLexer(source);
+        final Parser parser = new ClassDefParser();
+        final MatchResult result = parser.parse(new Tokens(lexer.run()));
+        assertTrue(result.isFailure());
+        System.out.println(result);
+        Token token = result.errorHeadF().get();
+        assertEquals(line, token.getPosition().getLineF().get().intValue());
+        assertEquals(column, token.getPosition().getColumnF().get().intValue());
     }
 
 }
