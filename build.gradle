@@ -22,7 +22,7 @@ Java 8 compatible compiler is required!
 }
 
 description = """Karaffe Compiler"""
-defaultTasks 'build', 'test', 'shadowJar'
+defaultTasks 'clean', 'build', 'test', 'shadowJar'
 mainClassName = 'org.karaffe.Main'
 
 compileJava.options.compilerArgs = ['-Xlint:processing']
