@@ -146,10 +146,7 @@ public interface Position {
 
         @Override
         public String toString() {
-            if (this.getStartIndex() == -1) {
-                return String.format("%s:%s:%s", this.getSource(), this.line, this.column);
-            }
-            return String.format("%s:%s at %s", this.getStartIndex(), this.getEndIndex(), this.getSource());
+            return String.format("%s:%s at %s", this.getLineF().map(t -> t.toString()).orElse("?"), this.getColumnF().map(t -> t.toString()).orElse("?"), this.getSource());
         }
     }
 }
