@@ -29,7 +29,7 @@ public class ReportFormatterTest {
         expected.append("  | found    : ").append("String").append(System.lineSeparator());
         expected.append("  | required : ").append("Int").append(System.lineSeparator());
         expected.append("  |").append(System.lineSeparator());
-        expected.append("------------------------------------------").append(System.lineSeparator());
+        expected.append("---").append(System.lineSeparator());
         String actual = formatter.format(new ArrayList<>(Arrays.asList(report)));
 
         System.out.println(actual);

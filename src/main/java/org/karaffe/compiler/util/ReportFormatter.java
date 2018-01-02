@@ -21,7 +21,7 @@ public class ReportFormatter {
             if (maxHeader < headerString.length()) {
                 maxHeader = headerString.length();
             }
-            stringBuilder.append(headerString);
+            stringBuilder.append(headerString).append(System.lineSeparator());
             report.codePart().ifPresent(codePart -> {
                 stringBuilder.append(makeCodePart(maxLineNumber, codePart, report.position()));
             });
@@ -34,7 +34,7 @@ public class ReportFormatter {
             count++;
         }
         stringBuilder.append(blankHeader).append("|").append(System.lineSeparator());
-        stringBuilder.append(repeat(maxHeader - blankHeader.length(), "-")).append(System.lineSeparator());
+        stringBuilder.append("---").append(System.lineSeparator());
         return stringBuilder.toString();
     }
 
@@ -51,7 +51,7 @@ public class ReportFormatter {
 
     private String makeHeader(int issueNumber, int maxLineNumber, Report report) {
         String headerPrefixBar = repeat(maxLineNumber, "-");
-        String headerFormat = headerPrefixBar + "+ #%" + String.valueOf(maxLineNumber).length() + "d [%5s] %s in %s%n";
+        String headerFormat = headerPrefixBar + "+ #%" + String.valueOf(maxLineNumber).length() + "d [%5s] %s in %s";
         return String.format(headerFormat, issueNumber, report.getType().name(), report.title(), report.position());
     }
 
