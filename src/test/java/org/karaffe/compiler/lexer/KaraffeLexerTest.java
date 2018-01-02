@@ -5,6 +5,7 @@ import java.util.List;
 import java.util.Map;
 
 import org.junit.Assert;
+import org.junit.Before;
 import org.junit.Test;
 import org.karaffe.compiler.lexer.CommonToken.Dot;
 import org.karaffe.compiler.lexer.CommonToken.EOF;
@@ -25,8 +26,18 @@ import org.karaffe.compiler.lexer.OperatorToken.Plus;
 import org.karaffe.compiler.lexer.OperatorToken.Slash;
 import org.karaffe.compiler.lexer.OperatorToken.Star;
 import org.karaffe.compiler.lexer.WhitespaceToken.CR;
+import org.slf4j.LoggerFactory;
+
+import ch.qos.logback.classic.Level;
+import ch.qos.logback.classic.Logger;
 
 public class KaraffeLexerTest {
+
+    @Before
+    public void setUp() {
+        Logger logger = (Logger) LoggerFactory.getLogger(Logger.ROOT_LOGGER_NAME);
+        logger.setLevel(Level.TRACE);
+    }
 
     @Test
     public void testEmpty() {
