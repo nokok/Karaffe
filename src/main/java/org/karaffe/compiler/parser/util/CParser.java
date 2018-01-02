@@ -62,7 +62,8 @@ public class CParser {
             this.lastMatch = n;
             return true;
         }
-        result.errorHeadF().ifPresent(c -> this.erroredToken = c);
+        this.erroredToken = result.errorHeadF().map(m -> m).orElseGet(() -> this.nextInput.isEmpty() ? null : this.nextInput.iterator().next());
+        // result.errorHeadF().ifPresent(c -> this.erroredToken = c);
         return false;
     }
 
