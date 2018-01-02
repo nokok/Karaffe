@@ -117,7 +117,6 @@ public class ExprParser implements Parser {
             }
             return cp.toFailure();
         }
-
     }
 
     static class IntLiteralParser implements Parser {
@@ -210,7 +209,7 @@ public class ExprParser implements Parser {
             if (cp.testNext(new ArrayInitializerParser())) {
                 return cp.toSuccess();
             }
-            if (cp.testNext(new IdentifierParser())) {
+            if (cp.testNext(new PathParser())) {
                 return cp.toSuccess();
             }
             return cp.toFailure();

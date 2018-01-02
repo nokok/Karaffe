@@ -45,7 +45,7 @@ public class NodeStringTest {
         Assert.assertEquals("(Literal true)", this.getNodeString(new Primary(), "true"));
         Assert.assertEquals("(Literal false)", this.getNodeString(new Primary(), "false"));
         Assert.assertEquals("(Apply (New (Select (Name IntArray))) (Literal 1))", this.getNodeString(new Primary(), "new int[1]"));
-        Assert.assertEquals("(Apply (Select (Name num) (Select (Name <))) (Literal 1))", this.getNodeString(new ExprParser(), "num < 1"));
+        Assert.assertEquals("(Apply (Select (Select (Name num)) (Select (Name <))) (Literal 1))", this.getNodeString(new ExprParser(), "num < 1"));
         Assert.assertEquals("(Apply (New (Select (Name Fac))))", this.getNodeString(new ExprParser(), "new Fac()"));
         Assert.assertEquals("(Apply (Apply (Select (Apply (Apply (New (Select (Name Fac))))) (Name computeFac)) (Literal 10)))", this.getNodeString(new ExprParser(), "(new Fac()).computeFac(10)"));
         // 3.*(1+(2))
