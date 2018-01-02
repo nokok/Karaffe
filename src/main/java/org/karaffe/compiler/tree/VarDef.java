@@ -16,7 +16,7 @@ public class VarDef extends AbstractNode {
         return ((Modifiers) this.getChildren().get(0)).stream().filter(t -> t.getClass().equals(modifier)).count() != 0;
     }
 
-    public String getVarName() {
+    public String getName() {
         return ((Name) this.getChildren().get(1)).getText();
     }
 
