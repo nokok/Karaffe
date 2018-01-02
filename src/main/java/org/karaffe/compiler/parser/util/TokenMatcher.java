@@ -2,6 +2,7 @@ package org.karaffe.compiler.parser.util;
 
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Iterator;
 import java.util.List;
 
 import org.karaffe.compiler.lexer.CommonToken.Dot;
@@ -83,6 +84,21 @@ public interface TokenMatcher {
 
     public static TokenMatcher classKeyword() {
         return TokenMatcher.create(KeywordToken.Class.class);
+    }
+
+    public static boolean isLineEnd(Tokens tokens) {
+        Iterator<Token> tokenIterator = tokens.iterator();
+        while (tokenIterator.hasNext()) {
+            Token nextToken = tokenIterator.next();
+            if (nextToken.isWhiteSpace()) {
+                continue;
+            }
+            if (nextToken.isNeedLineReset() || nextToken.is(EOF.class)) {
+                return true;
+            }
+            return false;
+        }
+        return true; // Token not found.
     }
 
 }
