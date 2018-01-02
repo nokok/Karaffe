@@ -8,7 +8,6 @@ import java.util.List;
 import org.karaffe.compiler.lexer.CommonToken.Dot;
 import org.karaffe.compiler.lexer.CommonToken.EOF;
 import org.karaffe.compiler.lexer.KeywordToken;
-import org.karaffe.compiler.lexer.KeywordToken.Package;
 import org.karaffe.compiler.lexer.Token;
 import org.karaffe.compiler.lexer.Tokens;
 import org.karaffe.compiler.lexer.WhitespaceToken.NewLine;
@@ -68,10 +67,6 @@ public interface TokenMatcher {
 
     public static TokenMatcher create(final Class<? extends Token> tokenClazz) {
         return new SimpleTokenMatcher(tokenClazz);
-    }
-
-    public static TokenMatcher packageKeyword() {
-        return TokenMatcher.create(Package.class);
     }
 
     public static TokenMatcher identifier() {
