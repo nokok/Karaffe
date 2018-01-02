@@ -46,30 +46,33 @@ public class ClassDefParser implements Parser {
 
         final Name superClassName = hasExtends ? cp.lastMatch() : new Name("Object");
 
-        if (!cp.testNext(CommonToken.LeftBrace.class)) {
-            return cp.toFailure();
-        }
+        if (cp.testNext(CommonToken.LeftBrace.class)) {
+            final List<Node> defs = new ArrayList<>();
+            while (cp.testNext(new VarDefParser(), VarDef.class)) {
+                final VarDef varDef = cp.lastMatch();
+                defs.add(varDef);
+            }
 
-        final List<Node> defs = new ArrayList<>();
-        while (cp.testNext(new VarDefParser(), VarDef.class)) {
-            final VarDef varDef = cp.lastMatch();
-            defs.add(varDef);
-        }
+            while (cp.testNext(new MethodDefParser(), MethodDef.class)) {
+                final MethodDef varDef = cp.lastMatch();
+                defs.add(varDef);
+            }
 
-        while (cp.testNext(new MethodDefParser(), MethodDef.class)) {
-            final MethodDef varDef = cp.lastMatch();
-            defs.add(varDef);
-        }
+            if (!cp.testNext(RightBrace.class)) {
+                return cp.toFailure();
+            }
 
-        if (!cp.testNext(RightBrace.class)) {
-            return cp.toFailure();
+            if (cp.hasError()) {
+                ClassDefParser.LOGGER.debug("gen error");
+                return cp.toFailure();
+            }
+            return new MatchResult.Success(cp.next(), cp.matched(), new ClassDef(className, superClassName, new Block(defs)));
         }
-
-        if (cp.hasError()) {
-            ClassDefParser.LOGGER.debug("gen error");
-            return cp.toFailure();
+        boolean endOfLine = TokenMatcher.isLineEnd(cp.next());
+        if (endOfLine) {
+            return new MatchResult.Success(cp.next(), cp.matched(), new ClassDef(className, superClassName, new Block()));
         }
-        return new MatchResult.Success(cp.next(), cp.matched(), new ClassDef(className, superClassName, new Block(defs)));
+        return cp.toFailure();
     }
 
 }
