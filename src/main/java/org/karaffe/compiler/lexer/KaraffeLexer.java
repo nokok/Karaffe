@@ -176,7 +176,7 @@ public class KaraffeLexer extends AbstractLexer {
 
         if (KaraffeLexer.LOGGER.isDebugEnabled()) {
             tokens.stream().forEach(token -> {
-                KaraffeLexer.LOGGER.debug("Found: {} at {}:{} -> {}:{}", String.format("%-20s", token), String.format("%3s", token.getPosition().getLineF().orElse(-1)), String.format("%-3s", token.getPosition().getColumnF().orElse(-1)), String.format("%-10s", token.getClass().getSimpleName()), token.getTokenId());
+                KaraffeLexer.LOGGER.debug("Found: {} at {}:{} -> {}:{}", String.format("%-20s", token), String.format("%3s", token.getPosition().getLineF().orElse(-1)), String.format("%-3s", token.getPosition().getColumnF().orElse(-1)), String.format("%-20s", token.getClass().getSimpleName()), token.getTokenId());
             });
             KaraffeLexer.LOGGER.debug("END");
         }
