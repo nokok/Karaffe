@@ -31,6 +31,11 @@ public class ReportFormatterTest {
         expected.append("  |").append(System.lineSeparator());
         expected.append("------------------------------------------").append(System.lineSeparator());
         String actual = formatter.format(new ArrayList<>(Arrays.asList(report)));
+
+        System.out.println(actual);
+        System.out.println("---");
+        System.out.println(expected.toString());
+
         assertEquals(expected.toString(), actual);
     }
 }
