@@ -4,9 +4,9 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.karaffe.compiler.lexer.CommonToken;
-import org.karaffe.compiler.lexer.Tokens;
 import org.karaffe.compiler.lexer.CommonToken.RightBrace;
 import org.karaffe.compiler.lexer.KeywordToken.Extends;
+import org.karaffe.compiler.lexer.Tokens;
 import org.karaffe.compiler.parser.util.CParser;
 import org.karaffe.compiler.parser.util.MatchResult;
 import org.karaffe.compiler.parser.util.TokenMatcher;
@@ -46,7 +46,9 @@ public class ClassDefParser implements Parser {
 
         final Name superClassName = hasExtends ? cp.lastMatch() : new Name("Object");
 
-        cp.testNext(CommonToken.LeftBrace.class);
+        if (!cp.testNext(CommonToken.LeftBrace.class)) {
+            return cp.toFailure();
+        }
 
         final List<Node> defs = new ArrayList<>();
         while (cp.testNext(new VarDefParser(), VarDef.class)) {
@@ -59,7 +61,9 @@ public class ClassDefParser implements Parser {
             defs.add(varDef);
         }
 
-        cp.testNext(RightBrace.class);
+        if (!cp.testNext(RightBrace.class)) {
+            return cp.toFailure();
+        }
 
         if (cp.hasError()) {
             ClassDefParser.LOGGER.debug("gen error");
