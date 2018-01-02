@@ -60,8 +60,11 @@ public class KaraffeLexer extends AbstractLexer {
 
     @Override
     public List<Token> run() {
+        Token lastParen = null;
         int parenPair = 0;
+        Token lastBrace = null;
         int bracePair = 0;
+        Token lastBracket = null;
         int bracketPair = 0;
         final String target;
         if (this.replaceCR) {
@@ -121,18 +124,24 @@ public class KaraffeLexer extends AbstractLexer {
             }
             if (token.is(CommonToken.LeftParen.class)) {
                 parenPair++;
+                lastParen = token;
             } else if (token.is(CommonToken.RightParen.class)) {
                 parenPair--;
+                lastParen = token;
             }
             if (token.is(CommonToken.LeftBrace.class)) {
                 bracePair++;
+                lastBrace = token;
             } else if (token.is(CommonToken.RightBrace.class)) {
                 bracePair--;
+                lastBrace = token;
             }
             if (token.is(CommonToken.LeftBracket.class)) {
                 bracketPair++;
+                lastBracket = token;
             } else if (token.is(CommonToken.RightBracket.class)) {
                 bracketPair--;
+                lastBracket = token;
             }
             KaraffeLexer.LOGGER.debug("Added. {} {}", token, token.getPosition());
             tokens.add(token);
@@ -143,13 +152,13 @@ public class KaraffeLexer extends AbstractLexer {
 
         if (this.insertParenMatchError) {
             if (parenPair != 0) {
-                tokens.add(new CommonToken.ErrorToken("() pair failed.", Position.noPos()));
+                tokens.add(new CommonToken.ErrorToken("() pair failed.", lastParen.getPosition()));
             }
             if (bracePair != 0) {
-                tokens.add(new CommonToken.ErrorToken("{} pair failed.", Position.noPos()));
+                tokens.add(new CommonToken.ErrorToken("{} pair failed.", lastBrace.getPosition()));
             }
             if (bracketPair != 0) {
-                tokens.add(new CommonToken.ErrorToken("[] pair failed.", Position.noPos()));
+                tokens.add(new CommonToken.ErrorToken("[] pair failed.", lastBracket.getPosition()));
             }
         }
         if (KaraffeLexer.LOGGER.isDebugEnabled()) {
