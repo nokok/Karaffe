@@ -1,10 +1,12 @@
 package org.karaffe.compiler.parser;
 
-import org.karaffe.compiler.lexer.Tokens;
+import org.karaffe.compiler.lexer.CommonToken.Semi;
 import org.karaffe.compiler.lexer.KeywordToken.Package;
+import org.karaffe.compiler.lexer.Tokens;
 import org.karaffe.compiler.parser.util.CParser;
 import org.karaffe.compiler.parser.util.MatchResult;
 import org.karaffe.compiler.tree.PackageDef;
+import org.karaffe.compiler.tree.Select;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -24,8 +26,13 @@ public class PackageDefParser implements Parser {
         if (!cp.testNext(new PathParser())) {
             return cp.toFailure();
         }
+        Select path = cp.lastMatch();
 
-        final PackageDef packageDef = new PackageDef(cp.lastMatch());
+        if (!cp.testNext(Semi.class)) {
+            return cp.toFailure();
+        }
+
+        final PackageDef packageDef = new PackageDef(path);
         return new MatchResult.Success(cp.next(), cp.matched(), packageDef);
     }
 }

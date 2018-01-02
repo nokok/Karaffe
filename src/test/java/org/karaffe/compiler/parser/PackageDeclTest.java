@@ -16,52 +16,52 @@ public class PackageDeclTest {
 
     @Test
     public void testPackage1() {
-        this.runTest("package path.to.pkg", true);
+        this.runTest("package path.to.pkg;", true);
     }
 
     @Test
     public void testPackage2() {
-        this.runTest("package a", true);
+        this.runTest("package a;", true);
     }
 
     @Test
     public void testPackage3() {
-        this.runTest("package a.b", true);
+        this.runTest("package a.b;", true);
     }
 
     @Test
     public void testPackage4() {
-        this.runTest("package a.b.c", true);
+        this.runTest("package a.b.c;", true);
     }
 
     @Test
     public void testPackage5() {
-        this.runTest("package a.b.c.d.e", true);
+        this.runTest("package a.b.c.d.e;", true);
     }
 
     @Test
     public void testPackage6() {
-        this.runTest("package pkg", true);
+        this.runTest("package pkg;", true);
     }
 
     @Test
     public void testPackage7() {
-        this.runTest("package pkg.to", true);
+        this.runTest("package pkg.to;", true);
     }
 
     @Test
     public void testPackage8() {
-        this.runTest("package pkg.to.path", true);
+        this.runTest("package pkg.to.path;", true);
     }
 
     @Test
     public void testPackage9() {
-        this.runTest("package a", true);
+        this.runTest("package a;", true);
     }
 
     @Test
     public void testPackage10() {
-        this.runTest("package a . b. \t b ", true);
+        this.runTest("package a . b. \t b ;", true);
     }
 
     private void runTest(final String source, final boolean v) {

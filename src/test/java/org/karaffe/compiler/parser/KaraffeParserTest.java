@@ -6,17 +6,18 @@ import org.junit.Assert;
 import org.junit.Test;
 import org.karaffe.compiler.lexer.KaraffeLexer;
 import org.karaffe.compiler.lexer.Token;
+import org.karaffe.compiler.parser.util.MatchResult;
 import org.karaffe.compiler.parser.util.ResultState;
 
 public class KaraffeParserTest {
 
     @Test
     public void testParser() {
-        final KaraffeLexer lexer = new KaraffeLexer("package path.to.pkg");
+        final KaraffeLexer lexer = new KaraffeLexer("package path.to.pkg;");
         final KaraffeParser parser = new KaraffeParser();
         final List<Token> tokens = lexer.run();
 
-        Assert.assertEquals(8, tokens.size());
+        Assert.assertEquals(9, tokens.size());
 
         final ResultState result = parser.parse(tokens);
         Assert.assertTrue(result.isSuccess());
