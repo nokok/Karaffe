@@ -13,6 +13,7 @@ import org.karaffe.compiler.lexer.IdentifierToken;
 import org.karaffe.compiler.lexer.KeywordToken;
 import org.karaffe.compiler.lexer.KeywordToken.False;
 import org.karaffe.compiler.lexer.KeywordToken.Int;
+import org.karaffe.compiler.lexer.KeywordToken.Length;
 import org.karaffe.compiler.lexer.KeywordToken.This;
 import org.karaffe.compiler.lexer.KeywordToken.True;
 import org.karaffe.compiler.lexer.LiteralToken.IntLiteral;
@@ -29,6 +30,7 @@ import org.karaffe.compiler.parser.ExprParser.Primary.LiteralsParser;
 import org.karaffe.compiler.parser.ExprParser.Primary.NestedExprParser;
 import org.karaffe.compiler.parser.util.AbstractBinaryExprLeftAssoc;
 import org.karaffe.compiler.parser.util.CParser;
+import org.karaffe.compiler.parser.util.CParser.Action;
 import org.karaffe.compiler.parser.util.MatchResult;
 import org.karaffe.compiler.parser.util.TokenMatcher;
 import org.karaffe.compiler.tree.Apply;
@@ -106,13 +108,7 @@ public class ExprParser implements Parser {
                 return new MatchResult.Failure(input);
             }
             final CParser cp = new CParser(input);
-            if (cp.testNext(new LiteralsParser())) {
-                return cp.toSuccess();
-            }
-            if (cp.testNext(new IdentifierParser())) {
-                return cp.toSuccess();
-            }
-            if (cp.testNext(new NestedExprParser())) {
+            if (cp.selectOne(new LiteralsParser(), new IdentifierParser(), new NestedExprParser())) {
                 return cp.toSuccess();
             }
             return cp.toFailure();
@@ -185,31 +181,16 @@ public class ExprParser implements Parser {
                 return new MatchResult.Failure(input);
             }
             final CParser cp = new CParser(input);
-            if (cp.testNext(new MethodInvocationParser())) {
-                return cp.toSuccess();
-            }
-            if (cp.testNext(new ArrayAccessParser())) {
-                return cp.toSuccess();
-            }
-            if (cp.testNext(new LiteralsParser())) {
-                return cp.toSuccess();
-            }
-            if (cp.testNext(new NewInstanceParser())) {
-                return cp.toSuccess();
-            }
-            if (cp.testNext(new NegativeExprParser())) {
-                return cp.toSuccess();
-            }
-            if (cp.testNext(new NestedExprParser())) {
-                return cp.toSuccess();
-            }
-            if (cp.testNext(new LengthAccessParser())) {
-                return cp.toSuccess();
-            }
-            if (cp.testNext(new ArrayInitializerParser())) {
-                return cp.toSuccess();
-            }
-            if (cp.testNext(new PathParser())) {
+            if (cp.selectFirst(
+                    new MethodInvocationParser(),
+                    new ArrayAccessParser(),
+                    new LiteralsParser(),
+                    new NewInstanceParser(),
+                    new NegativeExprParser(),
+                    new NestedExprParser(),
+                    new LengthAccessParser(),
+                    new ArrayInitializerParser(),
+                    new PathParser())) {
                 return cp.toSuccess();
             }
             return cp.toFailure();
@@ -228,29 +209,19 @@ public class ExprParser implements Parser {
                     return new MatchResult.Failure(input);
                 }
                 final CParser cp = new CParser(input);
-                if (!cp.testNext(KeywordToken.New.class)) {
-                    return cp.toFailure();
-                }
-                if (!cp.testNext(Int.class)) {
-                    return cp.toFailure();
-                }
-                if (!cp.testNext(LeftBracket.class)) {
-                    return cp.toFailure();
-                }
-                if (!cp.testNext(new ExprParser())) {
-                    return cp.toFailure();
-                }
-                final Node arrayLength = cp.lastMatch();
-
-                if (!cp.testNext(RightBracket.class)) {
-                    return cp.toFailure();
-                }
-                // IntArray.<init>(expr)
-                final Name arrayType = new Name("IntArray");
-                final Select arrayTypeSelect = new Select(arrayType);
-                final New newInstanceTarget = new New(arrayTypeSelect);
-                final Apply apply = new Apply(newInstanceTarget, arrayLength);
-                return new MatchResult.Success(cp.next(), cp.matched(), apply);
+                return cp.chain(nodes -> {
+                    Node arrayLength = nodes.get(3);
+                    final Name arrayType = new Name("IntArray");
+                    final Select arrayTypeSelect = new Select(arrayType);
+                    final New newInstanceTarget = new New(arrayTypeSelect);
+                    final Apply apply = new Apply(newInstanceTarget, arrayLength);
+                    return apply;
+                },
+                        Action.of(KeywordToken.New.class),
+                        Action.of(Int.class),
+                        Action.of(LeftBracket.class),
+                        Action.of(new ExprParser()),
+                        Action.of(RightBracket.class));
             }
 
         }
@@ -263,24 +234,15 @@ public class ExprParser implements Parser {
                     return new MatchResult.Failure(input);
                 }
                 final CParser cp = new CParser(input);
-                if (!cp.testNext(KeywordToken.New.class)) {
-                    return cp.toFailure();
-                }
+                return cp.chain(nodes -> {
+                    Node identifier = nodes.get(1);
+                    return new Apply(new New(new Select(identifier)));
+                },
+                        Action.of(KeywordToken.New.class),
+                        Action.of(new IdentifierParser()),
+                        Action.of(LeftParen.class),
+                        Action.of(RightParen.class));
 
-                if (!cp.testNext(new IdentifierParser())) {
-                    return cp.toFailure();
-                }
-                final Node identifier = cp.lastMatch();
-                if (!cp.testNext(LeftParen.class)) {
-                    return cp.toFailure();
-                }
-                if (!cp.testNext(RightParen.class)) {
-                    return cp.toFailure();
-                }
-
-                // id.<init>()
-                final Apply n = new Apply(new New(new Select(identifier)));
-                return new MatchResult.Success(cp.next(), cp.matched(), n);
             }
 
         }
@@ -293,16 +255,11 @@ public class ExprParser implements Parser {
                     return new MatchResult.Failure(input);
                 }
                 final CParser cp = new CParser(input);
-                if (cp.testNext(new IntLiteralParser())) {
-                    return cp.toSuccess();
-                }
-                if (cp.testNext(new ThisParser())) {
-                    return cp.toSuccess();
-                }
-                if (cp.testNext(new TrueLiteralParser())) {
-                    return cp.toSuccess();
-                }
-                if (cp.testNext(new FalseLiteralParser())) {
+                if (cp.selectFirst(
+                        new IntLiteralParser(),
+                        new ThisParser(),
+                        new TrueLiteralParser(),
+                        new FalseLiteralParser())) {
                     return cp.toSuccess();
                 }
                 return cp.toFailure();
@@ -318,16 +275,13 @@ public class ExprParser implements Parser {
                     return new MatchResult.Failure(input);
                 }
                 final CParser cp = new CParser(input);
-                if (!cp.testNext(Bang.class)) {
-                    return cp.toFailure();
-                }
-                if (!cp.testNext(new ExprParser())) {
-                    return cp.toFailure();
-                }
-                final Node exprNode = cp.lastMatch();
-
-                // negate(expr)
-                return new MatchResult.Success(cp.next(), cp.matched(), new Apply(new Select(new Name("negate")), exprNode));
+                return cp.chain(nodes -> {
+                    Node exprNode = nodes.get(1);
+                    // negate(expr)
+                    return new Apply(new Select(new Name("negate")), exprNode);
+                },
+                        Action.of(Bang.class),
+                        Action.of(new ExprParser()));
             }
 
         }
@@ -340,18 +294,13 @@ public class ExprParser implements Parser {
                     return new MatchResult.Failure(input);
                 }
                 final CParser cp = new CParser(input);
-                if (!cp.testNext(LeftParen.class)) {
-                    return cp.toFailure();
-                }
-                if (!cp.testNext(new ExprParser())) {
-                    return cp.toFailure();
-                }
-                final Node exprNode = cp.lastMatch();
-                if (!cp.testNext(RightParen.class)) {
-                    return cp.toFailure();
-                }
-                final Apply apply = new Apply(exprNode);
-                return new MatchResult.Success(cp.next(), cp.matched(), apply);
+                return cp.chain(nodes -> {
+                    Node exprNode = nodes.get(1);
+                    return new Apply(exprNode);
+                },
+                        Action.of(LeftParen.class),
+                        Action.of(new ExprParser()),
+                        Action.of(RightParen.class));
             }
 
         }
@@ -364,23 +313,16 @@ public class ExprParser implements Parser {
                     return new MatchResult.Failure(input);
                 }
                 final CParser cp = new CParser(input);
-                if (!cp.testNext(new ExprHeadParser())) {
-                    return cp.toFailure();
-                }
-                final Node arrayNode = cp.lastMatch();
-                if (!cp.testNext(LeftBracket.class)) {
-                    return cp.toFailure();
-                }
-                if (!cp.testNext(new ExprParser())) {
-                    return cp.toFailure();
-                }
-                final Node accessTarget = cp.lastMatch();
-                if (!cp.testNext(RightBracket.class)) {
-                    return cp.toFailure();
-                }
-                // array.apply(expr)
-                final Apply apply = new Apply(new Select(arrayNode, new Name("apply")), accessTarget);
-                return new MatchResult.Success(cp.next(), cp.matched(), apply);
+                return cp.chain(nodes -> {
+                    Node arrayNode = nodes.get(0);
+                    Node accessTarget = nodes.get(2);
+                    // array.apply(expr)
+                    return new Apply(new Select(arrayNode, new Name("apply")), accessTarget);
+                },
+                        Action.of(new ExprHeadParser()),
+                        Action.of(LeftBracket.class),
+                        Action.of(new ExprParser()),
+                        Action.of(RightBracket.class));
             }
 
         }
@@ -393,19 +335,14 @@ public class ExprParser implements Parser {
                     return new MatchResult.Failure(input);
                 }
                 final CParser cp = new CParser(input);
-                if (!cp.testNext(new ExprHeadParser())) {
-                    return cp.toFailure();
-                }
-                final Node objNode = cp.lastMatch();
-                if (!cp.testNext(Dot.class)) {
-                    return cp.toFailure();
-                }
-                if (!cp.testNext(KeywordToken.Length.class)) {
-                    return cp.toFailure();
-                }
-                // obj.length
-                final Apply apply = new Apply(new Select(objNode, new Name("length")));
-                return new MatchResult.Success(cp.next(), cp.matched(), apply);
+                return cp.chain(nodes -> {
+                    Node objNode = nodes.get(0);
+                    // obj.length
+                    return new Apply(new Select(objNode, new Name("length")));
+                },
+                        Action.of(new ExprHeadParser()),
+                        Action.of(Dot.class),
+                        Action.of(Length.class));
             }
 
         }
@@ -418,6 +355,7 @@ public class ExprParser implements Parser {
                     return new MatchResult.Failure(input);
                 }
                 final CParser cp = new CParser(input);
+
                 if (!cp.testNext(new ExprHeadParser())) {
                     return cp.toFailure();
                 }

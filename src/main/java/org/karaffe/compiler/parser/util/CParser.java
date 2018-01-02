@@ -3,6 +3,7 @@ package org.karaffe.compiler.parser.util;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
+import java.util.function.Function;
 
 import org.karaffe.compiler.lexer.Token;
 import org.karaffe.compiler.lexer.Tokens;
@@ -68,6 +69,58 @@ public class CParser {
         return false;
     }
 
+    public boolean selectOne(Parser... parsers) {
+        int success = 0;
+        Parser successParser = null;
+        for (Parser parser : parsers) {
+            if (this.testNext(parser, false)) {
+                successParser = parser;
+                success++;
+            }
+        }
+        if (successParser == null) {
+            return false;
+        }
+        if (success != 1) {
+            return false;
+        }
+        return this.testNext(successParser);
+    }
+
+    public boolean selectFirst(Parser... parsers) {
+        for (Parser parser : parsers) {
+            if (this.testNext(parser)) {
+                return true;
+            }
+        }
+        return false;
+    }
+
+    public MatchResult chain(Function<List<Node>, Node> f, Action... actions) {
+        if (this.input.isEmpty()) {
+            return new MatchResult.Failure(this.input);
+        }
+        List<Node> nodes = new ArrayList<>();
+        for (Action action : actions) {
+            if (!this.testNext(action.getMatcher())) {
+                return this.toFailure();
+            }
+            nodes.add(this.lastMatch);
+        }
+        return new MatchResult.Success(this.next(), this.matched(), f.apply(nodes));
+    }
+
+    // public MatchResult chainRaw(Function<List<Node>, MatchResult> f, Action... actions) {
+    // List<Node> nodes = new ArrayList<>();
+    // for (Action action : actions) {
+    // if (!this.testNext(action.getMatcher())) {
+    // return this.toFailure();
+    // }
+    // nodes.add(this.lastMatch);
+    // }
+    // return f.apply(nodes);
+    // }
+
     public boolean hasLastMatch() {
         return this.lastMatch != null;
     }
@@ -97,5 +150,29 @@ public class CParser {
 
     public MatchResult.Failure toFailure() {
         return new MatchResult.Failure(Optional.ofNullable(this.erroredToken).orElse(this.input.iterator().next()), this.input);
+    }
+
+    public static class Action {
+        private final TokenMatcher tokenMatcher;
+
+        public Action(Class<? extends Token> clazz) {
+            this.tokenMatcher = TokenMatcher.create(clazz);
+        }
+
+        public Action(Parser parser) {
+            this.tokenMatcher = parser;
+        }
+
+        TokenMatcher getMatcher() {
+            return this.tokenMatcher;
+        }
+
+        public static Action of(Class<? extends Token> clazz) {
+            return new Action(clazz);
+        }
+
+        public static Action of(Parser parser) {
+            return new Action(parser);
+        }
     }
 }
