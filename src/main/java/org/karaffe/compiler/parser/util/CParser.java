@@ -12,7 +12,7 @@ public class CParser {
     private final Tokens input;
     private Tokens nextInput;
     private final List<Token> matched = new ArrayList<>();
-    private final Token erroredToken = null;
+    private Token erroredToken = null;
     private boolean hasError = false;
     private Object lastMatch = null;
 
@@ -22,6 +22,12 @@ public class CParser {
             throw new IllegalArgumentException("Empty input");
         }
         this.nextInput = new Tokens(new ArrayList<>(input));
+        for (Token token : this.nextInput) {
+            if (token.isErrorToken() && this.erroredToken == null) {
+                this.erroredToken = token;
+                this.hasError = true;
+            }
+        }
     }
 
     public void reset() {
@@ -43,6 +49,9 @@ public class CParser {
     }
 
     public <T> boolean testNext(final TokenMatcher matcher, final Class<T> clazz, final boolean moveCursorOnSuccess) {
+        if (this.hasError) {
+            return false;
+        }
         final MatchResult result = matcher.match(this.nextInput);
         if (result.isSuccess()) {
             if (moveCursorOnSuccess) {
@@ -53,6 +62,7 @@ public class CParser {
             this.lastMatch = n;
             return true;
         }
+        result.errorHeadF().ifPresent(c -> this.erroredToken = c);
         return false;
     }
 
