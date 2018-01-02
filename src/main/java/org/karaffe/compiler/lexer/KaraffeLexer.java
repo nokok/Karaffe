@@ -85,13 +85,13 @@ public class KaraffeLexer extends AbstractLexer {
                 if (text == null) {
                     continue;
                 }
-                column += text.length();
                 final Position position = Position.of(this.filePath, matcher.start(), matcher.end(), line, column);
                 if (maxMatch < text.length()) {
                     maxMatch = text.length();
                     lastToken = pattern.applyToken(position, text);
                 }
                 token = lastToken;
+                column += token.getText().length();
             }
             if (token == null) {
                 throw new IllegalStateException("null token");
