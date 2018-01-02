@@ -12,8 +12,6 @@ import org.karaffe.compiler.tree.CompileUnit;
 import org.karaffe.compiler.tree.Name;
 import org.karaffe.compiler.tree.PackageDef;
 import org.karaffe.compiler.tree.Select;
-import org.karaffe.compiler.tree.TypeDef;
-import org.karaffe.compiler.tree.TypeDef.ClassDef;
 import org.karaffe.compiler.tree.TypeDefs;
 import org.karaffe.compiler.tree.base.Node;
 
@@ -24,7 +22,7 @@ public class KaraffeParser implements Parser {
         final CParser cp = new CParser(tokens);
         final boolean hasPackageKeyword = cp.testNext(TokenMatcher.create(KeywordToken.Package.class), false);
         if (hasPackageKeyword) {
-            if (!cp.testNext(new PackageDefParser(), PackageDef.class)) {
+            if (!cp.testNext(new PackageDefParser())) {
                 return cp.toFailure();
             }
         }
@@ -32,13 +30,12 @@ public class KaraffeParser implements Parser {
         final PackageDef packageDef = hasPackageKeyword ? cp.lastMatch() : new PackageDef(new Select(new Name("<root>")));
 
         final List<Node> typeDefs = new ArrayList<>();
-        if (cp.testNext(new MainClassDeclParser(), TypeDef.class)) {
+        if (cp.testNext(new MainClassDeclParser())) {
             typeDefs.add(cp.lastMatch());
         }
 
-        while (cp.testNext(new ClassDefParser(), ClassDef.class)) {
-            final ClassDef classDef = cp.lastMatch();
-            typeDefs.add(classDef);
+        while (cp.testNext(new ClassDefParser())) {
+            typeDefs.add(cp.lastMatch());
         }
 
         if (!cp.testNext(new EOFParser())) {

@@ -30,14 +30,16 @@ public class ClassDefParser implements Parser {
         }
         ClassDefParser.LOGGER.debug("Input : {}", input);
         final CParser cp = new CParser(input);
-        cp.testNext(TokenMatcher.classKeyword());
-        if (!cp.testNext(TokenMatcher.identifier())) {
+        if (!cp.testNext(TokenMatcher.classKeyword())) {
+            return cp.toFailure();
+        }
+        if (!cp.testNext(new IdentifierParser())) {
             ClassDefParser.LOGGER.debug("className not found.");
             return cp.toFailure();
         }
         final Node className = cp.lastMatch();
         final boolean hasExtends = cp.testNext(Extends.class);
-        final boolean hasSuperClass = cp.testNext(TokenMatcher.identifier(), Name.class);
+        final boolean hasSuperClass = cp.testNext(new IdentifierParser());
 
         if (hasExtends != hasSuperClass) {
             ClassDefParser.LOGGER.debug("superClass not found. 1");
@@ -48,12 +50,12 @@ public class ClassDefParser implements Parser {
 
         if (cp.testNext(CommonToken.LeftBrace.class)) {
             final List<Node> defs = new ArrayList<>();
-            while (cp.testNext(new VarDefParser(), VarDef.class)) {
+            while (cp.testNext(new VarDefParser())) {
                 final VarDef varDef = cp.lastMatch();
                 defs.add(varDef);
             }
 
-            while (cp.testNext(new MethodDefParser(), MethodDef.class)) {
+            while (cp.testNext(new MethodDefParser())) {
                 final MethodDef varDef = cp.lastMatch();
                 defs.add(varDef);
             }

@@ -49,10 +49,6 @@ public class CParser {
         return this.testNext(parser, Node.class, true);
     }
 
-    public <T> boolean testNext(final TokenMatcher matcher, final Class<T> clazz) {
-        return this.testNext(matcher, clazz, true);
-    }
-
     public boolean testNext(final TokenMatcher matcher, boolean moveCursorOnSuccess) {
         return this.testNext(matcher, Node.class, moveCursorOnSuccess);
     }

@@ -3,8 +3,6 @@ package org.karaffe.compiler.parser;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.karaffe.compiler.lexer.KeywordToken;
-import org.karaffe.compiler.lexer.Tokens;
 import org.karaffe.compiler.lexer.CommonToken.LeftBrace;
 import org.karaffe.compiler.lexer.CommonToken.LeftBracket;
 import org.karaffe.compiler.lexer.CommonToken.LeftParen;
@@ -12,10 +10,12 @@ import org.karaffe.compiler.lexer.CommonToken.RightBrace;
 import org.karaffe.compiler.lexer.CommonToken.RightBracket;
 import org.karaffe.compiler.lexer.CommonToken.RightParen;
 import org.karaffe.compiler.lexer.CommonToken.Semi;
+import org.karaffe.compiler.lexer.KeywordToken;
 import org.karaffe.compiler.lexer.KeywordToken.Else;
 import org.karaffe.compiler.lexer.KeywordToken.If;
 import org.karaffe.compiler.lexer.KeywordToken.While;
 import org.karaffe.compiler.lexer.OperatorToken.Equals;
+import org.karaffe.compiler.lexer.Tokens;
 import org.karaffe.compiler.parser.util.CParser;
 import org.karaffe.compiler.parser.util.MatchResult;
 import org.karaffe.compiler.tree.Apply;
@@ -76,7 +76,7 @@ public class StatementParser implements Parser {
             }
 
             final List<Node> statements = new ArrayList<>();
-            while (cp.testNext(new StatementParser(), Node.class)) {
+            while (cp.testNext(new StatementParser())) {
                 statements.add(cp.lastMatch());
             }
             if (!cp.testNext(RightBrace.class)) {
