@@ -50,6 +50,11 @@ public abstract class CommonToken implements Token {
         public ErrorToken(final String text, final Position position) {
             super(text, position, "error token");
         }
+
+        @Override
+        public String toString() {
+            return "ERROR:[" + getText() + "]";
+        }
     }
 
     public static class EOF extends CommonToken {
