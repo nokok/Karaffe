@@ -15,7 +15,7 @@ public class CParser {
     private final List<Token> matched = new ArrayList<>();
     private Token erroredToken = null;
     private boolean hasError = false;
-    private Object lastMatch = null;
+    private Node lastMatch = null;
 
     public CParser(final Tokens input) {
         this.input = input;
@@ -38,22 +38,18 @@ public class CParser {
     }
 
     public boolean testNext(final Class<? extends Token> clazz) {
-        return this.testNext(TokenMatcher.create(clazz), Node.class, true);
+        return this.testNext(TokenMatcher.create(clazz), true);
     }
 
     public boolean testNext(final TokenMatcher matcher) {
-        return this.testNext(matcher, Node.class, true);
+        return this.testNext(matcher, true);
     }
 
     public boolean testNext(final Parser parser) {
-        return this.testNext(parser, Node.class, true);
+        return this.testNext(parser, true);
     }
 
-    public boolean testNext(final TokenMatcher matcher, boolean moveCursorOnSuccess) {
-        return this.testNext(matcher, Node.class, moveCursorOnSuccess);
-    }
-
-    public <T> boolean testNext(final TokenMatcher matcher, final Class<T> clazz, final boolean moveCursorOnSuccess) {
+    public boolean testNext(final TokenMatcher matcher, final boolean moveCursorOnSuccess) {
         if (this.hasError) {
             return false;
         }
@@ -63,7 +59,7 @@ public class CParser {
                 this.matched.addAll(result.matchedF());
                 this.nextInput = result.next();
             }
-            final T n = clazz.cast(result.getNode().orElseThrow(IllegalStateException::new));
+            final Node n = Node.class.cast(result.getNode().orElseThrow(IllegalStateException::new));
             this.lastMatch = n;
             return true;
         }
