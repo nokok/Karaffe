@@ -6,6 +6,7 @@ import java.util.Optional;
 
 import org.karaffe.compiler.lexer.Token;
 import org.karaffe.compiler.lexer.Tokens;
+import org.karaffe.compiler.parser.Parser;
 import org.karaffe.compiler.tree.base.Node;
 
 public class CParser {
@@ -44,8 +45,16 @@ public class CParser {
         return this.testNext(matcher, Node.class, true);
     }
 
+    public boolean testNext(final Parser parser) {
+        return this.testNext(parser, Node.class, true);
+    }
+
     public <T> boolean testNext(final TokenMatcher matcher, final Class<T> clazz) {
         return this.testNext(matcher, clazz, true);
+    }
+
+    public boolean testNext(final TokenMatcher matcher, boolean moveCursorOnSuccess) {
+        return this.testNext(matcher, Node.class, moveCursorOnSuccess);
     }
 
     public <T> boolean testNext(final TokenMatcher matcher, final Class<T> clazz, final boolean moveCursorOnSuccess) {
