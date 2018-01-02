@@ -6,8 +6,6 @@ import java.util.List;
 import org.karaffe.compiler.lexer.Tokens;
 import org.karaffe.compiler.parser.util.CParser;
 import org.karaffe.compiler.parser.util.MatchResult;
-import org.karaffe.compiler.parser.util.TokenMatcher;
-import org.karaffe.compiler.tree.Name;
 import org.karaffe.compiler.tree.Select;
 import org.karaffe.compiler.tree.base.Node;
 import org.slf4j.Logger;
@@ -32,9 +30,8 @@ public class PathParser implements Parser {
 
         pathName.add(cp.lastMatch());
 
-        while (cp.testNext(TokenMatcher.dot()) && cp.testNext(new IdentifierParser())) {
-            final Name name = cp.lastMatch();
-            pathName.add(name);
+        while (cp.testNext(new DotIdParser())) {
+            pathName.add(cp.lastMatch());
         }
 
         return new MatchResult.Success(cp.next(), cp.matched(), new Select(pathName));
