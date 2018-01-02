@@ -48,7 +48,7 @@ public class KaraffeLexerTest {
         final Token idToken = tokens.get(2);
         Assert.assertEquals("A", idToken.getText());
         Assert.assertEquals(1, (int) idToken.getPosition().getLineF().orElse(-1));
-        Assert.assertEquals(7, (int) idToken.getPosition().getColumnF().orElse(-1));
+        Assert.assertEquals(6, (int) idToken.getPosition().getColumnF().orElse(-1));
     }
 
     @Test
