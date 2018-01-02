@@ -48,6 +48,7 @@ public class NodeStringTest {
         Assert.assertEquals("(Apply (Select (Select (Name num)) (Select (Name <))) (Literal 1))", this.getNodeString(new ExprParser(), "num < 1"));
         Assert.assertEquals("(Apply (New (Select (Name Fac))))", this.getNodeString(new ExprParser(), "new Fac()"));
         Assert.assertEquals("(Apply (Apply (Select (Apply (Apply (New (Select (Name Fac))))) (Name computeFac)) (Literal 10)))", this.getNodeString(new ExprParser(), "(new Fac()).computeFac(10)"));
+        Assert.assertEquals("(Select (Name System))", this.getNodeString(new ExprParser(), "System"));
         // 3.*(1+(2))
         // (Apply (Select (Literal 1) (Select (Name +))) (Apply (Select (Literal 2)
         // (Select (Name *))) (Literal 3)))
@@ -83,6 +84,15 @@ public class NodeStringTest {
     @Test
     public void testApplyArg() {
         Assert.assertEquals("(Apply (Select (Name a)) (Literal 1))", new Apply(new Select(new Name("a")), new Literal(new LiteralToken.IntLiteral("1"))).toString());
+    }
+
+    @Test
+    public void testCompileUnit() {
+        Assert.assertEquals("(CompileUnit (PackageDef (Select (Name <root>))) (TypeDefs (ClassDef (Name A) (Name Object) (Block ()))))", this.getNodeString(new KaraffeParser(), "class A {}"));
+        Assert.assertEquals("(CompileUnit (PackageDef (Select (Name <root>))) (TypeDefs (ClassDef (Name B) (Name Object) (Block ()))))", this.getNodeString(new KaraffeParser(), "class B {}"));
+        Assert.assertEquals("(CompileUnit (PackageDef (Select (Name foo))) (TypeDefs (ClassDef (Name A) (Name Object) (Block ()))))", this.getNodeString(new KaraffeParser(), "package foo;class A {}"));
+        Assert.assertEquals("(CompileUnit (PackageDef (Select (Name foo) (Name bar))) (TypeDefs (ClassDef (Name A) (Name Object) (Block ()))))", this.getNodeString(new KaraffeParser(), "package foo.bar;class A {}"));
+        Assert.assertEquals("(CompileUnit (PackageDef (Select (Name foo) (Name bar))) (TypeDefs (ClassDef (Name A) (Name Base) (Block ()))))", this.getNodeString(new KaraffeParser(), "package foo.bar;class A extends Base {}"));
     }
 
     private String getNodeString(final Parser parser, final String source) {

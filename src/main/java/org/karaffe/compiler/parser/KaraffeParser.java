@@ -3,9 +3,11 @@ package org.karaffe.compiler.parser;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.karaffe.compiler.lexer.KeywordToken;
 import org.karaffe.compiler.lexer.Tokens;
 import org.karaffe.compiler.parser.util.CParser;
 import org.karaffe.compiler.parser.util.MatchResult;
+import org.karaffe.compiler.parser.util.TokenMatcher;
 import org.karaffe.compiler.tree.CompileUnit;
 import org.karaffe.compiler.tree.Name;
 import org.karaffe.compiler.tree.PackageDef;
@@ -20,8 +22,14 @@ public class KaraffeParser implements Parser {
     @Override
     public MatchResult parse(final Tokens tokens) {
         final CParser cp = new CParser(tokens);
-        final boolean hasPackageDef = cp.testNext(new PackageDefParser(), PackageDef.class);
-        final PackageDef packageDef = hasPackageDef ? cp.lastMatch() : new PackageDef(new Select(new Name("<root>")));
+        final boolean hasPackageKeyword = cp.testNext(TokenMatcher.create(KeywordToken.Package.class), false);
+        if (hasPackageKeyword) {
+            if (!cp.testNext(new PackageDefParser(), PackageDef.class)) {
+                return cp.toFailure();
+            }
+        }
+
+        final PackageDef packageDef = hasPackageKeyword ? cp.lastMatch() : new PackageDef(new Select(new Name("<root>")));
 
         final List<Node> typeDefs = new ArrayList<>();
         if (cp.testNext(new MainClassDeclParser(), TypeDef.class)) {
