@@ -1,6 +1,9 @@
 package org.karaffe.compiler.tree;
 
 public enum NodeType {
+    // SPECIAL
+    NORMALIZED,
+
     // Base
     APPLY,
     BLOCK,

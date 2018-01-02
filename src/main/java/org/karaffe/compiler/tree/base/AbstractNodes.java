@@ -64,4 +64,8 @@ public class AbstractNodes extends AbstractNode implements ImmutableCollections<
         return this.getChildren().parallelStream();
     }
 
+    @Override
+    public AbstractNodes normalize() {
+        return this;
+    }
 }

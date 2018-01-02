@@ -68,8 +68,45 @@ public class KaraffeParserTest {
         final KaraffeParser parser = new KaraffeParser();
         final List<Token> tokens = lexer.run();
 
-        final ResultState result = parser.parse(tokens);
+        final MatchResult result = parser.parse(tokens);
         Assert.assertTrue(result.isSuccess());
+    }
+
+    @Test
+    public void testMiniJavaKnormal() {
+        KaraffeLexer lexer = new KaraffeLexer("class Factorial {\n" +
+                "    public static void main(String[] a) {\n" +
+                "        ClassRef c1 = system;\n" +
+                "        PrintStream t1 = c1.out;\n" +
+                "        Fac e1 = new Fac();\n" +
+                "        int e2 = 10;\n" +
+                "        int e3 = e1.computeFac(e2);\n" +
+                "        void r1 = t1.println(e3);\n" +
+                "    }\n" +
+                "}\n" +
+                "\n" +
+                "class Fac {\n" +
+                "    public int computeFac(int num){\n" +
+                "        int numAux = 0;\n" +
+                "        boolean e1 = num < 1;\n" +
+                "        if ( e1 ) {\n" +
+                "          numAux = 1;\n" +
+                "          int a = 0;\n" +
+                "        } else {\n" +
+                "          int e1 = num - 1;\n" +
+                "          int b = a;\n" +
+                "          int e2 = this.computeFac(e1);\n" +
+                "          int e3 = num * e2;\n" +
+                "          numAux = e3;\n" +
+                "        }\n" +
+                "        return numAux;\n" +
+                "    }\n" +
+                "}\n");
+        List<Token> tokens = lexer.run();
+        KaraffeParser parser = new KaraffeParser();
+        MatchResult result = parser.parse(tokens);
+        System.out.println(result);
+
     }
 
 }

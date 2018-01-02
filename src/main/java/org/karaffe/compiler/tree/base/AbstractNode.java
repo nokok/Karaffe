@@ -5,6 +5,7 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.Objects;
 import java.util.UUID;
+import java.util.stream.Collectors;
 
 import org.karaffe.compiler.pos.Position;
 import org.karaffe.compiler.tree.NodeType;
@@ -89,5 +90,14 @@ public abstract class AbstractNode implements Node {
     @Override
     public String toString() {
         return String.format("(%s %s)", this.getClass().getSimpleName(), this.children.stream().map(Object::toString).reduce((l, r) -> l + " " + r).orElse("()"));
+    }
+
+    @Override
+    public AbstractNodes normalize() {
+        List<AbstractNodes> nodes = new ArrayList<>();
+        for (Node node : this.children) {
+            nodes.add(node.normalize());
+        }
+        return new AbstractNodes(NodeType.NORMALIZED, nodes.stream().filter(c -> !c.isEmpty()).flatMap(AbstractNodes::stream).collect(Collectors.toList()));
     }
 }

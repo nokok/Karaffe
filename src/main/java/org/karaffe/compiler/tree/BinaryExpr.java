@@ -1,6 +1,7 @@
 package org.karaffe.compiler.tree;
 
 import org.karaffe.compiler.tree.base.AbstractNode;
+import org.karaffe.compiler.tree.base.AbstractNodes;
 import org.karaffe.compiler.tree.base.Node;
 
 public class BinaryExpr extends AbstractNode {
@@ -37,6 +38,11 @@ public class BinaryExpr extends AbstractNode {
 
     public Node toApplyNode() {
         return new Apply(new Select(this.toLeftApplyNode(), this.getOperator()), this.toRightApplyNode());
+    }
+
+    @Override
+    public AbstractNodes normalize() {
+        return super.normalize();
     }
 
 }

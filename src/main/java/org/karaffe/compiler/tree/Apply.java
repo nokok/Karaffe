@@ -5,6 +5,7 @@ import java.util.Arrays;
 import java.util.List;
 
 import org.karaffe.compiler.tree.base.AbstractNode;
+import org.karaffe.compiler.tree.base.AbstractNodes;
 import org.karaffe.compiler.tree.base.Node;
 
 public class Apply extends AbstractNode {
@@ -22,4 +23,9 @@ public class Apply extends AbstractNode {
         args.stream().forEach(this::addChild);
     }
 
+    @Override
+    public AbstractNodes normalize() {
+        List<Node> nodes = new ArrayList<>();
+        return new AbstractNodes(NodeType.NORMALIZED, nodes);
+    }
 }

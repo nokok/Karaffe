@@ -16,4 +16,5 @@ public interface Node {
 
     public void addChild(Node n);
 
+    public AbstractNodes normalize();
 }
