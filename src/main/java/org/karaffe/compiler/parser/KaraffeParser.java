@@ -30,11 +30,7 @@ public class KaraffeParser implements Parser {
         final PackageDef packageDef = hasPackageKeyword ? cp.lastMatch() : new PackageDef(new Select(new Name("<root>")));
 
         final List<Node> typeDefs = new ArrayList<>();
-        if (cp.testNext(new MainClassDeclParser())) {
-            typeDefs.add(cp.lastMatch());
-        }
-
-        while (cp.testNext(new ClassDefParser())) {
+        while (cp.selectFirst(new MainClassDeclParser(), new ClassDefParser())) {
             typeDefs.add(cp.lastMatch());
         }
 

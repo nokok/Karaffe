@@ -31,30 +31,19 @@ import org.slf4j.LoggerFactory;
 
 public class StatementParser implements Parser {
 
-    private CParser cp;
-
     @Override
     public MatchResult parse(final Tokens input) {
-        this.cp = new CParser(input);
-        if (this.cp.testNext(new StmtBlock())) {
-            return this.cp.toSuccess();
+        CParser cp = new CParser(input);
+        if (cp.selectFirst(
+                new StmtBlock(),
+                new IfBlock(),
+                new WhileBlock(),
+                new SystemOutPrintln(),
+                new AssignStmt(),
+                new ArrayAssignStmt())) {
+            return cp.toSuccess();
         }
-        if (this.cp.testNext(new IfBlock())) {
-            return this.cp.toSuccess();
-        }
-        if (this.cp.testNext(new WhileBlock())) {
-            return this.cp.toSuccess();
-        }
-        if (this.cp.testNext(new SystemOutPrintln())) {
-            return this.cp.toSuccess();
-        }
-        if (this.cp.testNext(new AssignStmt())) {
-            return this.cp.toSuccess();
-        }
-        if (this.cp.testNext(new ArrayAssignStmt())) {
-            return this.cp.toSuccess();
-        }
-        return this.cp.toFailure();
+        return cp.toFailure();
     }
 
     public static class StmtBlock implements Parser {
