@@ -44,9 +44,6 @@ public class ExprParser implements Parser {
 
     @Override
     public MatchResult parse(final Tokens input) {
-        if (input.isEmpty()) {
-            return new MatchResult.Failure(input);
-        }
         return new CondExprParaser().parse(input);
     }
 
@@ -78,9 +75,6 @@ public class ExprParser implements Parser {
 
         @Override
         public MatchResult parse(final Tokens input) {
-            if (input.isEmpty()) {
-                return new MatchResult.Failure(input);
-            }
             final MatchResult result = TokenMatcher.create(this.clazz).match(input);
             if (result.isFailure()) {
                 return result;
@@ -104,9 +98,6 @@ public class ExprParser implements Parser {
 
         @Override
         public MatchResult parse(final Tokens input) {
-            if (input.isEmpty()) {
-                return new MatchResult.Failure(input);
-            }
             final CParser cp = new CParser(input);
             if (cp.selectOne(new LiteralsParser(), new IdentifierParser(), new NestedExprParser())) {
                 return cp.toSuccess();
@@ -118,9 +109,6 @@ public class ExprParser implements Parser {
     static class IntLiteralParser implements Parser {
         @Override
         public MatchResult parse(final Tokens input) {
-            if (input.isEmpty()) {
-                return new MatchResult.Failure(input);
-            }
             final MatchResult result = TokenMatcher.create(IntLiteral.class).match(input);
             if (result.isFailure()) {
                 return result;
@@ -132,9 +120,6 @@ public class ExprParser implements Parser {
     static class ThisParser implements Parser {
         @Override
         public MatchResult parse(final Tokens input) {
-            if (input.isEmpty()) {
-                return new MatchResult.Failure(input);
-            }
             final MatchResult result = TokenMatcher.create(This.class).match(input);
             if (result.isFailure()) {
                 return result;
@@ -146,9 +131,6 @@ public class ExprParser implements Parser {
     static class TrueLiteralParser implements Parser {
         @Override
         public MatchResult parse(final Tokens input) {
-            if (input.isEmpty()) {
-                return new MatchResult.Failure(input);
-            }
             final MatchResult result = TokenMatcher.create(True.class).match(input);
             if (result.isFailure()) {
                 return result;
@@ -161,9 +143,6 @@ public class ExprParser implements Parser {
 
         @Override
         public MatchResult parse(final Tokens input) {
-            if (input.isEmpty()) {
-                return new MatchResult.Failure(input);
-            }
             final MatchResult result = TokenMatcher.create(False.class).match(input);
             if (result.isFailure()) {
                 return result;
@@ -177,9 +156,6 @@ public class ExprParser implements Parser {
 
         @Override
         public MatchResult parse(final Tokens input) {
-            if (input.isEmpty()) {
-                return new MatchResult.Failure(input);
-            }
             final CParser cp = new CParser(input);
             if (cp.selectFirst(
                     new MethodInvocationParser(),
@@ -205,9 +181,6 @@ public class ExprParser implements Parser {
 
             @Override
             public MatchResult parse(final Tokens input) {
-                if (input.isEmpty()) {
-                    return new MatchResult.Failure(input);
-                }
                 final CParser cp = new CParser(input);
                 return cp.chain(nodes -> {
                     Node arrayLength = nodes.get(3);
@@ -230,9 +203,6 @@ public class ExprParser implements Parser {
 
             @Override
             public MatchResult parse(final Tokens input) {
-                if (input.isEmpty()) {
-                    return new MatchResult.Failure(input);
-                }
                 final CParser cp = new CParser(input);
                 return cp.chain(nodes -> {
                     Node identifier = nodes.get(1);
@@ -251,9 +221,6 @@ public class ExprParser implements Parser {
 
             @Override
             public MatchResult parse(final Tokens input) {
-                if (input.isEmpty()) {
-                    return new MatchResult.Failure(input);
-                }
                 final CParser cp = new CParser(input);
                 if (cp.selectFirst(
                         new IntLiteralParser(),
@@ -271,9 +238,6 @@ public class ExprParser implements Parser {
 
             @Override
             public MatchResult parse(final Tokens input) {
-                if (input.isEmpty()) {
-                    return new MatchResult.Failure(input);
-                }
                 final CParser cp = new CParser(input);
                 return cp.chain(nodes -> {
                     Node exprNode = nodes.get(1);
@@ -290,9 +254,6 @@ public class ExprParser implements Parser {
 
             @Override
             public MatchResult parse(final Tokens input) {
-                if (input.isEmpty()) {
-                    return new MatchResult.Failure(input);
-                }
                 final CParser cp = new CParser(input);
                 return cp.chain(nodes -> {
                     Node exprNode = nodes.get(1);
@@ -309,9 +270,6 @@ public class ExprParser implements Parser {
 
             @Override
             public MatchResult parse(final Tokens input) {
-                if (input.isEmpty()) {
-                    return new MatchResult.Failure(input);
-                }
                 final CParser cp = new CParser(input);
                 return cp.chain(nodes -> {
                     Node arrayNode = nodes.get(0);
@@ -331,9 +289,6 @@ public class ExprParser implements Parser {
 
             @Override
             public MatchResult parse(final Tokens input) {
-                if (input.isEmpty()) {
-                    return new MatchResult.Failure(input);
-                }
                 final CParser cp = new CParser(input);
                 return cp.chain(nodes -> {
                     Node objNode = nodes.get(0);
@@ -351,9 +306,6 @@ public class ExprParser implements Parser {
 
             @Override
             public MatchResult parse(final Tokens input) {
-                if (input.isEmpty()) {
-                    return new MatchResult.Failure(input);
-                }
                 final CParser cp = new CParser(input);
 
                 if (!cp.testNext(new ExprHeadParser())) {

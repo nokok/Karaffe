@@ -18,8 +18,8 @@ import org.karaffe.compiler.tree.base.Node;
 public class KaraffeParser implements Parser {
 
     @Override
-    public MatchResult parse(final Tokens tokens) {
-        final CParser cp = new CParser(tokens);
+    public MatchResult parse(final Tokens input) {
+        final CParser cp = new CParser(input);
         final boolean hasPackageKeyword = cp.testNext(TokenMatcher.create(KeywordToken.Package.class), false);
         if (hasPackageKeyword) {
             if (!cp.testNext(new PackageDefParser())) {

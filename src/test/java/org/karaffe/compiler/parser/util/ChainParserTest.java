@@ -1,17 +1,20 @@
 package org.karaffe.compiler.parser.util;
 
+import static org.junit.Assert.assertTrue;
+
 import org.junit.Assert;
 import org.junit.Test;
 import org.karaffe.compiler.lexer.KaraffeLexer;
-import org.karaffe.compiler.lexer.Tokens;
 import org.karaffe.compiler.lexer.KeywordToken.Package;
+import org.karaffe.compiler.lexer.Tokens;
 import org.karaffe.compiler.tree.Name;
 
 public class ChainParserTest {
 
-    @Test(expected = IllegalArgumentException.class)
+    @Test
     public void testParserNew() {
-        this.mkParser("");
+        CParser cParser = this.mkParser("");
+        assertTrue(cParser.hasError());
     }
 
     @Test

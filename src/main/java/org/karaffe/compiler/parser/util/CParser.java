@@ -21,7 +21,7 @@ public class CParser {
     public CParser(final Tokens input) {
         this.input = input;
         if (input.isEmpty()) {
-            throw new IllegalArgumentException("Empty input");
+            this.hasError = true;
         }
         this.nextInput = new Tokens(new ArrayList<>(input));
         for (Token token : this.nextInput) {

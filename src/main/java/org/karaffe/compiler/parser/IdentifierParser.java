@@ -14,9 +14,6 @@ public class IdentifierParser implements Parser {
 
     @Override
     public MatchResult parse(final Tokens input) {
-        if (input.isEmpty()) {
-            return new MatchResult.Failure(null, input);
-        }
         IdentifierParser.LOGGER.debug("Input : {}", input);
 
         final MatchResult idResult = TokenMatcher.create(IdentifierToken.class).match(input);

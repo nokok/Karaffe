@@ -3,15 +3,15 @@ package org.karaffe.compiler.parser;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.karaffe.compiler.lexer.ModifierToken;
-import org.karaffe.compiler.lexer.Tokens;
 import org.karaffe.compiler.lexer.CommonToken.LeftBrace;
 import org.karaffe.compiler.lexer.CommonToken.LeftParen;
 import org.karaffe.compiler.lexer.CommonToken.RightBrace;
 import org.karaffe.compiler.lexer.CommonToken.RightParen;
 import org.karaffe.compiler.lexer.CommonToken.Semi;
 import org.karaffe.compiler.lexer.KeywordToken.Return;
+import org.karaffe.compiler.lexer.ModifierToken;
 import org.karaffe.compiler.lexer.ModifierToken.Public;
+import org.karaffe.compiler.lexer.Tokens;
 import org.karaffe.compiler.parser.util.CParser;
 import org.karaffe.compiler.parser.util.MatchResult;
 import org.karaffe.compiler.tree.Block;
@@ -26,9 +26,6 @@ public class MethodDefParser implements Parser {
 
     @Override
     public MatchResult parse(final Tokens input) {
-        if (input.isEmpty()) {
-            return new MatchResult.Failure(input);
-        }
         final CParser cp = new CParser(input);
         if (!cp.testNext(Public.class)) {
             return cp.toFailure();

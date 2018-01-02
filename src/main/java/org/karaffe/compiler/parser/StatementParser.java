@@ -35,9 +35,6 @@ public class StatementParser implements Parser {
 
     @Override
     public MatchResult parse(final Tokens input) {
-        if (input.isEmpty()) {
-            return new MatchResult.Failure(input);
-        }
         this.cp = new CParser(input);
         if (this.cp.testNext(new StmtBlock())) {
             return this.cp.toSuccess();
@@ -67,9 +64,6 @@ public class StatementParser implements Parser {
         @Override
         public MatchResult parse(final Tokens input) {
             StmtBlock.L.debug("Input :{}", input);
-            if (input.isEmpty()) {
-                return new MatchResult.Failure(input);
-            }
             final CParser cp = new CParser(input);
             if (!cp.testNext(LeftBrace.class)) {
                 return cp.toFailure();
@@ -92,9 +86,6 @@ public class StatementParser implements Parser {
 
         @Override
         public MatchResult parse(final Tokens input) {
-            if (input.isEmpty()) {
-                return new MatchResult.Failure(input);
-            }
             IfBlock.L.debug("Input : {}", input);
             final CParser cp = new CParser(input);
             if (!cp.testNext(If.class)) {
@@ -136,9 +127,6 @@ public class StatementParser implements Parser {
 
         @Override
         public MatchResult parse(final Tokens input) {
-            if (input.isEmpty()) {
-                return new MatchResult.Failure(input);
-            }
             WhileBlock.L.debug("Input :{}");
             final CParser cp = new CParser(input);
             if (!cp.testNext(While.class)) {
@@ -179,9 +167,6 @@ public class StatementParser implements Parser {
 
         @Override
         public MatchResult parse(final Tokens input) {
-            if (input.isEmpty()) {
-                return new MatchResult.Failure(input);
-            }
             final CParser cp = new CParser(input);
             if (!cp.testNext(KeywordToken.SystemOutPrintln.class)) {
                 return cp.toFailure();
@@ -208,9 +193,6 @@ public class StatementParser implements Parser {
 
         @Override
         public MatchResult parse(final Tokens input) {
-            if (input.isEmpty()) {
-                return new MatchResult.Failure(input);
-            }
             final CParser cp = new CParser(input);
             if (!cp.testNext(new IdentifierParser())) {
                 return cp.toFailure();
@@ -237,9 +219,6 @@ public class StatementParser implements Parser {
 
         @Override
         public MatchResult parse(final Tokens input) {
-            if (input.isEmpty()) {
-                return new MatchResult.Failure(input);
-            }
             final CParser cp = new CParser(input);
             if (!cp.testNext(new IdentifierParser())) {
                 return cp.toFailure();

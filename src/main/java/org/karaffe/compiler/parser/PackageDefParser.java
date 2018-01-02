@@ -15,9 +15,6 @@ public class PackageDefParser implements Parser {
 
     @Override
     public MatchResult parse(final Tokens input) {
-        if (input.isEmpty()) {
-            return new MatchResult.Failure(input);
-        }
         PackageDefParser.LOGGER.debug("Input : {}", input);
         final CParser cp = new CParser(input);
         if (!cp.testNext(Package.class)) {

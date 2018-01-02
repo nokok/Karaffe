@@ -25,9 +25,6 @@ public class ClassDefParser implements Parser {
 
     @Override
     public MatchResult parse(final Tokens input) {
-        if (input.isEmpty()) {
-            return new MatchResult.Failure(input);
-        }
         ClassDefParser.LOGGER.debug("Input : {}", input);
         final CParser cp = new CParser(input);
         if (!cp.testNext(TokenMatcher.classKeyword())) {

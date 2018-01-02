@@ -20,9 +20,6 @@ public abstract class AbstractBinaryExprLeftAssoc implements Parser, Traceable {
 
     @Override
     public MatchResult parse(final Tokens input) {
-        if (input.isEmpty()) {
-            return new MatchResult.Failure(input);
-        }
         final CParser cp = new CParser(input);
         if (!cp.testNext(this.upper)) {
             return cp.toFailure();
