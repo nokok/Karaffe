@@ -96,8 +96,8 @@ public class ClassDeclParserTest {
         final MatchResult result = parser.parse(new Tokens(lexer.run()));
         assertTrue(result.isFailure());
         Token token = result.errorHeadF().get();
-        assertEquals(line, token.getPosition().getLineF().get().intValue());
-        assertEquals(column, token.getPosition().getColumnF().get().intValue());
+        assertEquals(line, token.getPosition().getLineNumber().get().intValue());
+        assertEquals(column, token.getPosition().getColNumber().get().intValue());
     }
 
 }

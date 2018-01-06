@@ -57,12 +57,11 @@ public class ReportFormatter {
 
     private String makeCodePart(int maxLineNumber, StringCodePart part, Position position) {
         StringBuilder builder = new StringBuilder();
-        String message = part.message().get(0);
-
-        String f = position.getLineF().map(lineNumber -> String.format("%-" + maxLineNumber + "d", lineNumber)).orElse(repeat(maxLineNumber, "?"));
-        builder.append(f).append("| ").append(message).append(System.lineSeparator());
+        String source = part.sourceCode();
+        String f = String.format("%-" + maxLineNumber + "s", position.getLine());
+        builder.append(f).append("| ").append(source).append(System.lineSeparator());
         builder.append(repeat(f.length(), " ")).append("| ");
-        position.getColumnF().ifPresent(column -> {
+        position.getColNumber().ifPresent(column -> {
             for (int i = 1; i < column; i++) {
                 builder.append(" ");
             }

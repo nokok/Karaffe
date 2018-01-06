@@ -90,6 +90,10 @@ public class Report {
             return Arrays.asList(this.code);
         }
 
+        public String sourceCode() {
+            return this.code;
+        }
+
     }
 
     public static class FoundAndRequired implements AdditionalInfo {

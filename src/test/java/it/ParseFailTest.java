@@ -35,7 +35,7 @@ public class ParseFailTest {
         Failure failure = result.toFailure().get();
         assertFalse(failure.getNode().isPresent());
         Token errorToken = failure.errorHeadF().get();
-        assertEquals(line, errorToken.getPosition().getLineF().get().intValue());
-        assertEquals(column, errorToken.getPosition().getColumnF().get().intValue());
+        assertEquals(line, errorToken.getPosition().getLineNumber().get().intValue());
+        assertEquals(column, errorToken.getPosition().getColNumber().get().intValue());
     }
 }

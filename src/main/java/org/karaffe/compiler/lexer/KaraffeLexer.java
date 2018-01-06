@@ -88,7 +88,7 @@ public class KaraffeLexer extends AbstractLexer {
                 if (text == null) {
                     continue;
                 }
-                final Position position = Position.of(this.filePath, matcher.start(), matcher.end(), line, column);
+                final Position position = Position.of(this.filePath, line, column);
                 if (maxMatch < text.length()) {
                     maxMatch = text.length();
                     lastToken = pattern.applyToken(position, text);
@@ -106,13 +106,13 @@ public class KaraffeLexer extends AbstractLexer {
                 KaraffeLexer.LOGGER.debug("concat: {}", concatTokenString);
                 if (!beforeToken.isWhiteSpace() && concatTokenString.matches(LexerPattern.UPPERID.getPattern())) {
                     tokens.remove(beforeToken);
-                    tokens.add(new IdentifierToken.TypeName(concatTokenString, Position.of(beforeToken.getPosition(), token.getPosition())));
+                    tokens.add(new IdentifierToken.TypeName(concatTokenString, beforeToken.getPosition().merge(token.getPosition())));
                     KaraffeLexer.LOGGER.debug("concat 1");
                     continue;
                 }
                 if (!beforeToken.isWhiteSpace() && concatTokenString.matches(LexerPattern.LOWERID.getPattern())) {
                     tokens.remove(beforeToken);
-                    tokens.add(new IdentifierToken.VarName(concatTokenString, Position.of(beforeToken.getPosition(), token.getPosition())));
+                    tokens.add(new IdentifierToken.VarName(concatTokenString, beforeToken.getPosition().merge(token.getPosition())));
                     KaraffeLexer.LOGGER.debug("concat 2");
                     continue;
                 }
@@ -185,7 +185,12 @@ public class KaraffeLexer extends AbstractLexer {
 
         if (KaraffeLexer.LOGGER.isDebugEnabled()) {
             tokens.stream().forEach(token -> {
-                KaraffeLexer.LOGGER.debug("Found: {} at {}:{} -> {}:{}", String.format("%-20s", token), String.format("%3s", token.getPosition().getLineF().map(t -> t.toString()).orElse("?")), String.format("%-3s", token.getPosition().getColumnF().map(t -> t.toString()).orElse("?")), String.format("%-20s", token.getClass().getSimpleName()), token.getTokenId());
+                KaraffeLexer.LOGGER.debug("Found: {} at {}:{} -> {}:{}",
+                        String.format("%-20s", token),
+                        String.format("%3s", token.getPosition().getLine()),
+                        String.format("%-3s", token.getPosition().getCol()),
+                        String.format("%-20s", token.getClass().getSimpleName()),
+                        token.getTokenId());
             });
             KaraffeLexer.LOGGER.debug("END");
         }

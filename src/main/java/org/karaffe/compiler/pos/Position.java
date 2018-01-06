@@ -2,25 +2,32 @@ package org.karaffe.compiler.pos;
 
 import java.util.Optional;
 
-public interface Position {
+public interface Position extends Comparable<Position> {
 
-    public int getStartIndex();
+    public String getLine();
 
-    public int getEndIndex();
+    public Optional<Integer> getLineNumber();
 
-    public boolean hasSource();
+    public String getCol();
 
-    public String getSource();
+    public Optional<Integer> getColNumber();
 
-    public default boolean is(final Class<? extends Position> clazz) {
-        return clazz.isInstance(this);
+    public String getSourceName();
+
+    public Position merge(Position position);
+
+    public default boolean isNoPos() {
+        return this instanceof NoPos;
     }
 
-    public default Optional<Integer> getLineF() {
-        return Optional.empty();
+    public default boolean isRange() {
+        return this instanceof Range;
     }
 
-    public default Optional<Integer> getColumnF() {
+    public default Optional<Range> asRange() {
+        if (this instanceof Range) {
+            return Optional.of((Range) this);
+        }
         return Optional.empty();
     }
 
@@ -28,125 +35,63 @@ public interface Position {
         return new NoPos();
     }
 
+    public static Position copy(Position that) {
+        if (that.isNoPos()) {
+            return Position.noPos();
+        }
+        if (that.isRange()) {
+            Range range = (Range) that;
+            return new Range(range.getSourceName(), range.begin(), range.end());
+        }
+        LineColPos pos = (LineColPos) that;
+        return Position.of(pos.getSourceName(), pos.getLineRaw(), pos.getColumnRaw());
+
+    }
+
     public static Position of(final String sourceName, final int line, final int column) {
-        return new RangeSource(sourceName, -1, -1, line, column);
+        if (line <= 0) {
+            throw new IllegalArgumentException("Line Number <= 0 :" + line);
+        }
+        if (column < 0) {
+            throw new IllegalArgumentException("Col Number < 0 :" + column);
+        }
+        return new LineColPos(sourceName, line, column);
     }
 
-    public static Position of(final String sourceName, final int start, final int end, final int line, final int column) {
-        return new RangeSource(sourceName, start, end, line, column);
+    public static void throwInvalidSourceNameException(String thisSourceName, String otherSourceName) {
+        throw new IllegalArgumentException(String.format("The merge target \"SourceName\" different. %s vs %s", thisSourceName, otherSourceName));
     }
 
-    public static Position of(final Position start, final Position end) {
-        if (start.hasSource()) {
-            return Position.of(start.getSource(), start.getStartIndex(), end.getEndIndex(), start.getLineF().orElse(-1), start.getColumnF().orElse(-1));
+    public static Position large(Position left, Position right) {
+        if (left.isNoPos() && right.isNoPos()) {
+            return left;
         }
-        return new Range(start.getStartIndex(), end.getEndIndex());
+        if (left.isNoPos()) {
+            return Position.copy(right);
+        }
+        if (right.isNoPos()) {
+            return Position.copy(left);
+        }
+        if (left.compareTo(right) < 0) {
+            return Position.copy(right);
+        }
+        return Position.copy(left);
     }
 
-    public static class NoPos implements Position {
-
-        @Override
-        public String toString() {
-            return "<no-pos>";
+    public static Position small(Position left, Position right) {
+        if (left.isNoPos() && right.isNoPos()) {
+            return left;
         }
-
-        @Override
-        public int getStartIndex() {
-            return 0;
+        if (left.isNoPos()) {
+            return Position.copy(right);
         }
-
-        @Override
-        public int getEndIndex() {
-            return 0;
+        if (right.isNoPos()) {
+            return Position.copy(left);
         }
-
-        @Override
-        public boolean hasSource() {
-            return false;
+        if (left.compareTo(right) <= 0) {
+            return Position.copy(left);
         }
-
-        @Override
-        public String getSource() {
-            return "<no-source>";
-        }
+        return Position.copy(right);
     }
 
-    public static class Range implements Position {
-        private final int start;
-        private final int end;
-
-        public Range(final int start, final int end) {
-            this.start = start;
-            this.end = end;
-        }
-
-        @Override
-        public int getStartIndex() {
-            return this.start;
-        }
-
-        @Override
-        public int getEndIndex() {
-            return this.end;
-        }
-
-        @Override
-        public boolean hasSource() {
-            return false;
-        }
-
-        @Override
-        public String getSource() {
-            return "<no-source>";
-        }
-    }
-
-    public static class RangeSource implements Position {
-        private final String source;
-        private final Range range;
-        private final int line;
-        private final int column;
-
-        public RangeSource(final String source, final int start, final int end, final int line, final int column) {
-            this.source = source;
-            this.range = new Range(start, end);
-            this.line = line;
-            this.column = column;
-        }
-
-        @Override
-        public int getStartIndex() {
-            return this.range.getStartIndex();
-        }
-
-        @Override
-        public int getEndIndex() {
-            return this.range.getEndIndex();
-        }
-
-        @Override
-        public Optional<Integer> getColumnF() {
-            return Optional.of(this.column);
-        }
-
-        @Override
-        public Optional<Integer> getLineF() {
-            return Optional.of(this.line);
-        }
-
-        @Override
-        public boolean hasSource() {
-            return true;
-        }
-
-        @Override
-        public String getSource() {
-            return this.source;
-        }
-
-        @Override
-        public String toString() {
-            return String.format("%s:%s at %s", this.getLineF().map(t -> t.toString()).orElse("?"), this.getColumnF().map(t -> t.toString()).orElse("?"), this.getSource());
-        }
-    }
 }
