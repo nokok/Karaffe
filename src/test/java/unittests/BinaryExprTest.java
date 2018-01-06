@@ -1,4 +1,4 @@
-package org.karaffe.compiler.tree.base;
+package unittests;
 
 import org.junit.Assert;
 import org.junit.Test;
@@ -7,6 +7,7 @@ import org.karaffe.compiler.lexer.OperatorToken;
 import org.karaffe.compiler.tree.BinaryExpr;
 import org.karaffe.compiler.tree.Literal;
 import org.karaffe.compiler.tree.Operator;
+import org.karaffe.compiler.tree.base.Node;
 
 public class BinaryExprTest {
 

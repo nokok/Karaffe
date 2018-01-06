@@ -20,7 +20,7 @@ public class AbstractNodes extends AbstractNode implements ImmutableCollections<
         this(nodeType, new ArrayList<>(Arrays.asList(node)));
     }
 
-    public AbstractNodes(final NodeType nodeType, final List<Node> nodes) {
+    public AbstractNodes(final NodeType nodeType, final List<? extends Node> nodes) {
         super(nodeType, nodes);
     }
 
@@ -65,7 +65,8 @@ public class AbstractNodes extends AbstractNode implements ImmutableCollections<
     }
 
     @Override
-    public AbstractNodes normalize() {
-        return this;
+    public Iterable<? extends Node> iterable() {
+        return this.getChildren();
     }
+
 }

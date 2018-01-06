@@ -5,7 +5,6 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.Objects;
 import java.util.UUID;
-import java.util.stream.Collectors;
 
 import org.karaffe.compiler.pos.Position;
 import org.karaffe.compiler.tree.NodeType;
@@ -78,6 +77,12 @@ public abstract class AbstractNode implements Node {
     }
 
     @Override
+    public void replaceChildren(List<Node> replaced) {
+        this.children.clear();
+        this.children.addAll(replaced);
+    }
+
+    @Override
     public List<? extends Node> getChildren() {
         return new ArrayList<>(this.children);
     }
@@ -87,17 +92,25 @@ public abstract class AbstractNode implements Node {
         this.children.add(Objects.requireNonNull(n));
     }
 
+    public int depth() {
+        int maxDepth = 0;
+        for (Node child : this.children) {
+            maxDepth = Math.max(maxDepth, depth(child));
+        }
+        return maxDepth + 1;
+    }
+
+    private int depth(Node node) {
+        int depth = 0;
+        for (Node child : node.getChildren()) {
+            depth += depth(node);
+        }
+        return 0;
+    }
+
     @Override
     public String toString() {
         return String.format("(%s %s)", this.getClass().getSimpleName(), this.children.stream().map(Object::toString).reduce((l, r) -> l + " " + r).orElse("()"));
     }
 
-    @Override
-    public AbstractNodes normalize() {
-        List<AbstractNodes> nodes = new ArrayList<>();
-        for (Node node : this.children) {
-            nodes.add(node.normalize());
-        }
-        return new AbstractNodes(NodeType.NORMALIZED, nodes.stream().filter(c -> !c.isEmpty()).flatMap(AbstractNodes::stream).collect(Collectors.toList()));
-    }
 }

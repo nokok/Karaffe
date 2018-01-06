@@ -3,6 +3,7 @@ package org.karaffe.compiler.tree;
 public enum NodeType {
     // SPECIAL
     NORMALIZED,
+    NODELIST,
 
     // Base
     APPLY,

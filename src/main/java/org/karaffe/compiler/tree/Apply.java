@@ -3,12 +3,13 @@ package org.karaffe.compiler.tree;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+import java.util.Optional;
 
 import org.karaffe.compiler.tree.base.AbstractNode;
-import org.karaffe.compiler.tree.base.AbstractNodes;
+import org.karaffe.compiler.tree.base.KNormalizable;
 import org.karaffe.compiler.tree.base.Node;
 
-public class Apply extends AbstractNode {
+public class Apply extends AbstractNode implements KNormalizable {
 
     public Apply(final Node target) {
         this(target, new ArrayList<>());
@@ -23,9 +24,22 @@ public class Apply extends AbstractNode {
         args.stream().forEach(this::addChild);
     }
 
-    @Override
-    public AbstractNodes normalize() {
-        List<Node> nodes = new ArrayList<>();
-        return new AbstractNodes(NodeType.NORMALIZED, nodes);
+    public Node findTarget() {
+        return getChildren().get(0);
     }
+
+    public Optional<List<? extends Node>> findArguments() {
+        List<? extends Node> children = getChildren();
+        int childrenSize = children.size();
+        if (childrenSize == 1) {
+            return Optional.empty();
+        }
+        return Optional.ofNullable(children.subList(1, childrenSize));
+    }
+
+    @Override
+    public NodeList normalize() {
+        return this.toNodeList();
+    }
+
 }

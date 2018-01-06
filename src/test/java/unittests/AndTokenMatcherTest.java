@@ -1,4 +1,4 @@
-package org.karaffe.compiler.parser.util;
+package unittests;
 
 public class AndTokenMatcherTest {
 

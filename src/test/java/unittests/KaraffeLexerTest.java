@@ -1,4 +1,4 @@
-package org.karaffe.compiler.lexer;
+package unittests;
 
 import java.util.HashMap;
 import java.util.List;
@@ -10,10 +10,14 @@ import org.junit.Test;
 import org.karaffe.compiler.lexer.CommonToken.Dot;
 import org.karaffe.compiler.lexer.CommonToken.EOF;
 import org.karaffe.compiler.lexer.CommonToken.Semi;
+import org.karaffe.compiler.lexer.IdentifierToken;
 import org.karaffe.compiler.lexer.IdentifierToken.TypeName;
 import org.karaffe.compiler.lexer.IdentifierToken.VarName;
+import org.karaffe.compiler.lexer.KaraffeLexer;
+import org.karaffe.compiler.lexer.KeywordToken;
 import org.karaffe.compiler.lexer.KeywordToken.New;
 import org.karaffe.compiler.lexer.KeywordToken.Package;
+import org.karaffe.compiler.lexer.Lexer;
 import org.karaffe.compiler.lexer.LiteralToken.IntLiteral;
 import org.karaffe.compiler.lexer.ModifierToken.Private;
 import org.karaffe.compiler.lexer.ModifierToken.Public;
@@ -25,6 +29,8 @@ import org.karaffe.compiler.lexer.OperatorToken.Minus;
 import org.karaffe.compiler.lexer.OperatorToken.Plus;
 import org.karaffe.compiler.lexer.OperatorToken.Slash;
 import org.karaffe.compiler.lexer.OperatorToken.Star;
+import org.karaffe.compiler.lexer.Token;
+import org.karaffe.compiler.lexer.WhitespaceToken;
 import org.karaffe.compiler.lexer.WhitespaceToken.CR;
 import org.slf4j.LoggerFactory;
 

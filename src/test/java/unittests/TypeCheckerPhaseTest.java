@@ -1,4 +1,4 @@
-package org.karaffe.compiler.phases;
+package unittests;
 
 import java.util.Optional;
 
@@ -6,6 +6,7 @@ import org.junit.Test;
 import org.karaffe.compiler.lexer.KaraffeLexer;
 import org.karaffe.compiler.parser.KaraffeParser;
 import org.karaffe.compiler.parser.util.MatchResult;
+import org.karaffe.compiler.phases.TypeCheckerPhase;
 import org.karaffe.compiler.tree.CompileUnit;
 
 public class TypeCheckerPhaseTest {

@@ -1,4 +1,4 @@
-package org.karaffe.compiler.parser.util;
+package unittests;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -15,6 +15,8 @@ import org.karaffe.compiler.lexer.KeywordToken.Package;
 import org.karaffe.compiler.lexer.Token;
 import org.karaffe.compiler.lexer.Tokens;
 import org.karaffe.compiler.lexer.WhitespaceToken;
+import org.karaffe.compiler.parser.util.MatchResult;
+import org.karaffe.compiler.parser.util.SimpleTokenMatcher;
 import org.karaffe.compiler.parser.util.MatchResult.Success;
 
 public class TokenMatcherHeadTest {

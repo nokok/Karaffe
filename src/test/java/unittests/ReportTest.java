@@ -1,7 +1,8 @@
-package org.karaffe.compiler.util;
+package unittests;
 
 import org.junit.Test;
 import org.karaffe.compiler.pos.Position;
+import org.karaffe.compiler.util.Report;
 
 public class ReportTest {
 

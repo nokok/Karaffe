@@ -67,7 +67,7 @@ public interface MatchResult extends ResultState, ResultConverter<MatchResult.Su
             return Optional.ofNullable(this.node);
         }
 
-        Collection<Token> matchedTokens() {
+        public Collection<Token> matchedTokens() {
             return this.matchedTokens;
         }
 

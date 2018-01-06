@@ -1,4 +1,4 @@
-package org.karaffe.compiler;
+package unittests;
 
 import org.junit.Test;
 

@@ -16,6 +16,8 @@ public interface ImmutableCollections<T> {
 
     Iterator<? extends T> iterator();
 
+    Iterable<? extends T> iterable();
+
     T get(int index);
 
     Stream<? extends T> stream();

@@ -2,18 +2,16 @@ package org.karaffe.compiler.phases;
 
 import java.util.Optional;
 
-import org.karaffe.compiler.il.KaraffeILs;
 import org.karaffe.compiler.tree.CompileUnit;
+import org.karaffe.compiler.util.KNormalizer;
 
-public class KNormalizerPhase extends AbstractTransformer<CompileUnit, KaraffeILs> {
-
-    public KNormalizerPhase() {
-        super(CompileUnit.class, KaraffeILs.class);
-    }
+public class KNormalizerPhase extends AbstractCompileUnitTransformer {
 
     @Override
-    public Optional<KaraffeILs> transform(CompileUnit input) {
-        return null;
+    public Optional<CompileUnit> transform(CompileUnit input) {
+        KNormalizer normalizer = new KNormalizer();
+        return Optional.of((CompileUnit) normalizer.normalize(input));
     }
 
 }
+

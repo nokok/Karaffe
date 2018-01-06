@@ -1,8 +1,9 @@
-package org.karaffe.compiler.util;
+package unittests;
 
 import static org.junit.Assert.assertEquals;
 
 import org.junit.Test;
+import org.karaffe.compiler.util.DiagnosticInfo;
 
 public class DiagnosticInfoTest {
     @Test

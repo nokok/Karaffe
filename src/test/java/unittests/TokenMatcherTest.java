@@ -1,4 +1,4 @@
-package org.karaffe.compiler.parser.util;
+package unittests;
 
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
@@ -10,6 +10,7 @@ import org.karaffe.compiler.lexer.CommonToken;
 import org.karaffe.compiler.lexer.IdentifierToken;
 import org.karaffe.compiler.lexer.Tokens;
 import org.karaffe.compiler.lexer.WhitespaceToken;
+import org.karaffe.compiler.parser.util.TokenMatcher;
 
 public class TokenMatcherTest {
     @Test

@@ -37,6 +37,7 @@ public class StatementParser implements Parser {
         if (cp.selectFirst(
                 new StmtBlock(),
                 new IfBlock(),
+                new VarDefParser(),
                 new WhileBlock(),
                 new SystemOutPrintln(),
                 new AssignStmt(),

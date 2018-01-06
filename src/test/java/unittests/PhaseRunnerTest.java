@@ -1,10 +1,12 @@
-package org.karaffe.compiler.phases;
+package unittests;
 
 import java.util.Optional;
 import java.util.function.Function;
 
 import org.junit.Assert;
 import org.junit.Test;
+import org.karaffe.compiler.phases.AbstractTransformer;
+import org.karaffe.compiler.phases.PhaseRunner;
 
 public class PhaseRunnerTest {
     class PreConditionFail extends AbstractTransformer<String, String> {

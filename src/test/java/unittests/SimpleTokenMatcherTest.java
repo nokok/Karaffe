@@ -1,4 +1,4 @@
-package org.karaffe.compiler.parser.util;
+package unittests;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -10,6 +10,9 @@ import org.karaffe.compiler.lexer.IdentifierToken;
 import org.karaffe.compiler.lexer.IdentifierToken.TypeName;
 import org.karaffe.compiler.lexer.KaraffeLexer;
 import org.karaffe.compiler.lexer.KeywordToken.Class;
+import org.karaffe.compiler.parser.util.MatchResult;
+import org.karaffe.compiler.parser.util.SimpleTokenMatcher;
+import org.karaffe.compiler.parser.util.TokenMatcher;
 import org.karaffe.compiler.lexer.Token;
 import org.karaffe.compiler.lexer.Tokens;
 

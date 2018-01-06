@@ -21,6 +21,11 @@ public class VarDefParserTest {
         this.runTest("int a;", true);
     }
 
+    @Test
+    public void test3() {
+        this.runTest("int e1 = 1;", true);
+    }
+
     private void runTest(final String source, final boolean v) {
         final KaraffeLexer lexer = new KaraffeLexer(source);
         final Parser varDeclParser = new VarDefParser();

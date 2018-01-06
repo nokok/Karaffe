@@ -1,4 +1,4 @@
-package org.karaffe.compiler.parser.util;
+package unittests;
 
 import static org.junit.Assert.assertTrue;
 
@@ -6,6 +6,8 @@ import org.junit.Assert;
 import org.junit.Test;
 import org.karaffe.compiler.lexer.KaraffeLexer;
 import org.karaffe.compiler.lexer.KeywordToken.Package;
+import org.karaffe.compiler.parser.util.CParser;
+import org.karaffe.compiler.parser.util.TokenMatcher;
 import org.karaffe.compiler.lexer.Tokens;
 import org.karaffe.compiler.tree.Name;
 

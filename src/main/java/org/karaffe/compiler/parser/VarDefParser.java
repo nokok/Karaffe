@@ -1,48 +1,41 @@
 package org.karaffe.compiler.parser;
 
-import java.util.ArrayList;
-import java.util.List;
-
-import org.karaffe.compiler.lexer.Token;
-import org.karaffe.compiler.lexer.Tokens;
 import org.karaffe.compiler.lexer.CommonToken.Semi;
+import org.karaffe.compiler.lexer.OperatorToken.Equals;
+import org.karaffe.compiler.lexer.Tokens;
+import org.karaffe.compiler.parser.util.CParser;
+import org.karaffe.compiler.parser.util.CParser.Action;
 import org.karaffe.compiler.parser.util.MatchResult;
-import org.karaffe.compiler.parser.util.TokenMatcher;
 import org.karaffe.compiler.tree.Modifiers;
 import org.karaffe.compiler.tree.Name;
 import org.karaffe.compiler.tree.TypeName;
 import org.karaffe.compiler.tree.VarDef;
+import org.karaffe.compiler.tree.base.Node;
 
 public class VarDefParser implements Parser {
 
     @Override
     public MatchResult parse(final Tokens input) {
-        final List<Token> matched = new ArrayList<>();
-        final MatchResult typeResult = new TypeParser().match(input);
-        if (typeResult.isFailure()) {
-            return typeResult;
+        CParser cp = new CParser(input);
+        if (!cp.testNext(new TypeParser())) {
+            return cp.toFailure();
         }
-
-        Tokens before = typeResult.next();
-        matched.addAll(typeResult.matchedF());
-        final TypeName typeNode = typeResult.getNode().map(TypeName.class::cast).orElseThrow(IllegalStateException::new);
-
-        final MatchResult identifierResult = new IdentifierParser().match(before);
-        if (identifierResult.isFailure()) {
-            return identifierResult;
+        Node typeNode = cp.lastMatch();
+        if (!cp.testNext(new IdentifierParser())) {
+            return cp.toFailure();
         }
+        Node nameNode = cp.lastMatch();
 
-        before = identifierResult.next();
-        matched.addAll(identifierResult.matchedF());
-        final Name nameNode = identifierResult.getNode().map(Name.class::cast).orElseThrow(IllegalStateException::new);
-
-        final MatchResult matchResult = TokenMatcher.create(Semi.class).match(before);
-        if (matchResult.isFailure()) {
-            return matchResult;
+        if (!cp.testNext(Semi.class)) {
+            return cp.chain(nodes -> {
+                Node initializer = nodes.get(1);
+                return new VarDef(new Modifiers(), (Name) nameNode, (TypeName) typeNode, initializer);
+            },
+                    Action.of(Equals.class),
+                    Action.of(new ExprParser()), // 1
+                    Action.of(Semi.class));
         }
-        matched.addAll(matchResult.matchedF());
-
-        return new MatchResult.Success(matchResult.next(), matched, new VarDef(new Modifiers(), nameNode, typeNode));
+        return new MatchResult.Success(cp.next(), cp.matched(), new VarDef(new Modifiers(), (Name) nameNode, (TypeName) typeNode));
     }
 
 }

@@ -1,10 +1,11 @@
-package org.karaffe.compiler.phases;
+package unittests;
 
 import java.util.Optional;
 
 import org.junit.Assert;
 import org.junit.Test;
 import org.karaffe.compiler.context.CompilerConfig;
+import org.karaffe.compiler.phases.SetupPhase;
 
 public class SetupPhaseTest {
     @Test

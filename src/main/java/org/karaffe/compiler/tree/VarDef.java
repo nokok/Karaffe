@@ -5,11 +5,16 @@ import java.util.Arrays;
 
 import org.karaffe.compiler.lexer.ModifierToken;
 import org.karaffe.compiler.tree.base.AbstractNode;
+import org.karaffe.compiler.tree.base.Node;
 
 public class VarDef extends AbstractNode {
 
     public VarDef(final Modifiers modifiers, final Name name, final TypeName type) {
         super(NodeType.DEFVAR, new ArrayList<>(Arrays.asList(modifiers, name, type)));
+    }
+
+    public VarDef(final Modifiers modifiers, final Name name, final TypeName type, Node initializer) {
+        super(NodeType.DEFVAR, new ArrayList<>(Arrays.asList(modifiers, name, type, initializer)));
     }
 
     public boolean has(final Class<? extends ModifierToken> modifier) {

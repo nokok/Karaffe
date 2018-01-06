@@ -1,9 +1,10 @@
-package org.karaffe.compiler.constraints;
+package unittests;
 
 import java.util.function.Predicate;
 
 import org.junit.Assert;
 import org.junit.Test;
+import org.karaffe.compiler.constraints.CmdLineOptionValidator;
 
 public class CmdLineOptionValidatorTest {
 
