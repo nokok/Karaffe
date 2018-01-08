@@ -5,6 +5,7 @@ import java.util.List;
 import org.karaffe.compiler.pos.Position;
 import org.karaffe.compiler.tree.NodeType;
 import org.karaffe.compiler.tree.TermNode;
+import org.karaffe.compiler.tree.visitor.KaraffeTreeVisitor;
 
 public interface Node extends Cloneable {
     public String getID();
@@ -31,4 +32,5 @@ public interface Node extends Cloneable {
         return this instanceof TermNode;
     }
 
+    public void accept(KaraffeTreeVisitor visitor);
 }

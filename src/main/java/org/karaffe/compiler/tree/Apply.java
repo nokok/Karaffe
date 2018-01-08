@@ -8,6 +8,7 @@ import java.util.Optional;
 import org.karaffe.compiler.tree.base.AbstractNode;
 import org.karaffe.compiler.tree.base.KNormalizable;
 import org.karaffe.compiler.tree.base.Node;
+import org.karaffe.compiler.tree.visitor.KaraffeTreeVisitor;
 
 public class Apply extends AbstractNode implements KNormalizable {
 
@@ -35,5 +36,10 @@ public class Apply extends AbstractNode implements KNormalizable {
             return Optional.empty();
         }
         return Optional.ofNullable(children.subList(1, childrenSize));
+    }
+
+    @Override
+    public void accept(KaraffeTreeVisitor visitor) {
+        visitor.visit(this);
     }
 }

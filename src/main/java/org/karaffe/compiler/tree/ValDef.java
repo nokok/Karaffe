@@ -5,6 +5,7 @@ import java.util.Arrays;
 
 import org.karaffe.compiler.lexer.ModifierToken;
 import org.karaffe.compiler.tree.base.AbstractNode;
+import org.karaffe.compiler.tree.visitor.KaraffeTreeVisitor;
 
 public class ValDef extends AbstractNode {
 
@@ -22,6 +23,11 @@ public class ValDef extends AbstractNode {
 
     public String getTypeName() {
         return ((TypeName) this.getChildren().get(2)).getText();
+    }
+
+    @Override
+    public void accept(KaraffeTreeVisitor visitor) {
+        visitor.visit(this);
     }
 
 }

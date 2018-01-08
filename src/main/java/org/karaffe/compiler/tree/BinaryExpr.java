@@ -2,6 +2,7 @@ package org.karaffe.compiler.tree;
 
 import org.karaffe.compiler.tree.base.AbstractNode;
 import org.karaffe.compiler.tree.base.Node;
+import org.karaffe.compiler.tree.visitor.KaraffeTreeVisitor;
 
 public class BinaryExpr extends AbstractNode {
 
@@ -39,4 +40,8 @@ public class BinaryExpr extends AbstractNode {
         return new Apply(new Select(this.toLeftApplyNode(), this.getOperator()), this.toRightApplyNode());
     }
 
+    @Override
+    public void accept(KaraffeTreeVisitor visitor) {
+        visitor.visit(this);
+    }
 }

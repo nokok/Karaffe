@@ -1,6 +1,7 @@
 package org.karaffe.compiler.tree;
 
 import org.karaffe.compiler.lexer.IdentifierToken;
+import org.karaffe.compiler.tree.visitor.KaraffeTreeVisitor;
 
 public class Name extends TermNode {
 
@@ -12,4 +13,12 @@ public class Name extends TermNode {
         this(new IdentifierToken.VarName(name));
     }
 
+    @Override
+    public void accept(KaraffeTreeVisitor visitor) {
+        visitor.visit(this);
+    }
+
+    public String getName() {
+        return this.getText();
+    }
 }

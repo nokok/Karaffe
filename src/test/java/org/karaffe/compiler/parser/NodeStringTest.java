@@ -2,9 +2,6 @@ package org.karaffe.compiler.parser;
 
 import static org.junit.Assert.assertEquals;
 
-import java.util.ArrayList;
-import java.util.Arrays;
-
 import org.junit.Assert;
 import org.junit.Test;
 import org.karaffe.compiler.lexer.IdentifierToken;
@@ -17,10 +14,8 @@ import org.karaffe.compiler.tree.Constant;
 import org.karaffe.compiler.tree.Literal;
 import org.karaffe.compiler.tree.Modifier;
 import org.karaffe.compiler.tree.Name;
-import org.karaffe.compiler.tree.NodeType;
 import org.karaffe.compiler.tree.Select;
 import org.karaffe.compiler.tree.TypeName;
-import org.karaffe.compiler.tree.base.AbstractNode;
 
 public class NodeStringTest {
     @Test
@@ -67,13 +62,6 @@ public class NodeStringTest {
     public void testStmtString() {
         Assert.assertEquals("(Apply (Select (Name java) (Name lang) (Name System) (Name println)) (Literal 10))", this.getNodeString(new StatementParser(), "System.out.println(10);"));
         Assert.assertEquals("(Apply (Select (Name java) (Name lang) (Name System) (Name println)) (Apply (Apply (Select (Apply (Apply (New (Select (Name Fac))))) (Name computeFac)) (Literal 10))))", this.getNodeString(new StatementParser(), "System.out.println((new Fac()).computeFac(10));"));
-    }
-
-    @Test
-    public void testAbstractNodeString() {
-        final AbstractNode node = new AbstractNode(NodeType.APPLY, new ArrayList<>(Arrays.asList(new Name("name1"), new Name("name2")))) {
-        };
-        Assert.assertEquals("( (Name name1) (Name name2))", node.toString());
     }
 
     @Test

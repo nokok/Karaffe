@@ -10,7 +10,7 @@ import java.util.stream.Stream;
 import org.karaffe.compiler.tree.ImmutableCollections;
 import org.karaffe.compiler.tree.NodeType;
 
-public class AbstractNodes extends AbstractNode implements ImmutableCollections<Node> {
+public abstract class AbstractNodes extends AbstractNode implements ImmutableCollections<Node> {
 
     public AbstractNodes(final NodeType nodeType) {
         this(nodeType, new ArrayList<>());

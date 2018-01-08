@@ -10,6 +10,7 @@ import org.karaffe.compiler.context.OutputSet;
 import org.karaffe.compiler.context.ReportContainer;
 import org.karaffe.compiler.tree.base.AbstractNode;
 import org.karaffe.compiler.tree.base.Node;
+import org.karaffe.compiler.tree.visitor.KaraffeTreeVisitor;
 import org.karaffe.compiler.util.Report;
 
 public class CompileUnit extends AbstractNode implements OutputSet, ReportContainer {
@@ -48,5 +49,10 @@ public class CompileUnit extends AbstractNode implements OutputSet, ReportContai
             }
         }
         return new TypeDefs(defs);
+    }
+
+    @Override
+    public void accept(KaraffeTreeVisitor visitor) {
+        visitor.visit(this);
     }
 }

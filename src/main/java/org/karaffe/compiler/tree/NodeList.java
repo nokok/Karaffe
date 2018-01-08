@@ -6,6 +6,7 @@ import java.util.List;
 
 import org.karaffe.compiler.tree.base.AbstractNodes;
 import org.karaffe.compiler.tree.base.Node;
+import org.karaffe.compiler.tree.visitor.KaraffeTreeVisitor;
 
 public class NodeList extends AbstractNodes {
 
@@ -25,4 +26,8 @@ public class NodeList extends AbstractNodes {
         super(NodeType.NODELIST, nodes);
     }
 
+    @Override
+    public void accept(KaraffeTreeVisitor visitor) {
+        visitor.visit(this);
+    }
 }

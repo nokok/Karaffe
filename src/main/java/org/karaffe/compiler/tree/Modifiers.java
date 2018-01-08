@@ -6,6 +6,7 @@ import java.util.List;
 
 import org.karaffe.compiler.tree.base.AbstractNodes;
 import org.karaffe.compiler.tree.base.Node;
+import org.karaffe.compiler.tree.visitor.KaraffeTreeVisitor;
 
 public class Modifiers extends AbstractNodes {
 
@@ -25,4 +26,8 @@ public class Modifiers extends AbstractNodes {
         super(NodeType.S_MODIFIER, modifiers);
     }
 
+    @Override
+    public void accept(KaraffeTreeVisitor visitor) {
+        visitor.visit(this);
+    }
 }

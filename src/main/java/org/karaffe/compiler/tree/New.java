@@ -2,6 +2,7 @@ package org.karaffe.compiler.tree;
 
 import org.karaffe.compiler.tree.base.AbstractNode;
 import org.karaffe.compiler.tree.base.Node;
+import org.karaffe.compiler.tree.visitor.KaraffeTreeVisitor;
 
 public class New extends AbstractNode {
 
@@ -9,4 +10,8 @@ public class New extends AbstractNode {
         super(NodeType.NEW, newInstanceTarget);
     }
 
+    @Override
+    public void accept(KaraffeTreeVisitor visitor) {
+        visitor.visit(this);
+    }
 }

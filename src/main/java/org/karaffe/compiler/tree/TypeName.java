@@ -1,6 +1,7 @@
 package org.karaffe.compiler.tree;
 
 import org.karaffe.compiler.lexer.IdentifierToken;
+import org.karaffe.compiler.tree.visitor.KaraffeTreeVisitor;
 
 public class TypeName extends TermNode {
 
@@ -36,4 +37,8 @@ public class TypeName extends TermNode {
         return String.format("(TypeName %s%s)", super.getText(), this.isArrayType ? "[]" : "");
     }
 
+    @Override
+    public void accept(KaraffeTreeVisitor visitor) {
+        visitor.visit(this);
+    }
 }

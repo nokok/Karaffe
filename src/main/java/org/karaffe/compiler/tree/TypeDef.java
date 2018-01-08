@@ -6,6 +6,7 @@ import java.util.List;
 
 import org.karaffe.compiler.tree.base.AbstractNode;
 import org.karaffe.compiler.tree.base.Node;
+import org.karaffe.compiler.tree.visitor.KaraffeTreeVisitor;
 
 public abstract class TypeDef extends AbstractNode {
 
@@ -20,6 +21,11 @@ public abstract class TypeDef extends AbstractNode {
     public static class ClassDef extends TypeDef {
         public ClassDef(final Node className, final Node superClassName, final Node block) {
             super(NodeType.DEFCLASS, new ArrayList<>(Arrays.asList(className, superClassName, block)));
+        }
+
+        @Override
+        public void accept(KaraffeTreeVisitor visitor) {
+            visitor.visit(this);
         }
     }
 

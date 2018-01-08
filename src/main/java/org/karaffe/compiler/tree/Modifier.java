@@ -2,6 +2,7 @@ package org.karaffe.compiler.tree;
 
 import org.karaffe.compiler.lexer.ModifierToken;
 import org.karaffe.compiler.lexer.Token;
+import org.karaffe.compiler.tree.visitor.KaraffeTreeVisitor;
 
 public class Modifier extends TermNode {
 
@@ -13,4 +14,8 @@ public class Modifier extends TermNode {
         return this.getToken().is(t);
     }
 
+    @Override
+    public void accept(KaraffeTreeVisitor visitor) {
+        visitor.visit(this);
+    }
 }

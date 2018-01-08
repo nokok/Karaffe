@@ -7,6 +7,7 @@ import java.util.stream.Collectors;
 
 import org.karaffe.compiler.tree.base.AbstractNode;
 import org.karaffe.compiler.tree.base.Node;
+import org.karaffe.compiler.tree.visitor.KaraffeTreeVisitor;
 
 public class Select extends AbstractNode {
 
@@ -40,8 +41,12 @@ public class Select extends AbstractNode {
                 delimiter,
                 this.getNames()
                         .stream()
-                        .map(t -> t.toString())
+                        .map(t -> ((Name) t).getName())
                         .collect(Collectors.toList()));
     }
 
+    @Override
+    public void accept(KaraffeTreeVisitor visitor) {
+        visitor.visit(this);
+    }
 }
