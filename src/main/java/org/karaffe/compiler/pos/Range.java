@@ -86,12 +86,12 @@ public class Range implements Position {
         final Position newEnd;
         if (position.isRange()) {
             Range other = (Range) position;
-            newBegin = Position.small(this.begin, other.begin);
-            newEnd = Position.large(this.end, other.end);
+            newBegin = Position.min(this.begin, other.begin);
+            newEnd = Position.max(this.end, other.end);
         } else {
             LineColPos other = (LineColPos) position;
-            newBegin = Position.small(this.begin, other);
-            newEnd = Position.large(this.end, other);
+            newBegin = Position.min(this.begin, other);
+            newEnd = Position.max(this.end, other);
         }
         return new Range(this.sourceName, newBegin, newEnd);
     }

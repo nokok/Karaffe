@@ -62,7 +62,7 @@ public interface Position extends Comparable<Position> {
         throw new IllegalArgumentException(String.format("The merge target \"SourceName\" different. %s vs %s", thisSourceName, otherSourceName));
     }
 
-    public static Position large(Position left, Position right) {
+    public static Position max(Position left, Position right) {
         if (left.isNoPos() && right.isNoPos()) {
             return left;
         }
@@ -78,7 +78,7 @@ public interface Position extends Comparable<Position> {
         return Position.copy(left);
     }
 
-    public static Position small(Position left, Position right) {
+    public static Position min(Position left, Position right) {
         if (left.isNoPos() && right.isNoPos()) {
             return left;
         }
