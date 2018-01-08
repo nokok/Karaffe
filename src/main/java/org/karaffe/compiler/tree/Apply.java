@@ -6,9 +6,10 @@ import java.util.List;
 import java.util.Optional;
 
 import org.karaffe.compiler.tree.base.AbstractNode;
+import org.karaffe.compiler.tree.base.KNormalizable;
 import org.karaffe.compiler.tree.base.Node;
 
-public class Apply extends AbstractNode {
+public class Apply extends AbstractNode implements KNormalizable {
 
     public Apply(final Node target) {
         this(target, new ArrayList<>());
@@ -35,5 +36,4 @@ public class Apply extends AbstractNode {
         }
         return Optional.ofNullable(children.subList(1, childrenSize));
     }
-
 }

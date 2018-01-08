@@ -3,11 +3,10 @@ package org.karaffe.compiler.tree.base;
 import java.util.List;
 
 import org.karaffe.compiler.pos.Position;
-import org.karaffe.compiler.tree.NodeList;
 import org.karaffe.compiler.tree.NodeType;
 import org.karaffe.compiler.tree.TermNode;
 
-public interface Node {
+public interface Node extends Cloneable {
     public String getID();
 
     public NodeType getNodeType();
@@ -30,26 +29,6 @@ public interface Node {
 
     public default boolean isTermNode() {
         return this instanceof TermNode;
-    }
-
-    public default NodeList toNodeList() {
-        return new NodeList(this);
-    }
-
-    public default Node normalize() {
-        if (this.isKNormalizable()) {
-            KNormalizable n = (KNormalizable) this;
-            return n.normalize();
-        }
-        return this;
-    }
-
-    public static Node KNormalize(Node node) {
-        if (node.isKNormalizable()) {
-            KNormalizable n = (KNormalizable) node;
-            return n.normalize();
-        }
-        return node;
     }
 
 }

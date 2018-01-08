@@ -96,20 +96,14 @@ public abstract class AbstractNode implements Node {
         this.children.add(Objects.requireNonNull(n));
     }
 
-    public int depth() {
-        int maxDepth = 0;
-        for (Node child : this.children) {
-            maxDepth = Math.max(maxDepth, depth(child));
+    @Override
+    protected AbstractNode clone() {
+        try {
+            AbstractNode cloned = (AbstractNode) super.clone();
+            return cloned;
+        } catch (CloneNotSupportedException ex) {
+            throw new RuntimeException(ex);
         }
-        return maxDepth + 1;
-    }
-
-    private int depth(Node node) {
-        int depth = 0;
-        for (Node child : node.getChildren()) {
-            depth += depth(node);
-        }
-        return 0;
     }
 
     @Override

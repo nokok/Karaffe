@@ -9,37 +9,31 @@ import org.karaffe.compiler.lexer.KeywordToken;
 import org.karaffe.compiler.parser.ExprParser;
 import org.karaffe.compiler.parser.Parser;
 import org.karaffe.compiler.parser.util.MatchResult;
+import org.karaffe.compiler.phases.knormalize.KNormalizer;
 import org.karaffe.compiler.tree.Assign;
 import org.karaffe.compiler.tree.Literal;
 import org.karaffe.compiler.tree.Name;
 import org.karaffe.compiler.tree.base.Node;
-import org.karaffe.compiler.util.KNormalizer;
 
 public class KNormalizeTest {
     @Test
     public void testBooleanValue1() {
-        Assign node = new Assign(new Name(new IdentifierToken.VarName("t")), new Literal(new KeywordToken.True()));
+        Assign before = new Assign(new Name(new IdentifierToken.VarName("t")), new Literal(new KeywordToken.True()));
 
-        // Before
-        assertEquals("(Assign (Name t) (Literal true))", node.toString());
         KNormalizer kNormalizer = new KNormalizer();
-        kNormalizer.normalize(node);
-
-        // After
-        assertEquals("(Assign (Name t) (Literal 1))", node.toString());
+        Node after = kNormalizer.normalize(before);
+        assertEquals("(Assign (Name t) (Literal true))", before.toString());
+        assertEquals("(Assign (Name t) (Literal 1))", after.toString());
     }
 
     @Test
     public void testBooleanValue2() {
-        Assign node = new Assign(new Name(new IdentifierToken.VarName("t")), new Literal(new KeywordToken.False()));
+        Assign before = new Assign(new Name(new IdentifierToken.VarName("t")), new Literal(new KeywordToken.False()));
 
-        // Before
-        assertEquals("(Assign (Name t) (Literal false))", node.toString());
         KNormalizer kNormalizer = new KNormalizer();
-        kNormalizer.normalize(node);
-
-        // After
-        assertEquals("(Assign (Name t) (Literal 0))", node.toString());
+        Node after = kNormalizer.normalize(before);
+        assertEquals("(Assign (Name t) (Literal false))", before.toString());
+        assertEquals("(Assign (Name t) (Literal 0))", after.toString());
     }
 
     @Test
