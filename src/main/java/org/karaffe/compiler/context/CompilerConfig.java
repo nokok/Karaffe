@@ -89,7 +89,6 @@ class CompilerConfigImpl implements MutableCompilerConfig {
     private final Map<ConfigKeys.FlagConfigs, Boolean> flags;
     private final Map<ConfigKeys.StringConfigs, String> stringConfigs;
 
-    @SuppressWarnings("boxing")
     public CompilerConfigImpl() {
         this.flags = new EnumMap<>(ConfigKeys.FlagConfigs.class);
         this.stringConfigs = new EnumMap<>(ConfigKeys.StringConfigs.class);
@@ -105,7 +104,6 @@ class CompilerConfigImpl implements MutableCompilerConfig {
     }
 
     @Override
-    @SuppressWarnings("boxing")
     public void set(final FlagConfigs config, final boolean value) {
         this.flags.put(config, value);
     }
