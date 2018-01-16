@@ -41,7 +41,13 @@ public class Select extends AbstractNode {
                 delimiter,
                 this.getNames()
                         .stream()
-                        .map(t -> ((Name) t).getName())
+                        .map(t -> {
+                        	if(t instanceof Name) {
+                        		Name name = (Name)t;
+                        		return name.getName();
+                        	}
+                        	return t.toString();
+                        })
                         .collect(Collectors.toList()));
     }
 

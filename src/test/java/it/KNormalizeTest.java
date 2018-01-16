@@ -43,7 +43,7 @@ public class KNormalizeTest {
         Node node = result.getNode().get();
 
         // Before
-        assertEquals("(Apply (Select (Apply (Select (Literal 1) (Select (Name *))) (Literal 2)) (Select (Name +))) (Literal 3))", node.toString());
+        assertEquals("(Apply (Select (Apply (Select (Literal 1) (Select *)) (Literal 2)) (Select +)) (Literal 3))", node.toString());
         KNormalizer kNormalizer = new KNormalizer();
         kNormalizer.normalize(node);
 

@@ -20,7 +20,7 @@ import org.karaffe.compiler.tree.TypeName;
 public class NodeStringTest {
     @Test
     public void testTree() {
-        Assert.assertEquals("(Apply (Select (Name a)))", new Apply(new Select(new Name("a"))).toString());
+        Assert.assertEquals("(Apply (Select a))", new Apply(new Select(new Name("a"))).toString());
     }
 
     @Test
@@ -39,48 +39,48 @@ public class NodeStringTest {
         Assert.assertEquals("(Literal this)", this.getNodeString(new Primary(), "this"));
         Assert.assertEquals("(Literal true)", this.getNodeString(new Primary(), "true"));
         Assert.assertEquals("(Literal false)", this.getNodeString(new Primary(), "false"));
-        Assert.assertEquals("(Apply (New (Select (Name IntArray))) (Literal 1))", this.getNodeString(new Primary(), "new int[1]"));
-        Assert.assertEquals("(Apply (Select (Select (Name num)) (Select (Name <))) (Literal 1))", this.getNodeString(new ExprParser(), "num < 1"));
-        Assert.assertEquals("(Apply (New (Select (Name Fac))))", this.getNodeString(new ExprParser(), "new Fac()"));
-        Assert.assertEquals("(Apply (Apply (Select (Apply (Apply (New (Select (Name Fac))))) (Name computeFac)) (Literal 10)))", this.getNodeString(new ExprParser(), "(new Fac()).computeFac(10)"));
-        Assert.assertEquals("(Select (Name System))", this.getNodeString(new ExprParser(), "System"));
+        Assert.assertEquals("(Apply (New (Select IntArray)) (Literal 1))", this.getNodeString(new Primary(), "new int[1]"));
+        Assert.assertEquals("(Apply (Select (Select num) (Select <)) (Literal 1))", this.getNodeString(new ExprParser(), "num < 1"));
+        Assert.assertEquals("(Apply (New (Select Fac)))", this.getNodeString(new ExprParser(), "new Fac()"));
+        Assert.assertEquals("(Apply (Apply (Select (Apply (Apply (New (Select Fac)))) computeFac) (Literal 10)))", this.getNodeString(new ExprParser(), "(new Fac()).computeFac(10)"));
+        Assert.assertEquals("(Select System)", this.getNodeString(new ExprParser(), "System"));
         // 3.*(1+(2))
-        // (Apply (Select (Literal 1) (Select (Name +))) (Apply (Select (Literal 2)
-        // (Select (Name *))) (Literal 3)))
-        Assert.assertEquals("(Apply (Select (Literal 1) (Select (Name +))) (Apply (Select (Literal 2) (Select (Name *))) (Literal 3)))", this.getNodeString(new ExprParser(), "1+2*3"));
-        assertEquals("(Apply (Select (Name negate)) (Apply (Select (Name negate)) (Literal true)))", this.getNodeString(new ExprParser(), "!!true"));
+        // (Apply (Select (Literal 1) (Select +)) (Apply (Select (Literal 2)
+        // (Select *)) (Literal 3)))
+        Assert.assertEquals("(Apply (Select (Literal 1) (Select +)) (Apply (Select (Literal 2) (Select *)) (Literal 3)))", this.getNodeString(new ExprParser(), "1+2*3"));
+        assertEquals("(Apply (Select negate) (Apply (Select negate) (Literal true)))", this.getNodeString(new ExprParser(), "!!true"));
     }
 
     @Test
     public void testExprString2() {
         // 1+2+3+4
         // 1+(2+(3+(4)))
-        Assert.assertEquals("(Apply (Select (Apply (Apply (Select (Apply (Apply (Select (Literal 1) (Select (Name +))) (Literal 2))) (Select (Name +))) (Literal 3))) (Select (Name +))) (Literal 4))", this.getNodeString(new ExprParser(), "1+2+3+4"));
+        Assert.assertEquals("(Apply (Select (Apply (Apply (Select (Apply (Apply (Select (Literal 1) (Select +)) (Literal 2))) (Select +)) (Literal 3))) (Select +)) (Literal 4))", this.getNodeString(new ExprParser(), "1+2+3+4"));
     }
 
     @Test
     public void testStmtString() {
-        Assert.assertEquals("(Apply (Select (Name java) (Name lang) (Name System) (Name println)) (Literal 10))", this.getNodeString(new StatementParser(), "System.out.println(10);"));
-        Assert.assertEquals("(Apply (Select (Name java) (Name lang) (Name System) (Name println)) (Apply (Apply (Select (Apply (Apply (New (Select (Name Fac))))) (Name computeFac)) (Literal 10))))", this.getNodeString(new StatementParser(), "System.out.println((new Fac()).computeFac(10));"));
+        Assert.assertEquals("(Apply (Select java lang System println) (Literal 10))", this.getNodeString(new StatementParser(), "System.out.println(10);"));
+        Assert.assertEquals("(Apply (Select java lang System println) (Apply (Apply (Select (Apply (Apply (New (Select Fac)))) computeFac) (Literal 10))))", this.getNodeString(new StatementParser(), "System.out.println((new Fac()).computeFac(10));"));
     }
 
     @Test
     public void testName() {
-        Assert.assertEquals("(Apply (Select (Name a)))", new Apply(new Select(new Name("a"))).toString());
+        Assert.assertEquals("(Apply (Select a))", new Apply(new Select(new Name("a"))).toString());
     }
 
     @Test
     public void testApplyArg() {
-        Assert.assertEquals("(Apply (Select (Name a)) (Literal 1))", new Apply(new Select(new Name("a")), new Literal(new LiteralToken.IntLiteral("1"))).toString());
+        Assert.assertEquals("(Apply (Select a) (Literal 1))", new Apply(new Select(new Name("a")), new Literal(new LiteralToken.IntLiteral("1"))).toString());
     }
 
     @Test
     public void testCompileUnit() {
-        Assert.assertEquals("(CompileUnit (PackageDef (Select (Name <root>))) (TypeDefs (ClassDef (Name A) (Name Object) (Block ()))))", this.getNodeString(new KaraffeParser(), "class A {}"));
-        Assert.assertEquals("(CompileUnit (PackageDef (Select (Name <root>))) (TypeDefs (ClassDef (Name B) (Name Object) (Block ()))))", this.getNodeString(new KaraffeParser(), "class B {}"));
-        Assert.assertEquals("(CompileUnit (PackageDef (Select (Name foo))) (TypeDefs (ClassDef (Name A) (Name Object) (Block ()))))", this.getNodeString(new KaraffeParser(), "package foo;class A {}"));
-        Assert.assertEquals("(CompileUnit (PackageDef (Select (Name foo) (Name bar))) (TypeDefs (ClassDef (Name A) (Name Object) (Block ()))))", this.getNodeString(new KaraffeParser(), "package foo.bar;class A {}"));
-        Assert.assertEquals("(CompileUnit (PackageDef (Select (Name foo) (Name bar))) (TypeDefs (ClassDef (Name A) (Name Base) (Block ()))))", this.getNodeString(new KaraffeParser(), "package foo.bar;class A extends Base {}"));
+        Assert.assertEquals("(CompileUnit (PackageDef (Select <root>)) (TypeDefs (ClassDef (Name A) (Name Object) (Block ()))))", this.getNodeString(new KaraffeParser(), "class A {}"));
+        Assert.assertEquals("(CompileUnit (PackageDef (Select <root>)) (TypeDefs (ClassDef (Name B) (Name Object) (Block ()))))", this.getNodeString(new KaraffeParser(), "class B {}"));
+        Assert.assertEquals("(CompileUnit (PackageDef (Select foo)) (TypeDefs (ClassDef (Name A) (Name Object) (Block ()))))", this.getNodeString(new KaraffeParser(), "package foo;class A {}"));
+        Assert.assertEquals("(CompileUnit (PackageDef (Select foo bar)) (TypeDefs (ClassDef (Name A) (Name Object) (Block ()))))", this.getNodeString(new KaraffeParser(), "package foo.bar;class A {}"));
+        Assert.assertEquals("(CompileUnit (PackageDef (Select foo bar)) (TypeDefs (ClassDef (Name A) (Name Base) (Block ()))))", this.getNodeString(new KaraffeParser(), "package foo.bar;class A extends Base {}"));
     }
 
     private String getNodeString(final Parser parser, final String source) {

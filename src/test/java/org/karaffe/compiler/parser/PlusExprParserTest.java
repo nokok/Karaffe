@@ -13,7 +13,7 @@ public class PlusExprParserTest {
         final PlusMinusParser parser = new PlusMinusParser();
         final MatchResult result = parser.match(new KaraffeLexer("1+2").run());
         Assert.assertEquals(true, result.isSuccess());
-        Assert.assertEquals("(Apply (Select (Literal 1) (Select (Name +))) (Literal 2))", result.getNode().get().toString());
+        Assert.assertEquals("(Apply (Select (Literal 1) (Select +)) (Literal 2))", result.getNode().get().toString());
     }
 
     @Test
@@ -21,6 +21,6 @@ public class PlusExprParserTest {
         final ExprParser parser = new ExprParser();
         final MatchResult result = parser.match(new KaraffeLexer("1*2+3").run());
         Assert.assertEquals(true, result.isSuccess());
-        Assert.assertEquals("(Apply (Select (Apply (Select (Literal 1) (Select (Name *))) (Literal 2)) (Select (Name +))) (Literal 3))", result.getNode().get().toString());
+        Assert.assertEquals("(Apply (Select (Apply (Select (Literal 1) (Select *)) (Literal 2)) (Select +)) (Literal 3))", result.getNode().get().toString());
     }
 }
