@@ -38,4 +38,11 @@ public class ReportFormatterTest {
 
         assertEquals(expected.toString(), actual);
     }
+
+    @Test
+    public void testEmptyReport() {
+        ReportFormatter formatter = new ReportFormatter();
+        String msg = formatter.format(new ArrayList<>());
+        assertEquals("", msg);
+    }
 }

@@ -11,6 +11,9 @@ import org.karaffe.compiler.util.Report.StringCodePart;
 public class ReportFormatter {
 
     public String format(List<Report> reports) {
+        if (reports.isEmpty()) {
+            return "";
+        }
         int maxLineNumber = computeMargin(reports);
         StringBuilder stringBuilder = new StringBuilder();
         int count = 1;
