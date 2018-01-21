@@ -43,7 +43,6 @@ public class NodeStringTest {
         Assert.assertEquals("(Apply (New (Select IntArray)) (IntLiteral 1))", this.getNodeString(new Primary(), "new int[1]"));
         Assert.assertEquals("(Apply (Select (Select num) (Select <)) (IntLiteral 1))", this.getNodeString(new ExprParser(), "num < 1"));
         Assert.assertEquals("(Apply (New (Select Fac)))", this.getNodeString(new ExprParser(), "new Fac()"));
-        Assert.assertEquals("(Apply (Select (Apply (Apply (New (Select Fac)))) computeFac) (IntLiteral 10))", this.getNodeString(new ExprParser(), "(new Fac()).computeFac(10)"));
         Assert.assertEquals("(Select System)", this.getNodeString(new ExprParser(), "System"));
         // 3.*(1+(2))
         // (Apply (Select (Literal 1) (Select +)) (Apply (Select (Literal 2)
@@ -88,6 +87,11 @@ public class NodeStringTest {
     public void testNodeList() {
         Assert.assertEquals("[(Apply (Select a))]", new NodeList(new Apply(new Select(new Name("a")))).toString());
         Assert.assertEquals("[(Apply (Select a)),(Apply (Select a) (IntLiteral 1))]", new NodeList(new Apply(new Select(new Name("a"))), new Apply(new Select(new Name("a")), new Literal.IntLiteral(new LiteralToken.IntLiteral("1")))).toString());
+    }
+
+    @Test
+    public void testNestedExprTest() {
+        Assert.assertEquals("(Apply (Select (Apply (New (Select Fac))) computeFac) (IntLiteral 10))", this.getNodeString(new ExprParser(), "(new Fac()).computeFac(10)"));
     }
 
     private String getNodeString(final Parser parser, final String source) {

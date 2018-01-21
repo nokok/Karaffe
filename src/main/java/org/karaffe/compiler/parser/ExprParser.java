@@ -257,6 +257,9 @@ public class ExprParser implements Parser {
                 final CParser cp = new CParser(input);
                 return cp.chain(nodes -> {
                     Node exprNode = nodes.get(1);
+                    if (exprNode instanceof Apply) {
+                        return exprNode;
+                    }
                     return new Apply(exprNode);
                 },
                         Action.of(LeftParen.class),
