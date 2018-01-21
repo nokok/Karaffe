@@ -7,6 +7,7 @@ import java.util.concurrent.Callable;
 import org.karaffe.compiler.context.SourceStream;
 import org.karaffe.compiler.phases.FileLexerPhase;
 import org.karaffe.compiler.phases.GenByteCodePhase;
+import org.karaffe.compiler.phases.KNormalizerPhase;
 import org.karaffe.compiler.phases.ParserPhase;
 import org.karaffe.compiler.phases.PhaseRunner;
 import org.karaffe.compiler.phases.ReportPhase;
@@ -34,6 +35,7 @@ public class KaraffeCompiler implements Callable<Integer>, Traceable, ProgressTr
                     .map(PhaseRunner.first(new FileLexerPhase(config)))
                     .map(PhaseRunner.after(new ParserPhase(config)))
                     .map(PhaseRunner.after(new ReportPhase(config)))
+                    .map(PhaseRunner.after(new KNormalizerPhase(config)))
                     .map(PhaseRunner.after(new GenByteCodePhase(config)))
                     .findFirst()
                     .flatMap(f -> f);

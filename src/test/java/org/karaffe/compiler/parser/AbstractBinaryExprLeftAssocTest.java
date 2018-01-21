@@ -9,8 +9,8 @@ import org.junit.Test;
 import org.karaffe.compiler.lexer.CommonToken;
 import org.karaffe.compiler.lexer.LiteralToken;
 import org.karaffe.compiler.lexer.OperatorToken;
-import org.karaffe.compiler.lexer.Token;
 import org.karaffe.compiler.lexer.OperatorToken.Plus;
+import org.karaffe.compiler.lexer.Token;
 import org.karaffe.compiler.parser.ExprParser.IntLiteralParser;
 import org.karaffe.compiler.parser.util.AbstractBinaryExprLeftAssoc;
 import org.karaffe.compiler.parser.util.MatchResult;
@@ -42,7 +42,7 @@ public class AbstractBinaryExprLeftAssocTest {
         final Optional<Node> node = result.getNode();
         Assert.assertTrue(node.isPresent());
         final Node n = node.get();
-        Assert.assertEquals("(Apply (Select (Apply (Apply (Select (Literal 1) ()) (Literal 1))) ()) (Literal 1))", n.toString());
+        Assert.assertEquals("(Apply (Select (Apply (Apply (Select (IntLiteral 1) ()) (IntLiteral 1))) ()) (IntLiteral 1))", n.toString());
 
     }
 }

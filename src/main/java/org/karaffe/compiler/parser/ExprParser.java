@@ -113,7 +113,7 @@ public class ExprParser implements Parser {
             if (result.isFailure()) {
                 return result;
             }
-            return new MatchResult.Success(result.next(), result.matchedF(), new Literal(result.matchedF().iterator().next()));
+            return new MatchResult.Success(result.next(), result.matchedF(), new Literal.IntLiteral(result.matchedF().iterator().next()));
         }
     }
 
@@ -124,7 +124,7 @@ public class ExprParser implements Parser {
             if (result.isFailure()) {
                 return result;
             }
-            return new MatchResult.Success(result.next(), result.matchedF(), new Literal(result.matchedF().iterator().next()));
+            return new MatchResult.Success(result.next(), result.matchedF(), new Literal.ThisLiteral(result.matchedF().iterator().next()));
         }
     }
 
@@ -135,7 +135,7 @@ public class ExprParser implements Parser {
             if (result.isFailure()) {
                 return result;
             }
-            return new MatchResult.Success(result.next(), result.matchedF(), new Literal(result.matchedF().iterator().next()));
+            return new MatchResult.Success(result.next(), result.matchedF(), new Literal.TrueLiteral(result.matchedF().iterator().next()));
         }
     }
 
@@ -147,7 +147,7 @@ public class ExprParser implements Parser {
             if (result.isFailure()) {
                 return result;
             }
-            return new MatchResult.Success(result.next(), result.matchedF(), new Literal(result.matchedF().iterator().next()));
+            return new MatchResult.Success(result.next(), result.matchedF(), new Literal.FalseLiteral(result.matchedF().iterator().next()));
         }
 
     }
@@ -338,7 +338,7 @@ public class ExprParser implements Parser {
                     return cp.toFailure();
                 }
                 // obj.name(expr);
-                final Apply apply = new Apply(new Apply(new Select(obj, name), arguments));
+                final Apply apply = new Apply(new Select(obj, name), arguments);
                 return new MatchResult.Success(cp.next(), cp.matched(), apply);
             }
 

@@ -27,6 +27,7 @@ public enum NodeType {
     DEFVAL,
     IF,
     PATH,
+    RETURN,
     SELECT,
     GOTO,
     ASSIGN,

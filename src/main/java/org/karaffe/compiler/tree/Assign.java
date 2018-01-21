@@ -14,4 +14,12 @@ public class Assign extends AbstractNode {
     public void accept(KaraffeTreeVisitor visitor) {
         visitor.visit(this);
     }
+
+    public Node findTarget() {
+        return getChildren().get(0);
+    }
+
+    public Node findExpr() {
+        return getChildren().get(1);
+    }
 }

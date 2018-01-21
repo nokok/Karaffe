@@ -10,7 +10,10 @@ import org.karaffe.compiler.tree.Empty;
 import org.karaffe.compiler.tree.Goto;
 import org.karaffe.compiler.tree.If;
 import org.karaffe.compiler.tree.LabelDef;
-import org.karaffe.compiler.tree.Literal;
+import org.karaffe.compiler.tree.Literal.FalseLiteral;
+import org.karaffe.compiler.tree.Literal.IntLiteral;
+import org.karaffe.compiler.tree.Literal.ThisLiteral;
+import org.karaffe.compiler.tree.Literal.TrueLiteral;
 import org.karaffe.compiler.tree.MethodDef;
 import org.karaffe.compiler.tree.Modifier;
 import org.karaffe.compiler.tree.Modifiers;
@@ -20,6 +23,7 @@ import org.karaffe.compiler.tree.NodeList;
 import org.karaffe.compiler.tree.Operator.Plus;
 import org.karaffe.compiler.tree.PackageDef;
 import org.karaffe.compiler.tree.Parameters;
+import org.karaffe.compiler.tree.Return;
 import org.karaffe.compiler.tree.Select;
 import org.karaffe.compiler.tree.TypeDef.ClassDef;
 import org.karaffe.compiler.tree.TypeDefs;
@@ -95,7 +99,25 @@ public class KaraffeTreePrinter implements KaraffeTreeVisitor {
     }
 
     @Override
-    public void visit(Literal node) {
+    public void visit(IntLiteral node) {
+        System.out.println(node);
+
+    }
+
+    @Override
+    public void visit(TrueLiteral node) {
+        System.out.println(node);
+
+    }
+
+    @Override
+    public void visit(FalseLiteral node) {
+        System.out.println(node);
+
+    }
+
+    @Override
+    public void visit(ThisLiteral node) {
         System.out.println(node);
 
     }
@@ -150,6 +172,12 @@ public class KaraffeTreePrinter implements KaraffeTreeVisitor {
 
     @Override
     public void visit(Parameters node) {
+        System.out.println(node);
+
+    }
+
+    @Override
+    public void visit(Return node) {
         System.out.println(node);
 
     }

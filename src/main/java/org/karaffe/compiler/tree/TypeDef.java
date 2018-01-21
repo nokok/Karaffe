@@ -27,6 +27,19 @@ public abstract class TypeDef extends AbstractNode {
         public void accept(KaraffeTreeVisitor visitor) {
             visitor.visit(this);
         }
+
+        public Node findNameNode() {
+            return this.getChildren().get(0);
+        }
+
+        public Node findSuperClassNameNode() {
+            return this.getChildren().get(1);
+        }
+
+        public Node findClassBodyNode() {
+            return this.getChildren().get(2);
+        }
+
     }
 
 }

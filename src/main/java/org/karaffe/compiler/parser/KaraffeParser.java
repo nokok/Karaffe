@@ -12,7 +12,6 @@ import org.karaffe.compiler.tree.CompileUnit;
 import org.karaffe.compiler.tree.Name;
 import org.karaffe.compiler.tree.PackageDef;
 import org.karaffe.compiler.tree.Select;
-import org.karaffe.compiler.tree.TypeDefs;
 import org.karaffe.compiler.tree.base.Node;
 
 public class KaraffeParser implements Parser {
@@ -38,7 +37,7 @@ public class KaraffeParser implements Parser {
             return cp.toFailure();
         }
 
-        return new MatchResult.Success(cp.next(), cp.matched(), new CompileUnit(packageDef, new TypeDefs(typeDefs)));
+        return new MatchResult.Success(cp.next(), cp.matched(), new CompileUnit(packageDef, typeDefs));
     }
 
 }

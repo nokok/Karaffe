@@ -8,9 +8,13 @@ import java.util.Scanner;
 import org.karaffe.compiler.CompilerFactory;
 import org.karaffe.compiler.KaraffeCompiler;
 import org.karaffe.compiler.util.DiagnosticInfo;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import com.typesafe.config.Config;
 import com.typesafe.config.ConfigFactory;
+
+import ch.qos.logback.classic.Level;
 
 public class Main {
     public static void main(String[] args) {
@@ -35,11 +39,10 @@ public class Main {
             terminateCommands = Arrays.asList("exit", "quit");
         }
 
-        Config scripts = config.getConfig("buildtool.scripts");
-
         try (Scanner scanner = new Scanner(System.in)) {
             System.out.print("> ");
             while (scanner.hasNextLine()) {
+                ch.qos.logback.classic.Logger rootLogger = (ch.qos.logback.classic.Logger) LoggerFactory.getLogger(Logger.ROOT_LOGGER_NAME);
                 String line = scanner.nextLine();
                 if (terminateCommands.contains(line)) {
                     break;
@@ -74,6 +77,15 @@ public class Main {
                     } else {
                         System.out.println("");
                     }
+                    break;
+                case "nolog":
+                    rootLogger.setLevel(Level.OFF);
+                    break;
+                case "debug":
+                    rootLogger.setLevel(Level.DEBUG);
+                    break;
+                case "info":
+                    rootLogger.setLevel(Level.INFO);
                     break;
                 case "throw":
                     throw new RuntimeException("Crash Requested");

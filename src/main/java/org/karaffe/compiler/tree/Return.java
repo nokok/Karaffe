@@ -4,10 +4,10 @@ import org.karaffe.compiler.tree.base.AbstractNode;
 import org.karaffe.compiler.tree.base.Node;
 import org.karaffe.compiler.tree.visitor.KaraffeTreeVisitor;
 
-public class New extends AbstractNode {
+public class Return extends AbstractNode {
 
-    public New(final Node newInstanceTarget) {
-        super(NodeType.NEW, newInstanceTarget);
+    public Return(Node expr) {
+        super(NodeType.RETURN, expr);
     }
 
     @Override
@@ -15,7 +15,7 @@ public class New extends AbstractNode {
         visitor.visit(this);
     }
 
-    public Node newInstanceTarget() {
+    public Node findExpr() {
         return getChildren().get(0);
     }
 }

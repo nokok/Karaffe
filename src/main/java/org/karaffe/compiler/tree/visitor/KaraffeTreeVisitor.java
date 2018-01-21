@@ -20,6 +20,7 @@ import org.karaffe.compiler.tree.NodeList;
 import org.karaffe.compiler.tree.Operator;
 import org.karaffe.compiler.tree.PackageDef;
 import org.karaffe.compiler.tree.Parameters;
+import org.karaffe.compiler.tree.Return;
 import org.karaffe.compiler.tree.Select;
 import org.karaffe.compiler.tree.TypeDef.ClassDef;
 import org.karaffe.compiler.tree.TypeDefs;
@@ -50,7 +51,13 @@ public interface KaraffeTreeVisitor {
 
     public void visit(LabelDef node);
 
-    public void visit(Literal node);
+    public void visit(Literal.IntLiteral node);
+
+    public void visit(Literal.TrueLiteral node);
+
+    public void visit(Literal.FalseLiteral node);
+
+    public void visit(Literal.ThisLiteral node);
 
     public void visit(MethodDef node);
 
@@ -69,6 +76,8 @@ public interface KaraffeTreeVisitor {
     public void visit(PackageDef node);
 
     public void visit(Parameters node);
+
+    public void visit(Return node);
 
     public void visit(Select node);
 

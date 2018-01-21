@@ -20,16 +20,36 @@ public class MethodDef extends AbstractNode {
         return this.getModifiers().stream().filter(f -> f.getClass().equals(clazz)).count() == this.getModifiers().size();
     }
 
+    public Node findModifierNode() {
+        return getChildren().get(0);
+    }
+
+    public Node findNameNode() {
+        return getChildren().get(1);
+    }
+
+    public Node findParameterNode() {
+        return getChildren().get(2);
+    }
+
+    public Node findReturnTypeNode() {
+        return getChildren().get(3);
+    }
+
+    public Node findMethodBodyNode() {
+        return getChildren().get(4);
+    }
+
     public String getMethodName() {
-        return ((Name) super.getChildren().get(1)).getText();
+        return ((Name) findNameNode()).getText();
     }
 
     public Parameters getParameters() {
-        return (Parameters) this.getChildren().get(2);
+        return (Parameters) this.findParameterNode();
     }
 
     public String getReturnName() {
-        return ((TypeName) super.getChildren().get(3)).getText();
+        return ((TypeName) findReturnTypeNode()).getText();
     }
 
     @Override
