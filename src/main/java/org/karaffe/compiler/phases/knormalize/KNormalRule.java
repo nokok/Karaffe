@@ -33,7 +33,7 @@ public class KNormalRule {
             newTarget = originalTarget;
         } else {
             NodeList normalized = this.normalize(originalTarget);
-            nodes.add(normalized);
+            nodes.addAll(normalized.flatten());
             newTarget = normalized.lastAssignName();
         }
 
@@ -46,7 +46,7 @@ public class KNormalRule {
                     newArgs.add(arg);
                 } else {
                     NodeList normalizedArg = this.normalize(arg);
-                    nodes.add(normalizedArg);
+                    nodes.addAll(normalizedArg.flatten());
                     newArgs.add(normalizedArg.lastAssignName());
                 }
             }
@@ -76,7 +76,7 @@ public class KNormalRule {
                 names.add(n);
             } else {
                 NodeList normalized = this.normalize(n);
-                nodes.add(normalized);
+                nodes.addAll(normalized.flatten());
                 names.add(normalized.lastAssignName());
             }
         }
@@ -94,7 +94,7 @@ public class KNormalRule {
     public List<Node> normalize(Assign node) {
         List<Node> nodes = new ArrayList<>();
         NodeList normalizedExpr = this.normalize(node.findExpr());
-        nodes.add(normalizedExpr);
+        nodes.addAll(normalizedExpr.flatten());
         nodes.add(new Assign(node.findTarget(), normalizedExpr.lastAssignName()));
         return nodes;
     }
@@ -102,7 +102,7 @@ public class KNormalRule {
     public Block normalize(Block node) {
         List<Node> nodes = new ArrayList<>();
         for (Node n : node.getChildren()) {
-            nodes.add(this.normalize(n));
+            nodes.addAll(this.normalize(n).flatten());
         }
         return new Block(nodes);
     }
