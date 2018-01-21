@@ -16,7 +16,6 @@ public class ReportFormatterTest {
 
     @Test
     public void testReportString() {
-        assertEquals("LINE SEPARATOR", System.getProperty("line.separator"), System.lineSeparator());
         StringCodePart part = new StringCodePart("  println(1)");
         FoundAndRequired foundAndRequired = new FoundAndRequired("String", "Int");
         Report report = Report.createError("Title", Position.of("source.krf", 1, 11), "Message", part, foundAndRequired);
@@ -31,11 +30,6 @@ public class ReportFormatterTest {
         expected.append("  |").append(System.lineSeparator());
         expected.append("---").append(System.lineSeparator());
         String actual = formatter.format(new ArrayList<>(Arrays.asList(report)));
-
-        System.out.println(actual);
-        System.out.println("---");
-        System.out.println(expected.toString());
-
         assertEquals(expected.toString(), actual);
     }
 
