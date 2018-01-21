@@ -174,7 +174,7 @@ public class StatementParser implements Parser {
             if (!cp.testNext(Semi.class)) {
                 return cp.toFailure();
             }
-            return new MatchResult.Success(cp.next(), cp.matched(), new Apply(new Select(new Name("java"), new Name("lang"), new Name("System"), new Name("println")), exprNode));
+            return new MatchResult.Success(cp.next(), cp.matched(), new Apply(new Select(new Name("java"), new Name("lang"), new Name("System"), new Name("out"), new Name("println")), exprNode));
         }
 
     }

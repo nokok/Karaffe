@@ -60,8 +60,8 @@ public class NodeStringTest {
 
     @Test
     public void testStmtString() {
-        Assert.assertEquals("(Apply (Select java lang System println) (IntLiteral 10))", this.getNodeString(new StatementParser(), "System.out.println(10);"));
-        Assert.assertEquals("(Apply (Select java lang System println) (Apply (Select (Apply (Apply (New (Select Fac)))) computeFac) (IntLiteral 10)))", this.getNodeString(new StatementParser(), "System.out.println((new Fac()).computeFac(10));"));
+        Assert.assertEquals("(Apply (Select java lang System out println) (IntLiteral 10))", this.getNodeString(new StatementParser(), "System.out.println(10);"));
+        Assert.assertEquals("(Apply (Select java lang System out println) (Apply (Select (Apply (New (Select Fac))) computeFac) (IntLiteral 10)))", this.getNodeString(new StatementParser(), "System.out.println((new Fac()).computeFac(10));"));
     }
 
     @Test
