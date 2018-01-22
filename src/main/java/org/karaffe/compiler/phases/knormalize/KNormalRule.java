@@ -1,16 +1,17 @@
 package org.karaffe.compiler.phases.knormalize;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 import java.util.Optional;
 
 import org.karaffe.compiler.tree.Apply;
 import org.karaffe.compiler.tree.Assign;
 import org.karaffe.compiler.tree.Block;
+import org.karaffe.compiler.tree.Empty;
 import org.karaffe.compiler.tree.If;
 import org.karaffe.compiler.tree.Literal;
 import org.karaffe.compiler.tree.MethodDef;
+import org.karaffe.compiler.tree.Modifiers;
 import org.karaffe.compiler.tree.Name;
 import org.karaffe.compiler.tree.New;
 import org.karaffe.compiler.tree.NodeList;
@@ -51,21 +52,23 @@ public class KNormalRule {
                 }
             }
             Apply newApply = new Apply(newTarget, newArgs);
-            Name res = this.generator.genName();
+            Name res = makeTmpName(nodes);
             Assign assign = new Assign(res, newApply);
             nodes.add(assign);
             return nodes;
         }
         Apply newApply = new Apply(newTarget);
-        Name res = this.generator.genName();
+        Name res = makeTmpName(nodes);
         Assign assign = new Assign(res, newApply);
         nodes.add(assign);
         return nodes;
     }
 
     public List<Node> normalize(Literal.IntLiteral node) {
-        Name name = this.generator.genName();
-        return new ArrayList<>(Arrays.asList(new Assign(name, node)));
+        List<Node> nodes = new ArrayList<>();
+        Name name = makeTmpName(nodes);
+        nodes.add(new Assign(name, node));
+        return nodes;
     }
 
     public List<Node> normalize(Select node) {
@@ -80,15 +83,17 @@ public class KNormalRule {
                 names.add(normalized.lastAssignName());
             }
         }
-        Name name = this.generator.genName();
+        Name name = makeTmpName(nodes);
         Assign ref = new Assign(name, new Select(names));
         nodes.add(ref);
         return nodes;
     }
 
     public List<Node> normalize(Literal.ThisLiteral node) {
-        Name name = this.generator.genName();
-        return new ArrayList<>(Arrays.asList(new Assign(name, node)));
+        List<Node> nodes = new ArrayList<>();
+        Name name = makeTmpName(nodes);
+        nodes.add(new Assign(name, node));
+        return nodes;
     }
 
     public List<Node> normalize(Assign node) {
@@ -146,8 +151,10 @@ public class KNormalRule {
     }
 
     public List<Node> normalize(New node) {
-        Name name = this.generator.genName();
-        return new ArrayList<>(Arrays.asList(new Assign(name, node)));
+        List<Node> nodes = new ArrayList<>();
+        Name name = makeTmpName(nodes);
+        nodes.add(new Assign(name, node));
+        return nodes;
     }
 
     public ClassDef normalize(ClassDef node) {
@@ -196,5 +203,12 @@ public class KNormalRule {
             throw new UnsupportedOperationException(node.getClass().getName());
         }
         return new NodeList(new NodeList(nodes).flatten());
+    }
+
+    private Name makeTmpName(List<Node> nodes) {
+        Name name = this.generator.genName();
+        ValDef def = new ValDef(new Modifiers(), name, new Empty());
+        nodes.add(def);
+        return name;
     }
 }
