@@ -11,7 +11,7 @@ public class VisitorTest {
     @Test
     public void testPrinter() {
         KaraffeTreeVisitor printer = new DefMapBuilder();
-        KaraffeLexer lexer = new KaraffeLexer("class Main { public static void main(String[] args){if (true) {int a;int b;} else {int a;}}}");
+        KaraffeLexer lexer = new KaraffeLexer("class Main { public static void main(String[] args){if (true) {var a :Int;var b:Int;} else {var a :Int;}}}");
         KaraffeParser parser = new KaraffeParser();
         MatchResult result = parser.parse(lexer.run());
         result.getNode().get().accept(printer);

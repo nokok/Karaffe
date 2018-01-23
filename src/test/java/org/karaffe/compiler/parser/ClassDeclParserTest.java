@@ -29,18 +29,18 @@ public class ClassDeclParserTest {
 
     @Test
     public void testClassDecl3() {
-        this.runTest("class A {int a;}", true);
+        this.runTest("class A {var a:int;}", true);
     }
 
     @Test
     public void testClassDecl4() {
-        this.runTest("class A{int a;int b; String c;}", true);
+        this.runTest("class A{var a:int;var b:int; var c:String;}", true);
     }
 
     @Test
     public void testClassDecl5() {
         this.runTest("class A{\n"
-                + "     int a;\n"
+                + "     var a :int;\n"
                 + "     public int doSomething(int a) {\n"
                 + "       return a;\n"
                 + "     }\n"
@@ -55,8 +55,8 @@ public class ClassDeclParserTest {
     @Test
     public void testClassDecl7() {
         this.runTest("class A extends Base {\n"
-                + "     int a;\n"
-                + "     int b;\n"
+                + "     var a :int;\n"
+                + "     var b :int;\n"
                 + "     public int doSomething(int a) {\n"
                 + "       return a;\n"
                 + "     }\n"

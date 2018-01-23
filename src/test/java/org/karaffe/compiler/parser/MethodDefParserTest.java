@@ -24,7 +24,7 @@ public class MethodDefParserTest {
     @Test
     public void test2() {
         this.runTest("public int doSomething() {\n"
-                + "int a;"
+                + "var a :int;"
                 + "return 1;"
                 + "}", true);
     }
@@ -32,8 +32,8 @@ public class MethodDefParserTest {
     @Test
     public void test3() {
         this.runTest("public int doSomething() {\n"
-                + "int a;"
-                + "String b;"
+                + "var a :int;"
+                + "var b :String;"
                 + "return 1;"
                 + "}", true);
     }
@@ -53,7 +53,7 @@ public class MethodDefParserTest {
     @Test(timeout = 1000)
     public void test5() {
         this.runTest("public int doSomething() {\n"
-                + "int a;"
+                + "var a :int;"
                 + "if (true) { a = 1;} else {b = 1;}"
                 + "return 1;"
                 + "}", true);
@@ -116,7 +116,7 @@ public class MethodDefParserTest {
     @Test
     public void test16() {
         this.runTest("    public int computeFac(int num){\n" +
-                "        int numAux ;\n" +
+                "        var numAux :int ;\n" +
                 "        if (num < 1) {\n" +
                 "            numAux = 1 ;\n" +
                 "        } else {\n" +

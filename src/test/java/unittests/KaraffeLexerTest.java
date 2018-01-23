@@ -17,6 +17,7 @@ import org.karaffe.compiler.lexer.KaraffeLexer;
 import org.karaffe.compiler.lexer.KeywordToken;
 import org.karaffe.compiler.lexer.KeywordToken.New;
 import org.karaffe.compiler.lexer.KeywordToken.Package;
+import org.karaffe.compiler.lexer.KeywordToken.Var;
 import org.karaffe.compiler.lexer.Lexer;
 import org.karaffe.compiler.lexer.LiteralToken.IntLiteral;
 import org.karaffe.compiler.lexer.ModifierToken.Private;
@@ -73,7 +74,7 @@ public class KaraffeLexerTest {
 
         final Map<String, Class<? extends Token>> map = new HashMap<>();
         map.put("Hoge", TypeName.class);
-        map.put("var", VarName.class);
+        map.put("var", Var.class);
         map.put("class", KeywordToken.Class.class);
         map.put("package", Package.class);
         map.put("new", New.class);

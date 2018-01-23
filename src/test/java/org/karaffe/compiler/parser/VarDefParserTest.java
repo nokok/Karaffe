@@ -12,18 +12,14 @@ public class VarDefParserTest {
     }
 
     @Test
-    public void testVarDecl() {
-        this.runTest("String a;", true);
-    }
-
-    @Test
-    public void test2() {
-        this.runTest("int a;", true);
-    }
-
-    @Test
-    public void test3() {
-        this.runTest("int e1 = 1;", true);
+    public void test1() {
+        this.runTest("let a: Int = 1", true);
+        this.runTest("var a: Int = 1", true);
+        this.runTest("var a: Int", true);
+        this.runTest("var a", true);
+        this.runTest("let a = 1", true);
+        this.runTest("var a = 1", true);
+        this.runTest("def a: Int", false);
     }
 
     private void runTest(final String source, final boolean v) {

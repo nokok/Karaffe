@@ -24,6 +24,7 @@ public class ParserPhase extends AbstractTransformer<Tokens, CompileUnit> implem
         final KaraffeParser parser = new KaraffeParser();
         final MatchResult result = parser.parse(input);
         final Optional<CompileUnit> r = result.getNode().map(CompileUnit.class::cast);
+        info(r.toString());
         this.info("Parse Completed.");
         return r;
     }

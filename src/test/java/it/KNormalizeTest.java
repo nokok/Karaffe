@@ -43,7 +43,7 @@ public class KNormalizeTest {
     public void testMethodDef() {
         testKNormalize(
                 "    public int computeFac(int num){\n" +
-                        "        int numAux ;\n" +
+                        "        var numAux: int\n" +
                         "        if (num < 1) {\n" +
                         "            numAux = 1 ;\n" +
                         "        } else {\n" +
@@ -66,7 +66,7 @@ public class KNormalizeTest {
                 "\r\n" +
                 "class Fac {\r\n" +
                 "    public int computeFac(int num){\r\n" +
-                "        int numAux ;\r\n" +
+                "        var numAux :int ;\r\n" +
                 "        if (num < 1)\r\n" +
                 "            numAux = 1;\r\n" +
                 "        else\r\n" +

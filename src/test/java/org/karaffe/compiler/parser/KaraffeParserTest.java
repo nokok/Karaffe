@@ -37,11 +37,11 @@ public class KaraffeParserTest {
 
     @Test
     public void testClassDecl2() {
-        final KaraffeLexer lexer = new KaraffeLexer("class A {int a;} class B {int a;}");
+        final KaraffeLexer lexer = new KaraffeLexer("class A {var a :int;} class B {var a :int;}");
         final KaraffeParser parser = new KaraffeParser();
         final List<Token> tokens = lexer.run();
 
-        Assert.assertEquals(22, tokens.size());
+        Assert.assertEquals(28, tokens.size());
 
         final ResultState result = parser.parse(tokens);
         Assert.assertTrue(result.isSuccess());
@@ -57,7 +57,7 @@ public class KaraffeParserTest {
                 "\n" +
                 "class Fac {\n" +
                 "    public int computeFac(int num){\n" +
-                "        int numAux ;\n" +
+                "        var numAux :int ;\n" +
                 "        if (num < 1)\n" +
                 "            numAux = 1;\n" +
                 "        else\n" +
