@@ -28,6 +28,10 @@ public class Parameters extends AbstractNodes {
         visitor.visit(this);
     }
 
+    public List<Node> findParameters() {
+        return getChildren().stream().collect(Collectors.toList());
+    }
+
     @Override
     public String vSource() {
         return String.format("(%s)", String.join(",", getChildren().stream().map(Node::vSource).collect(Collectors.toList())));
