@@ -16,6 +16,8 @@ public interface Node extends Cloneable {
 
     public Position getPosition();
 
+    public String vSource();
+
     public default boolean hasAnyChild() {
         return !getChildren().isEmpty();
     }

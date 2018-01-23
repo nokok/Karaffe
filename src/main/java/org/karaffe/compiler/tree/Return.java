@@ -18,4 +18,9 @@ public class Return extends AbstractNode {
     public Node findExpr() {
         return getChildren().get(0);
     }
+
+    @Override
+    public String vSource() {
+        return "return " + findExpr().vSource() + ";";
+    }
 }

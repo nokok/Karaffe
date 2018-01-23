@@ -40,6 +40,11 @@ public abstract class TypeDef extends AbstractNode {
             return this.getChildren().get(2);
         }
 
+        @Override
+        public String vSource() {
+            return String.format("class %s extends %s %s", findNameNode().vSource(), findSuperClassNameNode().vSource(), findClassBodyNode().vSource());
+        }
+
     }
 
 }

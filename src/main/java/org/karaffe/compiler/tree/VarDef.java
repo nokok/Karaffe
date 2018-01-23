@@ -54,4 +54,9 @@ public class VarDef extends AbstractNode {
     public void accept(KaraffeTreeVisitor visitor) {
         visitor.visit(this);
     }
+
+    @Override
+    public String vSource() {
+        return String.format("%s %s%s;", findTypeNameNode().vSource(), findNameNode().vSource(), findInitializerExprNode().map(Node::vSource).orElse(""));
+    }
 }

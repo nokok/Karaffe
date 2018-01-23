@@ -48,4 +48,9 @@ public class CompileUnit extends AbstractNode implements OutputSet, ReportContai
     public void accept(KaraffeTreeVisitor visitor) {
         visitor.visit(this);
     }
+
+    @Override
+    public String vSource() {
+        return String.format("%s%s", findPackageDef().vSource(), String.join("", findTypeDefs().stream().map(Node::vSource).collect(Collectors.toList())));
+    }
 }

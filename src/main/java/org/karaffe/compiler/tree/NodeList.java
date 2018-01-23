@@ -74,4 +74,9 @@ public class NodeList extends AbstractNodes {
         }
         throw new UnsupportedOperationException(last.getClass().getName());
     }
+
+    @Override
+    public String vSource() {
+        return String.format("{%s}", getChildren().stream().map(Node::vSource).map(v -> v + ";").reduce((l, r) -> l + r).orElse(""));
+    }
 }

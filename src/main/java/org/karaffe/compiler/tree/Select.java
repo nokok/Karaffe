@@ -42,11 +42,11 @@ public class Select extends AbstractNode {
                 this.getNames()
                         .stream()
                         .map(t -> {
-                        	if(t instanceof Name) {
-                        		Name name = (Name)t;
-                        		return name.getName();
-                        	}
-                        	return t.toString();
+                            if (t instanceof Name) {
+                                Name name = (Name) t;
+                                return name.getName();
+                            }
+                            return t.toString();
                         })
                         .collect(Collectors.toList()));
     }
@@ -54,5 +54,11 @@ public class Select extends AbstractNode {
     @Override
     public void accept(KaraffeTreeVisitor visitor) {
         visitor.visit(this);
+    }
+
+    @Override
+    public String vSource() {
+        return this.getNames().stream().map(Node::vSource).reduce((l, r) -> l + "." + r).orElse("?");
+
     }
 }

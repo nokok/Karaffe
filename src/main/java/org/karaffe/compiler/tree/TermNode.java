@@ -30,4 +30,9 @@ public abstract class TermNode extends AbstractNode {
     public String toString() {
         return String.format("(%s %s)", this.getClass().getSimpleName(), this.token.getText());
     }
+
+    @Override
+    public String vSource() {
+        return getText();
+    }
 }

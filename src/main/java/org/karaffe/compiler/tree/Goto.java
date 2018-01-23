@@ -14,4 +14,13 @@ public class Goto extends AbstractNode {
     public void accept(KaraffeTreeVisitor visitor) {
         visitor.visit(this);
     }
+
+    public Node findJumpTo() {
+        return getChildren().get(0);
+    }
+
+    @Override
+    public String vSource() {
+        return "goto " + findJumpTo().vSource();
+    }
 }

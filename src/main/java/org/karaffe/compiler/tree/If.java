@@ -35,4 +35,9 @@ public class If extends AbstractNode {
     public void accept(KaraffeTreeVisitor visitor) {
         visitor.visit(this);
     }
+
+    @Override
+    public String vSource() {
+        return String.format("if(%s){%s}else{%s}", findCondExpr().vSource(), findThenBlock().vSource(), findElseBlock().map(Node::vSource).orElse(""));
+    }
 }

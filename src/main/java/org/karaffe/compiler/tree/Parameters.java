@@ -3,6 +3,7 @@ package org.karaffe.compiler.tree;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+import java.util.stream.Collectors;
 
 import org.karaffe.compiler.tree.base.AbstractNodes;
 import org.karaffe.compiler.tree.base.Node;
@@ -25,5 +26,10 @@ public class Parameters extends AbstractNodes {
     @Override
     public void accept(KaraffeTreeVisitor visitor) {
         visitor.visit(this);
+    }
+
+    @Override
+    public String vSource() {
+        return String.format("(%s)", String.join(",", getChildren().stream().map(Node::vSource).collect(Collectors.toList())));
     }
 }

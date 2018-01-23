@@ -18,4 +18,9 @@ public class New extends AbstractNode {
     public Node newInstanceTarget() {
         return getChildren().get(0);
     }
+
+    @Override
+    public String vSource() {
+        return "new " + newInstanceTarget().vSource();
+    }
 }

@@ -21,4 +21,9 @@ public class PackageDef extends AbstractNode {
     public String getRawPackageName() {
         return this.findSelector().toString(".");
     }
+
+    @Override
+    public String vSource() {
+        return "package " + getRawPackageName() + ";";
+    }
 }

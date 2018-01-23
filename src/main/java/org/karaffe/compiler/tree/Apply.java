@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 import org.karaffe.compiler.tree.base.AbstractNode;
 import org.karaffe.compiler.tree.base.KNormalizable;
@@ -41,5 +42,10 @@ public class Apply extends AbstractNode implements KNormalizable {
     @Override
     public void accept(KaraffeTreeVisitor visitor) {
         visitor.visit(this);
+    }
+
+    @Override
+    public String vSource() {
+        return String.format("%s(%s)", findTarget().vSource(), findArguments().map(args -> String.join(",", args.stream().map(Node::vSource).collect(Collectors.toList()))).orElse(""));
     }
 }

@@ -22,4 +22,9 @@ public class Assign extends AbstractNode {
     public Node findExpr() {
         return getChildren().get(1);
     }
+
+    @Override
+    public String vSource() {
+        return String.format("%s = %s;", findTarget().vSource(), findExpr().vSource());
+    }
 }

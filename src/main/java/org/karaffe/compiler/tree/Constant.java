@@ -13,4 +13,5 @@ public class Constant extends TermNode {
     public void accept(KaraffeTreeVisitor visitor) {
         visitor.visit(this);
     }
+
 }

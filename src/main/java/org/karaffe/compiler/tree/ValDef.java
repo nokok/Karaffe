@@ -54,4 +54,9 @@ public class ValDef extends AbstractNode {
     public void accept(KaraffeTreeVisitor visitor) {
         visitor.visit(this);
     }
+
+    @Override
+    public String vSource() {
+        return String.format("final %s %s%s;", findTypeNameNode().vSource(), findNameNode().vSource(), findInitializerExprNode().map(Node::vSource).orElse(""));
+    }
 }

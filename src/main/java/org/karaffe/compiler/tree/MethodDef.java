@@ -56,4 +56,9 @@ public class MethodDef extends AbstractNode {
     public void accept(KaraffeTreeVisitor visitor) {
         visitor.visit(this);
     }
+
+    @Override
+    public String vSource() {
+        return String.format("%s %s %s %s %s", findModifierNode().vSource(), findReturnTypeNode().vSource(), findNameNode().vSource(), findParameterNode().vSource(), findMethodBodyNode().vSource());
+    }
 }

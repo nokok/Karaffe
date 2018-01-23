@@ -23,4 +23,9 @@ public class Empty extends AbstractNode {
     public void accept(KaraffeTreeVisitor visitor) {
         visitor.visit(this);
     }
+
+    @Override
+    public String vSource() {
+        return "?";
+    }
 }
