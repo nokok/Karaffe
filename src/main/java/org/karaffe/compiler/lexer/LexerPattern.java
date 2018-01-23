@@ -30,6 +30,8 @@ public enum LexerPattern {
     ELSE("else", (text, pos) -> new KeywordToken.Else(pos)),
     INT("int", (text, pos) -> new KeywordToken.Int(pos)), // MiniJava
     NEW("new", (text, pos) -> new KeywordToken.New(pos)),
+    LET("let", (text, pos) -> new KeywordToken.Let(pos)),
+    VAR("var", (text, pos) -> new KeywordToken.Var(pos)),
     IF("if", (text, pos) -> new KeywordToken.If(pos)),
 
     // Modifiers
@@ -67,6 +69,7 @@ public enum LexerPattern {
     RPAREN("\\)", (text, pos) -> new OperatorToken.RightParen(pos)),
     LBRACKET("\\[", (text, pos) -> new OperatorToken.LeftBracket(pos)),
     RBRACKET("\\]", (text, pos) -> new OperatorToken.RightBracket(pos)),
+    COLON(":", (text, pos) -> new CommonToken.Colon(pos)),
 
     // Error Tokens
     ERROR(".+", (text, pos) -> new CommonToken.ErrorToken(text, pos));

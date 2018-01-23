@@ -82,6 +82,16 @@ public abstract class CommonToken implements Token {
         }
     }
 
+    public static class Colon extends CommonToken {
+        public Colon() {
+            this(Position.noPos());
+        }
+
+        public Colon(final Position position) {
+            super(":", position, "semi colon");
+        }
+    }
+
     public static class LeftBrace extends CommonToken {
         public LeftBrace() {
             this(Position.noPos());

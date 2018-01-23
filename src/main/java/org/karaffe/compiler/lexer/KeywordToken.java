@@ -168,6 +168,26 @@ public abstract class KeywordToken extends CommonToken {
         }
     }
 
+    public static class Let extends KeywordToken {
+        public Let() {
+            this(Position.noPos());
+        }
+
+        public Let(final Position position) {
+            super("let", position);
+        }
+    }
+
+    public static class Var extends KeywordToken {
+        public Var() {
+            this(Position.noPos());
+        }
+
+        public Var(final Position position) {
+            super("var", position);
+        }
+    }
+
     @Override
     public String toString() {
         return "RES:[" + this.getText() + "]";
