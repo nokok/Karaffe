@@ -21,7 +21,7 @@ public class TypeCheckerPhaseTest {
                 "\n" +
                 "class Fac {\n" +
                 "    public int computeFac(int num){\n" +
-                "        int numAux ;\n" +
+                "        var numAux :int;\n" +
                 "        if (num < 1)\n" +
                 "            numAux = 1;\n" +
                 "        else\n" +
