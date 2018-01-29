@@ -1,7 +1,12 @@
 package org.karaffe.compiler.tree;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import org.karaffe.compiler.lexer.Token;
+import org.karaffe.compiler.tree.base.Node;
 import org.karaffe.compiler.tree.visitor.KaraffeTreeVisitor;
+import org.karaffe.compiler.util.NormalizeContext;
 
 public abstract class Literal extends TermNode {
 
@@ -29,6 +34,7 @@ public abstract class Literal extends TermNode {
 		public boolean isBoolLiteral() {
 			return true;
 		}
+
 	}
 
 	public static class TrueLiteral extends BoolLiteral {
@@ -105,4 +111,13 @@ public abstract class Literal extends TermNode {
 			visitor.visit(this);
 		}
 	}
+	
+	@Override
+	public NodeList normalize(NormalizeContext context) {
+		List<Node> nodes = new ArrayList<>();
+		Name name = context.nextName(nodes);
+		nodes.add(new Assign(name, this));
+		return new NodeList(nodes);
+	}
+
 }

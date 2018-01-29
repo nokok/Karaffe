@@ -8,6 +8,7 @@ import java.util.stream.Collectors;
 import org.karaffe.compiler.tree.base.AbstractNodes;
 import org.karaffe.compiler.tree.base.Node;
 import org.karaffe.compiler.tree.visitor.KaraffeTreeVisitor;
+import org.karaffe.compiler.util.NormalizeContext;
 
 public class Parameters extends AbstractNodes {
 
@@ -36,4 +37,9 @@ public class Parameters extends AbstractNodes {
     public String vSource() {
         return String.format("(%s)", String.join(",", getChildren().stream().map(Node::vSource).collect(Collectors.toList())));
     }
+
+	@Override
+	public NodeList normalize(NormalizeContext context) {
+		return this.toNodeList();
+	}
 }

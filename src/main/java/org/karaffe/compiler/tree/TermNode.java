@@ -3,36 +3,42 @@ package org.karaffe.compiler.tree;
 import org.karaffe.compiler.lexer.Token;
 import org.karaffe.compiler.pos.Position;
 import org.karaffe.compiler.tree.base.AbstractNode;
+import org.karaffe.compiler.util.NormalizeContext;
 
 public abstract class TermNode extends AbstractNode {
 
-    private final Token token;
+	private final Token token;
 
-    public TermNode(final NodeType nodeType, final Token token) {
-        super(nodeType, token.getPosition());
-        this.token = token;
-    }
+	public TermNode(final NodeType nodeType, final Token token) {
+		super(nodeType, token.getPosition());
+		this.token = token;
+	}
 
-    @Override
-    public Position getPosition() {
-        return this.token.getPosition();
-    }
+	@Override
+	public Position getPosition() {
+		return this.token.getPosition();
+	}
 
-    public String getText() {
-        return this.token.getText();
-    }
+	public String getText() {
+		return this.token.getText();
+	}
 
-    protected Token getToken() {
-        return this.token;
-    }
+	protected Token getToken() {
+		return this.token;
+	}
 
-    @Override
-    public String toString() {
-        return String.format("(%s %s)", this.getClass().getSimpleName(), this.token.getText());
-    }
+	@Override
+	public String toString() {
+		return String.format("(%s %s)", this.getClass().getSimpleName(), this.token.getText());
+	}
 
-    @Override
-    public String vSource() {
-        return getText();
-    }
+	@Override
+	public String vSource() {
+		return getText();
+	}
+
+	@Override
+	public NodeList normalize(NormalizeContext context) {
+		return this.toNodeList();
+	}
 }

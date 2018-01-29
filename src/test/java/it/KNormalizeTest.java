@@ -8,8 +8,11 @@ import org.karaffe.compiler.parser.ExprParser;
 import org.karaffe.compiler.parser.KaraffeParser;
 import org.karaffe.compiler.parser.MethodDefParser;
 import org.karaffe.compiler.parser.Parser;
-import org.karaffe.compiler.phases.knormalize.KNormalizeVisitor;
+import org.karaffe.compiler.tree.NodeList;
 import org.karaffe.compiler.tree.base.Node;
+import org.karaffe.compiler.util.NormalizeContext;
+
+import nl.jqno.equalsverifier.internal.lib.bytebuddy.description.type.PackageDescription.Simple;
 
 public class KNormalizeTest {
     @Test
@@ -85,8 +88,7 @@ public class KNormalizeTest {
         KaraffeLexer lexer = new KaraffeLexer(source);
         Node beforeNode = parser.parse(lexer.run()).getNode().get();
         assertEquals(before, beforeNode.toString());
-        KNormalizeVisitor kNormalizeVisitor = new KNormalizeVisitor(beforeNode);
-        Node afterNode = kNormalizeVisitor.normalize();
-        assertEquals(after, afterNode.toString());
+        NodeList afterNode = beforeNode.normalize(new NormalizeContext());
+        assertEquals(after, afterNode.toSimpleNode().toString());
     }
 }

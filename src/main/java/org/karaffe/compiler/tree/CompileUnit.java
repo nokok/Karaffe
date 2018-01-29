@@ -9,6 +9,7 @@ import org.karaffe.compiler.context.ReportContainer;
 import org.karaffe.compiler.tree.base.AbstractNode;
 import org.karaffe.compiler.tree.base.Node;
 import org.karaffe.compiler.tree.visitor.KaraffeTreeVisitor;
+import org.karaffe.compiler.util.NormalizeContext;
 import org.karaffe.compiler.util.Report;
 
 public class CompileUnit extends AbstractNode implements OutputSet, ReportContainer {
@@ -53,4 +54,14 @@ public class CompileUnit extends AbstractNode implements OutputSet, ReportContai
     public String vSource() {
         return String.format("%s%s", findPackageDef().vSource(), String.join("", findTypeDefs().stream().map(Node::vSource).collect(Collectors.toList())));
     }
+
+	@Override
+	public NodeList normalize(NormalizeContext context) {
+		Node packageDef = this.findPackageDef();
+		List<Node> types = new ArrayList<>();
+		for(Node typeDef : this.findTypeDefs()) {
+			types.addAll(typeDef.normalize(context).flatten());
+		}
+		return new NodeList(new CompileUnit(packageDef, types));
+	}
 }

@@ -9,6 +9,7 @@ import java.util.stream.Collectors;
 import org.karaffe.compiler.tree.base.AbstractNode;
 import org.karaffe.compiler.tree.base.Node;
 import org.karaffe.compiler.tree.visitor.KaraffeTreeVisitor;
+import org.karaffe.compiler.util.NormalizeContext;
 
 public class Apply extends AbstractNode {
 
@@ -47,4 +48,43 @@ public class Apply extends AbstractNode {
     public String vSource() {
         return String.format("%s(%s)", findTarget().vSource(), findArguments().map(args -> String.join(",", args.stream().map(Node::vSource).collect(Collectors.toList()))).orElse(""));
     }
+
+	@Override
+	public NodeList normalize(NormalizeContext context) {
+		List<Node> nodes = new ArrayList<>();
+		Node originalTarget = this.findTarget();
+		Node newTarget;
+		if(originalTarget.isName()) {
+			newTarget = originalTarget;
+		} else {
+			NodeList normalizedName = originalTarget.normalize(context);
+		    nodes.addAll(normalizedName.flatten());
+			newTarget = normalizedName.lastAssignName();
+		}
+		Optional<List<? extends Node>> argumentsOpt = this.findArguments();
+        if (argumentsOpt.isPresent()) {
+            List<Node> newArgs = new ArrayList<>();
+            List<? extends Node> args = argumentsOpt.get();
+            for (Node arg : args) {
+                if (arg.isName()) {
+                    newArgs.add(arg);
+                } else {
+                    NodeList normalizedArg = arg.normalize(context);
+                    nodes.addAll(normalizedArg.flatten());
+                    newArgs.add(normalizedArg.lastAssignName());
+                }
+            }
+            Apply newApply = new Apply(newTarget, newArgs);
+            Name res = context.nextName(nodes);
+            Assign assign = new Assign(res, newApply);
+            nodes.add(assign);
+            return new NodeList(nodes);
+        }
+        Apply newApply = new Apply(newTarget);
+        Name res = context.nextName(nodes);
+        Assign assign = new Assign(res, newApply);
+        nodes.add(assign);
+        
+		return new NodeList(nodes);
+	}
 }

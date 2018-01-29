@@ -3,6 +3,7 @@ package org.karaffe.compiler.tree;
 import org.karaffe.compiler.tree.base.AbstractNode;
 import org.karaffe.compiler.tree.base.Node;
 import org.karaffe.compiler.tree.visitor.KaraffeTreeVisitor;
+import org.karaffe.compiler.util.NormalizeContext;
 
 public class BinaryExpr extends AbstractNode {
 
@@ -49,4 +50,9 @@ public class BinaryExpr extends AbstractNode {
     public String vSource() {
         return String.format("%s", toApplyNode().vSource());
     }
+
+	@Override
+	public NodeList normalize(NormalizeContext context) {
+		return this.toNodeList();
+	}
 }

@@ -3,6 +3,7 @@ package org.karaffe.compiler.tree;
 import org.karaffe.compiler.tree.base.AbstractNode;
 import org.karaffe.compiler.tree.base.Node;
 import org.karaffe.compiler.tree.visitor.KaraffeTreeVisitor;
+import org.karaffe.compiler.util.NormalizeContext;
 
 public class Goto extends AbstractNode {
 
@@ -23,4 +24,9 @@ public class Goto extends AbstractNode {
     public String vSource() {
         return "goto " + findJumpTo().vSource();
     }
+
+	@Override
+	public NodeList normalize(NormalizeContext context) {
+		return this.toNodeList();
+	}
 }

@@ -1,8 +1,12 @@
 package org.karaffe.compiler.tree;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import org.karaffe.compiler.tree.base.AbstractNode;
 import org.karaffe.compiler.tree.base.Node;
 import org.karaffe.compiler.tree.visitor.KaraffeTreeVisitor;
+import org.karaffe.compiler.util.NormalizeContext;
 
 public class Return extends AbstractNode {
 
@@ -23,4 +27,13 @@ public class Return extends AbstractNode {
     public String vSource() {
         return "return " + findExpr().vSource() + ";";
     }
+
+	@Override
+	public NodeList normalize(NormalizeContext context) {
+		List<Node> nodes = new ArrayList<>();
+		NodeList normalizedExpr = findExpr().normalize(context);
+		nodes.addAll(normalizedExpr.flatten());
+		nodes.add(new Return(normalizedExpr.lastAssignName()));
+		return new NodeList(nodes);
+	}
 }

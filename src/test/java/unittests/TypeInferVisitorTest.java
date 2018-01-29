@@ -12,8 +12,8 @@ import org.karaffe.compiler.parser.ClassDefParser;
 import org.karaffe.compiler.parser.KaraffeParser;
 import org.karaffe.compiler.parser.VarDefParser;
 import org.karaffe.compiler.phases.inferer.TypeInferVisitor;
-import org.karaffe.compiler.phases.knormalize.KNormalizeVisitor;
 import org.karaffe.compiler.tree.base.Node;
+import org.karaffe.compiler.util.NormalizeContext;
 
 public class TypeInferVisitorTest {
 
@@ -25,7 +25,7 @@ public class TypeInferVisitorTest {
                 + "}";
         List<Token> tokens = new KaraffeLexer(code).run();
         Node node = new ClassDefParser().parse(tokens).getNode().get();
-        Node normalized = new KNormalizeVisitor(node).normalize();
+        Node normalized = node.normalize(new NormalizeContext());
         TypeInferVisitor visitor = new TypeInferVisitor();
         normalized.accept(visitor);
         assertEquals("karaffe.core.Int", visitor.getType("a").get());
@@ -37,8 +37,8 @@ public class TypeInferVisitorTest {
     	String code = "let a: Int = 1";
     	List<Token> tokens = new KaraffeLexer(code).run();
     	Node node = new VarDefParser().parse(tokens).getNode().get();
-    	Node normalized = new KNormalizeVisitor(node).normalize();
-    	TypeInferVisitor visitor = new TypeInferVisitor();
+    	Node normalized = node.normalize(new NormalizeContext());
+        TypeInferVisitor visitor = new TypeInferVisitor();
     	normalized.accept(visitor);
     	assertEquals("karaffe.core.Int", visitor.getType("a").get());
     }
@@ -64,8 +64,7 @@ public class TypeInferVisitorTest {
                 "";
         KaraffeParser parser = new KaraffeParser();
         Node node = parser.parse(new KaraffeLexer(code).run()).getNode().get();
-        KNormalizeVisitor visitor = new KNormalizeVisitor(node);
-        Node normalized = visitor.normalize();
+        Node normalized = node.normalize(new NormalizeContext());
         TypeInferVisitor infVisitor = new TypeInferVisitor();
         normalized.accept(infVisitor);
     }

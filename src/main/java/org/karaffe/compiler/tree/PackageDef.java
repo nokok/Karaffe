@@ -2,28 +2,34 @@ package org.karaffe.compiler.tree;
 
 import org.karaffe.compiler.tree.base.AbstractNode;
 import org.karaffe.compiler.tree.visitor.KaraffeTreeVisitor;
+import org.karaffe.compiler.util.NormalizeContext;
 
 public class PackageDef extends AbstractNode {
 
-    public PackageDef(final Select selector) {
-        super(NodeType.DEFPACKAGE, selector);
-    }
+	public PackageDef(final Select selector) {
+		super(NodeType.DEFPACKAGE, selector);
+	}
 
-    @Override
-    public void accept(KaraffeTreeVisitor visitor) {
-        visitor.visit(this);
-    }
+	@Override
+	public void accept(KaraffeTreeVisitor visitor) {
+		visitor.visit(this);
+	}
 
-    public Select findSelector() {
-        return (Select) getChildren().get(0);
-    }
+	public Select findSelector() {
+		return (Select) getChildren().get(0);
+	}
 
-    public String getRawPackageName() {
-        return this.findSelector().toString(".");
-    }
+	public String getRawPackageName() {
+		return this.findSelector().toString(".");
+	}
 
-    @Override
-    public String vSource() {
-        return "package " + getRawPackageName() + ";";
-    }
+	@Override
+	public String vSource() {
+		return "package " + getRawPackageName() + ";";
+	}
+
+	@Override
+	public NodeList normalize(NormalizeContext context) {
+		return this.toNodeList();
+	}
 }

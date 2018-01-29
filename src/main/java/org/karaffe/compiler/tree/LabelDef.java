@@ -2,6 +2,7 @@ package org.karaffe.compiler.tree;
 
 import org.karaffe.compiler.tree.base.AbstractNode;
 import org.karaffe.compiler.tree.visitor.KaraffeTreeVisitor;
+import org.karaffe.compiler.util.NormalizeContext;
 
 public class LabelDef extends AbstractNode {
 
@@ -18,4 +19,9 @@ public class LabelDef extends AbstractNode {
     public String vSource() {
         return String.format("Label(%s):", this.hashCode());
     }
+
+	@Override
+	public NodeList normalize(NormalizeContext context) {
+		return this.toNodeList();
+	}
 }
