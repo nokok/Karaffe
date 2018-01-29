@@ -28,10 +28,6 @@ public interface Node extends Cloneable {
 
     public void addChild(Node n);
 
-    public default boolean isKNormalizable() {
-        return this instanceof KNormalizable;
-    }
-
     public default boolean isTermNode() {
         return this instanceof TermNode;
     }

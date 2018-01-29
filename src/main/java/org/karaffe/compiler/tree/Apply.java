@@ -7,11 +7,10 @@ import java.util.Optional;
 import java.util.stream.Collectors;
 
 import org.karaffe.compiler.tree.base.AbstractNode;
-import org.karaffe.compiler.tree.base.KNormalizable;
 import org.karaffe.compiler.tree.base.Node;
 import org.karaffe.compiler.tree.visitor.KaraffeTreeVisitor;
 
-public class Apply extends AbstractNode implements KNormalizable {
+public class Apply extends AbstractNode {
 
     public Apply(final Node target) {
         this(target, new ArrayList<>());
