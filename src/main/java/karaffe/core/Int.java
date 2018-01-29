@@ -1,5 +1,5 @@
 package karaffe.core;
 
-public class Int {
+public class Int extends Any {
 
 }
