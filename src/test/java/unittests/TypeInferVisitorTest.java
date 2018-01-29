@@ -9,6 +9,8 @@ import org.karaffe.compiler.lexer.KaraffeLexer;
 import org.karaffe.compiler.lexer.Token;
 import org.karaffe.compiler.parser.ClassDefParser;
 import org.karaffe.compiler.parser.KaraffeParser;
+import org.karaffe.compiler.parser.VarDefParser;
+import org.karaffe.compiler.parser.util.MatchResult;
 import org.karaffe.compiler.phases.inferer.TypeInferVisitor;
 import org.karaffe.compiler.phases.knormalize.KNormalizeVisitor;
 import org.karaffe.compiler.tree.base.Node;
@@ -18,7 +20,7 @@ public class TypeInferVisitorTest {
     @Test
     public void test1() {
         String code = "class A {"
-                + "var a = 1"
+                + "var a :Int = 1"
                 + "}";
         List<Token> tokens = new KaraffeLexer(code).run();
         Node node = new ClassDefParser().parse(tokens).getNode().get();
@@ -26,6 +28,17 @@ public class TypeInferVisitorTest {
         TypeInferVisitor visitor = new TypeInferVisitor();
         normalized.accept(visitor);
         assertEquals("karaffe.core.Int", visitor.getType("a").get());
+    }
+    
+    @Test
+    public void test2() {
+    	String code = "let a: Int = 1";
+    	List<Token> tokens = new KaraffeLexer(code).run();
+    	Node node = new VarDefParser().parse(tokens).getNode().get();
+    	Node normalized = new KNormalizeVisitor(node).normalize();
+    	TypeInferVisitor visitor = new TypeInferVisitor();
+    	normalized.accept(visitor);
+    	assertEquals("karaffe.core.Int", visitor.getType("a").get());
     }
 
     @Test
