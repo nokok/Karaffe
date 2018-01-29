@@ -5,10 +5,10 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.stream.Collectors;
 
+import org.karaffe.compiler.context.NormalizeContext;
 import org.karaffe.compiler.tree.base.AbstractNodes;
 import org.karaffe.compiler.tree.base.Node;
 import org.karaffe.compiler.tree.visitor.KaraffeTreeVisitor;
-import org.karaffe.compiler.util.NormalizeContext;
 
 public class Parameters extends AbstractNodes {
 

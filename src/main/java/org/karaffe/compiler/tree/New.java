@@ -3,10 +3,10 @@ package org.karaffe.compiler.tree;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.karaffe.compiler.context.NormalizeContext;
 import org.karaffe.compiler.tree.base.AbstractNode;
 import org.karaffe.compiler.tree.base.Node;
 import org.karaffe.compiler.tree.visitor.KaraffeTreeVisitor;
-import org.karaffe.compiler.util.NormalizeContext;
 
 public class New extends AbstractNode {
 

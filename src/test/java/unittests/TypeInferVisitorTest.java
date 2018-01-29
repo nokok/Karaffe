@@ -6,6 +6,7 @@ import java.util.List;
 
 import org.junit.Ignore;
 import org.junit.Test;
+import org.karaffe.compiler.context.NormalizeContext;
 import org.karaffe.compiler.lexer.KaraffeLexer;
 import org.karaffe.compiler.lexer.Token;
 import org.karaffe.compiler.parser.ClassDefParser;
@@ -13,7 +14,6 @@ import org.karaffe.compiler.parser.KaraffeParser;
 import org.karaffe.compiler.parser.VarDefParser;
 import org.karaffe.compiler.phases.inferer.TypeInferVisitor;
 import org.karaffe.compiler.tree.base.Node;
-import org.karaffe.compiler.util.NormalizeContext;
 
 public class TypeInferVisitorTest {
 

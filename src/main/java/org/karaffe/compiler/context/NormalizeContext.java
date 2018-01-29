@@ -1,4 +1,4 @@
-package org.karaffe.compiler.util;
+package org.karaffe.compiler.context;
 
 import java.util.List;
 
@@ -7,6 +7,7 @@ import org.karaffe.compiler.tree.Modifiers;
 import org.karaffe.compiler.tree.Name;
 import org.karaffe.compiler.tree.ValDef;
 import org.karaffe.compiler.tree.base.Node;
+import org.karaffe.compiler.util.NameGen;
 
 public class NormalizeContext {
 	private final NameGen nameGen = new NameGen("kn_");

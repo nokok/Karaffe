@@ -1,10 +1,10 @@
 package org.karaffe.compiler.tree;
 
+import org.karaffe.compiler.context.NormalizeContext;
 import org.karaffe.compiler.lexer.ModifierToken;
 import org.karaffe.compiler.tree.base.AbstractNode;
 import org.karaffe.compiler.tree.base.Node;
 import org.karaffe.compiler.tree.visitor.KaraffeTreeVisitor;
-import org.karaffe.compiler.util.NormalizeContext;
 
 public class MethodDef extends AbstractNode {
 

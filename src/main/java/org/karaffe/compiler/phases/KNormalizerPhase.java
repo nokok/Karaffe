@@ -3,9 +3,9 @@ package org.karaffe.compiler.phases;
 import java.util.Optional;
 
 import org.karaffe.compiler.context.CompilerConfig;
+import org.karaffe.compiler.context.NormalizeContext;
 import org.karaffe.compiler.tree.CompileUnit;
 import org.karaffe.compiler.tree.NodeList;
-import org.karaffe.compiler.util.NormalizeContext;
 import org.karaffe.compiler.util.Traceable;
 
 public class KNormalizerPhase extends AbstractCompileUnitTransformer implements Traceable {

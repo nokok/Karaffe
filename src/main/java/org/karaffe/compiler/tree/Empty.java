@@ -1,9 +1,9 @@
 package org.karaffe.compiler.tree;
 
+import org.karaffe.compiler.context.NormalizeContext;
 import org.karaffe.compiler.pos.Position;
 import org.karaffe.compiler.tree.base.AbstractNode;
 import org.karaffe.compiler.tree.visitor.KaraffeTreeVisitor;
-import org.karaffe.compiler.util.NormalizeContext;
 
 public class Empty extends AbstractNode {
 

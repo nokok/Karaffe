@@ -4,12 +4,12 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
+import org.karaffe.compiler.context.NormalizeContext;
 import org.karaffe.compiler.context.OutputSet;
 import org.karaffe.compiler.context.ReportContainer;
 import org.karaffe.compiler.tree.base.AbstractNode;
 import org.karaffe.compiler.tree.base.Node;
 import org.karaffe.compiler.tree.visitor.KaraffeTreeVisitor;
-import org.karaffe.compiler.util.NormalizeContext;
 import org.karaffe.compiler.util.Report;
 
 public class CompileUnit extends AbstractNode implements OutputSet, ReportContainer {

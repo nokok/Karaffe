@@ -2,6 +2,7 @@ package org.karaffe.compiler.tree.base;
 
 import java.util.List;
 
+import org.karaffe.compiler.context.NormalizeContext;
 import org.karaffe.compiler.pos.Position;
 import org.karaffe.compiler.tree.Empty;
 import org.karaffe.compiler.tree.Name;
@@ -9,7 +10,6 @@ import org.karaffe.compiler.tree.NodeList;
 import org.karaffe.compiler.tree.NodeType;
 import org.karaffe.compiler.tree.TermNode;
 import org.karaffe.compiler.tree.visitor.KaraffeTreeVisitor;
-import org.karaffe.compiler.util.NormalizeContext;
 
 public interface Node extends Cloneable {
 	public String getID();

@@ -3,6 +3,7 @@ package it;
 import static org.junit.Assert.assertEquals;
 
 import org.junit.Test;
+import org.karaffe.compiler.context.NormalizeContext;
 import org.karaffe.compiler.lexer.KaraffeLexer;
 import org.karaffe.compiler.parser.ExprParser;
 import org.karaffe.compiler.parser.KaraffeParser;
@@ -10,7 +11,6 @@ import org.karaffe.compiler.parser.MethodDefParser;
 import org.karaffe.compiler.parser.Parser;
 import org.karaffe.compiler.tree.NodeList;
 import org.karaffe.compiler.tree.base.Node;
-import org.karaffe.compiler.util.NormalizeContext;
 
 import nl.jqno.equalsverifier.internal.lib.bytebuddy.description.type.PackageDescription.Simple;
 
