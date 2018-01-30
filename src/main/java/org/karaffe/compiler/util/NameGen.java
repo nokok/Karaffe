@@ -11,26 +11,26 @@ public class NameGen {
     private final String globalPrefix;
     private final List<String> generated = new ArrayList<>();
 
-    public NameGen(String globalPrefix) {
+    public NameGen(final String globalPrefix) {
         this.globalPrefix = globalPrefix;
     }
 
     public Name genName() {
-        return genName("");
+        return this.genName("");
     }
 
-    public Name genName(String prefix) {
-        String generatedName = genNameInternal(prefix);
+    public Name genName(final String prefix) {
+        String generatedName = this.genNameInternal(prefix);
         while (!this.generated.add(generatedName)) {
-            generatedName = genNameInternal(prefix);
+            generatedName = this.genNameInternal(prefix);
         }
-        Name name = new Name(generatedName);
+        final Name name = new Name(generatedName);
         this.generated.add(name.getName());
         return name;
     }
 
-    private String genNameInternal(String prefix) {
-        long r = this.atomicLong.getAndIncrement();
+    private String genNameInternal(final String prefix) {
+        final long r = this.atomicLong.getAndIncrement();
         return String.format("%s%s%d", this.globalPrefix, prefix, r);
     }
 

@@ -10,6 +10,12 @@ import org.karaffe.compiler.parser.util.TokenMatcher;
 
 public interface Parser extends TokenMatcher {
 
+    @Override
+    default MatchResult match(final Tokens tokens) {
+
+        return this.parse(tokens);
+    }
+
     public default MatchResult parse(final List<Token> tokens) {
         return this.parse(new Tokens(tokens));
     }
@@ -19,10 +25,4 @@ public interface Parser extends TokenMatcher {
     }
 
     public MatchResult parse(Tokens input);
-
-    @Override
-    default MatchResult match(final Tokens tokens) {
-
-        return this.parse(tokens);
-    }
 }

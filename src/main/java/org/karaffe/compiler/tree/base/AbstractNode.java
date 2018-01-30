@@ -20,22 +20,6 @@ public abstract class AbstractNode implements Node {
         this(nodeType, Position.noPos());
     }
 
-    public AbstractNode(final NodeType nodeType, final Position position) {
-        this(nodeType, position, new ArrayList<>(0));
-    }
-
-    public AbstractNode(final NodeType nodeType, final Position position, final Node children) {
-        this(nodeType, position, new ArrayList<>(Arrays.asList(children)));
-    }
-
-    public AbstractNode(final NodeType nodeType, final Node children) {
-        this(nodeType, children.getPosition(), new ArrayList<>(Arrays.asList(children)));
-    }
-
-    public AbstractNode(final NodeType nodeType, final Node... children) {
-        this(nodeType, new ArrayList<>(Arrays.asList(children)));
-    }
-
     public <T extends Node> AbstractNode(final NodeType nodeType, final List<T> children) {
         Objects.requireNonNull(nodeType);
         Objects.requireNonNull(children);
@@ -56,6 +40,18 @@ public abstract class AbstractNode implements Node {
 
     }
 
+    public AbstractNode(final NodeType nodeType, final Node children) {
+        this(nodeType, children.getPosition(), new ArrayList<>(Arrays.asList(children)));
+    }
+
+    public AbstractNode(final NodeType nodeType, final Node... children) {
+        this(nodeType, new ArrayList<>(Arrays.asList(children)));
+    }
+
+    public AbstractNode(final NodeType nodeType, final Position position) {
+        this(nodeType, position, new ArrayList<>(0));
+    }
+
     public AbstractNode(final NodeType nodeType, final Position position, final List<Node> children) {
         this.nodeType = Objects.requireNonNull(nodeType);
         this.position = Objects.requireNonNull(position);
@@ -63,6 +59,30 @@ public abstract class AbstractNode implements Node {
         if (children.stream().filter(f -> f == null).count() > 0) {
             throw new NullPointerException("null children found. :" + children);
         }
+    }
+
+    public AbstractNode(final NodeType nodeType, final Position position, final Node children) {
+        this(nodeType, position, new ArrayList<>(Arrays.asList(children)));
+    }
+
+    @Override
+    public void addChild(final Node n) {
+        this.children.add(Objects.requireNonNull(n));
+    }
+
+    @Override
+    protected AbstractNode clone() {
+        try {
+            final AbstractNode cloned = (AbstractNode) super.clone();
+            return cloned;
+        } catch (final CloneNotSupportedException ex) {
+            throw new RuntimeException(ex);
+        }
+    }
+
+    @Override
+    public List<? extends Node> getChildren() {
+        return new ArrayList<>(this.children);
     }
 
     @Override
@@ -81,29 +101,9 @@ public abstract class AbstractNode implements Node {
     }
 
     @Override
-    public void replaceChildren(List<Node> replaced) {
+    public void replaceChildren(final List<Node> replaced) {
         this.children.clear();
         this.children.addAll(replaced);
-    }
-
-    @Override
-    public List<? extends Node> getChildren() {
-        return new ArrayList<>(this.children);
-    }
-
-    @Override
-    public void addChild(final Node n) {
-        this.children.add(Objects.requireNonNull(n));
-    }
-
-    @Override
-    protected AbstractNode clone() {
-        try {
-            AbstractNode cloned = (AbstractNode) super.clone();
-            return cloned;
-        } catch (CloneNotSupportedException ex) {
-            throw new RuntimeException(ex);
-        }
     }
 
     @Override

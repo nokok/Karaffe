@@ -10,35 +10,35 @@ import org.karaffe.compiler.tree.visitor.KaraffeTreeVisitor;
 
 public class Assign extends AbstractNode {
 
-	public Assign(final Node target, final Node expr) {
-		super(NodeType.ASSIGN, target, expr);
-	}
+    public Assign(final Node target, final Node expr) {
+        super(NodeType.ASSIGN, target, expr);
+    }
 
-	@Override
-	public void accept(KaraffeTreeVisitor visitor) {
-		visitor.visit(this);
-	}
+    @Override
+    public void accept(final KaraffeTreeVisitor visitor) {
+        visitor.visit(this);
+    }
 
-	public Node findTarget() {
-		return getChildren().get(0);
-	}
+    public Node findExpr() {
+        return this.getChildren().get(1);
+    }
 
-	public Node findExpr() {
-		return getChildren().get(1);
-	}
+    public Node findTarget() {
+        return this.getChildren().get(0);
+    }
 
-	@Override
-	public String vSource() {
-		return String.format("%s = %s;", findTarget().vSource(), findExpr().vSource());
-	}
+    @Override
+    public NodeList normalize(final NormalizeContext context) {
+        final List<Node> nodes = new ArrayList<>();
+        final NodeList normalizedExpr = this.findExpr().normalize(context);
+        nodes.addAll(normalizedExpr.flatten());
+        nodes.add(new Assign(this.findTarget(), normalizedExpr.lastAssignName()));
+        return new NodeList(nodes);
 
-	@Override
-	public NodeList normalize(NormalizeContext context) {
-		List<Node> nodes = new ArrayList<>();
-		NodeList normalizedExpr = this.findExpr().normalize(context);
-		nodes.addAll(normalizedExpr.flatten());
-		nodes.add(new Assign(this.findTarget(), normalizedExpr.lastAssignName()));
-		return new NodeList(nodes);
+    }
 
-	}
+    @Override
+    public String vSource() {
+        return String.format("%s = %s;", this.findTarget().vSource(), this.findExpr().vSource());
+    }
 }

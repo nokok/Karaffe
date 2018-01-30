@@ -10,9 +10,29 @@ import org.karaffe.compiler.parser.util.MatchResult;
 
 public class ClassDeclParserTest {
 
-    @Test
-    public void testEmpty() {
-        this.runTest("", false);
+    private void runFailureTest(final String source, final int line, final int column) {
+        final Parser parser = new ClassDefParser();
+        final MatchResult result = parser.parse(source);
+        assertTrue(result.isFailure());
+        final Token token = result.errorHeadF().get();
+        assertEquals(line, token.getPosition().getLineNumber().get().intValue());
+        assertEquals(column, token.getPosition().getColNumber().get().intValue());
+    }
+
+    private void runTest(final String source, final boolean v) {
+        final Parser parser = new ClassDefParser();
+        final MatchResult result = parser.parse(source);
+        Assert.assertEquals(source + " " + result, v, result.isSuccess());
+        if (v) {
+            if (result.next().isEmpty()) {
+                return;
+            }
+            final MatchResult eofResult = new EOFParser().parse(result.next());
+            if (eofResult.isFailure()) {
+                Assert.fail(eofResult.toString());
+            }
+            Assert.assertEquals(0, eofResult.next().size());
+        }
     }
 
     @Test
@@ -71,29 +91,9 @@ public class ClassDeclParserTest {
         this.runFailureTest("class A{public void doSomething(int _) {return false;}}", 1, 36);
     }
 
-    private void runTest(final String source, final boolean v) {
-        final Parser parser = new ClassDefParser();
-        final MatchResult result = parser.parse(source);
-        Assert.assertEquals(source + " " + result, v, result.isSuccess());
-        if (v) {
-            if (result.next().isEmpty()) {
-                return;
-            }
-            final MatchResult eofResult = new EOFParser().parse(result.next());
-            if (eofResult.isFailure()) {
-                Assert.fail(eofResult.toString());
-            }
-            Assert.assertEquals(0, eofResult.next().size());
-        }
-    }
-
-    private void runFailureTest(final String source, int line, int column) {
-        final Parser parser = new ClassDefParser();
-        final MatchResult result = parser.parse(source);
-        assertTrue(result.isFailure());
-        Token token = result.errorHeadF().get();
-        assertEquals(line, token.getPosition().getLineNumber().get().intValue());
-        assertEquals(column, token.getPosition().getColNumber().get().intValue());
+    @Test
+    public void testEmpty() {
+        this.runTest("", false);
     }
 
 }

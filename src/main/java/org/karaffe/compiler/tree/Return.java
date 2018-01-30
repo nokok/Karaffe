@@ -10,30 +10,30 @@ import org.karaffe.compiler.tree.visitor.KaraffeTreeVisitor;
 
 public class Return extends AbstractNode {
 
-    public Return(Node expr) {
+    public Return(final Node expr) {
         super(NodeType.RETURN, expr);
     }
 
     @Override
-    public void accept(KaraffeTreeVisitor visitor) {
+    public void accept(final KaraffeTreeVisitor visitor) {
         visitor.visit(this);
     }
 
     public Node findExpr() {
-        return getChildren().get(0);
+        return this.getChildren().get(0);
+    }
+
+    @Override
+    public NodeList normalize(final NormalizeContext context) {
+        final List<Node> nodes = new ArrayList<>();
+        final NodeList normalizedExpr = this.findExpr().normalize(context);
+        nodes.addAll(normalizedExpr.flatten());
+        nodes.add(new Return(normalizedExpr.lastAssignName()));
+        return new NodeList(nodes);
     }
 
     @Override
     public String vSource() {
-        return "return " + findExpr().vSource() + ";";
+        return "return " + this.findExpr().vSource() + ";";
     }
-
-	@Override
-	public NodeList normalize(NormalizeContext context) {
-		List<Node> nodes = new ArrayList<>();
-		NodeList normalizedExpr = findExpr().normalize(context);
-		nodes.addAll(normalizedExpr.flatten());
-		nodes.add(new Return(normalizedExpr.lastAssignName()));
-		return new NodeList(nodes);
-	}
 }

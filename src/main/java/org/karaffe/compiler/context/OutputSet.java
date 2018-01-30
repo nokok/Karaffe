@@ -5,7 +5,7 @@ import org.karaffe.compiler.util.Report;
 import org.karaffe.compiler.util.Report.AdditionalInfo;
 
 public interface OutputSet {
-    public default void addErrorReport(String title, Position position, String message, AdditionalInfo... infomations) {
+    public default void addErrorReport(final String title, final Position position, final String message, final AdditionalInfo... infomations) {
         this.addReport(Report.createError(title, position, message, infomations));
     }
 

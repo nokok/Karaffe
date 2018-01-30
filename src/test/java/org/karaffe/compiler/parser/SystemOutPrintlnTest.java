@@ -12,21 +12,6 @@ import org.karaffe.compiler.parser.StatementParser.SystemOutPrintln;
 import org.karaffe.compiler.parser.util.MatchResult;
 
 public class SystemOutPrintlnTest {
-    @Test
-    public void testEmpty() {
-        this.runTest("", false);
-    }
-
-    @Test
-    public void test1() {
-        this.runTest("System.out.println(1);", true);
-    }
-
-    @Test
-    public void testExpr() {
-        this.runTest("System.out.println(1);", true);
-    }
-
     private void runTest(final String source, final boolean v) {
         final KaraffeLexer lexer = new KaraffeLexer(source);
         final List<Token> input = lexer.run();
@@ -43,5 +28,20 @@ public class SystemOutPrintlnTest {
         } else {
             Assert.assertEquals(String.format("%s vs %s", input, result.next()), input.size(), result.next().size());
         }
+    }
+
+    @Test
+    public void test1() {
+        this.runTest("System.out.println(1);", true);
+    }
+
+    @Test
+    public void testEmpty() {
+        this.runTest("", false);
+    }
+
+    @Test
+    public void testExpr() {
+        this.runTest("System.out.println(1);", true);
     }
 }

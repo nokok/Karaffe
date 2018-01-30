@@ -16,27 +16,12 @@ public abstract class AbstractNodes extends AbstractNode implements ImmutableCol
         this(nodeType, new ArrayList<>());
     }
 
-    public AbstractNodes(final NodeType nodeType, final Node node) {
-        this(nodeType, new ArrayList<>(Arrays.asList(node)));
-    }
-
     public AbstractNodes(final NodeType nodeType, final List<? extends Node> nodes) {
         super(nodeType, nodes);
     }
 
-    @Override
-    public void forEach(final Consumer<? super Node> action) {
-        this.getChildren().forEach(action);
-    }
-
-    @Override
-    public int size() {
-        return this.getChildren().size();
-    }
-
-    @Override
-    public boolean isEmpty() {
-        return this.getChildren().isEmpty();
+    public AbstractNodes(final NodeType nodeType, final Node node) {
+        this(nodeType, new ArrayList<>(Arrays.asList(node)));
     }
 
     @Override
@@ -45,8 +30,8 @@ public abstract class AbstractNodes extends AbstractNode implements ImmutableCol
     }
 
     @Override
-    public Iterator<? extends Node> iterator() {
-        return this.getChildren().iterator();
+    public void forEach(final Consumer<? super Node> action) {
+        this.getChildren().forEach(action);
     }
 
     @Override
@@ -55,8 +40,18 @@ public abstract class AbstractNodes extends AbstractNode implements ImmutableCol
     }
 
     @Override
-    public Stream<? extends Node> stream() {
-        return this.getChildren().stream();
+    public boolean isEmpty() {
+        return this.getChildren().isEmpty();
+    }
+
+    @Override
+    public Iterable<? extends Node> iterable() {
+        return this.getChildren();
+    }
+
+    @Override
+    public Iterator<? extends Node> iterator() {
+        return this.getChildren().iterator();
     }
 
     @Override
@@ -65,8 +60,13 @@ public abstract class AbstractNodes extends AbstractNode implements ImmutableCol
     }
 
     @Override
-    public Iterable<? extends Node> iterable() {
-        return this.getChildren();
+    public int size() {
+        return this.getChildren().size();
+    }
+
+    @Override
+    public Stream<? extends Node> stream() {
+        return this.getChildren().stream();
     }
 
 }

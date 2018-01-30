@@ -16,31 +16,32 @@ public class LetDef extends AbstractNode {
         super(NodeType.DEFVAL, new ArrayList<>(Arrays.asList(modifiers, name, type)));
     }
 
-    public LetDef(final Node modifiers, final Node name, final Node type, Node initializer) {
+    public LetDef(final Node modifiers, final Node name, final Node type, final Node initializer) {
         super(NodeType.DEFVAL, new ArrayList<>(Arrays.asList(modifiers, name, type, initializer)));
     }
 
-    public boolean has(final Class<? extends ModifierToken> modifier) {
-        return ((Modifiers) this.getChildren().get(0)).stream().filter(t -> t.getClass().equals(modifier)).count() != 0;
-    }
-
-    public Node findModifierNode() {
-        return getChildren().get(0);
-    }
-
-    public Node findNameNode() {
-        return getChildren().get(1);
-    }
-
-    public Node findTypeNameNode() {
-        return getChildren().get(2);
+    @Override
+    public void accept(final KaraffeTreeVisitor visitor) {
+        visitor.visit(this);
     }
 
     public Optional<Node> findInitializerExprNode() {
-        if (getChildren().size() == 3) {
+        if (this.getChildren().size() == 3) {
             return Optional.empty();
         }
-        return Optional.of(getChildren().get(3));
+        return Optional.of(this.getChildren().get(3));
+    }
+
+    public Node findModifierNode() {
+        return this.getChildren().get(0);
+    }
+
+    public Node findNameNode() {
+        return this.getChildren().get(1);
+    }
+
+    public Node findTypeNameNode() {
+        return this.getChildren().get(2);
     }
 
     public String getName() {
@@ -51,18 +52,17 @@ public class LetDef extends AbstractNode {
         return ((TypeName) this.getChildren().get(2)).getText();
     }
 
+    public boolean has(final Class<? extends ModifierToken> modifier) {
+        return ((Modifiers) this.getChildren().get(0)).stream().filter(t -> t.getClass().equals(modifier)).count() != 0;
+    }
+
     @Override
-    public void accept(KaraffeTreeVisitor visitor) {
-        visitor.visit(this);
+    public NodeList normalize(final NormalizeContext context) {
+        return this.toNodeList();
     }
 
     @Override
     public String vSource() {
-        return String.format("final %s %s%s;", findTypeNameNode().vSource(), findNameNode().vSource(), findInitializerExprNode().map(Node::vSource).orElse(""));
+        return String.format("final %s %s%s;", this.findTypeNameNode().vSource(), this.findNameNode().vSource(), this.findInitializerExprNode().map(Node::vSource).orElse(""));
     }
-
-	@Override
-	public NodeList normalize(NormalizeContext context) {
-		return this.toNodeList();
-	}
 }

@@ -11,6 +11,11 @@ public class BinaryExpr extends AbstractNode {
         super(NodeType.EXPR, left, op, right);
     }
 
+    @Override
+    public void accept(final KaraffeTreeVisitor visitor) {
+        visitor.visit(this);
+    }
+
     public Node getLeft() {
         return this.getChildren().get(0);
     }
@@ -21,6 +26,15 @@ public class BinaryExpr extends AbstractNode {
 
     public Node getRight() {
         return this.getChildren().get(2);
+    }
+
+    @Override
+    public NodeList normalize(final NormalizeContext context) {
+        return this.toNodeList();
+    }
+
+    public Node toApplyNode() {
+        return new Apply(new Select(this.toLeftApplyNode(), this.getOperator()), this.toRightApplyNode());
     }
 
     public Node toLeftApplyNode() {
@@ -37,22 +51,8 @@ public class BinaryExpr extends AbstractNode {
         return this.getRight();
     }
 
-    public Node toApplyNode() {
-        return new Apply(new Select(this.toLeftApplyNode(), this.getOperator()), this.toRightApplyNode());
-    }
-
-    @Override
-    public void accept(KaraffeTreeVisitor visitor) {
-        visitor.visit(this);
-    }
-
     @Override
     public String vSource() {
-        return String.format("%s", toApplyNode().vSource());
+        return String.format("%s", this.toApplyNode().vSource());
     }
-
-	@Override
-	public NodeList normalize(NormalizeContext context) {
-		return this.toNodeList();
-	}
 }

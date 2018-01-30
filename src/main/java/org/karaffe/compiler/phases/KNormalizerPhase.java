@@ -12,16 +12,16 @@ public class KNormalizerPhase extends AbstractCompileUnitTransformer implements 
 
     private final CompilerConfig config;
 
-    public KNormalizerPhase(CompilerConfig config) {
+    public KNormalizerPhase(final CompilerConfig config) {
         this.config = config;
     }
 
     @Override
-    public Optional<CompileUnit> transform(CompileUnit input) {
-    	NormalizeContext context = new NormalizeContext();
-    	NodeList normalized = input.normalize(context);
-    	CompileUnit compileUnit = (CompileUnit)normalized.get(0);
-    	return Optional.of(compileUnit);
+    public Optional<CompileUnit> transform(final CompileUnit input) {
+        final NormalizeContext context = new NormalizeContext();
+        final NodeList normalized = input.normalize(context);
+        final CompileUnit compileUnit = (CompileUnit) normalized.get(0);
+        return Optional.of(compileUnit);
     }
 
 }

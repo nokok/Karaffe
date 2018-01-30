@@ -19,11 +19,34 @@ public class Tokens implements Collection<Token> {
         this.tokens = tokens;
     }
 
-    public boolean hasErrorToken() {
-        return this.tokens
-                .stream()
-                .filter(Token::isErrorToken)
-                .count() > 0;
+    @Override
+    public boolean add(final Token e) {
+        return this.tokens.add(e);
+    }
+
+    @Override
+    public boolean addAll(final Collection<? extends Token> c) {
+        return this.tokens.addAll(c);
+    }
+
+    @Override
+    public void clear() {
+        this.tokens.clear();
+    }
+
+    @Override
+    public boolean contains(final Object o) {
+        return this.tokens.contains(o);
+    }
+
+    @Override
+    public boolean containsAll(final Collection<?> c) {
+        return this.tokens.containsAll(c);
+    }
+
+    @Override
+    public boolean equals(final Object o) {
+        return this.tokens.equals(o);
     }
 
     public List<Token> getErrorTokens() {
@@ -33,9 +56,16 @@ public class Tokens implements Collection<Token> {
                 .collect(Collectors.toList());
     }
 
+    public boolean hasErrorToken() {
+        return this.tokens
+                .stream()
+                .filter(Token::isErrorToken)
+                .count() > 0;
+    }
+
     @Override
-    public int size() {
-        return this.tokens.size();
+    public int hashCode() {
+        return this.tokens.hashCode();
     }
 
     @Override
@@ -43,7 +73,7 @@ public class Tokens implements Collection<Token> {
         if (this.tokens.isEmpty()) {
             return true;
         }
-        if (this.tokens.size() == 1 && this.tokens.iterator().next().is(EOF.class)) {
+        if ((this.tokens.size() == 1) && this.tokens.iterator().next().is(EOF.class)) {
             return true;
         }
         for (final Token token : this.tokens) {
@@ -55,43 +85,13 @@ public class Tokens implements Collection<Token> {
     }
 
     @Override
-    public boolean contains(final Object o) {
-        return this.tokens.contains(o);
-    }
-
-    @Override
     public Iterator<Token> iterator() {
         return this.tokens.iterator();
     }
 
     @Override
-    public Object[] toArray() {
-        return this.tokens.toArray();
-    }
-
-    @Override
-    public <T> T[] toArray(final T[] a) {
-        return this.tokens.toArray(a);
-    }
-
-    @Override
-    public boolean add(final Token e) {
-        return this.tokens.add(e);
-    }
-
-    @Override
     public boolean remove(final Object o) {
         return this.tokens.remove(o);
-    }
-
-    @Override
-    public boolean containsAll(final Collection<?> c) {
-        return this.tokens.containsAll(c);
-    }
-
-    @Override
-    public boolean addAll(final Collection<? extends Token> c) {
-        return this.tokens.addAll(c);
     }
 
     @Override
@@ -105,18 +105,18 @@ public class Tokens implements Collection<Token> {
     }
 
     @Override
-    public void clear() {
-        this.tokens.clear();
+    public int size() {
+        return this.tokens.size();
     }
 
     @Override
-    public boolean equals(final Object o) {
-        return this.tokens.equals(o);
+    public Object[] toArray() {
+        return this.tokens.toArray();
     }
 
     @Override
-    public int hashCode() {
-        return this.tokens.hashCode();
+    public <T> T[] toArray(final T[] a) {
+        return this.tokens.toArray(a);
     }
 
     @Override

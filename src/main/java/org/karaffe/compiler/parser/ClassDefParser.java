@@ -67,7 +67,7 @@ public class ClassDefParser implements Parser {
             }
             return new MatchResult.Success(cp.next(), cp.matched(), new ClassDef(className, superClassName, new Block(defs)));
         }
-        boolean endOfLine = TokenMatcher.isLineEnd(cp.next());
+        final boolean endOfLine = TokenMatcher.isLineEnd(cp.next());
         if (endOfLine) {
             return new MatchResult.Success(cp.next(), cp.matched(), new ClassDef(className, superClassName, new Block()));
         }

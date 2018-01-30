@@ -10,29 +10,29 @@ import org.karaffe.compiler.tree.visitor.KaraffeTreeVisitor;
 
 public class New extends AbstractNode {
 
-	public New(final Node newInstanceTarget) {
-		super(NodeType.NEW, newInstanceTarget);
-	}
+    public New(final Node newInstanceTarget) {
+        super(NodeType.NEW, newInstanceTarget);
+    }
 
-	@Override
-	public void accept(KaraffeTreeVisitor visitor) {
-		visitor.visit(this);
-	}
+    @Override
+    public void accept(final KaraffeTreeVisitor visitor) {
+        visitor.visit(this);
+    }
 
-	public Node newInstanceTarget() {
-		return getChildren().get(0);
-	}
+    public Node newInstanceTarget() {
+        return this.getChildren().get(0);
+    }
 
-	@Override
-	public String vSource() {
-		return "new " + newInstanceTarget().vSource();
-	}
+    @Override
+    public NodeList normalize(final NormalizeContext context) {
+        final List<Node> nodes = new ArrayList<>();
+        final Name name = context.nextName(nodes);
+        nodes.add(new Assign(name, this));
+        return new NodeList(nodes);
+    }
 
-	@Override
-	public NodeList normalize(NormalizeContext context) {
-		List<Node> nodes = new ArrayList<>();
-		Name name = context.nextName(nodes);
-		nodes.add(new Assign(name, this));
-		return new NodeList(nodes);
-	}
+    @Override
+    public String vSource() {
+        return "new " + this.newInstanceTarget().vSource();
+    }
 }

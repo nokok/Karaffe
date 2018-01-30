@@ -30,11 +30,6 @@ public class SimpleTokenMatcher implements TokenMatcher {
     }
 
     @Override
-    public List<Class<? extends Token>> skipTokens() {
-        return new ArrayList<>(this.skipTokens);
-    }
-
-    @Override
     public MatchResult match(final Tokens inputTokens) {
         SimpleTokenMatcher.LOGGER.debug("Input : {}", inputTokens);
         SimpleTokenMatcher.LOGGER.debug("Pattern : {}", this.pattern.stream().map(m -> m.getSimpleName()).collect(Collectors.toList()));
@@ -49,7 +44,7 @@ public class SimpleTokenMatcher implements TokenMatcher {
             final Tokens next = head.next();
             cursor += current.size() - next.size();
             current = head.next();
-            Token first = current.iterator().next();
+            final Token first = current.iterator().next();
             if (!first.is(expected)) {
                 SimpleTokenMatcher.LOGGER.debug("  -> Failure");
                 return new MatchResult.Failure(first, current);
@@ -61,6 +56,11 @@ public class SimpleTokenMatcher implements TokenMatcher {
         final Tokens next = new Tokens(new ArrayList<>(inputTokens).subList(cursor, inputTokens.size()));
         SimpleTokenMatcher.LOGGER.debug("  -> Success");
         return new MatchResult.Success(next, matchedTokens);
+    }
+
+    @Override
+    public List<Class<? extends Token>> skipTokens() {
+        return new ArrayList<>(this.skipTokens);
     }
 
     @Override

@@ -18,12 +18,46 @@ import org.karaffe.compiler.parser.IdentifierParser;
 
 public interface TokenMatcher {
 
-    public MatchResult match(Tokens tokens);
-
     public static final List<Class<? extends Token>> DEFAULT_SKIP_TOKENS = new ArrayList<>(Arrays.asList(NewLine.class, Space.class, Tab.class, WideSpace.class));
 
-    public default List<Class<? extends Token>> skipTokens() {
-        return TokenMatcher.DEFAULT_SKIP_TOKENS;
+    public static TokenMatcher classKeyword() {
+        return TokenMatcher.create(KeywordToken.Class.class);
+    }
+
+    public static TokenMatcher create(final Class<? extends Token> tokenClazz) {
+        return new SimpleTokenMatcher(tokenClazz);
+    }
+
+    public static TokenMatcher create(final Class<?>... tokens) {
+        final List<Class<? extends Token>> pattern = new ArrayList<>(Arrays.asList((Class<? extends Token>[]) tokens));
+        final SimpleTokenMatcher matcher = new SimpleTokenMatcher(pattern);
+        return matcher;
+    }
+
+    public static TokenMatcher dot() {
+        return TokenMatcher.create(Dot.class);
+    }
+
+    public static TokenMatcher identifier() {
+        return new IdentifierParser();
+    }
+
+    public static boolean isLineEnd(final Tokens tokens) {
+        final Iterator<Token> tokenIterator = tokens.iterator();
+        while (tokenIterator.hasNext()) {
+            final Token nextToken = tokenIterator.next();
+            if (nextToken.isNeedLineReset()) {
+                return true;
+            }
+            if (nextToken.isWhiteSpace()) {
+                continue;
+            }
+            if (nextToken.is(EOF.class)) {
+                return true;
+            }
+            return false;
+        }
+        return true; // Token not found.
     }
 
     public default ResultState head(final List<Token> tokens) {
@@ -55,44 +89,10 @@ public interface TokenMatcher {
         return new MatchResult.Failure(null, tokens);
     }
 
-    public static TokenMatcher create(final Class<?>... tokens) {
-        final List<Class<? extends Token>> pattern = new ArrayList<>(Arrays.asList((Class<? extends Token>[]) tokens));
-        final SimpleTokenMatcher matcher = new SimpleTokenMatcher(pattern);
-        return matcher;
-    }
+    public MatchResult match(Tokens tokens);
 
-    public static TokenMatcher create(final Class<? extends Token> tokenClazz) {
-        return new SimpleTokenMatcher(tokenClazz);
-    }
-
-    public static TokenMatcher identifier() {
-        return new IdentifierParser();
-    }
-
-    public static TokenMatcher dot() {
-        return TokenMatcher.create(Dot.class);
-    }
-
-    public static TokenMatcher classKeyword() {
-        return TokenMatcher.create(KeywordToken.Class.class);
-    }
-
-    public static boolean isLineEnd(Tokens tokens) {
-        Iterator<Token> tokenIterator = tokens.iterator();
-        while (tokenIterator.hasNext()) {
-            Token nextToken = tokenIterator.next();
-            if (nextToken.isNeedLineReset()) {
-                return true;
-            }
-            if (nextToken.isWhiteSpace()) {
-                continue;
-            }
-            if (nextToken.is(EOF.class)) {
-                return true;
-            }
-            return false;
-        }
-        return true; // Token not found.
+    public default List<Class<? extends Token>> skipTokens() {
+        return TokenMatcher.DEFAULT_SKIP_TOKENS;
     }
 
 }

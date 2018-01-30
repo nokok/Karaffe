@@ -42,8 +42,13 @@ public class KaraffeLexerTest {
 
     @Before
     public void setUp() {
-        Logger logger = (Logger) LoggerFactory.getLogger(Logger.ROOT_LOGGER_NAME);
+        final Logger logger = (Logger) LoggerFactory.getLogger(org.slf4j.Logger.ROOT_LOGGER_NAME);
         logger.setLevel(Level.TRACE);
+    }
+
+    @Test
+    public void testCR() {
+        this.testToken("\r", CR.class);
     }
 
     @Test
@@ -55,18 +60,23 @@ public class KaraffeLexerTest {
     }
 
     @Test
-    public void testSimpleClassDef() {
-        final Lexer lexer = new KaraffeLexer("class A");
-        final List<Token> tokens = lexer.run();
-        Assert.assertEquals(4, tokens.size());
-        Assert.assertEquals(KeywordToken.Class.class, tokens.get(0).getClass());
-        Assert.assertEquals(WhitespaceToken.Space.class, tokens.get(1).getClass());
-        Assert.assertEquals(IdentifierToken.TypeName.class.getName(), tokens.get(2).getClass().getName());
-        Assert.assertEquals(WhitespaceToken.EOF.class, tokens.get(3).getClass());
-        final Token idToken = tokens.get(2);
-        Assert.assertEquals("A", idToken.getText());
-        Assert.assertEquals(1, (int) idToken.getPosition().getLineNumber().orElse(-1));
-        Assert.assertEquals(6, (int) idToken.getPosition().getColNumber().orElse(-1));
+    public void testIdentifierToken1() {
+        this.testToken("classf", VarName.class);
+    }
+
+    @Test
+    public void testIdentifierToken2() {
+        this.testToken("newint", VarName.class);
+    }
+
+    @Test
+    public void testIdentifierToken3() {
+        this.testToken("fooclass", VarName.class);
+    }
+
+    @Test
+    public void testIdentifierToken4() {
+        this.testToken("Idclass", TypeName.class);
     }
 
     @Test
@@ -99,28 +109,18 @@ public class KaraffeLexerTest {
     }
 
     @Test
-    public void testIdentifierToken1() {
-        this.testToken("classf", VarName.class);
-    }
-
-    @Test
-    public void testIdentifierToken2() {
-        this.testToken("newint", VarName.class);
-    }
-
-    @Test
-    public void testIdentifierToken3() {
-        this.testToken("fooclass", VarName.class);
-    }
-
-    @Test
-    public void testIdentifierToken4() {
-        this.testToken("Idclass", TypeName.class);
-    }
-
-    @Test
-    public void testCR() {
-        this.testToken("\r", CR.class);
+    public void testSimpleClassDef() {
+        final Lexer lexer = new KaraffeLexer("class A");
+        final List<Token> tokens = lexer.run();
+        Assert.assertEquals(4, tokens.size());
+        Assert.assertEquals(KeywordToken.Class.class, tokens.get(0).getClass());
+        Assert.assertEquals(WhitespaceToken.Space.class, tokens.get(1).getClass());
+        Assert.assertEquals(IdentifierToken.TypeName.class.getName(), tokens.get(2).getClass().getName());
+        Assert.assertEquals(WhitespaceToken.EOF.class, tokens.get(3).getClass());
+        final Token idToken = tokens.get(2);
+        Assert.assertEquals("A", idToken.getText());
+        Assert.assertEquals(1, (int) idToken.getPosition().getLineNumber().orElse(-1));
+        Assert.assertEquals(6, (int) idToken.getPosition().getColNumber().orElse(-1));
     }
 
     private void testToken(final String token, final Class<? extends Token> clazz) {

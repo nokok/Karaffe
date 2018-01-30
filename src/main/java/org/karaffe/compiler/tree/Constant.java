@@ -11,13 +11,13 @@ public class Constant extends TermNode {
     }
 
     @Override
-    public void accept(KaraffeTreeVisitor visitor) {
+    public void accept(final KaraffeTreeVisitor visitor) {
         visitor.visit(this);
     }
 
-	@Override
-	public NodeList normalize(NormalizeContext context) {
-		return this.toNodeList();
-	}
+    @Override
+    public NodeList normalize(final NormalizeContext context) {
+        return this.toNodeList();
+    }
 
 }

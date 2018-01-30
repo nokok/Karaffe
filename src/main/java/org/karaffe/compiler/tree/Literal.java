@@ -16,114 +16,123 @@ import karaffe.core.Int;
 
 public abstract class Literal extends TermNode {
 
-	public Literal(final Token token) {
-		super(NodeType.LITERAL, token);
-	}
+    public abstract static class BoolLiteral extends Literal {
+        public BoolLiteral(final Token token) {
+            super(token);
+        }
 
-	abstract public boolean isBoolLiteral();
+        @Override
+        public boolean isBoolLiteral() {
+            return true;
+        }
 
-	abstract public boolean isTrueLiteral();
+        @Override
+        public Optional<InferResult> tryTypeInference(final TypeInferenceContext context) {
+            return Optional.of(InferResult.of(Bool.class));
+        }
+    }
 
-	public boolean isFalseLiteral() {
-		if (this.isBoolLiteral()) {
-			return !this.isTrueLiteral();
-		}
-		return false;
-	}
+    public static class FalseLiteral extends BoolLiteral {
 
-	public abstract static class BoolLiteral extends Literal {
-		public BoolLiteral(Token token) {
-			super(token);
-		}
+        public FalseLiteral(final Token token) {
+            super(token);
+        }
 
-		@Override
-		public boolean isBoolLiteral() {
-			return true;
-		}
+        @Override
+        public void accept(final KaraffeTreeVisitor visitor) {
+            visitor.visit(this);
+        }
 
-	}
+        @Override
+        public boolean isTrueLiteral() {
+            return false;
+        }
+    }
 
-	public static class TrueLiteral extends BoolLiteral {
-		public TrueLiteral(Token token) {
-			super(token);
-		}
+    public static class IntLiteral extends Literal {
+        public IntLiteral(final Token token) {
+            super(token);
+        }
 
-		@Override
-		public boolean isTrueLiteral() {
-			return true;
-		}
+        @Override
+        public void accept(final KaraffeTreeVisitor visitor) {
+            visitor.visit(this);
+        }
 
-		@Override
-		public void accept(KaraffeTreeVisitor visitor) {
-			visitor.visit(this);
-		}
-	}
+        @Override
+        public boolean isBoolLiteral() {
+            return false;
+        }
 
-	public static class FalseLiteral extends BoolLiteral {
+        @Override
+        public boolean isTrueLiteral() {
+            return false;
+        }
 
-		public FalseLiteral(Token token) {
-			super(token);
-		}
+        @Override
+        public Optional<InferResult> tryTypeInference(final TypeInferenceContext context) {
+            return Optional.of(InferResult.of(Int.class));
+        }
+    }
 
-		@Override
-		public boolean isTrueLiteral() {
-			return false;
-		}
+    public static class ThisLiteral extends Literal {
+        public ThisLiteral(final Token token) {
+            super(token);
+        }
 
-		@Override
-		public void accept(KaraffeTreeVisitor visitor) {
-			visitor.visit(this);
-		}
-	}
+        @Override
+        public void accept(final KaraffeTreeVisitor visitor) {
+            visitor.visit(this);
+        }
 
-	public static class IntLiteral extends Literal {
-		public IntLiteral(Token token) {
-			super(token);
-		}
+        @Override
+        public boolean isBoolLiteral() {
+            return false;
+        }
 
-		@Override
-		public boolean isBoolLiteral() {
-			return false;
-		}
+        @Override
+        public boolean isTrueLiteral() {
+            return false;
+        }
+    }
 
-		@Override
-		public boolean isTrueLiteral() {
-			return false;
-		}
+    public static class TrueLiteral extends BoolLiteral {
+        public TrueLiteral(final Token token) {
+            super(token);
+        }
 
-		@Override
-		public void accept(KaraffeTreeVisitor visitor) {
-			visitor.visit(this);
-		}
-	}
+        @Override
+        public void accept(final KaraffeTreeVisitor visitor) {
+            visitor.visit(this);
+        }
 
-	public static class ThisLiteral extends Literal {
-		public ThisLiteral(Token token) {
-			super(token);
-		}
+        @Override
+        public boolean isTrueLiteral() {
+            return true;
+        }
+    }
 
-		@Override
-		public boolean isBoolLiteral() {
-			return false;
-		}
+    public Literal(final Token token) {
+        super(NodeType.LITERAL, token);
+    }
 
-		@Override
-		public boolean isTrueLiteral() {
-			return false;
-		}
+    abstract public boolean isBoolLiteral();
 
-		@Override
-		public void accept(KaraffeTreeVisitor visitor) {
-			visitor.visit(this);
-		}
-	}
-	
-	@Override
-	public NodeList normalize(NormalizeContext context) {
-		List<Node> nodes = new ArrayList<>();
-		Name name = context.nextName(nodes);
-		nodes.add(new Assign(name, this));
-		return new NodeList(nodes);
-	}
+    public boolean isFalseLiteral() {
+        if (this.isBoolLiteral()) {
+            return !this.isTrueLiteral();
+        }
+        return false;
+    }
+
+    abstract public boolean isTrueLiteral();
+
+    @Override
+    public NodeList normalize(final NormalizeContext context) {
+        final List<Node> nodes = new ArrayList<>();
+        final Name name = context.nextName(nodes);
+        nodes.add(new Assign(name, this));
+        return new NodeList(nodes);
+    }
 
 }

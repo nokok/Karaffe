@@ -19,6 +19,11 @@ public class SourceCodeContainer implements SourceStream {
         this.compileTargetFiles = compileTargetFiles;
     }
 
+    @Override
+    public boolean hasSource() {
+        return !this.isEmpty();
+    }
+
     public boolean isEmpty() {
         return this.compileTargetFiles.isEmpty();
     }
@@ -26,11 +31,6 @@ public class SourceCodeContainer implements SourceStream {
     @Override
     public Stream<File> sourceStream() {
         return new ArrayList<>(this.compileTargetFiles).stream();
-    }
-
-    @Override
-    public boolean hasSource() {
-        return !this.isEmpty();
     }
 
 }

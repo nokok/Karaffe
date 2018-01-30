@@ -9,9 +9,9 @@ import org.karaffe.compiler.tree.visitor.KaraffeTreeVisitor;
 public class VisitorTest {
     @Test
     public void testPrinter() {
-        KaraffeTreeVisitor printer = new DefMapBuilder();
-        KaraffeParser parser = new KaraffeParser();
-        MatchResult result = parser.parse("class Main { public static void main(String[] args){if (true) {var a :Int;var b:Int;} else {var a :Int;}}}");
+        final KaraffeTreeVisitor printer = new DefMapBuilder();
+        final KaraffeParser parser = new KaraffeParser();
+        final MatchResult result = parser.parse("class Main { public static void main(String[] args){if (true) {var a :Int;var b:Int;} else {var a :Int;}}}");
         result.getNode().get().accept(printer);
     }
 }

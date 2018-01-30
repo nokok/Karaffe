@@ -4,7 +4,7 @@ import java.util.Optional;
 
 public interface ResultConverter<S, F> {
 
-    public Optional<S> toSuccess();
-
     public Optional<F> toFailure();
+
+    public Optional<S> toSuccess();
 }

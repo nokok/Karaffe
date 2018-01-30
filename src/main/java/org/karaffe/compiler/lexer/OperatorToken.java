@@ -4,8 +4,14 @@ import org.karaffe.compiler.pos.Position;
 
 public abstract class OperatorToken extends CommonToken {
 
-    OperatorToken(final String text, final Position position) {
-        super(text, position, text + " operator");
+    public static class And extends OperatorToken {
+        public And() {
+            this(Position.noPos());
+        }
+
+        public And(final Position position) {
+            super("&", position);
+        }
     }
 
     public static class AndAnd extends OperatorToken {
@@ -18,33 +24,13 @@ public abstract class OperatorToken extends CommonToken {
         }
     }
 
-    public static class And extends OperatorToken {
-        public And() {
+    public static class Bang extends OperatorToken {
+        public Bang() {
             this(Position.noPos());
         }
 
-        public And(final Position position) {
-            super("&", position);
-        }
-    }
-
-    public static class LessThan extends OperatorToken {
-        public LessThan() {
-            this(Position.noPos());
-        }
-
-        public LessThan(final Position position) {
-            super("<", position);
-        }
-    }
-
-    public static class GreaterThan extends OperatorToken {
-        public GreaterThan() {
-            this(Position.noPos());
-        }
-
-        public GreaterThan(final Position position) {
-            super(">", position);
+        public Bang(final Position position) {
+            super("!", position);
         }
     }
 
@@ -58,13 +44,23 @@ public abstract class OperatorToken extends CommonToken {
         }
     }
 
-    public static class Plus extends OperatorToken {
-        public Plus() {
+    public static class GreaterThan extends OperatorToken {
+        public GreaterThan() {
             this(Position.noPos());
         }
 
-        public Plus(final Position position) {
-            super("+", position);
+        public GreaterThan(final Position position) {
+            super(">", position);
+        }
+    }
+
+    public static class LessThan extends OperatorToken {
+        public LessThan() {
+            this(Position.noPos());
+        }
+
+        public LessThan(final Position position) {
+            super("<", position);
         }
     }
 
@@ -78,13 +74,13 @@ public abstract class OperatorToken extends CommonToken {
         }
     }
 
-    public static class Star extends OperatorToken {
-        public Star() {
+    public static class Plus extends OperatorToken {
+        public Plus() {
             this(Position.noPos());
         }
 
-        public Star(final Position position) {
-            super("*", position);
+        public Plus(final Position position) {
+            super("+", position);
         }
     }
 
@@ -98,14 +94,18 @@ public abstract class OperatorToken extends CommonToken {
         }
     }
 
-    public static class Bang extends OperatorToken {
-        public Bang() {
+    public static class Star extends OperatorToken {
+        public Star() {
             this(Position.noPos());
         }
 
-        public Bang(final Position position) {
-            super("!", position);
+        public Star(final Position position) {
+            super("*", position);
         }
+    }
+
+    OperatorToken(final String text, final Position position) {
+        super(text, position, text + " operator");
     }
 
     @Override

@@ -42,20 +42,45 @@ import org.karaffe.compiler.tree.base.Node;
 
 public class ExprParser implements Parser {
 
-    @Override
-    public MatchResult parse(final Tokens input) {
-        return new CondExprParaser().parse(input);
-    }
-
     static class CondExprParaser extends AbstractBinaryExprLeftAssoc {
         public CondExprParaser() {
             super(new PlusMinusParser(), new OperatorParser(LessThan.class), new OperatorParser(OperatorToken.AndAnd.class));
         }
     }
 
-    static class PlusMinusParser extends AbstractBinaryExprLeftAssoc {
-        public PlusMinusParser() {
-            super(new MulDivExprParser(), new OperatorParser(Plus.class), new OperatorParser(Minus.class));
+    static class ExprHeadParser implements Parser {
+
+        @Override
+        public MatchResult parse(final Tokens input) {
+            final CParser cp = new CParser(input);
+            if (cp.selectOne(new LiteralsParser(), new IdentifierParser(), new NestedExprParser())) {
+                return cp.toSuccess();
+            }
+            return cp.toFailure();
+        }
+    }
+
+    static class FalseLiteralParser implements Parser {
+
+        @Override
+        public MatchResult parse(final Tokens input) {
+            final MatchResult result = TokenMatcher.create(False.class).match(input);
+            if (result.isFailure()) {
+                return result;
+            }
+            return new MatchResult.Success(result.next(), result.matchedF(), new Literal.FalseLiteral(result.matchedF().iterator().next()));
+        }
+
+    }
+
+    static class IntLiteralParser implements Parser {
+        @Override
+        public MatchResult parse(final Tokens input) {
+            final MatchResult result = TokenMatcher.create(IntLiteral.class).match(input);
+            if (result.isFailure()) {
+                return result;
+            }
+            return new MatchResult.Success(result.next(), result.matchedF(), new Literal.IntLiteral(result.matchedF().iterator().next()));
         }
     }
 
@@ -94,87 +119,31 @@ public class ExprParser implements Parser {
 
     }
 
-    static class ExprHeadParser implements Parser {
-
-        @Override
-        public MatchResult parse(final Tokens input) {
-            final CParser cp = new CParser(input);
-            if (cp.selectOne(new LiteralsParser(), new IdentifierParser(), new NestedExprParser())) {
-                return cp.toSuccess();
-            }
-            return cp.toFailure();
+    static class PlusMinusParser extends AbstractBinaryExprLeftAssoc {
+        public PlusMinusParser() {
+            super(new MulDivExprParser(), new OperatorParser(Plus.class), new OperatorParser(Minus.class));
         }
-    }
-
-    static class IntLiteralParser implements Parser {
-        @Override
-        public MatchResult parse(final Tokens input) {
-            final MatchResult result = TokenMatcher.create(IntLiteral.class).match(input);
-            if (result.isFailure()) {
-                return result;
-            }
-            return new MatchResult.Success(result.next(), result.matchedF(), new Literal.IntLiteral(result.matchedF().iterator().next()));
-        }
-    }
-
-    static class ThisParser implements Parser {
-        @Override
-        public MatchResult parse(final Tokens input) {
-            final MatchResult result = TokenMatcher.create(This.class).match(input);
-            if (result.isFailure()) {
-                return result;
-            }
-            return new MatchResult.Success(result.next(), result.matchedF(), new Literal.ThisLiteral(result.matchedF().iterator().next()));
-        }
-    }
-
-    static class TrueLiteralParser implements Parser {
-        @Override
-        public MatchResult parse(final Tokens input) {
-            final MatchResult result = TokenMatcher.create(True.class).match(input);
-            if (result.isFailure()) {
-                return result;
-            }
-            return new MatchResult.Success(result.next(), result.matchedF(), new Literal.TrueLiteral(result.matchedF().iterator().next()));
-        }
-    }
-
-    static class FalseLiteralParser implements Parser {
-
-        @Override
-        public MatchResult parse(final Tokens input) {
-            final MatchResult result = TokenMatcher.create(False.class).match(input);
-            if (result.isFailure()) {
-                return result;
-            }
-            return new MatchResult.Success(result.next(), result.matchedF(), new Literal.FalseLiteral(result.matchedF().iterator().next()));
-        }
-
     }
 
     static class Primary implements Parser {
 
-        @Override
-        public MatchResult parse(final Tokens input) {
-            final CParser cp = new CParser(input);
-            if (cp.selectFirst(
-                    new MethodInvocationParser(),
-                    new ArrayAccessParser(),
-                    new LiteralsParser(),
-                    new NewInstanceParser(),
-                    new NegativeExprParser(),
-                    new NestedExprParser(),
-                    new LengthAccessParser(),
-                    new ArrayInitializerParser(),
-                    new PathParser())) {
-                return cp.toSuccess();
-            }
-            return cp.toFailure();
-        }
+        static class ArrayAccessParser implements Parser {
 
-        @Override
-        public String toString() {
-            return "Primary";
+            @Override
+            public MatchResult parse(final Tokens input) {
+                final CParser cp = new CParser(input);
+                return cp.chain(nodes -> {
+                    final Node arrayNode = nodes.get(0);
+                    final Node accessTarget = nodes.get(2);
+                    // array.apply(expr)
+                    return new Apply(new Select(arrayNode, new Name("apply")), accessTarget);
+                },
+                        Action.of(new ExprHeadParser()),
+                        Action.of(LeftBracket.class),
+                        Action.of(new ExprParser()),
+                        Action.of(RightBracket.class));
+            }
+
         }
 
         static class ArrayInitializerParser implements Parser {
@@ -183,7 +152,7 @@ public class ExprParser implements Parser {
             public MatchResult parse(final Tokens input) {
                 final CParser cp = new CParser(input);
                 return cp.chain(nodes -> {
-                    Node arrayLength = nodes.get(3);
+                    final Node arrayLength = nodes.get(3);
                     final Name arrayType = new Name("IntArray");
                     final Select arrayTypeSelect = new Select(arrayType);
                     final New newInstanceTarget = new New(arrayTypeSelect);
@@ -199,20 +168,19 @@ public class ExprParser implements Parser {
 
         }
 
-        static class NewInstanceParser implements Parser {
+        static class LengthAccessParser implements Parser {
 
             @Override
             public MatchResult parse(final Tokens input) {
                 final CParser cp = new CParser(input);
                 return cp.chain(nodes -> {
-                    Node identifier = nodes.get(1);
-                    return new Apply(new New(new Select(identifier)));
+                    final Node objNode = nodes.get(0);
+                    // obj.length
+                    return new Apply(new Select(objNode, new Name("length")));
                 },
-                        Action.of(KeywordToken.New.class),
-                        Action.of(new IdentifierParser()),
-                        Action.of(LeftParen.class),
-                        Action.of(RightParen.class));
-
+                        Action.of(new ExprHeadParser()),
+                        Action.of(Dot.class),
+                        Action.of(Length.class));
             }
 
         }
@@ -230,77 +198,6 @@ public class ExprParser implements Parser {
                     return cp.toSuccess();
                 }
                 return cp.toFailure();
-            }
-
-        }
-
-        static class NegativeExprParser implements Parser {
-
-            @Override
-            public MatchResult parse(final Tokens input) {
-                final CParser cp = new CParser(input);
-                return cp.chain(nodes -> {
-                    Node exprNode = nodes.get(1);
-                    // negate(expr)
-                    return new Apply(new Select(new Name("negate")), exprNode);
-                },
-                        Action.of(Bang.class),
-                        Action.of(new ExprParser()));
-            }
-
-        }
-
-        static class NestedExprParser implements Parser {
-
-            @Override
-            public MatchResult parse(final Tokens input) {
-                final CParser cp = new CParser(input);
-                return cp.chain(nodes -> {
-                    Node exprNode = nodes.get(1);
-                    if (exprNode instanceof Apply) {
-                        return exprNode;
-                    }
-                    return new Apply(exprNode);
-                },
-                        Action.of(LeftParen.class),
-                        Action.of(new ExprParser()),
-                        Action.of(RightParen.class));
-            }
-
-        }
-
-        static class ArrayAccessParser implements Parser {
-
-            @Override
-            public MatchResult parse(final Tokens input) {
-                final CParser cp = new CParser(input);
-                return cp.chain(nodes -> {
-                    Node arrayNode = nodes.get(0);
-                    Node accessTarget = nodes.get(2);
-                    // array.apply(expr)
-                    return new Apply(new Select(arrayNode, new Name("apply")), accessTarget);
-                },
-                        Action.of(new ExprHeadParser()),
-                        Action.of(LeftBracket.class),
-                        Action.of(new ExprParser()),
-                        Action.of(RightBracket.class));
-            }
-
-        }
-
-        static class LengthAccessParser implements Parser {
-
-            @Override
-            public MatchResult parse(final Tokens input) {
-                final CParser cp = new CParser(input);
-                return cp.chain(nodes -> {
-                    Node objNode = nodes.get(0);
-                    // obj.length
-                    return new Apply(new Select(objNode, new Name("length")));
-                },
-                        Action.of(new ExprHeadParser()),
-                        Action.of(Dot.class),
-                        Action.of(Length.class));
             }
 
         }
@@ -346,5 +243,108 @@ public class ExprParser implements Parser {
             }
 
         }
+
+        static class NegativeExprParser implements Parser {
+
+            @Override
+            public MatchResult parse(final Tokens input) {
+                final CParser cp = new CParser(input);
+                return cp.chain(nodes -> {
+                    final Node exprNode = nodes.get(1);
+                    // negate(expr)
+                    return new Apply(new Select(new Name("negate")), exprNode);
+                },
+                        Action.of(Bang.class),
+                        Action.of(new ExprParser()));
+            }
+
+        }
+
+        static class NestedExprParser implements Parser {
+
+            @Override
+            public MatchResult parse(final Tokens input) {
+                final CParser cp = new CParser(input);
+                return cp.chain(nodes -> {
+                    final Node exprNode = nodes.get(1);
+                    if (exprNode instanceof Apply) {
+                        return exprNode;
+                    }
+                    return new Apply(exprNode);
+                },
+                        Action.of(LeftParen.class),
+                        Action.of(new ExprParser()),
+                        Action.of(RightParen.class));
+            }
+
+        }
+
+        static class NewInstanceParser implements Parser {
+
+            @Override
+            public MatchResult parse(final Tokens input) {
+                final CParser cp = new CParser(input);
+                return cp.chain(nodes -> {
+                    final Node identifier = nodes.get(1);
+                    return new Apply(new New(new Select(identifier)));
+                },
+                        Action.of(KeywordToken.New.class),
+                        Action.of(new IdentifierParser()),
+                        Action.of(LeftParen.class),
+                        Action.of(RightParen.class));
+
+            }
+
+        }
+
+        @Override
+        public MatchResult parse(final Tokens input) {
+            final CParser cp = new CParser(input);
+            if (cp.selectFirst(
+                    new MethodInvocationParser(),
+                    new ArrayAccessParser(),
+                    new LiteralsParser(),
+                    new NewInstanceParser(),
+                    new NegativeExprParser(),
+                    new NestedExprParser(),
+                    new LengthAccessParser(),
+                    new ArrayInitializerParser(),
+                    new PathParser())) {
+                return cp.toSuccess();
+            }
+            return cp.toFailure();
+        }
+
+        @Override
+        public String toString() {
+            return "Primary";
+        }
+    }
+
+    static class ThisParser implements Parser {
+        @Override
+        public MatchResult parse(final Tokens input) {
+            final MatchResult result = TokenMatcher.create(This.class).match(input);
+            if (result.isFailure()) {
+                return result;
+            }
+            return new MatchResult.Success(result.next(), result.matchedF(), new Literal.ThisLiteral(result.matchedF().iterator().next()));
+        }
+    }
+
+    static class TrueLiteralParser implements Parser {
+        @Override
+        public MatchResult parse(final Tokens input) {
+            final MatchResult result = TokenMatcher.create(True.class).match(input);
+            if (result.isFailure()) {
+                return result;
+            }
+            return new MatchResult.Success(result.next(), result.matchedF(), new Literal.TrueLiteral(result.matchedF().iterator().next()));
+        }
+    }
+
+    @Override
+    public MatchResult parse(final Tokens input) {
+        return new CondExprParaser().parse(input);
     }
 }

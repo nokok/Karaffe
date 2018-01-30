@@ -16,22 +16,22 @@ public class Empty extends AbstractNode {
     }
 
     @Override
-    public String toString() {
-        return "()";
+    public void accept(final KaraffeTreeVisitor visitor) {
+        visitor.visit(this);
     }
 
     @Override
-    public void accept(KaraffeTreeVisitor visitor) {
-        visitor.visit(this);
+    public NodeList normalize(final NormalizeContext context) {
+        return this.toNodeList();
+    }
+
+    @Override
+    public String toString() {
+        return "()";
     }
 
     @Override
     public String vSource() {
         return "?";
     }
-
-	@Override
-	public NodeList normalize(NormalizeContext context) {
-		return this.toNodeList();
-	}
 }

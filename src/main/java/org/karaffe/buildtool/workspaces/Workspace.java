@@ -14,9 +14,13 @@ public abstract class Workspace {
     private final Configuration configuration;
     private final Set<Project> projects;
 
-    public Workspace(Configuration configuration, Project... projects) {
+    public Workspace(final Configuration configuration, final Project... projects) {
         this.configuration = configuration;
         this.projects = new HashSet<>(Arrays.asList(projects));
+    }
+
+    public Optional<Project> getProject(final String projectName) {
+        return this.projects.stream().filter(project -> project.getName().equals(projectName)).findFirst();
     }
 
     public Set<Project> getProjects() {
@@ -27,20 +31,16 @@ public abstract class Workspace {
         return !this.projects.isEmpty();
     }
 
-    public boolean hasProject(Project project) {
+    public boolean hasProject(final Project project) {
         return this.projects.contains(project);
     }
 
-    public Optional<Project> getProject(String projectName) {
-        return this.projects.stream().filter(project -> project.getName().equals(projectName)).findFirst();
-    }
-
-    public <R> Stream<R> runMatchedProjects(Predicate<? super Project> f, Function<? super Project, R> function) {
-        return this.projects.stream().filter(f).map(function);
-    }
-
-    public <R> Stream<R> runAllProjects(Function<? super Project, R> function) {
+    public <R> Stream<R> runAllProjects(final Function<? super Project, R> function) {
         return this.projects.stream().map(function);
+    }
+
+    public <R> Stream<R> runMatchedProjects(final Predicate<? super Project> f, final Function<? super Project, R> function) {
+        return this.projects.stream().filter(f).map(function);
     }
 
 }

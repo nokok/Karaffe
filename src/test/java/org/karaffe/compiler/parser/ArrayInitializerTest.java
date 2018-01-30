@@ -13,26 +13,6 @@ import org.karaffe.compiler.parser.util.MatchResult;
 
 public class ArrayInitializerTest {
 
-    @Test
-    public void testEmpty() {
-        this.runTest("", false);
-    }
-
-    @Test
-    public void testArrayInitializerInt() {
-        this.runTest("new int[1]", true);
-    }
-
-    @Test
-    public void testArrayInitializerExpr() {
-        this.runTest("new int[1+2]", true);
-    }
-
-    @Test
-    public void testNewInt() {
-        this.runTest("newint[1]", false);
-    }
-
     private void runTest(final String source, final boolean v) {
         final KaraffeLexer lexer = new KaraffeLexer(source);
         final List<Token> input = lexer.run();
@@ -49,5 +29,25 @@ public class ArrayInitializerTest {
         } else {
             Assert.assertEquals(String.format("%s vs %s", input, result.next()), input.size(), result.next().size());
         }
+    }
+
+    @Test
+    public void testArrayInitializerExpr() {
+        this.runTest("new int[1+2]", true);
+    }
+
+    @Test
+    public void testArrayInitializerInt() {
+        this.runTest("new int[1]", true);
+    }
+
+    @Test
+    public void testEmpty() {
+        this.runTest("", false);
+    }
+
+    @Test
+    public void testNewInt() {
+        this.runTest("newint[1]", false);
     }
 }

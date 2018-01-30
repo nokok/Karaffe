@@ -19,13 +19,13 @@ public class ReportPhase extends AbstractCompileUnitTransformer implements Trace
 
     @Override
     public Optional<CompileUnit> transform(final CompileUnit input) {
-        List<Report> reports = input.getReports();
+        final List<Report> reports = input.getReports();
         if (reports.isEmpty()) {
             return Optional.of(input);
         }
-        info(reports.toString());
-        ReportFormatter formatter = new ReportFormatter();
-        String errorMsg = formatter.format(reports);
+        this.info(reports.toString());
+        final ReportFormatter formatter = new ReportFormatter();
+        final String errorMsg = formatter.format(reports);
         System.out.println(errorMsg);
         return Optional.of(input);
     }

@@ -17,10 +17,10 @@ public class KaraffeSpecTest {
      */
     @Test
     public void testLineTerminatorLF() {
-        AbstractLexer lexer = new KaraffeLexer("\n", false);
-        List<Token> tokens = lexer.run();
+        final AbstractLexer lexer = new KaraffeLexer("\n", false);
+        final List<Token> tokens = lexer.run();
         assertEquals(1, tokens.size());
-        Token token = tokens.get(0);
+        final Token token = tokens.get(0);
         assertTrue(token.isNeedLineReset());
     }
 }

@@ -18,9 +18,9 @@ import org.karaffe.compiler.util.Traceable;
 
 public class KaraffeCompiler implements Callable<Integer>, Traceable, ProgressTraceable {
 
-    private String[] commandlineArgs;
+    private final String[] commandlineArgs;
 
-    public KaraffeCompiler(String[] commandlineArgs) {
+    public KaraffeCompiler(final String[] commandlineArgs) {
         this.commandlineArgs = Objects.requireNonNull(commandlineArgs);
     }
 
@@ -31,7 +31,7 @@ public class KaraffeCompiler implements Callable<Integer>, Traceable, ProgressTr
         return new SetupPhase().transform(this.commandlineArgs).map(config -> {
             final SourceStream stream = SourceStream.createSourceStream(this.commandlineArgs);
 
-            Optional<CompileUnit> compileUnitOpt = stream.sourceStream()
+            final Optional<CompileUnit> compileUnitOpt = stream.sourceStream()
                     .map(PhaseRunner.first(new FileLexerPhase(config)))
                     .map(PhaseRunner.after(new ParserPhase(config)))
                     .map(PhaseRunner.after(new ReportPhase(config)))

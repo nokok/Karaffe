@@ -82,11 +82,11 @@ public enum LexerPattern {
         this.func = func;
     }
 
-    public String getPattern() {
-        return this.pattern;
-    }
-
     public Token applyToken(final Position position, final String text) {
         return this.func.apply(text, position);
+    }
+
+    public String getPattern() {
+        return this.pattern;
     }
 }

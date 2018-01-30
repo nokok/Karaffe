@@ -7,15 +7,15 @@ public class KaraffeException extends KaraffeCompilerThrowable {
         super();
     }
 
-    public KaraffeException(String message, Throwable cause) {
-        super(message, cause);
-    }
-
-    public KaraffeException(String message) {
+    public KaraffeException(final String message) {
         super(message);
     }
 
-    public KaraffeException(Throwable cause) {
+    public KaraffeException(final String message, final Throwable cause) {
+        super(message, cause);
+    }
+
+    public KaraffeException(final Throwable cause) {
         super(cause);
     }
 

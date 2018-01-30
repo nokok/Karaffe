@@ -9,13 +9,13 @@ import org.karaffe.compiler.util.SourceCodeContainer;
 
 public interface SourceStream {
 
-    Stream<File> sourceStream();
+    public static SourceStream createSourceStream(final String[] args) {
+        final Set<File> sourceSet = Stream.of(args).filter(arg -> arg.endsWith(".krf")).map(File::new).collect(Collectors.toSet());
+        final SourceCodeContainer container = new SourceCodeContainer(sourceSet);
+        return container;
+    }
 
     boolean hasSource();
 
-    public static SourceStream createSourceStream(String[] args) {
-        Set<File> sourceSet = Stream.of(args).filter(arg -> arg.endsWith(".krf")).map(File::new).collect(Collectors.toSet());
-        SourceCodeContainer container = new SourceCodeContainer(sourceSet);
-        return container;
-    }
+    Stream<File> sourceStream();
 }

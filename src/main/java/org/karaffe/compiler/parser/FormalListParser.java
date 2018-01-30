@@ -58,7 +58,7 @@ public class FormalListParser implements Parser {
             final Name name = idMatch.getNode().map(Name.class::cast).orElseThrow(IllegalStateException::new);
             final LetDef val = new LetDef(modifiers, name, typeName);
             parameters.add(val);
-        } while (last.isSuccess() && before.size() > 0);
+        } while (last.isSuccess() && (before.size() > 0));
         if (last == null) {
             throw new IllegalStateException();
         }

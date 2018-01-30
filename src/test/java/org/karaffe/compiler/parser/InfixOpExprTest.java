@@ -11,36 +11,6 @@ import org.karaffe.compiler.lexer.Token;
 import org.karaffe.compiler.parser.util.MatchResult;
 
 public class InfixOpExprTest {
-    @Test
-    public void testEmpty() {
-        this.runTest("", false);
-    }
-
-    @Test
-    public void testInfixOp() {
-        this.runTest("1+2", true);
-    }
-
-    @Test
-    public void testInfixOp2() {
-        this.runTest("1*2", true);
-    }
-
-    @Test
-    public void testInfixNest() {
-        this.runTest("(1+2)*2", true);
-    }
-
-    @Test
-    public void testInfixPostExpr() {
-        this.runTest("2*!(1+2)", true);
-    }
-
-    @Test
-    public void testInfixExpr2() {
-        this.runTest("num-1", true);
-    }
-
     private void runTest(final String source, final boolean v) {
         final KaraffeLexer lexer = new KaraffeLexer(source);
         final List<Token> input = lexer.run();
@@ -57,5 +27,35 @@ public class InfixOpExprTest {
         } else {
             Assert.assertEquals(String.format("%s vs %s", input, result.next()), input.size(), result.next().size());
         }
+    }
+
+    @Test
+    public void testEmpty() {
+        this.runTest("", false);
+    }
+
+    @Test
+    public void testInfixExpr2() {
+        this.runTest("num-1", true);
+    }
+
+    @Test
+    public void testInfixNest() {
+        this.runTest("(1+2)*2", true);
+    }
+
+    @Test
+    public void testInfixOp() {
+        this.runTest("1+2", true);
+    }
+
+    @Test
+    public void testInfixOp2() {
+        this.runTest("1*2", true);
+    }
+
+    @Test
+    public void testInfixPostExpr() {
+        this.runTest("2*!(1+2)", true);
     }
 }

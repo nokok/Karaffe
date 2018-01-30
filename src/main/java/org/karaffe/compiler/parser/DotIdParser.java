@@ -10,7 +10,7 @@ import org.karaffe.compiler.tree.Name;
 public class DotIdParser implements Parser {
 
     @Override
-    public MatchResult parse(Tokens input) {
+    public MatchResult parse(final Tokens input) {
         if (input.isEmpty()) {
             return new MatchResult.Failure(input);
         }

@@ -14,7 +14,7 @@ public class Name extends TermNode {
     }
 
     @Override
-    public void accept(KaraffeTreeVisitor visitor) {
+    public void accept(final KaraffeTreeVisitor visitor) {
         visitor.visit(this);
     }
 

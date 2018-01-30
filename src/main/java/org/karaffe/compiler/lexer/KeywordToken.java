@@ -4,20 +4,6 @@ import org.karaffe.compiler.pos.Position;
 
 public abstract class KeywordToken extends CommonToken {
 
-    KeywordToken(final String text, final Position position) {
-        super(text, position, text + " keyword");
-    }
-
-    public static class Package extends KeywordToken {
-        public Package() {
-            this(Position.noPos());
-        }
-
-        public Package(final Position position) {
-            super("package", position);
-        }
-    }
-
     public static class Boolean extends KeywordToken {
         public Boolean() {
             this(Position.noPos());
@@ -25,36 +11,6 @@ public abstract class KeywordToken extends CommonToken {
 
         public Boolean(final Position position) {
             super("boolean", position);
-        }
-    }
-
-    public static class Extends extends KeywordToken {
-        public Extends() {
-            this(Position.noPos());
-        }
-
-        public Extends(final Position position) {
-            super("extends", position);
-        }
-    }
-
-    public static class Length extends KeywordToken {
-        public Length() {
-            this(Position.noPos());
-        }
-
-        public Length(final Position position) {
-            super("length", position);
-        }
-    }
-
-    public static class Return extends KeywordToken {
-        public Return() {
-            this(Position.noPos());
-        }
-
-        public Return(final Position position) {
-            super("return", position);
         }
     }
 
@@ -68,56 +24,6 @@ public abstract class KeywordToken extends CommonToken {
         }
     }
 
-    public static class False extends KeywordToken {
-        public False() {
-            this(Position.noPos());
-        }
-
-        public False(final Position position) {
-            super("false", position);
-        }
-    }
-
-    public static class While extends KeywordToken {
-        public While() {
-            this(Position.noPos());
-        }
-
-        public While(final Position position) {
-            super("while", position);
-        }
-    }
-
-    public static class True extends KeywordToken {
-        public True() {
-            this(Position.noPos());
-        }
-
-        public True(final Position position) {
-            super("true", position);
-        }
-    }
-
-    public static class Void extends KeywordToken {
-        public Void() {
-            this(Position.noPos());
-        }
-
-        public Void(final Position position) {
-            super("void", position);
-        }
-    }
-
-    public static class This extends KeywordToken {
-        public This() {
-            this(Position.noPos());
-        }
-
-        public This(final Position position) {
-            super("this", position);
-        }
-    }
-
     public static class Else extends KeywordToken {
         public Else() {
             this(Position.noPos());
@@ -128,23 +34,23 @@ public abstract class KeywordToken extends CommonToken {
         }
     }
 
-    public static class Int extends KeywordToken {
-        public Int() {
-            super("int", Position.noPos());
-        }
-
-        public Int(final Position position) {
-            super("int", position);
-        }
-    }
-
-    public static class New extends KeywordToken {
-        public New() {
+    public static class Extends extends KeywordToken {
+        public Extends() {
             this(Position.noPos());
         }
 
-        public New(final Position position) {
-            super("new", position);
+        public Extends(final Position position) {
+            super("extends", position);
+        }
+    }
+
+    public static class False extends KeywordToken {
+        public False() {
+            this(Position.noPos());
+        }
+
+        public False(final Position position) {
+            super("false", position);
         }
     }
 
@@ -158,13 +64,23 @@ public abstract class KeywordToken extends CommonToken {
         }
     }
 
-    public static class SystemOutPrintln extends KeywordToken {
-        public SystemOutPrintln() {
+    public static class Int extends KeywordToken {
+        public Int() {
+            super("int", Position.noPos());
+        }
+
+        public Int(final Position position) {
+            super("int", position);
+        }
+    }
+
+    public static class Length extends KeywordToken {
+        public Length() {
             this(Position.noPos());
         }
 
-        public SystemOutPrintln(final Position position) {
-            super("System.out.println", position);
+        public Length(final Position position) {
+            super("length", position);
         }
     }
 
@@ -178,6 +94,66 @@ public abstract class KeywordToken extends CommonToken {
         }
     }
 
+    public static class New extends KeywordToken {
+        public New() {
+            this(Position.noPos());
+        }
+
+        public New(final Position position) {
+            super("new", position);
+        }
+    }
+
+    public static class Package extends KeywordToken {
+        public Package() {
+            this(Position.noPos());
+        }
+
+        public Package(final Position position) {
+            super("package", position);
+        }
+    }
+
+    public static class Return extends KeywordToken {
+        public Return() {
+            this(Position.noPos());
+        }
+
+        public Return(final Position position) {
+            super("return", position);
+        }
+    }
+
+    public static class SystemOutPrintln extends KeywordToken {
+        public SystemOutPrintln() {
+            this(Position.noPos());
+        }
+
+        public SystemOutPrintln(final Position position) {
+            super("System.out.println", position);
+        }
+    }
+
+    public static class This extends KeywordToken {
+        public This() {
+            this(Position.noPos());
+        }
+
+        public This(final Position position) {
+            super("this", position);
+        }
+    }
+
+    public static class True extends KeywordToken {
+        public True() {
+            this(Position.noPos());
+        }
+
+        public True(final Position position) {
+            super("true", position);
+        }
+    }
+
     public static class Var extends KeywordToken {
         public Var() {
             this(Position.noPos());
@@ -186,6 +162,30 @@ public abstract class KeywordToken extends CommonToken {
         public Var(final Position position) {
             super("var", position);
         }
+    }
+
+    public static class Void extends KeywordToken {
+        public Void() {
+            this(Position.noPos());
+        }
+
+        public Void(final Position position) {
+            super("void", position);
+        }
+    }
+
+    public static class While extends KeywordToken {
+        public While() {
+            this(Position.noPos());
+        }
+
+        public While(final Position position) {
+            super("while", position);
+        }
+    }
+
+    KeywordToken(final String text, final Position position) {
+        super(text, position, text + " keyword");
     }
 
     @Override

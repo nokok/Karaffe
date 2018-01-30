@@ -16,30 +16,30 @@ public class Parameters extends AbstractNodes {
         this(new ArrayList<>(0));
     }
 
-    public Parameters(final Node valDef) {
-        this(new ArrayList<>(Arrays.asList(valDef)));
-    }
-
     public Parameters(final List<Node> valDefs) {
         super(NodeType.S_PARAM, valDefs);
     }
 
+    public Parameters(final Node valDef) {
+        this(new ArrayList<>(Arrays.asList(valDef)));
+    }
+
     @Override
-    public void accept(KaraffeTreeVisitor visitor) {
+    public void accept(final KaraffeTreeVisitor visitor) {
         visitor.visit(this);
     }
 
     public List<Node> findParameters() {
-        return getChildren().stream().collect(Collectors.toList());
+        return this.getChildren().stream().collect(Collectors.toList());
+    }
+
+    @Override
+    public NodeList normalize(final NormalizeContext context) {
+        return this.toNodeList();
     }
 
     @Override
     public String vSource() {
-        return String.format("(%s)", String.join(",", getChildren().stream().map(Node::vSource).collect(Collectors.toList())));
+        return String.format("(%s)", String.join(",", this.getChildren().stream().map(Node::vSource).collect(Collectors.toList())));
     }
-
-	@Override
-	public NodeList normalize(NormalizeContext context) {
-		return this.toNodeList();
-	}
 }

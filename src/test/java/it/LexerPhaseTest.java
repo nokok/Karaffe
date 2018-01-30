@@ -14,16 +14,16 @@ import org.karaffe.compiler.phases.LexerPhase;
 public class LexerPhaseTest {
     @Test
     public void testLexer() {
-        LexerPhase lexerPhase = new LexerPhase();
-        Optional<Tokens> tokenOpt = lexerPhase.transform("1");
+        final LexerPhase lexerPhase = new LexerPhase();
+        final Optional<Tokens> tokenOpt = lexerPhase.transform("1");
         assertTrue(tokenOpt.isPresent());
         assertEquals(LiteralToken.IntLiteral.class, tokenOpt.get().iterator().next().getClass());
     }
 
     @Test
     public void testLexer2() {
-        LexerPhase lexerPhase = new LexerPhase();
-        Optional<Tokens> tokenOpt = lexerPhase.transform("");
+        final LexerPhase lexerPhase = new LexerPhase();
+        final Optional<Tokens> tokenOpt = lexerPhase.transform("");
         assertTrue(tokenOpt.isPresent());
         assertEquals(CommonToken.EOF.class, tokenOpt.get().iterator().next().getClass());
     }

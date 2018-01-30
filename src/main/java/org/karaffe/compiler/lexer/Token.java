@@ -5,13 +5,21 @@ import org.karaffe.compiler.pos.Position;
 
 public interface Token {
 
-    public String getTokenId();
+    public static Token EOF(final Position position) {
+        return new WhitespaceToken.EOF(position);
+    }
 
-    public String getText();
+    public String getDescription();
 
     public Position getPosition();
 
-    public String getDescription();
+    public String getText();
+
+    public String getTokenId();
+
+    public default boolean is(final Class<? extends Token> clazz) {
+        return clazz.isInstance(this);
+    }
 
     public default boolean isErrorToken() {
         return this instanceof ErrorToken;
@@ -26,14 +34,6 @@ public interface Token {
             return false;
         }
         return this instanceof WhitespaceToken;
-    }
-
-    public default boolean is(final Class<? extends Token> clazz) {
-        return clazz.isInstance(this);
-    }
-
-    public static Token EOF(final Position position) {
-        return new WhitespaceToken.EOF(position);
     }
 
 }

@@ -12,18 +12,47 @@ import org.karaffe.compiler.tree.base.Node;
 
 public interface MatchResult extends ResultState, ResultConverter<MatchResult.Success, MatchResult.Failure> {
 
-    public Tokens next();
+    public static class Failure implements MatchResult {
+        private final Token erroredToken;
+        private final Tokens next;
 
-    public default Optional<Node> getNode() {
-        return Optional.empty();
-    }
+        public Failure(final Token erroredToken, final Tokens next) {
+            this.erroredToken = erroredToken;
+            this.next = next;
+        }
 
-    public default Collection<Token> matchedF() {
-        return this.toSuccess().map(Success::matchedTokens).orElseGet(ArrayList::new);
-    }
+        public Failure(final Tokens next) {
+            this(next.size() == 0 ? new CommonToken.ErrorToken("Empty") : next.iterator().next(), next);
+        }
 
-    public default Optional<Token> errorHeadF() {
-        return this.toFailure().flatMap(Failure::errorHead);
+        Optional<Token> errorHead() {
+            return Optional.ofNullable(this.erroredToken);
+        }
+
+        @Override
+        public boolean isSuccess() {
+            return false;
+        }
+
+        @Override
+        public Tokens next() {
+            return this.next;
+        }
+
+        @Override
+        public Optional<Failure> toFailure() {
+            return Optional.of(this);
+        }
+
+        @Override
+        public String toString() {
+            return String.format("Failure %s %s Next: %s", this.getNode().toString(), this.errorHeadF().map(errorToken -> String.format("ErrorToken : %s at %s , ID:%s", errorToken.getDescription(), errorToken.getPosition(), errorToken.getTokenId())), this.next());
+        }
+
+        @Override
+        public Optional<Success> toSuccess() {
+            return Optional.empty();
+        }
     }
 
     public static class Success implements MatchResult {
@@ -43,28 +72,13 @@ public interface MatchResult extends ResultState, ResultConverter<MatchResult.Su
         }
 
         @Override
-        public boolean isSuccess() {
-            return true;
-        }
-
-        @Override
-        public Optional<Success> toSuccess() {
-            return Optional.of(this);
-        }
-
-        @Override
-        public Optional<Failure> toFailure() {
-            return Optional.empty();
-        }
-
-        @Override
-        public Tokens next() {
-            return this.next;
-        }
-
-        @Override
         public Optional<Node> getNode() {
             return Optional.ofNullable(this.node);
+        }
+
+        @Override
+        public boolean isSuccess() {
+            return true;
         }
 
         public Collection<Token> matchedTokens() {
@@ -72,51 +86,37 @@ public interface MatchResult extends ResultState, ResultConverter<MatchResult.Su
         }
 
         @Override
-        public String toString() {
-            return String.format("Success Node:%s %s Next: %s", this.getNode(), this.matchedF().toString(), this.next());
-        }
-    }
-
-    public static class Failure implements MatchResult {
-        private final Token erroredToken;
-        private final Tokens next;
-
-        public Failure(final Tokens next) {
-            this(next.size() == 0 ? new CommonToken.ErrorToken("Empty") : next.iterator().next(), next);
-        }
-
-        public Failure(final Token erroredToken, final Tokens next) {
-            this.erroredToken = erroredToken;
-            this.next = next;
-        }
-
-        @Override
-        public boolean isSuccess() {
-            return false;
-        }
-
-        @Override
-        public Optional<Success> toSuccess() {
-            return Optional.empty();
-        }
-
-        @Override
-        public Optional<Failure> toFailure() {
-            return Optional.of(this);
-        }
-
-        @Override
         public Tokens next() {
             return this.next;
         }
 
-        Optional<Token> errorHead() {
-            return Optional.ofNullable(this.erroredToken);
+        @Override
+        public Optional<Failure> toFailure() {
+            return Optional.empty();
         }
 
         @Override
         public String toString() {
-            return String.format("Failure %s %s Next: %s", this.getNode().toString(), this.errorHeadF().map(errorToken -> String.format("ErrorToken : %s at %s , ID:%s", errorToken.getDescription(), errorToken.getPosition(), errorToken.getTokenId())), this.next());
+            return String.format("Success Node:%s %s Next: %s", this.getNode(), this.matchedF().toString(), this.next());
+        }
+
+        @Override
+        public Optional<Success> toSuccess() {
+            return Optional.of(this);
         }
     }
+
+    public default Optional<Token> errorHeadF() {
+        return this.toFailure().flatMap(Failure::errorHead);
+    }
+
+    public default Optional<Node> getNode() {
+        return Optional.empty();
+    }
+
+    public default Collection<Token> matchedF() {
+        return this.toSuccess().map(Success::matchedTokens).orElseGet(ArrayList::new);
+    }
+
+    public Tokens next();
 }

@@ -14,6 +14,13 @@ import org.karaffe.compiler.parser.ExprParser.Primary;
 import org.karaffe.compiler.parser.util.MatchResult;
 
 public class PrimaryTest {
+    private void runSuccessTest(final List<Token> input) {
+        final Primary primary = new Primary();
+        final MatchResult result = primary.parse(input);
+        Assert.assertTrue(result.isSuccess());
+        Assert.assertEquals(0, result.next().size());
+    }
+
     @Test
     public void testPrimary1() {
         final List<Token> input = new ArrayList<>();
@@ -71,12 +78,5 @@ public class PrimaryTest {
         input.add(new OperatorToken.LeftParen());
         input.add(new OperatorToken.RightParen());
         this.runSuccessTest(input);
-    }
-
-    private void runSuccessTest(final List<Token> input) {
-        final Primary primary = new Primary();
-        final MatchResult result = primary.parse(input);
-        Assert.assertTrue(result.isSuccess());
-        Assert.assertEquals(0, result.next().size());
     }
 }

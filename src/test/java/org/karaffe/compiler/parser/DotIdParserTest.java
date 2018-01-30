@@ -10,26 +10,6 @@ import org.karaffe.compiler.parser.util.MatchResult;
 
 public class DotIdParserTest {
 
-    @Test
-    public void test1() {
-        runTest(".hoge", true);
-    }
-
-    @Test
-    public void test2() {
-        runTest(".", false);
-    }
-
-    @Test
-    public void test3() {
-        runTest("foo", false);
-    }
-
-    @Test
-    public void test4() {
-        runTest("", false);
-    }
-
     private void runTest(final String source, final boolean v) {
         final KaraffeLexer lexer = new KaraffeLexer(source);
         final List<Token> input = lexer.run();
@@ -48,5 +28,25 @@ public class DotIdParserTest {
         } else {
             Assert.assertEquals(input.size(), result.next().size());
         }
+    }
+
+    @Test
+    public void test1() {
+        this.runTest(".hoge", true);
+    }
+
+    @Test
+    public void test2() {
+        this.runTest(".", false);
+    }
+
+    @Test
+    public void test3() {
+        this.runTest("foo", false);
+    }
+
+    @Test
+    public void test4() {
+        this.runTest("", false);
     }
 }

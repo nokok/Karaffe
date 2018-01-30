@@ -14,27 +14,27 @@ import org.karaffe.compiler.util.Report;
 
 public class CompileUnit extends AbstractNode implements OutputSet, ReportContainer {
 
+    private static List<Node> mkList(final Node packageDecl, final List<Node> classes) {
+        final List<Node> nodes = new ArrayList<>();
+        nodes.add(packageDecl);
+        nodes.addAll(classes);
+        return nodes;
+    }
+
     private final List<Report> reports = new ArrayList<>();
 
     public CompileUnit(final Node packageDecl, final List<Node> classes) {
         super(NodeType.COMPILEUNIT, mkList(packageDecl, classes));
     }
 
-    private static List<Node> mkList(final Node packageDecl, final List<Node> classes) {
-        List<Node> nodes = new ArrayList<>();
-        nodes.add(packageDecl);
-        nodes.addAll(classes);
-        return nodes;
+    @Override
+    public void accept(final KaraffeTreeVisitor visitor) {
+        visitor.visit(this);
     }
 
     @Override
-    public void addReport(Report report) {
-        reports.add(report);
-    }
-
-    @Override
-    public List<Report> getReports() {
-        return new ArrayList<>(this.reports);
+    public void addReport(final Report report) {
+        this.reports.add(report);
     }
 
     public Node findPackageDef() {
@@ -46,22 +46,22 @@ public class CompileUnit extends AbstractNode implements OutputSet, ReportContai
     }
 
     @Override
-    public void accept(KaraffeTreeVisitor visitor) {
-        visitor.visit(this);
+    public List<Report> getReports() {
+        return new ArrayList<>(this.reports);
+    }
+
+    @Override
+    public NodeList normalize(final NormalizeContext context) {
+        final Node packageDef = this.findPackageDef();
+        final List<Node> types = new ArrayList<>();
+        for (final Node typeDef : this.findTypeDefs()) {
+            types.addAll(typeDef.normalize(context).flatten());
+        }
+        return new NodeList(new CompileUnit(packageDef, types));
     }
 
     @Override
     public String vSource() {
-        return String.format("%s%s", findPackageDef().vSource(), String.join("", findTypeDefs().stream().map(Node::vSource).collect(Collectors.toList())));
+        return String.format("%s%s", this.findPackageDef().vSource(), String.join("", this.findTypeDefs().stream().map(Node::vSource).collect(Collectors.toList())));
     }
-
-	@Override
-	public NodeList normalize(NormalizeContext context) {
-		Node packageDef = this.findPackageDef();
-		List<Node> types = new ArrayList<>();
-		for(Node typeDef : this.findTypeDefs()) {
-			types.addAll(typeDef.normalize(context).flatten());
-		}
-		return new NodeList(new CompileUnit(packageDef, types));
-	}
 }

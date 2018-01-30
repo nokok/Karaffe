@@ -16,6 +16,10 @@ public class Modifiers extends AbstractNodes {
         this(new ArrayList<>(0));
     }
 
+    public Modifiers(final List<Node> modifiers) {
+        super(NodeType.S_MODIFIER, modifiers);
+    }
+
     public Modifiers(final Modifier modifier) {
         this(new ArrayList<>(Arrays.asList(modifier)));
     }
@@ -24,23 +28,19 @@ public class Modifiers extends AbstractNodes {
         this(new ArrayList<>(Arrays.asList(modifiers)));
     }
 
-    public Modifiers(final List<Node> modifiers) {
-        super(NodeType.S_MODIFIER, modifiers);
-    }
-
     @Override
-    public void accept(KaraffeTreeVisitor visitor) {
+    public void accept(final KaraffeTreeVisitor visitor) {
         visitor.visit(this);
     }
 
     @Override
-    public String vSource() {
-        return String.join(" ", getChildren().stream().map(Node::vSource).collect(Collectors.toList()));
+    public NodeList normalize(final NormalizeContext context) {
+        return this.toNodeList();
     }
 
-	@Override
-	public NodeList normalize(NormalizeContext context) {
-		return this.toNodeList();
-	}
+    @Override
+    public String vSource() {
+        return String.join(" ", this.getChildren().stream().map(Node::vSource).collect(Collectors.toList()));
+    }
 
 }

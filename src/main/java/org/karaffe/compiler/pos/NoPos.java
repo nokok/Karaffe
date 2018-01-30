@@ -6,13 +6,20 @@ import java.util.Optional;
 public class NoPos implements Position {
 
     @Override
-    public String getLine() {
-        return "?";
+    public int compareTo(final Position o) {
+        final Position other = Objects.requireNonNull(o);
+        if (other.isNoPos()) {
+            return 0;
+        }
+        return -1;
     }
 
     @Override
-    public Optional<Integer> getLineNumber() {
-        return Optional.empty();
+    public final boolean equals(final Object obj) {
+        if (obj == null) {
+            return false;
+        }
+        return obj instanceof NoPos;
     }
 
     @Override
@@ -26,21 +33,27 @@ public class NoPos implements Position {
     }
 
     @Override
+    public String getLine() {
+        return "?";
+    }
+
+    @Override
+    public Optional<Integer> getLineNumber() {
+        return Optional.empty();
+    }
+
+    @Override
     public String getSourceName() {
         return "?";
     }
 
     @Override
-    public int compareTo(Position o) {
-        Position other = Objects.requireNonNull(o);
-        if (other.isNoPos()) {
-            return 0;
-        }
-        return -1;
+    public final int hashCode() {
+        return 0;
     }
 
     @Override
-    public Position merge(Position position) {
+    public Position merge(final Position position) {
         if (position.isNoPos()) {
             return Position.noPos();
         }
@@ -50,19 +63,6 @@ public class NoPos implements Position {
     @Override
     public String toString() {
         return "<no-pos>";
-    }
-
-    @Override
-    public final boolean equals(Object obj) {
-        if (obj == null) {
-            return false;
-        }
-        return obj instanceof NoPos;
-    }
-
-    @Override
-    public final int hashCode() {
-        return 0;
     }
 
 }

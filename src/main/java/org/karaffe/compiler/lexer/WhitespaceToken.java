@@ -4,37 +4,13 @@ import org.karaffe.compiler.pos.Position;
 
 public abstract class WhitespaceToken extends CommonToken {
 
-    WhitespaceToken(final String text, final Position position, final String description) {
-        super(text, position, description);
-    }
-
-    public static class Tab extends WhitespaceToken {
-        public Tab() {
+    public static class CR extends WhitespaceToken {
+        public CR() {
             this(Position.noPos());
         }
 
-        public Tab(final Position position) {
-            super("\t", position, "tab");
-        }
-    }
-
-    public static class Space extends WhitespaceToken {
-        public Space() {
-            this(Position.noPos());
-        }
-
-        public Space(final Position position) {
-            super(" ", position, "space");
-        }
-    }
-
-    public static class WideSpace extends WhitespaceToken {
-        public WideSpace() {
-            this(Position.noPos());
-        }
-
-        public WideSpace(final Position position) {
-            super("　", position, "wide space");
+        public CR(final Position position) {
+            super("\r", position, "new line(CR)");
         }
     }
 
@@ -48,14 +24,38 @@ public abstract class WhitespaceToken extends CommonToken {
         }
     }
 
-    public static class CR extends WhitespaceToken {
-        public CR() {
+    public static class Space extends WhitespaceToken {
+        public Space() {
             this(Position.noPos());
         }
 
-        public CR(final Position position) {
-            super("\r", position, "new line(CR)");
+        public Space(final Position position) {
+            super(" ", position, "space");
         }
+    }
+
+    public static class Tab extends WhitespaceToken {
+        public Tab() {
+            this(Position.noPos());
+        }
+
+        public Tab(final Position position) {
+            super("\t", position, "tab");
+        }
+    }
+
+    public static class WideSpace extends WhitespaceToken {
+        public WideSpace() {
+            this(Position.noPos());
+        }
+
+        public WideSpace(final Position position) {
+            super("　", position, "wide space");
+        }
+    }
+
+    WhitespaceToken(final String text, final Position position, final String description) {
+        super(text, position, description);
     }
 
     @Override

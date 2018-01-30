@@ -7,7 +7,7 @@ import org.karaffe.compiler.tree.CompileUnit;
 public class TypeCheckerPhase extends AbstractCompileUnitTransformer {
 
     @Override
-    public Optional<CompileUnit> transform(CompileUnit input) {
+    public Optional<CompileUnit> transform(final CompileUnit input) {
         return Optional.of(input);
     }
 }

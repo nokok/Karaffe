@@ -10,12 +10,12 @@ public class Modifier extends TermNode {
         super(NodeType.MODIFIER, token);
     }
 
-    public boolean is(final Class<? extends ModifierToken> t) {
-        return this.getToken().is(t);
+    @Override
+    public void accept(final KaraffeTreeVisitor visitor) {
+        visitor.visit(this);
     }
 
-    @Override
-    public void accept(KaraffeTreeVisitor visitor) {
-        visitor.visit(this);
+    public boolean is(final Class<? extends ModifierToken> t) {
+        return this.getToken().is(t);
     }
 }

@@ -15,12 +15,19 @@ import org.karaffe.compiler.util.ReportFormatter;
 public class ReportFormatterTest {
 
     @Test
+    public void testEmptyReport() {
+        final ReportFormatter formatter = new ReportFormatter();
+        final String msg = formatter.format(new ArrayList<>());
+        assertEquals("", msg);
+    }
+
+    @Test
     public void testReportString() {
-        StringCodePart part = new StringCodePart("  println(1)");
-        FoundAndRequired foundAndRequired = new FoundAndRequired("String", "Int");
-        Report report = Report.createError("Title", Position.of("source.krf", 1, 11), "Message", part, foundAndRequired);
-        ReportFormatter formatter = new ReportFormatter();
-        StringBuilder expected = new StringBuilder();
+        final StringCodePart part = new StringCodePart("  println(1)");
+        final FoundAndRequired foundAndRequired = new FoundAndRequired("String", "Int");
+        final Report report = Report.createError("Title", Position.of("source.krf", 1, 11), "Message", part, foundAndRequired);
+        final ReportFormatter formatter = new ReportFormatter();
+        final StringBuilder expected = new StringBuilder();
         expected.append("--+ #1 [ERROR] Title in 1:11 at source.krf").append(System.lineSeparator());
         expected.append("1 |   println(1)").append(System.lineSeparator());
         expected.append("  |           ^").append(System.lineSeparator());
@@ -29,14 +36,7 @@ public class ReportFormatterTest {
         expected.append("  | required : ").append("Int").append(System.lineSeparator());
         expected.append("  |").append(System.lineSeparator());
         expected.append("---").append(System.lineSeparator());
-        String actual = formatter.format(new ArrayList<>(Arrays.asList(report)));
+        final String actual = formatter.format(new ArrayList<>(Arrays.asList(report)));
         assertEquals(expected.toString(), actual);
-    }
-
-    @Test
-    public void testEmptyReport() {
-        ReportFormatter formatter = new ReportFormatter();
-        String msg = formatter.format(new ArrayList<>());
-        assertEquals("", msg);
     }
 }

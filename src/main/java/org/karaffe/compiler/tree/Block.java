@@ -12,34 +12,34 @@ import org.karaffe.compiler.tree.visitor.KaraffeTreeVisitor;
 
 public class Block extends AbstractNode {
 
-    public Block(final Node... nodes) {
-        this(new ArrayList<>(Arrays.asList(nodes)));
-    }
-
     public Block(final List<Node> nodes) {
         super(NodeType.BLOCK, nodes);
     }
 
+    public Block(final Node... nodes) {
+        this(new ArrayList<>(Arrays.asList(nodes)));
+    }
+
     @Override
-    public void accept(KaraffeTreeVisitor visitor) {
+    public void accept(final KaraffeTreeVisitor visitor) {
         visitor.visit(this);
     }
 
     public List<Node> findBlockBody() {
-        return new ArrayList<>(getChildren());
+        return new ArrayList<>(this.getChildren());
+    }
+
+    @Override
+    public NodeList normalize(final NormalizeContext context) {
+        final List<Node> nodes = new ArrayList<>();
+        for (final Node n : this.getChildren()) {
+            nodes.addAll(n.normalize(context).flatten());
+        }
+        return new NodeList(new Block(nodes));
     }
 
     @Override
     public String vSource() {
-        return String.format("{%s}", String.join(";", findBlockBody().stream().map(Node::vSource).collect(Collectors.toList())));
+        return String.format("{%s}", String.join(";", this.findBlockBody().stream().map(Node::vSource).collect(Collectors.toList())));
     }
-
-	@Override
-	public NodeList normalize(NormalizeContext context) {
-		List<Node> nodes = new ArrayList<>();
-		for (Node n : this.getChildren()) {
-			nodes.addAll(n.normalize(context).flatten());
-		}
-		return new NodeList(new Block(nodes));
-	}
 }

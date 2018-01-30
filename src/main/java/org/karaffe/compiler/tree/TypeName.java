@@ -5,6 +5,22 @@ import org.karaffe.compiler.tree.visitor.KaraffeTreeVisitor;
 
 public class TypeName extends TermNode {
 
+    public static TypeName createArrayType(final IdentifierToken typeName) {
+        return new TypeName(typeName, true);
+    }
+
+    public static TypeName createArrayType(final String typeName) {
+        return new TypeName(new IdentifierToken.TypeName(typeName), true);
+    }
+
+    public static TypeName createType(final IdentifierToken typeName) {
+        return new TypeName(typeName, false);
+    }
+
+    public static TypeName createType(final String typeName) {
+        return new TypeName(new IdentifierToken.TypeName(typeName), false);
+    }
+
     private final boolean isArrayType;
 
     public TypeName(final IdentifierToken typeName, final boolean isArray) {
@@ -12,33 +28,17 @@ public class TypeName extends TermNode {
         this.isArrayType = isArray;
     }
 
+    @Override
+    public void accept(final KaraffeTreeVisitor visitor) {
+        visitor.visit(this);
+    }
+
     public boolean isArray() {
         return this.isArrayType;
-    }
-
-    public static TypeName createArrayType(final IdentifierToken typeName) {
-        return new TypeName(typeName, true);
-    }
-
-    public static TypeName createType(final IdentifierToken typeName) {
-        return new TypeName(typeName, false);
-    }
-
-    public static TypeName createArrayType(final String typeName) {
-        return new TypeName(new IdentifierToken.TypeName(typeName), true);
-    }
-
-    public static TypeName createType(final String typeName) {
-        return new TypeName(new IdentifierToken.TypeName(typeName), false);
     }
 
     @Override
     public String toString() {
         return String.format("(TypeName %s%s)", super.getText(), this.isArrayType ? "[]" : "");
-    }
-
-    @Override
-    public void accept(KaraffeTreeVisitor visitor) {
-        visitor.visit(this);
     }
 }

@@ -20,7 +20,7 @@ public class PackageDefParser implements Parser {
         PackageDefParser.LOGGER.debug("Input : {}", input);
         final CParser cp = new CParser(input);
         return cp.chain(nodes -> {
-            Node path = nodes.get(1);
+            final Node path = nodes.get(1);
             return new PackageDef((Select) path);
         },
                 Action.of(Package.class),

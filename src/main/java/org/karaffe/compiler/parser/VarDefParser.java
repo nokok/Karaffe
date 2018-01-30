@@ -10,8 +10,8 @@ import org.karaffe.compiler.parser.util.CParser;
 import org.karaffe.compiler.parser.util.MatchResult;
 import org.karaffe.compiler.parser.util.TokenMatcher;
 import org.karaffe.compiler.tree.Empty;
-import org.karaffe.compiler.tree.Modifiers;
 import org.karaffe.compiler.tree.LetDef;
+import org.karaffe.compiler.tree.Modifiers;
 import org.karaffe.compiler.tree.VarDef;
 import org.karaffe.compiler.tree.base.Node;
 
@@ -19,13 +19,13 @@ public class VarDefParser implements Parser {
 
     @Override
     public MatchResult parse(final Tokens input) {
-        CParser cp = new CParser(input);
+        final CParser cp = new CParser(input);
         if (cp.testNext(TokenMatcher.create(Let.class))) {
             // ValDef := 'let' Identifier (: TypeName)? = Expr (;)?
             if (!cp.testNext(new IdentifierParser())) {
                 return cp.toFailure();
             }
-            Node name = cp.lastMatch();
+            final Node name = cp.lastMatch();
             Node typeName;
             if (cp.testNext(TokenMatcher.create(Colon.class)) && cp.testNext(new TypeParser())) {
                 typeName = cp.lastMatch();
@@ -41,7 +41,7 @@ public class VarDefParser implements Parser {
                 return cp.toFailure();
             }
 
-            Node expr = cp.lastMatch();
+            final Node expr = cp.lastMatch();
             cp.testNext(TokenMatcher.create(Semi.class));
 
             // Type
@@ -51,7 +51,7 @@ public class VarDefParser implements Parser {
             if (!cp.testNext(new IdentifierParser())) {
                 return cp.toFailure();
             }
-            Node name = cp.lastMatch();
+            final Node name = cp.lastMatch();
             Node typeName;
             if (cp.testNext(TokenMatcher.create(Colon.class)) && cp.testNext(new TypeParser())) {
                 typeName = cp.lastMatch();

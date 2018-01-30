@@ -4,10 +4,6 @@ import org.karaffe.compiler.pos.Position;
 
 public abstract class IdentifierToken extends CommonToken {
 
-    IdentifierToken(final String text, final Position position) {
-        super(text, position, "identifier");
-    }
-
     public static class TypeName extends IdentifierToken {
         public TypeName(final String text) {
             this(text, Position.noPos());
@@ -26,6 +22,10 @@ public abstract class IdentifierToken extends CommonToken {
         public VarName(final String text, final Position position) {
             super(text, position);
         }
+    }
+
+    IdentifierToken(final String text, final Position position) {
+        super(text, position, "identifier");
     }
 
     @Override

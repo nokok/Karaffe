@@ -8,7 +8,7 @@ import org.karaffe.compiler.util.DiagnosticInfo;
 public class DiagnosticInfoTest {
     @Test
     public void testMethods() {
-        DiagnosticInfo info = DiagnosticInfo.INSTANCE;
+        final DiagnosticInfo info = DiagnosticInfo.INSTANCE;
         assertEquals(System.getProperty("java.version"), info.javaVersion());
         assertEquals(System.getProperty("java.vendor"), info.vendor());
         assertEquals(System.getProperty("java.vm.specification.version"), info.vmSpecVersion());

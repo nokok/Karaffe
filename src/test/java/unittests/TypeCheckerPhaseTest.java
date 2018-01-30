@@ -12,8 +12,8 @@ import org.karaffe.compiler.tree.CompileUnit;
 public class TypeCheckerPhaseTest {
     @Test
     public void testTypeEnvBuilder() {
-        KaraffeParser parser = new KaraffeParser();
-        MatchResult parse = parser.parse(new KaraffeLexer("class Factorial {\n" +
+        final KaraffeParser parser = new KaraffeParser();
+        final MatchResult parse = parser.parse(new KaraffeLexer("class Factorial {\n" +
                 "    public static void main(String[] a) {\n" +
                 "        System.out.println((new Fac()).computeFac(10));\n" +
                 "    }\n" +
@@ -29,8 +29,8 @@ public class TypeCheckerPhaseTest {
                 "        return numAux;\n" +
                 "    }\n" +
                 "}\n").run());
-        CompileUnit node = parse.getNode().map(CompileUnit.class::cast).get();
-        TypeCheckerPhase phase = new TypeCheckerPhase();
-        Optional<CompileUnit> result = phase.transform(node);
+        final CompileUnit node = parse.getNode().map(CompileUnit.class::cast).get();
+        final TypeCheckerPhase phase = new TypeCheckerPhase();
+        final Optional<CompileUnit> result = phase.transform(node);
     }
 }

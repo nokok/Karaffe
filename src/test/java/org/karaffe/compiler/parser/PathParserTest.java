@@ -9,14 +9,6 @@ import org.karaffe.compiler.tree.Select;
 public class PathParserTest {
 
     @Test
-    public void simple() {
-        final MatchResult result = this.runTest("p", true);
-        final Select selector = (Select) result.getNode().orElseThrow(AssertionError::new);
-        final String path = selector.toString("/");
-        Assert.assertEquals("p", path);
-    }
-
-    @Test
     public void path1() {
         final MatchResult result = this.runTest("pkg.i", true);
         final Select selector = (Select) result.getNode().orElseThrow(AssertionError::new);
@@ -56,5 +48,13 @@ public class PathParserTest {
             Assert.assertEquals(0, eofResult.next().size());
         }
         return result;
+    }
+
+    @Test
+    public void simple() {
+        final MatchResult result = this.runTest("p", true);
+        final Select selector = (Select) result.getNode().orElseThrow(AssertionError::new);
+        final String path = selector.toString("/");
+        Assert.assertEquals("p", path);
     }
 }

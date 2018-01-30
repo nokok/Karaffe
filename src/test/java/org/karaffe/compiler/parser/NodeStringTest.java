@@ -18,19 +18,22 @@ import org.karaffe.compiler.tree.Select;
 import org.karaffe.compiler.tree.TypeName;
 
 public class NodeStringTest {
-    @Test
-    public void testTree() {
-        Assert.assertEquals("(Apply (Select a))", new Apply(new Select(new Name("a"))).toString());
+    private String getNodeString(final Parser parser, final String source) {
+        return parser.parse(source).getNode().get().toString();
     }
 
     @Test
-    public void testTermNodes() {
-        Assert.assertEquals("(Constant 1)", new Constant(new LiteralToken.IntLiteral("1")).toString());
-        Assert.assertEquals("(IntLiteral 1)", new Literal.IntLiteral(new LiteralToken.IntLiteral("1")).toString());
-        Assert.assertEquals("(Modifier public)", new Modifier(new ModifierToken.Public()).toString());
-        Assert.assertEquals("(Name name)", new Name("name").toString());
-        Assert.assertEquals("(TypeName TName[])", new TypeName(new IdentifierToken.TypeName("TName"), true).toString());
-        Assert.assertEquals("(TypeName TName)", new TypeName(new IdentifierToken.TypeName("TName"), false).toString());
+    public void testApplyArg() {
+        Assert.assertEquals("(Apply (Select a) (IntLiteral 1))", new Apply(new Select(new Name("a")), new Literal.IntLiteral(new LiteralToken.IntLiteral("1"))).toString());
+    }
+
+    @Test
+    public void testCompileUnit() {
+        Assert.assertEquals("(CompileUnit (PackageDef (Select <root>)) (ClassDef (Name A) (Name Object) (Block ())))", this.getNodeString(new KaraffeParser(), "class A {}"));
+        Assert.assertEquals("(CompileUnit (PackageDef (Select <root>)) (ClassDef (Name B) (Name Object) (Block ())))", this.getNodeString(new KaraffeParser(), "class B {}"));
+        Assert.assertEquals("(CompileUnit (PackageDef (Select foo)) (ClassDef (Name A) (Name Object) (Block ())))", this.getNodeString(new KaraffeParser(), "package foo;class A {}"));
+        Assert.assertEquals("(CompileUnit (PackageDef (Select foo bar)) (ClassDef (Name A) (Name Object) (Block ())))", this.getNodeString(new KaraffeParser(), "package foo.bar;class A {}"));
+        Assert.assertEquals("(CompileUnit (PackageDef (Select foo bar)) (ClassDef (Name A) (Name Base) (Block ())))", this.getNodeString(new KaraffeParser(), "package foo.bar;class A extends Base {}"));
     }
 
     @Test
@@ -58,28 +61,13 @@ public class NodeStringTest {
     }
 
     @Test
-    public void testStmtString() {
-        Assert.assertEquals("(Apply (Select java lang System out println) (IntLiteral 10))", this.getNodeString(new StatementParser(), "System.out.println(10);"));
-        Assert.assertEquals("(Apply (Select java lang System out println) (Apply (Select (Apply (New (Select Fac))) computeFac) (IntLiteral 10)))", this.getNodeString(new StatementParser(), "System.out.println((new Fac()).computeFac(10));"));
-    }
-
-    @Test
     public void testName() {
         Assert.assertEquals("(Apply (Select a))", new Apply(new Select(new Name("a"))).toString());
     }
 
     @Test
-    public void testApplyArg() {
-        Assert.assertEquals("(Apply (Select a) (IntLiteral 1))", new Apply(new Select(new Name("a")), new Literal.IntLiteral(new LiteralToken.IntLiteral("1"))).toString());
-    }
-
-    @Test
-    public void testCompileUnit() {
-        Assert.assertEquals("(CompileUnit (PackageDef (Select <root>)) (ClassDef (Name A) (Name Object) (Block ())))", this.getNodeString(new KaraffeParser(), "class A {}"));
-        Assert.assertEquals("(CompileUnit (PackageDef (Select <root>)) (ClassDef (Name B) (Name Object) (Block ())))", this.getNodeString(new KaraffeParser(), "class B {}"));
-        Assert.assertEquals("(CompileUnit (PackageDef (Select foo)) (ClassDef (Name A) (Name Object) (Block ())))", this.getNodeString(new KaraffeParser(), "package foo;class A {}"));
-        Assert.assertEquals("(CompileUnit (PackageDef (Select foo bar)) (ClassDef (Name A) (Name Object) (Block ())))", this.getNodeString(new KaraffeParser(), "package foo.bar;class A {}"));
-        Assert.assertEquals("(CompileUnit (PackageDef (Select foo bar)) (ClassDef (Name A) (Name Base) (Block ())))", this.getNodeString(new KaraffeParser(), "package foo.bar;class A extends Base {}"));
+    public void testNestedExprTest() {
+        Assert.assertEquals("(Apply (Select (Apply (New (Select Fac))) computeFac) (IntLiteral 10))", this.getNodeString(new ExprParser(), "(new Fac()).computeFac(10)"));
     }
 
     @Test
@@ -89,12 +77,24 @@ public class NodeStringTest {
     }
 
     @Test
-    public void testNestedExprTest() {
-        Assert.assertEquals("(Apply (Select (Apply (New (Select Fac))) computeFac) (IntLiteral 10))", this.getNodeString(new ExprParser(), "(new Fac()).computeFac(10)"));
+    public void testStmtString() {
+        Assert.assertEquals("(Apply (Select java lang System out println) (IntLiteral 10))", this.getNodeString(new StatementParser(), "System.out.println(10);"));
+        Assert.assertEquals("(Apply (Select java lang System out println) (Apply (Select (Apply (New (Select Fac))) computeFac) (IntLiteral 10)))", this.getNodeString(new StatementParser(), "System.out.println((new Fac()).computeFac(10));"));
     }
 
-    private String getNodeString(final Parser parser, final String source) {
-        return parser.parse(source).getNode().get().toString();
+    @Test
+    public void testTermNodes() {
+        Assert.assertEquals("(Constant 1)", new Constant(new LiteralToken.IntLiteral("1")).toString());
+        Assert.assertEquals("(IntLiteral 1)", new Literal.IntLiteral(new LiteralToken.IntLiteral("1")).toString());
+        Assert.assertEquals("(Modifier public)", new Modifier(new ModifierToken.Public()).toString());
+        Assert.assertEquals("(Name name)", new Name("name").toString());
+        Assert.assertEquals("(TypeName TName[])", new TypeName(new IdentifierToken.TypeName("TName"), true).toString());
+        Assert.assertEquals("(TypeName TName)", new TypeName(new IdentifierToken.TypeName("TName"), false).toString());
+    }
+
+    @Test
+    public void testTree() {
+        Assert.assertEquals("(Apply (Select a))", new Apply(new Select(new Name("a"))).toString());
     }
 
 }

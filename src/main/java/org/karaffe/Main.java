@@ -17,11 +17,11 @@ import com.typesafe.config.ConfigFactory;
 import ch.qos.logback.classic.Level;
 
 public class Main {
-    public static void main(String[] args) {
+    public static void main(final String[] args) {
         new Main().run(args);
     }
 
-    private void run(String[] args) {
+    private void run(final String[] args) {
         System.out.println("Launching Karaffe Tools...");
         Thread.setDefaultUncaughtExceptionHandler((t, e) -> {
             System.err.println("\nKaraffeCompiler: UncaughtException: " + e.getMessage() + " , Thread: " + t.getName());
@@ -31,7 +31,7 @@ public class Main {
             System.err.println(DiagnosticInfo.INSTANCE.toString());
         });
 
-        Config config = ConfigFactory.parseResources("compiler.conf");
+        final Config config = ConfigFactory.parseResources("compiler.conf");
         final List<String> terminateCommands;
         if (config.hasPath("buildtool.terminateCommands")) {
             terminateCommands = config.getStringList("buildtool.terminateCommands");
@@ -42,21 +42,21 @@ public class Main {
         try (Scanner scanner = new Scanner(System.in)) {
             System.out.print("> ");
             while (scanner.hasNextLine()) {
-                ch.qos.logback.classic.Logger rootLogger = (ch.qos.logback.classic.Logger) LoggerFactory.getLogger(Logger.ROOT_LOGGER_NAME);
-                String line = scanner.nextLine();
+                final ch.qos.logback.classic.Logger rootLogger = (ch.qos.logback.classic.Logger) LoggerFactory.getLogger(Logger.ROOT_LOGGER_NAME);
+                final String line = scanner.nextLine();
                 if (terminateCommands.contains(line)) {
                     break;
                 }
                 switch (line) {
                 case "compile":
                     System.out.println("Compiling...");
-                    KaraffeCompiler compiler = CompilerFactory.createCompiler(args);
+                    final KaraffeCompiler compiler = CompilerFactory.createCompiler(args);
                     try {
-                        int v = compiler.call();
+                        final int v = compiler.call();
                         if (v != 0) {
                             // Show Warning
                         }
-                    } catch (Exception ex) {
+                    } catch (final Exception ex) {
                         throw new RuntimeException(ex);
                     }
                     System.out.println("Done.");

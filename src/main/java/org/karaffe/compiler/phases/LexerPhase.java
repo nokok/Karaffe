@@ -12,8 +12,8 @@ public class LexerPhase extends AbstractTransformer<String, Tokens> {
     }
 
     @Override
-    public Optional<Tokens> transform(String input) {
-        KaraffeLexer lexer = new KaraffeLexer(input);
+    public Optional<Tokens> transform(final String input) {
+        final KaraffeLexer lexer = new KaraffeLexer(input);
         return Optional.of(new Tokens(lexer.run()));
     }
 }

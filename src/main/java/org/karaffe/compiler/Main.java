@@ -6,7 +6,7 @@ import org.karaffe.compiler.util.Traceable;
 public class Main implements Traceable, ProgressTraceable {
 
     public static void main(final String[] args) throws Exception {
-        KaraffeCompiler compiler = new KaraffeCompiler(args);
+        final KaraffeCompiler compiler = new KaraffeCompiler(args);
         System.exit(compiler.call().intValue());
     }
 

@@ -17,74 +17,74 @@ public class Apply extends AbstractNode {
         this(target, new ArrayList<>());
     }
 
-    public Apply(final Node target, final Node... args) {
-        this(target, Arrays.asList(args));
-    }
-
     public Apply(final Node target, final List<Node> args) {
         super(NodeType.APPLY, target);
         args.stream().forEach(this::addChild);
     }
 
-    public Node findTarget() {
-        return getChildren().get(0);
+    public Apply(final Node target, final Node... args) {
+        this(target, Arrays.asList(args));
+    }
+
+    @Override
+    public void accept(final KaraffeTreeVisitor visitor) {
+        visitor.visit(this);
     }
 
     public Optional<List<? extends Node>> findArguments() {
-        List<? extends Node> children = getChildren();
-        int childrenSize = children.size();
+        final List<? extends Node> children = this.getChildren();
+        final int childrenSize = children.size();
         if (childrenSize == 1) {
             return Optional.empty();
         }
         return Optional.ofNullable(children.subList(1, childrenSize));
     }
 
-    @Override
-    public void accept(KaraffeTreeVisitor visitor) {
-        visitor.visit(this);
+    public Node findTarget() {
+        return this.getChildren().get(0);
     }
 
     @Override
-    public String vSource() {
-        return String.format("%s(%s)", findTarget().vSource(), findArguments().map(args -> String.join(",", args.stream().map(Node::vSource).collect(Collectors.toList()))).orElse(""));
-    }
-
-	@Override
-	public NodeList normalize(NormalizeContext context) {
-		List<Node> nodes = new ArrayList<>();
-		Node originalTarget = this.findTarget();
-		Node newTarget;
-		if(originalTarget.isName()) {
-			newTarget = originalTarget;
-		} else {
-			NodeList normalizedName = originalTarget.normalize(context);
-		    nodes.addAll(normalizedName.flatten());
-			newTarget = normalizedName.lastAssignName();
-		}
-		Optional<List<? extends Node>> argumentsOpt = this.findArguments();
+    public NodeList normalize(final NormalizeContext context) {
+        final List<Node> nodes = new ArrayList<>();
+        final Node originalTarget = this.findTarget();
+        Node newTarget;
+        if (originalTarget.isName()) {
+            newTarget = originalTarget;
+        } else {
+            final NodeList normalizedName = originalTarget.normalize(context);
+            nodes.addAll(normalizedName.flatten());
+            newTarget = normalizedName.lastAssignName();
+        }
+        final Optional<List<? extends Node>> argumentsOpt = this.findArguments();
         if (argumentsOpt.isPresent()) {
-            List<Node> newArgs = new ArrayList<>();
-            List<? extends Node> args = argumentsOpt.get();
-            for (Node arg : args) {
+            final List<Node> newArgs = new ArrayList<>();
+            final List<? extends Node> args = argumentsOpt.get();
+            for (final Node arg : args) {
                 if (arg.isName()) {
                     newArgs.add(arg);
                 } else {
-                    NodeList normalizedArg = arg.normalize(context);
+                    final NodeList normalizedArg = arg.normalize(context);
                     nodes.addAll(normalizedArg.flatten());
                     newArgs.add(normalizedArg.lastAssignName());
                 }
             }
-            Apply newApply = new Apply(newTarget, newArgs);
-            Name res = context.nextName(nodes);
-            Assign assign = new Assign(res, newApply);
+            final Apply newApply = new Apply(newTarget, newArgs);
+            final Name res = context.nextName(nodes);
+            final Assign assign = new Assign(res, newApply);
             nodes.add(assign);
             return new NodeList(nodes);
         }
-        Apply newApply = new Apply(newTarget);
-        Name res = context.nextName(nodes);
-        Assign assign = new Assign(res, newApply);
+        final Apply newApply = new Apply(newTarget);
+        final Name res = context.nextName(nodes);
+        final Assign assign = new Assign(res, newApply);
         nodes.add(assign);
-        
-		return new NodeList(nodes);
-	}
+
+        return new NodeList(nodes);
+    }
+
+    @Override
+    public String vSource() {
+        return String.format("%s(%s)", this.findTarget().vSource(), this.findArguments().map(args -> String.join(",", args.stream().map(Node::vSource).collect(Collectors.toList()))).orElse(""));
+    }
 }

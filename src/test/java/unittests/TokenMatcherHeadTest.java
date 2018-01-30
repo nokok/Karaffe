@@ -16,10 +16,27 @@ import org.karaffe.compiler.lexer.Token;
 import org.karaffe.compiler.lexer.Tokens;
 import org.karaffe.compiler.lexer.WhitespaceToken;
 import org.karaffe.compiler.parser.util.MatchResult;
-import org.karaffe.compiler.parser.util.SimpleTokenMatcher;
 import org.karaffe.compiler.parser.util.MatchResult.Success;
+import org.karaffe.compiler.parser.util.SimpleTokenMatcher;
 
 public class TokenMatcherHeadTest {
+
+    @Test
+    public void testHeadLast() {
+        final SimpleTokenMatcher matcher = new SimpleTokenMatcher(Package.class);
+        final List<Token> tokens = new ArrayList<>();
+        tokens.add(new WhitespaceToken.NewLine());
+        tokens.add(new WhitespaceToken.NewLine());
+        tokens.add(new WhitespaceToken.NewLine());
+        tokens.add(new WhitespaceToken.Space());
+        tokens.add(new WhitespaceToken.Space());
+        tokens.add(new WhitespaceToken.Space());
+        tokens.add(new KeywordToken.Package());
+        final MatchResult headResult = matcher.head(new Tokens(tokens));
+        Assert.assertEquals(true, headResult.isSuccess());
+        final List<Token> matchedTokens = new ArrayList<>(headResult.matchedF());
+        Assert.assertEquals(0, matchedTokens.size());
+    }
 
     @Test
     public void testHeadManyWhitespaces() {
@@ -77,23 +94,6 @@ public class TokenMatcherHeadTest {
         Assert.assertEquals(true, headResult.isFailure());
         Assert.assertArrayEquals(tokens.toArray(), headResult.next().toArray());
         Assert.assertFalse(headResult.errorHeadF().isPresent());
-    }
-
-    @Test
-    public void testHeadLast() {
-        final SimpleTokenMatcher matcher = new SimpleTokenMatcher(Package.class);
-        final List<Token> tokens = new ArrayList<>();
-        tokens.add(new WhitespaceToken.NewLine());
-        tokens.add(new WhitespaceToken.NewLine());
-        tokens.add(new WhitespaceToken.NewLine());
-        tokens.add(new WhitespaceToken.Space());
-        tokens.add(new WhitespaceToken.Space());
-        tokens.add(new WhitespaceToken.Space());
-        tokens.add(new KeywordToken.Package());
-        final MatchResult headResult = matcher.head(new Tokens(tokens));
-        Assert.assertEquals(true, headResult.isSuccess());
-        final List<Token> matchedTokens = new ArrayList<>(headResult.matchedF());
-        Assert.assertEquals(0, matchedTokens.size());
     }
 
     @Test

@@ -26,10 +26,6 @@ public class KaraffeLexer extends AbstractLexer {
         this(source, true);
     }
 
-    public KaraffeLexer(final String filePath, final String source) {
-        this(filePath, source, true, true);
-    }
-
     public KaraffeLexer(final String source, final boolean insertEOF) {
         this(source, insertEOF, true);
     }
@@ -38,11 +34,15 @@ public class KaraffeLexer extends AbstractLexer {
         this("no-file", source, insertEOF, insertParenMatchError);
     }
 
+    public KaraffeLexer(final String filePath, final String source) {
+        this(filePath, source, true, true);
+    }
+
     public KaraffeLexer(final String filePath, final String source, final boolean insertEOF, final boolean insertParenMatchError) {
         this(filePath, source, insertEOF, insertParenMatchError, true);
     }
 
-    public KaraffeLexer(final String filePath, final String source, final boolean insertEOF, final boolean insertParenMatchError, boolean replaceCR) {
+    public KaraffeLexer(final String filePath, final String source, final boolean insertEOF, final boolean insertParenMatchError, final boolean replaceCR) {
         super(filePath, source);
         final StringBuilder pat = new StringBuilder();
         KaraffeLexer.LOGGER.debug("OriginalSource: {}", source);

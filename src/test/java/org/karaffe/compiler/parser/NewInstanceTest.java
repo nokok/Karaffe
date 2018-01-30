@@ -14,16 +14,6 @@ import org.karaffe.compiler.parser.util.MatchResult;
 import org.karaffe.compiler.tree.base.Node;
 
 public class NewInstanceTest {
-    @Test
-    public void testEmpty() {
-        this.runTest("", false);
-    }
-
-    @Test
-    public void testNewInstance() {
-        this.runTest("new Calc()", true);
-    }
-
     private void runTest(final String source, final boolean v) {
         final KaraffeLexer lexer = new KaraffeLexer(source);
         final List<Token> input = lexer.run();
@@ -42,5 +32,15 @@ public class NewInstanceTest {
         } else {
             Assert.assertEquals(String.format("%s vs %s", input, result.next()), input.size(), result.next().size());
         }
+    }
+
+    @Test
+    public void testEmpty() {
+        this.runTest("", false);
+    }
+
+    @Test
+    public void testNewInstance() {
+        this.runTest("new Calc()", true);
     }
 }

@@ -12,21 +12,6 @@ import org.karaffe.compiler.parser.ExprParser.Primary;
 import org.karaffe.compiler.parser.util.MatchResult;
 
 public class LengthAccessTest {
-    @Test
-    public void testEmpty() {
-        this.runTest("", false);
-    }
-
-    @Test
-    public void testlengthAccess() {
-        this.runTest("i.length", true);
-    }
-
-    @Test
-    public void testlengthAccessNewArray() {
-        this.runTest("(new int[100]).length", true);
-    }
-
     private void runTest(final String source, final boolean v) {
         final KaraffeLexer lexer = new KaraffeLexer(source);
         final List<Token> input = lexer.run();
@@ -43,5 +28,20 @@ public class LengthAccessTest {
         } else {
             Assert.assertEquals(String.format("%s vs %s", input, result.next()), input.size(), result.next().size());
         }
+    }
+
+    @Test
+    public void testEmpty() {
+        this.runTest("", false);
+    }
+
+    @Test
+    public void testlengthAccess() {
+        this.runTest("i.length", true);
+    }
+
+    @Test
+    public void testlengthAccessNewArray() {
+        this.runTest("(new int[100]).length", true);
     }
 }

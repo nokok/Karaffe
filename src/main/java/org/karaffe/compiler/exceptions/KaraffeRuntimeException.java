@@ -8,15 +8,15 @@ public class KaraffeRuntimeException extends RuntimeException {
         super();
     }
 
-    public KaraffeRuntimeException(String message, Throwable cause) {
-        super(message, cause);
-    }
-
-    public KaraffeRuntimeException(String message) {
+    public KaraffeRuntimeException(final String message) {
         super(message);
     }
 
-    public KaraffeRuntimeException(Throwable cause) {
+    public KaraffeRuntimeException(final String message, final Throwable cause) {
+        super(message, cause);
+    }
+
+    public KaraffeRuntimeException(final Throwable cause) {
         super(cause);
     }
 

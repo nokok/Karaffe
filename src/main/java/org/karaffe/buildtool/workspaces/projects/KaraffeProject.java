@@ -3,7 +3,7 @@ package org.karaffe.buildtool.workspaces.projects;
 import java.nio.file.Path;
 
 public class KaraffeProject extends AbstractCompileProject {
-    public KaraffeProject(String name) {
+    public KaraffeProject(final String name) {
         super(name);
     }
 

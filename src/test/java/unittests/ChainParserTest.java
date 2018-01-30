@@ -6,23 +6,35 @@ import org.junit.Assert;
 import org.junit.Test;
 import org.karaffe.compiler.lexer.KaraffeLexer;
 import org.karaffe.compiler.lexer.KeywordToken.Package;
+import org.karaffe.compiler.lexer.Tokens;
 import org.karaffe.compiler.parser.util.CParser;
 import org.karaffe.compiler.parser.util.TokenMatcher;
-import org.karaffe.compiler.lexer.Tokens;
 import org.karaffe.compiler.tree.Name;
 
 public class ChainParserTest {
 
-    @Test
-    public void testParserNew() {
-        CParser cParser = this.mkParser("");
-        assertTrue(cParser.hasError());
+    private CParser mkParser(final String source) {
+        return new CParser(new Tokens(new KaraffeLexer(source).run()));
     }
 
     @Test
     public void testDefaultVal() {
         final CParser parser = this.mkParser("package");
         Assert.assertFalse(parser.hasError());
+    }
+
+    @Test
+    public void testNextClass() {
+        final CParser parser = this.mkParser("id");
+        Assert.assertTrue(parser.testNext(TokenMatcher.identifier()));
+        final Name n = parser.lastMatch();
+        Assert.assertEquals("id", n.getText());
+    }
+
+    @Test
+    public void testParserNew() {
+        final CParser cParser = this.mkParser("");
+        assertTrue(cParser.hasError());
     }
 
     @Test
@@ -45,17 +57,5 @@ public class ChainParserTest {
         Assert.assertFalse(parser.testNext(TokenMatcher.identifier()));
         Assert.assertFalse(parser.hasLastMatch());
         parser.lastMatch(); // throw
-    }
-
-    @Test
-    public void testNextClass() {
-        final CParser parser = this.mkParser("id");
-        Assert.assertTrue(parser.testNext(TokenMatcher.identifier()));
-        final Name n = parser.lastMatch();
-        Assert.assertEquals("id", n.getText());
-    }
-
-    private CParser mkParser(final String source) {
-        return new CParser(new Tokens(new KaraffeLexer(source).run()));
     }
 }

@@ -18,35 +18,19 @@ import org.karaffe.compiler.util.CommandLineArgPart;
 
 public interface CompilerConfig {
 
-    public Optional<Boolean> getFlag(ConfigKeys.FlagConfigs flagName);
+    public static CompilerConfig buildConfig(final List<CommandLineArgPart> argParts) throws UnrecognizedOptionException, IllegalFormatOptionException {
+        final CompilerConfigImpl compilerConfig = new CompilerConfigImpl();
 
-    public Optional<String> getValue(ConfigKeys.StringConfigs configName);
+        final List<FlagConfigs> flagConfigs = Arrays.asList(FlagConfigs.values());
+        final List<StringConfigs> stringConfigs = Arrays.asList(StringConfigs.values());
 
-    public default PrintStream getOutput() {
-        return System.out;
-    }
-
-    public static CompilerConfig defaultConfig() {
-        return new CompilerConfigImpl();
-    }
-
-    public static CompilerConfig buildConfig(String[] args) throws UnrecognizedOptionException, IllegalFormatOptionException {
-        return buildConfig(Arrays.asList(args).stream().map(CommandLineArgPart::new).collect(Collectors.toList()));
-    }
-
-    public static CompilerConfig buildConfig(List<CommandLineArgPart> argParts) throws UnrecognizedOptionException, IllegalFormatOptionException {
-        CompilerConfigImpl compilerConfig = new CompilerConfigImpl();
-
-        List<FlagConfigs> flagConfigs = Arrays.asList(FlagConfigs.values());
-        List<StringConfigs> stringConfigs = Arrays.asList(StringConfigs.values());
-
-        for (CommandLineArgPart arg : argParts) {
-            String cmd = arg.getCmd();
+        for (final CommandLineArgPart arg : argParts) {
+            final String cmd = arg.getCmd();
             if (!arg.isValidFormat()) {
                 throw new IllegalFormatOptionException(arg.toString());
             }
-            Optional<FlagConfigs> flagConfig = flagConfigs.parallelStream().filter(c -> c.is(cmd)).findFirst();
-            Optional<StringConfigs> stringConfig = stringConfigs.parallelStream().filter(c -> c.is(cmd)).findFirst();
+            final Optional<FlagConfigs> flagConfig = flagConfigs.parallelStream().filter(c -> c.is(cmd)).findFirst();
+            final Optional<StringConfigs> stringConfig = stringConfigs.parallelStream().filter(c -> c.is(cmd)).findFirst();
 
             if (!flagConfig.isPresent() && !stringConfig.isPresent()) {
                 throw new UnrecognizedOptionException(arg.toString());
@@ -56,7 +40,7 @@ public interface CompilerConfig {
             }
 
             if (arg.isValueConfigurator()) {
-                String value = arg.getValue().get();
+                final String value = arg.getValue().get();
                 flagConfig.ifPresent(config -> {
                     compilerConfig.set(config, Boolean.parseBoolean(value));
                 });
@@ -70,18 +54,22 @@ public interface CompilerConfig {
         }
         return compilerConfig;
     }
-}
 
-interface MutableCompilerConfig extends CompilerConfig {
-    public void add(final Config config);
+    public static CompilerConfig buildConfig(final String[] args) throws UnrecognizedOptionException, IllegalFormatOptionException {
+        return buildConfig(Arrays.asList(args).stream().map(CommandLineArgPart::new).collect(Collectors.toList()));
+    }
 
-    public void add(final FlagConfigs config);
+    public static CompilerConfig defaultConfig() {
+        return new CompilerConfigImpl();
+    }
 
-    public void set(final StringConfigs config, final String value);
+    public Optional<Boolean> getFlag(ConfigKeys.FlagConfigs flagName);
 
-    public void set(final FlagConfigs config, final boolean value);
+    public default PrintStream getOutput() {
+        return System.out;
+    }
 
-    public void remove(final Config config);
+    public Optional<String> getValue(ConfigKeys.StringConfigs configName);
 }
 
 class CompilerConfigImpl implements MutableCompilerConfig {
@@ -95,12 +83,35 @@ class CompilerConfigImpl implements MutableCompilerConfig {
     }
 
     @Override
+    public void add(final Config config) {
+        if (config instanceof FlagConfigs) {
+            this.add((FlagConfigs) config);
+        }
+    }
+
+    @Override
     public void add(final FlagConfigs config) {
         if (this.flags.containsKey(config)) {
             this.flags.put(config, !this.flags.get(config));
         } else {
             this.flags.put(config, Boolean.TRUE);
         }
+    }
+
+    @Override
+    public Optional<Boolean> getFlag(final ConfigKeys.FlagConfigs flagName) {
+        return Optional.ofNullable(this.flags.get(flagName));
+    }
+
+    @Override
+    public Optional<String> getValue(final ConfigKeys.StringConfigs configName) {
+        return Optional.ofNullable(this.stringConfigs.get(configName));
+    }
+
+    @Override
+    public void remove(final Config config) {
+        this.flags.remove(config);
+        this.stringConfigs.remove(config);
     }
 
     @Override
@@ -113,27 +124,16 @@ class CompilerConfigImpl implements MutableCompilerConfig {
         this.stringConfigs.put(config, Objects.requireNonNull(value));
     }
 
-    @Override
-    public void remove(final Config config) {
-        this.flags.remove(config);
-        this.stringConfigs.remove(config);
-    }
+}
 
-    @Override
-    public Optional<Boolean> getFlag(ConfigKeys.FlagConfigs flagName) {
-        return Optional.ofNullable(this.flags.get(flagName));
-    }
+interface MutableCompilerConfig extends CompilerConfig {
+    public void add(final Config config);
 
-    @Override
-    public Optional<String> getValue(ConfigKeys.StringConfigs configName) {
-        return Optional.ofNullable(this.stringConfigs.get(configName));
-    }
+    public void add(final FlagConfigs config);
 
-    @Override
-    public void add(Config config) {
-        if (config instanceof FlagConfigs) {
-            this.add((FlagConfigs) config);
-        }
-    }
+    public void remove(final Config config);
 
+    public void set(final FlagConfigs config, final boolean value);
+
+    public void set(final StringConfigs config, final String value);
 }

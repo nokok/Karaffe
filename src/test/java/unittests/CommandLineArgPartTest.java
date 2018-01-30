@@ -9,33 +9,23 @@ import org.karaffe.compiler.util.CommandLineArgPart;
 
 public class CommandLineArgPartTest {
     @Test
-    public void testFullArg() {
-        testPart("--version", false, true, "version");
-    }
-
-    @Test
-    public void testShortArg() {
-        testPart("-version", false, false, "version");
-    }
-
-    @Test
-    public void testValueConfigurator() {
-        testPart("--key=value", true, true, "key", "value");
-    }
-
-    @Test
     public void testBasicArg() {
-        testPart("-v", false, false, "v");
+        this.testPart("-v", false, false, "v");
+    }
+
+    @Test
+    public void testFullArg() {
+        this.testPart("--version", false, true, "version");
     }
 
     @Test
     public void testInvalidShortArg() {
-        CommandLineArgPart part = testPart("-", false, false, "");
+        final CommandLineArgPart part = this.testPart("-", false, false, "");
         assertFalse(part.isValidFormat());
     }
 
-    private CommandLineArgPart testPart(String arg, boolean isValueConfig, boolean isFullArg, String expectedCmd) {
-        CommandLineArgPart part = new CommandLineArgPart(arg);
+    private CommandLineArgPart testPart(final String arg, final boolean isValueConfig, final boolean isFullArg, final String expectedCmd) {
+        final CommandLineArgPart part = new CommandLineArgPart(arg);
         assertEquals(isValueConfig, part.isValueConfigurator());
         assertEquals(!isValueConfig, part.isFlagConfigrator());
         assertEquals(isFullArg, part.isFullArg());
@@ -44,8 +34,8 @@ public class CommandLineArgPartTest {
         return part;
     }
 
-    private CommandLineArgPart testPart(String arg, boolean isValueConfig, boolean isFullArg, String expectedCmd, String expectedValue) {
-        CommandLineArgPart part = new CommandLineArgPart(arg);
+    private CommandLineArgPart testPart(final String arg, final boolean isValueConfig, final boolean isFullArg, final String expectedCmd, final String expectedValue) {
+        final CommandLineArgPart part = new CommandLineArgPart(arg);
         assertEquals(isValueConfig, part.isValueConfigurator());
         assertEquals(!isValueConfig, part.isFlagConfigrator());
         assertEquals(isFullArg, part.isFullArg());
@@ -54,5 +44,15 @@ public class CommandLineArgPartTest {
         assertEquals(expectedValue, part.getValue().get());
         assertTrue(part.isValidFormat());
         return part;
+    }
+
+    @Test
+    public void testShortArg() {
+        this.testPart("-version", false, false, "version");
+    }
+
+    @Test
+    public void testValueConfigurator() {
+        this.testPart("--key=value", true, true, "key", "value");
     }
 }

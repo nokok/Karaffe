@@ -8,6 +8,6 @@ public class ReportTest {
 
     @Test
     public void testReportString() {
-        Report report = Report.createError("Title", Position.noPos(), "Message");
+        final Report report = Report.createError("Title", Position.noPos(), "Message");
     }
 }

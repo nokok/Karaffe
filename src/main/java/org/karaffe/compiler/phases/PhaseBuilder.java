@@ -6,7 +6,7 @@ public class PhaseBuilder {
 
     private final CompilerConfig context;
 
-    public PhaseBuilder(CompilerConfig context) {
+    public PhaseBuilder(final CompilerConfig context) {
         this.context = context;
     }
 

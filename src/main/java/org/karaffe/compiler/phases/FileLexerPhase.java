@@ -20,6 +20,20 @@ public class FileLexerPhase extends AbstractTransformer<File, Tokens> implements
     }
 
     @Override
+    public boolean checkPreCondition(final File input) {
+        if (input.isDirectory()) {
+            return false;
+        }
+        if (!input.exists()) {
+            return false;
+        }
+        if (!input.canRead()) {
+            return false;
+        }
+        return true;
+    }
+
+    @Override
     public Optional<Tokens> transform(final File source) {
         this.info("Lexing...");
         final String fileName = source.toPath().toString();
@@ -35,20 +49,6 @@ public class FileLexerPhase extends AbstractTransformer<File, Tokens> implements
             this.error("file not found.", e);
             return Optional.empty();
         }
-    }
-
-    @Override
-    public boolean checkPreCondition(final File input) {
-        if (input.isDirectory()) {
-            return false;
-        }
-        if (!input.exists()) {
-            return false;
-        }
-        if (!input.canRead()) {
-            return false;
-        }
-        return true;
     }
 
 }

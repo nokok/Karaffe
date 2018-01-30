@@ -3,8 +3,18 @@ package org.karaffe.compiler.lexer;
 import org.karaffe.compiler.pos.Position;
 
 public abstract class ModifierToken extends CommonToken {
-    ModifierToken(final String text, final Position position) {
-        super(text, position, text + " modifier");
+    public static class Parameter extends ModifierToken {
+
+        public Parameter() {
+            super("", Position.noPos());
+        }
+
+    }
+
+    public static class Private extends ModifierToken {
+        public Private(final Position position) {
+            super("private", position);
+        }
     }
 
     public static class Public extends ModifierToken {
@@ -23,18 +33,8 @@ public abstract class ModifierToken extends CommonToken {
         }
     }
 
-    public static class Private extends ModifierToken {
-        public Private(final Position position) {
-            super("private", position);
-        }
-    }
-
-    public static class Parameter extends ModifierToken {
-
-        public Parameter() {
-            super("", Position.noPos());
-        }
-
+    ModifierToken(final String text, final Position position) {
+        super(text, position, text + " modifier");
     }
 
     @Override

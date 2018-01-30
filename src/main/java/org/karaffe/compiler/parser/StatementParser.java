@@ -31,44 +31,67 @@ import org.slf4j.LoggerFactory;
 
 public class StatementParser implements Parser {
 
-    @Override
-    public MatchResult parse(final Tokens input) {
-        CParser cp = new CParser(input);
-        if (cp.selectFirst(
-                new StmtBlock(),
-                new IfBlock(),
-                new VarDefParser(),
-                new WhileBlock(),
-                new SystemOutPrintln(),
-                new AssignStmt(),
-                new ArrayAssignStmt())) {
-            return cp.toSuccess();
-        }
-        return cp.toFailure();
-    }
-
-    public static class StmtBlock implements Parser {
-
-        private static final Logger L = LoggerFactory.getLogger(StmtBlock.class);
+    public static class ArrayAssignStmt implements Parser {
 
         @Override
         public MatchResult parse(final Tokens input) {
-            StmtBlock.L.debug("Input :{}", input);
             final CParser cp = new CParser(input);
-            if (!cp.testNext(LeftBrace.class)) {
+            if (!cp.testNext(new IdentifierParser())) {
+                return cp.toFailure();
+            }
+            if (!cp.testNext(LeftBracket.class)) {
+                return cp.toFailure();
+            }
+            if (!cp.testNext(new ExprParser())) {
+                return cp.toFailure();
+            }
+            final Node arrayAccess = cp.lastMatch();
+            if (!cp.testNext(RightBracket.class)) {
+                return cp.toFailure();
+            }
+            final Node target = cp.lastMatch();
+            if (!cp.testNext(Equals.class)) {
                 return cp.toFailure();
             }
 
-            final List<Node> statements = new ArrayList<>();
-            while (cp.testNext(new StatementParser())) {
-                statements.add(cp.lastMatch());
-            }
-            if (!cp.testNext(RightBrace.class)) {
+            if (!cp.testNext(new ExprParser())) {
                 return cp.toFailure();
             }
-            final Block block = new Block(statements);
-            return new MatchResult.Success(cp.next(), cp.matched(), block);
+            final Node exprNode = cp.lastMatch();
+            if (!cp.testNext(Semi.class)) {
+                return cp.toFailure();
+            }
+            target.addChild(arrayAccess);
+            return new MatchResult.Success(cp.next(), cp.matched(), new Assign(target, exprNode));
+
         }
+
+    }
+
+    public static class AssignStmt implements Parser {
+
+        @Override
+        public MatchResult parse(final Tokens input) {
+            final CParser cp = new CParser(input);
+            if (!cp.testNext(new IdentifierParser())) {
+                return cp.toFailure();
+            }
+            final Node target = cp.lastMatch();
+            if (!cp.testNext(Equals.class)) {
+                return cp.toFailure();
+            }
+
+            if (!cp.testNext(new ExprParser())) {
+                return cp.toFailure();
+            }
+            final Node exprNode = cp.lastMatch();
+            if (!cp.testNext(Semi.class)) {
+                return cp.toFailure();
+            }
+
+            return new MatchResult.Success(cp.next(), cp.matched(), new Assign(target, exprNode));
+        }
+
     }
 
     public static class IfBlock implements Parser {
@@ -108,6 +131,56 @@ public class StatementParser implements Parser {
             // if cond ? goto then : goto else
             //
             return new MatchResult.Success(cp.next(), cp.matched(), new org.karaffe.compiler.tree.If(expr, stmtThen, stmtElse));
+        }
+
+    }
+
+    public static class StmtBlock implements Parser {
+
+        private static final Logger L = LoggerFactory.getLogger(StmtBlock.class);
+
+        @Override
+        public MatchResult parse(final Tokens input) {
+            StmtBlock.L.debug("Input :{}", input);
+            final CParser cp = new CParser(input);
+            if (!cp.testNext(LeftBrace.class)) {
+                return cp.toFailure();
+            }
+
+            final List<Node> statements = new ArrayList<>();
+            while (cp.testNext(new StatementParser())) {
+                statements.add(cp.lastMatch());
+            }
+            if (!cp.testNext(RightBrace.class)) {
+                return cp.toFailure();
+            }
+            final Block block = new Block(statements);
+            return new MatchResult.Success(cp.next(), cp.matched(), block);
+        }
+    }
+
+    public static class SystemOutPrintln implements Parser {
+
+        @Override
+        public MatchResult parse(final Tokens input) {
+            final CParser cp = new CParser(input);
+            if (!cp.testNext(KeywordToken.SystemOutPrintln.class)) {
+                return cp.toFailure();
+            }
+            if (!cp.testNext(LeftParen.class)) {
+                return cp.toFailure();
+            }
+            if (!cp.testNext(new ExprParser())) {
+                return cp.toFailure();
+            }
+            final Node exprNode = cp.lastMatch();
+            if (!cp.testNext(RightParen.class)) {
+                return cp.toFailure();
+            }
+            if (!cp.testNext(Semi.class)) {
+                return cp.toFailure();
+            }
+            return new MatchResult.Success(cp.next(), cp.matched(), new Apply(new Select(new Name("java"), new Name("lang"), new Name("System"), new Name("out"), new Name("println")), exprNode));
         }
 
     }
@@ -153,93 +226,20 @@ public class StatementParser implements Parser {
         }
     }
 
-    public static class SystemOutPrintln implements Parser {
-
-        @Override
-        public MatchResult parse(final Tokens input) {
-            final CParser cp = new CParser(input);
-            if (!cp.testNext(KeywordToken.SystemOutPrintln.class)) {
-                return cp.toFailure();
-            }
-            if (!cp.testNext(LeftParen.class)) {
-                return cp.toFailure();
-            }
-            if (!cp.testNext(new ExprParser())) {
-                return cp.toFailure();
-            }
-            final Node exprNode = cp.lastMatch();
-            if (!cp.testNext(RightParen.class)) {
-                return cp.toFailure();
-            }
-            if (!cp.testNext(Semi.class)) {
-                return cp.toFailure();
-            }
-            return new MatchResult.Success(cp.next(), cp.matched(), new Apply(new Select(new Name("java"), new Name("lang"), new Name("System"), new Name("out"), new Name("println")), exprNode));
+    @Override
+    public MatchResult parse(final Tokens input) {
+        final CParser cp = new CParser(input);
+        if (cp.selectFirst(
+                new StmtBlock(),
+                new IfBlock(),
+                new VarDefParser(),
+                new WhileBlock(),
+                new SystemOutPrintln(),
+                new AssignStmt(),
+                new ArrayAssignStmt())) {
+            return cp.toSuccess();
         }
-
-    }
-
-    public static class AssignStmt implements Parser {
-
-        @Override
-        public MatchResult parse(final Tokens input) {
-            final CParser cp = new CParser(input);
-            if (!cp.testNext(new IdentifierParser())) {
-                return cp.toFailure();
-            }
-            final Node target = cp.lastMatch();
-            if (!cp.testNext(Equals.class)) {
-                return cp.toFailure();
-            }
-
-            if (!cp.testNext(new ExprParser())) {
-                return cp.toFailure();
-            }
-            final Node exprNode = cp.lastMatch();
-            if (!cp.testNext(Semi.class)) {
-                return cp.toFailure();
-            }
-
-            return new MatchResult.Success(cp.next(), cp.matched(), new Assign(target, exprNode));
-        }
-
-    }
-
-    public static class ArrayAssignStmt implements Parser {
-
-        @Override
-        public MatchResult parse(final Tokens input) {
-            final CParser cp = new CParser(input);
-            if (!cp.testNext(new IdentifierParser())) {
-                return cp.toFailure();
-            }
-            if (!cp.testNext(LeftBracket.class)) {
-                return cp.toFailure();
-            }
-            if (!cp.testNext(new ExprParser())) {
-                return cp.toFailure();
-            }
-            final Node arrayAccess = cp.lastMatch();
-            if (!cp.testNext(RightBracket.class)) {
-                return cp.toFailure();
-            }
-            final Node target = cp.lastMatch();
-            if (!cp.testNext(Equals.class)) {
-                return cp.toFailure();
-            }
-
-            if (!cp.testNext(new ExprParser())) {
-                return cp.toFailure();
-            }
-            final Node exprNode = cp.lastMatch();
-            if (!cp.testNext(Semi.class)) {
-                return cp.toFailure();
-            }
-            target.addChild(arrayAccess);
-            return new MatchResult.Success(cp.next(), cp.matched(), new Assign(target, exprNode));
-
-        }
-
+        return cp.toFailure();
     }
 
 }

@@ -4,10 +4,6 @@ import org.karaffe.compiler.pos.Position;
 
 public abstract class LiteralToken extends CommonToken {
 
-    LiteralToken(final String text, final Position position, final String description) {
-        super(text, position, description);
-    }
-
     public static class IntLiteral extends LiteralToken {
         private final int value;
 
@@ -23,6 +19,10 @@ public abstract class LiteralToken extends CommonToken {
         public int getValue() {
             return this.value;
         }
+    }
+
+    LiteralToken(final String text, final Position position, final String description) {
+        super(text, position, description);
     }
 
     @Override

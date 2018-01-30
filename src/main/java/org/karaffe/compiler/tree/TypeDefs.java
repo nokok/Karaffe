@@ -15,26 +15,26 @@ public class TypeDefs extends AbstractNodes {
         this(new ArrayList<>());
     }
 
-    public TypeDefs(final TypeDef def) {
-        this(new ArrayList<>(Arrays.asList(def)));
-    }
-
     public TypeDefs(final List<Node> defs) {
         super(NodeType.S_TYPEDEF, defs);
     }
 
+    public TypeDefs(final TypeDef def) {
+        this(new ArrayList<>(Arrays.asList(def)));
+    }
+
     @Override
-    public void accept(KaraffeTreeVisitor visitor) {
+    public void accept(final KaraffeTreeVisitor visitor) {
         visitor.visit(this);
     }
 
     @Override
-    public String vSource() {
-        return String.join("", getChildren().stream().map(Node::vSource).collect(Collectors.toList()));
+    public NodeList normalize(final NormalizeContext context) {
+        return this.normalize(context);
     }
 
-	@Override
-	public NodeList normalize(NormalizeContext context) {
-		return this.normalize(context);
-	}
+    @Override
+    public String vSource() {
+        return String.join("", this.getChildren().stream().map(Node::vSource).collect(Collectors.toList()));
+    }
 }

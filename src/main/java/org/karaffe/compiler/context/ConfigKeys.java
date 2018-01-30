@@ -7,23 +7,16 @@ import java.util.Optional;
 
 public final class ConfigKeys {
 
-    public static Optional<Config> valueOf(final String cmd) {
-        final List<Config> configs = new ArrayList<>();
-        configs.addAll(Arrays.asList(FlagConfigs.values()));
-        configs.addAll(Arrays.asList(StringConfigs.values()));
-        return configs.parallelStream().filter(c -> c.is(cmd)).findFirst();
-    }
-
     public static interface Config {
-        public String getShortArg();
-
         public List<String> getAliases();
+
+        public String getShortArg();
 
         public default boolean is(final String cmd) {
             if (cmd.startsWith("-")) {
                 throw new IllegalArgumentException("- can not be included. : " + cmd);
             }
-            String s = cmd;
+            final String s = cmd;
             if (this.getShortArg().toLowerCase().equals(s.toLowerCase())) {
                 return true;
             }
@@ -52,13 +45,13 @@ public final class ConfigKeys {
         }
 
         @Override
-        public String getShortArg() {
-            return this.shortArg;
+        public List<String> getAliases() {
+            return new ArrayList<>(Arrays.asList(this.aliases));
         }
 
         @Override
-        public List<String> getAliases() {
-            return new ArrayList<>(Arrays.asList(this.aliases));
+        public String getShortArg() {
+            return this.shortArg;
         }
 
     }
@@ -76,13 +69,20 @@ public final class ConfigKeys {
         }
 
         @Override
-        public String getShortArg() {
-            return this.shortArg;
-        }
-
-        @Override
         public List<String> getAliases() {
             return new ArrayList<>(Arrays.asList(this.aliases));
         }
+
+        @Override
+        public String getShortArg() {
+            return this.shortArg;
+        }
+    }
+
+    public static Optional<Config> valueOf(final String cmd) {
+        final List<Config> configs = new ArrayList<>();
+        configs.addAll(Arrays.asList(FlagConfigs.values()));
+        configs.addAll(Arrays.asList(StringConfigs.values()));
+        return configs.parallelStream().filter(c -> c.is(cmd)).findFirst();
     }
 }

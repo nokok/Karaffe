@@ -9,25 +9,29 @@ import karaffe.core.Any;
 
 public class InferResult {
 
-	private final List<String> types;
+    public static String defaultTypeName() {
+        return Any.class.getCanonicalName();
+    }
 
-	public InferResult(String... possibleTypes) {
-		this.types = new ArrayList<>(Arrays.asList(possibleTypes));
-	}
+    public static InferResult of(final Class<? extends Any> clazz) {
+        return new InferResult(clazz.getCanonicalName());
+    }
 
-	public Optional<String> getType() {
-		if(this.types.isEmpty()) {
-			return Optional.empty();
-		}
-		return Optional.of(this.types.get(0));
-	}
+    public static InferResult ofEmpty() {
+        return new InferResult("karaffe.core.Any");
+    }
 
-	public static InferResult ofEmpty() {
-		return new InferResult("karaffe.core.Any");
-	}
-	
-	public static String defaultTypeName() {
-		return Any.class.getCanonicalName();
-	}
+    private final List<String> types;
+
+    public InferResult(final String... possibleTypes) {
+        this.types = new ArrayList<>(Arrays.asList(possibleTypes));
+    }
+
+    public Optional<String> getType() {
+        if (this.types.isEmpty()) {
+            return Optional.empty();
+        }
+        return Optional.of(this.types.get(0));
+    }
 
 }

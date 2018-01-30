@@ -5,37 +5,12 @@ import java.util.Optional;
 public class CommandLineArgPart {
     private final String arg;
 
-    public CommandLineArgPart(String arg) {
+    public CommandLineArgPart(final String arg) {
         this.arg = arg;
     }
 
-    public boolean isFullArg() {
-        return arg.startsWith("--");
-    }
-
-    public boolean isShortArg() {
-        return arg.startsWith("-") && !arg.startsWith("--");
-    }
-
-    public boolean isValueConfigurator() {
-        return arg.contains("=") && arg.split("=").length == 2;
-    }
-
-    public boolean isFlagConfigrator() {
-        if (arg.contains("=")) {
-            String[] cmdValue = arg.split("=");
-            if (cmdValue.length != 2) {
-                return false;
-            }
-            String cmd = cmdValue[0];
-            String value = cmdValue[1];
-            return value.matches("(true|false)");
-        }
-        return true;
-    }
-
     public String getCmd() {
-        String cmdP = arg.split("=")[0];
+        final String cmdP = this.arg.split("=")[0];
         if (cmdP.startsWith("--")) {
             return cmdP.substring(2);
         } else if (cmdP.startsWith("-")) {
@@ -45,19 +20,44 @@ public class CommandLineArgPart {
     }
 
     public Optional<String> getValue() {
-        String[] cmdValue = arg.split("=");
+        final String[] cmdValue = this.arg.split("=");
         if (cmdValue.length != 2) {
             return Optional.empty();
         }
         return Optional.of(cmdValue[1]);
     }
 
-    public void mapToFlagConfig() {
+    public boolean isFlagConfigrator() {
+        if (this.arg.contains("=")) {
+            final String[] cmdValue = this.arg.split("=");
+            if (cmdValue.length != 2) {
+                return false;
+            }
+            final String cmd = cmdValue[0];
+            final String value = cmdValue[1];
+            return value.matches("(true|false)");
+        }
+        return true;
+    }
 
+    public boolean isFullArg() {
+        return this.arg.startsWith("--");
+    }
+
+    public boolean isShortArg() {
+        return this.arg.startsWith("-") && !this.arg.startsWith("--");
     }
 
     public boolean isValidFormat() {
-        return arg.matches("-(-)?([\\w\\.]+)(=(\\w+))?");
+        return this.arg.matches("-(-)?([\\w\\.]+)(=(\\w+))?");
+    }
+
+    public boolean isValueConfigurator() {
+        return this.arg.contains("=") && (this.arg.split("=").length == 2);
+    }
+
+    public void mapToFlagConfig() {
+
     }
 
     @Override

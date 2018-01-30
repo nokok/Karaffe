@@ -12,18 +12,6 @@ import org.karaffe.compiler.parser.util.ResultState;
 public class KaraffeParserTest {
 
     @Test
-    public void testParser() {
-        final KaraffeLexer lexer = new KaraffeLexer("package path.to.pkg;");
-        final KaraffeParser parser = new KaraffeParser();
-        final List<Token> tokens = lexer.run();
-
-        Assert.assertEquals(9, tokens.size());
-
-        final ResultState result = parser.parse(tokens);
-        Assert.assertTrue(result.isSuccess());
-    }
-
-    @Test
     public void testClassDecl() {
         final KaraffeLexer lexer = new KaraffeLexer("class { class A {}");
         final KaraffeParser parser = new KaraffeParser();
@@ -74,7 +62,7 @@ public class KaraffeParserTest {
 
     @Test
     public void testMiniJavaKnormal() {
-        KaraffeLexer lexer = new KaraffeLexer("class Factorial {\n" +
+        final KaraffeLexer lexer = new KaraffeLexer("class Factorial {\n" +
                 "    public static void main(String[] a) {\n" +
                 "        ClassRef c1 = system;\n" +
                 "        PrintStream t1 = c1.out;\n" +
@@ -102,11 +90,23 @@ public class KaraffeParserTest {
                 "        return numAux;\n" +
                 "    }\n" +
                 "}\n");
-        List<Token> tokens = lexer.run();
-        KaraffeParser parser = new KaraffeParser();
-        MatchResult result = parser.parse(tokens);
+        final List<Token> tokens = lexer.run();
+        final KaraffeParser parser = new KaraffeParser();
+        final MatchResult result = parser.parse(tokens);
         System.out.println(result);
 
+    }
+
+    @Test
+    public void testParser() {
+        final KaraffeLexer lexer = new KaraffeLexer("package path.to.pkg;");
+        final KaraffeParser parser = new KaraffeParser();
+        final List<Token> tokens = lexer.run();
+
+        Assert.assertEquals(9, tokens.size());
+
+        final ResultState result = parser.parse(tokens);
+        Assert.assertTrue(result.isSuccess());
     }
 
 }

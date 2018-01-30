@@ -11,13 +11,13 @@ public class CmdLineOptionValidatorTest {
     private final Predicate<String[]> target = new CmdLineOptionValidator();
 
     @Test
-    public void nullTest() {
-        Assert.assertFalse(this.target.test(null));
+    public void emptyTest() {
+        Assert.assertFalse(this.target.test(new String[0]));
     }
 
     @Test
-    public void emptyTest() {
-        Assert.assertFalse(this.target.test(new String[0]));
+    public void nullTest() {
+        Assert.assertFalse(this.target.test(null));
     }
 
     @Test

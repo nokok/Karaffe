@@ -6,7 +6,7 @@ public class ShowUsageTask implements Callable<String> {
 
     @Override
     public String call() throws Exception {
-        StringBuilder sb = new StringBuilder();
+        final StringBuilder sb = new StringBuilder();
         sb.append("krf [subcommand]");
         return sb.toString();
     }

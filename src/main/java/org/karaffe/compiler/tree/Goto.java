@@ -12,21 +12,21 @@ public class Goto extends AbstractNode {
     }
 
     @Override
-    public void accept(KaraffeTreeVisitor visitor) {
+    public void accept(final KaraffeTreeVisitor visitor) {
         visitor.visit(this);
     }
 
     public Node findJumpTo() {
-        return getChildren().get(0);
+        return this.getChildren().get(0);
+    }
+
+    @Override
+    public NodeList normalize(final NormalizeContext context) {
+        return this.toNodeList();
     }
 
     @Override
     public String vSource() {
-        return "goto " + findJumpTo().vSource();
+        return "goto " + this.findJumpTo().vSource();
     }
-
-	@Override
-	public NodeList normalize(NormalizeContext context) {
-		return this.toNodeList();
-	}
 }

@@ -15,12 +15,12 @@ public class EOFParser implements Parser {
 
     @Override
     public MatchResult parse(final Tokens input) {
-        Iterator<Token> tokenIter = input.iterator();
+        final Iterator<Token> tokenIter = input.iterator();
         if (!tokenIter.hasNext()) {
             return new MatchResult.Success(new Tokens(), new Tokens());
         }
         while (tokenIter.hasNext()) {
-            Token token = tokenIter.next();
+            final Token token = tokenIter.next();
             if (token.isWhiteSpace()) {
                 continue;
             }

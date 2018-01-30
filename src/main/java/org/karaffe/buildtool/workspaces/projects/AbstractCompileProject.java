@@ -4,7 +4,7 @@ public abstract class AbstractCompileProject implements Project {
 
     private final String name;
 
-    public AbstractCompileProject(String name) {
+    public AbstractCompileProject(final String name) {
         this.name = name;
     }
 

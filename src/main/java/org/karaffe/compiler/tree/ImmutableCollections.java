@@ -6,22 +6,22 @@ import java.util.stream.Stream;
 
 public interface ImmutableCollections<T> {
 
-    void forEach(Consumer<? super T> action);
-
-    int size();
-
-    boolean isEmpty();
-
     boolean contains(Object o);
 
-    Iterator<? extends T> iterator();
-
-    Iterable<? extends T> iterable();
+    void forEach(Consumer<? super T> action);
 
     T get(int index);
 
-    Stream<? extends T> stream();
+    boolean isEmpty();
+
+    Iterable<? extends T> iterable();
+
+    Iterator<? extends T> iterator();
 
     Stream<? extends T> parallelStream();
+
+    int size();
+
+    Stream<? extends T> stream();
 
 }

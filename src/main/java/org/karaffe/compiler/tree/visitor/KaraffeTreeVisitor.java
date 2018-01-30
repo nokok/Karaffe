@@ -10,6 +10,7 @@ import org.karaffe.compiler.tree.Empty;
 import org.karaffe.compiler.tree.Goto;
 import org.karaffe.compiler.tree.If;
 import org.karaffe.compiler.tree.LabelDef;
+import org.karaffe.compiler.tree.LetDef;
 import org.karaffe.compiler.tree.Literal;
 import org.karaffe.compiler.tree.MethodDef;
 import org.karaffe.compiler.tree.Modifier;
@@ -25,7 +26,6 @@ import org.karaffe.compiler.tree.Select;
 import org.karaffe.compiler.tree.TypeDef.ClassDef;
 import org.karaffe.compiler.tree.TypeDefs;
 import org.karaffe.compiler.tree.TypeName;
-import org.karaffe.compiler.tree.LetDef;
 import org.karaffe.compiler.tree.VarDef;
 
 public interface KaraffeTreeVisitor {
@@ -37,9 +37,9 @@ public interface KaraffeTreeVisitor {
 
     public void visit(Block node);
 
-    public void visit(CompileUnit node);
-
     public void visit(ClassDef node);
+
+    public void visit(CompileUnit node);
 
     public void visit(Constant node);
 
@@ -51,13 +51,15 @@ public interface KaraffeTreeVisitor {
 
     public void visit(LabelDef node);
 
-    public void visit(Literal.IntLiteral node);
-
-    public void visit(Literal.TrueLiteral node);
+    public void visit(LetDef node);
 
     public void visit(Literal.FalseLiteral node);
 
+    public void visit(Literal.IntLiteral node);
+
     public void visit(Literal.ThisLiteral node);
+
+    public void visit(Literal.TrueLiteral node);
 
     public void visit(MethodDef node);
 
@@ -81,11 +83,9 @@ public interface KaraffeTreeVisitor {
 
     public void visit(Select node);
 
-    public void visit(TypeName node);
-
     public void visit(TypeDefs node);
 
-    public void visit(LetDef node);
+    public void visit(TypeName node);
 
     public void visit(VarDef node);
 

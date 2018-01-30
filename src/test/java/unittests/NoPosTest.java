@@ -13,41 +13,41 @@ public class NoPosTest {
     private final Position pos = Position.noPos();
 
     @Test
-    public void testLine() {
-        assertEquals("?", pos.getLine());
-    }
-
-    @Test
-    public void testLineNumber() {
-        assertEquals(Optional.empty(), pos.getLineNumber());
-    }
-
-    @Test
     public void testCol() {
-        assertEquals("?", pos.getCol());
+        assertEquals("?", this.pos.getCol());
     }
 
     @Test
     public void testColNumber() {
-        assertEquals(Optional.empty(), pos.getColNumber());
-    }
-
-    @Test
-    public void testSourceName() {
-        assertEquals("?", pos.getSourceName());
-    }
-
-    @Test
-    public void testFlags() {
-        assertTrue(pos.isNoPos());
-        assertFalse(pos.isRange());
-        assertFalse(pos.asRange().isPresent());
+        assertEquals(Optional.empty(), this.pos.getColNumber());
     }
 
     @Test
     public void testCopy() {
-        Position otherPos = Position.copy(pos);
-        assertTrue(pos.equals(otherPos));
+        final Position otherPos = Position.copy(this.pos);
+        assertTrue(this.pos.equals(otherPos));
+    }
+
+    @Test
+    public void testFlags() {
+        assertTrue(this.pos.isNoPos());
+        assertFalse(this.pos.isRange());
+        assertFalse(this.pos.asRange().isPresent());
+    }
+
+    @Test
+    public void testLine() {
+        assertEquals("?", this.pos.getLine());
+    }
+
+    @Test
+    public void testLineNumber() {
+        assertEquals(Optional.empty(), this.pos.getLineNumber());
+    }
+
+    @Test
+    public void testSourceName() {
+        assertEquals("?", this.pos.getSourceName());
     }
 
 }

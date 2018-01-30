@@ -7,7 +7,7 @@ public enum Messages {
     ;
     private final String format;
 
-    private Messages(String format) {
+    private Messages(final String format) {
         this.format = format;
     }
 
