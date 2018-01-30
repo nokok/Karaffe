@@ -35,7 +35,7 @@ public class StmtBlockTest {
     private void runTest(final String source, final boolean v) {
         final KaraffeLexer lexer = new KaraffeLexer(source);
         final List<Token> input = lexer.run();
-        final MatchResult result = new StmtBlock().match(input);
+        final MatchResult result = new StmtBlock().parse(input);
         Assert.assertEquals(v, result.isSuccess());
         if (v) {
             if (result.next().isEmpty()) {

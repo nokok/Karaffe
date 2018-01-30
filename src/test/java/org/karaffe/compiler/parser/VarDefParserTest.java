@@ -2,7 +2,6 @@ package org.karaffe.compiler.parser;
 
 import org.junit.Assert;
 import org.junit.Test;
-import org.karaffe.compiler.lexer.KaraffeLexer;
 import org.karaffe.compiler.parser.util.MatchResult;
 
 public class VarDefParserTest {
@@ -23,15 +22,14 @@ public class VarDefParserTest {
     }
 
     private void runTest(final String source, final boolean v) {
-        final KaraffeLexer lexer = new KaraffeLexer(source);
         final Parser varDeclParser = new VarDefParser();
-        final MatchResult result = varDeclParser.parse(lexer.run());
+        final MatchResult result = varDeclParser.parse(source);
         Assert.assertEquals(result.toString(), v, result.isSuccess());
         if (v) {
             if (result.next().isEmpty()) {
                 return;
             }
-            final MatchResult eofResult = new EOFParser().match(result.next());
+            final MatchResult eofResult = new EOFParser().parse(result.next());
             if (eofResult.isFailure()) {
                 Assert.fail(eofResult.toString());
             }

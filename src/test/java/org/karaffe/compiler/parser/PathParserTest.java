@@ -49,7 +49,7 @@ public class PathParserTest {
             if (result.next().isEmpty()) {
                 return result;
             }
-            final MatchResult eofResult = new EOFParser().match(result.next());
+            final MatchResult eofResult = new EOFParser().parse(result.next());
             if (eofResult.isFailure()) {
                 Assert.fail(eofResult.toString());
             }

@@ -3,18 +3,18 @@ package org.karaffe.compiler.parser;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.karaffe.compiler.lexer.CommonToken.Comma;
 import org.karaffe.compiler.lexer.ModifierToken;
 import org.karaffe.compiler.lexer.Token;
 import org.karaffe.compiler.lexer.Tokens;
-import org.karaffe.compiler.lexer.CommonToken.Comma;
 import org.karaffe.compiler.parser.util.MatchResult;
 import org.karaffe.compiler.parser.util.TokenMatcher;
+import org.karaffe.compiler.tree.LetDef;
 import org.karaffe.compiler.tree.Modifier;
 import org.karaffe.compiler.tree.Modifiers;
 import org.karaffe.compiler.tree.Name;
 import org.karaffe.compiler.tree.Parameters;
 import org.karaffe.compiler.tree.TypeName;
-import org.karaffe.compiler.tree.LetDef;
 import org.karaffe.compiler.tree.base.Node;
 
 public class FormalListParser implements Parser {
@@ -36,7 +36,7 @@ public class FormalListParser implements Parser {
                 }
                 before = result.next();
             }
-            final MatchResult typeMatch = new TypeParser().match(before);
+            final MatchResult typeMatch = new TypeParser().parse(before);
 
             last = typeMatch;
 
@@ -47,7 +47,7 @@ public class FormalListParser implements Parser {
             final TypeName typeName = typeMatch.getNode().map(TypeName.class::cast).orElseThrow(IllegalStateException::new);
             matched.addAll(typeMatch.matchedF());
 
-            final MatchResult idMatch = new IdentifierParser().match(before);
+            final MatchResult idMatch = new IdentifierParser().parse(before);
 
             if (idMatch.isFailure()) {
                 return idMatch;

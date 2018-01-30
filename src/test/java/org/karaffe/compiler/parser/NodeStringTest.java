@@ -5,7 +5,6 @@ import static org.junit.Assert.assertEquals;
 import org.junit.Assert;
 import org.junit.Test;
 import org.karaffe.compiler.lexer.IdentifierToken;
-import org.karaffe.compiler.lexer.KaraffeLexer;
 import org.karaffe.compiler.lexer.LiteralToken;
 import org.karaffe.compiler.lexer.ModifierToken;
 import org.karaffe.compiler.parser.ExprParser.Primary;
@@ -95,7 +94,7 @@ public class NodeStringTest {
     }
 
     private String getNodeString(final Parser parser, final String source) {
-        return parser.parse(new KaraffeLexer(source).run()).getNode().get().toString();
+        return parser.parse(source).getNode().get().toString();
     }
 
 }

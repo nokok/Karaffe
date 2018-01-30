@@ -20,10 +20,6 @@ public interface TokenMatcher {
 
     public MatchResult match(Tokens tokens);
 
-    public default MatchResult match(final List<Token> tokens) {
-        return this.match(new Tokens(tokens));
-    }
-
     public static final List<Class<? extends Token>> DEFAULT_SKIP_TOKENS = new ArrayList<>(Arrays.asList(NewLine.class, Space.class, Tab.class, WideSpace.class));
 
     public default List<Class<? extends Token>> skipTokens() {

@@ -75,7 +75,7 @@ public class PrimaryTest {
 
     private void runSuccessTest(final List<Token> input) {
         final Primary primary = new Primary();
-        final MatchResult result = primary.match(input);
+        final MatchResult result = primary.parse(input);
         Assert.assertTrue(result.isSuccess());
         Assert.assertEquals(0, result.next().size());
     }

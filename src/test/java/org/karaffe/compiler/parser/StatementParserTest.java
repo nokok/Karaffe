@@ -96,7 +96,7 @@ public class StatementParserTest {
     private void runTest(final String source, final boolean v) {
         final KaraffeLexer lexer = new KaraffeLexer(source);
         final List<Token> input = lexer.run();
-        final MatchResult result = new StatementParser().match(input);
+        final MatchResult result = new StatementParser().parse(input);
         Assert.assertEquals(v, result.isSuccess());
         if (v) {
             if (result.next().isEmpty()) {

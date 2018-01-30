@@ -23,8 +23,7 @@ public class EOFParserTest {
     @Test
     public void testEOF2() {
         final Parser eof = new EOFParser();
-        final KaraffeLexer lexer = new KaraffeLexer("");
-        final MatchResult result = eof.parse(lexer.run());
+        final MatchResult result = eof.parse("");
         Assert.assertEquals(true, result.isSuccess());
         Assert.assertEquals(0, result.next().size());
     }
@@ -32,8 +31,7 @@ public class EOFParserTest {
     @Test
     public void testEOF3() {
         final Parser eof = new EOFParser();
-        final KaraffeLexer lexer = new KaraffeLexer("\n");
-        final MatchResult result = eof.parse(lexer.run());
+        final MatchResult result = eof.parse("\n");
         Assert.assertEquals(true, result.isSuccess());
         Assert.assertEquals(0, result.next().size());
     }
@@ -41,8 +39,7 @@ public class EOFParserTest {
     @Test
     public void testEOF4() {
         final Parser eof = new EOFParser();
-        final KaraffeLexer lexer = new KaraffeLexer("  \t\t\r\n");
-        final MatchResult result = eof.parse(lexer.run());
+        final MatchResult result = eof.parse("  \t\t\r\n");
         Assert.assertEquals(true, result.isSuccess());
         Assert.assertEquals(0, result.next().size());
     }
@@ -50,16 +47,14 @@ public class EOFParserTest {
     @Test
     public void testEOF5() {
         final Parser eof = new EOFParser();
-        final KaraffeLexer lexer = new KaraffeLexer("a ");
-        final ResultState result = eof.parse(lexer.run());
+        final ResultState result = eof.parse("a ");
         Assert.assertEquals(false, result.isSuccess());
     }
 
     @Test
     public void testEOF6() {
         final Parser eof = new EOFParser();
-        final KaraffeLexer lexer = new KaraffeLexer(" b");
-        final ResultState result = eof.parse(lexer.run());
+        final ResultState result = eof.parse(" b");
         Assert.assertEquals(false, result.isSuccess());
     }
 

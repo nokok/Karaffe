@@ -5,7 +5,6 @@ import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
 
 import org.junit.Test;
-import org.karaffe.compiler.lexer.KaraffeLexer;
 import org.karaffe.compiler.lexer.Token;
 import org.karaffe.compiler.parser.KaraffeParser;
 import org.karaffe.compiler.parser.util.MatchResult;
@@ -30,7 +29,7 @@ public class ParseFailTest {
 
     private void runTest(String source, int line, int column) {
         KaraffeParser parser = new KaraffeParser();
-        MatchResult result = parser.parse(new KaraffeLexer(source).run());
+        MatchResult result = parser.parse(source);
         assertTrue(result.isFailure());
         Failure failure = result.toFailure().get();
         assertFalse(failure.getNode().isPresent());

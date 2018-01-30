@@ -39,7 +39,7 @@ public class WhileBlockTest {
     private void runTest(final String source, final boolean v) {
         final KaraffeLexer lexer = new KaraffeLexer(source);
         final List<Token> input = lexer.run();
-        final MatchResult result = new WhileBlock().match(input);
+        final MatchResult result = new WhileBlock().parse(input);
         Assert.assertEquals(v, result.isSuccess());
         if (v) {
             if (result.next().isEmpty()) {

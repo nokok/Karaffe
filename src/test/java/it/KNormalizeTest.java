@@ -4,7 +4,6 @@ import static org.junit.Assert.assertEquals;
 
 import org.junit.Test;
 import org.karaffe.compiler.context.NormalizeContext;
-import org.karaffe.compiler.lexer.KaraffeLexer;
 import org.karaffe.compiler.parser.ExprParser;
 import org.karaffe.compiler.parser.KaraffeParser;
 import org.karaffe.compiler.parser.MethodDefParser;
@@ -85,8 +84,7 @@ public class KNormalizeTest {
     }
 
     private void testKNormalize(String source, Parser parser, String before, String after) {
-        KaraffeLexer lexer = new KaraffeLexer(source);
-        Node beforeNode = parser.parse(lexer.run()).getNode().get();
+        Node beforeNode = parser.parse(source).getNode().get();
         assertEquals(before, beforeNode.toString());
         NodeList afterNode = beforeNode.normalize(new NormalizeContext());
         assertEquals(after, afterNode.toSimpleNode().toString());

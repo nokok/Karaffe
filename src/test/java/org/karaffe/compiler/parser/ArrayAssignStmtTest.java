@@ -31,7 +31,7 @@ public class ArrayAssignStmtTest {
     private void runTest(final String source, final boolean v) {
         final KaraffeLexer lexer = new KaraffeLexer(source);
         final List<Token> input = lexer.run();
-        final MatchResult result = new ArrayAssignStmt().match(input);
+        final MatchResult result = new ArrayAssignStmt().parse(input);
         Assert.assertEquals(v, result.isSuccess());
         if (v) {
             if (result.next().isEmpty()) {

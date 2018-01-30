@@ -2,8 +2,6 @@ package org.karaffe.compiler.parser;
 
 import org.junit.Assert;
 import org.junit.Test;
-import org.karaffe.compiler.lexer.KaraffeLexer;
-import org.karaffe.compiler.lexer.Tokens;
 import org.karaffe.compiler.parser.util.MatchResult;
 
 public class MainClassDeclParserTest {
@@ -27,15 +25,14 @@ public class MainClassDeclParserTest {
     }
 
     private void runTest(final String source, final boolean v) {
-        final KaraffeLexer lexer = new KaraffeLexer(source);
         final Parser parser = new MainClassDeclParser();
-        final MatchResult result = parser.parse(new Tokens(lexer.run()));
+        final MatchResult result = parser.parse(source);
         Assert.assertEquals(source + " " + result, v, result.isSuccess());
         if (v) {
             if (result.next().isEmpty()) {
                 return;
             }
-            final MatchResult eofResult = new EOFParser().match(result.next());
+            final MatchResult eofResult = new EOFParser().parse(result.next());
             if (eofResult.isFailure()) {
                 Assert.fail(eofResult.toString());
             }

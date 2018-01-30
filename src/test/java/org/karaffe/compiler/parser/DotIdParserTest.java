@@ -32,15 +32,15 @@ public class DotIdParserTest {
 
     private void runTest(final String source, final boolean v) {
         final KaraffeLexer lexer = new KaraffeLexer(source);
-        final Parser parser = new DotIdParser();
         final List<Token> input = lexer.run();
+        final Parser parser = new DotIdParser();
         final MatchResult result = parser.parse(input);
         Assert.assertEquals(source + " " + result, v, result.isSuccess());
         if (v) {
             if (result.next().isEmpty()) {
                 return;
             }
-            final MatchResult eofResult = new EOFParser().match(result.next());
+            final MatchResult eofResult = new EOFParser().parse(result.next());
             if (eofResult.isFailure()) {
                 Assert.fail(eofResult.toString());
             }

@@ -5,7 +5,6 @@ import java.util.Map;
 
 import org.junit.Assert;
 import org.junit.Test;
-import org.karaffe.compiler.lexer.KaraffeLexer;
 import org.karaffe.compiler.parser.util.MatchResult;
 
 public class IdentifierParserTest {
@@ -19,15 +18,14 @@ public class IdentifierParserTest {
         sourceMap.put("camera", true);
 
         for (final Map.Entry<String, Boolean> entry : sourceMap.entrySet()) {
-            final KaraffeLexer lexer = new KaraffeLexer(entry.getKey());
             final Parser parser = new IdentifierParser();
-            final MatchResult result = parser.parse(lexer.run());
+            final MatchResult result = parser.parse(entry.getKey());
             Assert.assertEquals(entry.getKey() + " " + result, entry.getValue(), result.isSuccess());
             if (entry.getValue()) {
                 if (result.next().isEmpty()) {
                     return;
                 }
-                final MatchResult eofResult = new EOFParser().match(result.next());
+                final MatchResult eofResult = new EOFParser().parse(result.next());
                 if (eofResult.isFailure()) {
                     Assert.fail(eofResult.toString());
                 }

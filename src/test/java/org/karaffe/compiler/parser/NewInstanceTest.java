@@ -27,7 +27,7 @@ public class NewInstanceTest {
     private void runTest(final String source, final boolean v) {
         final KaraffeLexer lexer = new KaraffeLexer(source);
         final List<Token> input = lexer.run();
-        final MatchResult result = new Primary.NewInstanceParser().match(input);
+        final MatchResult result = new Primary.NewInstanceParser().parse(input);
         Assert.assertEquals(v, result.isSuccess());
         if (v) {
             final Optional<Node> node = result.getNode();

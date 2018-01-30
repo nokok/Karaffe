@@ -136,7 +136,7 @@ public class MethodDefParserTest {
             if (result.next().isEmpty()) {
                 return;
             }
-            final MatchResult eofResult = new EOFParser().match(result.next());
+            final MatchResult eofResult = new EOFParser().parse(result.next());
             if (eofResult.isFailure()) {
                 Assert.fail(eofResult.toString());
             }
