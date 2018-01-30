@@ -2,11 +2,17 @@ package org.karaffe.compiler.tree;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 import org.karaffe.compiler.context.NormalizeContext;
+import org.karaffe.compiler.context.TypeInferenceContext;
 import org.karaffe.compiler.lexer.Token;
 import org.karaffe.compiler.tree.base.Node;
 import org.karaffe.compiler.tree.visitor.KaraffeTreeVisitor;
+import org.karaffe.compiler.types.InferResult;
+
+import karaffe.core.Bool;
+import karaffe.core.Int;
 
 public abstract class Literal extends TermNode {
 
