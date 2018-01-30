@@ -11,8 +11,6 @@ import org.karaffe.compiler.parser.Parser;
 import org.karaffe.compiler.tree.NodeList;
 import org.karaffe.compiler.tree.base.Node;
 
-import nl.jqno.equalsverifier.internal.lib.bytebuddy.description.type.PackageDescription.Simple;
-
 public class KNormalizeTest {
     @Test
     public void testSimpleExpr1() {
