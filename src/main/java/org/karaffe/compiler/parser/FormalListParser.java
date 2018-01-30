@@ -14,7 +14,7 @@ import org.karaffe.compiler.tree.Modifiers;
 import org.karaffe.compiler.tree.Name;
 import org.karaffe.compiler.tree.Parameters;
 import org.karaffe.compiler.tree.TypeName;
-import org.karaffe.compiler.tree.ValDef;
+import org.karaffe.compiler.tree.LetDef;
 import org.karaffe.compiler.tree.base.Node;
 
 public class FormalListParser implements Parser {
@@ -56,7 +56,7 @@ public class FormalListParser implements Parser {
             before = idMatch.next();
             matched.addAll(idMatch.matchedF());
             final Name name = idMatch.getNode().map(Name.class::cast).orElseThrow(IllegalStateException::new);
-            final ValDef val = new ValDef(modifiers, name, typeName);
+            final LetDef val = new LetDef(modifiers, name, typeName);
             parameters.add(val);
         } while (last.isSuccess() && before.size() > 0);
         if (last == null) {

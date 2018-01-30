@@ -10,13 +10,13 @@ import org.karaffe.compiler.tree.base.AbstractNode;
 import org.karaffe.compiler.tree.base.Node;
 import org.karaffe.compiler.tree.visitor.KaraffeTreeVisitor;
 
-public class ValDef extends AbstractNode {
+public class LetDef extends AbstractNode {
 
-    public ValDef(final Node modifiers, final Node name, final Node type) {
+    public LetDef(final Node modifiers, final Node name, final Node type) {
         super(NodeType.DEFVAL, new ArrayList<>(Arrays.asList(modifiers, name, type)));
     }
 
-    public ValDef(final Node modifiers, final Node name, final Node type, Node initializer) {
+    public LetDef(final Node modifiers, final Node name, final Node type, Node initializer) {
         super(NodeType.DEFVAL, new ArrayList<>(Arrays.asList(modifiers, name, type, initializer)));
     }
 

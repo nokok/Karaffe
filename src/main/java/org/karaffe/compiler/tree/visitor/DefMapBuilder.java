@@ -6,7 +6,7 @@ import java.util.Map;
 import org.karaffe.compiler.tree.Block;
 import org.karaffe.compiler.tree.PackageDef;
 import org.karaffe.compiler.tree.TypeDef.ClassDef;
-import org.karaffe.compiler.tree.ValDef;
+import org.karaffe.compiler.tree.LetDef;
 import org.karaffe.compiler.tree.VarDef;
 
 public class DefMapBuilder extends KaraffeTreeVisitorAdapter {
@@ -34,7 +34,7 @@ public class DefMapBuilder extends KaraffeTreeVisitorAdapter {
     }
 
     @Override
-    public void visit(ValDef node) {
+    public void visit(LetDef node) {
         System.out.println(String.format("VarName Hash: %14d, name: %s, type: %s",
                 String.format("%s.%s/%s/%s", packageDef.getRawPackageName(), parent.getClassName(), block.hashCode(), node.getName()).hashCode(),
                 node.getName(),

@@ -28,7 +28,7 @@ import org.karaffe.compiler.tree.Select;
 import org.karaffe.compiler.tree.TypeDef.ClassDef;
 import org.karaffe.compiler.tree.TypeDefs;
 import org.karaffe.compiler.tree.TypeName;
-import org.karaffe.compiler.tree.ValDef;
+import org.karaffe.compiler.tree.LetDef;
 import org.karaffe.compiler.tree.VarDef;
 
 public class KaraffeTreePrinter implements KaraffeTreeVisitor {
@@ -201,7 +201,7 @@ public class KaraffeTreePrinter implements KaraffeTreeVisitor {
     }
 
     @Override
-    public void visit(ValDef node) {
+    public void visit(LetDef node) {
         System.out.println(node);
 
     }

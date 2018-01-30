@@ -11,7 +11,7 @@ import org.karaffe.compiler.parser.util.MatchResult;
 import org.karaffe.compiler.parser.util.TokenMatcher;
 import org.karaffe.compiler.tree.Empty;
 import org.karaffe.compiler.tree.Modifiers;
-import org.karaffe.compiler.tree.ValDef;
+import org.karaffe.compiler.tree.LetDef;
 import org.karaffe.compiler.tree.VarDef;
 import org.karaffe.compiler.tree.base.Node;
 
@@ -45,7 +45,7 @@ public class VarDefParser implements Parser {
             cp.testNext(TokenMatcher.create(Semi.class));
 
             // Type
-            return new MatchResult.Success(cp.next(), cp.matched(), new ValDef(new Modifiers(), name, typeName, expr));
+            return new MatchResult.Success(cp.next(), cp.matched(), new LetDef(new Modifiers(), name, typeName, expr));
         } else if (cp.testNext(TokenMatcher.create(Var.class))) {
             // VarDef := 'var' Identifier (: TypeName)? (= Expr)? (;)?
             if (!cp.testNext(new IdentifierParser())) {

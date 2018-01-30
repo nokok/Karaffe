@@ -22,7 +22,7 @@ import org.karaffe.compiler.tree.Name;
 import org.karaffe.compiler.tree.Parameters;
 import org.karaffe.compiler.tree.TypeDef.ClassDef;
 import org.karaffe.compiler.tree.TypeName;
-import org.karaffe.compiler.tree.ValDef;
+import org.karaffe.compiler.tree.LetDef;
 import org.karaffe.compiler.tree.base.Node;
 
 public class MainClassDeclParser implements Parser {
@@ -83,7 +83,7 @@ public class MainClassDeclParser implements Parser {
         final List<Node> stmt = new ArrayList<>(1);
         stmt.add(statement);
 
-        final Parameters parameters = new Parameters(new ValDef(new Modifiers(), argName, (TypeName) argType));
+        final Parameters parameters = new Parameters(new LetDef(new Modifiers(), argName, (TypeName) argType));
         final MethodDef methodDef = new MethodDef(new Modifiers(), mainMethod, parameters, new TypeName(new IdentifierToken.TypeName("void"), false), new Block(statement));
 
         final List<Node> methodDefs = new ArrayList<>();

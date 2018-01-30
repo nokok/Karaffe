@@ -25,7 +25,7 @@ import org.karaffe.compiler.tree.Select;
 import org.karaffe.compiler.tree.TypeDef.ClassDef;
 import org.karaffe.compiler.tree.TypeDefs;
 import org.karaffe.compiler.tree.TypeName;
-import org.karaffe.compiler.tree.ValDef;
+import org.karaffe.compiler.tree.LetDef;
 import org.karaffe.compiler.tree.VarDef;
 
 public interface KaraffeTreeVisitor {
@@ -85,7 +85,7 @@ public interface KaraffeTreeVisitor {
 
     public void visit(TypeDefs node);
 
-    public void visit(ValDef node);
+    public void visit(LetDef node);
 
     public void visit(VarDef node);
 
