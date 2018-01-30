@@ -15,53 +15,53 @@ import org.karaffe.compiler.tree.visitor.KaraffeTreeVisitor;
 import org.karaffe.compiler.types.InferResult;
 
 public interface Node extends Cloneable {
-	public String getID();
+    public String getID();
 
-	public NodeType getNodeType();
+    public NodeType getNodeType();
 
-	public Position getPosition();
+    public Position getPosition();
 
-	public String vSource();
+    public String vSource();
 
-	public NodeList normalize(NormalizeContext context);
+    public NodeList normalize(NormalizeContext context);
 
-	public default Optional<InferResult> tryTypeInference(TypeInferenceContext context) {
-		return Optional.empty();
-	}
+    public default Optional<InferResult> tryTypeInference(TypeInferenceContext context) {
+        return Optional.empty();
+    }
 
-	public default boolean hasAnyChild() {
-		return !getChildren().isEmpty();
-	}
+    public default boolean hasAnyChild() {
+        return !getChildren().isEmpty();
+    }
 
-	public void replaceChildren(List<Node> replaced);
+    public void replaceChildren(List<Node> replaced);
 
-	public List<? extends Node> getChildren();
+    public List<? extends Node> getChildren();
 
-	public void addChild(Node n);
+    public void addChild(Node n);
 
-	public default boolean isTermNode() {
-		return this instanceof TermNode;
-	}
+    public default boolean isTermNode() {
+        return this instanceof TermNode;
+    }
 
-	public default boolean isEmptyNode() {
-		return this instanceof Empty;
-	}
+    public default boolean isEmptyNode() {
+        return this instanceof Empty;
+    }
 
-	public default boolean isNonEmptyNode() {
-		return !this.isEmptyNode();
-	}
+    public default boolean isNonEmptyNode() {
+        return !this.isEmptyNode();
+    }
 
-	public default boolean isName() {
-		return this instanceof Name;
-	}
+    public default boolean isName() {
+        return this instanceof Name;
+    }
 
-	public default boolean isNodeList() {
-		return this instanceof NodeList;
-	}
+    public default boolean isNodeList() {
+        return this instanceof NodeList;
+    }
 
-	public default NodeList toNodeList() {
-		return new NodeList(this);
-	}
+    public default NodeList toNodeList() {
+        return new NodeList(this);
+    }
 
-	public void accept(KaraffeTreeVisitor visitor);
+    public void accept(KaraffeTreeVisitor visitor);
 }
