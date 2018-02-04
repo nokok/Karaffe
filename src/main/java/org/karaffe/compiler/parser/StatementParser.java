@@ -164,7 +164,7 @@ public class StatementParser implements Parser {
         @Override
         public MatchResult parse(final Tokens input) {
             final CParser cp = new CParser(input);
-            if (!cp.testNext(KeywordToken.SystemOutPrintln.class)) {
+            if (!cp.testNext(KeywordToken.PrintlnFunction.class)) {
                 return cp.toFailure();
             }
             if (!cp.testNext(LeftParen.class)) {

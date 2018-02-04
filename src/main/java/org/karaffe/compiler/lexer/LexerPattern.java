@@ -13,7 +13,7 @@ public enum LexerPattern {
     TAB("\\t", (text, pos) -> new WhitespaceToken.Tab(pos)),
     WIDESPACE("　", (text, pos) -> new WhitespaceToken.WideSpace(pos)),
 
-    SYSTEMOUTPRINTLN("System\\.out\\.println", (text, pos) -> new KeywordToken.SystemOutPrintln(pos)), // MiniJava
+    SYSTEMOUTPRINTLN("System\\.out\\.println", (text, pos) -> new KeywordToken.PrintlnFunction(pos)), // MiniJava
 
     // Keywords
     PACKAGE("package", (text, pos) -> new KeywordToken.Package(pos)),

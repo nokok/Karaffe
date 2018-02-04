@@ -124,13 +124,13 @@ public abstract class KeywordToken extends CommonToken {
         }
     }
 
-    public static class SystemOutPrintln extends KeywordToken {
-        public SystemOutPrintln() {
+    public static class PrintlnFunction extends KeywordToken {
+        public PrintlnFunction() {
             this(Position.noPos());
         }
 
-        public SystemOutPrintln(final Position position) {
-            super("System.out.println", position);
+        public PrintlnFunction(final Position position) {
+            super("println", position);
         }
     }
 
