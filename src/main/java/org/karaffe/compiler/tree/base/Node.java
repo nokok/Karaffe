@@ -6,8 +6,10 @@ import java.util.Optional;
 import org.karaffe.compiler.context.NormalizeContext;
 import org.karaffe.compiler.context.TypeInferenceContext;
 import org.karaffe.compiler.pos.Position;
+import org.karaffe.compiler.tree.Assign;
 import org.karaffe.compiler.tree.Empty;
 import org.karaffe.compiler.tree.Name;
+import org.karaffe.compiler.tree.NamedDef;
 import org.karaffe.compiler.tree.NodeList;
 import org.karaffe.compiler.tree.NodeType;
 import org.karaffe.compiler.tree.TermNode;
@@ -49,6 +51,14 @@ public interface Node extends Cloneable {
 
     public default boolean isTermNode() {
         return this instanceof TermNode;
+    }
+
+    public default boolean isNamedDef() {
+        return this instanceof NamedDef;
+    }
+
+    public default boolean isAssign(){
+        return this instanceof Assign;
     }
 
     public NodeList normalize(NormalizeContext context);
