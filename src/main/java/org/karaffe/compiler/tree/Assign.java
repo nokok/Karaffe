@@ -23,8 +23,8 @@ public class Assign extends AbstractNode {
         return this.getChildren().get(1);
     }
 
-    public Node findTarget() {
-        return this.getChildren().get(0);
+    public Name findTarget() {
+        return (Name) this.getChildren().get(0);
     }
 
     @Override
