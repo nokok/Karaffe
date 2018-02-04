@@ -10,6 +10,7 @@ import org.karaffe.compiler.lexer.Token;
 import org.karaffe.compiler.tree.base.Node;
 import org.karaffe.compiler.tree.visitor.KaraffeTreeVisitor;
 import org.karaffe.compiler.types.InferResult;
+import org.karaffe.compiler.types.TypeResolver;
 
 import karaffe.core.Bool;
 import karaffe.core.Int;
@@ -28,7 +29,8 @@ public abstract class Literal extends TermNode {
 
         @Override
         public Optional<InferResult> tryTypeInference(final TypeInferenceContext context) {
-            return Optional.of(InferResult.of(Bool.class));
+            Optional<List<String>> findAllCompatibleClasses = TypeResolver.findAllCompatibleClasses(Bool.class);
+            return findAllCompatibleClasses.map(InferResult::of);
         }
     }
 
@@ -71,7 +73,8 @@ public abstract class Literal extends TermNode {
 
         @Override
         public Optional<InferResult> tryTypeInference(final TypeInferenceContext context) {
-            return Optional.of(InferResult.of(Int.class));
+            Optional<List<String>> findAllCompatibleClasses = TypeResolver.findAllCompatibleClasses(Int.class);
+            return findAllCompatibleClasses.map(InferResult::of);
         }
     }
 

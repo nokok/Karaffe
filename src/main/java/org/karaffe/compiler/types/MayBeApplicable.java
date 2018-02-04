@@ -16,6 +16,14 @@ public class MayBeApplicable extends Undecidable {
         this.member = member;
     }
 
+    public InferResult getOwnerType() {
+        return this.ownerType;
+    }
+
+    public Name getMemberName() {
+        return this.member;
+    }
+
     @Override
     public String toString() {
         return this.ownerType.getType().orElse("???") + "#" + this.member.getText();

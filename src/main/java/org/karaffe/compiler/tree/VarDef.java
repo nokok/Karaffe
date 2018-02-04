@@ -10,7 +10,7 @@ import org.karaffe.compiler.tree.base.AbstractNode;
 import org.karaffe.compiler.tree.base.Node;
 import org.karaffe.compiler.tree.visitor.KaraffeTreeVisitor;
 
-public class VarDef extends AbstractNode {
+public class VarDef extends AbstractNode implements NamedDef {
 
     public VarDef(final Node modifiers, final Node name, final Node type) {
         super(NodeType.DEFVAR, new ArrayList<>(Arrays.asList(modifiers, name, type)));
@@ -36,14 +36,6 @@ public class VarDef extends AbstractNode {
         return this.getChildren().get(0);
     }
 
-    public Node findNameNode() {
-        return this.getChildren().get(1);
-    }
-
-    public Node findTypeNameNode() {
-        return this.getChildren().get(2);
-    }
-
     public String getName() {
         return ((Name) this.getChildren().get(1)).getText();
     }
@@ -63,7 +55,8 @@ public class VarDef extends AbstractNode {
 
     @Override
     public String vSource() {
-        return String.format("%s %s%s;", this.findTypeNameNode().vSource(), this.findNameNode().vSource(),
+        return String.format("%s %s%s;", this.getTypeName(), this.findNameNode().vSource(),
                 this.findInitializerExprNode().map(Node::vSource).orElse(""));
     }
+
 }

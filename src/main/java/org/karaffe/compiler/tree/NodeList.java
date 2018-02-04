@@ -3,12 +3,15 @@ package org.karaffe.compiler.tree;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 import org.karaffe.compiler.context.NormalizeContext;
+import org.karaffe.compiler.context.TypeInferenceContext;
 import org.karaffe.compiler.tree.base.AbstractNodes;
 import org.karaffe.compiler.tree.base.Node;
 import org.karaffe.compiler.tree.visitor.KaraffeTreeVisitor;
+import org.karaffe.compiler.types.InferResult;
 
 public class NodeList extends AbstractNodes {
 
@@ -101,5 +104,29 @@ public class NodeList extends AbstractNodes {
     public String vSource() {
         return String.format("{%s}",
                 this.getChildren().stream().map(Node::vSource).map(v -> v + ";").reduce((l, r) -> l + r).orElse(""));
+    }
+
+    @Override
+    public Optional<InferResult> tryTypeInference(TypeInferenceContext context) {
+        if (this.isEmpty()) {
+            return Optional.empty();
+        }
+        List<Node> nodes = this.flatten();
+        for (Node node : nodes) {
+            if (node.isNamedDef()) {
+                NamedDef def = (NamedDef) node;
+                context.addDef(def);
+            }
+            Optional<InferResult> resultOpt = node.tryTypeInference(context);
+            if (!resultOpt.isPresent()) {
+                continue;
+            }
+            InferResult inferResult = resultOpt.get();
+            if (node.isAssign()) {
+                Assign assign = (Assign) node;
+                context.updateType(assign.findTarget(), inferResult);
+            }
+        }
+        return context.getInferredType((Name) this.lastAssignName());
     }
 }

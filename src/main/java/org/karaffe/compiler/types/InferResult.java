@@ -38,7 +38,7 @@ public interface InferResult {
         return new MayBeApplicable(ownerType, member);
     }
 
-    public static InferResult applying(InferResult applicable, List<InferResult> args) {
+    public static InferResult applying(MayBeApplicable applicable, List<InferResult> args) {
         return new Applying(applicable, args);
     }
 

@@ -9,12 +9,20 @@ import org.karaffe.compiler.context.TypeInferenceContext;
 
 public class Applying implements InferResult {
 
-    private final InferResult applicable;
+    private final MayBeApplicable applicable;
     private final List<InferResult> args;
 
-    public Applying(InferResult applicable, List<InferResult> args) {
+    public Applying(MayBeApplicable applicable, List<InferResult> args) {
         this.applicable = applicable;
         this.args = new ArrayList<>(args);
+    }
+
+    public MayBeApplicable getApplicable() {
+        return this.applicable;
+    }
+
+    public List<InferResult> getArgs() {
+        return new ArrayList<>(this.args);
     }
 
     @Override
