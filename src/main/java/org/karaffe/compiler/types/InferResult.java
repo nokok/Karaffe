@@ -3,7 +3,7 @@ package org.karaffe.compiler.types;
 import java.util.List;
 import java.util.Optional;
 
-import org.karaffe.compiler.context.TypeInferenceContext;
+import org.karaffe.compiler.context.TypeContext;
 import org.karaffe.compiler.tree.Name;
 
 import karaffe.core.Any;
@@ -60,7 +60,7 @@ public interface InferResult {
 
     public ResultType getInferResultType();
 
-    public Optional<InferResult> compose(InferResult other, TypeInferenceContext context);
+    public Optional<InferResult> compose(InferResult other, TypeContext context);
 
     public default Optional<String> getType() {
         return Optional.empty();

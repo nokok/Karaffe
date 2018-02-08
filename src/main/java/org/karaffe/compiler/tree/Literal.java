@@ -5,7 +5,7 @@ import java.util.List;
 import java.util.Optional;
 
 import org.karaffe.compiler.context.NormalizeContext;
-import org.karaffe.compiler.context.TypeInferenceContext;
+import org.karaffe.compiler.context.TypeContext;
 import org.karaffe.compiler.lexer.Token;
 import org.karaffe.compiler.tree.base.Node;
 import org.karaffe.compiler.tree.visitor.KaraffeTreeVisitor;
@@ -28,7 +28,7 @@ public abstract class Literal extends TermNode {
         }
 
         @Override
-        public Optional<InferResult> tryTypeInference(final TypeInferenceContext context) {
+        public Optional<InferResult> tryTypeInference(final TypeContext context) {
             Optional<List<String>> findAllCompatibleClasses = TypeResolver.findAllCompatibleClasses(Bool.class);
             return findAllCompatibleClasses.map(InferResult::of);
         }
@@ -72,7 +72,7 @@ public abstract class Literal extends TermNode {
         }
 
         @Override
-        public Optional<InferResult> tryTypeInference(final TypeInferenceContext context) {
+        public Optional<InferResult> tryTypeInference(final TypeContext context) {
             Optional<List<String>> findAllCompatibleClasses = TypeResolver.findAllCompatibleClasses(Int.class);
             return findAllCompatibleClasses.map(InferResult::of);
         }

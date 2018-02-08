@@ -4,7 +4,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Optional;
 
-import org.karaffe.compiler.context.TypeInferenceContext;
+import org.karaffe.compiler.context.TypeContext;
 import org.karaffe.compiler.tree.Name;
 
 public class MayBeApplicable extends Undecidable {
@@ -35,7 +35,7 @@ public class MayBeApplicable extends Undecidable {
     }
 
     @Override
-    public Optional<InferResult> compose(InferResult other, TypeInferenceContext context) {
+    public Optional<InferResult> compose(InferResult other, TypeContext context) {
         return Optional.of(InferResult.applying(this, new ArrayList<>(Arrays.asList(other))));
     }
 }

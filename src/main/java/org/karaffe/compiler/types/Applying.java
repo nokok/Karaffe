@@ -5,7 +5,7 @@ import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
 
-import org.karaffe.compiler.context.TypeInferenceContext;
+import org.karaffe.compiler.context.TypeContext;
 
 public class Applying implements InferResult {
 
@@ -41,7 +41,7 @@ public class Applying implements InferResult {
     }
 
     @Override
-    public Optional<InferResult> compose(InferResult other, TypeInferenceContext context) {
+    public Optional<InferResult> compose(InferResult other, TypeContext context) {
         return Optional.empty();
     }
 

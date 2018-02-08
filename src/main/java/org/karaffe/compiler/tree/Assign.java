@@ -5,7 +5,7 @@ import java.util.List;
 import java.util.Optional;
 
 import org.karaffe.compiler.context.NormalizeContext;
-import org.karaffe.compiler.context.TypeInferenceContext;
+import org.karaffe.compiler.context.TypeContext;
 import org.karaffe.compiler.tree.base.AbstractNode;
 import org.karaffe.compiler.tree.base.Node;
 import org.karaffe.compiler.tree.visitor.KaraffeTreeVisitor;
@@ -46,7 +46,7 @@ public class Assign extends AbstractNode {
     }
 
     @Override
-    public Optional<InferResult> tryTypeInference(TypeInferenceContext context) {
+    public Optional<InferResult> tryTypeInference(TypeContext context) {
         Name name = this.findTarget();
         if (!context.hasAlreadyDefinedName(name)) {
             // Report symbol notfound

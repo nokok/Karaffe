@@ -47,9 +47,9 @@ public class NodeStringTest {
         Assert.assertEquals("(Apply (New (Select Fac)))", this.getNodeString(new ExprParser(), "new Fac()"));
         Assert.assertEquals("(Select System)", this.getNodeString(new ExprParser(), "System"));
         // 3.*(1+(2))
-        // (Apply (Select (Literal 1) (Select +)) (Apply (Select (Literal 2)
+        // (Apply (Select (Literal 1) (Select plus)) (Apply (Select (Literal 2)
         // (Select *)) (Literal 3)))
-        Assert.assertEquals("(Apply (Select (IntLiteral 1) (Select +)) (Apply (Select (IntLiteral 2) (Select *)) (IntLiteral 3)))", this.getNodeString(new ExprParser(), "1+2*3"));
+        Assert.assertEquals("(Apply (Select (IntLiteral 1) (Select plus)) (Apply (Select (IntLiteral 2) (Select *)) (IntLiteral 3)))", this.getNodeString(new ExprParser(), "1+2*3"));
         assertEquals("(Apply (Select negate) (Apply (Select negate) (TrueLiteral true)))", this.getNodeString(new ExprParser(), "!!true"));
     }
 
@@ -57,7 +57,7 @@ public class NodeStringTest {
     public void testExprString2() {
         // 1+2+3+4
         // 1+(2+(3+(4)))
-        Assert.assertEquals("(Apply (Select (Apply (Apply (Select (Apply (Apply (Select (IntLiteral 1) (Select +)) (IntLiteral 2))) (Select +)) (IntLiteral 3))) (Select +)) (IntLiteral 4))", this.getNodeString(new ExprParser(), "1+2+3+4"));
+        Assert.assertEquals("(Apply (Select (Apply (Select (Apply (Select (IntLiteral 1) (Select plus)) (IntLiteral 2)) (Select plus)) (IntLiteral 3)) (Select plus)) (IntLiteral 4))", this.getNodeString(new ExprParser(), "1+2+3+4"));
     }
 
     @Test

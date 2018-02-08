@@ -7,7 +7,7 @@ import java.util.Optional;
 import java.util.stream.Collectors;
 
 import org.karaffe.compiler.context.NormalizeContext;
-import org.karaffe.compiler.context.TypeInferenceContext;
+import org.karaffe.compiler.context.TypeContext;
 import org.karaffe.compiler.tree.base.AbstractNode;
 import org.karaffe.compiler.tree.base.Node;
 import org.karaffe.compiler.tree.visitor.KaraffeTreeVisitor;
@@ -93,7 +93,7 @@ public class Apply extends AbstractNode {
     }
 
     @Override
-    public Optional<InferResult> tryTypeInference(TypeInferenceContext context) {
+    public Optional<InferResult> tryTypeInference(TypeContext context) {
         Name targetName = (Name) this.findTarget();
         Optional<List<Name>> argsOpt = this.findArguments().map(a -> a.stream().map(Name.class::cast).collect(Collectors.toList()));
         Optional<InferResult> targetTypeOpt = context.getInferredType(targetName);

@@ -10,6 +10,7 @@ import java.util.Map.Entry;
 import java.util.Objects;
 import java.util.Optional;
 import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 import org.karaffe.compiler.tree.Name;
 import org.karaffe.compiler.tree.NamedDef;
@@ -22,18 +23,16 @@ import org.karaffe.compiler.types.MayBeApplicable;
 import org.karaffe.compiler.types.MethodResolver;
 import org.karaffe.compiler.types.TypeResolver;
 
-import karaffe.core.Unit;
+public class TypeContext {
 
-public class TypeInferenceContext {
-
+    private final List<Package> allPackages = new ArrayList<>();
     private final List<Package> defaultImportPackages = new ArrayList<>();
     private final List<String> defaultImportClasses = new ArrayList<>();
     private final List<String> importedClasses = new ArrayList<>();
     private final Map<String, String> mappingRule = new HashMap<>();
     private final Map<Name, InferResult> availableDefs = new HashMap<>();
-    private final Map<Name, InferResult> builtInFunctions = new HashMap<>();
 
-    private TypeInferenceContext() {
+    private TypeContext() {
         // https://stackoverflow.com/questions/10993418/package-getpackage-in-java-returning-null
         List<String> packages = Arrays.asList(
                 java.lang.Object.class.getPackage().getName(), // java.lang
@@ -52,7 +51,7 @@ public class TypeInferenceContext {
                 java.math.BigDecimal.class.getCanonicalName()));
         this.mappingRule.put(karaffe.core.Int.class.getSimpleName(), Integer.class.getCanonicalName());
         this.mappingRule.put(karaffe.core.Any.class.getSimpleName(), Object.class.getCanonicalName());
-        this.builtInFunctions.put(new Name("println"), InferResult.of(Unit.class));
+        Stream.of(Package.getPackages()).forEach(this.allPackages::add);
     }
 
     public void addImport(String importName) {
@@ -94,6 +93,16 @@ public class TypeInferenceContext {
     }
 
     private void updateContext() {
+        int lastUpdated = 0;
+        int updated = updateContext1();
+        while (lastUpdated != updated) {
+            lastUpdated = updated;
+            updated = updateContext1();
+        }
+    }
+
+    private int updateContext1() {
+        int updated = 0;
         List<Applying> applyings = this.availableDefs
                 .entrySet()
                 .stream()
@@ -123,9 +132,11 @@ public class TypeInferenceContext {
                 List<Entry<Name, InferResult>> updating = this.availableDefs.entrySet().stream().filter(entry -> entry.getValue() == applying).collect(Collectors.toList());
                 for (Entry<Name, InferResult> entry : updating) {
                     this.availableDefs.put(entry.getKey(), returnType);
+                    updated++;
                 }
             }
         }
+        return updated;
     }
 
     public Optional<InferResult> getInferredType(Name name) {
@@ -143,7 +154,14 @@ public class TypeInferenceContext {
         return packageSearch;
     }
 
-    public static TypeInferenceContext create() {
-        return new TypeInferenceContext();
+    public Optional<Package> findPackage(String packageName) {
+        return this.allPackages
+                .stream()
+                .filter(pkg -> pkg.getName().equals(packageName))
+                .findFirst();
+    }
+
+    public static TypeContext create() {
+        return new TypeContext();
     }
 }

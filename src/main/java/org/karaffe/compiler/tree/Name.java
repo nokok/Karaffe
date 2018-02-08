@@ -2,7 +2,7 @@ package org.karaffe.compiler.tree;
 
 import java.util.Optional;
 
-import org.karaffe.compiler.context.TypeInferenceContext;
+import org.karaffe.compiler.context.TypeContext;
 import org.karaffe.compiler.lexer.IdentifierToken;
 import org.karaffe.compiler.tree.visitor.KaraffeTreeVisitor;
 import org.karaffe.compiler.types.InferResult;
@@ -49,7 +49,7 @@ public class Name extends TermNode {
     }
 
     @Override
-    public Optional<InferResult> tryTypeInference(TypeInferenceContext context) {
+    public Optional<InferResult> tryTypeInference(TypeContext context) {
         if (!context.hasAlreadyDefinedName(this)) {
             throw new IllegalStateException();
         }

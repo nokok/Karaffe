@@ -4,7 +4,7 @@ import java.util.List;
 import java.util.Optional;
 
 import org.karaffe.compiler.context.NormalizeContext;
-import org.karaffe.compiler.context.TypeInferenceContext;
+import org.karaffe.compiler.context.TypeContext;
 import org.karaffe.compiler.pos.Position;
 import org.karaffe.compiler.tree.Assign;
 import org.karaffe.compiler.tree.Empty;
@@ -69,7 +69,7 @@ public interface Node extends Cloneable {
         return new NodeList(this);
     }
 
-    public default Optional<InferResult> tryTypeInference(final TypeInferenceContext context) {
+    public default Optional<InferResult> tryTypeInference(final TypeContext context) {
         return Optional.empty();
     }
 

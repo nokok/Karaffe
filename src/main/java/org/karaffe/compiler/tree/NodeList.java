@@ -7,7 +7,7 @@ import java.util.Optional;
 import java.util.stream.Collectors;
 
 import org.karaffe.compiler.context.NormalizeContext;
-import org.karaffe.compiler.context.TypeInferenceContext;
+import org.karaffe.compiler.context.TypeContext;
 import org.karaffe.compiler.tree.base.AbstractNodes;
 import org.karaffe.compiler.tree.base.Node;
 import org.karaffe.compiler.tree.visitor.KaraffeTreeVisitor;
@@ -107,7 +107,7 @@ public class NodeList extends AbstractNodes {
     }
 
     @Override
-    public Optional<InferResult> tryTypeInference(TypeInferenceContext context) {
+    public Optional<InferResult> tryTypeInference(TypeContext context) {
         if (this.isEmpty()) {
             return Optional.empty();
         }

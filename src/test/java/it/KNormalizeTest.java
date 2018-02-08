@@ -75,8 +75,8 @@ public class KNormalizeTest {
         this.testKNormalize(
                 "1+2",
                 new ExprParser(),
-                "(Apply (Select (IntLiteral 1) (Select +)) (IntLiteral 2))",
-                "[(LetDef (Modifiers ()) (Name kn_0) ()),(Assign (Name kn_0) (IntLiteral 1)),(LetDef (Modifiers ()) (Name kn_1) ()),(Assign (Name kn_1) (Select +)),(LetDef (Modifiers ()) (Name kn_2) ()),(Assign (Name kn_2) (Select kn_0 kn_1)),(LetDef (Modifiers ()) (Name kn_3) ()),(Assign (Name kn_3) (IntLiteral 2)),(LetDef (Modifiers ()) (Name kn_4) ()),(Assign (Name kn_4) (Apply (Name kn_2) (Name kn_3)))]");
+                "(Apply (Select (IntLiteral 1) (Select plus)) (IntLiteral 2))",
+                "[(LetDef (Modifiers ()) (Name kn_0) ()),(Assign (Name kn_0) (IntLiteral 1)),(LetDef (Modifiers ()) (Name kn_1) ()),(Assign (Name kn_1) (Select plus)),(LetDef (Modifiers ()) (Name kn_2) ()),(Assign (Name kn_2) (Select kn_0 kn_1)),(LetDef (Modifiers ()) (Name kn_3) ()),(Assign (Name kn_3) (IntLiteral 2)),(LetDef (Modifiers ()) (Name kn_4) ()),(Assign (Name kn_4) (Apply (Name kn_2) (Name kn_3)))]");
     }
 
     @Test
@@ -84,7 +84,7 @@ public class KNormalizeTest {
         this.testKNormalize(
                 "1+2*3",
                 new ExprParser(),
-                "(Apply (Select (IntLiteral 1) (Select +)) (Apply (Select (IntLiteral 2) (Select *)) (IntLiteral 3)))",
-                "[(LetDef (Modifiers ()) (Name kn_0) ()),(Assign (Name kn_0) (IntLiteral 1)),(LetDef (Modifiers ()) (Name kn_1) ()),(Assign (Name kn_1) (Select +)),(LetDef (Modifiers ()) (Name kn_2) ()),(Assign (Name kn_2) (Select kn_0 kn_1)),(LetDef (Modifiers ()) (Name kn_3) ()),(Assign (Name kn_3) (IntLiteral 2)),(LetDef (Modifiers ()) (Name kn_4) ()),(Assign (Name kn_4) (Select *)),(LetDef (Modifiers ()) (Name kn_5) ()),(Assign (Name kn_5) (Select kn_3 kn_4)),(LetDef (Modifiers ()) (Name kn_6) ()),(Assign (Name kn_6) (IntLiteral 3)),(LetDef (Modifiers ()) (Name kn_7) ()),(Assign (Name kn_7) (Apply (Name kn_5) (Name kn_6))),(LetDef (Modifiers ()) (Name kn_8) ()),(Assign (Name kn_8) (Apply (Name kn_2) (Name kn_7)))]");
+                "(Apply (Select (IntLiteral 1) (Select plus)) (Apply (Select (IntLiteral 2) (Select *)) (IntLiteral 3)))",
+                "[(LetDef (Modifiers ()) (Name kn_0) ()),(Assign (Name kn_0) (IntLiteral 1)),(LetDef (Modifiers ()) (Name kn_1) ()),(Assign (Name kn_1) (Select plus)),(LetDef (Modifiers ()) (Name kn_2) ()),(Assign (Name kn_2) (Select kn_0 kn_1)),(LetDef (Modifiers ()) (Name kn_3) ()),(Assign (Name kn_3) (IntLiteral 2)),(LetDef (Modifiers ()) (Name kn_4) ()),(Assign (Name kn_4) (Select *)),(LetDef (Modifiers ()) (Name kn_5) ()),(Assign (Name kn_5) (Select kn_3 kn_4)),(LetDef (Modifiers ()) (Name kn_6) ()),(Assign (Name kn_6) (IntLiteral 3)),(LetDef (Modifiers ()) (Name kn_7) ()),(Assign (Name kn_7) (Apply (Name kn_5) (Name kn_6))),(LetDef (Modifiers ()) (Name kn_8) ()),(Assign (Name kn_8) (Apply (Name kn_2) (Name kn_7)))]");
     }
 }

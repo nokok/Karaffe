@@ -42,7 +42,7 @@ public class AbstractBinaryExprLeftAssocTest {
         final Optional<Node> node = result.getNode();
         Assert.assertTrue(node.isPresent());
         final Node n = node.get();
-        Assert.assertEquals("(Apply (Select (Apply (Apply (Select (IntLiteral 1) ()) (IntLiteral 1))) ()) (IntLiteral 1))", n.toString());
+        Assert.assertEquals("(Apply (Select (Apply (Select (IntLiteral 1) ()) (IntLiteral 1)) ()) (IntLiteral 1))", n.toString());
 
     }
 }

@@ -6,7 +6,7 @@ import java.util.List;
 import java.util.Objects;
 import java.util.Optional;
 
-import org.karaffe.compiler.context.TypeInferenceContext;
+import org.karaffe.compiler.context.TypeContext;
 
 public class Successful implements InferResult {
 
@@ -54,7 +54,7 @@ public class Successful implements InferResult {
     }
 
     @Override
-    public Optional<InferResult> compose(InferResult other, TypeInferenceContext context) {
+    public Optional<InferResult> compose(InferResult other, TypeContext context) {
         if (other.isFailed()) {
             return Optional.empty();
         }

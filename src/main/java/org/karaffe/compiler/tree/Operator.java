@@ -2,7 +2,7 @@ package org.karaffe.compiler.tree;
 
 import java.util.Optional;
 
-import org.karaffe.compiler.context.TypeInferenceContext;
+import org.karaffe.compiler.context.TypeContext;
 import org.karaffe.compiler.lexer.Token;
 import org.karaffe.compiler.tree.visitor.KaraffeTreeVisitor;
 import org.karaffe.compiler.types.InferResult;
@@ -20,7 +20,7 @@ public abstract class Operator extends TermNode {
         }
 
         @Override
-        public Optional<InferResult> tryTypeInference(TypeInferenceContext context) {
+        public Optional<InferResult> tryTypeInference(TypeContext context) {
             return Optional.of(InferResult.anyTarget(new Name("plus")));
         }
     }

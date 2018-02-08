@@ -23,6 +23,6 @@ public class BinaryExprTest {
                 new Operator.Plus(new OperatorToken.Plus()),
                 new Literal.IntLiteral(new LiteralToken.IntLiteral("3")));
         final Node node = expr.toApplyNode();
-        Assert.assertEquals("(Apply (Select (Apply (Apply (Select (IntLiteral 1) (Plus +)) (IntLiteral 2))) (Plus +)) (IntLiteral 3))", node.toString());
+        Assert.assertEquals("(Apply (Select (Apply (Select (IntLiteral 1) (Plus +)) (IntLiteral 2)) (Plus +)) (IntLiteral 3))", node.toString());
     }
 }

@@ -1,5 +1,6 @@
 package org.karaffe.compiler.tree;
 
+import java.lang.reflect.Method;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -8,11 +9,12 @@ import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
 import org.karaffe.compiler.context.NormalizeContext;
-import org.karaffe.compiler.context.TypeInferenceContext;
+import org.karaffe.compiler.context.TypeContext;
 import org.karaffe.compiler.tree.base.AbstractNode;
 import org.karaffe.compiler.tree.base.Node;
 import org.karaffe.compiler.tree.visitor.KaraffeTreeVisitor;
 import org.karaffe.compiler.types.InferResult;
+import org.karaffe.compiler.types.TypeResolver;
 
 public class Select extends AbstractNode {
 
@@ -48,8 +50,51 @@ public class Select extends AbstractNode {
         return (List<Node>) this.getChildren();
     }
 
-    public Select.Category getCategory(TypeInferenceContext context) {
-        return null;
+    public SelectCategory getCategory(TypeContext context) {
+        String[] names = this.toString(".").split("\\.");
+        if (names.length == 0) {
+            return SelectCategory.UNKNOWN;
+        }
+        StringBuilder packageName = new StringBuilder();
+        int loopCount = 0;
+        Package pkg = null;
+        Class<?> clazz = null;
+        for (String name : names) {
+            loopCount++;
+            if (packageName.length() == 0) {
+                packageName.append(names[0]);
+            } else {
+                packageName.append(".").append(name);
+            }
+            Optional<Package> opt = context.findPackage(packageName.toString());
+            if (opt.isPresent()) {
+                pkg = opt.get();
+                if (names.length == loopCount) {
+                    return SelectCategory.PACKAGEREF;
+                }
+            }
+            if (pkg == null) {
+                continue;
+            }
+            if (clazz == null) {
+                String className = pkg.getName() + "." + names[loopCount];
+                Optional<Class<?>> classOpt = TypeResolver.findClass(className);
+                if (classOpt.isPresent()) {
+                    clazz = classOpt.get();
+                    if (names.length == loopCount + 1) {
+                        return SelectCategory.CLASSREF;
+                    }
+                }
+            }
+            if (clazz == null) {
+                continue;
+            }
+            List<Method> methods = Arrays.asList(clazz.getMethods()).stream().filter(method -> method.getName().equals(name)).collect(Collectors.toList());
+            if (!methods.isEmpty()) {
+                return SelectCategory.METHODREF;
+            }
+        }
+        return SelectCategory.UNKNOWN;
     }
 
     @Override
@@ -92,7 +137,7 @@ public class Select extends AbstractNode {
     }
 
     @Override
-    public Optional<InferResult> tryTypeInference(TypeInferenceContext context) {
+    public Optional<InferResult> tryTypeInference(TypeContext context) {
         if (this.getChildren().isEmpty()) {
             return Optional.empty();
         }
@@ -126,10 +171,4 @@ public class Select extends AbstractNode {
         return Optional.empty();
     }
 
-    public enum Category {
-        UNKNOWN,
-        PACKAGEREF,
-        CLASSREF,
-        METHODREF
-    }
 }
