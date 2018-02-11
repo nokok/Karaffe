@@ -28,6 +28,11 @@ public abstract class TermNode extends AbstractNode {
     }
 
     @Override
+    public boolean isTermNode() {
+        return true;
+    }
+
+    @Override
     public NodeList normalize(final NormalizeContext context) {
         return this.toNodeList();
     }

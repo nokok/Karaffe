@@ -28,4 +28,8 @@ public interface NamedDef extends Node {
         return Optional.of(node);
     }
 
+    @Override
+    default boolean isNamedDef() {
+        return true;
+    }
 }

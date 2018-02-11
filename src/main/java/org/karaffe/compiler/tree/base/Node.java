@@ -6,13 +6,8 @@ import java.util.Optional;
 import org.karaffe.compiler.context.NormalizeContext;
 import org.karaffe.compiler.context.TypeContext;
 import org.karaffe.compiler.pos.Position;
-import org.karaffe.compiler.tree.Assign;
-import org.karaffe.compiler.tree.Empty;
-import org.karaffe.compiler.tree.Name;
-import org.karaffe.compiler.tree.NamedDef;
 import org.karaffe.compiler.tree.NodeList;
 import org.karaffe.compiler.tree.NodeType;
-import org.karaffe.compiler.tree.TermNode;
 import org.karaffe.compiler.types.InferResult;
 
 public interface Node extends Cloneable {
@@ -32,11 +27,11 @@ public interface Node extends Cloneable {
     }
 
     public default boolean isEmptyNode() {
-        return this instanceof Empty;
+        return this.getNodeType().equals(NodeType.EMPTY);
     }
 
     public default boolean isName() {
-        return this instanceof Name;
+        return this.getNodeType().equals(NodeType.NAME);
     }
 
     public default boolean isNodeList() {
@@ -48,15 +43,15 @@ public interface Node extends Cloneable {
     }
 
     public default boolean isTermNode() {
-        return this instanceof TermNode;
+        return false;
     }
 
     public default boolean isNamedDef() {
-        return this instanceof NamedDef;
+        return false;
     }
 
     public default boolean isAssign() {
-        return this instanceof Assign;
+        return this.getNodeType().equals(NodeType.ASSIGN);
     }
 
     public NodeList normalize(NormalizeContext context);
