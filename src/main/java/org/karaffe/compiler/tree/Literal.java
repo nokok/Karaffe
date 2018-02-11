@@ -7,9 +7,9 @@ import java.util.Optional;
 import org.karaffe.compiler.context.NormalizeContext;
 import org.karaffe.compiler.context.TypeContext;
 import org.karaffe.compiler.lexer.Token;
+import org.karaffe.compiler.resolvers.TypeResolver;
 import org.karaffe.compiler.tree.base.Node;
 import org.karaffe.compiler.types.InferResult;
-import org.karaffe.compiler.types.TypeResolver;
 
 import karaffe.core.Bool;
 import karaffe.core.Int;

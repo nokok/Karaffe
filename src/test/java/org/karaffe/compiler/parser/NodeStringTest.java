@@ -44,7 +44,7 @@ public class NodeStringTest {
         Assert.assertEquals("(FalseLiteral false)", this.getNodeString(new Primary(), "false"));
         Assert.assertEquals("(Apply (New (Select IntArray)) (IntLiteral 1))", this.getNodeString(new Primary(), "new int[1]"));
         Assert.assertEquals("(Apply (Select (Select num) (Select <)) (IntLiteral 1))", this.getNodeString(new ExprParser(), "num < 1"));
-        Assert.assertEquals("(Apply (New (Select Fac)))", this.getNodeString(new ExprParser(), "new Fac()"));
+        Assert.assertEquals("(Apply (Select Fac <init>))", this.getNodeString(new ExprParser(), "new Fac()"));
         Assert.assertEquals("(Select System)", this.getNodeString(new ExprParser(), "System"));
         // 3.*(1+(2))
         // (Apply (Select (Literal 1) (Select plus)) (Apply (Select (Literal 2)
@@ -67,7 +67,7 @@ public class NodeStringTest {
 
     @Test
     public void testNestedExprTest() {
-        Assert.assertEquals("(Apply (Select (Apply (New (Select Fac))) computeFac) (IntLiteral 10))", this.getNodeString(new ExprParser(), "(new Fac()).computeFac(10)"));
+        Assert.assertEquals("(Apply (Select (Apply (Select Fac <init>)) computeFac) (IntLiteral 10))", this.getNodeString(new ExprParser(), "(new Fac()).computeFac(10)"));
     }
 
     @Test
@@ -79,7 +79,7 @@ public class NodeStringTest {
     @Test
     public void testStmtString() {
         Assert.assertEquals("(Apply (Select java lang System out println) (IntLiteral 10))", this.getNodeString(new StatementParser(), "System.out.println(10);"));
-        Assert.assertEquals("(Apply (Select java lang System out println) (Apply (Select (Apply (New (Select Fac))) computeFac) (IntLiteral 10)))", this.getNodeString(new StatementParser(), "System.out.println((new Fac()).computeFac(10));"));
+        Assert.assertEquals("(Apply (Select java lang System out println) (Apply (Select (Apply (Select Fac <init>)) computeFac) (IntLiteral 10)))", this.getNodeString(new StatementParser(), "System.out.println((new Fac()).computeFac(10));"));
     }
 
     @Test

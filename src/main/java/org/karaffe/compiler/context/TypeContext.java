@@ -12,6 +12,8 @@ import java.util.Optional;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
+import org.karaffe.compiler.resolvers.MethodResolver;
+import org.karaffe.compiler.resolvers.TypeResolver;
 import org.karaffe.compiler.tree.Name;
 import org.karaffe.compiler.tree.NamedDef;
 import org.karaffe.compiler.tree.TypeName;
@@ -20,8 +22,6 @@ import org.karaffe.compiler.types.Applying;
 import org.karaffe.compiler.types.InferResult;
 import org.karaffe.compiler.types.InferResult.ResultType;
 import org.karaffe.compiler.types.MayBeApplicable;
-import org.karaffe.compiler.types.MethodResolver;
-import org.karaffe.compiler.types.TypeResolver;
 
 public class TypeContext {
 
@@ -35,13 +35,13 @@ public class TypeContext {
     private TypeContext() {
         // https://stackoverflow.com/questions/10993418/package-getpackage-in-java-returning-null
         List<String> packages = Arrays.asList(
+                karaffe.core.Any.class.getPackage().getName(), // karaffe.core
                 java.lang.Object.class.getPackage().getName(), // java.lang
                 java.io.Closeable.class.getPackage().getName(), // java.io
                 java.net.URL.class.getPackage().getName(), // java.net
                 java.util.Collection.class.getPackage().getName(), // java.util
                 java.time.LocalDateTime.class.getPackage().getName(), // java.time
-                java.time.chrono.JapaneseEra.class.getPackage().getName(), // java.time.chrono
-                karaffe.core.Any.class.getPackage().getName()); // karaffe.core
+                java.time.chrono.JapaneseEra.class.getPackage().getName()); // java.time.chrono
         packages.stream()
                 .map(Package::getPackage)
                 .map(Objects::requireNonNull)
@@ -85,6 +85,10 @@ public class TypeContext {
         return this.availableDefs.containsKey(name);
     }
 
+    public boolean hasAlreadyDefinedName(String name) {
+        return this.hasAlreadyDefinedName(new Name(name));
+    }
+
     public void updateType(Name name, InferResult result) {
         if (this.hasAlreadyDefinedName(name)) {
             this.availableDefs.put(name, result);
@@ -101,6 +105,16 @@ public class TypeContext {
         }
     }
 
+    private int updateType(Applying flatTarget, InferResult updatingType) {
+        int updated = 0;
+        List<Entry<Name, InferResult>> updating = this.availableDefs.entrySet().stream().filter(entry -> entry.getValue() == flatTarget).collect(Collectors.toList());
+        for (Entry<Name, InferResult> entry : updating) {
+            this.availableDefs.put(entry.getKey(), updatingType);
+            updated++;
+        }
+        return updated;
+    }
+
     private int updateContext1() {
         int updated = 0;
         List<Applying> applyings = this.availableDefs
@@ -112,10 +126,14 @@ public class TypeContext {
                 .collect(Collectors.toList());
         for (Applying applying : applyings) {
             MayBeApplicable applicable = applying.getApplicable();
+            if (applicable.isConstructorAccess()) {
+                InferResult ownerType = applicable.getOwnerType();
+                updated += updateType(applying, ownerType);
+            }
             Name methodName = applicable.getMemberName();
             String typeName = applicable.getOwnerType().getType().get();
             Class<?> ownerClass = TypeResolver.findClass(typeName).get();
-            List<Method> methods = new MethodResolver(ownerClass).findMethods(methodName);
+            List<Method> methods = new MethodResolver(ownerClass).findMethodsByMethodName(methodName);
             List<Class<?>> args = applying.getArgs().stream()
                     .map(InferResult::getType)
                     .filter(Optional::isPresent)
@@ -129,11 +147,7 @@ public class TypeContext {
                     .collect(Collectors.toList());
             if (methods2.size() == 1) {
                 InferResult returnType = InferResult.of(methods2.get(0).getReturnType().getCanonicalName());
-                List<Entry<Name, InferResult>> updating = this.availableDefs.entrySet().stream().filter(entry -> entry.getValue() == applying).collect(Collectors.toList());
-                for (Entry<Name, InferResult> entry : updating) {
-                    this.availableDefs.put(entry.getKey(), returnType);
-                    updated++;
-                }
+                updated += updateType(applying, returnType);
             }
         }
         return updated;
@@ -144,8 +158,17 @@ public class TypeContext {
         return Optional.ofNullable(inferResult);
     }
 
+    public Optional<InferResult> getInferredType(String name) {
+        InferResult inferResult = this.availableDefs.get(new Name(name));
+        return Optional.ofNullable(inferResult);
+    }
+
     public Optional<String> findFQCN(String simpleName) {
         Objects.requireNonNull(simpleName);
+        Optional<Class<?>> classOpt = TypeResolver.findClass(simpleName);
+        if (classOpt.isPresent()) {
+            return Optional.of(classOpt.get().getCanonicalName());
+        }
         Optional<String> packageSearch = this.defaultImportPackages.stream().map(pkg -> pkg.getName() + "." + simpleName).filter(TypeResolver::isValidFQCN).findFirst();
         Optional<String> classSearch = this.defaultImportClasses.stream().filter(fqcn -> fqcn.endsWith("." + simpleName)).findFirst();
         if (classSearch.isPresent()) {

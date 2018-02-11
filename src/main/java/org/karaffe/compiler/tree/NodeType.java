@@ -4,6 +4,7 @@ public enum NodeType {
     // SPECIAL
     NORMALIZED,
     NODELIST,
+    META,
 
     // Base
     APPLY,

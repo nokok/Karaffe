@@ -1,4 +1,4 @@
-package org.karaffe.compiler.types;
+package org.karaffe.compiler.resolvers;
 
 import java.lang.reflect.Method;
 import java.util.ArrayList;
@@ -23,7 +23,7 @@ public final class TypeResolver {
         return findClass(Objects.requireNonNull(fqcn)).isPresent();
     }
 
-    public static boolean isNonValidFQCN(String fqcn) {
+    public static boolean isInValidFQCN(String fqcn) {
         return !isValidFQCN(fqcn);
     }
 
@@ -37,7 +37,7 @@ public final class TypeResolver {
     }
 
     public static Optional<List<String>> buildSuperClasses(String fqcn) {
-        if (isNonValidFQCN(fqcn)) {
+        if (isInValidFQCN(fqcn)) {
             return Optional.empty();
         }
         List<String> classes = new ArrayList<>();

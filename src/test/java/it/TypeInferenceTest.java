@@ -1,13 +1,18 @@
-package unittests;
+package it;
 
 import static org.junit.Assert.assertEquals;
+
+import java.util.Optional;
 
 import org.junit.Test;
 import org.karaffe.compiler.context.NormalizeContext;
 import org.karaffe.compiler.context.TypeContext;
 import org.karaffe.compiler.parser.ExprParser;
 import org.karaffe.compiler.parser.Parser;
+import org.karaffe.compiler.parser.StatementParser;
+import org.karaffe.compiler.tree.Name;
 import org.karaffe.compiler.tree.NodeList;
+import org.karaffe.compiler.tree.base.Node;
 import org.karaffe.compiler.types.InferResult;
 
 public class TypeInferenceTest {
@@ -79,14 +84,41 @@ public class TypeInferenceTest {
 
     @Test
     public void test6() {
-        assertEquals("", infer("", null));
+        assertEquals("karaffe.core.String", infer("new String()", new ExprParser()));
+    }
+
+    @Test
+    public void test7() {
+        assertEquals("karaffe.core.IntArray", infer("new int[0]", new ExprParser()));
+    }
+
+    @Test
+    public void test8() {
+        assertEquals("karaffe.core.IntArray", infer("new int[0 + 1]", new ExprParser()));
+    }
+
+    @Test
+    public void test9() {
+        assertEquals("karaffe.core.Int", infer("{"
+                + "let a = 0\n"
+                + "let b = a + 2"
+                + "}", new StatementParser(), "b"));
     }
 
     private String infer(String code, Parser parser) {
-        final NodeList node = parser.parse(code).getNode().get().normalize(new NormalizeContext());
+        return infer(code, parser, null);
+    }
+
+    private String infer(String code, Parser parser, String name) {
+        Node nodes = parser.parse(code).getNode().get();
+        final NodeList node = nodes.normalize(new NormalizeContext());
         final TypeContext context = TypeContext.create();
-        InferResult inferResult = node.tryTypeInference(context).get();
-        return inferResult.getType().get();
+        Optional<InferResult> resultOpt = node.tryTypeInference(context);
+        InferResult inferResult = resultOpt.get();
+        if (name == null) {
+            return inferResult.getType().get();
+        }
+        return context.getInferredType(new Name(name)).get().getType().get();
     }
 
     @Test

@@ -24,6 +24,10 @@ public class Name extends TermNode {
         return mapper.convert(this);
     }
 
+    public boolean isConstructorAccess() {
+        return this.getText().equals("<init>");
+    }
+
     @Override
     public boolean equals(Object obj) {
         if (obj == null) {
@@ -31,9 +35,7 @@ public class Name extends TermNode {
         }
         if (obj instanceof Name) {
             Name that = (Name) obj;
-            if (super.getToken().getPosition().equals(that.getToken().getPosition()) && this.getName().equals(that.getName())) {
-                return true;
-            }
+            return this.getName().equals(that.getName());
         }
         return false;
     }
@@ -45,9 +47,9 @@ public class Name extends TermNode {
 
     @Override
     public Optional<InferResult> tryTypeInference(TypeContext context) {
-        if (!context.hasAlreadyDefinedName(this)) {
-            throw new IllegalStateException();
+        if (context.hasAlreadyDefinedName(this)) {
+            return context.getInferredType(this);
         }
-        return context.getInferredType(this);
+        return Optional.of(InferResult.noHint());
     }
 }

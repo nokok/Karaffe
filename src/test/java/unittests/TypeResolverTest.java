@@ -10,8 +10,8 @@ import java.util.List;
 import java.util.Optional;
 
 import org.junit.Test;
+import org.karaffe.compiler.resolvers.TypeResolver;
 import org.karaffe.compiler.tree.Select;
-import org.karaffe.compiler.types.TypeResolver;
 
 import karaffe.core.Int;
 

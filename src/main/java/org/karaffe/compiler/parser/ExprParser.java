@@ -286,7 +286,7 @@ public class ExprParser implements Parser {
                 final CParser cp = new CParser(input);
                 return cp.chain(nodes -> {
                     final Node identifier = nodes.get(1);
-                    return new Apply(new New(new Select(identifier)));
+                    return new Apply(new Select(identifier, new Name("<init>")));
                 },
                         Action.of(KeywordToken.New.class),
                         Action.of(new IdentifierParser()),

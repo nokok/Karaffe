@@ -1,5 +1,7 @@
 package org.karaffe.compiler.tree;
 
+import java.lang.reflect.Constructor;
+import java.lang.reflect.Field;
 import java.lang.reflect.Method;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -10,10 +12,14 @@ import java.util.stream.Stream;
 
 import org.karaffe.compiler.context.NormalizeContext;
 import org.karaffe.compiler.context.TypeContext;
+import org.karaffe.compiler.resolvers.ConstructorResolver;
+import org.karaffe.compiler.resolvers.MethodResolver;
+import org.karaffe.compiler.resolvers.PackageResolver;
+import org.karaffe.compiler.resolvers.StaticFieldResolver;
+import org.karaffe.compiler.resolvers.TypeResolver;
 import org.karaffe.compiler.tree.base.AbstractNode;
 import org.karaffe.compiler.tree.base.Node;
 import org.karaffe.compiler.types.InferResult;
-import org.karaffe.compiler.types.TypeResolver;
 
 public class Select extends AbstractNode {
 
@@ -44,49 +50,56 @@ public class Select extends AbstractNode {
         return (List<Node>) this.getChildren();
     }
 
+    public boolean isSimpleName() {
+        return getChildren().size() == 1;
+    }
+
+    public boolean isAnyRef() {
+        return !this.isSimpleName();
+    }
+
     public SelectCategory getCategory(TypeContext context) {
-        String[] names = this.toString(".").split("\\.");
-        if (names.length == 0) {
+        String findName = this.toString(".");
+        if (findName.isEmpty()) {
             return SelectCategory.UNKNOWN;
         }
-        StringBuilder packageName = new StringBuilder();
-        int loopCount = 0;
-        Package pkg = null;
-        Class<?> clazz = null;
-        for (String name : names) {
-            loopCount++;
-            if (packageName.length() == 0) {
-                packageName.append(names[0]);
-            } else {
-                packageName.append(".").append(name);
+        if (this.isSimpleName()) {
+            Optional<String> fqcnOpt = context.findFQCN(findName);
+            if (fqcnOpt.isPresent()) {
+                return SelectCategory.CLASSREF;
             }
-            Optional<Package> opt = context.findPackage(packageName.toString());
-            if (opt.isPresent()) {
-                pkg = opt.get();
-                if (names.length == loopCount) {
-                    return SelectCategory.PACKAGEREF;
-                }
+            if (context.hasAlreadyDefinedName(findName)) {
+                return SelectCategory.DEFREF;
             }
-            if (pkg == null) {
-                continue;
+            return SelectCategory.UNKNOWN;
+        }
+        if (findName.endsWith("<init>")) {
+            String simpleName = findName.replace(".<init>", "");
+            Optional<String> fqcnOpt = context.findFQCN(simpleName);
+            Optional<List<Constructor<?>>> ctorsOpt = fqcnOpt.map(fqcn -> fqcn + ".<init>").flatMap(ConstructorResolver::findConstructors);
+            if (ctorsOpt.isPresent() && !ctorsOpt.get().isEmpty()) {
+                return SelectCategory.CONSTRUCTORREF;
             }
-            if (clazz == null) {
-                String className = pkg.getName() + "." + names[loopCount];
-                Optional<Class<?>> classOpt = TypeResolver.findClass(className);
-                if (classOpt.isPresent()) {
-                    clazz = classOpt.get();
-                    if (names.length == loopCount + 1) {
-                        return SelectCategory.CLASSREF;
-                    }
-                }
-            }
-            if (clazz == null) {
-                continue;
-            }
-            List<Method> methods = Arrays.asList(clazz.getMethods()).stream().filter(method -> method.getName().equals(name)).collect(Collectors.toList());
-            if (!methods.isEmpty()) {
-                return SelectCategory.METHODREF;
-            }
+        }
+        Optional<Package> packageOpt = PackageResolver.findPackage(findName);
+        if (packageOpt.isPresent()) {
+            return SelectCategory.PACKAGEREF;
+        }
+        Optional<Class<?>> clazzOpt = TypeResolver.findClass(findName);
+        if (clazzOpt.isPresent()) {
+            return SelectCategory.CLASSREF;
+        }
+        Optional<List<Method>> methodOpt = MethodResolver.findMethods(findName);
+        if (methodOpt.isPresent() && !methodOpt.get().isEmpty()) {
+            return SelectCategory.METHODREF;
+        }
+        Optional<List<Constructor<?>>> ctorOpt = ConstructorResolver.findConstructors(findName);
+        if (ctorOpt.isPresent() && !ctorOpt.get().isEmpty()) {
+            return SelectCategory.CONSTRUCTORREF;
+        }
+        Optional<Field> fieldOpt = StaticFieldResolver.findStaticField(findName);
+        if (fieldOpt.isPresent()) {
+            return SelectCategory.STATICFIELDREF;
         }
         return SelectCategory.UNKNOWN;
     }
@@ -135,14 +148,36 @@ public class Select extends AbstractNode {
         if (this.getChildren().isEmpty()) {
             return Optional.empty();
         }
+        String findName = this.toString(".");
+        SelectCategory category = this.getCategory(context);
+        if (category.equals(SelectCategory.PACKAGEREF)) {
+            return Optional.empty();
+        }
         if (this.getChildren().size() == 1) {
             // Name
             Node node = this.getChildren().get(0);
             if (node.isName()) {
                 Name name = (Name) node;
+                if (context.hasAlreadyDefinedName(name)) {
+                    return context.getInferredType(name);
+                }
                 return Optional.of(InferResult.anyTarget(name));
             }
         }
+        if (category.equals(SelectCategory.CONSTRUCTORREF)) {
+            String simpleClassName = findName.replace(".<init>", "");
+            String className = context.findFQCN(simpleClassName).orElse(simpleClassName);
+            String newFindName = className + ".<init>";
+            Optional<List<Constructor<?>>> ctorOpt = ConstructorResolver.findConstructors(newFindName);
+            if (ctorOpt.isPresent()) {
+                List<Constructor<?>> constructors = ctorOpt.get();
+                if (constructors.isEmpty()) {
+                    return Optional.empty();
+                }
+                return Optional.of(InferResult.mayBeApplicable(InferResult.of(className), new Name("<init>")));
+            }
+        }
+
         if (this.getChildren().size() == 2) {
             // Ref
             Node ownerNode = this.getChildren().get(0);

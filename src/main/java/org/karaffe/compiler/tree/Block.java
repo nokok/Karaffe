@@ -3,11 +3,14 @@ package org.karaffe.compiler.tree;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 import org.karaffe.compiler.context.NormalizeContext;
+import org.karaffe.compiler.context.TypeContext;
 import org.karaffe.compiler.tree.base.AbstractNode;
 import org.karaffe.compiler.tree.base.Node;
+import org.karaffe.compiler.types.InferResult;
 
 public class Block extends AbstractNode {
 
@@ -29,7 +32,13 @@ public class Block extends AbstractNode {
         for (final Node n : this.getChildren()) {
             nodes.addAll(n.normalize(context).flatten());
         }
-        return new NodeList(new Block(nodes));
+        return new NodeList(nodes);
+    }
+
+    @Override
+    public Optional<InferResult> tryTypeInference(TypeContext context) {
+        Node last = this.getChildren().get(this.getChildren().size() - 1);
+        return last.tryTypeInference(context);
     }
 
     @Override

@@ -21,7 +21,8 @@ public class New extends AbstractNode {
     public NodeList normalize(final NormalizeContext context) {
         final List<Node> nodes = new ArrayList<>();
         final Name name = context.nextName(nodes);
-        nodes.add(new Assign(name, this));
+        Select target = (Select) this.newInstanceTarget();
+        nodes.add(new Assign(name, new Select(target.getChildren().get(0), new Name("<init>"))));
         return new NodeList(nodes);
     }
 

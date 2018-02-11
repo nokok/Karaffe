@@ -24,6 +24,10 @@ public class MayBeApplicable extends Undecidable {
         return this.member;
     }
 
+    public boolean isConstructorAccess() {
+        return this.member.isConstructorAccess();
+    }
+
     @Override
     public String toString() {
         return this.ownerType.getType().orElse("???") + "#" + this.member.getText();

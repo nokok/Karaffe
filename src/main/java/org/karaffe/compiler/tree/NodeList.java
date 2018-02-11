@@ -64,16 +64,36 @@ public class NodeList extends AbstractNodes {
 
     public Node lastAssignName() {
         final Node last = this.last();
-        if (last instanceof Assign) {
+        if (last.isAssign()) {
             final Assign assign = (Assign) last;
             return assign.findTarget();
+        }
+        if (last instanceof Block) {
+            Block block = (Block) last;
+            Node blockLast = new NodeList(block.getChildren()).last();
+            if (blockLast.isAssign()) {
+                Assign a = (Assign) blockLast;
+                return a.findTarget();
+            }
+            if (blockLast.isNamedDef()) {
+                NamedDef d = (NamedDef) blockLast;
+                return d.findNameNode();
+            }
+        }
+        if (last.isNamedDef()) {
+            NamedDef d = (NamedDef) last;
+            return d.findNameNode();
         }
         throw new UnsupportedOperationException(last.getClass().getName());
     }
 
     @Override
     public NodeList normalize(final NormalizeContext context) {
-        return new NodeList(this.flatten());
+        List<Node> nodes = new ArrayList<>();
+        for (Node child : this.flatten()) {
+            nodes.addAll(child.normalize(context).flatten());
+        }
+        return new NodeList(nodes);
     }
 
     public Node toSimpleNode() {

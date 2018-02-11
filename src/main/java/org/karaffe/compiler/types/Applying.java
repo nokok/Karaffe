@@ -7,7 +7,7 @@ import java.util.stream.Collectors;
 
 import org.karaffe.compiler.context.TypeContext;
 
-public class Applying implements InferResult {
+public class Applying extends Undecidable {
 
     private final MayBeApplicable applicable;
     private final List<InferResult> args;
@@ -23,16 +23,6 @@ public class Applying implements InferResult {
 
     public List<InferResult> getArgs() {
         return new ArrayList<>(this.args);
-    }
-
-    @Override
-    public boolean isComplete() {
-        return false;
-    }
-
-    @Override
-    public boolean isFailed() {
-        return false;
     }
 
     @Override

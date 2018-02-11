@@ -2,6 +2,7 @@ package org.karaffe.compiler.tree;
 
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.List;
 import java.util.Optional;
 
 import org.karaffe.compiler.context.NormalizeContext;
@@ -43,8 +44,16 @@ public class VarDef extends AbstractNode implements NamedDef {
     }
 
     @Override
-    public NodeList normalize(final NormalizeContext context) {
-        return this.toNodeList();
+    public NodeList normalize(NormalizeContext context) {
+        List<Node> nodes = new ArrayList<>();
+        NodeList normalizedInitialzer = this.findInitializer().map(initializer -> initializer.normalize(context)).orElseGet(NodeList::new);
+        nodes.addAll(normalizedInitialzer.flatten());
+        if (normalizedInitialzer.isEmpty()) {
+            nodes.add(new VarDef(this.findModifierNode(), this.findNameNode(), this.findDefinitionTypeName().orElseGet(Empty::new)));
+        } else {
+            nodes.add(new VarDef(this.findModifierNode(), this.findNameNode(), this.findDefinitionTypeName().orElseGet(Empty::new), normalizedInitialzer.lastAssignName()));
+        }
+        return new NodeList(nodes);
     }
 
     @Override

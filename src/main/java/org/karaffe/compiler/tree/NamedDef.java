@@ -18,10 +18,10 @@ public interface NamedDef extends Node {
     }
 
     public default Optional<Node> findInitializer() {
-        if (this.getChildren().size() == 2) {
+        if (this.getChildren().size() == 3) {
             return Optional.empty();
         }
-        Node node = this.getChildren().get(2);
+        Node node = this.getChildren().get(3);
         if (node.isEmptyNode()) {
             return Optional.empty();
         }
@@ -32,4 +32,5 @@ public interface NamedDef extends Node {
     default boolean isNamedDef() {
         return true;
     }
+
 }

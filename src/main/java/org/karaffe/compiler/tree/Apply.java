@@ -88,13 +88,22 @@ public class Apply extends AbstractNode {
 
     @Override
     public Optional<InferResult> tryTypeInference(TypeContext context) {
-        Name targetName = (Name) this.findTarget();
-        Optional<List<Name>> argsOpt = this.findArguments().map(a -> a.stream().map(Name.class::cast).collect(Collectors.toList()));
-        Optional<InferResult> targetTypeOpt = context.getInferredType(targetName);
+        Node target = this.findTarget();
+        Optional<List<Name>> argsOpt = this
+                .findArguments()
+                .map(a -> a.stream()
+                        .map(Name.class::cast).collect(Collectors.toList()));
+        Optional<InferResult> targetTypeOpt;
+        if (target.isName()) {
+            targetTypeOpt = context.getInferredType((Name) target);
+        } else {
+            targetTypeOpt = target.tryTypeInference(context);
+        }
         Optional<List<InferResult>> argsTypeOpt = argsOpt.map(args -> args.stream().map(context::getInferredType).filter(Optional::isPresent).map(Optional::get).collect(Collectors.toList()));
         if (!targetTypeOpt.isPresent()) {
             return Optional.empty();
         }
+        InferResult targetType = targetTypeOpt.get();
         boolean hasAnyArgs = argsOpt.isPresent();
         if (hasAnyArgs) {
             List<Name> args = argsOpt.get();
@@ -102,12 +111,15 @@ public class Apply extends AbstractNode {
             if (hasError) {
                 return Optional.of(InferResult.failed());
             }
-            List<InferResult> argsType = argsTypeOpt.get();
-            InferResult targetType = targetTypeOpt.get();
+            List<InferResult> argTypes = argsTypeOpt.get();
             if (targetType.getInferResultType() == ResultType.MAY_BE_APPLICABLE) {
                 MayBeApplicable applicable = (MayBeApplicable) targetType;
-                return Optional.of(InferResult.applying(applicable, argsType));
+                return Optional.of(InferResult.applying(applicable, argTypes));
             }
+        }
+        if (targetType.getInferResultType() == ResultType.MAY_BE_APPLICABLE) {
+            MayBeApplicable applicable = (MayBeApplicable) targetType;
+            return Optional.of(InferResult.applying(applicable, new ArrayList<>()));
         }
         return super.tryTypeInference(context);
     }

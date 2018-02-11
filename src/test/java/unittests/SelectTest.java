@@ -1,6 +1,8 @@
 package unittests;
 
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertTrue;
 
 import org.junit.Test;
 import org.karaffe.compiler.context.TypeContext;
@@ -11,21 +13,49 @@ public class SelectTest {
 
     @Test
     public void testUnknown() {
-        assertEquals(new Select("java").getCategory(TypeContext.create()), SelectCategory.UNKNOWN);
+        assertEquals(SelectCategory.UNKNOWN, new Select("java").getCategory(TypeContext.create()));
     }
 
     @Test
     public void testPackageRef() {
-        assertEquals(new Select("java", "lang").getCategory(TypeContext.create()), SelectCategory.PACKAGEREF);
+        assertEquals(SelectCategory.PACKAGEREF, new Select("java", "lang").getCategory(TypeContext.create()));
     }
 
     @Test
     public void testClassRef() {
-        assertEquals(new Select("java", "lang", "Object").getCategory(TypeContext.create()), SelectCategory.CLASSREF);
+        assertEquals(SelectCategory.CLASSREF, new Select("java", "lang", "Object").getCategory(TypeContext.create()));
     }
 
     @Test
     public void testMethodRef() {
-        assertEquals(new Select("java", "lang", "Object", "toString").getCategory(TypeContext.create()), SelectCategory.METHODREF);
+        assertEquals(SelectCategory.METHODREF, new Select("java", "lang", "Object", "toString").getCategory(TypeContext.create()));
+    }
+
+    @Test
+    public void testConstructorRef() {
+        assertEquals(SelectCategory.CONSTRUCTORREF, new Select("java", "lang", "Object", "<init>").getCategory(TypeContext.create()));
+    }
+
+    @Test
+    public void testStaticFieldRef() {
+        assertEquals(SelectCategory.STATICFIELDREF, new Select("java", "lang", "System", "out").getCategory(TypeContext.create()));
+    }
+
+    @Test
+    public void testClassRefWithContext() {
+        // with default import
+        assertEquals(SelectCategory.CLASSREF, new Select("Int").getCategory(TypeContext.create()));
+    }
+
+    @Test
+    public void testConstructorRefWithContext() {
+        // with default import
+        assertEquals(SelectCategory.CONSTRUCTORREF, new Select("Int", "<init>").getCategory(TypeContext.create()));
+    }
+
+    @Test
+    public void testIsSimpleName() {
+        assertTrue(new Select("name").isSimpleName());
+        assertFalse(new Select("name1", "name2").isSimpleName());
     }
 }

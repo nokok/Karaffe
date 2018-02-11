@@ -4,5 +4,8 @@ public enum SelectCategory {
     UNKNOWN,
     PACKAGEREF,
     CLASSREF,
-    METHODREF
+    STATICFIELDREF,
+    CONSTRUCTORREF,
+    METHODREF,
+    DEFREF
 }

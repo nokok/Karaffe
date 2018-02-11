@@ -9,6 +9,8 @@ import org.karaffe.compiler.context.OutputSet;
 import org.karaffe.compiler.context.ReportContainer;
 import org.karaffe.compiler.tree.base.AbstractNode;
 import org.karaffe.compiler.tree.base.Node;
+import org.karaffe.compiler.tree.meta.MetaNode;
+import org.karaffe.compiler.tree.meta.MethodRenameRule;
 import org.karaffe.compiler.util.Report;
 
 public class CompileUnit extends AbstractNode implements OutputSet, ReportContainer {
@@ -21,9 +23,14 @@ public class CompileUnit extends AbstractNode implements OutputSet, ReportContai
     }
 
     private final List<Report> reports = new ArrayList<>();
+    private final List<MetaNode> metaNodes = new ArrayList<>();
 
     public CompileUnit(final Node packageDecl, final List<Node> classes) {
         super(NodeType.COMPILEUNIT, mkList(packageDecl, classes));
+        this.metaNodes.add(new MethodRenameRule(new Name("+"), new Name("plus")));
+        this.metaNodes.add(new MethodRenameRule(new Name("-"), new Name("minus")));
+        this.metaNodes.add(new MethodRenameRule(new Name("*"), new Name("star")));
+        this.metaNodes.add(new MethodRenameRule(new Name("/"), new Name("slash")));
     }
 
     @Override
@@ -37,6 +44,10 @@ public class CompileUnit extends AbstractNode implements OutputSet, ReportContai
 
     public List<Node> findTypeDefs() {
         return this.getChildren().stream().skip(1).collect(Collectors.toList());
+    }
+
+    public List<MetaNode> findMetaNodes() {
+        return new ArrayList<>(this.metaNodes);
     }
 
     @Override
