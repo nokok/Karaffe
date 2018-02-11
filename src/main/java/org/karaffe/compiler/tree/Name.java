@@ -4,7 +4,6 @@ import java.util.Optional;
 
 import org.karaffe.compiler.context.TypeContext;
 import org.karaffe.compiler.lexer.IdentifierToken;
-import org.karaffe.compiler.tree.visitor.KaraffeTreeVisitor;
 import org.karaffe.compiler.types.InferResult;
 
 public class Name extends TermNode {
@@ -15,11 +14,6 @@ public class Name extends TermNode {
 
     public Name(final String name) {
         this(new IdentifierToken.VarName(name));
-    }
-
-    @Override
-    public void accept(final KaraffeTreeVisitor visitor) {
-        visitor.visit(this);
     }
 
     public String getName() {

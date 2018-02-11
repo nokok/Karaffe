@@ -8,7 +8,6 @@ import org.karaffe.compiler.context.NormalizeContext;
 import org.karaffe.compiler.context.TypeContext;
 import org.karaffe.compiler.lexer.Token;
 import org.karaffe.compiler.tree.base.Node;
-import org.karaffe.compiler.tree.visitor.KaraffeTreeVisitor;
 import org.karaffe.compiler.types.InferResult;
 import org.karaffe.compiler.types.TypeResolver;
 
@@ -41,11 +40,6 @@ public abstract class Literal extends TermNode {
         }
 
         @Override
-        public void accept(final KaraffeTreeVisitor visitor) {
-            visitor.visit(this);
-        }
-
-        @Override
         public boolean isTrueLiteral() {
             return false;
         }
@@ -54,11 +48,6 @@ public abstract class Literal extends TermNode {
     public static class IntLiteral extends Literal {
         public IntLiteral(final Token token) {
             super(token);
-        }
-
-        @Override
-        public void accept(final KaraffeTreeVisitor visitor) {
-            visitor.visit(this);
         }
 
         @Override
@@ -84,11 +73,6 @@ public abstract class Literal extends TermNode {
         }
 
         @Override
-        public void accept(final KaraffeTreeVisitor visitor) {
-            visitor.visit(this);
-        }
-
-        @Override
         public boolean isBoolLiteral() {
             return false;
         }
@@ -102,11 +86,6 @@ public abstract class Literal extends TermNode {
     public static class TrueLiteral extends BoolLiteral {
         public TrueLiteral(final Token token) {
             super(token);
-        }
-
-        @Override
-        public void accept(final KaraffeTreeVisitor visitor) {
-            visitor.visit(this);
         }
 
         @Override

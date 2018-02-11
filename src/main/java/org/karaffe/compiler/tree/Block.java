@@ -8,7 +8,6 @@ import java.util.stream.Collectors;
 import org.karaffe.compiler.context.NormalizeContext;
 import org.karaffe.compiler.tree.base.AbstractNode;
 import org.karaffe.compiler.tree.base.Node;
-import org.karaffe.compiler.tree.visitor.KaraffeTreeVisitor;
 
 public class Block extends AbstractNode {
 
@@ -18,11 +17,6 @@ public class Block extends AbstractNode {
 
     public Block(final Node... nodes) {
         this(new ArrayList<>(Arrays.asList(nodes)));
-    }
-
-    @Override
-    public void accept(final KaraffeTreeVisitor visitor) {
-        visitor.visit(this);
     }
 
     public List<Node> findBlockBody() {

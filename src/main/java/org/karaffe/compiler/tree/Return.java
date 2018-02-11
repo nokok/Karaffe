@@ -6,17 +6,11 @@ import java.util.List;
 import org.karaffe.compiler.context.NormalizeContext;
 import org.karaffe.compiler.tree.base.AbstractNode;
 import org.karaffe.compiler.tree.base.Node;
-import org.karaffe.compiler.tree.visitor.KaraffeTreeVisitor;
 
 public class Return extends AbstractNode {
 
     public Return(final Node expr) {
         super(NodeType.RETURN, expr);
-    }
-
-    @Override
-    public void accept(final KaraffeTreeVisitor visitor) {
-        visitor.visit(this);
     }
 
     public Node findExpr() {

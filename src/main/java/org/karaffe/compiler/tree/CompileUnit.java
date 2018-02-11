@@ -9,7 +9,6 @@ import org.karaffe.compiler.context.OutputSet;
 import org.karaffe.compiler.context.ReportContainer;
 import org.karaffe.compiler.tree.base.AbstractNode;
 import org.karaffe.compiler.tree.base.Node;
-import org.karaffe.compiler.tree.visitor.KaraffeTreeVisitor;
 import org.karaffe.compiler.util.Report;
 
 public class CompileUnit extends AbstractNode implements OutputSet, ReportContainer {
@@ -25,11 +24,6 @@ public class CompileUnit extends AbstractNode implements OutputSet, ReportContai
 
     public CompileUnit(final Node packageDecl, final List<Node> classes) {
         super(NodeType.COMPILEUNIT, mkList(packageDecl, classes));
-    }
-
-    @Override
-    public void accept(final KaraffeTreeVisitor visitor) {
-        visitor.visit(this);
     }
 
     @Override

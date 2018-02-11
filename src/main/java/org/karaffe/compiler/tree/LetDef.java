@@ -8,7 +8,6 @@ import org.karaffe.compiler.context.NormalizeContext;
 import org.karaffe.compiler.lexer.ModifierToken;
 import org.karaffe.compiler.tree.base.AbstractNode;
 import org.karaffe.compiler.tree.base.Node;
-import org.karaffe.compiler.tree.visitor.KaraffeTreeVisitor;
 
 public class LetDef extends AbstractNode implements NamedDef {
 
@@ -18,11 +17,6 @@ public class LetDef extends AbstractNode implements NamedDef {
 
     public LetDef(final Node modifiers, final Node name, final Node type, final Node initializer) {
         super(NodeType.DEFVAL, new ArrayList<>(Arrays.asList(modifiers, name, type, initializer)));
-    }
-
-    @Override
-    public void accept(final KaraffeTreeVisitor visitor) {
-        visitor.visit(this);
     }
 
     public Optional<Node> findInitializerExprNode() {

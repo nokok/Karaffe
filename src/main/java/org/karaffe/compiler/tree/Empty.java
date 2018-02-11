@@ -3,7 +3,6 @@ package org.karaffe.compiler.tree;
 import org.karaffe.compiler.context.NormalizeContext;
 import org.karaffe.compiler.pos.Position;
 import org.karaffe.compiler.tree.base.AbstractNode;
-import org.karaffe.compiler.tree.visitor.KaraffeTreeVisitor;
 
 public class Empty extends AbstractNode {
 
@@ -13,11 +12,6 @@ public class Empty extends AbstractNode {
 
     public Empty(final Position position) {
         super(NodeType.EMPTY, position);
-    }
-
-    @Override
-    public void accept(final KaraffeTreeVisitor visitor) {
-        visitor.visit(this);
     }
 
     @Override

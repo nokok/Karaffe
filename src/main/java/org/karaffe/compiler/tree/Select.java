@@ -12,7 +12,6 @@ import org.karaffe.compiler.context.NormalizeContext;
 import org.karaffe.compiler.context.TypeContext;
 import org.karaffe.compiler.tree.base.AbstractNode;
 import org.karaffe.compiler.tree.base.Node;
-import org.karaffe.compiler.tree.visitor.KaraffeTreeVisitor;
 import org.karaffe.compiler.types.InferResult;
 import org.karaffe.compiler.types.TypeResolver;
 
@@ -39,11 +38,6 @@ public class Select extends AbstractNode {
         if (names.length == 0) {
             throw new IllegalArgumentException("empty names");
         }
-    }
-
-    @Override
-    public void accept(final KaraffeTreeVisitor visitor) {
-        visitor.visit(this);
     }
 
     public List<Node> getNames() {

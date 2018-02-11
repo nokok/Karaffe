@@ -8,7 +8,6 @@ import java.util.stream.Collectors;
 import org.karaffe.compiler.context.NormalizeContext;
 import org.karaffe.compiler.tree.base.AbstractNodes;
 import org.karaffe.compiler.tree.base.Node;
-import org.karaffe.compiler.tree.visitor.KaraffeTreeVisitor;
 
 public class TypeDefs extends AbstractNodes {
     public TypeDefs() {
@@ -21,11 +20,6 @@ public class TypeDefs extends AbstractNodes {
 
     public TypeDefs(final TypeDef def) {
         this(new ArrayList<>(Arrays.asList(def)));
-    }
-
-    @Override
-    public void accept(final KaraffeTreeVisitor visitor) {
-        visitor.visit(this);
     }
 
     @Override

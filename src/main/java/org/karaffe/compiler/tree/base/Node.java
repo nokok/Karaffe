@@ -13,11 +13,9 @@ import org.karaffe.compiler.tree.NamedDef;
 import org.karaffe.compiler.tree.NodeList;
 import org.karaffe.compiler.tree.NodeType;
 import org.karaffe.compiler.tree.TermNode;
-import org.karaffe.compiler.tree.visitor.KaraffeTreeVisitor;
 import org.karaffe.compiler.types.InferResult;
 
 public interface Node extends Cloneable {
-    public void accept(KaraffeTreeVisitor visitor);
 
     public void addChild(Node n);
 
@@ -57,7 +55,7 @@ public interface Node extends Cloneable {
         return this instanceof NamedDef;
     }
 
-    public default boolean isAssign(){
+    public default boolean isAssign() {
         return this instanceof Assign;
     }
 

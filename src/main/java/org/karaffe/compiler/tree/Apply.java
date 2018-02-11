@@ -10,7 +10,6 @@ import org.karaffe.compiler.context.NormalizeContext;
 import org.karaffe.compiler.context.TypeContext;
 import org.karaffe.compiler.tree.base.AbstractNode;
 import org.karaffe.compiler.tree.base.Node;
-import org.karaffe.compiler.tree.visitor.KaraffeTreeVisitor;
 import org.karaffe.compiler.types.InferResult;
 import org.karaffe.compiler.types.InferResult.ResultType;
 import org.karaffe.compiler.types.MayBeApplicable;
@@ -28,11 +27,6 @@ public class Apply extends AbstractNode {
 
     public Apply(final Node target, final Node... args) {
         this(target, Arrays.asList(args));
-    }
-
-    @Override
-    public void accept(final KaraffeTreeVisitor visitor) {
-        visitor.visit(this);
     }
 
     public Optional<List<? extends Node>> findArguments() {

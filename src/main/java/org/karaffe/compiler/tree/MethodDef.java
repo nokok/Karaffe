@@ -4,18 +4,12 @@ import org.karaffe.compiler.context.NormalizeContext;
 import org.karaffe.compiler.lexer.ModifierToken;
 import org.karaffe.compiler.tree.base.AbstractNode;
 import org.karaffe.compiler.tree.base.Node;
-import org.karaffe.compiler.tree.visitor.KaraffeTreeVisitor;
 
 public class MethodDef extends AbstractNode {
 
     public MethodDef(final Node modifiers, final Node name, final Node parameters, final Node returnType,
             final Node block) {
         super(NodeType.DEFMETHOD, modifiers, name, parameters, returnType, block);
-    }
-
-    @Override
-    public void accept(final KaraffeTreeVisitor visitor) {
-        visitor.visit(this);
     }
 
     public Node findMethodBodyNode() {

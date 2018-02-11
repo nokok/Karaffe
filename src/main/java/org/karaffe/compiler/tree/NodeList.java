@@ -10,7 +10,6 @@ import org.karaffe.compiler.context.NormalizeContext;
 import org.karaffe.compiler.context.TypeContext;
 import org.karaffe.compiler.tree.base.AbstractNodes;
 import org.karaffe.compiler.tree.base.Node;
-import org.karaffe.compiler.tree.visitor.KaraffeTreeVisitor;
 import org.karaffe.compiler.types.InferResult;
 
 public class NodeList extends AbstractNodes {
@@ -29,11 +28,6 @@ public class NodeList extends AbstractNodes {
 
     public NodeList(final Node... nodes) {
         this(new ArrayList<>(Arrays.asList(nodes)));
-    }
-
-    @Override
-    public void accept(final KaraffeTreeVisitor visitor) {
-        visitor.visit(this);
     }
 
     public List<Node> flatten() {

@@ -1,7 +1,6 @@
 package org.karaffe.compiler.tree;
 
 import org.karaffe.compiler.lexer.IdentifierToken;
-import org.karaffe.compiler.tree.visitor.KaraffeTreeVisitor;
 
 public class TypeName extends TermNode {
 
@@ -26,11 +25,6 @@ public class TypeName extends TermNode {
     public TypeName(final IdentifierToken typeName, final boolean isArray) {
         super(NodeType.TYPENAME, typeName);
         this.isArrayType = isArray;
-    }
-
-    @Override
-    public void accept(final KaraffeTreeVisitor visitor) {
-        visitor.visit(this);
     }
 
     public boolean isArray() {

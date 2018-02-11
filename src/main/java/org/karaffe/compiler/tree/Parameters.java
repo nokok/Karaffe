@@ -8,7 +8,6 @@ import java.util.stream.Collectors;
 import org.karaffe.compiler.context.NormalizeContext;
 import org.karaffe.compiler.tree.base.AbstractNodes;
 import org.karaffe.compiler.tree.base.Node;
-import org.karaffe.compiler.tree.visitor.KaraffeTreeVisitor;
 
 public class Parameters extends AbstractNodes {
 
@@ -22,11 +21,6 @@ public class Parameters extends AbstractNodes {
 
     public Parameters(final Node valDef) {
         this(new ArrayList<>(Arrays.asList(valDef)));
-    }
-
-    @Override
-    public void accept(final KaraffeTreeVisitor visitor) {
-        visitor.visit(this);
     }
 
     public List<Node> findParameters() {
