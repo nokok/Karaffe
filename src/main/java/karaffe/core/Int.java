@@ -22,11 +22,11 @@ public class Int extends Any {
         return new Int(this.value - other.value);
     }
 
-    public Int mul(Int other) {
+    public Int star(Int other) {
         return new Int(this.value * other.value);
     }
 
-    public Double div(Int other) {
+    public Double slash(Int other) {
         return new Double(this.value / other.value);
     }
 
