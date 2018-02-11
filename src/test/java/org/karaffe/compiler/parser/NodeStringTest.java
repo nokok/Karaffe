@@ -49,7 +49,7 @@ public class NodeStringTest {
         // 3.*(1+(2))
         // (Apply (Select (Literal 1) (Select plus)) (Apply (Select (Literal 2)
         // (Select *)) (Literal 3)))
-        Assert.assertEquals("(Apply (Select (IntLiteral 1) (Select plus)) (Apply (Select (IntLiteral 2) (Select *)) (IntLiteral 3)))", this.getNodeString(new ExprParser(), "1+2*3"));
+        Assert.assertEquals("(Apply (Select (IntLiteral 1) (Select plus)) (Apply (Select (IntLiteral 2) (Select star)) (IntLiteral 3)))", this.getNodeString(new ExprParser(), "1+2*3"));
         assertEquals("(Apply (Select negate) (Apply (Select negate) (TrueLiteral true)))", this.getNodeString(new ExprParser(), "!!true"));
     }
 

@@ -7,7 +7,6 @@ import org.karaffe.compiler.context.NormalizeContext;
 import org.karaffe.compiler.context.TypeContext;
 import org.karaffe.compiler.parser.ExprParser;
 import org.karaffe.compiler.parser.Parser;
-import org.karaffe.compiler.tree.Name;
 import org.karaffe.compiler.tree.NodeList;
 import org.karaffe.compiler.types.InferResult;
 
@@ -28,15 +27,7 @@ public class TypeInferenceTest {
         // ↓
 
         // kn_0 : Int = 1
-
-        NodeList nodeList = new ExprParser().parse("1").getNode().get().normalize(new NormalizeContext());
-        TypeContext context = TypeContext.create();
-        nodeList.tryTypeInference(context);
-        Name expectedLastName = new Name("kn_0");
-        Name actualLastName = (Name) nodeList.lastAssignName();
-        assertEquals(expectedLastName, actualLastName);
-        InferResult result = context.getInferredType(actualLastName).get();
-        assertEquals("karaffe.core.Int", result.getType().get());
+        assertEquals("karaffe.core.Int", infer("1", new ExprParser()));
     }
 
     @Test
@@ -81,11 +72,20 @@ public class TypeInferenceTest {
         assertEquals("karaffe.core.Int", infer("1+2+3", new ExprParser()));
     }
 
+    @Test
+    public void test5() {
+        assertEquals("karaffe.core.Double", infer("1/2", new ExprParser()));
+    }
+
+    @Test
+    public void test6() {
+        assertEquals("", infer("", null));
+    }
+
     private String infer(String code, Parser parser) {
         final NodeList node = parser.parse(code).getNode().get().normalize(new NormalizeContext());
         final TypeContext context = TypeContext.create();
-        node.tryTypeInference(context);
-        final InferResult inferResult = context.getInferredType((Name) node.lastAssignName()).get();
+        InferResult inferResult = node.tryTypeInference(context).get();
         return inferResult.getType().get();
     }
 

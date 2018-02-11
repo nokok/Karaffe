@@ -23,10 +23,11 @@ public class Name extends TermNode {
     }
 
     public String getName() {
-        if (this.getText().equals("+")) {
-            return "plus";
-        }
-        return this.getText();
+        return getName(new DefaultNameMapper());
+    }
+
+    public String getName(NameMapper mapper) {
+        return mapper.convert(this);
     }
 
     @Override
