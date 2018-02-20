@@ -1,0 +1,67 @@
+package org.karaffe.compiler.tree.v2.statements;
+
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Objects;
+import java.util.stream.Collectors;
+
+import org.karaffe.compiler.pos.Position;
+import org.karaffe.compiler.tree.v2.Parameter;
+import org.karaffe.compiler.tree.v2.api.AbstractTree;
+import org.karaffe.compiler.tree.v2.api.ClassMember;
+import org.karaffe.compiler.tree.v2.api.Modifier;
+import org.karaffe.compiler.tree.v2.api.Statement;
+import org.karaffe.compiler.tree.v2.api.StatementType;
+import org.karaffe.compiler.tree.v2.names.SimpleName;
+import org.karaffe.compiler.tree.v2.names.TypeName;
+
+public class MethodDef extends AbstractTree implements ClassMember {
+
+    private final List<Modifier> modifiers;
+    private final TypeName returnType;
+    private final SimpleName methodName;
+    private final List<Parameter> parameters;
+    private final List<Statement> methodBody = new ArrayList<>();
+
+    public MethodDef(List<Modifier> modifiers, TypeName returnType, SimpleName methodName) {
+        this(modifiers, returnType, methodName, new ArrayList<>(0));
+    }
+
+    public MethodDef(List<Modifier> modifiers, TypeName returnType, SimpleName methodName, List<Parameter> parameters) {
+        this.modifiers = new ArrayList<>(modifiers);
+        this.returnType = returnType;
+        this.methodName = methodName;
+        this.parameters = new ArrayList<>(parameters);
+    }
+
+    public MethodDef(Position position, List<Modifier> modifiers, TypeName returnType, SimpleName methodName) {
+        this(position, modifiers, returnType, methodName, new ArrayList<>(0));
+    }
+
+    public MethodDef(Position position, List<Modifier> modifiers, TypeName returnType, SimpleName methodName, List<Parameter> parameters) {
+        super(position);
+        this.modifiers = new ArrayList<>(modifiers);
+        this.returnType = returnType;
+        this.methodName = methodName;
+        this.parameters = new ArrayList<>(parameters);
+    }
+
+    public void addMethodBody(Statement statement) {
+        this.methodBody.add(Objects.requireNonNull(statement));
+    }
+
+    @Override
+    public StatementType getStatementType() {
+        return StatementType.METHOD_DEF;
+    }
+
+    @Override
+    public String toString() {
+        return String.format("%s %s %s(%s) {\n%s\n}",
+                String.join(" ", this.modifiers.stream().map(Modifier::toString).collect(Collectors.toList())),
+                this.returnType,
+                this.methodName,
+                String.join(",", this.parameters.stream().map(Parameter::toString).collect(Collectors.toList())),
+                String.join("\n", this.methodBody.stream().map(Statement::toString).map(s -> s + ";").collect(Collectors.toList())));
+    }
+}

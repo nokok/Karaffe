@@ -1,6 +1,8 @@
 package org.karaffe.compiler.context;
 
+import java.io.File;
 import java.io.PrintStream;
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.EnumMap;
 import java.util.List;
@@ -12,13 +14,11 @@ import java.util.stream.Collectors;
 import org.karaffe.compiler.context.ConfigKeys.Config;
 import org.karaffe.compiler.context.ConfigKeys.FlagConfigs;
 import org.karaffe.compiler.context.ConfigKeys.StringConfigs;
-import org.karaffe.compiler.exceptions.IllegalFormatOptionException;
-import org.karaffe.compiler.exceptions.UnrecognizedOptionException;
 import org.karaffe.compiler.util.CommandLineArgPart;
 
 public interface CompilerConfig {
 
-    public static CompilerConfig buildConfig(final List<CommandLineArgPart> argParts) throws UnrecognizedOptionException, IllegalFormatOptionException {
+    public static CompilerConfig buildConfig(final List<CommandLineArgPart> argParts) {
         final CompilerConfigImpl compilerConfig = new CompilerConfigImpl();
 
         final List<FlagConfigs> flagConfigs = Arrays.asList(FlagConfigs.values());
@@ -27,16 +27,16 @@ public interface CompilerConfig {
         for (final CommandLineArgPart arg : argParts) {
             final String cmd = arg.getCmd();
             if (!arg.isValidFormat()) {
-                throw new IllegalFormatOptionException(arg.toString());
+                throw new IllegalArgumentException();
             }
             final Optional<FlagConfigs> flagConfig = flagConfigs.parallelStream().filter(c -> c.is(cmd)).findFirst();
             final Optional<StringConfigs> stringConfig = stringConfigs.parallelStream().filter(c -> c.is(cmd)).findFirst();
 
             if (!flagConfig.isPresent() && !stringConfig.isPresent()) {
-                throw new UnrecognizedOptionException(arg.toString());
+                throw new IllegalArgumentException();
             }
             if (flagConfig.isPresent() && stringConfig.isPresent()) {
-                throw new IllegalFormatOptionException(arg.toString());
+                throw new IllegalArgumentException();
             }
 
             if (arg.isValueConfigurator()) {
@@ -55,7 +55,7 @@ public interface CompilerConfig {
         return compilerConfig;
     }
 
-    public static CompilerConfig buildConfig(final String[] args) throws UnrecognizedOptionException, IllegalFormatOptionException {
+    public static CompilerConfig buildConfig(final String[] args) {
         return buildConfig(Arrays.asList(args).stream().map(CommandLineArgPart::new).collect(Collectors.toList()));
     }
 
@@ -70,12 +70,15 @@ public interface CompilerConfig {
     }
 
     public Optional<String> getValue(ConfigKeys.StringConfigs configName);
+
+    public List<File> sourceFiles();
 }
 
 class CompilerConfigImpl implements MutableCompilerConfig {
 
     private final Map<ConfigKeys.FlagConfigs, Boolean> flags;
     private final Map<ConfigKeys.StringConfigs, String> stringConfigs;
+    private final List<File> sourceFiles = new ArrayList<>();
 
     public CompilerConfigImpl() {
         this.flags = new EnumMap<>(ConfigKeys.FlagConfigs.class);
@@ -96,6 +99,11 @@ class CompilerConfigImpl implements MutableCompilerConfig {
         } else {
             this.flags.put(config, Boolean.TRUE);
         }
+    }
+
+    @Override
+    public void add(File sourceFile) {
+        this.sourceFiles.add(Objects.requireNonNull(sourceFile));
     }
 
     @Override
@@ -124,12 +132,19 @@ class CompilerConfigImpl implements MutableCompilerConfig {
         this.stringConfigs.put(config, Objects.requireNonNull(value));
     }
 
+    @Override
+    public List<File> sourceFiles() {
+        return new ArrayList<>(this.sourceFiles);
+    }
+
 }
 
 interface MutableCompilerConfig extends CompilerConfig {
     public void add(final Config config);
 
     public void add(final FlagConfigs config);
+
+    public void add(final File sourceFile);
 
     public void remove(final Config config);
 

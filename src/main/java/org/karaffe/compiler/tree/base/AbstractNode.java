@@ -9,6 +9,7 @@ import java.util.UUID;
 import org.karaffe.compiler.pos.Position;
 import org.karaffe.compiler.tree.NodeType;
 
+@Deprecated
 public abstract class AbstractNode implements Node {
 
     private final String id = UUID.randomUUID().toString();
