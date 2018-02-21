@@ -7,12 +7,13 @@ import java.util.stream.Collectors;
 
 import org.karaffe.compiler.pos.Position;
 import org.karaffe.compiler.tree.v2.api.AbstractTree;
+import org.karaffe.compiler.tree.v2.api.TreeVisitor;
 
 public class PackageName extends AbstractTree {
     private final List<? extends SimpleName> packageName;
 
     private PackageName() {
-        this(new SimpleName("<root>"));
+        this(SimpleName.defaultPackageName());
     }
 
     public PackageName(SimpleName... packageNames) {
@@ -28,10 +29,6 @@ public class PackageName extends AbstractTree {
 
     public PackageName(PackageName other) {
         this(new ArrayList<>(other.packageName.stream().map(SimpleName::new).collect(Collectors.toList())));
-    }
-
-    private PackageName(Position position) {
-        this(position, new SimpleName("<root>"));
     }
 
     public PackageName(Position position, SimpleName... packageNames) {
@@ -59,4 +56,8 @@ public class PackageName extends AbstractTree {
         return String.join(".", this.packageName);
     }
 
+    @Override
+    public void accept(TreeVisitor visitor) {
+        visitor.visit(this);
+    }
 }

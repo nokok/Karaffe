@@ -1,38 +1,31 @@
 package org.karaffe.compiler.tree.v2.statements;
 
-import java.util.ArrayList;
 import java.util.List;
-import java.util.Objects;
 import java.util.stream.Collectors;
 
 import org.karaffe.compiler.pos.Position;
-import org.karaffe.compiler.tree.v2.api.AbstractTree;
-import org.karaffe.compiler.tree.v2.api.ClassMember;
-import org.karaffe.compiler.tree.v2.api.Statement;
 import org.karaffe.compiler.tree.v2.api.StatementType;
+import org.karaffe.compiler.tree.v2.api.TreeVisitor;
+import org.karaffe.compiler.tree.v2.api.TypeDefMember;
 import org.karaffe.compiler.tree.v2.api.TypeDefStatement;
 import org.karaffe.compiler.tree.v2.names.SimpleName;
 
-public class ClassDef extends AbstractTree implements TypeDefStatement {
+public class ClassDef extends AbstractTypeDefStatement {
 
-    private final SimpleName className;
-    private final SimpleName superClassName;
-    private final List<SimpleName> interfaces = new ArrayList<>(0);
-    private final List<ClassMember> body = new ArrayList<>();
-
-    public ClassDef(SimpleName className, SimpleName superClassName) {
-        this.className = className;
-        this.superClassName = superClassName;
+    public ClassDef(SimpleName typeName, SimpleName superClassName) {
+        super(typeName, superClassName);
     }
 
-    public ClassDef(Position position, SimpleName className, SimpleName superClassName) {
-        super(position);
-        this.className = className;
-        this.superClassName = superClassName;
+    public ClassDef(Position position, SimpleName typeName, SimpleName superClassName) {
+        super(position, typeName, superClassName);
     }
 
-    public void addBody(ClassMember statement) {
-        this.body.add(Objects.requireNonNull(statement));
+    public ClassDef(Position position, SimpleName typeName, SimpleName superClassName, List<? extends SimpleName> interfaces) {
+        super(position, typeName, superClassName, interfaces);
+    }
+
+    public ClassDef(TypeDefStatement otherTypeDef) {
+        super(otherTypeDef.getPosition(), otherTypeDef.getName(), otherTypeDef.getSuperClassName(), otherTypeDef.getInterfaceNames(), otherTypeDef.getBody());
     }
 
     @Override
@@ -51,34 +44,18 @@ public class ClassDef extends AbstractTree implements TypeDefStatement {
     }
 
     @Override
-    public SimpleName getName() {
-        return this.className;
-    }
-
-    @Override
-    public SimpleName getSuperClass() {
-        return this.superClassName;
-    }
-
-    @Override
-    public List<? extends SimpleName> getInterfaces() {
-        return new ArrayList<>(this.interfaces);
-    }
-
-    @Override
-    public List<? extends Statement> getBody() {
-        return new ArrayList<>(this.body);
-    }
-
-    @Override
     public String toString() {
         return String.format("class %s extends %s%s {\n"
                 + "%s\n"
                 + "}",
-                this.className,
-                this.superClassName,
-                this.interfaces.isEmpty() ? "" : "implements " + String.join(", ", this.interfaces),
-                String.join(";\n", this.body.stream().map(ClassMember::toString).collect(Collectors.toList())));
+                this.getName(),
+                this.getSuperClassName(),
+                this.getInterfaceNames().isEmpty() ? "" : "implements " + String.join(", ", this.getInterfaceNames()),
+                String.join(";\n", this.getBody().stream().map(TypeDefMember::toString).collect(Collectors.toList())));
     }
 
+    @Override
+    public void accept(TreeVisitor visitor) {
+        visitor.visit(this);
+    }
 }

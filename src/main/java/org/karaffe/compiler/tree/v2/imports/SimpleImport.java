@@ -4,6 +4,7 @@ import org.karaffe.compiler.pos.Position;
 import org.karaffe.compiler.tree.v2.api.AbstractTree;
 import org.karaffe.compiler.tree.v2.api.ImportStatement;
 import org.karaffe.compiler.tree.v2.api.StatementType;
+import org.karaffe.compiler.tree.v2.api.TreeVisitor;
 import org.karaffe.compiler.tree.v2.names.FullyQualifiedName;
 
 public class SimpleImport extends AbstractTree implements ImportStatement {
@@ -26,5 +27,10 @@ public class SimpleImport extends AbstractTree implements ImportStatement {
     @Override
     public StatementType getStatementType() {
         return StatementType.SIMPLE_IMPORT_DEF;
+    }
+
+    @Override
+    public void accept(TreeVisitor visitor) {
+        visitor.visit(this);
     }
 }

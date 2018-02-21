@@ -5,6 +5,7 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 import org.karaffe.compiler.tree.v2.api.AbstractTree;
+import org.karaffe.compiler.tree.v2.api.TreeVisitor;
 
 public class TypeName extends AbstractTree {
     private final SimpleName name;
@@ -27,5 +28,10 @@ public class TypeName extends AbstractTree {
         return String.format("%s[%s]",
                 this.name,
                 String.join(", ", this.parameterizedType.stream().map(TypeName::toString).collect(Collectors.toList())));
+    }
+
+    @Override
+    public void accept(TreeVisitor visitor) {
+        visitor.visit(this);
     }
 }

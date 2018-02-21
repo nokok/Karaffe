@@ -2,6 +2,7 @@ package org.karaffe.compiler.tree.v2.names;
 
 import org.karaffe.compiler.pos.Position;
 import org.karaffe.compiler.tree.v2.api.AbstractTree;
+import org.karaffe.compiler.tree.v2.api.TreeVisitor;
 
 public class SimpleName extends AbstractTree implements CharSequence {
     private final String name;
@@ -44,4 +45,20 @@ public class SimpleName extends AbstractTree implements CharSequence {
         return this.name.subSequence(start, end);
     }
 
+    public static SimpleName rootClass() {
+        return new SimpleName("Any");
+    }
+
+    public static SimpleName rootClass(Position position) {
+        return new SimpleName(position, "Any");
+    }
+
+    public static SimpleName defaultPackageName() {
+        return new SimpleName("<root>");
+    }
+
+    @Override
+    public void accept(TreeVisitor visitor) {
+        visitor.visit(this);
+    }
 }

@@ -8,6 +8,7 @@ import java.util.stream.Collectors;
 import org.karaffe.compiler.pos.Position;
 import org.karaffe.compiler.tree.v2.api.AbstractTree;
 import org.karaffe.compiler.tree.v2.api.Expression;
+import org.karaffe.compiler.tree.v2.api.TreeVisitor;
 import org.karaffe.compiler.tree.v2.names.SimpleName;
 
 public class Apply extends AbstractTree implements Expression {
@@ -43,10 +44,33 @@ public class Apply extends AbstractTree implements Expression {
     }
 
     @Override
+    public void accept(TreeVisitor visitor) {
+        visitor.visit(this);
+    }
+
+    public Expression getExpression() {
+        return this.expression;
+    }
+
+    public SimpleName getMethodName() {
+        return this.methodName;
+    }
+
+    public List<? extends Expression> getArgs() {
+        return new ArrayList<>(this.args);
+    }
+
+    @Override
     public String toString() {
         return String.format("%s.%s(%s)",
                 this.expression,
                 this.methodName,
                 String.join(", ", this.args.stream().map(Expression::toString).collect(Collectors.toList())));
     }
+
+    @Override
+    public ExpressionType getExpressionType() {
+        return ExpressionType.APPLY;
+    }
+
 }

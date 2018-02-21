@@ -8,6 +8,7 @@ import java.util.Objects;
 import org.karaffe.compiler.pos.Position;
 import org.karaffe.compiler.tree.v2.api.AbstractTree;
 import org.karaffe.compiler.tree.v2.api.ImportStatement;
+import org.karaffe.compiler.tree.v2.api.TreeVisitor;
 import org.karaffe.compiler.tree.v2.api.TypeDefStatement;
 import org.karaffe.compiler.tree.v2.names.PackageName;
 
@@ -81,5 +82,10 @@ public class PackageDef extends AbstractTree {
         this.typeDefStatements.stream().map(TypeDefStatement::toString).forEach(lines::add);
         lines.add("}");
         return String.join("\n", lines);
+    }
+
+    @Override
+    public void accept(TreeVisitor visitor) {
+        visitor.visit(this);
     }
 }

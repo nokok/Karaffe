@@ -11,9 +11,9 @@ public interface TypeDefStatement extends Statement {
 
     public SimpleName getName();
 
-    public SimpleName getSuperClass();
+    public SimpleName getSuperClassName();
 
-    public List<? extends SimpleName> getInterfaces();
+    public List<? extends SimpleName> getInterfaceNames();
 
-    public List<? extends Statement> getBody();
+    public List<? extends TypeDefMember> getBody();
 }

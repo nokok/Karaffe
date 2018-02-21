@@ -4,7 +4,10 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
-public class CompilationUnit {
+import org.karaffe.compiler.tree.v2.api.AbstractTree;
+import org.karaffe.compiler.tree.v2.api.TreeVisitor;
+
+public class CompilationUnit extends AbstractTree {
     private final List<PackageDef> packages;
 
     public CompilationUnit() {
@@ -35,5 +38,10 @@ public class CompilationUnit {
         lines.add("}");
 
         return String.join("\n", lines);
+    }
+
+    @Override
+    public void accept(TreeVisitor visitor) {
+        visitor.visit(this);
     }
 }

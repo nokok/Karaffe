@@ -1,30 +1,26 @@
 package org.karaffe.compiler.tree.v2.statements;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Objects;
+import java.util.stream.Collectors;
 
 import org.karaffe.compiler.pos.Position;
-import org.karaffe.compiler.tree.v2.api.AbstractTree;
-import org.karaffe.compiler.tree.v2.api.Statement;
 import org.karaffe.compiler.tree.v2.api.StatementType;
-import org.karaffe.compiler.tree.v2.api.TypeDefStatement;
+import org.karaffe.compiler.tree.v2.api.TreeVisitor;
+import org.karaffe.compiler.tree.v2.api.TypeDefMember;
 import org.karaffe.compiler.tree.v2.names.SimpleName;
 
-public class InterfaceDef extends AbstractTree implements TypeDefStatement {
+public class InterfaceDef extends AbstractTypeDefStatement {
 
-    private final SimpleName interfaceName;
-    private final List<Statement> interfaceBody;
-
-    public InterfaceDef(SimpleName interfaceName, List<Statement> interfaceBody) {
-        this.interfaceName = Objects.requireNonNull(interfaceName);
-        this.interfaceBody = new ArrayList<>(Objects.requireNonNull(interfaceBody));
+    public InterfaceDef(SimpleName typeName) {
+        super(typeName, SimpleName.rootClass());
     }
 
-    public InterfaceDef(Position position, SimpleName interfaceName, List<Statement> interfaceBody) {
-        super(position);
-        this.interfaceName = Objects.requireNonNull(interfaceName);
-        this.interfaceBody = new ArrayList<>(Objects.requireNonNull(interfaceBody));
+    public InterfaceDef(Position position, SimpleName typeName) {
+        super(position, typeName, SimpleName.rootClass());
+    }
+
+    public InterfaceDef(InterfaceDef otherInterfaceDef) {
+        super(otherInterfaceDef.getPosition(), otherInterfaceDef.getName(), otherInterfaceDef.getSuperClassName(), otherInterfaceDef.getInterfaceNames(), otherInterfaceDef.getBody());
+        otherInterfaceDef.getAttributes().stream().forEach(this::addAttribute);
     }
 
     @Override
@@ -43,24 +39,17 @@ public class InterfaceDef extends AbstractTree implements TypeDefStatement {
     }
 
     @Override
-    public SimpleName getName() {
-        return this.interfaceName;
+    public String toString() {
+        return String.format("interface %s%s {\n"
+                + "%s\n"
+                + "}",
+                this.getName(),
+                this.getInterfaceNames().isEmpty() ? "" : " implements " + String.join(", ", this.getInterfaceNames()),
+                String.join(";\n", this.getBody().stream().map(TypeDefMember::toString).collect(Collectors.toList())));
     }
 
     @Override
-    public SimpleName getSuperClass() {
-        return new SimpleName("Object");
+    public void accept(TreeVisitor visitor) {
+        visitor.visit(this);
     }
-
-    @Override
-    public List<? extends SimpleName> getInterfaces() {
-        // TODO: スーパ�?�インターフェースが実�?されたらここも返すように実�?する
-        return new ArrayList<>(0);
-    }
-
-    @Override
-    public List<? extends Statement> getBody() {
-        return new ArrayList<>(this.interfaceBody);
-    }
-
 }

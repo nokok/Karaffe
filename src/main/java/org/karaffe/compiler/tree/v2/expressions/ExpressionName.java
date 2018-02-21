@@ -1,38 +1,26 @@
 package org.karaffe.compiler.tree.v2.expressions;
 
 import org.karaffe.compiler.pos.Position;
-import org.karaffe.compiler.tree.v2.api.AbstractTree;
 import org.karaffe.compiler.tree.v2.api.Expression;
+import org.karaffe.compiler.tree.v2.api.TreeVisitor;
+import org.karaffe.compiler.tree.v2.names.SimpleName;
 
-public class ExpressionName extends AbstractTree implements Expression, CharSequence {
-    private final String name;
-
+public class ExpressionName extends SimpleName implements Expression {
     public ExpressionName(String name) {
-        this.name = name;
+        super(name);
     }
 
     public ExpressionName(Position position, String name) {
-        super(position);
-        this.name = name;
+        super(position, name);
     }
 
     @Override
-    public String toString() {
-        return this.name;
+    public void accept(TreeVisitor visitor) {
+        visitor.visit(this);
     }
 
     @Override
-    public int length() {
-        return this.name.length();
-    }
-
-    @Override
-    public char charAt(int index) {
-        return this.name.charAt(index);
-    }
-
-    @Override
-    public CharSequence subSequence(int start, int end) {
-        return this.name.subSequence(start, end);
+    public ExpressionType getExpressionType() {
+        return ExpressionType.NAME;
     }
 }

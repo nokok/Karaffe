@@ -20,6 +20,7 @@ import org.karaffe.compiler.tree.v2.names.PackageName;
 import org.karaffe.compiler.tree.v2.names.SimpleName;
 import org.karaffe.compiler.tree.v2.names.TypeName;
 import org.karaffe.compiler.tree.v2.statements.ClassDef;
+import org.karaffe.compiler.tree.v2.statements.InterfaceDef;
 import org.karaffe.compiler.tree.v2.statements.LocalLetDef;
 import org.karaffe.compiler.tree.v2.statements.MethodDef;
 
@@ -71,6 +72,22 @@ public class ASTTest {
     }
 
     @Test
+    public void testClassDef() {
+        ClassDef classDef = new ClassDef(new SimpleName("Derived"), new SimpleName("Base"));
+        assertEquals("class Derived extends Base {\n" +
+                "\n" +
+                "}", classDef.toString());
+    }
+
+    @Test
+    public void testInterface() {
+        InterfaceDef interfaceDef = new InterfaceDef(new SimpleName("I"));
+        assertEquals("interface I {\n" +
+                "\n" +
+                "}", interfaceDef.toString());
+    }
+
+    @Test
     public void testCompilationUnit1() {
         assertEquals("/* Compilation Unit */ {\n"
                 + "package <root> {\n"
@@ -97,7 +114,7 @@ public class ASTTest {
         mainMethod.addMethodBody(new LocalLetDef(new SimpleName("a"), new IntLiteral(1)));
         mainMethod.addMethodBody(new LocalLetDef(new SimpleName("b"), new IntLiteral(2)));
         mainMethod.addMethodBody(new Apply(new ExpressionName("a"), new Plus(), new ExpressionName("b")));
-        classDef.addBody(mainMethod);
+        classDef.addMember(mainMethod);
         packageDef.addTypeDefStatement(classDef);
         compilationUnit.addPackageDef(packageDef);
         assertEquals("/* Compilation Unit */ {\n" +

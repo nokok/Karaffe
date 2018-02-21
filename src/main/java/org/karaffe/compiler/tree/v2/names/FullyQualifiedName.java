@@ -6,6 +6,7 @@ import java.util.List;
 
 import org.karaffe.compiler.pos.Position;
 import org.karaffe.compiler.tree.v2.api.AbstractTree;
+import org.karaffe.compiler.tree.v2.api.TreeVisitor;
 
 public class FullyQualifiedName extends AbstractTree {
     private final List<? extends SimpleName> names;
@@ -32,4 +33,8 @@ public class FullyQualifiedName extends AbstractTree {
         return String.join(".", this.names);
     }
 
+    @Override
+    public void accept(TreeVisitor visitor) {
+        visitor.visit(this);
+    }
 }
