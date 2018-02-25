@@ -3,17 +3,22 @@ package org.karaffe.compiler.tree.v2.names;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+import java.util.Objects;
 import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 import org.karaffe.compiler.pos.Position;
 import org.karaffe.compiler.tree.v2.api.AbstractTree;
-import org.karaffe.compiler.tree.v2.api.TreeVisitor;
 
 public class PackageName extends AbstractTree {
     private final List<? extends SimpleName> packageName;
 
     private PackageName() {
         this(SimpleName.defaultPackageName());
+    }
+
+    public PackageName(String... packageNames) {
+        this(new ArrayList<>(Stream.of(packageNames).map(SimpleName::new).collect(Collectors.toList())));
     }
 
     public PackageName(SimpleName... packageNames) {
@@ -52,12 +57,25 @@ public class PackageName extends AbstractTree {
     }
 
     @Override
+    public int hashCode() {
+        return Objects.hash(this.packageName);
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        if (obj == null) {
+            return false;
+        }
+        if (obj instanceof PackageName) {
+            PackageName other = (PackageName) obj;
+            return this.packageName.equals(other.packageName);
+        }
+        return false;
+    }
+
+    @Override
     public String toString() {
         return String.join(".", this.packageName);
     }
 
-    @Override
-    public void accept(TreeVisitor visitor) {
-        visitor.visit(this);
-    }
 }

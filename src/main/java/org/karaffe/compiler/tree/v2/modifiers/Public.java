@@ -3,7 +3,6 @@ package org.karaffe.compiler.tree.v2.modifiers;
 import org.karaffe.compiler.pos.Position;
 import org.karaffe.compiler.tree.v2.api.AbstractTree;
 import org.karaffe.compiler.tree.v2.api.Modifier;
-import org.karaffe.compiler.tree.v2.api.TreeVisitor;
 
 public class Public extends AbstractTree implements Modifier {
     public Public() {
@@ -24,8 +23,4 @@ public class Public extends AbstractTree implements Modifier {
         return java.lang.reflect.Modifier.PUBLIC;
     }
 
-    @Override
-    public void accept(TreeVisitor visitor) {
-        visitor.visit(this);
-    }
 }

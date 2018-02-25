@@ -12,4 +12,5 @@ public class Double extends Any {
     public Double(java.lang.Double value) {
         this.value = Objects.requireNonNull(value.doubleValue());
     }
+
 }

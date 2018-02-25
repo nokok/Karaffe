@@ -1,26 +1,41 @@
 package org.karaffe.compiler.tree.v2.statements;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.stream.Collectors;
 
 import org.karaffe.compiler.pos.Position;
 import org.karaffe.compiler.tree.v2.api.StatementType;
-import org.karaffe.compiler.tree.v2.api.TreeVisitor;
 import org.karaffe.compiler.tree.v2.api.TypeDefMember;
 import org.karaffe.compiler.tree.v2.names.SimpleName;
 
 public class InterfaceDef extends AbstractTypeDefStatement {
 
     public InterfaceDef(SimpleName typeName) {
-        super(typeName, SimpleName.rootClass());
+        super(typeName,
+                SimpleName.rootClass());
     }
 
     public InterfaceDef(Position position, SimpleName typeName) {
-        super(position, typeName, SimpleName.rootClass());
+        super(position,
+                typeName,
+                SimpleName.rootClass());
+    }
+
+    public InterfaceDef(Position position, SimpleName typeName, List<? extends TypeDefMember> body) {
+        super(position,
+                typeName,
+                SimpleName.rootClass(),
+                new ArrayList<>(),
+                body);
     }
 
     public InterfaceDef(InterfaceDef otherInterfaceDef) {
-        super(otherInterfaceDef.getPosition(), otherInterfaceDef.getName(), otherInterfaceDef.getSuperClassName(), otherInterfaceDef.getInterfaceNames(), otherInterfaceDef.getBody());
-        otherInterfaceDef.getAttributes().stream().forEach(this::addAttribute);
+        super(otherInterfaceDef.getPosition(),
+                otherInterfaceDef.getName(),
+                otherInterfaceDef.getSuperClassName(),
+                otherInterfaceDef.getInterfaceNames(),
+                otherInterfaceDef.getBody());
     }
 
     @Override
@@ -48,8 +63,4 @@ public class InterfaceDef extends AbstractTypeDefStatement {
                 String.join(";\n", this.getBody().stream().map(TypeDefMember::toString).collect(Collectors.toList())));
     }
 
-    @Override
-    public void accept(TreeVisitor visitor) {
-        visitor.visit(this);
-    }
 }

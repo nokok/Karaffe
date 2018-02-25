@@ -18,7 +18,7 @@ import org.karaffe.compiler.tree.v2.names.TypeName;
 import org.karaffe.compiler.tree.v2.statements.ClassDef;
 import org.karaffe.compiler.tree.v2.statements.InterfaceDef;
 import org.karaffe.compiler.tree.v2.statements.LetFieldDef;
-import org.karaffe.compiler.tree.v2.statements.LocalLetDef;
+import org.karaffe.compiler.tree.v2.statements.LetLocalDef;
 import org.karaffe.compiler.tree.v2.statements.MethodDef;
 
 public interface TreeVisitor {
@@ -56,7 +56,7 @@ public interface TreeVisitor {
 
     public void visit(LetFieldDef letFieldDef);
 
-    public void visit(LocalLetDef localLetDef);
+    public void visit(LetLocalDef localLetDef);
 
     public void visit(MethodDef methodDef);
 

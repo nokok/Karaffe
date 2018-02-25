@@ -1,7 +1,10 @@
 package org.karaffe.compiler.tree.v2.expressions;
 
 import org.karaffe.compiler.pos.Position;
-import org.karaffe.compiler.tree.v2.api.TreeVisitor;
+import org.karaffe.compiler.types.v2.TypeConstraint;
+import org.karaffe.compiler.types.v2.TypeConstraints;
+
+import karaffe.core.Int;
 
 public class IntLiteral extends Literal {
     private final int value;
@@ -15,18 +18,22 @@ public class IntLiteral extends Literal {
         this.value = value;
     }
 
+    public int getRawValue() {
+        return this.value;
+    }
+
     @Override
     public String toString() {
         return Integer.toString(this.value);
     }
 
     @Override
-    public void accept(TreeVisitor visitor) {
-        visitor.visit(this);
+    public ExpressionType getExpressionType() {
+        return ExpressionType.INT_LITERAL;
     }
 
     @Override
-    public ExpressionType getExpressionType() {
-        return ExpressionType.INT_LITERAL;
+    public TypeConstraint getTypeConstraint() {
+        return TypeConstraints.of(Int.class);
     }
 }

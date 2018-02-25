@@ -6,12 +6,14 @@ import java.util.Optional;
 import org.karaffe.compiler.pos.Position;
 import org.karaffe.compiler.tree.v2.api.AbstractTree;
 import org.karaffe.compiler.tree.v2.api.Expression;
+import org.karaffe.compiler.tree.v2.api.NameRef;
 import org.karaffe.compiler.tree.v2.api.Statement;
+import org.karaffe.compiler.tree.v2.expressions.ExpressionName;
 import org.karaffe.compiler.tree.v2.names.SimpleName;
 
-public abstract class LetDef extends AbstractTree implements Statement {
+public abstract class LetDef extends AbstractTree implements Statement, NameRef {
 
-    private final SimpleName fieldName;
+    private final SimpleName name;
     private final Optional<SimpleName> typeName;
     private Optional<Expression> initializer;
 
@@ -37,7 +39,7 @@ public abstract class LetDef extends AbstractTree implements Statement {
 
     public LetDef(Position position, SimpleName fieldName, SimpleName typeName, Expression initializer) {
         super(position);
-        this.fieldName = Objects.requireNonNull(fieldName);
+        this.name = Objects.requireNonNull(fieldName);
         this.typeName = Optional.ofNullable(typeName);
         this.initializer = Optional.ofNullable(initializer);
         if (!this.typeName.isPresent() && !this.initializer.isPresent()) {
@@ -47,14 +49,13 @@ public abstract class LetDef extends AbstractTree implements Statement {
 
     public LetDef(LetDef other) {
         super(other.getPosition());
-        this.fieldName = other.fieldName;
+        this.name = other.name;
         this.typeName = other.getTypeName();
         this.initializer = other.getInitializer();
-        other.getAttributes().forEach(this::addAttribute);
     }
 
     public SimpleName getName() {
-        return this.fieldName;
+        return this.name;
     }
 
     public boolean hasTypeName() {
@@ -78,9 +79,19 @@ public abstract class LetDef extends AbstractTree implements Statement {
     }
 
     @Override
+    public boolean isNormalizable() {
+        return this.initializer.map(expr -> expr.isNormalizable()).orElse(false);
+    }
+
+    @Override
+    public Optional<ExpressionName> asExprName() {
+        return Optional.of(new ExpressionName(this.getName().toString()));
+    }
+
+    @Override
     public String toString() {
         return String.format("let %s%s%s",
-                this.fieldName,
+                this.name,
                 this.typeName.map(t -> " : " + t).orElse(""),
                 this.initializer.map(e -> " = " + e).orElse(""));
     }

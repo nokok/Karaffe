@@ -14,6 +14,10 @@ public class Int extends Any {
         this.value = Objects.requireNonNull(value.intValue());
     }
 
+    public int getValue() {
+        return this.value;
+    }
+
     public Int plus(Int other) {
         return new Int(this.value + other.value);
     }
@@ -22,11 +26,11 @@ public class Int extends Any {
         return new Int(this.value - other.value);
     }
 
-    public Int star(Int other) {
+    public Int mul(Int other) {
         return new Int(this.value * other.value);
     }
 
-    public Double slash(Int other) {
+    public Double div(Int other) {
         return new Double(this.value / other.value);
     }
 

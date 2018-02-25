@@ -8,5 +8,7 @@ public enum StatementType {
     CLASS_DEF,
     EXPRESSION,
     LOCAL_LET_DEF,
+    ONDEMAND_IMPORT_DEF,
+    ALIAS_IMPORT,
     ;
 }

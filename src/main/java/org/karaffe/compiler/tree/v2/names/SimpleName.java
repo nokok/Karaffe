@@ -2,9 +2,9 @@ package org.karaffe.compiler.tree.v2.names;
 
 import org.karaffe.compiler.pos.Position;
 import org.karaffe.compiler.tree.v2.api.AbstractTree;
-import org.karaffe.compiler.tree.v2.api.TreeVisitor;
+import org.karaffe.compiler.tree.v2.api.Term;
 
-public class SimpleName extends AbstractTree implements CharSequence {
+public class SimpleName extends AbstractTree implements CharSequence, Term {
     private final String name;
 
     public SimpleName(String name) {
@@ -45,6 +45,33 @@ public class SimpleName extends AbstractTree implements CharSequence {
         return this.name.subSequence(start, end);
     }
 
+    @Override
+    public boolean isNormalizable() {
+        return false;
+    }
+
+    @Override
+    public boolean isTermNode() {
+        return true;
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        if (obj == null) {
+            return false;
+        }
+        if (obj instanceof SimpleName) {
+            SimpleName other = (SimpleName) obj;
+            return this.name.equals(other.name);
+        }
+        return false;
+    }
+
+    @Override
+    public int hashCode() {
+        return this.name.hashCode();
+    }
+
     public static SimpleName rootClass() {
         return new SimpleName("Any");
     }
@@ -57,8 +84,7 @@ public class SimpleName extends AbstractTree implements CharSequence {
         return new SimpleName("<root>");
     }
 
-    @Override
-    public void accept(TreeVisitor visitor) {
-        visitor.visit(this);
+    public static SimpleName wildCard() {
+        return new SimpleName("_");
     }
 }

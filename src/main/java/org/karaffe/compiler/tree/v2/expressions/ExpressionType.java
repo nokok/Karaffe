@@ -5,4 +5,5 @@ public enum ExpressionType {
     BLOCK,
     NAME,
     INT_LITERAL,
+    RETURN,
 }

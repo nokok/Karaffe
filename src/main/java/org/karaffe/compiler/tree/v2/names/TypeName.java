@@ -1,37 +1,63 @@
 package org.karaffe.compiler.tree.v2.names;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import java.util.stream.Collectors;
 
 import org.karaffe.compiler.tree.v2.api.AbstractTree;
-import org.karaffe.compiler.tree.v2.api.TreeVisitor;
 
 public class TypeName extends AbstractTree {
     private final SimpleName name;
-    private final List<TypeName> parameterizedType;
+    private final List<TypeName> parameterizedTypes;
+
+    public TypeName(String name) {
+        this(new SimpleName(name), new ArrayList<>(0));
+    }
 
     public TypeName(SimpleName name) {
         this(name, new ArrayList<>(0));
     }
 
-    public TypeName(SimpleName name, List<TypeName> parameterizedType) {
+    public TypeName(SimpleName name, TypeName parameterizedType) {
+        this(name, Arrays.asList(parameterizedType));
+    }
+
+    public TypeName(SimpleName name, List<? extends TypeName> parameterizedType) {
         this.name = name;
-        this.parameterizedType = new ArrayList<>(parameterizedType);
+        this.parameterizedTypes = new ArrayList<>(parameterizedType);
+    }
+
+    public TypeName(TypeName otherTypeName) {
+        super(otherTypeName.getPosition());
+        this.name = new SimpleName(otherTypeName.name);
+        this.parameterizedTypes = new ArrayList<>(otherTypeName.parameterizedTypes);
+    }
+
+    public boolean isVoidType() {
+        return this.name.toString().equals("void");
+    }
+
+    public SimpleName getName() {
+        return this.name;
+    }
+
+    public List<? extends TypeName> getParameterizedTypes() {
+        return new ArrayList<>(this.parameterizedTypes);
+    }
+
+    public static TypeName voidType() {
+        return new TypeName(new SimpleName("void"));
     }
 
     @Override
     public String toString() {
-        if (this.parameterizedType.isEmpty()) {
+        if (this.parameterizedTypes.isEmpty()) {
             return this.name.toString();
         }
         return String.format("%s[%s]",
                 this.name,
-                String.join(", ", this.parameterizedType.stream().map(TypeName::toString).collect(Collectors.toList())));
+                String.join(", ", this.parameterizedTypes.stream().map(TypeName::toString).collect(Collectors.toList())));
     }
 
-    @Override
-    public void accept(TreeVisitor visitor) {
-        visitor.visit(this);
-    }
 }

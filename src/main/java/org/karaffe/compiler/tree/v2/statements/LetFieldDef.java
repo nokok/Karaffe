@@ -3,7 +3,6 @@ package org.karaffe.compiler.tree.v2.statements;
 import org.karaffe.compiler.pos.Position;
 import org.karaffe.compiler.tree.v2.api.Expression;
 import org.karaffe.compiler.tree.v2.api.StatementType;
-import org.karaffe.compiler.tree.v2.api.TreeVisitor;
 import org.karaffe.compiler.tree.v2.api.TypeDefMember;
 import org.karaffe.compiler.tree.v2.names.SimpleName;
 
@@ -38,8 +37,4 @@ public class LetFieldDef extends LetDef implements TypeDefMember {
         return StatementType.LET_FIELD_DEF;
     }
 
-    @Override
-    public void accept(TreeVisitor visitor) {
-        visitor.visit(this);
-    }
 }

@@ -1,6 +1,7 @@
 package org.karaffe.compiler.tree.v2.statements;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import java.util.Objects;
 import java.util.stream.Collectors;
@@ -11,8 +12,8 @@ import org.karaffe.compiler.tree.v2.api.AbstractTree;
 import org.karaffe.compiler.tree.v2.api.Modifier;
 import org.karaffe.compiler.tree.v2.api.Statement;
 import org.karaffe.compiler.tree.v2.api.StatementType;
-import org.karaffe.compiler.tree.v2.api.TreeVisitor;
 import org.karaffe.compiler.tree.v2.api.TypeDefMember;
+import org.karaffe.compiler.tree.v2.modifiers.Public;
 import org.karaffe.compiler.tree.v2.names.SimpleName;
 import org.karaffe.compiler.tree.v2.names.TypeName;
 
@@ -24,12 +25,20 @@ public class MethodDef extends AbstractTree implements TypeDefMember {
     private final List<Parameter> parameters;
     private final List<Statement> methodBody;
 
+    public MethodDef(TypeName returnType, SimpleName methodName, List<? extends Statement> body) {
+        this(new ArrayList<>(Arrays.asList(new Public())), returnType, methodName, new ArrayList<>(0), body);
+    }
+
     public MethodDef(List<? extends Modifier> modifiers, TypeName returnType, SimpleName methodName) {
         this(modifiers, returnType, methodName, new ArrayList<>(0));
     }
 
     public MethodDef(List<? extends Modifier> modifiers, TypeName returnType, SimpleName methodName, List<? extends Parameter> parameters) {
         this(Position.noPos(), modifiers, returnType, methodName, parameters);
+    }
+
+    public MethodDef(List<? extends Modifier> modifiers, TypeName returnType, SimpleName methodName, List<? extends Parameter> parameters, List<? extends Statement> body) {
+        this(Position.noPos(), modifiers, returnType, methodName, parameters, body);
     }
 
     public MethodDef(Position position, List<? extends Modifier> modifiers, TypeName returnType, SimpleName methodName) {
@@ -43,8 +52,8 @@ public class MethodDef extends AbstractTree implements TypeDefMember {
     public MethodDef(Position position, List<? extends Modifier> modifiers, TypeName returnType, SimpleName methodName, List<? extends Parameter> parameters, List<? extends Statement> body) {
         super(position);
         this.modifiers = new ArrayList<>(modifiers);
-        this.returnType = returnType;
-        this.methodName = methodName;
+        this.returnType = Objects.requireNonNull(returnType);
+        this.methodName = Objects.requireNonNull(methodName);
         this.parameters = new ArrayList<>(parameters);
         this.methodBody = new ArrayList<>(body);
     }
@@ -87,11 +96,6 @@ public class MethodDef extends AbstractTree implements TypeDefMember {
                 this.methodName,
                 String.join(",", this.parameters.stream().map(Parameter::toString).collect(Collectors.toList())),
                 String.join("\n", this.methodBody.stream().map(Statement::toString).map(s -> s + ";").collect(Collectors.toList())));
-    }
-
-    @Override
-    public void accept(TreeVisitor visitor) {
-        visitor.visit(this);
     }
 
 }
