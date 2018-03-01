@@ -13,7 +13,7 @@ public class TransformerRunner {
     public TransformerRunner() {
         this.transformers.add(new KNormalizer());
         this.transformers.add(new AlphaEquivalenceTransformer());
-        this.transformers.add(new Scoper());
+        this.transformers.add(new NameResolver());
         this.transformers.add(new TypeInferer());
     }
 

@@ -12,7 +12,7 @@ public interface OnDemandImportTransformer {
     }
 
     public default OnDemandImport transform(OnDemandImport oldOnDemandImport) {
-        onOnDemandImportAfter(oldOnDemandImport);
+        onOnDemandImportBefore(oldOnDemandImport);
         OnDemandImport onDemandImport = new OnDemandImport(oldOnDemandImport.getPackageName());
         onOnDemandImportAfter(onDemandImport);
         return onDemandImport;

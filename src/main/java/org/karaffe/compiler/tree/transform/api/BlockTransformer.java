@@ -20,6 +20,7 @@ public interface BlockTransformer extends BaseTransformer {
             Statement transformed = transform(stmt);
             block.add(transformed);
         }
+        onBlockAfter(block);
         return block;
     }
 

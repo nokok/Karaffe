@@ -34,6 +34,6 @@ public class IntLiteral extends Literal {
 
     @Override
     public TypeConstraint getTypeConstraint() {
-        return TypeConstraints.of(Int.class);
+        return TypeConstraints.of(this, Int.class);
     }
 }

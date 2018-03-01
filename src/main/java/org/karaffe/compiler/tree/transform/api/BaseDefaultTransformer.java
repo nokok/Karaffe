@@ -28,11 +28,9 @@ public interface BaseDefaultTransformer
     @Override
     public default PackageDef transform(PackageDef oldPackageDef) {
         onPackageDefBefore(oldPackageDef);
-        PackageDef packageDef = new PackageDef(oldPackageDef.getPackageName());
+        PackageDef packageDef = new PackageDef(oldPackageDef.getPackageName(), false);
         for (ImportStatement importStatement : oldPackageDef.getImports()) {
-            if (!packageDef.hasImport(importStatement)) {
-                packageDef.addImportStatement(transform(importStatement));
-            }
+            packageDef.addImportStatement(transform(importStatement));
         }
         for (TypeDefStatement typeDefStatement : oldPackageDef.getTypeDefStatements()) {
             packageDef.addTypeDefStatement(transform(typeDefStatement));

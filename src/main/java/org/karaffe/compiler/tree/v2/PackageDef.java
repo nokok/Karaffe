@@ -39,11 +39,31 @@ public class PackageDef extends AbstractTree {
         this(packageName, new HashSet<>(Arrays.asList(importStatements)), new ArrayList<>());
     }
 
-    public PackageDef(PackageName packageName, Set<? extends ImportStatement> importStatements, List<? extends TypeDefStatement> typeDefStatements) {
+    public PackageDef(PackageName packageName, boolean withDefaultImports) {
+        this(packageName, new HashSet<>(), new ArrayList<>(), withDefaultImports);
+    }
+
+    public PackageDef(
+            PackageName packageName,
+            Set<? extends ImportStatement> importStatements,
+            List<? extends TypeDefStatement> typeDefStatements) {
         this.packageName = Objects.requireNonNull(packageName);
         this.importStatements = new LinkedHashSet<>(Objects.requireNonNull(importStatements));
         this.typeDefStatements = new ArrayList<>(Objects.requireNonNull(typeDefStatements));
         this.importStatements.addAll(CompilationUnit.defaultImports);
+    }
+
+    public PackageDef(
+            PackageName packageName,
+            Set<? extends ImportStatement> importStatements,
+            List<? extends TypeDefStatement> typeDefStatements,
+            boolean withDefaultImports) {
+        this.packageName = Objects.requireNonNull(packageName);
+        this.importStatements = new LinkedHashSet<>(Objects.requireNonNull(importStatements));
+        this.typeDefStatements = new ArrayList<>(Objects.requireNonNull(typeDefStatements));
+        if (withDefaultImports) {
+            this.importStatements.addAll(CompilationUnit.defaultImports);
+        }
     }
 
     public PackageDef(Position position) {
