@@ -6,9 +6,8 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 import org.karaffe.compiler.pos.Position;
-import org.karaffe.compiler.tree.v2.api.AbstractTree;
 
-public class TypeName extends AbstractTree {
+public class TypeName extends SimpleName {
     private final SimpleName name;
     private final List<TypeName> parameterizedTypes;
 
@@ -37,6 +36,7 @@ public class TypeName extends AbstractTree {
     }
 
     public TypeName(SimpleName name, List<? extends TypeName> parameterizedType) {
+        super(name);
         this.name = name;
         this.parameterizedTypes = new ArrayList<>(parameterizedType);
         if (this.name.toString().contains(".")) {
@@ -45,13 +45,13 @@ public class TypeName extends AbstractTree {
     }
 
     public TypeName(Position position, SimpleName name, List<? extends TypeName> parameterizedType) {
-        super(position);
+        super(position, name);
         this.name = name;
         this.parameterizedTypes = new ArrayList<>(parameterizedType);
     }
 
     public TypeName(TypeName otherTypeName) {
-        super(otherTypeName.getPosition());
+        super(otherTypeName.getPosition(), otherTypeName);
         this.name = new SimpleName(otherTypeName.name);
         this.parameterizedTypes = new ArrayList<>(otherTypeName.parameterizedTypes);
     }

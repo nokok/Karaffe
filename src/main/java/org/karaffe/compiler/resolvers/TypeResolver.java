@@ -3,6 +3,7 @@ package org.karaffe.compiler.resolvers;
 import java.io.File;
 import java.io.IOException;
 import java.lang.reflect.Method;
+import java.net.JarURLConnection;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.Collections;
@@ -13,20 +14,20 @@ import java.util.List;
 import java.util.Objects;
 import java.util.Optional;
 import java.util.Set;
+import java.util.jar.JarEntry;
+import java.util.jar.JarFile;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
 import javax.tools.DiagnosticCollector;
-import javax.tools.DiagnosticListener;
 import javax.tools.JavaCompiler;
 import javax.tools.JavaFileObject;
 import javax.tools.StandardJavaFileManager;
 import javax.tools.StandardLocation;
 import javax.tools.ToolProvider;
 
-import org.karaffe.compiler.lexer.KeywordToken.This;
 import org.karaffe.compiler.tree.Select;
 import org.karaffe.compiler.tree.base.Node;
 import org.karaffe.compiler.tree.v2.names.PackageName;
@@ -121,9 +122,53 @@ public final class TypeResolver {
     }
 
     public static Optional<List<Class<?>>> findClassesInPackage(String packageName) {
+        List<Class<?>> classes = new ArrayList<>();
+        findClassesInPackageFromClassPath(packageName).ifPresent(classes::addAll);
+        findClassesInPackageFromClassLoader(packageName).ifPresent(classes::addAll);
+        return Optional.of(classes);
+    }
+
+    public static Optional<List<Class<?>>> findClassesInPackageFromClassLoader(String packageName) {
+        ClassLoader contextClassLoader = Thread.currentThread().getContextClassLoader();
         try {
-            JavaCompiler compiler = ToolProvider.getSystemJavaCompiler();
-            StandardJavaFileManager fileManager = compiler.getStandardFileManager(new DiagnosticCollector<>(), null, null);
+            String resourceName = packageName.replace(".", "/");
+            Enumeration<URL> resources = contextClassLoader.getResources(resourceName);
+            while (resources.hasMoreElements()) {
+                URL url = resources.nextElement();
+                String protocol = url.getProtocol().toLowerCase();
+                if (protocol.equals("file")) {
+                    File[] classFiles = new File(url.getFile()).listFiles((dir, name) -> name.endsWith(".class"));
+                    return Optional.of(Stream.of(classFiles)
+                            .map(File::getName)
+                            .map(fileName -> fileName.replace(".class", ""))
+                            .map(name -> packageName + "." + name)
+                            .map(TypeResolver::findClass)
+                            .map(Optional::get)
+                            .collect(Collectors.toList()));
+                } else if (protocol.equals("jar")) {
+                    try (JarFile jarFile = ((JarURLConnection) url.openConnection()).getJarFile()) {
+                        return Optional.of(Collections.list(jarFile.entries()).stream()
+                                .map(JarEntry::getName)
+                                .filter(name -> name.startsWith(resourceName) && name.endsWith(".class"))
+                                .map(name -> name.replace('/', '.').replace(".class", ""))
+                                .map(TypeResolver::findClass)
+                                .map(Optional::get)
+                                .collect(Collectors.toList()));
+                    }
+                } else {
+                    throw new IllegalStateException("Unknown protocol : " + protocol);
+                }
+
+            }
+        } catch (IOException e) {
+            return Optional.empty();
+        }
+        return Optional.empty();
+    }
+
+    public static Optional<List<Class<?>>> findClassesInPackageFromClassPath(String packageName) {
+        JavaCompiler compiler = ToolProvider.getSystemJavaCompiler();
+        try (StandardJavaFileManager fileManager = compiler.getStandardFileManager(new DiagnosticCollector<>(), null, null)) {
             Set<JavaFileObject.Kind> kind = new HashSet<>();
             kind.add(JavaFileObject.Kind.CLASS);
 
@@ -140,7 +185,6 @@ public final class TypeResolver {
         } catch (IOException e) {
             return Optional.empty();
         }
-
     }
 
 }

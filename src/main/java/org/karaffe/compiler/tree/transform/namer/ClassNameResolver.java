@@ -1,7 +1,6 @@
 package org.karaffe.compiler.tree.transform.namer;
 
-import java.util.AbstractMap;
-import java.util.HashMap;
+import java.util.LinkedHashMap;
 import java.util.Map;
 import java.util.Optional;
 
@@ -22,8 +21,8 @@ public class ClassNameResolver extends AbstractTransformer {
         super("name-resolver");
     }
 
-    private final Map<SimpleName, FullyQualifiedTypeName> simpleNameFqnMap = new HashMap<>();
-    private final Map<TypeName, FullyQualifiedTypeName> typeNameFqnMap = new HashMap<>();
+    private final Map<SimpleName, FullyQualifiedTypeName> simpleNameFqnMap = new LinkedHashMap<>();
+    private final Map<TypeName, FullyQualifiedTypeName> typeNameFqnMap = new LinkedHashMap<>();
 
     @Override
     public void onPackageDefBefore(PackageDef packageDef) {
@@ -53,15 +52,6 @@ public class ClassNameResolver extends AbstractTransformer {
     @Override
     public void onAliasImportAfter(AliasImport aliasImport) {
         this.typeNameFqnMap.put(aliasImport.getAfter(), aliasImport.getBefore());
-    }
-
-    @Override
-    public SimpleName transformBody(SimpleName simpleName) {
-        Optional<FullyQualifiedTypeName> fqn = getFqn(simpleName);
-        if (fqn.isPresent()) {
-            return fqn.get();
-        }
-        return simpleName;
     }
 
     @Override

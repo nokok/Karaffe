@@ -228,6 +228,38 @@ public class TypeInfererTest {
         CompilationUnit transformed = this.runner.transform(before, "name-resolver");
         TypeInferer typeInferer = new TypeInferer();
         CompilationUnit after = typeInferer.transform(transformed);
-        assertEquals("", after.toString());
+        assertEquals("/* Compilation Unit */ {\n" +
+                "package <root> {\n" +
+                "import java.lang._;\n" +
+                "import java.io._;\n" +
+                "import java.net._;\n" +
+                "import java.util._;\n" +
+                "import java.time._;\n" +
+                "import java.time.chrono._;\n" +
+                "import java.time.LocalDateTime;\n" +
+                "import java.time.chrono.JapaneseEra;\n" +
+                "import karaffe.core._;\n" +
+                "class A extends Any {\n" +
+                "public static void main(args Array[String]) {\n" +
+                "let a : karaffe.core.Int = {\n" +
+                "let k_0 : karaffe.core.Int = 0;\n" +
+                "return k_0;\n" +
+                "};\n" +
+                "let b : karaffe.core.Int = {\n" +
+                "let k_1 : karaffe.core.Int = a;\n" +
+                "return k_1;\n" +
+                "};\n" +
+                "let c : karaffe.core.Int = {\n" +
+                "let k_2 : karaffe.core.Int = b;\n" +
+                "return k_2;\n" +
+                "};\n" +
+                "let d : void = {\n" +
+                "let k_3 : void = karaffe.core.Console.println(c);\n" +
+                "return k_3;\n" +
+                "};\n" +
+                "}\n" +
+                "}\n" +
+                "}\n" +
+                "}", after.toString());
     }
 }

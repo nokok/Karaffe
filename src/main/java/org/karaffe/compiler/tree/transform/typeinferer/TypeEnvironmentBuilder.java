@@ -99,6 +99,21 @@ public class TypeEnvironmentBuilder extends AbstractTransformer {
                 StaticApply staticApply = (StaticApply) initializer;
                 TypeName typeName = staticApply.getTypeName();
                 SimpleName methodName = staticApply.getMethodName();
+                if (typeName.isFullyQualified()) {
+                    FullyQualifiedTypeName fqtn = (FullyQualifiedTypeName) typeName;
+                    String fqcn = fqtn.getFullName();
+                    List<Method> methods = TypeResolver.findClass(fqcn).map(MethodResolver::new).map(methodResolver -> methodResolver.findMethodsByMethodName(methodName)).orElseGet(ArrayList::new);
+                    if (methods.isEmpty()) {
+                        throw new RuntimeException("Type or Method not found : " + fqcn + "#" + methodName);
+                    }
+                    if (methods.size() == 1) {
+                        Method method = methods.get(0);
+                        Class<?> returnType = method.getReturnType();
+                        this.states.put(letLocalDef.getName(), TypeInfers.of(returnType));
+                    } else {
+                        throw new RuntimeException("Method overload is not supported.");
+                    }
+                }
                 break;
             // throw new IllegalStateException();
             case APPLY:
@@ -162,7 +177,7 @@ public class TypeEnvironmentBuilder extends AbstractTransformer {
     private int updateEnvironment1() {
         int modifyCount = 0;
         modifyCount += updateNeedEquals();
-        modifyCount += updateHashMember();
+        modifyCount += updateHasMember();
         return modifyCount;
     }
 
@@ -211,7 +226,7 @@ public class TypeEnvironmentBuilder extends AbstractTransformer {
         return modifyCount;
     }
 
-    private int updateHashMember() {
+    private int updateHasMember() {
         int modifyCount = 0;
         List<HasMember> hasMembers = this.constraints
                 .stream()
