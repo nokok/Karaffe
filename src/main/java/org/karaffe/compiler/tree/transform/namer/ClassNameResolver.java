@@ -56,6 +56,15 @@ public class ClassNameResolver extends AbstractTransformer {
     }
 
     @Override
+    public SimpleName transformBody(SimpleName simpleName) {
+        Optional<FullyQualifiedTypeName> fqn = getFqn(simpleName);
+        if (fqn.isPresent()) {
+            return fqn.get();
+        }
+        return simpleName;
+    }
+
+    @Override
     public TypeName transformBody(TypeName typeName) {
         Optional<FullyQualifiedTypeName> fqn = getFqn(typeName);
         if (fqn.isPresent()) {

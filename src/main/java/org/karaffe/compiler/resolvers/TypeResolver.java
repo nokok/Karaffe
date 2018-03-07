@@ -1,17 +1,30 @@
 package org.karaffe.compiler.resolvers;
 
 import java.io.File;
+import java.io.IOException;
 import java.lang.reflect.Method;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Enumeration;
+import java.util.HashSet;
 import java.util.LinkedHashSet;
 import java.util.List;
 import java.util.Objects;
 import java.util.Optional;
+import java.util.Set;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
+
+import javax.tools.DiagnosticCollector;
+import javax.tools.DiagnosticListener;
+import javax.tools.JavaCompiler;
+import javax.tools.JavaFileObject;
+import javax.tools.StandardJavaFileManager;
+import javax.tools.StandardLocation;
+import javax.tools.ToolProvider;
 
 import org.karaffe.compiler.lexer.KeywordToken.This;
 import org.karaffe.compiler.tree.Select;
@@ -108,47 +121,26 @@ public final class TypeResolver {
     }
 
     public static Optional<List<Class<?>>> findClassesInPackage(String packageName) {
-        ClassLoader classLoader = Thread.currentThread().getContextClassLoader();
         try {
-            Enumeration<URL> resources = classLoader.getResources(packageName.replace(".", "/"));
-            if (!resources.hasMoreElements()) {
-                resources = ClassLoader.getSystemResources(packageName.replace(".", "/"));
-            }
+            JavaCompiler compiler = ToolProvider.getSystemJavaCompiler();
+            StandardJavaFileManager fileManager = compiler.getStandardFileManager(new DiagnosticCollector<>(), null, null);
+            Set<JavaFileObject.Kind> kind = new HashSet<>();
+            kind.add(JavaFileObject.Kind.CLASS);
+
             List<Class<?>> classes = new ArrayList<>();
-            for (URL url : Collections.list(resources)) {
-                String path = url.getPath();
-                File file = new File(path);
-                String[] list = file.list();
-                for (String l : list) {
-                    if (!l.endsWith(".class")) {
-                        continue;
-                    }
-                    String className = l.replace(".class", "");
-                    String fqcn = packageName.toString() + "." + className;
-                    Optional<Class<?>> clazzOpt = TypeResolver.findClass(fqcn);
-                    Class<?> clazz = clazzOpt.get();
-                    classes.add(clazz);
-                }
+            Pattern pattern = Pattern.compile("(\\w+)\\.class");
+            for (JavaFileObject f : fileManager.list(StandardLocation.PLATFORM_CLASS_PATH, packageName, kind, false)) {
+                String classFilePathName = f.getName();
+                Matcher matcher = pattern.matcher(classFilePathName);
+                matcher.find();
+                String className = matcher.group(1);
+                TypeResolver.findClass(packageName + "." + className).ifPresent(classes::add);
             }
             return Optional.of(classes);
-            //
-            // Collections
-            // .list(resources)
-            // .stream()
-            // .map(URL::getPath)
-            // .map(File::new)
-            // .map(File::list)
-            // .flatMap(Stream::of)
-            // .filter(path -> path.endsWith(".class"))
-            // .map(classFileName -> classFileName.replace(".class", ""))
-            // .map(className -> packageName.toString() + "." + className)
-            // .map(TypeResolver::findClass)
-            // .<Class<?>>map(Optional::get)
-            // .collect(Collectors.toList());
-            // return Optional.of(classes);
-        } catch (Exception e) {
+        } catch (IOException e) {
             return Optional.empty();
         }
+
     }
 
 }
