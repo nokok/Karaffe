@@ -6,19 +6,20 @@ import org.karaffe.compiler.pos.Position;
 import org.karaffe.compiler.tree.v2.api.AbstractTree;
 import org.karaffe.compiler.tree.v2.api.ImportStatement;
 import org.karaffe.compiler.tree.v2.api.StatementType;
+import org.karaffe.compiler.tree.v2.names.FullyQualifiedTypeName;
 import org.karaffe.compiler.tree.v2.names.SimpleName;
 import org.karaffe.compiler.tree.v2.names.TypeName;
 
 public class AliasImport extends AbstractTree implements ImportStatement {
-    private final TypeName before;
+    private final FullyQualifiedTypeName before;
     private final TypeName after;
 
-    public AliasImport(TypeName before, TypeName typeName) {
+    public AliasImport(FullyQualifiedTypeName before, TypeName typeName) {
         this.before = Objects.requireNonNull(before);
         this.after = Objects.requireNonNull(typeName);
     }
 
-    public AliasImport(Position position, TypeName before, TypeName typeName) {
+    public AliasImport(Position position, FullyQualifiedTypeName before, TypeName typeName) {
         super(position);
         this.before = Objects.requireNonNull(before);
         this.after = Objects.requireNonNull(typeName);
@@ -28,7 +29,7 @@ public class AliasImport extends AbstractTree implements ImportStatement {
         this(other.getPosition(), other.getBefore(), other.getAfter());
     }
 
-    public TypeName getBefore() {
+    public FullyQualifiedTypeName getBefore() {
         return this.before;
     }
 

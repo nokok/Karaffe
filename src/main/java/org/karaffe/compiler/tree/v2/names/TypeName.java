@@ -60,6 +60,10 @@ public class TypeName extends AbstractTree {
         return this.name.toString().equals("void");
     }
 
+    public boolean isFullyQualified() {
+        return false;
+    }
+
     public SimpleName getName() {
         return this.name;
     }

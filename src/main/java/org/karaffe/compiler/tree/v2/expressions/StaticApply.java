@@ -8,6 +8,7 @@ import java.util.stream.Collectors;
 import org.karaffe.compiler.pos.Position;
 import org.karaffe.compiler.tree.v2.api.AbstractExpression;
 import org.karaffe.compiler.tree.v2.api.Expression;
+import org.karaffe.compiler.tree.v2.names.FullyQualifiedTypeName;
 import org.karaffe.compiler.tree.v2.names.SimpleName;
 import org.karaffe.compiler.tree.v2.names.TypeName;
 
@@ -16,26 +17,29 @@ public class StaticApply extends AbstractExpression {
     private final SimpleName methodName;
     private final List<Expression> args;
 
-    public StaticApply(TypeName typeName, SimpleName methodName, List<Expression> args) {
-        this.typeName = typeName;
-        this.methodName = methodName;
-        this.args = args;
+    public StaticApply(TypeName typeName, SimpleName methodName, List<? extends Expression> args) {
+        this(Position.noPos(), typeName, methodName, args);
     }
 
-    public StaticApply(Position position, TypeName typeName, SimpleName methodName, List<Expression> args) {
+    public StaticApply(Position position, TypeName typeName, SimpleName methodName, List<? extends Expression> args) {
         super(position);
         this.typeName = typeName;
         this.methodName = methodName;
-        this.args = args;
+        this.args = new ArrayList<>(args);
     }
 
     public StaticApply(TypeName typeName, SimpleName methodName, Expression... args) {
+        this(Position.noPos(), typeName, methodName, args);
+    }
+
+    public StaticApply(Position position, TypeName typeName, SimpleName methodName, Expression... args) {
+        super(position);
         this.typeName = typeName;
         this.methodName = methodName;
         this.args = Arrays.asList(args);
     }
 
-    public StaticApply(Position position, TypeName typeName, SimpleName methodName, Expression... args) {
+    public StaticApply(Position position, FullyQualifiedTypeName typeName, SimpleName methodName, Expression... args) {
         super(position);
         this.typeName = typeName;
         this.methodName = methodName;

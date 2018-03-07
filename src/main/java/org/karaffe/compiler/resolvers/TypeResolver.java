@@ -1,7 +1,11 @@
 package org.karaffe.compiler.resolvers;
 
+import java.io.File;
 import java.lang.reflect.Method;
+import java.net.URL;
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Enumeration;
 import java.util.LinkedHashSet;
 import java.util.List;
 import java.util.Objects;
@@ -9,8 +13,10 @@ import java.util.Optional;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
+import org.karaffe.compiler.lexer.KeywordToken.This;
 import org.karaffe.compiler.tree.Select;
 import org.karaffe.compiler.tree.base.Node;
+import org.karaffe.compiler.tree.v2.names.PackageName;
 
 import karaffe.core.Any;
 
@@ -95,6 +101,54 @@ public final class TypeResolver {
             return Optional.of(parameterTypes);
         }
         throw new UnsupportedOperationException("Overload not supported");
+    }
+
+    public static Optional<List<Class<?>>> findClassesInPackage(PackageName packageName) {
+        return findClassesInPackage(packageName.toString());
+    }
+
+    public static Optional<List<Class<?>>> findClassesInPackage(String packageName) {
+        ClassLoader classLoader = Thread.currentThread().getContextClassLoader();
+        try {
+            Enumeration<URL> resources = classLoader.getResources(packageName.replace(".", "/"));
+            if (!resources.hasMoreElements()) {
+                resources = ClassLoader.getSystemResources(packageName.replace(".", "/"));
+            }
+            List<Class<?>> classes = new ArrayList<>();
+            for (URL url : Collections.list(resources)) {
+                String path = url.getPath();
+                File file = new File(path);
+                String[] list = file.list();
+                for (String l : list) {
+                    if (!l.endsWith(".class")) {
+                        continue;
+                    }
+                    String className = l.replace(".class", "");
+                    String fqcn = packageName.toString() + "." + className;
+                    Optional<Class<?>> clazzOpt = TypeResolver.findClass(fqcn);
+                    Class<?> clazz = clazzOpt.get();
+                    classes.add(clazz);
+                }
+            }
+            return Optional.of(classes);
+            //
+            // Collections
+            // .list(resources)
+            // .stream()
+            // .map(URL::getPath)
+            // .map(File::new)
+            // .map(File::list)
+            // .flatMap(Stream::of)
+            // .filter(path -> path.endsWith(".class"))
+            // .map(classFileName -> classFileName.replace(".class", ""))
+            // .map(className -> packageName.toString() + "." + className)
+            // .map(TypeResolver::findClass)
+            // .<Class<?>>map(Optional::get)
+            // .collect(Collectors.toList());
+            // return Optional.of(classes);
+        } catch (Exception e) {
+            return Optional.empty();
+        }
     }
 
 }

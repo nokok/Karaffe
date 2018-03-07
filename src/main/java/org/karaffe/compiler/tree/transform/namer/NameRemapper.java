@@ -14,7 +14,7 @@ public class NameRemapper extends AbstractTransformer {
         super("name-remapper");
         this.transformers.add(new OperatorNameRemapper());
         this.transformers.add(new DefaultImportTransformer());
-        this.transformers.add(new NameResolver());
+        this.transformers.add(new ClassNameResolver());
     }
 
     @Override

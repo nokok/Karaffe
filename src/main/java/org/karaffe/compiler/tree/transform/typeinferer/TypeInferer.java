@@ -8,6 +8,8 @@ import java.util.stream.Collectors;
 
 import org.karaffe.compiler.tree.transform.AbstractTransformer;
 import org.karaffe.compiler.tree.v2.CompilationUnit;
+import org.karaffe.compiler.tree.v2.imports.SimpleImport;
+import org.karaffe.compiler.tree.v2.names.FullyQualifiedTypeName;
 import org.karaffe.compiler.tree.v2.names.SimpleName;
 import org.karaffe.compiler.tree.v2.statements.LetLocalDef;
 import org.karaffe.compiler.types.v2.TypeInfers;
@@ -21,6 +23,14 @@ public class TypeInferer extends AbstractTransformer {
     }
 
     private Map<SimpleName, Class<?>> states = null;
+
+    private final Map<SimpleName, FullyQualifiedTypeName> nameMaps = new HashMap<>();
+
+    @Override
+    public void onSimpleImportAfter(SimpleImport simpleImport) {
+        super.onSimpleImportAfter(simpleImport);
+        this.nameMaps.put(simpleImport.getImportedSimpleName(), simpleImport.getName());
+    }
 
     @Override
     public void onCompilationUnitBefore(CompilationUnit compilationUnit) {

@@ -1,9 +1,11 @@
 package org.karaffe.compiler.tree.transform.api;
 
+import java.util.stream.Collectors;
+
 import org.karaffe.compiler.tree.v2.api.Expression;
 import org.karaffe.compiler.tree.v2.expressions.StaticApply;
 
-public interface StaticApplyTransformer {
+public interface StaticApplyTransformer extends TypeNameTransformer, SimpleNameTransformer, BaseTransformer {
 
     public default void onStaticApplyBefore(StaticApply staticApply) {
 
@@ -14,7 +16,10 @@ public interface StaticApplyTransformer {
     }
 
     public default StaticApply transformBody(StaticApply staticApply) {
-        return staticApply; // TODO transform
+        return new StaticApply(
+                transform(staticApply.getTypeName()),
+                transform(staticApply.getMethodName()),
+                staticApply.getArgs().stream().map(this::transform).collect(Collectors.toList()));
     }
 
     public default Expression transform(StaticApply staticApply) {
