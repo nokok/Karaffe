@@ -3,8 +3,6 @@ package org.karaffe.compiler.tree.v2.expressions;
 import org.karaffe.compiler.pos.Position;
 import org.karaffe.compiler.tree.v2.api.Expression;
 import org.karaffe.compiler.tree.v2.names.SimpleName;
-import org.karaffe.compiler.types.v2.TypeConstraint;
-import org.karaffe.compiler.types.v2.TypeConstraints;
 
 public class ExpressionName extends SimpleName implements Expression {
 
@@ -29,8 +27,4 @@ public class ExpressionName extends SimpleName implements Expression {
         return ExpressionType.NAME;
     }
 
-    @Override
-    public TypeConstraint getTypeConstraint() {
-        return TypeConstraints.reference(this);
-    }
 }

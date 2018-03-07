@@ -5,10 +5,11 @@ import org.karaffe.compiler.tree.v2.api.Expression;
 import org.karaffe.compiler.tree.v2.api.StatementType;
 import org.karaffe.compiler.tree.v2.api.TypeDefMember;
 import org.karaffe.compiler.tree.v2.names.SimpleName;
+import org.karaffe.compiler.tree.v2.names.TypeName;
 
 public class LetFieldDef extends LetDef implements TypeDefMember {
 
-    public LetFieldDef(Position position, SimpleName fieldName, SimpleName typeName, Expression initializer) {
+    public LetFieldDef(Position position, SimpleName fieldName, TypeName typeName, Expression initializer) {
         super(position, fieldName, typeName, initializer);
     }
 
@@ -16,11 +17,11 @@ public class LetFieldDef extends LetDef implements TypeDefMember {
         super(fieldName, initializer);
     }
 
-    public LetFieldDef(SimpleName fieldName, SimpleName typeName, Expression initializer) {
+    public LetFieldDef(SimpleName fieldName, TypeName typeName, Expression initializer) {
         super(fieldName, typeName, initializer);
     }
 
-    public LetFieldDef(SimpleName fieldName, SimpleName typeName) {
+    public LetFieldDef(SimpleName fieldName, TypeName typeName) {
         super(fieldName, typeName);
     }
 
@@ -28,8 +29,12 @@ public class LetFieldDef extends LetDef implements TypeDefMember {
         super(position, fieldName, initializer);
     }
 
-    public LetFieldDef(Position position, SimpleName fieldName, SimpleName typeName) {
+    public LetFieldDef(Position position, SimpleName fieldName, TypeName typeName) {
         super(position, fieldName, typeName);
+    }
+
+    public LetFieldDef(LetFieldDef other) {
+        this(other.getPosition(), other.getName(), other.getTypeName().orElse(null), other.getInitializer().orElse(null));
     }
 
     @Override

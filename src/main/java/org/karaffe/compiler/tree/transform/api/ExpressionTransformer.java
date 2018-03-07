@@ -6,13 +6,15 @@ import org.karaffe.compiler.tree.v2.expressions.Block;
 import org.karaffe.compiler.tree.v2.expressions.ExpressionName;
 import org.karaffe.compiler.tree.v2.expressions.IntLiteral;
 import org.karaffe.compiler.tree.v2.expressions.Return;
+import org.karaffe.compiler.tree.v2.expressions.StaticApply;
 
 public interface ExpressionTransformer extends
         ApplyTransformer,
         BlockTransformer,
         ExpressionNameTransformer,
         IntLiteralTransformer,
-        ReturnTransformer {
+        ReturnTransformer,
+        StaticApplyTransformer {
 
     @Override
     public default Expression transform(Expression expression) {
@@ -27,6 +29,8 @@ public interface ExpressionTransformer extends
             return transform((ExpressionName) expression);
         case RETURN:
             return transform((Return) expression);
+        case STATIC_APPLY:
+            return transform((StaticApply) expression);
         default:
             throw new UnsupportedOperationException();
         }

@@ -13,9 +13,13 @@ public interface TypeDefSuperClassTransformer extends SimpleNameTransformer {
 
     }
 
+    public default SimpleName transformBodyOnTypeDefSuperClass(TypeDefStatement parent, SimpleName superClass) {
+        return new SimpleName(transform(superClass));
+    }
+
     public default SimpleName transformOnTypeDefSuperClass(TypeDefStatement parent, SimpleName superClass) {
         onSuperClassBefore(parent, superClass);
-        SimpleName after = transform(superClass);
+        SimpleName after = transformBodyOnTypeDefSuperClass(parent, superClass);
         onSuperClassAfter(parent, after);
         return after;
     }

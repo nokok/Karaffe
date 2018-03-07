@@ -2,10 +2,12 @@ package it;
 
 import static org.junit.Assert.assertEquals;
 
+import org.junit.Ignore;
 import org.junit.Test;
 import org.karaffe.compiler.KaraffeCompiler;
 import org.karaffe.compiler.context.CompilerConfig;
 
+@Ignore
 public class KaraffeCompilerTest {
     @Test
     public void testEmptyImput() throws Exception {

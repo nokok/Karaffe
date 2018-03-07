@@ -15,9 +15,6 @@ import org.karaffe.compiler.tree.base.Node;
 import karaffe.core.Any;
 
 public final class TypeResolver {
-    private TypeResolver() {
-
-    }
 
     public static boolean isValidFQCN(String fqcn) {
         return findClass(Objects.requireNonNull(fqcn)).isPresent();

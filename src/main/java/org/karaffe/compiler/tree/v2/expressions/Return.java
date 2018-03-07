@@ -4,12 +4,10 @@ import java.util.Objects;
 import java.util.Optional;
 
 import org.karaffe.compiler.pos.Position;
-import org.karaffe.compiler.tree.v2.api.AbstractTree;
+import org.karaffe.compiler.tree.v2.api.AbstractExpression;
 import org.karaffe.compiler.tree.v2.api.Expression;
-import org.karaffe.compiler.types.v2.TypeConstraint;
-import org.karaffe.compiler.types.v2.TypeConstraints;
 
-public class Return extends AbstractTree implements Expression {
+public class Return extends AbstractExpression {
     private final Expression expression;
 
     public Return(Expression expression) {
@@ -41,11 +39,6 @@ public class Return extends AbstractTree implements Expression {
     @Override
     public String toString() {
         return String.format("return %s", this.expression);
-    }
-
-    @Override
-    public TypeConstraint getTypeConstraint() {
-        return TypeConstraints.infer(this.expression);
     }
 
 }

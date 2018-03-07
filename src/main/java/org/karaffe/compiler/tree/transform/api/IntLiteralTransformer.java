@@ -5,13 +5,23 @@ import org.karaffe.compiler.tree.v2.expressions.IntLiteral;
 
 public interface IntLiteralTransformer {
 
-    public default void onIntLiteral(IntLiteral intLiteral) {
+    public default void onIntLiteralBefore(IntLiteral intLiteral) {
+
+    }
+
+    public default void onIntLiteralAfter(IntLiteral intLiteral) {
 
     }
 
     default Expression transform(IntLiteral intLiteral) {
-        onIntLiteral(intLiteral);
-        return new IntLiteral(intLiteral.getRawValue());
+        onIntLiteralBefore(intLiteral);
+        IntLiteral after = transformBody(intLiteral);
+        onIntLiteralAfter(after);
+        return intLiteral;
+    }
+
+    public default IntLiteral transformBody(IntLiteral intLiteral) {
+        return intLiteral;
     }
 
 }

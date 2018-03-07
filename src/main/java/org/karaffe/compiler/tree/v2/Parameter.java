@@ -20,6 +20,10 @@ public class Parameter extends AbstractTree {
         this.type = type;
     }
 
+    public Parameter(Parameter parameter) {
+        this(parameter.getPosition(), parameter.getName(), parameter.getType());
+    }
+
     public SimpleName getName() {
         return this.name;
     }

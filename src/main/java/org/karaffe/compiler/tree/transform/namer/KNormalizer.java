@@ -1,39 +1,43 @@
-package org.karaffe.compiler.tree.transform;
+package org.karaffe.compiler.tree.transform.namer;
 
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
 
-import org.karaffe.compiler.tree.transform.api.BaseDefaultTransformer;
+import org.karaffe.compiler.tree.transform.AbstractTransformer;
 import org.karaffe.compiler.tree.v2.api.Expression;
 import org.karaffe.compiler.tree.v2.api.NameRef;
 import org.karaffe.compiler.tree.v2.api.Statement;
 import org.karaffe.compiler.tree.v2.expressions.Apply;
 import org.karaffe.compiler.tree.v2.expressions.Block;
 import org.karaffe.compiler.tree.v2.expressions.ExpressionName;
+import org.karaffe.compiler.tree.v2.expressions.ExpressionType;
+import org.karaffe.compiler.tree.v2.expressions.Return;
 import org.karaffe.compiler.tree.v2.names.SimpleName;
+import org.karaffe.compiler.tree.v2.names.TypeName;
 import org.karaffe.compiler.tree.v2.statements.LetDef;
 import org.karaffe.compiler.tree.v2.statements.LetFieldDef;
 import org.karaffe.compiler.tree.v2.statements.LetLocalDef;
 import org.karaffe.compiler.util.NameGen;
 
-public class KNormalizer implements BaseDefaultTransformer {
+public class KNormalizer extends AbstractTransformer {
 
-    public static final String name = "k-normalize";
     private final NameGen nameGen = new NameGen("k_");
 
-    @Override
-    public String getTransformerName() {
-        return KNormalizer.name;
+    public KNormalizer() {
+        super("k-normalize");
     }
 
     @Override
     public LetFieldDef transform(LetFieldDef otherMember) {
+        super.onLetFieldDefBefore(otherMember);
         LetDef letDef = otherMember;
         Expression initializer = letDef.getInitializer().map(this::transform).orElse(null);
-        SimpleName typeName = letDef.getTypeName().orElse(null);
-        return new LetFieldDef(letDef.getPosition(), letDef.getName(), typeName, initializer);
+        TypeName typeName = letDef.getTypeName().orElse(null);
+        LetFieldDef letFieldDef = new LetFieldDef(letDef.getPosition(), letDef.getName(), typeName, initializer);
+        super.onLetFieldDefAfter(letFieldDef);
+        return letFieldDef;
     }
 
     @Override
@@ -41,10 +45,8 @@ public class KNormalizer implements BaseDefaultTransformer {
         Block scope = new Block();
         Optional<Expression> transformedInitializer = otherLocalLetDef.getInitializer().map(this::transform);
         transformedInitializer.ifPresent(scope::add);
-        Optional<SimpleName> typeNameOpt = otherLocalLetDef.getTypeName();
-        Optional<ExpressionName> exprNameOpt = transformedInitializer.flatMap(NameRef::asExprName);
-        exprNameOpt.map(ExpressionName::new).ifPresent(scope::add);
-        return new LetLocalDef(otherLocalLetDef.getPosition(), otherLocalLetDef.getName(), typeNameOpt.orElse(null), scope.flatten());
+        transformedInitializer.flatMap(NameRef::asExprName).map(ExpressionName::new).map(Return::new).ifPresent(scope::add);
+        return new LetLocalDef(otherLocalLetDef.getPosition(), otherLocalLetDef.getName(), otherLocalLetDef.getTypeName().orElse(null), scope.flatten());
     }
 
     @Override
@@ -56,11 +58,16 @@ public class KNormalizer implements BaseDefaultTransformer {
         }
         switch (expression.getExpressionType()) {
         case APPLY: {
-            return transform((Apply) expression);
+            Expression transformed = transform((Apply) expression);
+            return transformed;
         }
         case BLOCK: {
-            return transform((Block) expression);
+            Expression transformed = transform((Block) expression);
+            return transformed;
         }
+        case INT_LITERAL:
+            scope.add(new LetLocalDef(this.nameGen.genSimpleName(), expression));
+            return scope.flatten();
         default:
             System.out.println(expression.getExpressionType());
             return expression;
@@ -72,7 +79,7 @@ public class KNormalizer implements BaseDefaultTransformer {
         Block scope = new Block();
         Expression expr;
         Expression originalExpr = apply.getExpression();
-        if (originalExpr.isTermNode()) {
+        if (originalExpr.getExpressionType().equals(ExpressionType.NAME)) {
             expr = originalExpr;
         } else {
             Expression transformed = transform(originalExpr);

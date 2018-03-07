@@ -13,9 +13,13 @@ public interface SimpleImportTransformer extends FullyQualifiedNameTransformer {
 
     }
 
+    public default SimpleImport transformBody(SimpleImport oldImport) {
+        return new SimpleImport(oldImport.getPosition(), transform(oldImport.getName()));
+    }
+
     public default ImportStatement transform(SimpleImport oldImport) {
         onSimpleImportBefore(oldImport);
-        SimpleImport simpleImport = new SimpleImport(transform(oldImport.getName()));
+        SimpleImport simpleImport = transformBody(oldImport);
         onSimpleImportAfter(simpleImport);
         return simpleImport;
     }

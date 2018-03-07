@@ -15,7 +15,7 @@ import org.karaffe.compiler.tree.v2.expressions.Plus;
 import org.karaffe.compiler.tree.v2.imports.SimpleImport;
 import org.karaffe.compiler.tree.v2.modifiers.Public;
 import org.karaffe.compiler.tree.v2.modifiers.Static;
-import org.karaffe.compiler.tree.v2.names.FullyQualifiedName;
+import org.karaffe.compiler.tree.v2.names.FullyQualifiedTypeName;
 import org.karaffe.compiler.tree.v2.names.PackageName;
 import org.karaffe.compiler.tree.v2.names.SimpleName;
 import org.karaffe.compiler.tree.v2.names.TypeName;
@@ -34,7 +34,7 @@ public class ASTTest {
     @Test
     public void testSimpleImport() {
         assertEquals("import java.lang.String;", new SimpleImport(
-                new FullyQualifiedName(
+                new FullyQualifiedTypeName(
                         new SimpleName("java"),
                         new SimpleName("lang"),
                         new SimpleName("String"))).toString());
@@ -43,15 +43,6 @@ public class ASTTest {
     @Test
     public void testPackageDef1() {
         assertEquals("package <root> {\n" +
-                "import java.lang._;\n" +
-                "import java.io._;\n" +
-                "import java.net._;\n" +
-                "import java.util._;\n" +
-                "import java.time._;\n" +
-                "import java.time.chrono._;\n" +
-                "import java.time.LocalDateTime;\n" +
-                "import java.time.chrono.JapaneseEra;\n" +
-                "import karaffe.core._;\n" +
                 "}", new PackageDef().toString());
     }
 
@@ -60,20 +51,11 @@ public class ASTTest {
         PackageDef packageDef = new PackageDef();
         packageDef.addImportStatement(
                 new SimpleImport(
-                        new FullyQualifiedName(
+                        new FullyQualifiedTypeName(
                                 new SimpleName("java"),
                                 new SimpleName("lang"),
                                 new SimpleName("String"))));
         assertEquals("package <root> {\n" +
-                "import java.lang._;\n" +
-                "import java.io._;\n" +
-                "import java.net._;\n" +
-                "import java.util._;\n" +
-                "import java.time._;\n" +
-                "import java.time.chrono._;\n" +
-                "import java.time.LocalDateTime;\n" +
-                "import java.time.chrono.JapaneseEra;\n" +
-                "import karaffe.core._;\n" +
                 "import java.lang.String;\n" +
                 "}", packageDef.toString());
     }
@@ -81,15 +63,6 @@ public class ASTTest {
     @Test
     public void testPackageDef3() {
         assertEquals("package karaffe.core {\n" +
-                "import java.lang._;\n" +
-                "import java.io._;\n" +
-                "import java.net._;\n" +
-                "import java.util._;\n" +
-                "import java.time._;\n" +
-                "import java.time.chrono._;\n" +
-                "import java.time.LocalDateTime;\n" +
-                "import java.time.chrono.JapaneseEra;\n" +
-                "import karaffe.core._;\n" +
                 "}",
                 new PackageDef(
                         new PackageName(
@@ -118,15 +91,6 @@ public class ASTTest {
     public void testCompilationUnit1() {
         assertEquals("/* Compilation Unit */ {\n" +
                 "package <root> {\n" +
-                "import java.lang._;\n" +
-                "import java.io._;\n" +
-                "import java.net._;\n" +
-                "import java.util._;\n" +
-                "import java.time._;\n" +
-                "import java.time.chrono._;\n" +
-                "import java.time.LocalDateTime;\n" +
-                "import java.time.chrono.JapaneseEra;\n" +
-                "import karaffe.core._;\n" +
                 "}\n" +
                 "}", new CompilationUnit(new PackageDef()).toString());
     }
@@ -135,12 +99,12 @@ public class ASTTest {
     public void testCompilationUnit2() {
         CompilationUnit compilationUnit = new CompilationUnit();
         PackageDef packageDef = new PackageDef();
-        packageDef.addImportStatement(new SimpleImport(new FullyQualifiedName(new SimpleName("java"), new SimpleName("lang"), new SimpleName("Object"))));
-        packageDef.addImportStatement(new SimpleImport(new FullyQualifiedName(new SimpleName("java"), new SimpleName("lang"), new SimpleName("Integer"))));
+        packageDef.addImportStatement(new SimpleImport(new FullyQualifiedTypeName(new SimpleName("java"), new SimpleName("lang"), new SimpleName("Object"))));
+        packageDef.addImportStatement(new SimpleImport(new FullyQualifiedTypeName(new SimpleName("java"), new SimpleName("lang"), new SimpleName("Integer"))));
         ClassDef classDef = new ClassDef(new SimpleName("A"), new SimpleName("Object"));
         MethodDef mainMethod = new MethodDef(
                 Arrays.asList(new Public(), new Static()),
-                new TypeName(new SimpleName("void")),
+                TypeName.voidType(),
                 new SimpleName("main"),
                 Arrays.asList(new Parameter(
                         new SimpleName("args"),
@@ -155,15 +119,6 @@ public class ASTTest {
         compilationUnit.addPackageDef(packageDef);
         assertEquals("/* Compilation Unit */ {\n" +
                 "package <root> {\n" +
-                "import java.lang._;\n" +
-                "import java.io._;\n" +
-                "import java.net._;\n" +
-                "import java.util._;\n" +
-                "import java.time._;\n" +
-                "import java.time.chrono._;\n" +
-                "import java.time.LocalDateTime;\n" +
-                "import java.time.chrono.JapaneseEra;\n" +
-                "import karaffe.core._;\n" +
                 "import java.lang.Object;\n" +
                 "import java.lang.Integer;\n" +
                 "class A extends Object {\n" +

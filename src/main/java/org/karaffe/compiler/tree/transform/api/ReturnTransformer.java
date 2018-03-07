@@ -13,9 +13,13 @@ public interface ReturnTransformer extends BaseTransformer {
 
     }
 
+    public default Return transformBody(Return returnExpr) {
+        return new Return(returnExpr.getPosition(), transform(returnExpr.getExpr()));
+    }
+
     default Expression transform(Return returnExpr) {
         onReturnBefore(returnExpr);
-        Return returnExprAfter = new Return(transform(returnExpr.getExpr()));
+        Return returnExprAfter = transformBody(returnExpr);
         onReturnAfter(returnExprAfter);
         return returnExprAfter;
     }

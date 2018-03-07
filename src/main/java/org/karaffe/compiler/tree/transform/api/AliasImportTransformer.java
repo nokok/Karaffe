@@ -11,9 +11,16 @@ public interface AliasImportTransformer extends TypeNameTransformer {
 
     }
 
+    public default AliasImport transformBody(AliasImport oldAliasImport) {
+        return new AliasImport(
+                oldAliasImport.getPosition(),
+                transform(oldAliasImport.getBefore()),
+                transform(oldAliasImport.getAfter()));
+    }
+
     public default AliasImport transform(AliasImport oldAliasImport) {
         onAliasImportBefore(oldAliasImport);
-        AliasImport aliasImport = new AliasImport(transform(oldAliasImport.getBefore()), transform(oldAliasImport.getAfter()));
+        AliasImport aliasImport = transformBody(oldAliasImport);
         onAliasImportAfter(aliasImport);
         return aliasImport;
     }

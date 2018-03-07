@@ -2,6 +2,7 @@ package org.karaffe.compiler.tree.transform.api;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 import org.karaffe.compiler.tree.v2.Parameter;
 
@@ -15,12 +16,13 @@ public interface ParametersTransformer extends ParameterTransformer {
 
     }
 
+    public default List<? extends Parameter> transformBody(List<? extends Parameter> oldParameter) {
+        return new ArrayList<>(oldParameter).stream().map(this::transform).collect(Collectors.toList());
+    }
+
     public default List<? extends Parameter> transform(List<? extends Parameter> oldParameter) {
         onParametersBefore(oldParameter);
-        List<Parameter> parameters = new ArrayList<>();
-        for (Parameter parameter : oldParameter) {
-            parameters.add(transform(parameter));
-        }
+        List<? extends Parameter> parameters = transformBody(oldParameter);
         onParametersAfter(parameters);
         return parameters;
     }

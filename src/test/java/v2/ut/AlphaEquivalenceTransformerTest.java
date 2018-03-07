@@ -3,7 +3,7 @@ package v2.ut;
 import static org.junit.Assert.assertEquals;
 
 import org.junit.Test;
-import org.karaffe.compiler.tree.transform.AlphaEquivalenceTransformer;
+import org.karaffe.compiler.tree.transform.namer.AlphaEquivalenceTransformer;
 import org.karaffe.compiler.tree.v2.expressions.Block;
 import org.karaffe.compiler.tree.v2.expressions.ExpressionName;
 import org.karaffe.compiler.tree.v2.expressions.IntLiteral;

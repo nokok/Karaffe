@@ -58,6 +58,10 @@ public class MethodDef extends AbstractTree implements TypeDefMember {
         this.methodBody = new ArrayList<>(body);
     }
 
+    public MethodDef(MethodDef other) {
+        this(other.getPosition(), other.getModifiers(), other.getReturnTypeName(), other.getName(), other.getParameters(), other.getBody());
+    }
+
     public void addMethodBody(Statement statement) {
         this.methodBody.add(Objects.requireNonNull(statement));
     }

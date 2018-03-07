@@ -8,13 +8,15 @@ import java.util.Arrays;
 import org.junit.Before;
 import org.junit.Test;
 import org.karaffe.compiler.tree.transform.TransformerRunner;
-import org.karaffe.compiler.tree.transform.TypeInferer;
+import org.karaffe.compiler.tree.transform.typeinferer.TypeInferer;
 import org.karaffe.compiler.tree.v2.CompilationUnit;
 import org.karaffe.compiler.tree.v2.PackageDef;
 import org.karaffe.compiler.tree.v2.Parameter;
 import org.karaffe.compiler.tree.v2.expressions.Apply;
+import org.karaffe.compiler.tree.v2.expressions.ExpressionName;
 import org.karaffe.compiler.tree.v2.expressions.IntLiteral;
 import org.karaffe.compiler.tree.v2.expressions.Plus;
+import org.karaffe.compiler.tree.v2.expressions.StaticApply;
 import org.karaffe.compiler.tree.v2.modifiers.Public;
 import org.karaffe.compiler.tree.v2.modifiers.Static;
 import org.karaffe.compiler.tree.v2.names.SimpleName;
@@ -64,6 +66,19 @@ public class TypeInfererTest {
                                                                 new IntLiteral(3)))))))));
         assertEquals("/* Compilation Unit */ {\n" +
                 "package <root> {\n" +
+                "class A extends Any {\n" +
+                "public static void main(args Array[String]) {\n" +
+                "let a = 0;\n" +
+                "let b = 1.+(2);\n" +
+                "let c = 1.+(2).+(3);\n" +
+                "}\n" +
+                "}\n" +
+                "}\n" +
+                "}", before.toString());
+        TypeInferer typeInferer = new TypeInferer();
+        CompilationUnit after = typeInferer.transform(this.runner.transform(before, "name-resolver"));
+        assertEquals("/* Compilation Unit */ {\n" +
+                "package <root> {\n" +
                 "import java.lang._;\n" +
                 "import java.io._;\n" +
                 "import java.net._;\n" +
@@ -75,14 +90,144 @@ public class TypeInfererTest {
                 "import karaffe.core._;\n" +
                 "class A extends Any {\n" +
                 "public static void main(args Array[String]) {\n" +
+                "let a : karaffe.core.Int = {\n" +
+                "let k_0 : karaffe.core.Int = 0;\n" +
+                "return k_0;\n" +
+                "};\n" +
+                "let b : karaffe.core.Int = {\n" +
+                "let k_1 : karaffe.core.Int = 1;\n" +
+                "let k_2 : karaffe.core.Int = 2;\n" +
+                "let k_3 : karaffe.core.Int = k_1.plus(k_2);\n" +
+                "return k_3;\n" +
+                "};\n" +
+                "let c : karaffe.core.Int = {\n" +
+                "let k_4 : karaffe.core.Int = 1;\n" +
+                "let k_5 : karaffe.core.Int = 2;\n" +
+                "let k_6 : karaffe.core.Int = k_4.plus(k_5);\n" +
+                "let k_7 : karaffe.core.Int = 3;\n" +
+                "let k_8 : karaffe.core.Int = k_6.plus(k_7);\n" +
+                "return k_8;\n" +
+                "};\n" +
+                "}\n" +
+                "}\n" +
+                "}\n" +
+                "}", after.toString());
+    }
+
+    @Test
+    public void testCompilationUnit2() {
+        CompilationUnit before = new CompilationUnit(
+                new PackageDef(
+                        new ClassDef(
+                                new SimpleName("A"),
+                                new MethodDef(
+                                        new ArrayList<>(Arrays.asList(new Public(), new Static())),
+                                        TypeName.voidType(),
+                                        new SimpleName("main"),
+                                        new ArrayList<>(Arrays.asList(
+                                                new Parameter(
+                                                        new SimpleName("args"),
+                                                        new TypeName(new SimpleName("Array"), new TypeName("String"))))),
+                                        new ArrayList<>(Arrays.asList(
+                                                new LetLocalDef(
+                                                        new SimpleName("a"),
+                                                        new IntLiteral(0)),
+                                                new LetLocalDef(
+                                                        new SimpleName("b"),
+                                                        new ExpressionName("a")),
+                                                new LetLocalDef(
+                                                        new SimpleName("c"),
+                                                        new ExpressionName("b"))))))));
+        assertEquals("/* Compilation Unit */ {\n" +
+                "package <root> {\n" +
+                "class A extends Any {\n" +
+                "public static void main(args Array[String]) {\n" +
                 "let a = 0;\n" +
-                "let b = 1.+(2);\n" +
-                "let c = 1.+(2).+(3);\n" +
+                "let b = a;\n" +
+                "let c = b;\n" +
                 "}\n" +
                 "}\n" +
                 "}\n" +
                 "}", before.toString());
-        CompilationUnit after = this.runner.transform(before, TypeInferer.name);
+        CompilationUnit transformed = this.runner.transform(before, "name-resolver");
+        TypeInferer typeInferer = new TypeInferer();
+        CompilationUnit after = typeInferer.transform(transformed);
+        assertEquals("/* Compilation Unit */ {\n" +
+                "package <root> {\n" +
+                "import java.lang._;\n" +
+                "import java.io._;\n" +
+                "import java.net._;\n" +
+                "import java.util._;\n" +
+                "import java.time._;\n" +
+                "import java.time.chrono._;\n" +
+                "import java.time.LocalDateTime;\n" +
+                "import java.time.chrono.JapaneseEra;\n" +
+                "import karaffe.core._;\n" +
+                "class A extends Any {\n" +
+                "public static void main(args Array[String]) {\n" +
+                "let a : karaffe.core.Int = {\n" +
+                "let k_0 : karaffe.core.Int = 0;\n" +
+                "return k_0;\n" +
+                "};\n" +
+                "let b : karaffe.core.Int = {\n" +
+                "let k_1 : karaffe.core.Int = a;\n" +
+                "return k_1;\n" +
+                "};\n" +
+                "let c : karaffe.core.Int = {\n" +
+                "let k_2 : karaffe.core.Int = b;\n" +
+                "return k_2;\n" +
+                "};\n" +
+                "}\n" +
+                "}\n" +
+                "}\n" +
+                "}", after.toString());
+    }
+
+    @Test
+    public void testCompilationUnit3() {
+        CompilationUnit before = new CompilationUnit(
+                new PackageDef(
+                        new ClassDef(
+                                new SimpleName("A"),
+                                new MethodDef(
+                                        new ArrayList<>(Arrays.asList(new Public(), new Static())),
+                                        TypeName.voidType(),
+                                        new SimpleName("main"),
+                                        new ArrayList<>(Arrays.asList(
+                                                new Parameter(
+                                                        new SimpleName("args"),
+                                                        new TypeName(new SimpleName("Array"), new TypeName("String"))))),
+                                        new ArrayList<>(Arrays.asList(
+                                                new LetLocalDef(
+                                                        new SimpleName("a"),
+                                                        new IntLiteral(0)),
+                                                new LetLocalDef(
+                                                        new SimpleName("b"),
+                                                        new ExpressionName("a")),
+                                                new LetLocalDef(
+                                                        new SimpleName("c"),
+                                                        new ExpressionName("b")),
+                                                new LetLocalDef(
+                                                        new SimpleName("d"),
+                                                        new StaticApply(
+                                                                new TypeName("Console"),
+                                                                new SimpleName("println"),
+                                                                new ExpressionName("c")))))))));
+        assertEquals("/* Compilation Unit */ {\n" +
+                "package <root> {\n" +
+                "class A extends Any {\n" +
+                "public static void main(args Array[String]) {\n" +
+                "let a = 0;\n" +
+                "let b = a;\n" +
+                "let c = b;\n" +
+                "let d = Console.println(c);\n" +
+                "}\n" +
+                "}\n" +
+                "}\n" +
+                "}", before.toString());
+        CompilationUnit transformed = this.runner.transform(before, "name-resolver");
+        TypeInferer typeInferer = new TypeInferer();
+        CompilationUnit after = typeInferer.transform(transformed);
         assertEquals("", after.toString());
     }
 }

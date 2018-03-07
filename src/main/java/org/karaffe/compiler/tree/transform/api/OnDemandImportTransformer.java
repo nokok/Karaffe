@@ -2,7 +2,7 @@ package org.karaffe.compiler.tree.transform.api;
 
 import org.karaffe.compiler.tree.v2.imports.OnDemandImport;
 
-public interface OnDemandImportTransformer {
+public interface OnDemandImportTransformer extends PackageNameTransformer {
     public default void onOnDemandImportBefore(OnDemandImport onDemandImport) {
 
     }
@@ -13,8 +13,14 @@ public interface OnDemandImportTransformer {
 
     public default OnDemandImport transform(OnDemandImport oldOnDemandImport) {
         onOnDemandImportBefore(oldOnDemandImport);
-        OnDemandImport onDemandImport = new OnDemandImport(oldOnDemandImport.getPackageName());
+        OnDemandImport onDemandImport = transformBody(oldOnDemandImport);
         onOnDemandImportAfter(onDemandImport);
         return onDemandImport;
+    }
+
+    public default OnDemandImport transformBody(OnDemandImport oldOnDemandImport) {
+        return new OnDemandImport(
+                oldOnDemandImport.getPosition(),
+                transform(oldOnDemandImport.getPackageName()));
     }
 }

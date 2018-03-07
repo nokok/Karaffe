@@ -17,11 +17,15 @@ public interface InterfaceDefTransformer extends TypeDefMemberTransformer {
 
     public default TypeDefStatement transform(InterfaceDef oldInterfaceDef) {
         onInterfaceDefBefore(oldInterfaceDef);
-        InterfaceDef interfaceDef = new InterfaceDef(
+        InterfaceDef interfaceDef = transformBody(oldInterfaceDef);
+        onInterfaceDefAfter(interfaceDef);
+        return interfaceDef;
+    }
+
+    public default InterfaceDef transformBody(InterfaceDef oldInterfaceDef) {
+        return new InterfaceDef(
                 oldInterfaceDef.getPosition(),
                 transform(oldInterfaceDef.getName()),
                 oldInterfaceDef.getBody().stream().map(this::transform).collect(Collectors.toList()));
-        onInterfaceDefAfter(interfaceDef);
-        return interfaceDef;
     }
 }

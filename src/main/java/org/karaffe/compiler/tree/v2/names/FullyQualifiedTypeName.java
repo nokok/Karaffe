@@ -10,38 +10,51 @@ import java.util.stream.Stream;
 import org.karaffe.compiler.pos.Position;
 import org.karaffe.compiler.tree.v2.api.AbstractTree;
 
-public class FullyQualifiedName extends AbstractTree {
-    private final List<? extends SimpleName> names;
+public class FullyQualifiedTypeName extends AbstractTree {
 
-    public FullyQualifiedName(String... names) {
-        this.names = Stream.of(names).map(SimpleName::new).collect(Collectors.toList());
+    private final List<SimpleName> names;
+
+    public FullyQualifiedTypeName(Class<?> clazz) {
+        this(clazz.getCanonicalName().split("\\."));
     }
 
-    public FullyQualifiedName(Position position, String... names) {
+    public FullyQualifiedTypeName(String... names) {
+        this(Position.noPos(), names);
+    }
+
+    public FullyQualifiedTypeName(Position position, String... names) {
         super(position);
         this.names = Stream.of(names).map(SimpleName::new).collect(Collectors.toList());
     }
 
-    public FullyQualifiedName(FullyQualifiedName other) {
+    public FullyQualifiedTypeName(FullyQualifiedTypeName other) {
         super(other.getPosition());
         this.names = new ArrayList<>(other.names);
     }
 
-    public FullyQualifiedName(List<? extends SimpleName> names) {
+    public FullyQualifiedTypeName(List<? extends SimpleName> names) {
         this.names = new ArrayList<>(names);
     }
 
-    public FullyQualifiedName(SimpleName... names) {
+    public FullyQualifiedTypeName(SimpleName... names) {
         this(new ArrayList<>(Arrays.asList(names)));
     }
 
-    public FullyQualifiedName(Position position, List<? extends SimpleName> names) {
+    public FullyQualifiedTypeName(Position position, List<? extends SimpleName> names) {
         super(position);
         this.names = new ArrayList<>(names);
     }
 
-    public FullyQualifiedName(Position position, SimpleName... names) {
+    public FullyQualifiedTypeName(Position position, SimpleName... names) {
         this(position, new ArrayList<>(Arrays.asList(names)));
+    }
+
+    public String getFullName() {
+        return getFullName(".");
+    }
+
+    public String getFullName(String delimiter) {
+        return String.join(delimiter, this.names);
     }
 
     public SimpleName last() {
@@ -50,7 +63,7 @@ public class FullyQualifiedName extends AbstractTree {
 
     @Override
     public int hashCode() {
-        return Objects.hash(this.names);
+        return Objects.hash(this.getFullName());
     }
 
     @Override
@@ -58,9 +71,9 @@ public class FullyQualifiedName extends AbstractTree {
         if (obj == null) {
             return false;
         }
-        if (obj instanceof FullyQualifiedName) {
-            FullyQualifiedName other = (FullyQualifiedName) obj;
-            return this.names.equals(other.names);
+        if (obj instanceof FullyQualifiedTypeName) {
+            FullyQualifiedTypeName other = (FullyQualifiedTypeName) obj;
+            return this.getFullName().equals(other.getFullName());
         }
         return false;
     }

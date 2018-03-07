@@ -10,6 +10,7 @@ import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
 import org.karaffe.compiler.tree.Name;
+import org.karaffe.compiler.tree.v2.names.SimpleName;
 
 public class MethodResolver {
     private final Class<?> targetClass;
@@ -26,6 +27,10 @@ public class MethodResolver {
 
     public List<Method> findMethodsByMethodName(Name name) {
         return findMethodsByMethodName(name.getName());
+    }
+
+    public List<Method> findMethodsByMethodName(SimpleName methodName) {
+        return findMethodsByMethodName(methodName.toString());
     }
 
     public static Optional<List<Method>> findMethods(String anyString) {

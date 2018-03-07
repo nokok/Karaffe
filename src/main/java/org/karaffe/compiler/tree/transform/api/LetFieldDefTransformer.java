@@ -12,13 +12,17 @@ public interface LetFieldDefTransformer extends BaseTransformer, SimpleNameTrans
 
     }
 
-    public default LetFieldDef transform(LetFieldDef oldLetFieldDef) {
-        onLetFieldDefBefore(oldLetFieldDef);
-        LetFieldDef letFieldDef = new LetFieldDef(
+    public default LetFieldDef transformBody(LetFieldDef oldLetFieldDef) {
+        return new LetFieldDef(
                 oldLetFieldDef.getPosition(),
                 transform(oldLetFieldDef.getName()),
                 oldLetFieldDef.getTypeName().map(this::transform).orElse(null),
                 oldLetFieldDef.getInitializer().map(this::transform).orElse(null));
+    }
+
+    public default LetFieldDef transform(LetFieldDef oldLetFieldDef) {
+        onLetFieldDefBefore(oldLetFieldDef);
+        LetFieldDef letFieldDef = transformBody(oldLetFieldDef);
         onLetFieldDefAfter(letFieldDef);
         return letFieldDef;
     }

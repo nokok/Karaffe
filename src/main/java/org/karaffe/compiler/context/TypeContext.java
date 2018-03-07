@@ -1,6 +1,5 @@
 package org.karaffe.compiler.context;
 
-import java.lang.reflect.Method;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
@@ -12,16 +11,11 @@ import java.util.Optional;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
-import org.karaffe.compiler.resolvers.MethodResolver;
-import org.karaffe.compiler.resolvers.TypeResolver;
 import org.karaffe.compiler.tree.Name;
 import org.karaffe.compiler.tree.NamedDef;
-import org.karaffe.compiler.tree.TypeName;
 import org.karaffe.compiler.tree.base.Node;
 import org.karaffe.compiler.types.Applying;
 import org.karaffe.compiler.types.InferResult;
-import org.karaffe.compiler.types.InferResult.ResultType;
-import org.karaffe.compiler.types.MayBeApplicable;
 
 public class TypeContext {
 
@@ -73,11 +67,13 @@ public class TypeContext {
                 this.availableDefs.put(name, inferRes);
             });
         });
-        mayBeTypeName.ifPresent(t -> {
-            TypeName typeName = (TypeName) t;
-            Optional<List<String>> compatibleClasses = TypeResolver.findAllCompatibleClasses(typeName.getText());
-            this.availableDefs.put(name, compatibleClasses.map(InferResult::of).orElse(InferResult.noHint()));
-        });
+        // mayBeTypeName.ifPresent(t -> {
+        // TypeName typeName = (TypeName) t;
+        // Optional<List<String>> compatibleClasses =
+        // TypeResolver.findAllCompatibleClasses(typeName.getText());
+        // this.availableDefs.put(name,
+        // compatibleClasses.map(InferResult::of).orElse(InferResult.noHint()));
+        // });
         updateContext();
     }
 
@@ -117,39 +113,6 @@ public class TypeContext {
 
     private int updateContext1() {
         int updated = 0;
-        List<Applying> applyings = this.availableDefs
-                .entrySet()
-                .stream()
-                .filter(entry -> entry.getValue().getInferResultType() == ResultType.APPLYING)
-                .map(Map.Entry::getValue)
-                .map(Applying.class::cast)
-                .collect(Collectors.toList());
-        for (Applying applying : applyings) {
-            MayBeApplicable applicable = applying.getApplicable();
-            if (applicable.isConstructorAccess()) {
-                InferResult ownerType = applicable.getOwnerType();
-                updated += updateType(applying, ownerType);
-            }
-            Name methodName = applicable.getMemberName();
-            String typeName = applicable.getOwnerType().getType().get();
-            Class<?> ownerClass = TypeResolver.findClass(typeName).get();
-            List<Method> methods = new MethodResolver(ownerClass).findMethodsByMethodName(methodName);
-            List<Class<?>> args = applying.getArgs().stream()
-                    .map(InferResult::getType)
-                    .filter(Optional::isPresent)
-                    .map(Optional::get)
-                    .map(TypeResolver::findClass)
-                    .filter(Optional::isPresent)
-                    .<Class<?>>map(Optional::get)
-                    .collect(Collectors.toList());
-            List<Method> methods2 = methods.stream()
-                    .filter(method -> method.getParameterTypes().length == args.size())
-                    .collect(Collectors.toList());
-            if (methods2.size() == 1) {
-                InferResult returnType = InferResult.of(methods2.get(0).getReturnType().getCanonicalName());
-                updated += updateType(applying, returnType);
-            }
-        }
         return updated;
     }
 
@@ -164,17 +127,7 @@ public class TypeContext {
     }
 
     public Optional<String> findFQCN(String simpleName) {
-        Objects.requireNonNull(simpleName);
-        Optional<Class<?>> classOpt = TypeResolver.findClass(simpleName);
-        if (classOpt.isPresent()) {
-            return Optional.of(classOpt.get().getCanonicalName());
-        }
-        Optional<String> packageSearch = this.defaultImportPackages.stream().map(pkg -> pkg.getName() + "." + simpleName).filter(TypeResolver::isValidFQCN).findFirst();
-        Optional<String> classSearch = this.defaultImportClasses.stream().filter(fqcn -> fqcn.endsWith("." + simpleName)).findFirst();
-        if (classSearch.isPresent()) {
-            return classSearch;
-        }
-        return packageSearch;
+        return null;
     }
 
     public Optional<Package> findPackage(String packageName) {

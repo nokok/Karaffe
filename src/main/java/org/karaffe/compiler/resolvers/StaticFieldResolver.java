@@ -9,7 +9,8 @@ import java.util.Optional;
 import java.util.stream.Stream;
 
 public class StaticFieldResolver {
-    public static Optional<Field> findStaticField(String anyName) {
+
+    public Optional<Field> findStaticField(String anyName) {
         Objects.requireNonNull(anyName);
         if (anyName.isEmpty()) {
             return Optional.empty();

@@ -1,5 +1,7 @@
 package org.karaffe.compiler.tree.v2.names;
 
+import java.util.Objects;
+
 import org.karaffe.compiler.pos.Position;
 import org.karaffe.compiler.tree.v2.api.AbstractTree;
 import org.karaffe.compiler.tree.v2.api.Term;
@@ -8,21 +10,26 @@ public class SimpleName extends AbstractTree implements CharSequence, Term {
     private final String name;
 
     public SimpleName(String name) {
-        this.name = name;
+        this.name = Objects.requireNonNull(name);
+        if (this.name.contains(".")) {
+            throw new IllegalArgumentException();
+        }
     }
 
     public SimpleName(SimpleName other) {
-        this.name = other.name;
+        this(other.name);
     }
 
     public SimpleName(Position position, String name) {
         super(position);
-        this.name = name;
+        this.name = Objects.requireNonNull(name);
+        if (this.name.contains(".")) {
+            throw new IllegalArgumentException();
+        }
     }
 
     public SimpleName(Position position, SimpleName other) {
-        super(position);
-        this.name = other.name;
+        this(position, other.name);
     }
 
     @Override

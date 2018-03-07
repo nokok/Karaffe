@@ -6,22 +6,26 @@ import org.karaffe.compiler.pos.Position;
 import org.karaffe.compiler.tree.v2.api.AbstractTree;
 import org.karaffe.compiler.tree.v2.api.ImportStatement;
 import org.karaffe.compiler.tree.v2.api.StatementType;
-import org.karaffe.compiler.tree.v2.names.FullyQualifiedName;
+import org.karaffe.compiler.tree.v2.names.FullyQualifiedTypeName;
 import org.karaffe.compiler.tree.v2.names.SimpleName;
 
 public class SimpleImport extends AbstractTree implements ImportStatement {
-    private final FullyQualifiedName name;
+    private final FullyQualifiedTypeName name;
 
-    public SimpleImport(FullyQualifiedName name) {
+    public SimpleImport(FullyQualifiedTypeName name) {
         this.name = name;
     }
 
-    public SimpleImport(Position position, FullyQualifiedName name) {
+    public SimpleImport(Position position, FullyQualifiedTypeName name) {
         super(position);
         this.name = name;
     }
 
-    public FullyQualifiedName getName() {
+    public SimpleImport(SimpleImport other) {
+        this(other.getPosition(), other.getName());
+    }
+
+    public FullyQualifiedTypeName getName() {
         return this.name;
     }
 

@@ -2,6 +2,7 @@ package it;
 
 import static org.junit.Assert.assertEquals;
 
+import org.junit.Ignore;
 import org.junit.Test;
 import org.karaffe.compiler.context.NormalizeContext;
 import org.karaffe.compiler.parser.ExprParser;
@@ -12,6 +13,7 @@ import org.karaffe.compiler.tree.NodeList;
 import org.karaffe.compiler.tree.base.Node;
 
 public class KNormalizeTest {
+    @Ignore
     @Test
     public void testCompileUnit() {
         this.testKNormalize("class Factorial {\r\n" +

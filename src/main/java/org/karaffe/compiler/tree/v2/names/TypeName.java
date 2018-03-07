@@ -5,6 +5,7 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.stream.Collectors;
 
+import org.karaffe.compiler.pos.Position;
 import org.karaffe.compiler.tree.v2.api.AbstractTree;
 
 public class TypeName extends AbstractTree {
@@ -15,15 +16,36 @@ public class TypeName extends AbstractTree {
         this(new SimpleName(name), new ArrayList<>(0));
     }
 
+    public TypeName(Position position, String name) {
+        this(position, new SimpleName(name), new ArrayList<>(0));
+    }
+
     public TypeName(SimpleName name) {
         this(name, new ArrayList<>(0));
+    }
+
+    public TypeName(Position position, SimpleName name) {
+        this(position, name, new ArrayList<>(0));
     }
 
     public TypeName(SimpleName name, TypeName parameterizedType) {
         this(name, Arrays.asList(parameterizedType));
     }
 
+    public TypeName(Position position, SimpleName name, TypeName parameterizedType) {
+        this(position, name, Arrays.asList(parameterizedType));
+    }
+
     public TypeName(SimpleName name, List<? extends TypeName> parameterizedType) {
+        this.name = name;
+        this.parameterizedTypes = new ArrayList<>(parameterizedType);
+        if (this.name.toString().contains(".")) {
+            throw new IllegalArgumentException();
+        }
+    }
+
+    public TypeName(Position position, SimpleName name, List<? extends TypeName> parameterizedType) {
+        super(position);
         this.name = name;
         this.parameterizedTypes = new ArrayList<>(parameterizedType);
     }

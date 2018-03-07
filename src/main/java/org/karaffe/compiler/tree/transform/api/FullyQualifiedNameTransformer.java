@@ -1,15 +1,25 @@
 package org.karaffe.compiler.tree.transform.api;
 
-import org.karaffe.compiler.tree.v2.names.FullyQualifiedName;
+import org.karaffe.compiler.tree.v2.names.FullyQualifiedTypeName;
 
 public interface FullyQualifiedNameTransformer {
 
-    public default void onFullyQualifiedName(FullyQualifiedName name) {
+    public default void onFullyQualifiedNameBefore(FullyQualifiedTypeName name) {
 
     }
 
-    public default FullyQualifiedName transform(FullyQualifiedName oldName) {
-        onFullyQualifiedName(oldName);
-        return new FullyQualifiedName(oldName);
+    public default void onFullyQualifiedNameAfter(FullyQualifiedTypeName name) {
+
+    }
+
+    public default FullyQualifiedTypeName transform(FullyQualifiedTypeName oldName) {
+        onFullyQualifiedNameBefore(oldName);
+        FullyQualifiedTypeName after = transformBody(oldName);
+        onFullyQualifiedNameAfter(after);
+        return after;
+    }
+
+    public default FullyQualifiedTypeName transformBody(FullyQualifiedTypeName name) {
+        return new FullyQualifiedTypeName(name);
     }
 }

@@ -6,7 +6,7 @@ import org.karaffe.compiler.context.CompilerConfig;
 import org.karaffe.compiler.tree.v2.CompilationUnit;
 import org.karaffe.compiler.tree.v2.PackageDef;
 import org.karaffe.compiler.tree.v2.imports.SimpleImport;
-import org.karaffe.compiler.tree.v2.names.FullyQualifiedName;
+import org.karaffe.compiler.tree.v2.names.FullyQualifiedTypeName;
 import org.karaffe.compiler.tree.v2.names.PackageName;
 import org.karaffe.compiler.tree.v2.names.SimpleName;
 
@@ -25,7 +25,7 @@ public class KaraffeCompiler implements Callable<Integer> {
         compilationUnit.addPackageDef(new PackageDef(
                 new PackageName(new SimpleName("foo")),
                 new SimpleImport(
-                        new FullyQualifiedName(
+                        new FullyQualifiedTypeName(
                                 new SimpleName("")))));
 
         return -1;

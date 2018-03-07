@@ -2,6 +2,7 @@ package unittests;
 
 import static org.junit.Assert.assertEquals;
 
+import org.junit.Ignore;
 import org.junit.Test;
 import org.karaffe.compiler.context.NormalizeContext;
 import org.karaffe.compiler.context.TypeContext;
@@ -9,6 +10,7 @@ import org.karaffe.compiler.parser.ExprParser;
 import org.karaffe.compiler.parser.StatementParser;
 import org.karaffe.compiler.tree.NodeList;
 
+@Ignore
 public class TypeContextTest {
     @Test
     public void testDefaultImportPackages() {

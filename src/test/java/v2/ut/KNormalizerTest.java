@@ -9,7 +9,7 @@ import java.util.List;
 
 import org.junit.Before;
 import org.junit.Test;
-import org.karaffe.compiler.tree.transform.KNormalizer;
+import org.karaffe.compiler.tree.transform.namer.KNormalizer;
 import org.karaffe.compiler.tree.v2.api.Expression;
 import org.karaffe.compiler.tree.v2.api.Statement;
 import org.karaffe.compiler.tree.v2.expressions.Apply;
@@ -36,12 +36,12 @@ public class KNormalizerTest {
         assertFalse(one.isNormalizable());
 
         Apply apply = new Apply(one, new Plus(), new IntLiteral(2));
-        assertFalse(apply.isNormalizable());
+        assertTrue(apply.isNormalizable());
     }
 
     @Test
     public void testNormalizable2() {
-        assertFalse(new Apply(
+        assertTrue(new Apply(
                 new IntLiteral(1),
                 new SimpleName("toString")).isNormalizable());
         assertTrue(new Apply(
@@ -66,9 +66,11 @@ public class KNormalizerTest {
         assertTrue(before.isNormalizable());
         Expression after = this.normalizer.transform(before);
         assertEquals("{\n" +
-                "let k_0 = 1.+(2);\n" +
-                "let k_1 = 3;\n" +
+                "let k_0 = 1;\n" +
+                "let k_1 = 2;\n" +
                 "let k_2 = k_0.+(k_1);\n" +
+                "let k_3 = 3;\n" +
+                "let k_4 = k_2.+(k_3);\n" +
                 "}", after.toString());
         assertFalse(after.isNormalizable());
     }
@@ -86,8 +88,11 @@ public class KNormalizerTest {
         assertTrue(before.isNormalizable());
         Expression after = this.normalizer.transform(before);
         assertEquals("{\n" +
-                "let k_0 = 2.*(3);\n" +
-                "let k_1 = 1.+(k_0);\n" +
+                "let k_0 = 1;\n" +
+                "let k_1 = 2;\n" +
+                "let k_2 = 3;\n" +
+                "let k_3 = k_1.*(k_2);\n" +
+                "let k_4 = k_0.+(k_3);\n" +
                 "}", after.toString());
         assertFalse(after.isNormalizable());
     }
@@ -112,13 +117,18 @@ public class KNormalizerTest {
         Expression after = this.normalizer.transform(block);
         assertEquals("{\n" +
                 "let a = {\n" +
-                "let k_0 = 2.*(3);\n" +
-                "let k_1 = 1.+(k_0);\n" +
-                "k_1;\n" +
+                "let k_0 = 1;\n" +
+                "let k_1 = 2;\n" +
+                "let k_2 = 3;\n" +
+                "let k_3 = k_1.*(k_2);\n" +
+                "let k_4 = k_0.+(k_3);\n" +
+                "return k_4;\n" +
                 "};\n" +
                 "let b = {\n" +
-                "let k_2 = 4./(a);\n" +
-                "k_2;\n" +
+                "let k_5 = 4;\n" +
+                "let k_6 = a;\n" +
+                "let k_7 = k_5./(k_6);\n" +
+                "return k_7;\n" +
                 "};\n" +
                 "}", after.toString());
         assertFalse(after.isNormalizable());

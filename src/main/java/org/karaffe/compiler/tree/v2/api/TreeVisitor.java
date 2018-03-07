@@ -11,7 +11,7 @@ import org.karaffe.compiler.tree.v2.expressions.Plus;
 import org.karaffe.compiler.tree.v2.imports.SimpleImport;
 import org.karaffe.compiler.tree.v2.modifiers.Public;
 import org.karaffe.compiler.tree.v2.modifiers.Static;
-import org.karaffe.compiler.tree.v2.names.FullyQualifiedName;
+import org.karaffe.compiler.tree.v2.names.FullyQualifiedTypeName;
 import org.karaffe.compiler.tree.v2.names.PackageName;
 import org.karaffe.compiler.tree.v2.names.SimpleName;
 import org.karaffe.compiler.tree.v2.names.TypeName;
@@ -42,7 +42,7 @@ public interface TreeVisitor {
 
     public void visit(Static st);
 
-    public void visit(FullyQualifiedName name);
+    public void visit(FullyQualifiedTypeName name);
 
     public void visit(PackageName packageName);
 

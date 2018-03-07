@@ -22,6 +22,10 @@ public class OnDemandImport extends AbstractTree implements ImportStatement {
         this.packageName = Objects.requireNonNull(packageName);
     }
 
+    public OnDemandImport(OnDemandImport other) {
+        this(other.getPosition(), other.getPackageName());
+    }
+
     @Override
     public SimpleName getImportedSimpleName() {
         return SimpleName.wildCard();

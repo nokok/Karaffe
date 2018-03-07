@@ -10,5 +10,7 @@ public enum StatementType {
     LOCAL_LET_DEF,
     ONDEMAND_IMPORT_DEF,
     ALIAS_IMPORT,
+
+    TYPED_LOCAL_LET_DEF,
     ;
 }

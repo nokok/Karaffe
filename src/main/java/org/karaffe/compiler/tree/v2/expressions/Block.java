@@ -7,16 +7,14 @@ import java.util.Objects;
 import java.util.Optional;
 
 import org.karaffe.compiler.pos.Position;
-import org.karaffe.compiler.tree.v2.api.AbstractTree;
+import org.karaffe.compiler.tree.v2.api.AbstractExpression;
 import org.karaffe.compiler.tree.v2.api.Expression;
 import org.karaffe.compiler.tree.v2.api.Statement;
 import org.karaffe.compiler.tree.v2.api.StatementType;
 import org.karaffe.compiler.tree.v2.api.Tree;
 import org.karaffe.compiler.tree.v2.statements.LetLocalDef;
-import org.karaffe.compiler.types.v2.TypeConstraint;
-import org.karaffe.compiler.types.v2.TypeConstraints;
 
-public class Block extends AbstractTree implements Expression {
+public class Block extends AbstractExpression {
 
     private final List<Statement> body;
 
@@ -91,11 +89,25 @@ public class Block extends AbstractTree implements Expression {
         if (this.body.isEmpty()) {
             return Optional.empty();
         }
-        Statement statement = this.getBody().get(this.getBody().size() - 1);
-        switch (statement.getStatementType()) {
+        Statement lastStatement = this.getBody().get(this.getBody().size() - 1);
+        switch (lastStatement.getStatementType()) {
         case LOCAL_LET_DEF:
-            LetLocalDef def = (LetLocalDef) statement;
+            LetLocalDef def = (LetLocalDef) lastStatement;
             return Optional.of(new ExpressionName(def.getName().toString()));
+        case EXPRESSION: {
+            Expression expr = (Expression) lastStatement;
+            switch (expr.getExpressionType()) {
+            case RETURN: {
+                Return ret = (Return) expr;
+                if (ret.getExpr().getExpressionType().equals(ExpressionType.NAME)) {
+                    return Optional.ofNullable((ExpressionName) ret.getExpr());
+                }
+                return Optional.empty();
+            }
+            default:
+                return Optional.empty();
+            }
+        }
         default:
             return Optional.empty();
         }
@@ -106,8 +118,4 @@ public class Block extends AbstractTree implements Expression {
         return String.format("{\n%s}", this.getBody().stream().map(Object::toString).map(s -> s + ";\n").reduce((l, r) -> l + r).orElse(""));
     }
 
-    @Override
-    public TypeConstraint getTypeConstraint() {
-        return TypeConstraints.infer(this.getBody().get(this.getBody().size() - 1));
-    }
 }

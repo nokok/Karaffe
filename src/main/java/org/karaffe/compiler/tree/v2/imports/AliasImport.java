@@ -24,6 +24,10 @@ public class AliasImport extends AbstractTree implements ImportStatement {
         this.after = Objects.requireNonNull(typeName);
     }
 
+    public AliasImport(AliasImport other) {
+        this(other.getPosition(), other.getBefore(), other.getAfter());
+    }
+
     public TypeName getBefore() {
         return this.before;
     }

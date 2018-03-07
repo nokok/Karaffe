@@ -1,10 +1,7 @@
 package org.karaffe.compiler.tree.transform.api;
 
-import java.util.ArrayList;
-import java.util.List;
 import java.util.stream.Collectors;
 
-import org.karaffe.compiler.tree.v2.api.Modifier;
 import org.karaffe.compiler.tree.v2.statements.MethodDef;
 
 public interface MethodDefTransformer extends BaseTransformer, ParametersTransformer {
@@ -19,19 +16,19 @@ public interface MethodDefTransformer extends BaseTransformer, ParametersTransfo
 
     public default MethodDef transform(MethodDef methodDef) {
         onMethodBefore(methodDef);
-        MethodDef after = new MethodDef(
-                methodDef.getPosition(),
-                transformMethodModifier(methodDef, methodDef.getModifiers()),
-                transform(methodDef.getReturnTypeName()),
-                transform(methodDef.getName()),
-                transform(methodDef.getParameters()),
-                methodDef.getBody().stream().map(this::transform).collect(Collectors.toList()));
+        MethodDef after = transformBody(methodDef);
         onMethodAfter(after);
         return after;
     }
 
-    public default List<? extends Modifier> transformMethodModifier(MethodDef parent, List<? extends Modifier> modifiers) {
-        return new ArrayList<>(modifiers);
+    public default MethodDef transformBody(MethodDef methodDef) {
+        return new MethodDef(
+                methodDef.getPosition(),
+                methodDef.getModifiers(),
+                transform(methodDef.getReturnTypeName()),
+                transform(methodDef.getName()),
+                methodDef.getParameters().stream().map(this::transform).collect(Collectors.toList()),
+                methodDef.getBody().stream().map(this::transform).collect(Collectors.toList()));
     }
 
 }

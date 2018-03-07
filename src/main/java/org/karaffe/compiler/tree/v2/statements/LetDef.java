@@ -10,22 +10,26 @@ import org.karaffe.compiler.tree.v2.api.NameRef;
 import org.karaffe.compiler.tree.v2.api.Statement;
 import org.karaffe.compiler.tree.v2.expressions.ExpressionName;
 import org.karaffe.compiler.tree.v2.names.SimpleName;
+import org.karaffe.compiler.tree.v2.names.TypeName;
+import org.karaffe.compiler.types.v2.states.InferState;
+import org.karaffe.compiler.types.v2.states.InferStateType;
+import org.karaffe.compiler.types.v2.states.Resolved;
 
 public abstract class LetDef extends AbstractTree implements Statement, NameRef {
 
     private final SimpleName name;
-    private final Optional<SimpleName> typeName;
+    private final Optional<TypeName> typeName;
     private Optional<Expression> initializer;
 
     public LetDef(SimpleName fieldName, Expression initializer) {
         this(Position.noPos(), fieldName, null, initializer);
     }
 
-    public LetDef(SimpleName fieldName, SimpleName typeName) {
+    public LetDef(SimpleName fieldName, TypeName typeName) {
         this(Position.noPos(), fieldName, typeName, null);
     }
 
-    public LetDef(SimpleName fieldName, SimpleName typeName, Expression initializer) {
+    public LetDef(SimpleName fieldName, TypeName typeName, Expression initializer) {
         this(Position.noPos(), fieldName, typeName, initializer);
     }
 
@@ -33,11 +37,11 @@ public abstract class LetDef extends AbstractTree implements Statement, NameRef 
         this(position, fieldName, null, initializer);
     }
 
-    public LetDef(Position position, SimpleName fieldName, SimpleName typeName) {
+    public LetDef(Position position, SimpleName fieldName, TypeName typeName) {
         this(position, fieldName, typeName, null);
     }
 
-    public LetDef(Position position, SimpleName fieldName, SimpleName typeName, Expression initializer) {
+    public LetDef(Position position, SimpleName fieldName, TypeName typeName, Expression initializer) {
         super(position);
         this.name = Objects.requireNonNull(fieldName);
         this.typeName = Optional.ofNullable(typeName);
@@ -62,7 +66,7 @@ public abstract class LetDef extends AbstractTree implements Statement, NameRef 
         return this.getTypeName().isPresent();
     }
 
-    public Optional<SimpleName> getTypeName() {
+    public Optional<TypeName> getTypeName() {
         return this.typeName;
     }
 
@@ -90,9 +94,22 @@ public abstract class LetDef extends AbstractTree implements Statement, NameRef 
 
     @Override
     public String toString() {
+        String typeNameString;
+        if (this.hasInferState()) {
+            InferState state = this.getInferState();
+            if (state.getInferStateType().equals(InferStateType.RESOLVED)) {
+                Resolved resolved = (Resolved) state;
+                typeNameString = resolved.getSuitableType().getCanonicalName();
+            } else {
+                typeNameString = state.toString();
+            }
+        } else {
+            typeNameString = this.typeName.map(TypeName::toString).orElse("");
+        }
         return String.format("let %s%s%s",
                 this.name,
-                this.typeName.map(t -> " : " + t).orElse(""),
+                typeNameString.isEmpty() ? "" : " : " + typeNameString,
                 this.initializer.map(e -> " = " + e).orElse(""));
     }
+
 }

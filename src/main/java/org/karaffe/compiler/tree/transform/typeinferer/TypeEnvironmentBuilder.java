@@ -1,0 +1,224 @@
+package org.karaffe.compiler.tree.transform.typeinferer;
+
+import java.lang.reflect.Method;
+import java.util.AbstractMap;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.LinkedHashMap;
+import java.util.List;
+import java.util.Map;
+import java.util.Map.Entry;
+import java.util.Optional;
+import java.util.stream.Collectors;
+
+import org.karaffe.compiler.resolvers.MethodResolver;
+import org.karaffe.compiler.resolvers.TypeResolver;
+import org.karaffe.compiler.tree.transform.AbstractTransformer;
+import org.karaffe.compiler.tree.v2.api.Expression;
+import org.karaffe.compiler.tree.v2.api.Statement;
+import org.karaffe.compiler.tree.v2.api.Tree;
+import org.karaffe.compiler.tree.v2.expressions.Apply;
+import org.karaffe.compiler.tree.v2.expressions.Block;
+import org.karaffe.compiler.tree.v2.expressions.ExpressionName;
+import org.karaffe.compiler.tree.v2.expressions.IntLiteral;
+import org.karaffe.compiler.tree.v2.expressions.StaticApply;
+import org.karaffe.compiler.tree.v2.names.FullyQualifiedTypeName;
+import org.karaffe.compiler.tree.v2.names.SimpleName;
+import org.karaffe.compiler.tree.v2.names.TypeName;
+import org.karaffe.compiler.tree.v2.statements.LetLocalDef;
+import org.karaffe.compiler.tree.v2.statements.MethodDef;
+import org.karaffe.compiler.types.v2.TypeInfers;
+import org.karaffe.compiler.types.v2.constraints.ConstraintType;
+import org.karaffe.compiler.types.v2.constraints.HasMember;
+import org.karaffe.compiler.types.v2.constraints.NeedEquals;
+import org.karaffe.compiler.types.v2.constraints.TypeConstraint;
+import org.karaffe.compiler.types.v2.states.InferState;
+import org.karaffe.compiler.types.v2.states.InferStateType;
+import org.karaffe.compiler.types.v2.states.Resolved;
+
+import karaffe.core.Int;
+
+public class TypeEnvironmentBuilder extends AbstractTransformer {
+
+    public TypeEnvironmentBuilder() {
+        super("type-constraint-builder");
+    }
+
+    private final List<TypeConstraint> constraints = new ArrayList<>();
+    private final Map<SimpleName, InferState> states = new LinkedHashMap<>();
+
+    @Override
+    public void onBlockBefore(Block block) {
+        block.asExprName().ifPresent(exprName -> transform(exprName));
+    }
+
+    @Override
+    public void onMethodBefore(MethodDef methodDef) {
+        TypeName returnTypeName = methodDef.getReturnTypeName();
+        Statement lastStatement = methodDef.getBody().get(methodDef.getBody().size() - 1);
+
+        switch (lastStatement.getStatementType()) {
+        case EXPRESSION:
+            Expression expression = (Expression) lastStatement;
+            expression.asExprName().map((Expression exprName) -> TypeInfers.needEquals(exprName, returnTypeName)).ifPresent(this.constraints::add);
+            break;
+        default:
+        }
+        updateEnvironment();
+    }
+
+    @Override
+    public void onIntLiteralBefore(IntLiteral intLiteral) {
+        TypeResolver.findAllCompatibleClasses(Int.class).map(TypeInfers::of).ifPresent(state -> {
+            this.constraints.add(TypeInfers.needEquals(intLiteral, new FullyQualifiedTypeName(Int.class)));
+        });
+    }
+
+    @Override
+    public void onLetLocalDefBefore(LetLocalDef letLocalDef) {
+        if (letLocalDef.hasTypeName()) {
+            TypeName typeName = letLocalDef.getTypeName().get();
+            // (型チェックが未完了なので)型が決定したわけではないので型宣言があっても制約として扱う
+            this.constraints.add(TypeInfers.needEquals(letLocalDef.getName(), typeName));
+        } else {
+            this.states.put(letLocalDef.getName(), TypeInfers.noHint());
+        }
+
+        letLocalDef.getInitializer().ifPresent(initializer -> {
+            this.constraints.add(TypeInfers.needEquals(letLocalDef.getName(), initializer));
+            switch (initializer.getExpressionType()) {
+            case INT_LITERAL:
+                TypeResolver
+                        .findAllCompatibleClasses(Int.class)
+                        .map(TypeInfers::of)
+                        .ifPresent(state -> {
+                            this.states.put(letLocalDef.getName(), state);
+                        });
+                break;
+            case STATIC_APPLY:
+                StaticApply staticApply = (StaticApply) initializer;
+                TypeName typeName = staticApply.getTypeName();
+                SimpleName methodName = staticApply.getMethodName();
+                break;
+            // throw new IllegalStateException();
+            case APPLY:
+                Apply apply = (Apply) initializer;
+                Optional<InferState> nullableInferState = Optional.ofNullable(this.states.get(apply.getExpression()));
+                nullableInferState.filter(i -> i.getInferStateType().equals(InferStateType.RESOLVED)).map(Resolved.class::cast).ifPresent(resolved -> {
+                    Class<?> clazz = resolved.getSuitableType();
+                    MethodResolver methodResolver = new MethodResolver(clazz);
+                    List<Method> methods = methodResolver.findMethodsByMethodName(apply.getMethodName());
+                    if (methods.size() == 1) {
+                        Method method = methods.get(0);
+                        this.states.put(letLocalDef.getName(), TypeInfers.of(method.getReturnType()));
+                    }
+                });
+                break;
+            case BLOCK:
+                Block block = (Block) initializer;
+                block.asExprName().ifPresent(exprName -> this.constraints.add(TypeInfers.needEquals(letLocalDef.getName(), (SimpleName) exprName)));
+                break;
+            case NAME:
+                ExpressionName name = (ExpressionName) initializer;
+                Optional.ofNullable(this.states.get(name))
+                        .filter(state -> state.getInferStateType().equals(InferStateType.RESOLVED))
+                        .map(Resolved.class::cast)
+                        .ifPresent(resolved -> {
+                            this.states.put(letLocalDef.getName(), resolved);
+                        });
+                break;
+
+            default:
+                throw new UnsupportedOperationException(initializer.getExpressionType().name());
+            }
+
+        });
+        updateEnvironment();
+    }
+
+    @Override
+    public void onApplyBefore(Apply apply) {
+        this.constraints.add(TypeInfers.hasMember(apply.getExpression(), apply.getMethodName()));
+        updateEnvironment();
+    }
+
+    public List<? extends TypeConstraint> getTypeConstraints() {
+        return new ArrayList<>(this.constraints);
+    }
+
+    public Map<? extends SimpleName, ? extends InferState> getInferState() {
+        return new HashMap<>(this.states);
+    }
+
+    private void updateEnvironment() {
+        int lastCount = 0;
+        int currentCount = updateEnvironment1();
+        while (lastCount != currentCount) {
+            lastCount = currentCount;
+            currentCount = updateEnvironment1();
+        }
+    }
+
+    private int updateEnvironment1() {
+        int modifyCount = 0;
+        modifyCount += updateNeedEquals();
+        modifyCount += updateHashMember();
+        return modifyCount;
+    }
+
+    private int updateNeedEquals() {
+        int modifyCount = 0;
+        List<NeedEquals> needEquals = this.constraints
+                .stream()
+                .filter(c -> c.getConstraintType().equals(ConstraintType.NEED_EQUALS))
+                .map(NeedEquals.class::cast)
+                .collect(Collectors.toList());
+        Map<SimpleName, Resolved> resolvedNames = this.states
+                .entrySet()
+                .stream()
+                .filter(entry -> entry.getValue().getInferStateType().equals(InferStateType.RESOLVED))
+                .map(entry -> new AbstractMap.SimpleEntry<>(entry.getKey(), (Resolved) entry.getValue()))
+                .collect(Collectors.toMap(entry -> entry.getKey(), entry -> entry.getValue()));
+
+        for (Map.Entry<SimpleName, Resolved> entry : resolvedNames.entrySet()) {
+            SimpleName resolvedName = entry.getKey();
+            Resolved resolvedType = entry.getValue();
+            List<Tree> lefts = needEquals
+                    .stream()
+                    .filter(eq -> eq.getLeftTree().equals(resolvedName))
+                    .map(NeedEquals::getRightTree) // resolved -> unresolved
+                    .collect(Collectors.toList());
+            List<Tree> rights = needEquals
+                    .stream()
+                    .filter(eq -> eq.getRightTree().equals(resolvedName))
+                    .map(NeedEquals::getLeftTree) // unresolved <- resolved
+                    .collect(Collectors.toList());
+            List<Entry<SimpleName, InferState>> updating = this.states
+                    .entrySet()
+                    .stream()
+                    .filter(s -> lefts.contains(s.getKey()) || rights.contains(s.getKey()))
+                    .filter(s -> !s.getValue().getInferStateType().equals(InferStateType.RESOLVED))
+                    .collect(Collectors.toList());
+            if (updating.isEmpty()) {
+                continue;
+            }
+
+            List<SimpleName> updatingNames = updating.stream().map(Entry::getKey).collect(Collectors.toList());
+
+            updatingNames.forEach(name -> this.states.compute(name, (key, value) -> resolvedType));
+            modifyCount += updatingNames.size();
+        }
+        return modifyCount;
+    }
+
+    private int updateHashMember() {
+        int modifyCount = 0;
+        List<HasMember> hasMembers = this.constraints
+                .stream()
+                .filter(c -> c.getConstraintType().equals(ConstraintType.HAS_MEMBER))
+                .map(HasMember.class::cast)
+                .collect(Collectors.toList());
+
+        return modifyCount;
+    }
+}

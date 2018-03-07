@@ -1,10 +1,6 @@
 package org.karaffe.compiler.tree.v2.expressions;
 
 import org.karaffe.compiler.pos.Position;
-import org.karaffe.compiler.types.v2.TypeConstraint;
-import org.karaffe.compiler.types.v2.TypeConstraints;
-
-import karaffe.core.Int;
 
 public class IntLiteral extends Literal {
     private final int value;
@@ -32,8 +28,4 @@ public class IntLiteral extends Literal {
         return ExpressionType.INT_LITERAL;
     }
 
-    @Override
-    public TypeConstraint getTypeConstraint() {
-        return TypeConstraints.of(this, Int.class);
-    }
 }

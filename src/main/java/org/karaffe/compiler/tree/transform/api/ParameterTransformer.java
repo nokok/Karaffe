@@ -13,8 +13,15 @@ public interface ParameterTransformer extends SimpleNameTransformer, TypeNameTra
 
     public default Parameter transform(Parameter oldParameter) {
         onParameterBefore(oldParameter);
-        Parameter after = new Parameter(transform(oldParameter.getName()), transform(oldParameter.getType()));
+        Parameter after = transformBody(oldParameter);
         onParameterAfter(after);
         return after;
     }
+
+    public default Parameter transformBody(Parameter parameter) {
+        return new Parameter(parameter.getPosition(),
+                transform(parameter.getName()),
+                transform(parameter.getType()));
+    }
+
 }
