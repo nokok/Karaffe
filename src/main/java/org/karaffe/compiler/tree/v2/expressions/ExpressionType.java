@@ -6,6 +6,6 @@ public enum ExpressionType {
     NAME,
     INT_LITERAL,
     RETURN,
-    TYPED_STATIC_APPLY,
     STATIC_APPLY,
+    NEW_INSTANCE,
 }

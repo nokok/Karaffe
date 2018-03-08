@@ -46,6 +46,12 @@ public class TypeInferer extends AbstractTransformer {
     }
 
     @Override
+    public void onCompilationUnitAfter(CompilationUnit compilationUnit) {
+        UnresolvedTypeCollector unresolvedTypeCollector = new UnresolvedTypeCollector();
+        unresolvedTypeCollector.transform(compilationUnit);
+    }
+
+    @Override
     public LetLocalDef transformBody(LetLocalDef oldLocalLetDef) {
         LetLocalDef transformBody = super.transformBody(oldLocalLetDef);
         Optional.ofNullable(this.states.get(transformBody.getName())).map(TypeInfers::of).ifPresent(transformBody::setInferState);

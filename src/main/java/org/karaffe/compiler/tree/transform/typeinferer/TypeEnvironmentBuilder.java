@@ -21,6 +21,7 @@ import org.karaffe.compiler.tree.v2.expressions.Apply;
 import org.karaffe.compiler.tree.v2.expressions.Block;
 import org.karaffe.compiler.tree.v2.expressions.ExpressionName;
 import org.karaffe.compiler.tree.v2.expressions.IntLiteral;
+import org.karaffe.compiler.tree.v2.expressions.NewInstance;
 import org.karaffe.compiler.tree.v2.expressions.StaticApply;
 import org.karaffe.compiler.tree.v2.names.FullyQualifiedTypeName;
 import org.karaffe.compiler.tree.v2.names.SimpleName;
@@ -91,9 +92,8 @@ public class TypeEnvironmentBuilder extends AbstractTransformer {
                 TypeResolver
                         .findAllCompatibleClasses(Int.class)
                         .map(TypeInfers::of)
-                        .ifPresent(state -> {
-                            this.states.put(letLocalDef.getName(), state);
-                        });
+                        .map(state -> this.states.put(letLocalDef.getName(), state))
+                        .orElseGet(() -> this.states.put(letLocalDef.getName(), TypeInfers.fail()));
                 break;
             case STATIC_APPLY:
                 StaticApply staticApply = (StaticApply) initializer;
@@ -115,7 +115,6 @@ public class TypeEnvironmentBuilder extends AbstractTransformer {
                     }
                 }
                 break;
-            // throw new IllegalStateException();
             case APPLY:
                 Apply apply = (Apply) initializer;
                 Optional<InferState> nullableInferState = Optional.ofNullable(this.states.get(apply.getExpression()));
@@ -125,6 +124,11 @@ public class TypeEnvironmentBuilder extends AbstractTransformer {
                     List<Method> methods = methodResolver.findMethodsByMethodName(apply.getMethodName());
                     if (methods.size() == 1) {
                         Method method = methods.get(0);
+                        Class<?>[] parameterTypes = method.getParameterTypes();
+                        List<? extends Expression> args = apply.getArgs();
+                        if (parameterTypes.length != args.size()) {
+                            throw new RuntimeException("Invalid Method args count");
+                        }
                         this.states.put(letLocalDef.getName(), TypeInfers.of(method.getReturnType()));
                     }
                 });
@@ -142,7 +146,15 @@ public class TypeEnvironmentBuilder extends AbstractTransformer {
                             this.states.put(letLocalDef.getName(), resolved);
                         });
                 break;
-
+            case NEW_INSTANCE:
+                NewInstance newInstance = (NewInstance) initializer;
+                if (newInstance.getTypeName().isFullyQualified()) {
+                    String fqcn = ((FullyQualifiedTypeName) newInstance.getTypeName()).getFullName();
+                    TypeResolver.findClass(fqcn).ifPresent(clazz -> {
+                        this.states.put(letLocalDef.getName(), TypeInfers.of(clazz));
+                    });
+                }
+                break;
             default:
                 throw new UnsupportedOperationException(initializer.getExpressionType().name());
             }

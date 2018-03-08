@@ -5,6 +5,7 @@ import org.karaffe.compiler.tree.v2.expressions.Apply;
 import org.karaffe.compiler.tree.v2.expressions.Block;
 import org.karaffe.compiler.tree.v2.expressions.ExpressionName;
 import org.karaffe.compiler.tree.v2.expressions.IntLiteral;
+import org.karaffe.compiler.tree.v2.expressions.NewInstance;
 import org.karaffe.compiler.tree.v2.expressions.Return;
 import org.karaffe.compiler.tree.v2.expressions.StaticApply;
 
@@ -14,7 +15,8 @@ public interface ExpressionTransformer extends
         ExpressionNameTransformer,
         IntLiteralTransformer,
         ReturnTransformer,
-        StaticApplyTransformer {
+        StaticApplyTransformer,
+        NewInstanceTransformer {
 
     @Override
     public default Expression transform(Expression expression) {
@@ -31,6 +33,8 @@ public interface ExpressionTransformer extends
             return transform((Return) expression);
         case STATIC_APPLY:
             return transform((StaticApply) expression);
+        case NEW_INSTANCE:
+            return transform((NewInstance) expression);
         default:
             throw new UnsupportedOperationException();
         }

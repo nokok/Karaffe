@@ -15,6 +15,7 @@ import org.karaffe.compiler.tree.v2.Parameter;
 import org.karaffe.compiler.tree.v2.expressions.Apply;
 import org.karaffe.compiler.tree.v2.expressions.ExpressionName;
 import org.karaffe.compiler.tree.v2.expressions.IntLiteral;
+import org.karaffe.compiler.tree.v2.expressions.NewInstance;
 import org.karaffe.compiler.tree.v2.expressions.Plus;
 import org.karaffe.compiler.tree.v2.expressions.StaticApply;
 import org.karaffe.compiler.tree.v2.modifiers.Public;
@@ -262,4 +263,87 @@ public class TypeInfererTest {
                 "}\n" +
                 "}", after.toString());
     }
+
+    @Test
+    public void testNewExpr1() {
+        CompilationUnit before = new CompilationUnit(
+                new PackageDef(
+                        new ClassDef(
+                                new SimpleName("A"),
+                                new MethodDef(
+                                        new ArrayList<>(Arrays.asList(new Public(), new Static())),
+                                        TypeName.voidType(),
+                                        new SimpleName("main"),
+                                        new ArrayList<>(Arrays.asList(
+                                                new Parameter(
+                                                        new SimpleName("args"),
+                                                        new TypeName(new SimpleName("Array"), new TypeName("String"))))),
+                                        new ArrayList<>(Arrays.asList(
+                                                new LetLocalDef(new SimpleName("a"), new NewInstance(new TypeName(new SimpleName("Date"))))))))));
+        assertEquals("/* Compilation Unit */ {\n" +
+                "package <root> {\n" +
+                "class A extends Any {\n" +
+                "public static void main(args Array[String]) {\n" +
+                "let a = Date.<init>();\n" +
+                "}\n" +
+                "}\n" +
+                "}\n" +
+                "}", before.toString());
+        CompilationUnit transformed = this.runner.transform(before, "name-resolver");
+        TypeInferer typeInferer = new TypeInferer();
+        CompilationUnit after = typeInferer.transform(transformed);
+        assertEquals("/* Compilation Unit */ {\n" +
+                "package <root> {\n" +
+                "import java.lang._;\n" +
+                "import java.io._;\n" +
+                "import java.net._;\n" +
+                "import java.util._;\n" +
+                "import java.time._;\n" +
+                "import java.time.chrono._;\n" +
+                "import java.time.LocalDateTime;\n" +
+                "import java.time.chrono.JapaneseEra;\n" +
+                "import karaffe.core._;\n" +
+                "class A extends Any {\n" +
+                "public static void main(args Array[String]) {\n" +
+                "let a : java.util.Date = {\n" +
+                "let k_0 : java.util.Date = java.util.Date.<init>();\n" +
+                "return k_0;\n" +
+                "};\n" +
+                "}\n" +
+                "}\n" +
+                "}\n" +
+                "}", after.toString());
+    }
+
+    @Test
+    public void testMethodSelection() {
+        CompilationUnit before = new CompilationUnit(
+                new PackageDef(
+                        new ClassDef(
+                                new SimpleName("A"),
+                                new MethodDef(
+                                        new ArrayList<>(Arrays.asList(new Public(), new Static())),
+                                        TypeName.voidType(),
+                                        new SimpleName("main"),
+                                        new ArrayList<>(Arrays.asList(
+                                                new Parameter(
+                                                        new SimpleName("args"),
+                                                        new TypeName(new SimpleName("Array"), new TypeName("String"))))),
+                                        new ArrayList<>(Arrays.asList(
+                                                new LetLocalDef(new SimpleName("a"), new NewInstance(new TypeName(new SimpleName("MethodBase"))))))))));
+        assertEquals("/* Compilation Unit */ {\n" +
+                "package <root> {\n" +
+                "class A extends Any {\n" +
+                "public static void main(args Array[String]) {\n" +
+                "let a = MethodBase.<init>();\n" +
+                "}\n" +
+                "}\n" +
+                "}\n" +
+                "}", before.toString());
+        CompilationUnit transformed = this.runner.transform(before, "name-resolver");
+        TypeInferer typeInferer = new TypeInferer();
+        CompilationUnit after = typeInferer.transform(transformed);
+        assertEquals("", after.toString());
+    }
+
 }
