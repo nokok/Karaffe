@@ -51,7 +51,7 @@ public class TypeInfererTest {
                                         new ArrayList<>(Arrays.asList(
                                                 new Parameter(
                                                         new SimpleName("args"),
-                                                        new TypeName(new SimpleName("Array"), new TypeName("String"))))),
+                                                        new TypeName(new SimpleName("StringArray"))))),
                                         new ArrayList<>(Arrays.asList(
                                                 new LetLocalDef(
                                                         new SimpleName("a"),
@@ -71,7 +71,7 @@ public class TypeInfererTest {
         assertEquals("/* Compilation Unit */ {\n" +
                 "package <root> {\n" +
                 "class A extends Any {\n" +
-                "public static void main(args Array[String]) {\n" +
+                "public static void main(args StringArray) {\n" +
                 "let a = 0;\n" +
                 "let b = 1.+(2);\n" +
                 "let c = 1.+(2).+(3);\n" +
@@ -93,7 +93,7 @@ public class TypeInfererTest {
                 "import java.time.chrono.JapaneseEra;\n" +
                 "import karaffe.core._;\n" +
                 "class A extends karaffe.core.Any {\n" +
-                "public static void main(args Array[String]) {\n" +
+                "public static void main(args karaffe.core.StringArray) {\n" +
                 "let a : karaffe.core.Int = {\n" +
                 "let k_0 : karaffe.core.Int = 0;\n" +
                 "return k_0;\n" +
@@ -131,7 +131,7 @@ public class TypeInfererTest {
                                         new ArrayList<>(Arrays.asList(
                                                 new Parameter(
                                                         new SimpleName("args"),
-                                                        new TypeName(new SimpleName("Array"), new TypeName("String"))))),
+                                                        new TypeName(new SimpleName("StringArray"))))),
                                         new ArrayList<>(Arrays.asList(
                                                 new LetLocalDef(
                                                         new SimpleName("a"),
@@ -145,7 +145,7 @@ public class TypeInfererTest {
         assertEquals("/* Compilation Unit */ {\n" +
                 "package <root> {\n" +
                 "class A extends Any {\n" +
-                "public static void main(args Array[String]) {\n" +
+                "public static void main(args StringArray) {\n" +
                 "let a = 0;\n" +
                 "let b = a;\n" +
                 "let c = b;\n" +
@@ -168,7 +168,7 @@ public class TypeInfererTest {
                 "import java.time.chrono.JapaneseEra;\n" +
                 "import karaffe.core._;\n" +
                 "class A extends karaffe.core.Any {\n" +
-                "public static void main(args Array[String]) {\n" +
+                "public static void main(args karaffe.core.StringArray) {\n" +
                 "let a : karaffe.core.Int = {\n" +
                 "let k_0 : karaffe.core.Int = 0;\n" +
                 "return k_0;\n" +
@@ -200,7 +200,7 @@ public class TypeInfererTest {
                                         new ArrayList<>(Arrays.asList(
                                                 new Parameter(
                                                         new SimpleName("args"),
-                                                        new TypeName(new SimpleName("Array"), new TypeName("String"))))),
+                                                        new TypeName(new SimpleName("StringArray"))))),
                                         new ArrayList<>(Arrays.asList(
                                                 new LetLocalDef(
                                                         new SimpleName("a"),
@@ -220,7 +220,7 @@ public class TypeInfererTest {
         assertEquals("/* Compilation Unit */ {\n" +
                 "package <root> {\n" +
                 "class A extends Any {\n" +
-                "public static void main(args Array[String]) {\n" +
+                "public static void main(args StringArray) {\n" +
                 "let a = 0;\n" +
                 "let b = a;\n" +
                 "let c = b;\n" +
@@ -244,7 +244,7 @@ public class TypeInfererTest {
                 "import java.time.chrono.JapaneseEra;\n" +
                 "import karaffe.core._;\n" +
                 "class A extends karaffe.core.Any {\n" +
-                "public static void main(args Array[String]) {\n" +
+                "public static void main(args karaffe.core.StringArray) {\n" +
                 "let a : karaffe.core.Int = {\n" +
                 "let k_0 : karaffe.core.Int = 0;\n" +
                 "return k_0;\n" +
@@ -280,13 +280,13 @@ public class TypeInfererTest {
                                         new ArrayList<>(Arrays.asList(
                                                 new Parameter(
                                                         new SimpleName("args"),
-                                                        new TypeName(new SimpleName("Array"), new TypeName("String"))))),
+                                                        new TypeName(new SimpleName("StringArray"))))),
                                         new ArrayList<>(Arrays.asList(
                                                 new LetLocalDef(new SimpleName("a"), new NewInstance(new TypeName(new SimpleName("Date"))))))))));
         assertEquals("/* Compilation Unit */ {\n" +
                 "package <root> {\n" +
                 "class A extends Any {\n" +
-                "public static void main(args Array[String]) {\n" +
+                "public static void main(args StringArray) {\n" +
                 "let a = Date.<init>();\n" +
                 "}\n" +
                 "}\n" +
@@ -307,7 +307,7 @@ public class TypeInfererTest {
                 "import java.time.chrono.JapaneseEra;\n" +
                 "import karaffe.core._;\n" +
                 "class A extends karaffe.core.Any {\n" +
-                "public static void main(args Array[String]) {\n" +
+                "public static void main(args karaffe.core.StringArray) {\n" +
                 "let a : java.util.Date = {\n" +
                 "let k_0 : java.util.Date = java.util.Date.<init>();\n" +
                 "return k_0;\n" +
@@ -331,13 +331,13 @@ public class TypeInfererTest {
                                         new ArrayList<>(Arrays.asList(
                                                 new Parameter(
                                                         new SimpleName("args"),
-                                                        new TypeName(new SimpleName("Array"), new TypeName("String"))))),
+                                                        new TypeName(new SimpleName("StringArray"))))),
                                         new ArrayList<>(Arrays.asList(
                                                 new LetLocalDef(new SimpleName("a"), new StaticApply(new FullyQualifiedTypeName(Console.class), new SimpleName("println")))))))));
         assertEquals("/* Compilation Unit */ {\n" +
                 "package <root> {\n" +
                 "class A extends Any {\n" +
-                "public static void main(args Array[String]) {\n" +
+                "public static void main(args StringArray) {\n" +
                 "let a = karaffe.core.Console.println();\n" +
                 "}\n" +
                 "}\n" +
@@ -346,7 +346,27 @@ public class TypeInfererTest {
         CompilationUnit transformed = this.runner.transform(before, "name-resolver");
         TypeInferer typeInferer = new TypeInferer();
         CompilationUnit after = typeInferer.transform(transformed);
-        assertEquals("", after.toString());
+        assertEquals("/* Compilation Unit */ {\n" +
+                "package <root> {\n" +
+                "import java.lang._;\n" +
+                "import java.io._;\n" +
+                "import java.net._;\n" +
+                "import java.util._;\n" +
+                "import java.time._;\n" +
+                "import java.time.chrono._;\n" +
+                "import java.time.LocalDateTime;\n" +
+                "import java.time.chrono.JapaneseEra;\n" +
+                "import karaffe.core._;\n" +
+                "class A extends karaffe.core.Any {\n" +
+                "public static void main(args karaffe.core.StringArray) {\n" +
+                "let a : void = {\n" +
+                "let k_0 : void = karaffe.core.Console.println();\n" +
+                "return k_0;\n" +
+                "};\n" +
+                "}\n" +
+                "}\n" +
+                "}\n" +
+                "}", after.toString());
     }
 
 }
