@@ -28,7 +28,8 @@ import org.karaffe.compiler.tree.v2.names.SimpleName;
 import org.karaffe.compiler.tree.v2.names.TypeName;
 import org.karaffe.compiler.tree.v2.statements.LetLocalDef;
 import org.karaffe.compiler.tree.v2.statements.MethodDef;
-import org.karaffe.compiler.types.v2.TypeInfers;
+import org.karaffe.compiler.types.v2.InferStates;
+import org.karaffe.compiler.types.v2.TypeConstraints;
 import org.karaffe.compiler.types.v2.constraints.ConstraintType;
 import org.karaffe.compiler.types.v2.constraints.HasMember;
 import org.karaffe.compiler.types.v2.constraints.NeedEquals;
@@ -61,7 +62,7 @@ public class TypeEnvironmentBuilder extends AbstractTransformer {
         switch (lastStatement.getStatementType()) {
         case EXPRESSION:
             Expression expression = (Expression) lastStatement;
-            expression.asExprName().map((Expression exprName) -> TypeInfers.needEquals(exprName, returnTypeName)).ifPresent(this.constraints::add);
+            expression.asExprName().map((Expression exprName) -> TypeConstraints.needEquals(exprName, returnTypeName)).ifPresent(this.constraints::add);
             break;
         default:
         }
@@ -70,8 +71,8 @@ public class TypeEnvironmentBuilder extends AbstractTransformer {
 
     @Override
     public void onIntLiteralBefore(IntLiteral intLiteral) {
-        TypeResolver.findAllCompatibleClasses(Int.class).map(TypeInfers::of).ifPresent(state -> {
-            this.constraints.add(TypeInfers.needEquals(intLiteral, new FullyQualifiedTypeName(Int.class)));
+        TypeResolver.findAllCompatibleClasses(Int.class).map(InferStates::of).ifPresent(state -> {
+            this.constraints.add(TypeConstraints.needEquals(intLiteral, new FullyQualifiedTypeName(Int.class)));
         });
     }
 
@@ -80,20 +81,20 @@ public class TypeEnvironmentBuilder extends AbstractTransformer {
         if (letLocalDef.hasTypeName()) {
             TypeName typeName = letLocalDef.getTypeName().get();
             // (型チェックが未完了なので)型が決定したわけではないので型宣言があっても制約として扱う
-            this.constraints.add(TypeInfers.needEquals(letLocalDef.getName(), typeName));
+            this.constraints.add(TypeConstraints.needEquals(letLocalDef.getName(), typeName));
         } else {
-            this.states.put(letLocalDef.getName(), TypeInfers.noHint());
+            this.states.put(letLocalDef.getName(), InferStates.noHint());
         }
 
         letLocalDef.getInitializer().ifPresent(initializer -> {
-            this.constraints.add(TypeInfers.needEquals(letLocalDef.getName(), initializer));
+            this.constraints.add(TypeConstraints.needEquals(letLocalDef.getName(), initializer));
             switch (initializer.getExpressionType()) {
             case INT_LITERAL:
                 TypeResolver
                         .findAllCompatibleClasses(Int.class)
-                        .map(TypeInfers::of)
+                        .map(InferStates::of)
                         .map(state -> this.states.put(letLocalDef.getName(), state))
-                        .orElseGet(() -> this.states.put(letLocalDef.getName(), TypeInfers.fail()));
+                        .orElseGet(() -> this.states.put(letLocalDef.getName(), InferStates.fail()));
                 break;
             case STATIC_APPLY:
                 StaticApply staticApply = (StaticApply) initializer;
@@ -102,14 +103,15 @@ public class TypeEnvironmentBuilder extends AbstractTransformer {
                 if (typeName.isFullyQualified()) {
                     FullyQualifiedTypeName fqtn = (FullyQualifiedTypeName) typeName;
                     String fqcn = fqtn.getFullName();
-                    List<Method> methods = TypeResolver.findClass(fqcn).map(MethodResolver::new).map(methodResolver -> methodResolver.findMethodsByMethodName(methodName)).orElseGet(ArrayList::new);
+                    int paramSize = staticApply.getArgs().size();
+                    List<Method> methods = TypeResolver.findClass(fqcn).map(MethodResolver::new).map(methodResolver -> methodResolver.findMethodsByMethodNameWithParameterSize(methodName, paramSize)).orElseGet(ArrayList::new);
                     if (methods.isEmpty()) {
                         throw new RuntimeException("Type or Method not found : " + fqcn + "#" + methodName);
                     }
                     if (methods.size() == 1) {
                         Method method = methods.get(0);
                         Class<?> returnType = method.getReturnType();
-                        this.states.put(letLocalDef.getName(), TypeInfers.of(returnType));
+                        this.states.put(letLocalDef.getName(), InferStates.of(returnType));
                     } else {
                         throw new RuntimeException("Method overload is not supported.");
                     }
@@ -129,13 +131,13 @@ public class TypeEnvironmentBuilder extends AbstractTransformer {
                         if (parameterTypes.length != args.size()) {
                             throw new RuntimeException("Invalid Method args count");
                         }
-                        this.states.put(letLocalDef.getName(), TypeInfers.of(method.getReturnType()));
+                        this.states.put(letLocalDef.getName(), InferStates.of(method.getReturnType()));
                     }
                 });
                 break;
             case BLOCK:
                 Block block = (Block) initializer;
-                block.asExprName().ifPresent(exprName -> this.constraints.add(TypeInfers.needEquals(letLocalDef.getName(), (SimpleName) exprName)));
+                block.asExprName().ifPresent(exprName -> this.constraints.add(TypeConstraints.needEquals(letLocalDef.getName(), (SimpleName) exprName)));
                 break;
             case NAME:
                 ExpressionName name = (ExpressionName) initializer;
@@ -151,7 +153,7 @@ public class TypeEnvironmentBuilder extends AbstractTransformer {
                 if (newInstance.getTypeName().isFullyQualified()) {
                     String fqcn = ((FullyQualifiedTypeName) newInstance.getTypeName()).getFullName();
                     TypeResolver.findClass(fqcn).ifPresent(clazz -> {
-                        this.states.put(letLocalDef.getName(), TypeInfers.of(clazz));
+                        this.states.put(letLocalDef.getName(), InferStates.of(clazz));
                     });
                 }
                 break;
@@ -165,7 +167,7 @@ public class TypeEnvironmentBuilder extends AbstractTransformer {
 
     @Override
     public void onApplyBefore(Apply apply) {
-        this.constraints.add(TypeInfers.hasMember(apply.getExpression(), apply.getMethodName()));
+        this.constraints.add(TypeConstraints.hasMember(apply.getExpression(), apply.getMethodName()));
         updateEnvironment();
     }
 

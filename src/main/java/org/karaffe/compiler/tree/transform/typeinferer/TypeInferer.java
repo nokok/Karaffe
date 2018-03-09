@@ -12,7 +12,7 @@ import org.karaffe.compiler.tree.v2.imports.SimpleImport;
 import org.karaffe.compiler.tree.v2.names.FullyQualifiedTypeName;
 import org.karaffe.compiler.tree.v2.names.SimpleName;
 import org.karaffe.compiler.tree.v2.statements.LetLocalDef;
-import org.karaffe.compiler.types.v2.TypeInfers;
+import org.karaffe.compiler.types.v2.InferStates;
 import org.karaffe.compiler.types.v2.states.InferStateType;
 import org.karaffe.compiler.types.v2.states.Resolved;
 
@@ -54,7 +54,7 @@ public class TypeInferer extends AbstractTransformer {
     @Override
     public LetLocalDef transformBody(LetLocalDef oldLocalLetDef) {
         LetLocalDef transformBody = super.transformBody(oldLocalLetDef);
-        Optional.ofNullable(this.states.get(transformBody.getName())).map(TypeInfers::of).ifPresent(transformBody::setInferState);
+        Optional.ofNullable(this.states.get(transformBody.getName())).map(InferStates::of).ifPresent(transformBody::setInferState);
         return transformBody;
     }
 
