@@ -14,6 +14,7 @@ import java.util.stream.Collectors;
 import org.karaffe.compiler.resolvers.MethodResolver;
 import org.karaffe.compiler.resolvers.TypeResolver;
 import org.karaffe.compiler.tree.transform.AbstractTransformer;
+import org.karaffe.compiler.tree.v2.Parameter;
 import org.karaffe.compiler.tree.v2.api.Expression;
 import org.karaffe.compiler.tree.v2.api.Statement;
 import org.karaffe.compiler.tree.v2.api.Tree;
@@ -67,6 +68,15 @@ public class TypeEnvironmentBuilder extends AbstractTransformer {
         default:
         }
         updateEnvironment();
+    }
+
+    @Override
+    public void onParameterBefore(Parameter parameter) {
+        if (!parameter.getType().isFullyQualified()) {
+            return;
+        }
+        FullyQualifiedTypeName name = (FullyQualifiedTypeName) parameter.getType();
+        TypeResolver.findClass(name.getFullName()).map(InferStates::of).ifPresent(s -> this.states.put(parameter.getName(), s));
     }
 
     @Override

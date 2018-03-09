@@ -8,6 +8,7 @@ import java.util.stream.Collectors;
 
 import org.karaffe.compiler.tree.transform.AbstractTransformer;
 import org.karaffe.compiler.tree.v2.CompilationUnit;
+import org.karaffe.compiler.tree.v2.Parameter;
 import org.karaffe.compiler.tree.v2.imports.SimpleImport;
 import org.karaffe.compiler.tree.v2.names.FullyQualifiedTypeName;
 import org.karaffe.compiler.tree.v2.names.SimpleName;
@@ -56,6 +57,17 @@ public class TypeInferer extends AbstractTransformer {
         LetLocalDef transformBody = super.transformBody(oldLocalLetDef);
         Optional.ofNullable(this.states.get(transformBody.getName())).map(InferStates::of).ifPresent(transformBody::setInferState);
         return transformBody;
+    }
+
+    @Override
+    public Parameter transformBody(Parameter parameter) {
+        SimpleName paramName = parameter.getName();
+        if (!this.states.containsKey(paramName)) {
+            System.err.println("!? " + paramName);
+            return parameter;
+        }
+        Class<?> paramClazz = this.states.get(paramName);
+        return new Parameter(parameter.getName(), new FullyQualifiedTypeName(paramClazz));
     }
 
 }
