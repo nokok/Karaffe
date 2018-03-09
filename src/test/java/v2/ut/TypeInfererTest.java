@@ -20,11 +20,14 @@ import org.karaffe.compiler.tree.v2.expressions.Plus;
 import org.karaffe.compiler.tree.v2.expressions.StaticApply;
 import org.karaffe.compiler.tree.v2.modifiers.Public;
 import org.karaffe.compiler.tree.v2.modifiers.Static;
+import org.karaffe.compiler.tree.v2.names.FullyQualifiedTypeName;
 import org.karaffe.compiler.tree.v2.names.SimpleName;
 import org.karaffe.compiler.tree.v2.names.TypeName;
 import org.karaffe.compiler.tree.v2.statements.ClassDef;
 import org.karaffe.compiler.tree.v2.statements.LetLocalDef;
 import org.karaffe.compiler.tree.v2.statements.MethodDef;
+
+import karaffe.core.Console;
 
 public class TypeInfererTest {
 
@@ -89,7 +92,7 @@ public class TypeInfererTest {
                 "import java.time.LocalDateTime;\n" +
                 "import java.time.chrono.JapaneseEra;\n" +
                 "import karaffe.core._;\n" +
-                "class A extends Any {\n" +
+                "class A extends karaffe.core.Any {\n" +
                 "public static void main(args Array[String]) {\n" +
                 "let a : karaffe.core.Int = {\n" +
                 "let k_0 : karaffe.core.Int = 0;\n" +
@@ -164,7 +167,7 @@ public class TypeInfererTest {
                 "import java.time.LocalDateTime;\n" +
                 "import java.time.chrono.JapaneseEra;\n" +
                 "import karaffe.core._;\n" +
-                "class A extends Any {\n" +
+                "class A extends karaffe.core.Any {\n" +
                 "public static void main(args Array[String]) {\n" +
                 "let a : karaffe.core.Int = {\n" +
                 "let k_0 : karaffe.core.Int = 0;\n" +
@@ -240,7 +243,7 @@ public class TypeInfererTest {
                 "import java.time.LocalDateTime;\n" +
                 "import java.time.chrono.JapaneseEra;\n" +
                 "import karaffe.core._;\n" +
-                "class A extends Any {\n" +
+                "class A extends karaffe.core.Any {\n" +
                 "public static void main(args Array[String]) {\n" +
                 "let a : karaffe.core.Int = {\n" +
                 "let k_0 : karaffe.core.Int = 0;\n" +
@@ -303,7 +306,7 @@ public class TypeInfererTest {
                 "import java.time.LocalDateTime;\n" +
                 "import java.time.chrono.JapaneseEra;\n" +
                 "import karaffe.core._;\n" +
-                "class A extends Any {\n" +
+                "class A extends karaffe.core.Any {\n" +
                 "public static void main(args Array[String]) {\n" +
                 "let a : java.util.Date = {\n" +
                 "let k_0 : java.util.Date = java.util.Date.<init>();\n" +
@@ -330,12 +333,12 @@ public class TypeInfererTest {
                                                         new SimpleName("args"),
                                                         new TypeName(new SimpleName("Array"), new TypeName("String"))))),
                                         new ArrayList<>(Arrays.asList(
-                                                new LetLocalDef(new SimpleName("a"), new NewInstance(new TypeName(new SimpleName("MethodBase"))))))))));
+                                                new LetLocalDef(new SimpleName("a"), new StaticApply(new FullyQualifiedTypeName(Console.class), new SimpleName("println")))))))));
         assertEquals("/* Compilation Unit */ {\n" +
                 "package <root> {\n" +
                 "class A extends Any {\n" +
                 "public static void main(args Array[String]) {\n" +
-                "let a = MethodBase.<init>();\n" +
+                "let a = karaffe.core.Console.println();\n" +
                 "}\n" +
                 "}\n" +
                 "}\n" +
