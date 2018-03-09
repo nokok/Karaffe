@@ -1,12 +1,15 @@
 package org.karaffe.compiler.tree.transform.namer;
 
 import java.util.LinkedHashMap;
+import java.util.List;
 import java.util.Map;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 import org.karaffe.compiler.resolvers.TypeResolver;
 import org.karaffe.compiler.tree.transform.AbstractTransformer;
 import org.karaffe.compiler.tree.v2.PackageDef;
+import org.karaffe.compiler.tree.v2.api.TypeDefStatement;
 import org.karaffe.compiler.tree.v2.imports.AliasImport;
 import org.karaffe.compiler.tree.v2.imports.OnDemandImport;
 import org.karaffe.compiler.tree.v2.imports.SimpleImport;
@@ -61,6 +64,26 @@ public class ClassNameResolver extends AbstractTransformer {
             return fqn.get();
         }
         return typeName;
+    }
+
+    @Override
+    public SimpleName transformOnTypeDefSuperClass(TypeDefStatement parent, SimpleName superClass) {
+        Optional<FullyQualifiedTypeName> fqn = getFqn(superClass);
+        if (fqn.isPresent()) {
+            return fqn.get();
+        }
+        return superClass;
+    }
+
+    @Override
+    public List<? extends SimpleName> transformOnTypeDefInterfaces(TypeDefStatement parent, List<? extends SimpleName> oldInterfaces) {
+        return oldInterfaces.stream().map(name -> {
+            Optional<FullyQualifiedTypeName> fqn = getFqn(name);
+            if (fqn.isPresent()) {
+                return fqn.get();
+            }
+            return name;
+        }).collect(Collectors.toList());
     }
 
     private Optional<FullyQualifiedTypeName> getFqn(SimpleName simpleName) {

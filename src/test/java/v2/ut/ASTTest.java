@@ -73,7 +73,7 @@ public class ASTTest {
 
     @Test
     public void testClassDef() {
-        ClassDef classDef = new ClassDef(new SimpleName("Derived"), new SimpleName("Base"));
+        ClassDef classDef = new ClassDef(new SimpleName("Derived"), new TypeName("Base"));
         assertEquals("class Derived extends Base {\n" +
                 "\n" +
                 "}", classDef.toString());
@@ -101,7 +101,7 @@ public class ASTTest {
         PackageDef packageDef = new PackageDef();
         packageDef.addImportStatement(new SimpleImport(new FullyQualifiedTypeName(new SimpleName("java"), new SimpleName("lang"), new SimpleName("Object"))));
         packageDef.addImportStatement(new SimpleImport(new FullyQualifiedTypeName(new SimpleName("java"), new SimpleName("lang"), new SimpleName("Integer"))));
-        ClassDef classDef = new ClassDef(new SimpleName("A"), new SimpleName("Object"));
+        ClassDef classDef = new ClassDef(new SimpleName("A"), new TypeName("Object"));
         MethodDef mainMethod = new MethodDef(
                 Arrays.asList(new Public(), new Static()),
                 TypeName.voidType(),

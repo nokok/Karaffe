@@ -86,4 +86,8 @@ public class TypeName extends SimpleName {
                 String.join(", ", this.parameterizedTypes.stream().map(TypeName::toString).collect(Collectors.toList())));
     }
 
+    public static TypeName rootClass() {
+        return new TypeName(SimpleName.rootClass());
+    }
+
 }

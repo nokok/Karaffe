@@ -9,36 +9,37 @@ import org.karaffe.compiler.tree.v2.api.AbstractTree;
 import org.karaffe.compiler.tree.v2.api.TypeDefMember;
 import org.karaffe.compiler.tree.v2.api.TypeDefStatement;
 import org.karaffe.compiler.tree.v2.names.SimpleName;
+import org.karaffe.compiler.tree.v2.names.TypeName;
 
 public abstract class AbstractTypeDefStatement extends AbstractTree implements TypeDefStatement {
     private final SimpleName typeName;
-    private final SimpleName superClassName;
-    private final List<SimpleName> interfaces;
+    private final TypeName superClassName;
+    private final List<TypeName> interfaces;
     private final List<TypeDefMember> members;
 
-    public AbstractTypeDefStatement(SimpleName typeName, SimpleName superClassName) {
+    public AbstractTypeDefStatement(SimpleName typeName, TypeName superClassName) {
         this(Position.noPos(), typeName, superClassName);
     }
 
-    public AbstractTypeDefStatement(SimpleName typeName, SimpleName superClassName, List<? extends SimpleName> interfaces) {
+    public AbstractTypeDefStatement(SimpleName typeName, TypeName superClassName, List<? extends TypeName> interfaces) {
         this.typeName = Objects.requireNonNull(typeName);
         this.superClassName = Objects.requireNonNull(superClassName);
         this.interfaces = new ArrayList<>(interfaces);
         this.members = new ArrayList<>();
     }
 
-    public AbstractTypeDefStatement(SimpleName typeName, SimpleName superClassName, List<? extends SimpleName> interfaces, List<? extends TypeDefMember> members) {
+    public AbstractTypeDefStatement(SimpleName typeName, TypeName superClassName, List<? extends TypeName> interfaces, List<? extends TypeDefMember> members) {
         this.typeName = Objects.requireNonNull(typeName);
         this.superClassName = Objects.requireNonNull(superClassName);
         this.interfaces = new ArrayList<>(interfaces);
         this.members = new ArrayList<>(members);
     }
 
-    public AbstractTypeDefStatement(Position position, SimpleName typeName, SimpleName superClassName) {
+    public AbstractTypeDefStatement(Position position, SimpleName typeName, TypeName superClassName) {
         this(position, typeName, superClassName, new ArrayList<>(0));
     }
 
-    public AbstractTypeDefStatement(Position position, SimpleName typeName, SimpleName superClassName, List<? extends SimpleName> interfaces) {
+    public AbstractTypeDefStatement(Position position, SimpleName typeName, TypeName superClassName, List<? extends TypeName> interfaces) {
         super(position);
         this.typeName = Objects.requireNonNull(typeName);
         this.superClassName = Objects.requireNonNull(superClassName);
@@ -46,7 +47,7 @@ public abstract class AbstractTypeDefStatement extends AbstractTree implements T
         this.members = new ArrayList<>();
     }
 
-    public AbstractTypeDefStatement(Position position, SimpleName typeName, SimpleName superClassName, List<? extends SimpleName> interfaces, List<? extends TypeDefMember> members) {
+    public AbstractTypeDefStatement(Position position, SimpleName typeName, TypeName superClassName, List<? extends TypeName> interfaces, List<? extends TypeDefMember> members) {
         super(position);
         this.typeName = Objects.requireNonNull(typeName);
         this.superClassName = Objects.requireNonNull(superClassName);
@@ -60,12 +61,12 @@ public abstract class AbstractTypeDefStatement extends AbstractTree implements T
     }
 
     @Override
-    public SimpleName getSuperClassName() {
+    public TypeName getSuperClassName() {
         return this.superClassName;
     }
 
     @Override
-    public List<? extends SimpleName> getInterfaceNames() {
+    public List<? extends TypeName> getInterfaceNames() {
         return new ArrayList<>(this.interfaces);
     }
 

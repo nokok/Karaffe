@@ -50,4 +50,13 @@ public class MethodResolver {
                         .filter(method -> method.getName().equals(methodName))
                         .collect(Collectors.toList()));
     }
+
+    public List<Method> findMethodsByMethodNameWithParameterSize(String methodName, int paramSize) {
+        List<Method> methods = this.findMethodsByMethodName(methodName);
+        return methods.stream().filter(method -> method.getParameterTypes().length == paramSize).collect(Collectors.toList());
+    }
+
+    public List<Method> findMethodsByMethodNameWithParameterSize(SimpleName methodName, int paramSize) {
+        return this.findMethodsByMethodNameWithParameterSize(methodName.toString(), paramSize);
+    }
 }

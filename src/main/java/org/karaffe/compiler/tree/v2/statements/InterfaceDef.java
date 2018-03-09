@@ -8,24 +8,25 @@ import org.karaffe.compiler.pos.Position;
 import org.karaffe.compiler.tree.v2.api.StatementType;
 import org.karaffe.compiler.tree.v2.api.TypeDefMember;
 import org.karaffe.compiler.tree.v2.names.SimpleName;
+import org.karaffe.compiler.tree.v2.names.TypeName;
 
 public class InterfaceDef extends AbstractTypeDefStatement {
 
     public InterfaceDef(SimpleName typeName) {
         super(typeName,
-                SimpleName.rootClass());
+                TypeName.rootClass());
     }
 
     public InterfaceDef(Position position, SimpleName typeName) {
         super(position,
                 typeName,
-                SimpleName.rootClass());
+                TypeName.rootClass());
     }
 
     public InterfaceDef(Position position, SimpleName typeName, List<? extends TypeDefMember> body) {
         super(position,
                 typeName,
-                SimpleName.rootClass(),
+                TypeName.rootClass(),
                 new ArrayList<>(),
                 body);
     }
