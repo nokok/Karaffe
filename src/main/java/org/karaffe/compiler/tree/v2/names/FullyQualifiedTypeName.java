@@ -14,7 +14,11 @@ public class FullyQualifiedTypeName extends TypeName {
     private final List<SimpleName> prefixNames;
 
     public FullyQualifiedTypeName(Class<?> clazz) {
-        this(clazz.getCanonicalName().split("\\."));
+        this(clazz, new ArrayList<>(0));
+    }
+
+    public FullyQualifiedTypeName(Class<?> clazz, List<? extends FullyQualifiedTypeName> parameterizedTypes) {
+        this(Position.noPos(), Arrays.asList(clazz.getCanonicalName().split("\\.")).stream().map(SimpleName::new).collect(Collectors.toList()), parameterizedTypes);
         if (clazz.isPrimitive()) {
             throw new IllegalArgumentException("primitive type not allowed");
         }
@@ -29,7 +33,7 @@ public class FullyQualifiedTypeName extends TypeName {
     }
 
     public FullyQualifiedTypeName(FullyQualifiedTypeName other) {
-        super(other.getPosition(), other.last());
+        super(other.getPosition(), other.last(), other.getParameterizedTypes());
         this.prefixNames = new ArrayList<>(other.prefixNames);
     }
 
@@ -42,7 +46,11 @@ public class FullyQualifiedTypeName extends TypeName {
     }
 
     public FullyQualifiedTypeName(Position position, List<? extends SimpleName> names) {
-        super(position, names.get(names.size() - 1));
+        this(position, names, new ArrayList<>(0));
+    }
+
+    public FullyQualifiedTypeName(Position position, List<? extends SimpleName> names, List<? extends FullyQualifiedTypeName> parameterizedTypes) {
+        super(position, names.get(names.size() - 1), parameterizedTypes);
         this.prefixNames = new ArrayList<>(names.subList(0, names.size() - 1));
         if (this.prefixNames.isEmpty() || names.size() <= 1) {
             throw new IllegalArgumentException();
