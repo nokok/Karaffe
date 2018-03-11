@@ -2,7 +2,7 @@ package org.karaffe.compiler.tree.transform.api;
 
 import org.karaffe.compiler.tree.v2.statements.LetFieldDef;
 
-public interface LetFieldDefTransformer extends BaseTransformer, SimpleNameTransformer, TypeNameTransformer {
+public interface LetFieldDefTransformer extends BaseTransformer, TypeNameTransformer {
 
     public default void onLetFieldDefBefore(LetFieldDef letFieldDef) {
 

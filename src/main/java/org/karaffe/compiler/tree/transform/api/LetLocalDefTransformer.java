@@ -3,7 +3,7 @@ package org.karaffe.compiler.tree.transform.api;
 import org.karaffe.compiler.tree.v2.statements.LetDef;
 import org.karaffe.compiler.tree.v2.statements.LetLocalDef;
 
-public interface LetLocalDefTransformer extends BaseTransformer, SimpleNameTransformer, TypeNameTransformer {
+public interface LetLocalDefTransformer extends BaseTransformer, TypeNameTransformer {
 
     public default void onLetLocalDefBefore(LetLocalDef letLocalDef) {
 

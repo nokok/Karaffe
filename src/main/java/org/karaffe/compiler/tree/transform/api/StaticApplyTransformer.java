@@ -5,7 +5,7 @@ import java.util.stream.Collectors;
 import org.karaffe.compiler.tree.v2.api.Expression;
 import org.karaffe.compiler.tree.v2.expressions.StaticApply;
 
-public interface StaticApplyTransformer extends TypeNameTransformer, SimpleNameTransformer, BaseTransformer {
+public interface StaticApplyTransformer extends TypeNameTransformer, BaseTransformer {
 
     public default void onStaticApplyBefore(StaticApply staticApply) {
 

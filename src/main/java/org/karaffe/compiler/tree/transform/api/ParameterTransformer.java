@@ -2,7 +2,7 @@ package org.karaffe.compiler.tree.transform.api;
 
 import org.karaffe.compiler.tree.v2.Parameter;
 
-public interface ParameterTransformer extends SimpleNameTransformer, TypeNameTransformer {
+public interface ParameterTransformer extends TypeNameTransformer {
     public default void onParameterBefore(Parameter parameter) {
 
     }
