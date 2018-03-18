@@ -1,3 +1,8 @@
+plugins {
+  id 'com.github.johnrengelman.shadow' version '2.0.2'
+  id 'java'
+}
+
 ext {
   javaVersion = 1.9
   junitVersion = '4.12'
@@ -5,7 +10,16 @@ ext {
   logbackVersion = '1.2.3'
 }
 
+dependencies {
+  compile subprojects
+}
+
+repositories {
+  mavenCentral()
+}
+
 subprojects {
+  apply plugin: 'com.github.johnrengelman.shadow'
   apply plugin: 'java'
   apply plugin: 'jacoco'
 
