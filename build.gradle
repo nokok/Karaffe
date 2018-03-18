@@ -54,7 +54,13 @@ project(':ast') {
 
 project(':backend') {
   dependencies {
-    compile group: 'org.ow2.asm', name: 'asm-all', version: '5.1'
+    // compile group: 'org.ow2.asm', name: 'asm-all', version: '6.1'
+    compile group: 'org.ow2.asm', name: 'asm', version: '6.1'
+    compile group: 'org.ow2.asm', name: 'asm-commons', version: '6.1'
+    compile group: 'org.ow2.asm', name: 'asm-util', version: '6.1'
+    compile group: 'org.ow2.asm', name: 'asm-tree', version: '6.1'
+    compile group: 'org.ow2.asm', name: 'asm-analysis', version: '6.1'
+    compile group: 'org.ow2.asm', name: 'asm-test', version: '6.1'
   }
 }
 
