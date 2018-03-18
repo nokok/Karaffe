@@ -1,5 +1,6 @@
 language: java
 jdk:
+- oraclejdk8
 - oraclejdk9
 install: "./gradlew clean cleanTest build jacocoTestReport -i"
 after_success:

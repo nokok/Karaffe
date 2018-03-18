@@ -4,7 +4,6 @@ plugins {
 }
 
 ext {
-  javaVersion = 1.9
   junitVersion = '4.12'
   junit5Version = '5.1.0'
   logbackVersion = '1.2.3'
@@ -23,8 +22,8 @@ subprojects {
   apply plugin: 'java'
   apply plugin: 'jacoco'
 
-  sourceCompatibility = javaVersion
-  targetCompatibility = javaVersion
+  sourceCompatibility = 1.8
+  targetCompatibility = 1.8
 
   repositories {
     mavenCentral()
