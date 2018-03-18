@@ -6,5 +6,6 @@ include 'backend'
 include 'transformer'
 include 'base'
 include 'ast'
+include 'test'
 
 include 'temporary'

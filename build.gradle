@@ -30,9 +30,6 @@ subprojects {
   }
 
   dependencies {
-    testCompile group: 'junit', name: 'junit', version: junitVersion
-    //testCompile group: 'org.junit.jupiter', name: 'junit-jupiter-api', version: junit5Version
-    //testRuntime group: 'org.junit.jupiter', name: 'junit-jupiter-engine', version: junit5Version
     compile group: 'ch.qos.logback', name: 'logback-classic', version: logbackVersion
   }
 
@@ -74,4 +71,16 @@ project(':frontend') {
 }
 
 project(':transformer') {
+}
+
+project(':test') {
+  dependencies {
+    testCompile group: 'junit', name: 'junit', version: junitVersion
+  }
+}
+
+project(':temporary') {
+  dependencies {
+    testCompile group: 'junit', name: 'junit', version: junitVersion
+  }
 }
