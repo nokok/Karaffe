@@ -31,3 +31,14 @@ project(':transformer') {
     compile project(':base')
   }
 }
+
+project(':temporary') {
+  dependencies {
+    compile project(':ast')
+    compile project(':backend')
+    compile project(':base')
+    compile project(':corelib')
+    compile project(':frontend')
+    compile project(':transformer')
+  }
+}
