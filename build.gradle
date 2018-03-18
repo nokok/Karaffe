@@ -1,65 +1,51 @@
-plugins {
-  id 'com.github.johnrengelman.shadow' version '2.0.1'
-  id 'edu.sc.seis.launch4j' version '2.4.2'
-  id 'java'
-  id 'maven'
-  id 'jacoco'
-  id 'application'
-}
-
-group = 'org.karaffe'
-version = '0.1'
-
-tasks.withType(AbstractCompile)*.options*.encoding = tasks.withType(GroovyCompile)*.groovyOptions*.encoding = 'UTF-8'
-
-if( !JavaVersion.current().java8Compatible ) {
-  def errorString = """
-***************************************************
-Java 8 compatible compiler is required!
-***************************************************
-"""
-  throw new GradleException(errorString)
-}
-
-description = """Karaffe Compiler"""
-defaultTasks 'clean', 'build', 'test', 'shadowJar'
-mainClassName = 'org.karaffe.Main'
-
-compileJava.options.compilerArgs = ['-Xlint:processing']
-
-sourceCompatibility = 1.8
-targetCompatibility = 1.8
-
-repositories {
-  mavenCentral()
-}
-
 ext {
+  javaVersion = 1.9
   junitVersion = '4.12'
+  junit5Version = '5.1.0'
+  logbackVersion = '1.2.3'
 }
 
-dependencies {
-  testCompile group: 'nl.jqno.equalsverifier', name: 'equalsverifier', version: '2.3.3'
-  testCompile group: 'junit', name: 'junit', version: junitVersion
-  compile group: 'org.ow2.asm', name: 'asm-all', version: '5.1'
-  compile group: 'ch.qos.logback', name: 'logback-classic', version: '1.1.8'
-  compile group: 'org.slf4j', name: 'slf4j-api', version: '1.7.22'
-  compile group: 'com.typesafe', name: 'config', version: '1.3.2'
-}
+subprojects {
+  apply plugin: 'java'
 
-jacocoTestReport {
-  reports {
-    xml.enabled true
+  sourceCompatibility = javaVersion
+  targetCompatibility = javaVersion
+
+  repositories {
+    mavenCentral()
   }
 
-  afterEvaluate {
-    classDirectories = files(classDirectories.files.collect {
-        fileTree(dir: it,
-            exclude: [])
-        })
+  dependencies {
+    testCompile group: 'junit', name: 'junit', version: junitVersion
+    //testCompile group: 'org.junit.jupiter', name: 'junit-jupiter-api', version: junit5Version
+    //testRuntime group: 'org.junit.jupiter', name: 'junit-jupiter-engine', version: junit5Version
+    compile group: 'ch.qos.logback', name: 'logback-classic', version: logbackVersion
+  }
+
+  tasks.withType(AbstractCompile)*.options*.encoding = tasks.withType(GroovyCompile)*.groovyOptions*.encoding = 'UTF-8'
+}
+
+
+apply from: 'gradle/project_structure.gradle'
+apply from: 'gradle/detect_java_version.gradle'
+
+project(':ast') {
+}
+
+project(':backend') {
+  dependencies {
+    compile group: 'org.ow2.asm', name: 'asm-all', version: '5.1'
   }
 }
 
-launch4j {
-  mainClassName = 'org.karaffe.compiler.Main'
+project(':base') {
+}
+
+project(':corelib') {
+}
+
+project(':frontend') {
+}
+
+project(':transformer') {
 }

@@ -1,0 +1,33 @@
+project(':ast') {
+  dependencies {
+    compile project(':base')
+  }
+}
+
+project(':backend') {
+  dependencies {
+    compile project(':ast')
+    compile project(':base')
+    compile project(':corelib')
+  }
+}
+
+project(':base') {
+}
+
+project(':corelib') {
+}
+
+project(':frontend') {
+  dependencies {
+    compile project(':ast')
+    compile project(':base')
+  }
+}
+
+project(':transformer') {
+  dependencies {
+    compile project(':ast')
+    compile project(':base')
+  }
+}

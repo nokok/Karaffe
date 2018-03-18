@@ -11,9 +11,6 @@ import org.karaffe.compiler.util.DiagnosticInfo;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import com.typesafe.config.Config;
-import com.typesafe.config.ConfigFactory;
-
 import ch.qos.logback.classic.Level;
 
 public class Main {
@@ -22,7 +19,6 @@ public class Main {
     }
 
     private void run(final String[] args) {
-        System.out.println("Launching Karaffe Tools...");
         Thread.setDefaultUncaughtExceptionHandler((t, e) -> {
             System.err.println("\nKaraffeCompiler: UncaughtException: " + e.getMessage() + " , Thread: " + t.getName());
             System.err.println("=====STACK TRACE=====");
@@ -30,21 +26,15 @@ public class Main {
             System.err.println("=====================");
             System.err.println(DiagnosticInfo.INSTANCE.toString());
         });
+        System.out.println("Launching Karaffe Tools...");
 
-        final Config config = ConfigFactory.parseResources("compiler.conf");
-        final List<String> terminateCommands;
-        if (config.hasPath("buildtool.terminateCommands")) {
-            terminateCommands = config.getStringList("buildtool.terminateCommands");
-        } else {
-            terminateCommands = Arrays.asList("exit", "quit");
-        }
 
         try (Scanner scanner = new Scanner(System.in)) {
             System.out.print("> ");
             while (scanner.hasNextLine()) {
                 final ch.qos.logback.classic.Logger rootLogger = (ch.qos.logback.classic.Logger) LoggerFactory.getLogger(Logger.ROOT_LOGGER_NAME);
                 final String line = scanner.nextLine();
-                if (terminateCommands.contains(line)) {
+                if (line.equals("exit")) {
                     break;
                 }
                 switch (line) {

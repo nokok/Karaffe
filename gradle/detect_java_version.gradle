@@ -1,0 +1,8 @@
+if( !JavaVersion.current().java8Compatible ) {
+  def errorString = """
+***************************************************
+Java 8 compatible compiler is required!
+***************************************************
+"""
+  throw new GradleException(errorString)
+}

@@ -1,1 +1,8 @@
-rootProject.name = 'Karaffe-lang'
+rootProject.name = 'Karaffe'
+
+include 'corelib'
+include 'frontend'
+include 'backend'
+include 'transformer'
+include 'base'
+include 'ast'
