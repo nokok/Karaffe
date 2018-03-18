@@ -1,7 +1,7 @@
 package org.karaffe.compiler.tree.transform.api;
 
-import org.karaffe.compiler.tree.v2.api.ImportStatement;
-import org.karaffe.compiler.tree.v2.imports.SimpleImport;
+import org.karaffe.compiler.ast.api.ImportStatement;
+import org.karaffe.compiler.ast.imports.SimpleImport;
 
 public interface SimpleImportTransformer extends FullyQualifiedNameTransformer {
 

@@ -1,8 +1,8 @@
 package org.karaffe.compiler.tree.transform.api;
 
-import org.karaffe.compiler.tree.v2.api.TypeDefStatement;
-import org.karaffe.compiler.tree.v2.statements.ClassDef;
-import org.karaffe.compiler.tree.v2.statements.InterfaceDef;
+import org.karaffe.compiler.ast.api.TypeDefStatement;
+import org.karaffe.compiler.ast.statements.ClassDef;
+import org.karaffe.compiler.ast.statements.InterfaceDef;
 
 public interface TypeDefStmtTransformer extends ClassDefTransformer, InterfaceDefTransformer {
 

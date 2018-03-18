@@ -1,10 +1,10 @@
 package org.karaffe.compiler.types.v2;
 
-import org.karaffe.compiler.tree.v2.api.Expression;
-import org.karaffe.compiler.tree.v2.api.Tree;
-import org.karaffe.compiler.tree.v2.names.FullyQualifiedTypeName;
-import org.karaffe.compiler.tree.v2.names.SimpleName;
-import org.karaffe.compiler.tree.v2.names.TypeName;
+import org.karaffe.compiler.ast.api.Expression;
+import org.karaffe.compiler.ast.api.Tree;
+import org.karaffe.compiler.ast.names.FullyQualifiedTypeName;
+import org.karaffe.compiler.ast.names.SimpleName;
+import org.karaffe.compiler.ast.names.TypeName;
 import org.karaffe.compiler.types.v2.constraints.HasMember;
 import org.karaffe.compiler.types.v2.constraints.NeedEquals;
 import org.karaffe.compiler.types.v2.constraints.TypeConstraint;

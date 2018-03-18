@@ -6,17 +6,17 @@ import java.util.Map;
 import java.util.Optional;
 import java.util.stream.Collectors;
 
-import org.karaffe.compiler.resolvers.TypeResolver;
+import org.karaffe.compiler.backend.jvm.resolvers.TypeResolver;
 import org.karaffe.compiler.tree.transform.AbstractTransformer;
-import org.karaffe.compiler.tree.v2.PackageDef;
-import org.karaffe.compiler.tree.v2.api.TypeDefStatement;
-import org.karaffe.compiler.tree.v2.imports.AliasImport;
-import org.karaffe.compiler.tree.v2.imports.OnDemandImport;
-import org.karaffe.compiler.tree.v2.imports.SimpleImport;
-import org.karaffe.compiler.tree.v2.names.FullyQualifiedTypeName;
-import org.karaffe.compiler.tree.v2.names.PackageName;
-import org.karaffe.compiler.tree.v2.names.SimpleName;
-import org.karaffe.compiler.tree.v2.names.TypeName;
+import org.karaffe.compiler.ast.PackageDef;
+import org.karaffe.compiler.ast.api.TypeDefStatement;
+import org.karaffe.compiler.ast.imports.AliasImport;
+import org.karaffe.compiler.ast.imports.OnDemandImport;
+import org.karaffe.compiler.ast.imports.SimpleImport;
+import org.karaffe.compiler.ast.names.FullyQualifiedTypeName;
+import org.karaffe.compiler.ast.names.PackageName;
+import org.karaffe.compiler.ast.names.SimpleName;
+import org.karaffe.compiler.ast.names.TypeName;
 
 public class ClassNameResolver extends AbstractTransformer {
 

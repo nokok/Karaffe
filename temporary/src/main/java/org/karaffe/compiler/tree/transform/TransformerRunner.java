@@ -7,7 +7,7 @@ import org.karaffe.compiler.tree.transform.api.BaseTransformer;
 import org.karaffe.compiler.tree.transform.namer.NameNormalizeTransformer;
 import org.karaffe.compiler.tree.transform.namer.NameRemapper;
 import org.karaffe.compiler.tree.transform.typeinferer.TypeInferer;
-import org.karaffe.compiler.tree.v2.CompilationUnit;
+import org.karaffe.compiler.ast.CompilationUnit;
 
 public class TransformerRunner {
 

@@ -2,8 +2,8 @@ package org.karaffe.compiler.tree.transform.api;
 
 import java.util.stream.Collectors;
 
-import org.karaffe.compiler.tree.v2.api.TypeDefStatement;
-import org.karaffe.compiler.tree.v2.statements.InterfaceDef;
+import org.karaffe.compiler.ast.api.TypeDefStatement;
+import org.karaffe.compiler.ast.statements.InterfaceDef;
 
 public interface InterfaceDefTransformer extends TypeDefMemberTransformer {
 

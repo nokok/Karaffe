@@ -7,7 +7,7 @@ import static org.junit.Assert.assertTrue;
 import java.util.Optional;
 
 import org.junit.Test;
-import org.karaffe.compiler.pos.Position;
+import org.karaffe.compiler.base.pos.Position;
 
 public class NoPosTest {
     private final Position pos = Position.noPos();

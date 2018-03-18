@@ -9,12 +9,12 @@ import java.util.Arrays;
 import java.util.List;
 
 import org.karaffe.compiler.tree.transform.AbstractTransformer;
-import org.karaffe.compiler.tree.v2.PackageDef;
-import org.karaffe.compiler.tree.v2.api.ImportStatement;
-import org.karaffe.compiler.tree.v2.imports.OnDemandImport;
-import org.karaffe.compiler.tree.v2.imports.SimpleImport;
-import org.karaffe.compiler.tree.v2.names.FullyQualifiedTypeName;
-import org.karaffe.compiler.tree.v2.names.PackageName;
+import org.karaffe.compiler.ast.PackageDef;
+import org.karaffe.compiler.ast.api.ImportStatement;
+import org.karaffe.compiler.ast.imports.OnDemandImport;
+import org.karaffe.compiler.ast.imports.SimpleImport;
+import org.karaffe.compiler.ast.names.FullyQualifiedTypeName;
+import org.karaffe.compiler.ast.names.PackageName;
 
 import karaffe.core.Any;
 

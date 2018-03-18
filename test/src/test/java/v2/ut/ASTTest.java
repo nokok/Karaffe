@@ -5,24 +5,24 @@ import static org.junit.Assert.assertEquals;
 import java.util.Arrays;
 
 import org.junit.Test;
-import org.karaffe.compiler.tree.v2.CompilationUnit;
-import org.karaffe.compiler.tree.v2.PackageDef;
-import org.karaffe.compiler.tree.v2.Parameter;
-import org.karaffe.compiler.tree.v2.expressions.Apply;
-import org.karaffe.compiler.tree.v2.expressions.ExpressionName;
-import org.karaffe.compiler.tree.v2.expressions.IntLiteral;
-import org.karaffe.compiler.tree.v2.expressions.Plus;
-import org.karaffe.compiler.tree.v2.imports.SimpleImport;
-import org.karaffe.compiler.tree.v2.modifiers.Public;
-import org.karaffe.compiler.tree.v2.modifiers.Static;
-import org.karaffe.compiler.tree.v2.names.FullyQualifiedTypeName;
-import org.karaffe.compiler.tree.v2.names.PackageName;
-import org.karaffe.compiler.tree.v2.names.SimpleName;
-import org.karaffe.compiler.tree.v2.names.TypeName;
-import org.karaffe.compiler.tree.v2.statements.ClassDef;
-import org.karaffe.compiler.tree.v2.statements.InterfaceDef;
-import org.karaffe.compiler.tree.v2.statements.LetLocalDef;
-import org.karaffe.compiler.tree.v2.statements.MethodDef;
+import org.karaffe.compiler.ast.CompilationUnit;
+import org.karaffe.compiler.ast.PackageDef;
+import org.karaffe.compiler.ast.Parameter;
+import org.karaffe.compiler.ast.expressions.Apply;
+import org.karaffe.compiler.ast.expressions.ExpressionName;
+import org.karaffe.compiler.ast.expressions.IntLiteral;
+import org.karaffe.compiler.ast.expressions.Plus;
+import org.karaffe.compiler.ast.imports.SimpleImport;
+import org.karaffe.compiler.ast.modifiers.Public;
+import org.karaffe.compiler.ast.modifiers.Static;
+import org.karaffe.compiler.ast.names.FullyQualifiedTypeName;
+import org.karaffe.compiler.ast.names.PackageName;
+import org.karaffe.compiler.ast.names.SimpleName;
+import org.karaffe.compiler.ast.names.TypeName;
+import org.karaffe.compiler.ast.statements.ClassDef;
+import org.karaffe.compiler.ast.statements.InterfaceDef;
+import org.karaffe.compiler.ast.statements.LetLocalDef;
+import org.karaffe.compiler.ast.statements.MethodDef;
 
 public class ASTTest {
     @Test

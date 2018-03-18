@@ -1,6 +1,6 @@
 package org.karaffe.compiler.tree.transform.api;
 
-import org.karaffe.compiler.tree.v2.imports.AliasImport;
+import org.karaffe.compiler.ast.imports.AliasImport;
 
 public interface AliasImportTransformer extends TypeNameTransformer {
     public default void onAliasImportBefore(AliasImport aliasImport) {

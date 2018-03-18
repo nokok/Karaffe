@@ -1,8 +1,8 @@
 package org.karaffe.compiler.tree.transform.namer;
 
 import org.karaffe.compiler.tree.transform.AbstractTransformer;
-import org.karaffe.compiler.tree.v2.expressions.Apply;
-import org.karaffe.compiler.tree.v2.names.SimpleName;
+import org.karaffe.compiler.ast.expressions.Apply;
+import org.karaffe.compiler.ast.names.SimpleName;
 
 public class OperatorNameRemapper extends AbstractTransformer {
 

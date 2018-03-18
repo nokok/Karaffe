@@ -2,7 +2,7 @@ package org.karaffe.compiler.types.v2.constraints;
 
 import java.util.Objects;
 
-import org.karaffe.compiler.tree.v2.api.Tree;
+import org.karaffe.compiler.ast.api.Tree;
 
 public class NeedEquals implements TypeConstraint {
 

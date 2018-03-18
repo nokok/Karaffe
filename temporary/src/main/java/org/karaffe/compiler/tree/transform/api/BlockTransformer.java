@@ -2,7 +2,7 @@ package org.karaffe.compiler.tree.transform.api;
 
 import java.util.stream.Collectors;
 
-import org.karaffe.compiler.tree.v2.expressions.Block;
+import org.karaffe.compiler.ast.expressions.Block;
 
 public interface BlockTransformer extends BaseTransformer {
 

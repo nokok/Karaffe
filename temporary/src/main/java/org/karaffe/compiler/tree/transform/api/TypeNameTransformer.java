@@ -2,9 +2,9 @@ package org.karaffe.compiler.tree.transform.api;
 
 import java.util.stream.Collectors;
 
-import org.karaffe.compiler.tree.v2.names.FullyQualifiedTypeName;
-import org.karaffe.compiler.tree.v2.names.SimpleName;
-import org.karaffe.compiler.tree.v2.names.TypeName;
+import org.karaffe.compiler.ast.names.FullyQualifiedTypeName;
+import org.karaffe.compiler.ast.names.SimpleName;
+import org.karaffe.compiler.ast.names.TypeName;
 
 public interface TypeNameTransformer extends SimpleNameTransformer, FullyQualifiedNameTransformer {
 

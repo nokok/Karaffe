@@ -1,12 +1,12 @@
 package org.karaffe.compiler.tree.transform.api;
 
-import org.karaffe.compiler.tree.v2.CompilationUnit;
-import org.karaffe.compiler.tree.v2.PackageDef;
-import org.karaffe.compiler.tree.v2.api.Expression;
-import org.karaffe.compiler.tree.v2.api.ImportStatement;
-import org.karaffe.compiler.tree.v2.api.Statement;
-import org.karaffe.compiler.tree.v2.api.TypeDefMember;
-import org.karaffe.compiler.tree.v2.api.TypeDefStatement;
+import org.karaffe.compiler.ast.CompilationUnit;
+import org.karaffe.compiler.ast.PackageDef;
+import org.karaffe.compiler.ast.api.Expression;
+import org.karaffe.compiler.ast.api.ImportStatement;
+import org.karaffe.compiler.ast.api.Statement;
+import org.karaffe.compiler.ast.api.TypeDefMember;
+import org.karaffe.compiler.ast.api.TypeDefStatement;
 
 public interface BaseTransformer {
 

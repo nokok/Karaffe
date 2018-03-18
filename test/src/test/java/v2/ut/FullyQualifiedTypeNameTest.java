@@ -6,9 +6,9 @@ import static org.junit.Assert.assertNotEquals;
 import java.util.Arrays;
 
 import org.junit.Test;
-import org.karaffe.compiler.pos.Position;
-import org.karaffe.compiler.tree.v2.names.FullyQualifiedTypeName;
-import org.karaffe.compiler.tree.v2.names.SimpleName;
+import org.karaffe.compiler.base.pos.Position;
+import org.karaffe.compiler.ast.names.FullyQualifiedTypeName;
+import org.karaffe.compiler.ast.names.SimpleName;
 
 public class FullyQualifiedTypeNameTest {
 

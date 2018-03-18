@@ -11,33 +11,34 @@ import java.util.Map.Entry;
 import java.util.Optional;
 import java.util.stream.Collectors;
 
-import org.karaffe.compiler.resolvers.MethodResolver;
-import org.karaffe.compiler.resolvers.TypeResolver;
+import org.karaffe.compiler.base.types.InferStates;
+import org.karaffe.compiler.backend.jvm.resolvers.MethodResolver;
+import org.karaffe.compiler.backend.jvm.resolvers.TypeResolver;
 import org.karaffe.compiler.tree.transform.AbstractTransformer;
-import org.karaffe.compiler.tree.v2.Parameter;
-import org.karaffe.compiler.tree.v2.api.Expression;
-import org.karaffe.compiler.tree.v2.api.Statement;
-import org.karaffe.compiler.tree.v2.api.Tree;
-import org.karaffe.compiler.tree.v2.expressions.Apply;
-import org.karaffe.compiler.tree.v2.expressions.Block;
-import org.karaffe.compiler.tree.v2.expressions.ExpressionName;
-import org.karaffe.compiler.tree.v2.expressions.IntLiteral;
-import org.karaffe.compiler.tree.v2.expressions.NewInstance;
-import org.karaffe.compiler.tree.v2.expressions.StaticApply;
-import org.karaffe.compiler.tree.v2.names.FullyQualifiedTypeName;
-import org.karaffe.compiler.tree.v2.names.SimpleName;
-import org.karaffe.compiler.tree.v2.names.TypeName;
-import org.karaffe.compiler.tree.v2.statements.LetLocalDef;
-import org.karaffe.compiler.tree.v2.statements.MethodDef;
-import org.karaffe.compiler.types.v2.InferStates;
+import org.karaffe.compiler.ast.Parameter;
+import org.karaffe.compiler.ast.api.Expression;
+import org.karaffe.compiler.ast.api.Statement;
+import org.karaffe.compiler.ast.api.Tree;
+import org.karaffe.compiler.ast.expressions.Apply;
+import org.karaffe.compiler.ast.expressions.Block;
+import org.karaffe.compiler.ast.expressions.ExpressionName;
+import org.karaffe.compiler.ast.expressions.IntLiteral;
+import org.karaffe.compiler.ast.expressions.NewInstance;
+import org.karaffe.compiler.ast.expressions.StaticApply;
+import org.karaffe.compiler.ast.names.FullyQualifiedTypeName;
+import org.karaffe.compiler.ast.names.SimpleName;
+import org.karaffe.compiler.ast.names.TypeName;
+import org.karaffe.compiler.ast.statements.LetLocalDef;
+import org.karaffe.compiler.ast.statements.MethodDef;
+import org.karaffe.compiler.backend.jvm.resolvers.types.JavaInferStates;
 import org.karaffe.compiler.types.v2.TypeConstraints;
 import org.karaffe.compiler.types.v2.constraints.ConstraintType;
 import org.karaffe.compiler.types.v2.constraints.HasMember;
 import org.karaffe.compiler.types.v2.constraints.NeedEquals;
 import org.karaffe.compiler.types.v2.constraints.TypeConstraint;
-import org.karaffe.compiler.types.v2.states.InferState;
-import org.karaffe.compiler.types.v2.states.InferStateType;
-import org.karaffe.compiler.types.v2.states.Resolved;
+import org.karaffe.compiler.base.types.InferState;
+import org.karaffe.compiler.base.types.InferStateType;
+import org.karaffe.compiler.backend.jvm.resolvers.types.state.JavaTypeResolved;
 
 import karaffe.core.Int;
 
@@ -76,12 +77,12 @@ public class TypeEnvironmentBuilder extends AbstractTransformer {
             return;
         }
         FullyQualifiedTypeName name = (FullyQualifiedTypeName) parameter.getType();
-        TypeResolver.findClass(name.getFullName()).map(InferStates::of).ifPresent(s -> this.states.put(parameter.getName(), s));
+        TypeResolver.findClass(name.getFullName()).map(JavaInferStates::of).ifPresent(s -> this.states.put(parameter.getName(), s));
     }
 
     @Override
     public void onIntLiteralBefore(IntLiteral intLiteral) {
-        TypeResolver.findAllCompatibleClasses(Int.class).map(InferStates::of).ifPresent(state -> {
+        TypeResolver.findAllCompatibleClasses(Int.class).map(JavaInferStates::of).ifPresent(state -> {
             this.constraints.add(TypeConstraints.needEquals(intLiteral, new FullyQualifiedTypeName(Int.class)));
         });
     }
@@ -102,7 +103,7 @@ public class TypeEnvironmentBuilder extends AbstractTransformer {
             case INT_LITERAL:
                 TypeResolver
                         .findAllCompatibleClasses(Int.class)
-                        .map(InferStates::of)
+                        .map(JavaInferStates::of)
                         .map(state -> this.states.put(letLocalDef.getName(), state))
                         .orElseGet(() -> this.states.put(letLocalDef.getName(), InferStates.fail()));
                 break;
@@ -121,7 +122,7 @@ public class TypeEnvironmentBuilder extends AbstractTransformer {
                     if (methods.size() == 1) {
                         Method method = methods.get(0);
                         Class<?> returnType = method.getReturnType();
-                        this.states.put(letLocalDef.getName(), InferStates.of(returnType));
+                        this.states.put(letLocalDef.getName(), JavaInferStates.of(returnType));
                     } else {
                         throw new RuntimeException("Method overload is not supported.");
                     }
@@ -130,7 +131,7 @@ public class TypeEnvironmentBuilder extends AbstractTransformer {
             case APPLY:
                 Apply apply = (Apply) initializer;
                 Optional<InferState> nullableInferState = Optional.ofNullable(this.states.get(apply.getExpression()));
-                nullableInferState.filter(i -> i.getInferStateType().equals(InferStateType.RESOLVED)).map(Resolved.class::cast).ifPresent(resolved -> {
+                nullableInferState.filter(i -> i.getInferStateType().equals(InferStateType.RESOLVED)).map(JavaTypeResolved.class::cast).ifPresent(resolved -> {
                     Class<?> clazz = resolved.getSuitableType();
                     MethodResolver methodResolver = new MethodResolver(clazz);
                     List<Method> methods = methodResolver.findMethodsByMethodName(apply.getMethodName());
@@ -141,7 +142,7 @@ public class TypeEnvironmentBuilder extends AbstractTransformer {
                         if (parameterTypes.length != args.size()) {
                             throw new RuntimeException("Invalid Method args count");
                         }
-                        this.states.put(letLocalDef.getName(), InferStates.of(method.getReturnType()));
+                        this.states.put(letLocalDef.getName(), JavaInferStates.of(method.getReturnType()));
                     }
                 });
                 break;
@@ -153,7 +154,7 @@ public class TypeEnvironmentBuilder extends AbstractTransformer {
                 ExpressionName name = (ExpressionName) initializer;
                 Optional.ofNullable(this.states.get(name))
                         .filter(state -> state.getInferStateType().equals(InferStateType.RESOLVED))
-                        .map(Resolved.class::cast)
+                        .map(JavaTypeResolved.class::cast)
                         .ifPresent(resolved -> {
                             this.states.put(letLocalDef.getName(), resolved);
                         });
@@ -163,7 +164,7 @@ public class TypeEnvironmentBuilder extends AbstractTransformer {
                 if (newInstance.getTypeName().isFullyQualified()) {
                     String fqcn = ((FullyQualifiedTypeName) newInstance.getTypeName()).getFullName();
                     TypeResolver.findClass(fqcn).ifPresent(clazz -> {
-                        this.states.put(letLocalDef.getName(), InferStates.of(clazz));
+                        this.states.put(letLocalDef.getName(), JavaInferStates.of(clazz));
                     });
                 }
                 break;
@@ -212,16 +213,16 @@ public class TypeEnvironmentBuilder extends AbstractTransformer {
                 .filter(c -> c.getConstraintType().equals(ConstraintType.NEED_EQUALS))
                 .map(NeedEquals.class::cast)
                 .collect(Collectors.toList());
-        Map<SimpleName, Resolved> resolvedNames = this.states
+        Map<SimpleName, JavaTypeResolved> resolvedNames = this.states
                 .entrySet()
                 .stream()
                 .filter(entry -> entry.getValue().getInferStateType().equals(InferStateType.RESOLVED))
-                .map(entry -> new AbstractMap.SimpleEntry<>(entry.getKey(), (Resolved) entry.getValue()))
+                .map(entry -> new AbstractMap.SimpleEntry<>(entry.getKey(), (JavaTypeResolved) entry.getValue()))
                 .collect(Collectors.toMap(entry -> entry.getKey(), entry -> entry.getValue()));
 
-        for (Map.Entry<SimpleName, Resolved> entry : resolvedNames.entrySet()) {
+        for (Map.Entry<SimpleName, JavaTypeResolved> entry : resolvedNames.entrySet()) {
             SimpleName resolvedName = entry.getKey();
-            Resolved resolvedType = entry.getValue();
+            JavaTypeResolved resolvedType = entry.getValue();
             List<Tree> lefts = needEquals
                     .stream()
                     .filter(eq -> eq.getLeftTree().equals(resolvedName))

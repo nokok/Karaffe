@@ -4,7 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
-import org.karaffe.compiler.tree.v2.Parameter;
+import org.karaffe.compiler.ast.Parameter;
 
 public interface ParametersTransformer extends ParameterTransformer {
 

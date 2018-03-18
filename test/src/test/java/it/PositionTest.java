@@ -4,7 +4,7 @@ import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
 
 import org.junit.Test;
-import org.karaffe.compiler.pos.Position;
+import org.karaffe.compiler.base.pos.Position;
 
 public class PositionTest {
     private final Position noPos = Position.noPos();

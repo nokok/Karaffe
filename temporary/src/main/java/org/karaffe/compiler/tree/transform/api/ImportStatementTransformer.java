@@ -1,9 +1,9 @@
 package org.karaffe.compiler.tree.transform.api;
 
-import org.karaffe.compiler.tree.v2.api.ImportStatement;
-import org.karaffe.compiler.tree.v2.imports.AliasImport;
-import org.karaffe.compiler.tree.v2.imports.OnDemandImport;
-import org.karaffe.compiler.tree.v2.imports.SimpleImport;
+import org.karaffe.compiler.ast.api.ImportStatement;
+import org.karaffe.compiler.ast.imports.AliasImport;
+import org.karaffe.compiler.ast.imports.OnDemandImport;
+import org.karaffe.compiler.ast.imports.SimpleImport;
 
 public interface ImportStatementTransformer extends
         BaseTransformer,

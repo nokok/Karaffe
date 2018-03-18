@@ -2,7 +2,7 @@ package org.karaffe.compiler.tree.transform.api;
 
 import java.util.stream.Collectors;
 
-import org.karaffe.compiler.tree.v2.CompilationUnit;
+import org.karaffe.compiler.ast.CompilationUnit;
 
 public interface CompilationUnitTransformer extends BaseTransformer {
 

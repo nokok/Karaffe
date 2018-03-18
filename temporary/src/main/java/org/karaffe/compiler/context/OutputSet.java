@@ -1,6 +1,6 @@
 package org.karaffe.compiler.context;
 
-import org.karaffe.compiler.pos.Position;
+import org.karaffe.compiler.base.pos.Position;
 import org.karaffe.compiler.util.Report;
 import org.karaffe.compiler.util.Report.AdditionalInfo;
 

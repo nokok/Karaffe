@@ -1,13 +1,13 @@
 package org.karaffe.compiler.tree.transform.api;
 
-import org.karaffe.compiler.tree.v2.api.Expression;
-import org.karaffe.compiler.tree.v2.expressions.Apply;
-import org.karaffe.compiler.tree.v2.expressions.Block;
-import org.karaffe.compiler.tree.v2.expressions.ExpressionName;
-import org.karaffe.compiler.tree.v2.expressions.IntLiteral;
-import org.karaffe.compiler.tree.v2.expressions.NewInstance;
-import org.karaffe.compiler.tree.v2.expressions.Return;
-import org.karaffe.compiler.tree.v2.expressions.StaticApply;
+import org.karaffe.compiler.ast.api.Expression;
+import org.karaffe.compiler.ast.expressions.Apply;
+import org.karaffe.compiler.ast.expressions.Block;
+import org.karaffe.compiler.ast.expressions.ExpressionName;
+import org.karaffe.compiler.ast.expressions.IntLiteral;
+import org.karaffe.compiler.ast.expressions.NewInstance;
+import org.karaffe.compiler.ast.expressions.Return;
+import org.karaffe.compiler.ast.expressions.StaticApply;
 
 public interface ExpressionTransformer extends
         ApplyTransformer,

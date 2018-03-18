@@ -1,13 +1,13 @@
 package org.karaffe.compiler.tree.transform.api;
 
-import org.karaffe.compiler.tree.v2.api.Expression;
-import org.karaffe.compiler.tree.v2.api.Statement;
-import org.karaffe.compiler.tree.v2.imports.SimpleImport;
-import org.karaffe.compiler.tree.v2.statements.ClassDef;
-import org.karaffe.compiler.tree.v2.statements.InterfaceDef;
-import org.karaffe.compiler.tree.v2.statements.LetFieldDef;
-import org.karaffe.compiler.tree.v2.statements.LetLocalDef;
-import org.karaffe.compiler.tree.v2.statements.MethodDef;
+import org.karaffe.compiler.ast.api.Expression;
+import org.karaffe.compiler.ast.api.Statement;
+import org.karaffe.compiler.ast.imports.SimpleImport;
+import org.karaffe.compiler.ast.statements.ClassDef;
+import org.karaffe.compiler.ast.statements.InterfaceDef;
+import org.karaffe.compiler.ast.statements.LetFieldDef;
+import org.karaffe.compiler.ast.statements.LetLocalDef;
+import org.karaffe.compiler.ast.statements.MethodDef;
 
 public interface StatementTransformer extends LetLocalDefTransformer {
 

@@ -6,9 +6,9 @@ import static org.junit.Assert.assertTrue;
 import java.util.List;
 
 import org.junit.Test;
-import org.karaffe.compiler.lexer.AbstractLexer;
-import org.karaffe.compiler.lexer.KaraffeLexer;
-import org.karaffe.compiler.lexer.Token;
+import org.karaffe.compiler.frontend.karaffe.lexer.AbstractLexer;
+import org.karaffe.compiler.frontend.karaffe.lexer.KaraffeLexer;
+import org.karaffe.compiler.frontend.karaffe.lexer.Token;
 
 public class KaraffeSpecTest {
 

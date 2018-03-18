@@ -4,7 +4,7 @@ import java.util.Comparator;
 import java.util.List;
 import java.util.Optional;
 
-import org.karaffe.compiler.pos.Position;
+import org.karaffe.compiler.base.pos.Position;
 import org.karaffe.compiler.util.Report.AdditionalInfo;
 import org.karaffe.compiler.util.Report.StringCodePart;
 

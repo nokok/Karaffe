@@ -2,7 +2,7 @@ package org.karaffe.compiler.tree.transform.api;
 
 import java.util.stream.Collectors;
 
-import org.karaffe.compiler.tree.v2.PackageDef;
+import org.karaffe.compiler.ast.PackageDef;
 
 public interface PackageDefTransformer extends BaseTransformer, PackageNameTransformer {
 

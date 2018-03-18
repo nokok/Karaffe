@@ -6,24 +6,24 @@ import java.util.Optional;
 import java.util.stream.Collectors;
 
 import org.karaffe.compiler.tree.transform.AbstractTransformer;
-import org.karaffe.compiler.tree.v2.api.Expression;
-import org.karaffe.compiler.tree.v2.api.NameRef;
-import org.karaffe.compiler.tree.v2.api.Statement;
-import org.karaffe.compiler.tree.v2.expressions.Apply;
-import org.karaffe.compiler.tree.v2.expressions.Block;
-import org.karaffe.compiler.tree.v2.expressions.ExpressionName;
-import org.karaffe.compiler.tree.v2.expressions.ExpressionType;
-import org.karaffe.compiler.tree.v2.expressions.Return;
-import org.karaffe.compiler.tree.v2.names.SimpleName;
-import org.karaffe.compiler.tree.v2.names.TypeName;
-import org.karaffe.compiler.tree.v2.statements.LetDef;
-import org.karaffe.compiler.tree.v2.statements.LetFieldDef;
-import org.karaffe.compiler.tree.v2.statements.LetLocalDef;
-import org.karaffe.compiler.util.NameGen;
+import org.karaffe.compiler.ast.api.Expression;
+import org.karaffe.compiler.ast.api.NameRef;
+import org.karaffe.compiler.ast.api.Statement;
+import org.karaffe.compiler.ast.expressions.Apply;
+import org.karaffe.compiler.ast.expressions.Block;
+import org.karaffe.compiler.ast.expressions.ExpressionName;
+import org.karaffe.compiler.ast.expressions.ExpressionType;
+import org.karaffe.compiler.ast.expressions.Return;
+import org.karaffe.compiler.ast.names.SimpleName;
+import org.karaffe.compiler.ast.names.TypeName;
+import org.karaffe.compiler.ast.statements.LetDef;
+import org.karaffe.compiler.ast.statements.LetFieldDef;
+import org.karaffe.compiler.ast.statements.LetLocalDef;
+import org.karaffe.compiler.backend.jvm.generators.ConsecutiveNumberGenerator;
 
 public class KNormalizer extends AbstractTransformer {
 
-    private final NameGen nameGen = new NameGen("k_");
+    private final ConsecutiveNumberGenerator nameGen = new ConsecutiveNumberGenerator("k_");
 
     public KNormalizer() {
         super("k-normalize");

@@ -4,12 +4,12 @@ import static org.junit.Assert.assertEquals;
 
 import org.junit.Test;
 import org.karaffe.compiler.tree.transform.namer.AlphaEquivalenceTransformer;
-import org.karaffe.compiler.tree.v2.expressions.Block;
-import org.karaffe.compiler.tree.v2.expressions.ExpressionName;
-import org.karaffe.compiler.tree.v2.expressions.IntLiteral;
-import org.karaffe.compiler.tree.v2.expressions.Return;
-import org.karaffe.compiler.tree.v2.names.SimpleName;
-import org.karaffe.compiler.tree.v2.statements.LetLocalDef;
+import org.karaffe.compiler.ast.expressions.Block;
+import org.karaffe.compiler.ast.expressions.ExpressionName;
+import org.karaffe.compiler.ast.expressions.IntLiteral;
+import org.karaffe.compiler.ast.expressions.Return;
+import org.karaffe.compiler.ast.names.SimpleName;
+import org.karaffe.compiler.ast.statements.LetLocalDef;
 
 public class AlphaEquivalenceTransformerTest {
     private AlphaEquivalenceTransformer transformer = new AlphaEquivalenceTransformer();

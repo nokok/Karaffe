@@ -6,12 +6,12 @@ import java.util.Map;
 import java.util.Set;
 
 import org.karaffe.compiler.tree.transform.AbstractTransformer;
-import org.karaffe.compiler.tree.v2.api.Statement;
-import org.karaffe.compiler.tree.v2.expressions.Block;
-import org.karaffe.compiler.tree.v2.expressions.ExpressionName;
-import org.karaffe.compiler.tree.v2.names.SimpleName;
-import org.karaffe.compiler.tree.v2.statements.LetLocalDef;
-import org.karaffe.compiler.util.NameGen;
+import org.karaffe.compiler.ast.api.Statement;
+import org.karaffe.compiler.ast.expressions.Block;
+import org.karaffe.compiler.ast.expressions.ExpressionName;
+import org.karaffe.compiler.ast.names.SimpleName;
+import org.karaffe.compiler.ast.statements.LetLocalDef;
+import org.karaffe.compiler.backend.jvm.generators.ConsecutiveNumberGenerator;
 
 public class AlphaEquivalenceTransformer extends AbstractTransformer {
 
@@ -19,7 +19,7 @@ public class AlphaEquivalenceTransformer extends AbstractTransformer {
         super("alpha-equivalence");
     }
 
-    private final NameGen nameGen = new NameGen("s_");
+    private final ConsecutiveNumberGenerator nameGen = new ConsecutiveNumberGenerator("s_");
     private final Set<SimpleName> names = new HashSet<>();
     private final Map<SimpleName, SimpleName> nameMapping = new HashMap<>();
 

@@ -2,7 +2,7 @@ package org.karaffe.compiler.tree.transform.api;
 
 import java.util.stream.Collectors;
 
-import org.karaffe.compiler.tree.v2.expressions.NewInstance;
+import org.karaffe.compiler.ast.expressions.NewInstance;
 
 public interface NewInstanceTransformer extends TypeNameTransformer, BaseTransformer {
     public default void onNewInstanceBefore(NewInstance newInstance) {

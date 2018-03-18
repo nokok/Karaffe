@@ -1,7 +1,7 @@
 package org.karaffe.compiler.tree.transform.api;
 
-import org.karaffe.compiler.tree.v2.api.Expression;
-import org.karaffe.compiler.tree.v2.expressions.ExpressionName;
+import org.karaffe.compiler.ast.api.Expression;
+import org.karaffe.compiler.ast.expressions.ExpressionName;
 
 public interface ExpressionNameTransformer {
 

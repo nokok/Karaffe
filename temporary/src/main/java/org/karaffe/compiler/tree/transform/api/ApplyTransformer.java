@@ -2,8 +2,8 @@ package org.karaffe.compiler.tree.transform.api;
 
 import java.util.stream.Collectors;
 
-import org.karaffe.compiler.tree.v2.api.Expression;
-import org.karaffe.compiler.tree.v2.expressions.Apply;
+import org.karaffe.compiler.ast.api.Expression;
+import org.karaffe.compiler.ast.expressions.Apply;
 
 public interface ApplyTransformer extends BaseTransformer, SimpleNameTransformer {
 

@@ -5,7 +5,7 @@ import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
 
 import org.junit.Test;
-import org.karaffe.compiler.pos.Position;
+import org.karaffe.compiler.base.pos.Position;
 
 public class LineColPosTest {
     private final Position pos = Position.of("A", 1, 3);

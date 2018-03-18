@@ -6,7 +6,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 
 import org.junit.Test;
-import org.karaffe.compiler.pos.Position;
+import org.karaffe.compiler.base.pos.Position;
 import org.karaffe.compiler.util.Report;
 import org.karaffe.compiler.util.Report.FoundAndRequired;
 import org.karaffe.compiler.util.Report.StringCodePart;

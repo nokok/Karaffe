@@ -3,8 +3,8 @@ package org.karaffe.compiler.tree.transform.api;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.karaffe.compiler.tree.v2.api.TypeDefStatement;
-import org.karaffe.compiler.tree.v2.names.SimpleName;
+import org.karaffe.compiler.ast.api.TypeDefStatement;
+import org.karaffe.compiler.ast.names.SimpleName;
 
 public interface TypeDefInterfacesTransformer extends SimpleNameTransformer {
 

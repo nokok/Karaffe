@@ -4,7 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.karaffe.compiler.tree.transform.AbstractTransformer;
-import org.karaffe.compiler.tree.v2.CompilationUnit;
+import org.karaffe.compiler.ast.CompilationUnit;
 
 public class NameRemapper extends AbstractTransformer {
 

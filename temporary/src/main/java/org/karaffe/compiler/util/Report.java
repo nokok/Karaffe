@@ -6,7 +6,7 @@ import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
 
-import org.karaffe.compiler.pos.Position;
+import org.karaffe.compiler.base.pos.Position;
 
 public class Report {
     public static interface AdditionalInfo {

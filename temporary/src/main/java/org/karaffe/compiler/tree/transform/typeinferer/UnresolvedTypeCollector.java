@@ -1,7 +1,7 @@
 package org.karaffe.compiler.tree.transform.typeinferer;
 
 import org.karaffe.compiler.tree.transform.AbstractTransformer;
-import org.karaffe.compiler.tree.v2.names.TypeName;
+import org.karaffe.compiler.ast.names.TypeName;
 
 public class UnresolvedTypeCollector extends AbstractTransformer {
 
