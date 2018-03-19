@@ -2,7 +2,7 @@ package unittests;
 
 import org.junit.Test;
 import org.karaffe.compiler.base.pos.Position;
-import org.karaffe.compiler.util.Report;
+import org.karaffe.compiler.base.util.Report;
 
 public class ReportTest {
 

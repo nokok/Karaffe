@@ -11,8 +11,6 @@ import org.karaffe.compiler.ast.api.Statement;
 import org.karaffe.compiler.ast.expressions.ExpressionName;
 import org.karaffe.compiler.ast.names.SimpleName;
 import org.karaffe.compiler.ast.names.TypeName;
-import org.karaffe.compiler.base.types.InferState;
-import org.karaffe.compiler.base.types.InferStateType;
 
 public abstract class LetDef extends AbstractTree implements Statement, NameRef {
 

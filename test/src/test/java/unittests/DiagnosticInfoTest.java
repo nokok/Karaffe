@@ -3,7 +3,7 @@ package unittests;
 import static org.junit.Assert.assertEquals;
 
 import org.junit.Test;
-import org.karaffe.compiler.util.DiagnosticInfo;
+import org.karaffe.compiler.base.util.DiagnosticInfo;
 
 public class DiagnosticInfoTest {
     @Test

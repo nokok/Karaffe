@@ -3,7 +3,7 @@ package org.karaffe.compiler.ast.api;
 import java.util.Objects;
 
 import org.karaffe.compiler.base.pos.Position;
-import org.karaffe.compiler.base.types.InferState;
+import org.karaffe.compiler.base.types.state.InferState;
 
 public abstract class AbstractTree implements Tree, TreePosition, Typed, InferStateStore {
     private final Position treePosition;

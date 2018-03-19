@@ -7,10 +7,10 @@ import java.util.Arrays;
 
 import org.junit.Test;
 import org.karaffe.compiler.base.pos.Position;
-import org.karaffe.compiler.util.Report;
-import org.karaffe.compiler.util.Report.FoundAndRequired;
-import org.karaffe.compiler.util.Report.StringCodePart;
-import org.karaffe.compiler.util.ReportFormatter;
+import org.karaffe.compiler.base.util.Report;
+import org.karaffe.compiler.base.util.Report.FoundAndRequired;
+import org.karaffe.compiler.base.util.Report.StringCodePart;
+import org.karaffe.compiler.base.util.ReportFormatter;
 
 public class ReportFormatterTest {
 

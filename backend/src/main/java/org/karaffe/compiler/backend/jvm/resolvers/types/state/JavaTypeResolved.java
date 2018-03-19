@@ -1,7 +1,7 @@
 package org.karaffe.compiler.backend.jvm.resolvers.types.state;
 
-import org.karaffe.compiler.base.types.InferState;
-import org.karaffe.compiler.base.types.InferStateType;
+import org.karaffe.compiler.base.types.state.InferState;
+import org.karaffe.compiler.base.types.state.InferStateType;
 
 import java.util.ArrayList;
 import java.util.Arrays;
