@@ -1,4 +1,4 @@
-package v2.ut;
+package ut;
 
 import static org.junit.Assert.assertEquals;
 

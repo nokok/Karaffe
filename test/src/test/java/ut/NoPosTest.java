@@ -1,23 +1,25 @@
-package unittests;
+package ut;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
 
+import java.util.Optional;
+
 import org.junit.Test;
 import org.karaffe.compiler.base.pos.Position;
 
-public class LineColPosTest {
-    private final Position pos = Position.of("A", 1, 3);
+public class NoPosTest {
+    private final Position pos = Position.noPos();
 
     @Test
     public void testCol() {
-        assertEquals("3", this.pos.getCol());
+        assertEquals("?", this.pos.getCol());
     }
 
     @Test
     public void testColNumber() {
-        assertEquals(3, this.pos.getColNumber().get().intValue());
+        assertEquals(Optional.empty(), this.pos.getColNumber());
     }
 
     @Test
@@ -28,24 +30,24 @@ public class LineColPosTest {
 
     @Test
     public void testFlags() {
-        assertFalse(this.pos.isNoPos());
+        assertTrue(this.pos.isNoPos());
         assertFalse(this.pos.isRange());
         assertFalse(this.pos.asRange().isPresent());
     }
 
     @Test
     public void testLine() {
-        assertEquals("1", this.pos.getLine());
+        assertEquals("?", this.pos.getLine());
     }
 
     @Test
     public void testLineNumber() {
-        assertEquals(1, this.pos.getLineNumber().get().intValue());
+        assertEquals(Optional.empty(), this.pos.getLineNumber());
     }
 
     @Test
     public void testSourceName() {
-        assertEquals("A", this.pos.getSourceName());
+        assertEquals("?", this.pos.getSourceName());
     }
 
 }

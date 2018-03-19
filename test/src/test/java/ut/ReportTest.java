@@ -1,4 +1,4 @@
-package unittests;
+package ut;
 
 import org.junit.Test;
 import org.karaffe.compiler.base.pos.Position;

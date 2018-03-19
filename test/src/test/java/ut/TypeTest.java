@@ -1,4 +1,4 @@
-package v2.ut;
+package ut;
 
 public class TypeTest {
 
