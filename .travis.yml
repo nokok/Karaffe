@@ -9,7 +9,7 @@ cache:
   directories:
     - $HOME/.gradle/caches/
     - $HOME/.gradle/wrapper/
-install: ./gradlew clean cleanTest build jacocoTestReport -i
+install: ./gradlew clean cleanTest build codeCoverageReport
 after_success:
   - bash <(curl -s https://codecov.io/bash)
 notifications:
