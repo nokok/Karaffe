@@ -32,17 +32,6 @@ project(':transformer') {
   }
 }
 
-project(':temporary') {
-  dependencies {
-    compile project(':ast')
-    compile project(':backend')
-    compile project(':base')
-    compile project(':corelib')
-    compile project(':frontend')
-    compile project(':transformer')
-  }
-}
-
 project(':test') {
   dependencies {
     compile project(':ast')
@@ -51,6 +40,5 @@ project(':test') {
     compile project(':corelib')
     compile project(':frontend')
     compile project(':transformer')
-    compile project(':temporary')
   }
 }

@@ -42,6 +42,9 @@ subprojects {
   }
 }
 
+processResources {
+  from 'resources'
+}
 
 apply from: 'gradle/project_structure.gradle'
 apply from: 'gradle/detect_java_version.gradle'
@@ -74,12 +77,6 @@ project(':transformer') {
 }
 
 project(':test') {
-  dependencies {
-    testCompile group: 'junit', name: 'junit', version: junitVersion
-  }
-}
-
-project(':temporary') {
   dependencies {
     testCompile group: 'junit', name: 'junit', version: junitVersion
   }
