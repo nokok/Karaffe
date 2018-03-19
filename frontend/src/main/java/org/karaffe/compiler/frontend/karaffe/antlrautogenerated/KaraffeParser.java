@@ -97,6 +97,11 @@ public class KaraffeParser extends Parser {
 		public void exitRule(ParseTreeListener listener) {
 			if ( listener instanceof KaraffeListener ) ((KaraffeListener)listener).exitCompilationUnit(this);
 		}
+		@Override
+		public <T> T accept(ParseTreeVisitor<? extends T> visitor) {
+			if ( visitor instanceof KaraffeVisitor ) return ((KaraffeVisitor<? extends T>)visitor).visitCompilationUnit(this);
+			else return visitor.visitChildren(this);
+		}
 	}
 
 	public final CompilationUnitContext compilationUnit() throws RecognitionException {
@@ -149,6 +154,11 @@ public class KaraffeParser extends Parser {
 		public void exitRule(ParseTreeListener listener) {
 			if ( listener instanceof KaraffeListener ) ((KaraffeListener)listener).exitStatement(this);
 		}
+		@Override
+		public <T> T accept(ParseTreeVisitor<? extends T> visitor) {
+			if ( visitor instanceof KaraffeVisitor ) return ((KaraffeVisitor<? extends T>)visitor).visitStatement(this);
+			else return visitor.visitChildren(this);
+		}
 	}
 
 	public final StatementContext statement() throws RecognitionException {
@@ -185,6 +195,11 @@ public class KaraffeParser extends Parser {
 		@Override
 		public void exitRule(ParseTreeListener listener) {
 			if ( listener instanceof KaraffeListener ) ((KaraffeListener)listener).exitIntLiteral(this);
+		}
+		@Override
+		public <T> T accept(ParseTreeVisitor<? extends T> visitor) {
+			if ( visitor instanceof KaraffeVisitor ) return ((KaraffeVisitor<? extends T>)visitor).visitIntLiteral(this);
+			else return visitor.visitChildren(this);
 		}
 	}
 
