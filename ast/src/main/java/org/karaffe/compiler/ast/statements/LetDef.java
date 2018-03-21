@@ -1,9 +1,5 @@
 package org.karaffe.compiler.ast.statements;
 
-import java.util.Objects;
-import java.util.Optional;
-
-import org.karaffe.compiler.base.pos.Position;
 import org.karaffe.compiler.ast.api.AbstractTree;
 import org.karaffe.compiler.ast.api.Expression;
 import org.karaffe.compiler.ast.api.NameRef;
@@ -11,12 +7,16 @@ import org.karaffe.compiler.ast.api.Statement;
 import org.karaffe.compiler.ast.expressions.ExpressionName;
 import org.karaffe.compiler.ast.names.SimpleName;
 import org.karaffe.compiler.ast.names.TypeName;
+import org.karaffe.compiler.base.pos.Position;
+
+import java.util.Objects;
+import java.util.Optional;
 
 public abstract class LetDef extends AbstractTree implements Statement, NameRef {
 
     private final SimpleName name;
-    private final Optional<TypeName> typeName;
-    private Optional<Expression> initializer;
+    private final TypeName typeName;
+    private Expression initializer;
 
     public LetDef(SimpleName fieldName, Expression initializer) {
         this(Position.noPos(), fieldName, null, initializer);
@@ -41,18 +41,18 @@ public abstract class LetDef extends AbstractTree implements Statement, NameRef 
     public LetDef(Position position, SimpleName fieldName, TypeName typeName, Expression initializer) {
         super(position);
         this.name = Objects.requireNonNull(fieldName);
-        this.typeName = Optional.ofNullable(typeName);
-        this.initializer = Optional.ofNullable(initializer);
-        if (!this.typeName.isPresent() && !this.initializer.isPresent()) {
-            throw new IllegalArgumentException("this.typeName.isEmpty() && this.initializer.isEmpty()");
+        this.typeName = typeName;
+        this.initializer = initializer;
+        if (this.typeName == null && this.initializer == null) {
+            throw new IllegalArgumentException("this.typeName == null && this.initializer == null");
         }
     }
 
     public LetDef(LetDef other) {
         super(other.getPosition());
         this.name = other.name;
-        this.typeName = other.getTypeName();
-        this.initializer = other.getInitializer();
+        this.typeName = other.getTypeName().orElse(null);
+        this.initializer = other.getInitializer().orElse(null);
     }
 
     public SimpleName getName() {
@@ -64,11 +64,11 @@ public abstract class LetDef extends AbstractTree implements Statement, NameRef 
     }
 
     public Optional<TypeName> getTypeName() {
-        return this.typeName;
+        return Optional.ofNullable(this.typeName);
     }
 
     public Optional<Expression> getInitializer() {
-        return this.initializer;
+        return Optional.ofNullable(this.initializer);
     }
 
     public boolean hasInitializer() {
@@ -76,12 +76,15 @@ public abstract class LetDef extends AbstractTree implements Statement, NameRef 
     }
 
     public void replaceInitializer(Expression expression) {
-        this.initializer = Optional.ofNullable(expression);
+        this.initializer = expression;
     }
 
     @Override
     public boolean isNormalizable() {
-        return this.initializer.map(expr -> expr.isNormalizable()).orElse(false);
+        if (this.initializer == null) {
+            return false;
+        }
+        return this.initializer.isNormalizable();
     }
 
     @Override
@@ -95,12 +98,12 @@ public abstract class LetDef extends AbstractTree implements Statement, NameRef 
         if (this.hasInferState()) {
             typeNameString = this.getInferState().toString();
         } else {
-            typeNameString = this.typeName.map(TypeName::toString).orElse("");
+            typeNameString = Optional.ofNullable(this.typeName).map(TypeName::toString).orElse("");
         }
         return String.format("let %s%s%s",
                 this.name,
                 typeNameString.isEmpty() ? "" : " : " + typeNameString,
-                this.initializer.map(e -> " = " + e).orElse(""));
+                Optional.ofNullable(this.initializer).map(e -> " = " + e).orElse(""));
     }
 
 }
