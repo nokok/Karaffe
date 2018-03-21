@@ -57,6 +57,7 @@ project(':backend') {
     compile group: 'org.ow2.asm', name: 'asm', version: '6.1'
     compile group: 'org.ow2.asm', name: 'asm-commons', version: '6.1'
     compile group: 'org.ow2.asm', name: 'asm-util', version: '6.1'
+    compile group: 'org.ow2.asm', name: 'asm-tree', version: '6.1'
   }
 }
 
