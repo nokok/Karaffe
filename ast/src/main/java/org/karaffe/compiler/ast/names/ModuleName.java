@@ -11,6 +11,10 @@ import java.util.stream.Collectors;
 public class ModuleName extends AbstractTree {
     private final List<SimpleName> moduleName;
 
+    public ModuleName(String moduleName) {
+        this(moduleName.split("\\."));
+    }
+
     public ModuleName(String... moduleNames) {
         this(Arrays.asList(moduleNames).stream().map(SimpleName::new).collect(Collectors.toList()));
     }

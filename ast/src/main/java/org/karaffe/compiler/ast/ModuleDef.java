@@ -1,7 +1,7 @@
 package org.karaffe.compiler.ast;
 
+import org.karaffe.compiler.ast.api.ModuleDirective;
 import org.karaffe.compiler.ast.names.ModuleName;
-import org.karaffe.compiler.ast.names.PackageName;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -10,12 +10,12 @@ import java.util.Objects;
 public class ModuleDef {
     private final ModuleName moduleName;
     private final List<PackageDef> packages;
-    private final List<PackageName> exports;
-    private final List<ModuleName> requires;
+    private final List<ModuleDirective> directives;
+
+    private boolean isOpenModule = false;
 
     public ModuleDef(ModuleName moduleName) {
         this(moduleName,
-                new ArrayList<>(0),
                 new ArrayList<>(0),
                 new ArrayList<>(0));
     }
@@ -23,31 +23,32 @@ public class ModuleDef {
     public ModuleDef(String moduleName) {
         this(new ModuleName(moduleName),
                 new ArrayList<>(0),
-                new ArrayList<>(0),
                 new ArrayList<>(0));
     }
 
     public ModuleDef(
             ModuleName moduleName,
             List<? extends PackageDef> packages,
-            List<? extends PackageName> exports,
-            List<? extends ModuleName> requires) {
+            List<? extends ModuleDirective> directives) {
         this.moduleName = Objects.requireNonNull(moduleName);
         this.packages = new ArrayList<>(packages);
-        this.exports = new ArrayList<>(exports);
-        this.requires = new ArrayList<>(requires);
+        this.directives = new ArrayList<>(directives);
     }
 
     public void addPackageDef(PackageDef packageDef) {
         this.packages.add(Objects.requireNonNull(packageDef));
     }
 
-    public void addExport(PackageName moduleName) {
-        this.exports.add(moduleName);
+    public void addDirective(ModuleDirective moduleDirective) {
+        this.directives.add(Objects.requireNonNull(moduleDirective));
     }
 
-    public void addRequire(ModuleName moduleName) {
-        this.requires.add(moduleName);
+    public void setOpenModule() {
+        this.isOpenModule = true;
+    }
+
+    public void unsetOpenModule() {
+        this.isOpenModule = false;
     }
 
     public ModuleName getModuleName() {
@@ -58,12 +59,8 @@ public class ModuleDef {
         return new ArrayList<>(packages);
     }
 
-    public List<PackageName> getExports() {
-        return new ArrayList<>(exports);
-    }
-
-    public List<ModuleName> getRequires() {
-        return new ArrayList<>(requires);
+    public List<ModuleDirective> getDirectives() {
+        return new ArrayList<>(directives);
     }
 
     public static ModuleName rootModuleName() {
@@ -82,9 +79,8 @@ public class ModuleDef {
     @Override
     public String toString() {
         List<String> lines = new ArrayList<>();
-        lines.add(String.format("module %s {", this.moduleName));
-        this.exports.stream().map(exports -> String.format("exports %s;", exports)).forEach(lines::add);
-        this.requires.stream().map(requires -> String.format("requires %s;", requires)).forEach(lines::add);
+        lines.add(String.format("%smodule %s {", this.isOpenModule ? "open " : "", this.moduleName));
+        this.directives.stream().map(ModuleDirective::toString).forEach(lines::add);
         this.packages.stream().map(pkg -> pkg.toString()).forEach(lines::add);
         lines.add("}");
         return String.join("\n", lines);

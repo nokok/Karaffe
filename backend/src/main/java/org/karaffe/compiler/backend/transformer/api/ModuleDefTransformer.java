@@ -4,7 +4,7 @@ import org.karaffe.compiler.ast.ModuleDef;
 
 import static java.util.stream.Collectors.toList;
 
-public interface ModuleDefTransformer extends ModuleNameTransformer, PackageDefTransformer {
+public interface ModuleDefTransformer extends ModuleNameTransformer, PackageDefTransformer, ModuleDirectiveTransformer {
 
     public default void onModuleDefBefore(ModuleDef moduleDef) {
 
@@ -18,8 +18,7 @@ public interface ModuleDefTransformer extends ModuleNameTransformer, PackageDefT
         return new ModuleDef(
                 transform(oldModuleDef.getModuleName()),
                 oldModuleDef.getPackages().stream().map(this::transform).collect(toList()),
-                oldModuleDef.getExports().stream().map(this::transform).collect(toList()),
-                oldModuleDef.getRequires().stream().map(this::transform).collect(toList())
+                oldModuleDef.getDirectives().stream().map(this::transform).collect(toList())
         );
     }
 

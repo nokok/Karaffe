@@ -5,6 +5,7 @@ import org.karaffe.compiler.ast.CompilationUnit;
 import org.karaffe.compiler.ast.ModuleDef;
 import org.karaffe.compiler.ast.PackageDef;
 import org.karaffe.compiler.ast.Parameter;
+import org.karaffe.compiler.ast.api.ModuleDirective;
 import org.karaffe.compiler.ast.expressions.Apply;
 import org.karaffe.compiler.ast.expressions.ExpressionName;
 import org.karaffe.compiler.ast.expressions.IntLiteral;
@@ -12,6 +13,8 @@ import org.karaffe.compiler.ast.expressions.Plus;
 import org.karaffe.compiler.ast.imports.SimpleImport;
 import org.karaffe.compiler.ast.modifiers.Public;
 import org.karaffe.compiler.ast.modifiers.Static;
+import org.karaffe.compiler.ast.modules.ExportsDef;
+import org.karaffe.compiler.ast.modules.RequiresDef;
 import org.karaffe.compiler.ast.names.FullyQualifiedTypeName;
 import org.karaffe.compiler.ast.names.ModuleName;
 import org.karaffe.compiler.ast.names.PackageName;
@@ -22,7 +25,11 @@ import org.karaffe.compiler.ast.statements.InterfaceDef;
 import org.karaffe.compiler.ast.statements.LetLocalDef;
 import org.karaffe.compiler.ast.statements.MethodDef;
 
+import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Collections;
+import java.util.HashMap;
+import java.util.Map;
 
 import static org.junit.Assert.assertEquals;
 
@@ -104,6 +111,32 @@ public class ASTTest {
     }
 
     @Test
+    public void testModuleDef3() {
+        ModuleDef moduleDef = new ModuleDef("org.karaffe");
+        moduleDef.setOpenModule();
+        assertEquals("open module org.karaffe {\n" +
+                "}", moduleDef.toString());
+    }
+
+    @Test
+    public void testRequires() {
+        Map<String, ModuleDirective> tests = new HashMap<>();
+        tests.put("requires org.some", new RequiresDef(new ModuleName("org", "some")));
+        tests.put("requires static org.some", new RequiresDef(new ModuleName("org", "some"), false, true));
+        tests.put("requires transitive org.some", new RequiresDef(new ModuleName("org", "some"), true, false));
+        tests.put("exports org.karaffe.api to org.karaffe", new ExportsDef(new PackageName("org.karaffe.api"), new ArrayList<>(Collections.singleton(new ModuleName("org.karaffe")))));
+        tests.put("exports org.karaffe.api", new ExportsDef(new PackageName("org.karaffe.api")));
+
+        for (Map.Entry<String, ModuleDirective> entry : tests.entrySet()) {
+            assertEquals(entry.getKey(), entry.getValue().toString());
+        }
+    }
+
+    @Test
+    public void testExports() {
+    }
+
+    @Test
     public void testCompilationUnit1() {
         assertEquals("/* Compilation Unit */ {\n" +
                 "module <root> {\n" +
@@ -149,4 +182,5 @@ public class ASTTest {
                 "}\n" +
                 "}", compilationUnit.toString());
     }
+
 }

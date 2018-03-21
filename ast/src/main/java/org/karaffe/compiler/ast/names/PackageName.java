@@ -1,5 +1,8 @@
 package org.karaffe.compiler.ast.names;
 
+import org.karaffe.compiler.ast.api.AbstractTree;
+import org.karaffe.compiler.base.pos.Position;
+
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -7,14 +10,15 @@ import java.util.Objects;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
-import org.karaffe.compiler.base.pos.Position;
-import org.karaffe.compiler.ast.api.AbstractTree;
-
 public class PackageName extends AbstractTree {
     private final List<? extends SimpleName> packageName;
 
     private PackageName() {
         this(SimpleName.defaultPackageName());
+    }
+
+    public PackageName(String packageName) {
+        this(packageName.split("\\."));
     }
 
     public PackageName(String... packageNames) {
