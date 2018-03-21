@@ -1,6 +1,7 @@
 package org.karaffe.compiler.ast;
 
 import org.karaffe.compiler.ast.names.ModuleName;
+import org.karaffe.compiler.ast.names.PackageName;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -9,7 +10,7 @@ import java.util.Objects;
 public class ModuleDef {
     private final ModuleName moduleName;
     private final List<PackageDef> packages;
-    private final List<ModuleName> exports;
+    private final List<PackageName> exports;
     private final List<ModuleName> requires;
 
     public ModuleDef(ModuleName moduleName) {
@@ -29,7 +30,7 @@ public class ModuleDef {
     public ModuleDef(
             ModuleName moduleName,
             List<? extends PackageDef> packages,
-            List<? extends ModuleName> exports,
+            List<? extends PackageName> exports,
             List<? extends ModuleName> requires) {
         this.moduleName = Objects.requireNonNull(moduleName);
         this.packages = new ArrayList<>(packages);
@@ -41,6 +42,14 @@ public class ModuleDef {
         this.packages.add(Objects.requireNonNull(packageDef));
     }
 
+    public void addExport(PackageName moduleName) {
+        this.exports.add(moduleName);
+    }
+
+    public void addRequire(ModuleName moduleName) {
+        this.requires.add(moduleName);
+    }
+
     public ModuleName getModuleName() {
         return moduleName;
     }
@@ -49,7 +58,7 @@ public class ModuleDef {
         return new ArrayList<>(packages);
     }
 
-    public List<ModuleName> getExports() {
+    public List<PackageName> getExports() {
         return new ArrayList<>(exports);
     }
 
