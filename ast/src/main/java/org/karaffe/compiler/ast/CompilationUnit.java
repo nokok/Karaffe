@@ -68,7 +68,7 @@ public class CompilationUnit extends AbstractTree {
     public String toString() {
         List<String> lines = new ArrayList<>();
         lines.add("/* Compilation Unit */ {");
-        this.modules.stream().map(module -> module.toString()).forEach(lines::add);
+        this.modules.stream().map(ModuleDef::toString).forEach(lines::add);
         lines.add("}");
 
         return String.join("\n", lines);
