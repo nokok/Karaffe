@@ -1,6 +1,7 @@
 package org.karaffe.compiler.backend.transformer.api;
 
 import org.karaffe.compiler.ast.CompilationUnit;
+import org.karaffe.compiler.ast.ModuleDef;
 import org.karaffe.compiler.ast.PackageDef;
 import org.karaffe.compiler.ast.api.Expression;
 import org.karaffe.compiler.ast.api.ImportStatement;
@@ -13,6 +14,8 @@ public interface BaseTransformer {
     public String getTransformerName();
 
     CompilationUnit transform(CompilationUnit oldCompilationUnit);
+
+    ModuleDef transform(ModuleDef oldModuleDef);
 
     PackageDef transform(PackageDef oldPackageDef);
 

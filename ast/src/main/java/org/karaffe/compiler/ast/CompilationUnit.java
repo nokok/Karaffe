@@ -1,5 +1,9 @@
 package org.karaffe.compiler.ast;
 
+import org.karaffe.compiler.ast.api.AbstractTree;
+import org.karaffe.compiler.ast.names.ModuleName;
+import org.karaffe.compiler.base.pos.Position;
+
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collection;
@@ -8,49 +12,63 @@ import java.util.List;
 import java.util.Objects;
 import java.util.Set;
 
-import org.karaffe.compiler.base.pos.Position;
-import org.karaffe.compiler.ast.api.AbstractTree;
-
 public class CompilationUnit extends AbstractTree {
-    private final Set<PackageDef> packages;
+    private final Set<ModuleDef> modules;
 
     public CompilationUnit(CompilationUnit other) {
-        this(other.getPosition(), other.getPackages());
+        this(other.getPosition(), other.getModules());
     }
 
     public CompilationUnit() {
         this(new ArrayList<>());
     }
 
-    public CompilationUnit(PackageDef... packages) {
-        this(Arrays.asList(packages));
+    public CompilationUnit(ModuleDef... modules) {
+        this(Arrays.asList(modules));
     }
 
-    public CompilationUnit(Position position, Collection<? extends PackageDef> packages) {
+    public CompilationUnit(Position position, Collection<? extends ModuleDef> modules) {
         super(position);
-        this.packages = new LinkedHashSet<>(packages);
+        this.modules = new LinkedHashSet<>(modules);
     }
 
-    public CompilationUnit(Collection<? extends PackageDef> packages) {
-        this.packages = new LinkedHashSet<>(packages);
+    public CompilationUnit(Collection<? extends ModuleDef> modules) {
+        this.modules = new LinkedHashSet<>(modules);
     }
 
-    public <T extends PackageDef> void addPackageDef(T packageDef) {
-        Objects.requireNonNull(packageDef);
-        if (!this.packages.add(packageDef)) {
-            throw new IllegalStateException("duplicate packages");
+    public <T extends ModuleDef> void addModuleDef(T moduleDef) {
+        Objects.requireNonNull(moduleDef);
+        if (!this.modules.add(moduleDef)) {
+            throw new IllegalStateException("duplicate modules");
         }
     }
 
-    public List<? extends PackageDef> getPackages() {
-        return new ArrayList<>(this.packages);
+    public List<? extends ModuleDef> getModules() {
+        return new ArrayList<>(this.modules);
+    }
+
+    public CompilationUnit withModuleDef(ModuleDef moduleDef) {
+        this.modules.add(Objects.requireNonNull(moduleDef));
+        return this;
+    }
+
+    public CompilationUnit withPackageDef(ModuleName moduleName, PackageDef packageDef) {
+        ModuleDef moduleDef = this
+                .modules
+                .stream()
+                .filter(it -> it.getModuleName().equals(moduleName))
+                .findFirst()
+                .orElse(new ModuleDef(moduleName));
+        moduleDef.addPackageDef(packageDef);
+        this.modules.add(moduleDef);
+        return this;
     }
 
     @Override
     public String toString() {
         List<String> lines = new ArrayList<>();
         lines.add("/* Compilation Unit */ {");
-        this.packages.stream().map(pkg -> pkg.toString()).forEach(lines::add);
+        this.modules.stream().map(module -> module.toString()).forEach(lines::add);
         lines.add("}");
 
         return String.join("\n", lines);

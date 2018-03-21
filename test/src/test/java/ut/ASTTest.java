@@ -1,11 +1,8 @@
 package ut;
 
-import static org.junit.Assert.assertEquals;
-
-import java.util.Arrays;
-
 import org.junit.Test;
 import org.karaffe.compiler.ast.CompilationUnit;
+import org.karaffe.compiler.ast.ModuleDef;
 import org.karaffe.compiler.ast.PackageDef;
 import org.karaffe.compiler.ast.Parameter;
 import org.karaffe.compiler.ast.expressions.Apply;
@@ -16,6 +13,7 @@ import org.karaffe.compiler.ast.imports.SimpleImport;
 import org.karaffe.compiler.ast.modifiers.Public;
 import org.karaffe.compiler.ast.modifiers.Static;
 import org.karaffe.compiler.ast.names.FullyQualifiedTypeName;
+import org.karaffe.compiler.ast.names.ModuleName;
 import org.karaffe.compiler.ast.names.PackageName;
 import org.karaffe.compiler.ast.names.SimpleName;
 import org.karaffe.compiler.ast.names.TypeName;
@@ -23,6 +21,10 @@ import org.karaffe.compiler.ast.statements.ClassDef;
 import org.karaffe.compiler.ast.statements.InterfaceDef;
 import org.karaffe.compiler.ast.statements.LetLocalDef;
 import org.karaffe.compiler.ast.statements.MethodDef;
+
+import java.util.Arrays;
+
+import static org.junit.Assert.assertEquals;
 
 public class ASTTest {
     @Test
@@ -63,7 +65,7 @@ public class ASTTest {
     @Test
     public void testPackageDef3() {
         assertEquals("package karaffe.core {\n" +
-                "}",
+                        "}",
                 new PackageDef(
                         new PackageName(
                                 new SimpleName("karaffe"),
@@ -88,11 +90,25 @@ public class ASTTest {
     }
 
     @Test
+    public void testModuleDef1() {
+        ModuleDef moduleDef = ModuleDef.rootModule();
+        assertEquals("module <root> {\n" +
+                "}", moduleDef.toString());
+    }
+
+    @Test
+    public void testModuleDef2() {
+        ModuleDef moduleDef = new ModuleDef(new ModuleName("org", "karaffe"));
+        assertEquals("module org.karaffe {\n" +
+                "}", moduleDef.toString());
+    }
+
+    @Test
     public void testCompilationUnit1() {
         assertEquals("/* Compilation Unit */ {\n" +
-                "package <root> {\n" +
+                "module <root> {\n" +
                 "}\n" +
-                "}", new CompilationUnit(new PackageDef()).toString());
+                "}", new CompilationUnit().withModuleDef(ModuleDef.rootModule()).toString());
     }
 
     @Test
@@ -116,8 +132,9 @@ public class ASTTest {
         mainMethod.addMethodBody(new Apply(new ExpressionName("a"), new Plus(), new ExpressionName("b")));
         classDef.addMember(mainMethod);
         packageDef.addTypeDefStatement(classDef);
-        compilationUnit.addPackageDef(packageDef);
+        compilationUnit.withPackageDef(ModuleDef.rootModuleName(), packageDef);
         assertEquals("/* Compilation Unit */ {\n" +
+                "module <root> {\n" +
                 "package <root> {\n" +
                 "import java.lang.Object;\n" +
                 "import java.lang.Integer;\n" +
@@ -126,6 +143,7 @@ public class ASTTest {
                 "let a = 1;\n" +
                 "let b = 2;\n" +
                 "a.+(b);\n" +
+                "}\n" +
                 "}\n" +
                 "}\n" +
                 "}\n" +

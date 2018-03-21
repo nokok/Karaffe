@@ -1,10 +1,10 @@
 package org.karaffe.compiler.backend.transformer.api;
 
-import java.util.stream.Collectors;
-
 import org.karaffe.compiler.ast.CompilationUnit;
 
-public interface CompilationUnitTransformer extends BaseTransformer {
+import java.util.stream.Collectors;
+
+public interface CompilationUnitTransformer extends ModuleDefTransformer {
 
     public default void onCompilationUnitBefore(CompilationUnit compilationUnit) {
 
@@ -17,7 +17,7 @@ public interface CompilationUnitTransformer extends BaseTransformer {
     public default CompilationUnit transformBody(CompilationUnit oldCompilationUnit) {
         return new CompilationUnit(
                 oldCompilationUnit.getPosition(),
-                oldCompilationUnit.getPackages().stream().map(this::transform).collect(Collectors.toList()));
+                oldCompilationUnit.getModules().stream().map(this::transform).collect(Collectors.toList()));
     }
 
     @Override
