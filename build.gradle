@@ -13,8 +13,11 @@ dependencies {
   compile subprojects
 }
 
-repositories {
-  mavenCentral()
+allprojects {
+  repositories {
+    mavenCentral()
+    maven { url "https://dl.bintray.com/nokok/azm" }
+  }
 }
 
 subprojects {
@@ -24,10 +27,6 @@ subprojects {
 
   sourceCompatibility = 1.8
   targetCompatibility = 1.8
-
-  repositories {
-    mavenCentral()
-  }
 
   dependencies {
     compile group: 'ch.qos.logback', name: 'logback-classic', version: logbackVersion
@@ -54,10 +53,7 @@ project(':ast') {
 
 project(':backend') {
   dependencies {
-    compile group: 'org.ow2.asm', name: 'asm', version: '6.1'
-    compile group: 'org.ow2.asm', name: 'asm-commons', version: '6.1'
-    compile group: 'org.ow2.asm', name: 'asm-util', version: '6.1'
-    compile group: 'org.ow2.asm', name: 'asm-tree', version: '6.1'
+    compile group: 'net.nokok', name: 'azm', version: '0.1.2'
   }
 }
 
