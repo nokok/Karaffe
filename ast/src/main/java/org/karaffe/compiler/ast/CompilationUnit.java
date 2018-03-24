@@ -1,6 +1,7 @@
 package org.karaffe.compiler.ast;
 
 import org.karaffe.compiler.ast.api.AbstractTree;
+import org.karaffe.compiler.ast.api.TypeDefStatement;
 import org.karaffe.compiler.ast.names.ModuleName;
 import org.karaffe.compiler.ast.names.PackageName;
 import org.karaffe.compiler.base.pos.Position;
@@ -65,6 +66,10 @@ public class CompilationUnit extends AbstractTree {
 
     public PackageDef getDefaultUnnamedPackage() {
         return defaultUnnamedPackage;
+    }
+
+    public void addTypedefStatement(TypeDefStatement typeDefStatement) {
+        this.defaultUnnamedPackage.addTypeDefStatement(typeDefStatement);
     }
 
     public CompilationUnit withModuleDef(ModuleDef moduleDef) {
