@@ -119,7 +119,7 @@ public class ASTTest {
     }
 
     @Test
-    public void testRequires() {
+    public void testModuleDirective() {
         Map<String, ModuleDirective> tests = new HashMap<>();
         tests.put("requires org.some", new RequiresDef(new ModuleName("org", "some")));
         tests.put("requires static org.some", new RequiresDef(new ModuleName("org", "some"), false, true));
@@ -130,10 +130,6 @@ public class ASTTest {
         for (Map.Entry<String, ModuleDirective> entry : tests.entrySet()) {
             assertEquals(entry.getKey(), entry.getValue().toString());
         }
-    }
-
-    @Test
-    public void testExports() {
     }
 
     @Test
