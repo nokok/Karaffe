@@ -53,7 +53,7 @@ project(':ast') {
 
 project(':backend') {
   dependencies {
-    compile group: 'net.nokok', name: 'azm', version: '0.1.2'
+    compile group: 'net.nokok', name: 'azm', version: '0.1.6'
   }
 }
 
