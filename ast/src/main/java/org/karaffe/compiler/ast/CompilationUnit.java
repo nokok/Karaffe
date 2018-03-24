@@ -34,14 +34,14 @@ public class CompilationUnit extends AbstractTree {
     }
 
     public CompilationUnit(Collection<? extends ModuleDef> modules) {
-        this(Position.noPos(), modules, null, null);
+        this(Position.noPos(), null, null, modules);
     }
 
     public CompilationUnit(Position position, Collection<? extends ModuleDef> modules) {
-        this(position, modules, null, null);
+        this(position, null, null, modules);
     }
 
-    public CompilationUnit(Position position, Collection<? extends ModuleDef> modules, ModuleDef defaultUnnamedModule, PackageDef defaultUnnamedPackage) {
+    public CompilationUnit(Position position, ModuleDef defaultUnnamedModule, PackageDef defaultUnnamedPackage, Collection<? extends ModuleDef> modules) {
         super(position);
         this.modules = new LinkedHashSet<>(modules);
         this.defaultUnnamedModule = Optional.ofNullable(defaultUnnamedModule).orElseGet(ModuleDef::rootModule);

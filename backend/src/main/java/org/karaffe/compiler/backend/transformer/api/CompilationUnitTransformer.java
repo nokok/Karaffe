@@ -17,9 +17,10 @@ public interface CompilationUnitTransformer extends ModuleDefTransformer {
     public default CompilationUnit transformBody(CompilationUnit oldCompilationUnit) {
         return new CompilationUnit(
                 oldCompilationUnit.getPosition(),
-                oldCompilationUnit.getModules().stream().map(this::transform).collect(Collectors.toList()),
                 transform(oldCompilationUnit.getDefaultUnnamedModule()),
-                transform(oldCompilationUnit.getDefaultUnnamedPackage()));
+                transform(oldCompilationUnit.getDefaultUnnamedPackage()),
+                oldCompilationUnit.getModules().stream().map(this::transform).collect(Collectors.toList())
+        );
     }
 
     @Override
