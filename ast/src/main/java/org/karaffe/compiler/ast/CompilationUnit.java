@@ -2,6 +2,7 @@ package org.karaffe.compiler.ast;
 
 import org.karaffe.compiler.ast.api.AbstractTree;
 import org.karaffe.compiler.ast.names.ModuleName;
+import org.karaffe.compiler.ast.names.PackageName;
 import org.karaffe.compiler.base.pos.Position;
 
 import java.util.ArrayList;
@@ -10,10 +11,15 @@ import java.util.Collection;
 import java.util.LinkedHashSet;
 import java.util.List;
 import java.util.Objects;
+import java.util.Optional;
 import java.util.Set;
 
 public class CompilationUnit extends AbstractTree {
     private final Set<ModuleDef> modules;
+
+    private final ModuleDef defaultUnnamedModule;
+
+    private final PackageDef defaultUnnamedPackage;
 
     public CompilationUnit(CompilationUnit other) {
         this(other.getPosition(), other.getModules());
@@ -27,13 +33,19 @@ public class CompilationUnit extends AbstractTree {
         this(Arrays.asList(modules));
     }
 
-    public CompilationUnit(Position position, Collection<? extends ModuleDef> modules) {
-        super(position);
-        this.modules = new LinkedHashSet<>(modules);
+    public CompilationUnit(Collection<? extends ModuleDef> modules) {
+        this(Position.noPos(), modules, null, null);
     }
 
-    public CompilationUnit(Collection<? extends ModuleDef> modules) {
+    public CompilationUnit(Position position, Collection<? extends ModuleDef> modules) {
+        this(position, modules, null, null);
+    }
+
+    public CompilationUnit(Position position, Collection<? extends ModuleDef> modules, ModuleDef defaultUnnamedModule, PackageDef defaultUnnamedPackage) {
+        super(position);
         this.modules = new LinkedHashSet<>(modules);
+        this.defaultUnnamedModule = Optional.ofNullable(defaultUnnamedModule).orElseGet(ModuleDef::rootModule);
+        this.defaultUnnamedPackage = Optional.ofNullable(defaultUnnamedPackage).orElseGet(() -> new PackageDef(PackageName.ofRoot()));
     }
 
     public <T extends ModuleDef> void addModuleDef(T moduleDef) {
@@ -45,6 +57,14 @@ public class CompilationUnit extends AbstractTree {
 
     public List<? extends ModuleDef> getModules() {
         return new ArrayList<>(this.modules);
+    }
+
+    public ModuleDef getDefaultUnnamedModule() {
+        return defaultUnnamedModule;
+    }
+
+    public PackageDef getDefaultUnnamedPackage() {
+        return defaultUnnamedPackage;
     }
 
     public CompilationUnit withModuleDef(ModuleDef moduleDef) {
