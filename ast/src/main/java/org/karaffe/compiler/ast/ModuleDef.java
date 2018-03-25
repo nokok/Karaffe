@@ -63,6 +63,10 @@ public class ModuleDef {
         return new ArrayList<>(directives);
     }
 
+    public boolean hasChild() {
+        return !(this.packages.isEmpty() && this.directives.isEmpty());
+    }
+
     public static ModuleName rootModuleName() {
         return new ModuleName("<root>");
     }

@@ -81,7 +81,11 @@ public class PackageDef extends AbstractTree {
         }
     }
 
-    public boolean hasImport(ImportStatement importStatement) {
+    public boolean hasChild() {
+        return !(this.importStatements.isEmpty() && this.typeDefStatements.isEmpty());
+    }
+
+    public boolean containsImport(ImportStatement importStatement) {
         return this.importStatements.contains(importStatement);
     }
 
