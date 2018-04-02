@@ -82,9 +82,6 @@ project(':frontend') {
   }
 }
 
-project(':transformer') {
-}
-
 project(':test') {
   dependencies {
     testCompile group: 'junit', name: 'junit', version: junitVersion
