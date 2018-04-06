@@ -1,15 +1,21 @@
 package ut;
 
-import static org.junit.Assert.assertEquals;
-
 import org.junit.Test;
-import org.karaffe.compiler.backend.transformer.namer.AlphaEquivalenceTransformer;
-import org.karaffe.compiler.ast.expressions.Block;
-import org.karaffe.compiler.ast.expressions.ExpressionName;
-import org.karaffe.compiler.ast.expressions.IntLiteral;
-import org.karaffe.compiler.ast.expressions.Return;
+import org.karaffe.compiler.ast.CompilationUnit;
+import org.karaffe.compiler.ast.Parameter;
+import org.karaffe.compiler.ast.expressions.*;
+import org.karaffe.compiler.ast.modifiers.Public;
+import org.karaffe.compiler.ast.modifiers.Static;
 import org.karaffe.compiler.ast.names.SimpleName;
+import org.karaffe.compiler.ast.names.TypeName;
+import org.karaffe.compiler.ast.statements.ClassDef;
 import org.karaffe.compiler.ast.statements.LetLocalDef;
+import org.karaffe.compiler.ast.statements.MethodDef;
+import org.karaffe.compiler.transformer.namer.AlphaEquivalenceTransformer;
+
+import java.util.Arrays;
+
+import static org.junit.Assert.assertEquals;
 
 public class AlphaEquivalenceTransformerTest {
     private AlphaEquivalenceTransformer transformer = new AlphaEquivalenceTransformer();
@@ -41,5 +47,51 @@ public class AlphaEquivalenceTransformerTest {
                 "return s_0;\n" +
                 "};\n" +
                 "}", transformedString);
+    }
+
+    @Test
+    public void testTransform2() {
+        CompilationUnit compilationUnit = new CompilationUnit();
+        assertEquals("/* Compilation Unit */ {\n" +
+                "}", this.transformer.transform(compilationUnit).toString());
+    }
+
+    /**
+     * no op
+     */
+    @Test
+    public void testTransform3() {
+        MethodDef mainMethod = new MethodDef(
+                Arrays.asList(new Public(), new Static()),
+                TypeName.voidType(),
+                new SimpleName("main"),
+                Arrays.asList(new Parameter(new SimpleName("args"), new TypeName(new SimpleName("StringArray")))));
+        mainMethod.addMethodBody(new LetLocalDef(
+                new SimpleName("a"),
+                new Apply(new IntLiteral(1), new Plus(), new IntLiteral(3))));
+        ClassDef classDef = new ClassDef(new SimpleName("A"));
+        classDef.addMember(mainMethod);
+        CompilationUnit compilationUnit = new CompilationUnit();
+        compilationUnit.addTypedefStatement(classDef);
+
+        assertEquals("/* Compilation Unit */ {\n" +
+                "package <root> {\n" +
+                "class A extends Any {\n" +
+                "public static void main(args StringArray) {\n" +
+                "let a = 1.+(3);\n" +
+                "}\n" +
+                "}\n" +
+                "}\n" +
+                "}", compilationUnit.toString());
+
+        assertEquals("/* Compilation Unit */ {\n" +
+                "package <root> {\n" +
+                "class A extends Any {\n" +
+                "public static void main(args StringArray) {\n" +
+                "let a = 1.+(3);\n" +
+                "}\n" +
+                "}\n" +
+                "}\n" +
+                "}", this.transformer.transform(compilationUnit).toString());
     }
 }

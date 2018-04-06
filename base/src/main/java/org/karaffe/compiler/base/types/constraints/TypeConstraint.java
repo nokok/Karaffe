@@ -6,7 +6,7 @@ public interface TypeConstraint {
     }
 
     static TypeConstraint tyVar(String name) {
-        return new TypeVarMapping(name);
+        return new TypeVar(name);
     }
 
     public ConstraintType getConstraintType();

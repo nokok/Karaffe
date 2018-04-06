@@ -93,9 +93,14 @@ public class CompilationUnit extends AbstractTree {
     public String toString() {
         List<String> lines = new ArrayList<>();
         lines.add("/* Compilation Unit */ {");
+        if (this.defaultUnnamedModule.hasChild()) {
+            lines.add(this.defaultUnnamedModule.toString());
+        }
+        if (this.defaultUnnamedPackage.hasChild()) {
+            lines.add(this.defaultUnnamedPackage.toString());
+        }
         this.modules.stream().map(ModuleDef::toString).forEach(lines::add);
         lines.add("}");
-
         return String.join("\n", lines);
     }
 }
