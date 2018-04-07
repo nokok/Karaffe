@@ -1,4 +1,4 @@
-package org.karaffe.compiler.backend.jvm;
+package org.karaffe.compiler.transformer;
 
 import net.nokok.azm.Opcodes;
 import net.nokok.azm.Type;
@@ -10,7 +10,6 @@ import net.nokok.azm.tree.ModuleNode;
 import org.karaffe.compiler.ast.PackageDef;
 import org.karaffe.compiler.ast.expressions.IntLiteral;
 import org.karaffe.compiler.ast.statements.ClassDef;
-import org.karaffe.compiler.transformer.AbstractTransformer;
 import org.karaffe.compiler.transformer.util.TransformerContext;
 
 import java.util.ArrayList;

@@ -5,6 +5,7 @@ import org.karaffe.compiler.transformer.api.BaseTransformer;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Set;
 
 public class TransformerRunner {
 
@@ -17,7 +18,7 @@ public class TransformerRunner {
         this.transformers.add(new DefaultImportTransformer());
     }
 
-    public TransformerRunner(List<? extends BaseTransformer> transformers) {
+    public TransformerRunner(Set<? extends BaseTransformer> transformers) {
         this.transformers.addAll(transformers);
     }
 

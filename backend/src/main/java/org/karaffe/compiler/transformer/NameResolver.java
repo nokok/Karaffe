@@ -1,4 +1,4 @@
-package org.karaffe.compiler.backend.jvm;
+package org.karaffe.compiler.transformer;
 
 import org.karaffe.compiler.ast.PackageDef;
 import org.karaffe.compiler.ast.api.TypeDefStatement;
@@ -10,7 +10,6 @@ import org.karaffe.compiler.ast.names.PackageName;
 import org.karaffe.compiler.ast.names.SimpleName;
 import org.karaffe.compiler.ast.names.TypeName;
 import org.karaffe.compiler.backend.jvm.resolvers.TypeResolver;
-import org.karaffe.compiler.transformer.AbstractTransformer;
 
 import java.util.LinkedHashMap;
 import java.util.List;
@@ -18,9 +17,9 @@ import java.util.Map;
 import java.util.Optional;
 import java.util.stream.Collectors;
 
-public class ClassNameResolver extends AbstractTransformer {
+public class NameResolver extends AbstractTransformer {
 
-    public ClassNameResolver() {
+    public NameResolver() {
         super("name-resolver");
     }
 
