@@ -1,7 +1,6 @@
 package org.karaffe.compiler.transformer;
 
 import org.karaffe.compiler.ast.api.Statement;
-import org.karaffe.compiler.ast.expressions.Apply;
 import org.karaffe.compiler.ast.names.SimpleName;
 import org.karaffe.compiler.ast.names.TypeName;
 import org.karaffe.compiler.ast.statements.ClassDef;
@@ -22,6 +21,8 @@ public class CreateDefaultConstructorTransformer extends AbstractTransformer {
         if (noConstructor) {
             List<Statement> body = new ArrayList<>();
             MethodDef constructor = new MethodDef(TypeName.voidType(), new SimpleName("<init>"), body);
+            oldClassDef.addMember(constructor);
         }
+        return oldClassDef;
     }
 }

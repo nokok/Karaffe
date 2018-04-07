@@ -1,7 +1,10 @@
 plugins {
   id 'com.github.johnrengelman.shadow' version '2.0.2'
   id 'java'
+  id 'application'
 }
+
+mainClassName = "org.karaffe.compiler.base.KaraffeCompilerLauncher"
 
 ext {
   junitVersion = '4.12'
@@ -16,7 +19,7 @@ dependencies {
 allprojects {
   repositories {
     mavenCentral()
-    maven { url "https://dl.bintray.com/nokok/azm" }
+    jcenter()
   }
 }
 
@@ -53,7 +56,7 @@ project(':ast') {
 
 project(':backend') {
   dependencies {
-    compile group: 'net.nokok', name: 'azm', version: '0.1.7'
+    compile group: 'net.nokok', name: 'azm', version: '0.1.6'
   }
 }
 

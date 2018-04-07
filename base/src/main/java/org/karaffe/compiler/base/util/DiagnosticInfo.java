@@ -24,9 +24,19 @@ public enum DiagnosticInfo {
         return System.getProperty("os.version");
     }
 
+    public String javaHome() {
+        return System.getenv("JAVA_HOME");
+    }
+
+    public String karaffeHome() {
+        return System.getenv("KARAFFE_HOME");
+    }
+
     @Override
     public String toString() {
         final StringBuilder builder = new StringBuilder();
+        builder.append("KARAFFE_HOME : ").append(this.karaffeHome()).append(System.lineSeparator());
+        builder.append("JAVA_HOME    : ").append(this.javaHome()).append(System.lineSeparator());
         builder.append("Java Version : ").append(this.javaVersion()).append(System.lineSeparator());
         builder.append("Vendor       : ").append(this.vendor()).append(System.lineSeparator());
         builder.append("VMSpec       : ").append(this.vmSpecVersion()).append(System.lineSeparator());

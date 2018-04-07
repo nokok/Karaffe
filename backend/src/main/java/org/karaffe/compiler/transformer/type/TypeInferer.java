@@ -1,4 +1,4 @@
-package org.karaffe.compiler.transformer.typeinferer;
+package org.karaffe.compiler.transformer.type;
 
 import org.karaffe.compiler.transformer.AbstractTransformer;
 

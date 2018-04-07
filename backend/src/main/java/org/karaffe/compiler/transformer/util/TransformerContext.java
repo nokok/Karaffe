@@ -3,7 +3,6 @@ package org.karaffe.compiler.transformer.util;
 import org.karaffe.compiler.ast.api.Expression;
 import org.karaffe.compiler.ast.statements.ClassDef;
 import org.karaffe.compiler.base.util.Report;
-import org.karaffe.compiler.transformer.type.TypeEnv;
 
 import java.util.ArrayList;
 import java.util.HashMap;

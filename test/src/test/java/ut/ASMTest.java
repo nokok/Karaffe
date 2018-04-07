@@ -2,6 +2,8 @@ package ut;
 
 import net.nokok.azm.ClassReader;
 import net.nokok.azm.tree.ClassNode;
+import net.nokok.azm.util.Textifier;
+import net.nokok.azm.util.TraceClassVisitor;
 import org.junit.Test;
 import org.karaffe.compiler.ast.CompilationUnit;
 import org.karaffe.compiler.ast.PackageDef;
@@ -42,6 +44,10 @@ public class ASMTest {
         classReader.accept(expectedClassNode, ClassReader.EXPAND_FRAMES);
         ClassNode classNode = generatedClasses.get(0);
 
+        Textifier textifier = new Textifier();
+        TraceClassVisitor visitor = new TraceClassVisitor(null, new Textifier(), null);
+
+        classNode.accept(visitor);
         assertEquals(expectedClassNode.version, classNode.version);
         //assertEquals(Modifier.toString(expectedClassNode.access), Modifier.toString(classNode.access));
         assertEquals(expectedClassNode.name, classNode.name);

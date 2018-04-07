@@ -1,4 +1,4 @@
-package org.karaffe.compiler.transformer.type;
+package org.karaffe.compiler.transformer.util;
 
 import org.karaffe.compiler.ast.api.Expression;
 import org.karaffe.compiler.base.generator.Generator;
