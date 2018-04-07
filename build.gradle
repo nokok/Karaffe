@@ -42,6 +42,12 @@ subprojects {
       xml.enabled true
     }
   }
+
+  test {
+    testLogging {
+      events 'passed', 'failed', 'skipped'
+    }
+  }
 }
 
 processResources {
