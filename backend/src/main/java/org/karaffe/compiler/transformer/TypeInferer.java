@@ -1,6 +1,4 @@
-package org.karaffe.compiler.transformer.type;
-
-import org.karaffe.compiler.transformer.AbstractTransformer;
+package org.karaffe.compiler.transformer;
 
 public class TypeInferer extends AbstractTransformer {
     public TypeInferer() {

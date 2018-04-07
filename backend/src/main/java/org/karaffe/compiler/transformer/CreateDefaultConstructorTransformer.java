@@ -5,6 +5,7 @@ import org.karaffe.compiler.ast.names.SimpleName;
 import org.karaffe.compiler.ast.names.TypeName;
 import org.karaffe.compiler.ast.statements.ClassDef;
 import org.karaffe.compiler.ast.statements.MethodDef;
+import org.karaffe.compiler.transformer.AbstractTransformer;
 
 import java.util.ArrayList;
 import java.util.List;

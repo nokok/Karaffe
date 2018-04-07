@@ -2,10 +2,6 @@ package org.karaffe.compiler.transformer;
 
 import org.karaffe.compiler.ast.CompilationUnit;
 import org.karaffe.compiler.transformer.api.BaseTransformer;
-import org.karaffe.compiler.transformer.namer.AlphaEquivalenceTransformer;
-import org.karaffe.compiler.transformer.namer.DefaultImportTransformer;
-import org.karaffe.compiler.transformer.namer.KNormalizer;
-import org.karaffe.compiler.transformer.namer.OperatorNameRemapper;
 
 import java.util.ArrayList;
 import java.util.List;

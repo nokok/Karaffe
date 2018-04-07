@@ -1,4 +1,4 @@
-package org.karaffe.compiler.transformer.namer;
+package org.karaffe.compiler.transformer;
 
 import org.karaffe.compiler.ast.api.Expression;
 import org.karaffe.compiler.ast.api.NameRef;

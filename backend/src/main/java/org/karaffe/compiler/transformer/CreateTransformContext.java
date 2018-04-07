@@ -1,6 +1,7 @@
 package org.karaffe.compiler.transformer;
 
 import org.karaffe.compiler.ast.api.Expression;
+import org.karaffe.compiler.transformer.AbstractTransformer;
 import org.karaffe.compiler.transformer.util.TransformerContext;
 
 public class CreateTransformContext extends AbstractTransformer {

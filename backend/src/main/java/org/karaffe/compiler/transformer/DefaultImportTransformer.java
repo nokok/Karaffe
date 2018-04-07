@@ -1,4 +1,4 @@
-package org.karaffe.compiler.transformer.namer;
+package org.karaffe.compiler.transformer;
 
 import karaffe.core.Any;
 import org.karaffe.compiler.ast.PackageDef;
@@ -7,7 +7,6 @@ import org.karaffe.compiler.ast.imports.OnDemandImport;
 import org.karaffe.compiler.ast.imports.SimpleImport;
 import org.karaffe.compiler.ast.names.FullyQualifiedTypeName;
 import org.karaffe.compiler.ast.names.PackageName;
-import org.karaffe.compiler.transformer.AbstractTransformer;
 
 import java.io.Reader;
 import java.net.URL;

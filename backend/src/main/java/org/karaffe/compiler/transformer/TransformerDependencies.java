@@ -1,13 +1,5 @@
 package org.karaffe.compiler.transformer;
 
-import org.karaffe.compiler.transformer.namer.AlphaEquivalenceTransformer;
-import org.karaffe.compiler.transformer.namer.DefaultImportTransformer;
-import org.karaffe.compiler.transformer.namer.KNormalizer;
-import org.karaffe.compiler.transformer.namer.OperatorNameRemapper;
-import org.karaffe.compiler.transformer.type.TypeChecker;
-import org.karaffe.compiler.transformer.type.TypeInferer;
-import org.karaffe.compiler.transformer.namer.UnresolvedSymbolCollector;
-
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.LinkedHashSet;

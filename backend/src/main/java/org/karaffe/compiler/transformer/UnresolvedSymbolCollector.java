@@ -1,7 +1,6 @@
-package org.karaffe.compiler.transformer.namer;
+package org.karaffe.compiler.transformer;
 
 import org.karaffe.compiler.ast.names.TypeName;
-import org.karaffe.compiler.transformer.AbstractTransformer;
 
 public class UnresolvedSymbolCollector extends AbstractTransformer {
 
