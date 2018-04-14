@@ -1,15 +1,9 @@
 package org.karaffe.compiler.backend.jvm.resolvers;
 
 import java.lang.reflect.Method;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
-import java.util.Objects;
-import java.util.Optional;
+import java.util.*;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
-
-import org.karaffe.compiler.ast.names.SimpleName;
 
 public class MethodResolver {
     private final Class<?> targetClass;
@@ -24,10 +18,6 @@ public class MethodResolver {
                 .collect(Collectors.toList());
     }
 
-
-    public List<Method> findMethodsByMethodName(SimpleName methodName) {
-        return findMethodsByMethodName(methodName.toString());
-    }
 
     public static Optional<List<Method>> findMethods(String anyString) {
         Objects.requireNonNull(anyString);
@@ -50,9 +40,5 @@ public class MethodResolver {
     public List<Method> findMethodsByMethodNameWithParameterSize(String methodName, int paramSize) {
         List<Method> methods = this.findMethodsByMethodName(methodName);
         return methods.stream().filter(method -> method.getParameterTypes().length == paramSize).collect(Collectors.toList());
-    }
-
-    public List<Method> findMethodsByMethodNameWithParameterSize(SimpleName methodName, int paramSize) {
-        return this.findMethodsByMethodNameWithParameterSize(methodName.toString(), paramSize);
     }
 }

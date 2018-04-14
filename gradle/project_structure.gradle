@@ -6,13 +6,16 @@ project(':ast') {
 
 project(':backend') {
   dependencies {
-    compile project(':ast')
     compile project(':base')
     compile project(':corelib')
+    compile project(':ir')
   }
 }
 
 project(':base') {
+}
+
+project(':ir') {
 }
 
 project(':corelib') {
@@ -22,6 +25,8 @@ project(':frontend') {
   dependencies {
     compile project(':ast')
     compile project(':base')
+    compile project(':corelib')
+    compile project(':ir')
   }
 }
 

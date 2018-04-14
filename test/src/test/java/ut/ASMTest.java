@@ -2,8 +2,8 @@ package ut;
 
 import org.junit.Test;
 import org.karaffe.compiler.ast.CompilationUnit;
-import org.karaffe.compiler.transformer.TransformerDependencies;
-import org.karaffe.compiler.transformer.TransformerRunner;
+import org.karaffe.compiler.frontend.karaffe.transformer.TransformerDependencies;
+import org.karaffe.compiler.frontend.karaffe.transformer.TransformerRunner;
 
 public class ASMTest {
 

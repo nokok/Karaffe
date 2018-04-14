@@ -1,35 +1,19 @@
 package org.karaffe.compiler.backend.jvm.resolvers;
 
+import karaffe.core.Any;
+
+import javax.tools.*;
 import java.io.File;
 import java.io.IOException;
 import java.net.JarURLConnection;
 import java.net.URL;
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.Enumeration;
-import java.util.HashSet;
-import java.util.LinkedHashSet;
-import java.util.List;
-import java.util.Objects;
-import java.util.Optional;
-import java.util.Set;
+import java.util.*;
 import java.util.jar.JarEntry;
 import java.util.jar.JarFile;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
-
-import javax.tools.DiagnosticCollector;
-import javax.tools.JavaCompiler;
-import javax.tools.JavaFileObject;
-import javax.tools.StandardJavaFileManager;
-import javax.tools.StandardLocation;
-import javax.tools.ToolProvider;
-
-import org.karaffe.compiler.ast.names.PackageName;
-
-import karaffe.core.Any;
 
 public final class TypeResolver {
 
@@ -93,10 +77,6 @@ public final class TypeResolver {
             classes.addAll(buildImplementedInterfaces(in.getCanonicalName()).orElse(new ArrayList<>(0)));
         }
         return Optional.of(classes);
-    }
-
-    public static Optional<List<Class<?>>> findClassesInPackage(PackageName packageName) {
-        return findClassesInPackage(packageName.toString());
     }
 
     public static Optional<List<Class<?>>> findClassesInPackage(String packageName) {

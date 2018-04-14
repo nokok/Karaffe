@@ -9,7 +9,7 @@ import java.util.List;
 
 import org.junit.Before;
 import org.junit.Test;
-import org.karaffe.compiler.transformer.KNormalizer;
+import org.karaffe.compiler.frontend.karaffe.transformer.KNormalizer;
 import org.karaffe.compiler.ast.api.Expression;
 import org.karaffe.compiler.ast.api.Statement;
 import org.karaffe.compiler.ast.expressions.Apply;

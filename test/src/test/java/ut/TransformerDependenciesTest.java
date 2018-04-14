@@ -1,8 +1,8 @@
 package ut;
 
 import org.junit.Test;
-import org.karaffe.compiler.transformer.AbstractTransformer;
-import org.karaffe.compiler.transformer.TransformerDependencies;
+import org.karaffe.compiler.frontend.karaffe.transformer.AbstractTransformer;
+import org.karaffe.compiler.frontend.karaffe.transformer.TransformerDependencies;
 
 import java.util.Iterator;
 import java.util.Set;
