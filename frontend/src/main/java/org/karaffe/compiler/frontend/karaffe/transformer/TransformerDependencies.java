@@ -32,6 +32,7 @@ public class TransformerDependencies {
         this.dependencyMap.put(kNormal, Collections.singleton(opNameRemap));
         this.dependencyMap.put(alpha, Collections.singleton(kNormal));
         this.dependencyMap.put(terminal, Collections.singleton(jvmAsm));
+        this.dependencyMap.put(jvmAsm, Collections.emptySet());
     }
 
     public Set<AbstractTransformer> getTransformers() {
