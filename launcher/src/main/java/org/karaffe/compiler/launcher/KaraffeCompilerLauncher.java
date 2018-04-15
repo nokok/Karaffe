@@ -53,12 +53,9 @@ public class KaraffeCompilerLauncher {
         CompilationUnit cu = compilationUnit;
         for (AbstractTransformer transformer : transformers) {
             cu = transformer.transform(cu);
+            System.out.println("=== After : " + transformer.getTransformerName() + " ===");
+            System.out.println(cu);
         }
-        System.out.println("===");
-        System.out.println(compilationUnit);
-        System.out.println("===");
-        System.out.println(cu);
-        System.out.println("===");
     }
 
     private String usage() {
