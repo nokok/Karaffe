@@ -10,12 +10,6 @@ project(':base') {
   /* No Dependencies */
 }
 
-project(':ir') {
-  dependencies {
-    compile project(':base')
-  }
-}
-
 project(':corelib') {
   /* No Dependencies */
 }
@@ -28,11 +22,28 @@ project(':frontend') {
   }
 }
 
+project(':ir') {
+  dependencies {
+    compile project(':base')
+  }
+}
+
+project(':launcher') {
+  dependencies {
+    compile project(':backend')
+    compile project(':base')
+    compile project(':corelib')
+    compile project(':frontend')
+    compile project(':ir')
+  }
+}
+
 project(':test') {
   dependencies {
     compile project(':backend')
     compile project(':base')
     compile project(':corelib')
     compile project(':frontend')
+    compile project(':ir')
   }
 }

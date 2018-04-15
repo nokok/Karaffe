@@ -1,8 +1,9 @@
 rootProject.name = 'Karaffe'
 
+include 'backend'
+include 'base'
 include 'corelib'
 include 'frontend'
 include 'ir'
-include 'backend'
-include 'base'
+include 'launcher'
 include 'test'
