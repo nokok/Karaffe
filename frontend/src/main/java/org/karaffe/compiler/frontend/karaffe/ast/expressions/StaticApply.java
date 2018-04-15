@@ -65,6 +65,6 @@ public class StaticApply extends AbstractExpression {
 
     @Override
     public String toString() {
-        return String.format("%s.%s(%s)", this.typeName, this.methodName, String.join(",", this.args.stream().map(Expression::toString).collect(Collectors.toList())));
+        return String.format("%s::%s(%s)", this.typeName, this.methodName, String.join(",", this.args.stream().map(Expression::toString).collect(Collectors.toList())));
     }
 }
