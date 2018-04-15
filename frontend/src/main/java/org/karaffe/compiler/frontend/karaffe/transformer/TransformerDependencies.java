@@ -12,27 +12,23 @@ public class TransformerDependencies {
     private static final AbstractTransformer contextCreator = new CreateTransformContext();
     private static final AbstractTransformer defaultImport = new DefaultImportTransformer();
     private static final AbstractTransformer nameResolver = new NameResolver();
-    private static final AbstractTransformer createDefaultCtor = new CreateDefaultConstructorTransformer();
     private static final AbstractTransformer typeInfer = new TypeInferer();
     private static final AbstractTransformer typeChecker = new TypeChecker();
     private static final AbstractTransformer opNameRemap = new OperatorNameRemapper();
     private static final AbstractTransformer kNormal = new KNormalizer();
     private static final AbstractTransformer alpha = new AlphaEquivalenceTransformer();
-    private static final AbstractTransformer jvmAsm = new JVMBytecodeGenerator();
     private static final AbstractTransformer terminal = new TerminalTransformer();
 
     public TransformerDependencies() {
         this.dependencyMap.put(contextCreator, Collections.emptySet());
         this.dependencyMap.put(defaultImport, Collections.singleton(contextCreator));
         this.dependencyMap.put(nameResolver, Collections.singleton(defaultImport));
-        this.dependencyMap.put(createDefaultCtor, Collections.singleton(nameResolver));
-        this.dependencyMap.put(typeInfer, Collections.singleton(createDefaultCtor));
+        this.dependencyMap.put(typeInfer, Collections.singleton(nameResolver));
         this.dependencyMap.put(typeChecker, Collections.singleton(typeInfer));
         this.dependencyMap.put(opNameRemap, Collections.singleton(typeChecker));
         this.dependencyMap.put(kNormal, Collections.singleton(opNameRemap));
         this.dependencyMap.put(alpha, Collections.singleton(kNormal));
-        this.dependencyMap.put(terminal, Collections.singleton(jvmAsm));
-        this.dependencyMap.put(jvmAsm, Collections.emptySet());
+        this.dependencyMap.put(terminal, Collections.emptySet());
     }
 
     public Set<AbstractTransformer> getTransformers() {

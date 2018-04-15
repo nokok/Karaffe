@@ -23,12 +23,11 @@ public class TransformerDependenciesTest {
     @Test
     public void testDependencyBuilder2() {
         Set<AbstractTransformer> dependency = transformerDependencies.buildTransformers("type-checker");
-        assertEquals(6, dependency.size());
+        assertEquals(5, dependency.size());
         Iterator<AbstractTransformer> depIter = dependency.iterator();
         assertEquals("create-context", depIter.next().getTransformerName());
         assertEquals("default-imports", depIter.next().getTransformerName());
         assertEquals("name-resolver", depIter.next().getTransformerName());
-        assertEquals("create-ctor", depIter.next().getTransformerName());
         assertEquals("type-inferer", depIter.next().getTransformerName());
         assertEquals("type-checker", depIter.next().getTransformerName());
     }
@@ -36,12 +35,11 @@ public class TransformerDependenciesTest {
     @Test
     public void testDependencyBuilder3() {
         Set<AbstractTransformer> dependency = transformerDependencies.buildTransformers("opname-remapper");
-        assertEquals(7, dependency.size());
+        assertEquals(6, dependency.size());
         Iterator<AbstractTransformer> depIter = dependency.iterator();
         assertEquals("create-context", depIter.next().getTransformerName());
         assertEquals("default-imports", depIter.next().getTransformerName());
         assertEquals("name-resolver", depIter.next().getTransformerName());
-        assertEquals("create-ctor", depIter.next().getTransformerName());
         assertEquals("type-inferer", depIter.next().getTransformerName());
         assertEquals("type-checker", depIter.next().getTransformerName());
         assertEquals("opname-remapper", depIter.next().getTransformerName());
