@@ -17,7 +17,7 @@ public class SimpleName extends AbstractTree implements CharSequence, Term {
     }
 
     public SimpleName(SimpleName other) {
-        this(other.name);
+        this(other.getPosition(), other.name);
     }
 
     public SimpleName(Position position, String name) {

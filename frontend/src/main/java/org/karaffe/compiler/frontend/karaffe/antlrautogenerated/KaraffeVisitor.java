@@ -18,11 +18,46 @@ public interface KaraffeVisitor<T> extends ParseTreeVisitor<T> {
 	 */
 	T visitCompilationUnit(KaraffeParser.CompilationUnitContext ctx);
 	/**
-	 * Visit a parse tree produced by {@link KaraffeParser#statement}.
+	 * Visit a parse tree produced by the {@code exprStmt}
+	 * labeled alternative in {@link KaraffeParser#statement}.
 	 * @param ctx the parse tree
 	 * @return the visitor result
 	 */
-	T visitStatement(KaraffeParser.StatementContext ctx);
+	T visitExprStmt(KaraffeParser.ExprStmtContext ctx);
+	/**
+	 * Visit a parse tree produced by the {@code printExpr}
+	 * labeled alternative in {@link KaraffeParser#statement}.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	T visitPrintExpr(KaraffeParser.PrintExprContext ctx);
+	/**
+	 * Visit a parse tree produced by the {@code addExpr}
+	 * labeled alternative in {@link KaraffeParser#expr}.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	T visitAddExpr(KaraffeParser.AddExprContext ctx);
+	/**
+	 * Visit a parse tree produced by the {@code lit}
+	 * labeled alternative in {@link KaraffeParser#expr}.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	T visitLit(KaraffeParser.LitContext ctx);
+	/**
+	 * Visit a parse tree produced by the {@code mulExpr}
+	 * labeled alternative in {@link KaraffeParser#expr}.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	T visitMulExpr(KaraffeParser.MulExprContext ctx);
+	/**
+	 * Visit a parse tree produced by {@link KaraffeParser#literal}.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	T visitLiteral(KaraffeParser.LiteralContext ctx);
 	/**
 	 * Visit a parse tree produced by {@link KaraffeParser#intLiteral}.
 	 * @param ctx the parse tree

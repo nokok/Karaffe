@@ -15,24 +15,12 @@ import org.karaffe.compiler.frontend.karaffe.ast.api.TypeDefStatement;
 import org.karaffe.compiler.frontend.karaffe.ast.names.PackageName;
 
 public class PackageDef extends AbstractTree {
-    private final PackageName packageName;
-    private final Set<ImportStatement> importStatements;
-    private final List<TypeDefStatement> typeDefStatements;
+    private  PackageName packageName;
+    private  Set<ImportStatement> importStatements;
+    private  List<TypeDefStatement> typeDefStatements;
 
     public PackageDef() {
         this(PackageName.ofRoot());
-    }
-
-    public PackageDef(TypeDefStatement... typeDefStatements) {
-        this(PackageName.ofRoot(), new HashSet<>(0), Arrays.asList(typeDefStatements));
-    }
-
-    public PackageDef(Set<? extends ImportStatement> imports, PackageName packageName) {
-        this(packageName, imports, new ArrayList<>());
-    }
-
-    public PackageDef(Set<ImportStatement> importStatements, TypeDefStatement... typeDefStatements) {
-        this(PackageName.ofRoot(), importStatements, Arrays.asList(typeDefStatements));
     }
 
     public PackageDef(PackageName packageName, ImportStatement... importStatements) {
@@ -48,31 +36,11 @@ public class PackageDef extends AbstractTree {
         this.typeDefStatements = new ArrayList<>(Objects.requireNonNull(typeDefStatements));
     }
 
-    public PackageDef(Position position) {
-        this(position, PackageName.ofRoot());
-    }
-
-    public PackageDef(Position position, PackageName packageName) {
-        this(position, packageName, new ArrayList<>(), new ArrayList<>());
-    }
-
-    public PackageDef(Position position, PackageName packageName, ImportStatement... importStatements) {
-        this(position, packageName, Arrays.asList(importStatements), new ArrayList<>());
-    }
-
-    public PackageDef(List<? extends ImportStatement> imports, List<? extends TypeDefStatement> types) {
-        this(Position.noPos(), PackageName.ofRoot(), imports, types);
-    }
-
     public PackageDef(Position position, PackageName packageName, List<? extends ImportStatement> importStatements, List<? extends TypeDefStatement> typeDefStatements) {
         super(position);
         this.packageName = Objects.requireNonNull(packageName);
         this.importStatements = new LinkedHashSet<>(Objects.requireNonNull(importStatements));
         this.typeDefStatements = new ArrayList<>(Objects.requireNonNull(typeDefStatements));
-    }
-
-    public PackageDef(PackageDef other) {
-        this(other.getPosition(), other.getPackageName(), other.getImports(), other.getTypeDefStatements());
     }
 
     public <T extends ImportStatement> void addImportStatement(T importStatement) {
@@ -91,6 +59,10 @@ public class PackageDef extends AbstractTree {
 
     public <T extends TypeDefStatement> void addTypeDefStatement(T typeDefStatement) {
         this.typeDefStatements.add(Objects.requireNonNull(typeDefStatement));
+    }
+
+    public void setPackageName(PackageName packageName) {
+        this.packageName = packageName;
     }
 
     public PackageName getPackageName() {

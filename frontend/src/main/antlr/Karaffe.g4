@@ -5,6 +5,17 @@ compilationUnit
   ;
 
 statement 
+  : expr #exprStmt
+  | 'println' '(' expr ')' #printExpr
+  ;
+
+expr
+  : left=expr op=('*' | '/') right=expr #mulExpr
+  | left=expr op=('+' | '-') right=expr #addExpr
+  | value=literal #lit
+  ;
+
+literal
   : intLiteral
   ;
 
@@ -27,3 +38,5 @@ Digit
   : '0'
   | NonZeroDigit
   ;
+
+Whitespace : [ \t\r\n]+ -> skip ;

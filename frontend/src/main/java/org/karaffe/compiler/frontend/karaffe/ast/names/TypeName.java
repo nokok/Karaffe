@@ -10,9 +10,14 @@ import org.karaffe.compiler.base.pos.Position;
 public class TypeName extends SimpleName {
     private final SimpleName name;
     private final List<TypeName> parameterizedTypes;
+    private final boolean isArray;
 
     public TypeName(String name) {
         this(new SimpleName(name), new ArrayList<>(0));
+    }
+
+    public TypeName(String name, boolean isArray) {
+        this(new SimpleName(name), new ArrayList<>(0), isArray);
     }
 
     public TypeName(Position position, String name) {
@@ -36,28 +41,40 @@ public class TypeName extends SimpleName {
     }
 
     public TypeName(SimpleName name, List<? extends TypeName> parameterizedType) {
-        super(name);
-        this.name = name;
-        this.parameterizedTypes = new ArrayList<>(parameterizedType);
-        if (this.name.toString().contains(".")) {
-            throw new IllegalArgumentException();
-        }
+        this(Position.noPos(), name, parameterizedType);
+    }
+
+    public TypeName(SimpleName name, List<? extends TypeName> parameterizedType, boolean isArray) {
+        this(Position.noPos(), name, parameterizedType, isArray);
     }
 
     public TypeName(Position position, SimpleName name, List<? extends TypeName> parameterizedType) {
+        this(position, name, parameterizedType, false);
+    }
+
+    public TypeName(Position position, SimpleName name, List<? extends TypeName> parameterizedType, boolean isArray) {
         super(position, name);
         this.name = name;
+        if (this.name.toString().contains(".")) {
+            throw new IllegalArgumentException();
+        }
         this.parameterizedTypes = new ArrayList<>(parameterizedType);
+        this.isArray = isArray;
     }
 
     public TypeName(TypeName otherTypeName) {
         super(otherTypeName.getPosition(), otherTypeName);
         this.name = new SimpleName(otherTypeName.name);
         this.parameterizedTypes = new ArrayList<>(otherTypeName.parameterizedTypes);
+        this.isArray = otherTypeName.isArray;
     }
 
     public boolean isVoidType() {
         return this.name.toString().equals("void");
+    }
+
+    public boolean isArrayType() {
+        return this.isArray;
     }
 
     public boolean isFullyQualified() {
@@ -78,12 +95,16 @@ public class TypeName extends SimpleName {
 
     @Override
     public String toString() {
-        if (this.parameterizedTypes.isEmpty()) {
-            return this.name.toString();
+        StringBuilder b = new StringBuilder(this.name);
+        if(!this.parameterizedTypes.isEmpty()) {
+            b.append("[");
+            b.append(String.join(", ", this.parameterizedTypes.stream().map(TypeName::toString).collect(Collectors.toList())));
+            b.append("]");
         }
-        return String.format("%s[%s]",
-                this.name,
-                String.join(", ", this.parameterizedTypes.stream().map(TypeName::toString).collect(Collectors.toList())));
+        if(this.isArray){
+            b.append("[]");
+        }
+        return b.toString();
     }
 
     public static TypeName rootClass() {

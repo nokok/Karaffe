@@ -1,4 +1,4 @@
-package org.karaffe.compiler.base;
+package org.karaffe.compiler.launcher;
 
 import java.io.IOException;
 import java.io.UncheckedIOException;
