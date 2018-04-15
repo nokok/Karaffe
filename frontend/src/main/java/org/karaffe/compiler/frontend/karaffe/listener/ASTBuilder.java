@@ -48,6 +48,7 @@ public class ASTBuilder extends KaraffeBaseListener implements ANTLRErrorListene
 
     public CompilationUnit getCompilationUnit() {
         stack.forEach(this.mainMethod::addMethodBody);
+        stack.clear();
         return compilationUnit;
     }
 
@@ -78,10 +79,6 @@ public class ASTBuilder extends KaraffeBaseListener implements ANTLRErrorListene
     @Override
     public void exitIntLiteral(KaraffeParser.IntLiteralContext ctx) {
         stack.push(new IntLiteral(Integer.parseInt(ctx.getText())));
-    }
-
-    @Override
-    public void visitTerminal(TerminalNode node) {
     }
 
     @Override

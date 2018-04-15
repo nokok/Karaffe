@@ -29,6 +29,7 @@ public interface TypeNameTransformer extends SimpleNameTransformer, FullyQualifi
         return new TypeName(
                 typeName.getPosition(),
                 transform(typeName.getName()),
-                typeName.getParameterizedTypes().stream().map(this::transform).collect(Collectors.toList()));
+                typeName.getParameterizedTypes().stream().map(this::transform).collect(Collectors.toList()),
+                typeName.isArrayType());
     }
 }

@@ -2,12 +2,12 @@ package ut;
 
 import org.junit.Test;
 import org.karaffe.compiler.frontend.karaffe.ast.CompilationUnit;
-import org.karaffe.compiler.frontend.karaffe.transformer.TransformerDependencies;
+import org.karaffe.compiler.frontend.karaffe.transformer.TransformerBuilder;
 import org.karaffe.compiler.frontend.karaffe.transformer.TransformerRunner;
 
 public class ASMTest {
 
-    private TransformerRunner runner = new TransformerRunner(new TransformerDependencies().getTransformers());
+    private TransformerRunner runner = new TransformerRunner(new TransformerBuilder().getTransformers());
     private CompilationUnit compilationUnit = new CompilationUnit();
 
     @Test

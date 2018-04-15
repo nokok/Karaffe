@@ -6,7 +6,7 @@ import java.util.LinkedHashSet;
 import java.util.Map;
 import java.util.Set;
 
-public class TransformerDependencies {
+public class TransformerBuilder {
     private final Map<AbstractTransformer, Set<AbstractTransformer>> dependencyMap = new HashMap<>();
 
     private static final AbstractTransformer contextCreator = new CreateTransformContext();
@@ -19,7 +19,7 @@ public class TransformerDependencies {
     private static final AbstractTransformer alpha = new AlphaEquivalenceTransformer();
     private static final AbstractTransformer terminal = new TerminalTransformer();
 
-    public TransformerDependencies() {
+    public TransformerBuilder() {
         this.dependencyMap.put(contextCreator, Collections.emptySet());
         this.dependencyMap.put(defaultImport, Collections.singleton(contextCreator));
         this.dependencyMap.put(nameResolver, Collections.singleton(defaultImport));

@@ -2,27 +2,27 @@ package ut;
 
 import org.junit.Test;
 import org.karaffe.compiler.frontend.karaffe.transformer.AbstractTransformer;
-import org.karaffe.compiler.frontend.karaffe.transformer.TransformerDependencies;
+import org.karaffe.compiler.frontend.karaffe.transformer.TransformerBuilder;
 
 import java.util.Iterator;
 import java.util.Set;
 
 import static org.junit.Assert.assertEquals;
 
-public class TransformerDependenciesTest {
+public class TransformerBuilderTest {
 
-    private TransformerDependencies transformerDependencies = new TransformerDependencies();
+    private TransformerBuilder transformerBuilder = new TransformerBuilder();
 
     @Test
     public void testDependencyBuilder1() {
-        Set<AbstractTransformer> dependency = transformerDependencies.buildTransformers("create-context");
+        Set<AbstractTransformer> dependency = transformerBuilder.buildTransformers("create-context");
         assertEquals(1, dependency.size());
         assertEquals("create-context", dependency.iterator().next().getTransformerName());
     }
 
     @Test
     public void testDependencyBuilder2() {
-        Set<AbstractTransformer> dependency = transformerDependencies.buildTransformers("type-checker");
+        Set<AbstractTransformer> dependency = transformerBuilder.buildTransformers("type-checker");
         assertEquals(5, dependency.size());
         Iterator<AbstractTransformer> depIter = dependency.iterator();
         assertEquals("create-context", depIter.next().getTransformerName());
@@ -34,7 +34,7 @@ public class TransformerDependenciesTest {
 
     @Test
     public void testDependencyBuilder3() {
-        Set<AbstractTransformer> dependency = transformerDependencies.buildTransformers("opname-remapper");
+        Set<AbstractTransformer> dependency = transformerBuilder.buildTransformers("opname-remapper");
         assertEquals(6, dependency.size());
         Iterator<AbstractTransformer> depIter = dependency.iterator();
         assertEquals("create-context", depIter.next().getTransformerName());
