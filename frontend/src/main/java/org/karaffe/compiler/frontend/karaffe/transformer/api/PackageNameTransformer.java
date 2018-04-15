@@ -1,6 +1,6 @@
 package org.karaffe.compiler.frontend.karaffe.transformer.api;
 
-import org.karaffe.compiler.ast.names.PackageName;
+import org.karaffe.compiler.frontend.karaffe.ast.names.PackageName;
 
 public interface PackageNameTransformer {
 

@@ -1,6 +1,6 @@
 package org.karaffe.compiler.frontend.karaffe.transformer.api;
 
-import org.karaffe.compiler.ast.statements.LetFieldDef;
+import org.karaffe.compiler.frontend.karaffe.ast.statements.LetFieldDef;
 
 public interface LetFieldDefTransformer extends BaseTransformer, TypeNameTransformer {
 

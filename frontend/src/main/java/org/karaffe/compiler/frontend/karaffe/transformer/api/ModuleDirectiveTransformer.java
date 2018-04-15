@@ -1,6 +1,6 @@
 package org.karaffe.compiler.frontend.karaffe.transformer.api;
 
-import org.karaffe.compiler.ast.api.ModuleDirective;
+import org.karaffe.compiler.frontend.karaffe.ast.api.ModuleDirective;
 
 public interface ModuleDirectiveTransformer {
     public default void onRequireDirectiveBefore(ModuleDirective moduleDirective) {

@@ -1,6 +1,6 @@
 package org.karaffe.compiler.frontend.karaffe.transformer.api;
 
-import org.karaffe.compiler.ast.names.ModuleName;
+import org.karaffe.compiler.frontend.karaffe.ast.names.ModuleName;
 
 public interface ModuleNameTransformer {
     public default void onModuleNameBefore(ModuleName moduleDef) {

@@ -1,14 +1,14 @@
 package org.karaffe.compiler.frontend.karaffe.transformer;
 
-import org.karaffe.compiler.ast.PackageDef;
-import org.karaffe.compiler.ast.api.TypeDefStatement;
-import org.karaffe.compiler.ast.imports.AliasImport;
-import org.karaffe.compiler.ast.imports.OnDemandImport;
-import org.karaffe.compiler.ast.imports.SimpleImport;
-import org.karaffe.compiler.ast.names.FullyQualifiedTypeName;
-import org.karaffe.compiler.ast.names.PackageName;
-import org.karaffe.compiler.ast.names.SimpleName;
-import org.karaffe.compiler.ast.names.TypeName;
+import org.karaffe.compiler.frontend.karaffe.ast.PackageDef;
+import org.karaffe.compiler.frontend.karaffe.ast.api.TypeDefStatement;
+import org.karaffe.compiler.frontend.karaffe.ast.imports.AliasImport;
+import org.karaffe.compiler.frontend.karaffe.ast.imports.OnDemandImport;
+import org.karaffe.compiler.frontend.karaffe.ast.imports.SimpleImport;
+import org.karaffe.compiler.frontend.karaffe.ast.names.FullyQualifiedTypeName;
+import org.karaffe.compiler.frontend.karaffe.ast.names.PackageName;
+import org.karaffe.compiler.frontend.karaffe.ast.names.SimpleName;
+import org.karaffe.compiler.frontend.karaffe.ast.names.TypeName;
 
 import java.util.LinkedHashMap;
 import java.util.List;

@@ -1,6 +1,6 @@
 package org.karaffe.compiler.frontend.karaffe.transformer.util;
 
-import org.karaffe.compiler.ast.api.Expression;
+import org.karaffe.compiler.frontend.karaffe.ast.api.Expression;
 import org.karaffe.compiler.base.generator.Generator;
 import org.karaffe.compiler.base.generator.TypeVarGenerator;
 import org.karaffe.compiler.base.types.constraints.TypeConstraint;

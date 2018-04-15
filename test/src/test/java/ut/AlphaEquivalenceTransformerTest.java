@@ -1,16 +1,16 @@
 package ut;
 
 import org.junit.Test;
-import org.karaffe.compiler.ast.CompilationUnit;
-import org.karaffe.compiler.ast.Parameter;
-import org.karaffe.compiler.ast.expressions.*;
-import org.karaffe.compiler.ast.modifiers.Public;
-import org.karaffe.compiler.ast.modifiers.Static;
-import org.karaffe.compiler.ast.names.SimpleName;
-import org.karaffe.compiler.ast.names.TypeName;
-import org.karaffe.compiler.ast.statements.ClassDef;
-import org.karaffe.compiler.ast.statements.LetLocalDef;
-import org.karaffe.compiler.ast.statements.MethodDef;
+import org.karaffe.compiler.frontend.karaffe.ast.CompilationUnit;
+import org.karaffe.compiler.frontend.karaffe.ast.Parameter;
+import org.karaffe.compiler.frontend.karaffe.ast.expressions.*;
+import org.karaffe.compiler.frontend.karaffe.ast.modifiers.Public;
+import org.karaffe.compiler.frontend.karaffe.ast.modifiers.Static;
+import org.karaffe.compiler.frontend.karaffe.ast.names.SimpleName;
+import org.karaffe.compiler.frontend.karaffe.ast.names.TypeName;
+import org.karaffe.compiler.frontend.karaffe.ast.statements.ClassDef;
+import org.karaffe.compiler.frontend.karaffe.ast.statements.LetLocalDef;
+import org.karaffe.compiler.frontend.karaffe.ast.statements.MethodDef;
 import org.karaffe.compiler.frontend.karaffe.transformer.AlphaEquivalenceTransformer;
 
 import java.util.Arrays;

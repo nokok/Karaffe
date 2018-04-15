@@ -1,6 +1,6 @@
 package org.karaffe.compiler.frontend.karaffe.transformer.api;
 
-import org.karaffe.compiler.ast.Parameter;
+import org.karaffe.compiler.frontend.karaffe.ast.Parameter;
 
 public interface ParameterTransformer extends TypeNameTransformer {
     public default void onParameterBefore(Parameter parameter) {

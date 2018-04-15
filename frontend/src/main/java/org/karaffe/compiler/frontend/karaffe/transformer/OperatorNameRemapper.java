@@ -1,7 +1,7 @@
 package org.karaffe.compiler.frontend.karaffe.transformer;
 
-import org.karaffe.compiler.ast.expressions.Apply;
-import org.karaffe.compiler.ast.names.SimpleName;
+import org.karaffe.compiler.frontend.karaffe.ast.expressions.Apply;
+import org.karaffe.compiler.frontend.karaffe.ast.names.SimpleName;
 import org.karaffe.compiler.frontend.karaffe.transformer.AbstractTransformer;
 
 public class OperatorNameRemapper extends AbstractTransformer {

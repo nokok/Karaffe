@@ -3,11 +3,11 @@ package ut;
 import static org.junit.Assert.assertEquals;
 
 import org.junit.Test;
-import org.karaffe.compiler.ast.api.Tree;
-import org.karaffe.compiler.ast.expressions.Apply;
-import org.karaffe.compiler.ast.expressions.ExpressionName;
-import org.karaffe.compiler.ast.expressions.IntLiteral;
-import org.karaffe.compiler.ast.names.SimpleName;
+import org.karaffe.compiler.frontend.karaffe.ast.api.Tree;
+import org.karaffe.compiler.frontend.karaffe.ast.expressions.Apply;
+import org.karaffe.compiler.frontend.karaffe.ast.expressions.ExpressionName;
+import org.karaffe.compiler.frontend.karaffe.ast.expressions.IntLiteral;
+import org.karaffe.compiler.frontend.karaffe.ast.names.SimpleName;
 
 public class ExprTest {
 

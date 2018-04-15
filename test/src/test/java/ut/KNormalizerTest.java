@@ -10,17 +10,17 @@ import java.util.List;
 import org.junit.Before;
 import org.junit.Test;
 import org.karaffe.compiler.frontend.karaffe.transformer.KNormalizer;
-import org.karaffe.compiler.ast.api.Expression;
-import org.karaffe.compiler.ast.api.Statement;
-import org.karaffe.compiler.ast.expressions.Apply;
-import org.karaffe.compiler.ast.expressions.Block;
-import org.karaffe.compiler.ast.expressions.Div;
-import org.karaffe.compiler.ast.expressions.ExpressionName;
-import org.karaffe.compiler.ast.expressions.IntLiteral;
-import org.karaffe.compiler.ast.expressions.Mul;
-import org.karaffe.compiler.ast.expressions.Plus;
-import org.karaffe.compiler.ast.names.SimpleName;
-import org.karaffe.compiler.ast.statements.LetLocalDef;
+import org.karaffe.compiler.frontend.karaffe.ast.api.Expression;
+import org.karaffe.compiler.frontend.karaffe.ast.api.Statement;
+import org.karaffe.compiler.frontend.karaffe.ast.expressions.Apply;
+import org.karaffe.compiler.frontend.karaffe.ast.expressions.Block;
+import org.karaffe.compiler.frontend.karaffe.ast.expressions.Div;
+import org.karaffe.compiler.frontend.karaffe.ast.expressions.ExpressionName;
+import org.karaffe.compiler.frontend.karaffe.ast.expressions.IntLiteral;
+import org.karaffe.compiler.frontend.karaffe.ast.expressions.Mul;
+import org.karaffe.compiler.frontend.karaffe.ast.expressions.Plus;
+import org.karaffe.compiler.frontend.karaffe.ast.names.SimpleName;
+import org.karaffe.compiler.frontend.karaffe.ast.statements.LetLocalDef;
 
 public class KNormalizerTest {
     private KNormalizer normalizer;

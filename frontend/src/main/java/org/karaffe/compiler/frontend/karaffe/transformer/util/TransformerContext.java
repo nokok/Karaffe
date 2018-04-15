@@ -1,7 +1,7 @@
 package org.karaffe.compiler.frontend.karaffe.transformer.util;
 
-import org.karaffe.compiler.ast.api.Expression;
-import org.karaffe.compiler.ast.statements.ClassDef;
+import org.karaffe.compiler.frontend.karaffe.ast.api.Expression;
+import org.karaffe.compiler.frontend.karaffe.ast.statements.ClassDef;
 import org.karaffe.compiler.base.util.Report;
 
 import java.util.ArrayList;

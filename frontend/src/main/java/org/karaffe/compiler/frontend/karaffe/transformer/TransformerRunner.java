@@ -1,6 +1,6 @@
 package org.karaffe.compiler.frontend.karaffe.transformer;
 
-import org.karaffe.compiler.ast.CompilationUnit;
+import org.karaffe.compiler.frontend.karaffe.ast.CompilationUnit;
 import org.karaffe.compiler.frontend.karaffe.transformer.api.BaseTransformer;
 
 import java.util.ArrayList;

@@ -1,10 +1,10 @@
 package org.karaffe.compiler.frontend.karaffe.transformer;
 
-import org.karaffe.compiler.ast.api.Statement;
-import org.karaffe.compiler.ast.expressions.Block;
-import org.karaffe.compiler.ast.expressions.ExpressionName;
-import org.karaffe.compiler.ast.names.SimpleName;
-import org.karaffe.compiler.ast.statements.LetLocalDef;
+import org.karaffe.compiler.frontend.karaffe.ast.api.Statement;
+import org.karaffe.compiler.frontend.karaffe.ast.expressions.Block;
+import org.karaffe.compiler.frontend.karaffe.ast.expressions.ExpressionName;
+import org.karaffe.compiler.frontend.karaffe.ast.names.SimpleName;
+import org.karaffe.compiler.frontend.karaffe.ast.statements.LetLocalDef;
 import org.karaffe.compiler.base.generator.ConsecutiveNumberGenerator;
 import org.karaffe.compiler.frontend.karaffe.transformer.AbstractTransformer;
 

@@ -1,6 +1,6 @@
 package org.karaffe.compiler.frontend.karaffe.transformer;
 
-import org.karaffe.compiler.ast.names.TypeName;
+import org.karaffe.compiler.frontend.karaffe.ast.names.TypeName;
 
 public class TypeChecker extends AbstractTransformer {
     public TypeChecker() {

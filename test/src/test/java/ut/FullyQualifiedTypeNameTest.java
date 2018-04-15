@@ -7,8 +7,8 @@ import java.util.Arrays;
 
 import org.junit.Test;
 import org.karaffe.compiler.base.pos.Position;
-import org.karaffe.compiler.ast.names.FullyQualifiedTypeName;
-import org.karaffe.compiler.ast.names.SimpleName;
+import org.karaffe.compiler.frontend.karaffe.ast.names.FullyQualifiedTypeName;
+import org.karaffe.compiler.frontend.karaffe.ast.names.SimpleName;
 
 public class FullyQualifiedTypeNameTest {
 

@@ -1,6 +1,6 @@
 package org.karaffe.compiler.frontend.karaffe.transformer.api;
 
-import org.karaffe.compiler.ast.names.FullyQualifiedTypeName;
+import org.karaffe.compiler.frontend.karaffe.ast.names.FullyQualifiedTypeName;
 
 public interface FullyQualifiedNameTransformer {
 

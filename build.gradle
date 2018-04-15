@@ -57,9 +57,6 @@ processResources {
 apply from: 'gradle/project_structure.gradle'
 apply from: 'gradle/detect_java_version.gradle'
 
-project(':ast') {
-}
-
 project(':backend') {
   dependencies {
     compile group: 'net.nokok', name: 'azm', version: '0.1.6'

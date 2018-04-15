@@ -1,13 +1,13 @@
 package org.karaffe.compiler.frontend.karaffe.transformer.api;
 
-import org.karaffe.compiler.ast.api.Expression;
-import org.karaffe.compiler.ast.expressions.Apply;
-import org.karaffe.compiler.ast.expressions.Block;
-import org.karaffe.compiler.ast.expressions.ExpressionName;
-import org.karaffe.compiler.ast.expressions.IntLiteral;
-import org.karaffe.compiler.ast.expressions.NewInstance;
-import org.karaffe.compiler.ast.expressions.Return;
-import org.karaffe.compiler.ast.expressions.StaticApply;
+import org.karaffe.compiler.frontend.karaffe.ast.api.Expression;
+import org.karaffe.compiler.frontend.karaffe.ast.expressions.Apply;
+import org.karaffe.compiler.frontend.karaffe.ast.expressions.Block;
+import org.karaffe.compiler.frontend.karaffe.ast.expressions.ExpressionName;
+import org.karaffe.compiler.frontend.karaffe.ast.expressions.IntLiteral;
+import org.karaffe.compiler.frontend.karaffe.ast.expressions.NewInstance;
+import org.karaffe.compiler.frontend.karaffe.ast.expressions.Return;
+import org.karaffe.compiler.frontend.karaffe.ast.expressions.StaticApply;
 
 public interface ExpressionTransformer extends
         ApplyTransformer,

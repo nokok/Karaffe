@@ -1,9 +1,3 @@
-project(':ast') {
-  dependencies {
-    compile project(':base')
-  }
-}
-
 project(':backend') {
   dependencies {
     compile project(':base')
@@ -13,17 +7,21 @@ project(':backend') {
 }
 
 project(':base') {
+  /* No Dependencies */
 }
 
 project(':ir') {
+  dependencies {
+    compile project(':base')
+  }
 }
 
 project(':corelib') {
+  /* No Dependencies */
 }
 
 project(':frontend') {
   dependencies {
-    compile project(':ast')
     compile project(':base')
     compile project(':corelib')
     compile project(':ir')
@@ -32,7 +30,6 @@ project(':frontend') {
 
 project(':test') {
   dependencies {
-    compile project(':ast')
     compile project(':backend')
     compile project(':base')
     compile project(':corelib')

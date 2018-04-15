@@ -1,6 +1,6 @@
 package org.karaffe.compiler.frontend.karaffe.transformer.api;
 
-import org.karaffe.compiler.ast.ModuleDef;
+import org.karaffe.compiler.frontend.karaffe.ast.ModuleDef;
 
 import static java.util.stream.Collectors.toList;
 

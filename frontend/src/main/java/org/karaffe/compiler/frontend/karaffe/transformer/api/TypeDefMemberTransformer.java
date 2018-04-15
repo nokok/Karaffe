@@ -1,8 +1,8 @@
 package org.karaffe.compiler.frontend.karaffe.transformer.api;
 
-import org.karaffe.compiler.ast.api.TypeDefMember;
-import org.karaffe.compiler.ast.statements.LetFieldDef;
-import org.karaffe.compiler.ast.statements.MethodDef;
+import org.karaffe.compiler.frontend.karaffe.ast.api.TypeDefMember;
+import org.karaffe.compiler.frontend.karaffe.ast.statements.LetFieldDef;
+import org.karaffe.compiler.frontend.karaffe.ast.statements.MethodDef;
 
 public interface TypeDefMemberTransformer extends LetFieldDefTransformer, MethodDefTransformer {
     @Override

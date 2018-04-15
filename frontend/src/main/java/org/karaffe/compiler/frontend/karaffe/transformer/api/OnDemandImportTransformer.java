@@ -1,6 +1,6 @@
 package org.karaffe.compiler.frontend.karaffe.transformer.api;
 
-import org.karaffe.compiler.ast.imports.OnDemandImport;
+import org.karaffe.compiler.frontend.karaffe.ast.imports.OnDemandImport;
 
 public interface OnDemandImportTransformer extends PackageNameTransformer {
     public default void onOnDemandImportBefore(OnDemandImport onDemandImport) {

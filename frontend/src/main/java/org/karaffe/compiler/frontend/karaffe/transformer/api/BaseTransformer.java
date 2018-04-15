@@ -1,13 +1,13 @@
 package org.karaffe.compiler.frontend.karaffe.transformer.api;
 
-import org.karaffe.compiler.ast.CompilationUnit;
-import org.karaffe.compiler.ast.ModuleDef;
-import org.karaffe.compiler.ast.PackageDef;
-import org.karaffe.compiler.ast.api.Expression;
-import org.karaffe.compiler.ast.api.ImportStatement;
-import org.karaffe.compiler.ast.api.Statement;
-import org.karaffe.compiler.ast.api.TypeDefMember;
-import org.karaffe.compiler.ast.api.TypeDefStatement;
+import org.karaffe.compiler.frontend.karaffe.ast.CompilationUnit;
+import org.karaffe.compiler.frontend.karaffe.ast.ModuleDef;
+import org.karaffe.compiler.frontend.karaffe.ast.PackageDef;
+import org.karaffe.compiler.frontend.karaffe.ast.api.Expression;
+import org.karaffe.compiler.frontend.karaffe.ast.api.ImportStatement;
+import org.karaffe.compiler.frontend.karaffe.ast.api.Statement;
+import org.karaffe.compiler.frontend.karaffe.ast.api.TypeDefMember;
+import org.karaffe.compiler.frontend.karaffe.ast.api.TypeDefStatement;
 
 public interface BaseTransformer {
 

@@ -1,12 +1,12 @@
 package org.karaffe.compiler.frontend.karaffe.transformer;
 
 import karaffe.core.Any;
-import org.karaffe.compiler.ast.PackageDef;
-import org.karaffe.compiler.ast.api.ImportStatement;
-import org.karaffe.compiler.ast.imports.OnDemandImport;
-import org.karaffe.compiler.ast.imports.SimpleImport;
-import org.karaffe.compiler.ast.names.FullyQualifiedTypeName;
-import org.karaffe.compiler.ast.names.PackageName;
+import org.karaffe.compiler.frontend.karaffe.ast.PackageDef;
+import org.karaffe.compiler.frontend.karaffe.ast.api.ImportStatement;
+import org.karaffe.compiler.frontend.karaffe.ast.imports.OnDemandImport;
+import org.karaffe.compiler.frontend.karaffe.ast.imports.SimpleImport;
+import org.karaffe.compiler.frontend.karaffe.ast.names.FullyQualifiedTypeName;
+import org.karaffe.compiler.frontend.karaffe.ast.names.PackageName;
 
 import java.io.Reader;
 import java.net.URL;

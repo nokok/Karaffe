@@ -1,10 +1,10 @@
 package org.karaffe.compiler.frontend.karaffe.transformer;
 
-import org.karaffe.compiler.ast.api.Statement;
-import org.karaffe.compiler.ast.names.SimpleName;
-import org.karaffe.compiler.ast.names.TypeName;
-import org.karaffe.compiler.ast.statements.ClassDef;
-import org.karaffe.compiler.ast.statements.MethodDef;
+import org.karaffe.compiler.frontend.karaffe.ast.api.Statement;
+import org.karaffe.compiler.frontend.karaffe.ast.names.SimpleName;
+import org.karaffe.compiler.frontend.karaffe.ast.names.TypeName;
+import org.karaffe.compiler.frontend.karaffe.ast.statements.ClassDef;
+import org.karaffe.compiler.frontend.karaffe.ast.statements.MethodDef;
 import org.karaffe.compiler.frontend.karaffe.transformer.AbstractTransformer;
 
 import java.util.ArrayList;

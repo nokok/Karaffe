@@ -1,6 +1,6 @@
 package org.karaffe.compiler.frontend.karaffe.transformer.api;
 
-import org.karaffe.compiler.ast.CompilationUnit;
+import org.karaffe.compiler.frontend.karaffe.ast.CompilationUnit;
 
 import java.util.stream.Collectors;
 
