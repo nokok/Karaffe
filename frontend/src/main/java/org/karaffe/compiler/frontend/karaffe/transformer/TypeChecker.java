@@ -9,9 +9,8 @@ public class TypeChecker extends AbstractTransformer {
 
     @Override
     public void onTypeNameBefore(TypeName typeName) {
-        System.out.println(typeName);
         if (!typeName.isFullyQualified()) {
-            System.out.println("Symbol not found. : " + typeName);
+            // TODO: Report Error
         }
     }
 }

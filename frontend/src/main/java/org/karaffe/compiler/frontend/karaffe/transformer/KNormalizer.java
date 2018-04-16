@@ -69,7 +69,6 @@ public class KNormalizer extends AbstractTransformer {
             scope.add(new LetLocalDef(new SimpleName(this.nameGen.generate()), expression));
             return scope.flatten();
         default:
-            System.out.println(expression.getExpressionType());
             return expression;
         }
     }
