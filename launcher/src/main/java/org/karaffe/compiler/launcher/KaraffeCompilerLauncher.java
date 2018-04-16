@@ -11,6 +11,7 @@ import org.karaffe.compiler.frontend.karaffe.transformer.AbstractTransformer;
 import org.karaffe.compiler.frontend.karaffe.transformer.TransformerBuilder;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import java.util.Set;
 
@@ -27,7 +28,9 @@ public class KaraffeCompilerLauncher {
         //new LibraryLoader().loadJars();
         new SystemPropertyConfigurator(args).updateSystemProperty();
 
-        KaraffeLexer lexer = new KaraffeLexer(new ANTLRFileStream(args[0]));
+        String fileName = Arrays.asList(args).stream().filter(arg -> arg.endsWith(".krf")).findFirst().orElseThrow(IllegalArgumentException::new);
+
+        KaraffeLexer lexer = new KaraffeLexer(new ANTLRFileStream(fileName));
         ASTBuilder astBuilder = new ASTBuilder();
         lexer.removeErrorListeners();
         lexer.addErrorListener(astBuilder);
@@ -44,23 +47,39 @@ public class KaraffeCompilerLauncher {
 
         CompilationUnit compilationUnit = astBuilder.getCompilationUnit();
 
-        System.out.println("===");
-        System.out.println(compilationUnit);
+        boolean isShowPhases = Arrays.asList(args).contains("--show-phases");
+        boolean isPrintTree = Arrays.asList(args).contains("--print-tree");
 
+
+        if (isPrintTree) {
+            System.out.println("===");
+            System.out.println(compilationUnit);
+        }
         TransformerBuilder builder = new TransformerBuilder();
         Set<AbstractTransformer> transformers = builder.getTransformers();
+
+
+        if (isShowPhases) {
+            transformers.stream().map(AbstractTransformer::getTransformerName).forEach(System.out::println);
+        }
+
 
         CompilationUnit cu = compilationUnit;
         for (AbstractTransformer transformer : transformers) {
             cu = transformer.transform(cu);
-            System.out.println("=== After : " + transformer.getTransformerName() + " ===");
-            System.out.println(cu);
+            if (isPrintTree) {
+                System.out.println("=== After : " + transformer.getTransformerName() + " ===");
+                System.out.println(cu);
+            }
         }
     }
 
     private String usage() {
         List<String> output = new ArrayList<>();
         output.add("Usage: krfc [source files]");
+        output.add("where possible options include:");
+        output.add("  --show-phases");
+        output.add("  --print-tree");
         return String.join("\n", output);
     }
 }
