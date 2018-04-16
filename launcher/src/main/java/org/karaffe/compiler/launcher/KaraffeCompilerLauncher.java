@@ -24,7 +24,7 @@ public class KaraffeCompilerLauncher {
             System.out.println(usage());
             return;
         }
-        new LibraryLoader().loadJars();
+        //new LibraryLoader().loadJars();
         new SystemPropertyConfigurator(args).updateSystemProperty();
 
         KaraffeLexer lexer = new KaraffeLexer(new ANTLRFileStream(args[0]));
