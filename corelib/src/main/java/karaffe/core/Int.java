@@ -34,4 +34,8 @@ public class Int extends Any {
         return new Double((double)this.value / (double)other.value);
     }
 
+    @Override
+    public java.lang.String toString() {
+        return java.lang.String.valueOf(this.value);
+    }
 }
