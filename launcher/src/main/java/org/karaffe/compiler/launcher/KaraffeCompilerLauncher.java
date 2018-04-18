@@ -86,12 +86,18 @@ public class KaraffeCompilerLauncher {
         }
 
         CompilationUnit cu = compilationUnit;
+        String lastString = cu.toString();
         for (AbstractTransformer transformer : transformers) {
             cu = transformer.transform(cu);
             if (isPrintTree) {
                 stdOut.println("=== After : " + transformer.getTransformerName() + " ===");
-                stdOut.println(cu);
+                if (lastString.equals(cu.toString())) {
+                    stdOut.println("No change.");
+                } else {
+                    stdOut.println(cu);
+                }
             }
+            lastString = cu.toString();
         }
     }
 
