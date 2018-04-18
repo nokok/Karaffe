@@ -11,6 +11,8 @@ import org.karaffe.compiler.frontend.karaffe.transformer.AbstractTransformer;
 import org.karaffe.compiler.frontend.karaffe.transformer.TransformerBuilder;
 
 import java.io.File;
+import java.io.InputStream;
+import java.io.PrintStream;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
@@ -24,9 +26,14 @@ public class KaraffeCompilerLauncher {
         new KaraffeCompilerLauncher().run(args);
     }
 
+    private final PrintStream stdOut = System.out;
+    private final PrintStream stdErr = System.err;
+    private final InputStream stdIn = System.in;
+
+
     private void run(String[] args) throws Exception {
         if (args.length == 0) {
-            System.out.println(usage());
+            stdErr.println(usage());
             return;
         }
         new SystemPropertyConfigurator(args).updateSystemProperty();
@@ -34,7 +41,7 @@ public class KaraffeCompilerLauncher {
         Set<AbstractTransformer> transformers = new TransformerBuilder().getTransformers();
         final boolean isShowPhases = hasFlag("--show-phases", args);
         if (isShowPhases) {
-            transformers.stream().map(AbstractTransformer::getTransformerName).forEach(System.out::println);
+            transformers.stream().map(AbstractTransformer::getTransformerName).forEach(stdOut::println);
         }
 
         List<File> files = Arrays.stream(args).map(File::new).filter(File::exists).collect(Collectors.toList());
@@ -65,16 +72,16 @@ public class KaraffeCompilerLauncher {
         final boolean isPrintTree = hasFlag("--print-tree", args);
 
         if (isPrintTree) {
-            System.out.println("===");
-            System.out.println(compilationUnit);
+            stdOut.println("===");
+            stdOut.println(compilationUnit);
         }
 
         CompilationUnit cu = compilationUnit;
         for (AbstractTransformer transformer : transformers) {
             cu = transformer.transform(cu);
             if (isPrintTree) {
-                System.out.println("=== After : " + transformer.getTransformerName() + " ===");
-                System.out.println(cu);
+                stdOut.println("=== After : " + transformer.getTransformerName() + " ===");
+                stdOut.println(cu);
             }
         }
     }
