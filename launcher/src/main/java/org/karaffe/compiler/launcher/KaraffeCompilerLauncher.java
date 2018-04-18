@@ -13,6 +13,7 @@ import org.karaffe.compiler.frontend.karaffe.transformer.TransformerBuilder;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+import java.util.Optional;
 import java.util.Set;
 
 public class KaraffeCompilerLauncher {
@@ -28,48 +29,51 @@ public class KaraffeCompilerLauncher {
         //new LibraryLoader().loadJars();
         new SystemPropertyConfigurator(args).updateSystemProperty();
 
-        String fileName = Arrays.asList(args).stream().filter(arg -> arg.endsWith(".krf")).findFirst().orElseThrow(IllegalArgumentException::new);
+        final boolean isShowPhases = Arrays.asList(args).contains("--show-phases");
 
-        KaraffeLexer lexer = new KaraffeLexer(new ANTLRFileStream(fileName));
-        ASTBuilder astBuilder = new ASTBuilder();
-        lexer.removeErrorListeners();
-        lexer.addErrorListener(astBuilder);
-        KaraffeParser parser = new KaraffeParser(new CommonTokenStream(lexer));
-        parser.removeErrorListeners();
-        parser.removeParseListeners();
-        parser.addParseListener(astBuilder);
-        parser.addErrorListener(astBuilder);
-        parser.compilationUnit();
-
-        if (astBuilder.hasError()) {
-            return;
-        }
-
-        CompilationUnit compilationUnit = astBuilder.getCompilationUnit();
-
-        boolean isShowPhases = Arrays.asList(args).contains("--show-phases");
-        boolean isPrintTree = Arrays.asList(args).contains("--print-tree");
-
-
-        if (isPrintTree) {
-            System.out.println("===");
-            System.out.println(compilationUnit);
-        }
         TransformerBuilder builder = new TransformerBuilder();
         Set<AbstractTransformer> transformers = builder.getTransformers();
-
 
         if (isShowPhases) {
             transformers.stream().map(AbstractTransformer::getTransformerName).forEach(System.out::println);
         }
 
+        Optional<String> maybeFileName = Arrays.asList(args).stream().filter(arg -> arg.endsWith(".krf")).findFirst();
 
-        CompilationUnit cu = compilationUnit;
-        for (AbstractTransformer transformer : transformers) {
-            cu = transformer.transform(cu);
+        if (maybeFileName.isPresent()) {
+            String fileName = maybeFileName.get();
+
+            KaraffeLexer lexer = new KaraffeLexer(new ANTLRFileStream(fileName));
+            ASTBuilder astBuilder = new ASTBuilder();
+            lexer.removeErrorListeners();
+            lexer.addErrorListener(astBuilder);
+            KaraffeParser parser = new KaraffeParser(new CommonTokenStream(lexer));
+            parser.removeErrorListeners();
+            parser.removeParseListeners();
+            parser.addParseListener(astBuilder);
+            parser.addErrorListener(astBuilder);
+            parser.compilationUnit();
+
+            if (astBuilder.hasError()) {
+                return;
+            }
+
+            CompilationUnit compilationUnit = astBuilder.getCompilationUnit();
+
+            boolean isPrintTree = Arrays.asList(args).contains("--print-tree");
+
             if (isPrintTree) {
-                System.out.println("=== After : " + transformer.getTransformerName() + " ===");
-                System.out.println(cu);
+                System.out.println("===");
+                System.out.println(compilationUnit);
+            }
+
+            CompilationUnit cu = compilationUnit;
+            for (AbstractTransformer transformer : transformers) {
+                cu = transformer.transform(cu);
+                if (isPrintTree) {
+                    System.out.println("=== After : " + transformer.getTransformerName() + " ===");
+                    System.out.println(cu);
+                }
             }
         }
     }
