@@ -5,10 +5,13 @@ import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 import org.junit.Before;
 import org.junit.Test;
+import org.karaffe.compiler.frontend.karaffe.ast.expressions.StaticApply;
+import org.karaffe.compiler.frontend.karaffe.ast.names.TypeName;
 import org.karaffe.compiler.frontend.karaffe.transformer.KNormalizer;
 import org.karaffe.compiler.frontend.karaffe.ast.api.Expression;
 import org.karaffe.compiler.frontend.karaffe.ast.api.Statement;
@@ -133,4 +136,20 @@ public class KNormalizerTest {
                 "}", after.toString());
         assertFalse(after.isNormalizable());
     }
+
+    @Test
+    public void testNOrmalizeTranform4() {
+        StaticApply staticApply = new StaticApply(
+                new TypeName("Foo"),
+                new SimpleName("doSomething"),
+                Collections.singletonList(new IntLiteral(1)));
+        assertEquals("Foo::doSomething(1)", staticApply.toString());
+
+        Expression expr = this.normalizer.transform(staticApply);
+        assertEquals("{\n" +
+                "let k_0 = 1;\n" +
+                "Foo::doSomething(k_0);\n" +
+                "}", expr.toString());
+    }
+
 }
