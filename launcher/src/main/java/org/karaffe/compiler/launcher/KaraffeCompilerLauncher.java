@@ -10,11 +10,14 @@ import org.karaffe.compiler.frontend.karaffe.listener.ASTBuilder;
 import org.karaffe.compiler.frontend.karaffe.transformer.AbstractTransformer;
 import org.karaffe.compiler.frontend.karaffe.transformer.TransformerBuilder;
 
+import java.io.File;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.HashMap;
 import java.util.List;
-import java.util.Optional;
+import java.util.Map;
 import java.util.Set;
+import java.util.stream.Collectors;
 
 public class KaraffeCompilerLauncher {
     public static void main(String[] args) throws Exception {
@@ -26,25 +29,22 @@ public class KaraffeCompilerLauncher {
             System.out.println(usage());
             return;
         }
-        //new LibraryLoader().loadJars();
         new SystemPropertyConfigurator(args).updateSystemProperty();
 
-        final boolean isShowPhases = Arrays.asList(args).contains("--show-phases");
-
-        TransformerBuilder builder = new TransformerBuilder();
-        Set<AbstractTransformer> transformers = builder.getTransformers();
-
+        Set<AbstractTransformer> transformers = new TransformerBuilder().getTransformers();
+        final boolean isShowPhases = hasFlag("--show-phases", args);
         if (isShowPhases) {
             transformers.stream().map(AbstractTransformer::getTransformerName).forEach(System.out::println);
         }
 
-        Optional<String> maybeFileName = Arrays.asList(args).stream().filter(arg -> arg.endsWith(".krf")).findFirst();
+        List<File> files = Arrays.stream(args).map(File::new).filter(File::exists).collect(Collectors.toList());
 
-        if (maybeFileName.isPresent()) {
-            String fileName = maybeFileName.get();
+        ASTBuilder astBuilder = new ASTBuilder();
+        Map<String, KaraffeParser.CompilationUnitContext> contexts = new HashMap<>(files.size());
 
+        for (File file : files) {
+            String fileName = file.getAbsolutePath();
             KaraffeLexer lexer = new KaraffeLexer(new ANTLRFileStream(fileName));
-            ASTBuilder astBuilder = new ASTBuilder();
             lexer.removeErrorListeners();
             lexer.addErrorListener(astBuilder);
             KaraffeParser parser = new KaraffeParser(new CommonTokenStream(lexer));
@@ -52,30 +52,35 @@ public class KaraffeCompilerLauncher {
             parser.removeParseListeners();
             parser.addParseListener(astBuilder);
             parser.addErrorListener(astBuilder);
-            parser.compilationUnit();
+            KaraffeParser.CompilationUnitContext context = parser.compilationUnit();
+            contexts.put(fileName, context);
 
             if (astBuilder.hasError()) {
                 return;
             }
+        }
 
-            CompilationUnit compilationUnit = astBuilder.getCompilationUnit();
+        CompilationUnit compilationUnit = astBuilder.getCompilationUnit();
 
-            boolean isPrintTree = Arrays.asList(args).contains("--print-tree");
+        final boolean isPrintTree = hasFlag("--print-tree", args);
 
+        if (isPrintTree) {
+            System.out.println("===");
+            System.out.println(compilationUnit);
+        }
+
+        CompilationUnit cu = compilationUnit;
+        for (AbstractTransformer transformer : transformers) {
+            cu = transformer.transform(cu);
             if (isPrintTree) {
-                System.out.println("===");
-                System.out.println(compilationUnit);
-            }
-
-            CompilationUnit cu = compilationUnit;
-            for (AbstractTransformer transformer : transformers) {
-                cu = transformer.transform(cu);
-                if (isPrintTree) {
-                    System.out.println("=== After : " + transformer.getTransformerName() + " ===");
-                    System.out.println(cu);
-                }
+                System.out.println("=== After : " + transformer.getTransformerName() + " ===");
+                System.out.println(cu);
             }
         }
+    }
+
+    private boolean hasFlag(String flagName, String[] args) {
+        return Arrays.stream(args).anyMatch(arg -> arg.equals(flagName));
     }
 
     private String usage() {
