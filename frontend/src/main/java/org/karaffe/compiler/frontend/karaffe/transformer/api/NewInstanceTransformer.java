@@ -2,6 +2,7 @@ package org.karaffe.compiler.frontend.karaffe.transformer.api;
 
 import java.util.stream.Collectors;
 
+import org.karaffe.compiler.frontend.karaffe.ast.api.Expression;
 import org.karaffe.compiler.frontend.karaffe.ast.expressions.NewInstance;
 
 public interface NewInstanceTransformer extends TypeNameTransformer, BaseTransformer {
@@ -20,7 +21,7 @@ public interface NewInstanceTransformer extends TypeNameTransformer, BaseTransfo
                 newInstance.getArgs().stream().map(this::transform).collect(Collectors.toList()));
     }
 
-    public default NewInstance transform(NewInstance newInstance) {
+    public default Expression transform(NewInstance newInstance) {
         onNewInstanceBefore(newInstance);
         NewInstance after = transformBody(newInstance);
         onNewInstanceAfter(after);

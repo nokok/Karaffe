@@ -46,6 +46,11 @@ public class StaticApply extends AbstractExpression {
         this.args = Arrays.asList(args);
     }
 
+    @Override
+    public boolean isNormalizable() {
+        return this.args.stream().anyMatch(Expression::isNormalizable);
+    }
+
     public TypeName getTypeName() {
         return this.typeName;
     }

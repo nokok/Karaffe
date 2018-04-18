@@ -10,6 +10,7 @@ import java.util.List;
 
 import org.junit.Before;
 import org.junit.Test;
+import org.karaffe.compiler.frontend.karaffe.ast.expressions.NewInstance;
 import org.karaffe.compiler.frontend.karaffe.ast.expressions.StaticApply;
 import org.karaffe.compiler.frontend.karaffe.ast.names.TypeName;
 import org.karaffe.compiler.frontend.karaffe.transformer.KNormalizer;
@@ -149,6 +150,39 @@ public class KNormalizerTest {
         assertEquals("{\n" +
                 "let k_0 = 1;\n" +
                 "Foo::doSomething(k_0);\n" +
+                "}", expr.toString());
+    }
+
+    @Test
+    public void isNormalizable() {
+        NewInstance newInstance = new NewInstance(new TypeName("Int"), Collections.singletonList(new IntLiteral(1)));
+        assertTrue(newInstance.isNormalizable());
+    }
+
+    @Test
+    public void testNormalizeTransform5() {
+        StaticApply staticApply = new StaticApply(
+                new TypeName("Console"),
+                new SimpleName("println"),
+                Collections.singletonList(
+                        new Apply(
+                                new NewInstance(
+                                        new TypeName("Int"),
+                                        Collections.singletonList(new IntLiteral(2))),
+                                new SimpleName("plus"),
+                                new NewInstance(
+                                        new TypeName("Int"),
+                                        Collections.singletonList(new IntLiteral(3))
+                                ))));
+        assertEquals("Console::println(Int.<init>(2).plus(Int.<init>(3)))", staticApply.toString());
+        Expression expr = this.normalizer.transform(staticApply);
+        assertEquals("{\n" +
+                "let k_0 = 2;\n" +
+                "let k_1 = Int.<init>(k_0);\n" +
+                "let k_2 = 3;\n" +
+                "let k_3 = Int.<init>(k_2);\n" +
+                "let k_4 = k_1.plus(k_3);\n" +
+                "Console::println(k_4);\n" +
                 "}", expr.toString());
     }
 

@@ -1,14 +1,15 @@
 package org.karaffe.compiler.frontend.karaffe.ast.expressions;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.stream.Collectors;
-
 import org.karaffe.compiler.base.pos.Position;
 import org.karaffe.compiler.frontend.karaffe.ast.api.AbstractExpression;
 import org.karaffe.compiler.frontend.karaffe.ast.api.Expression;
+import org.karaffe.compiler.frontend.karaffe.ast.api.NameRef;
 import org.karaffe.compiler.frontend.karaffe.ast.names.SimpleName;
 import org.karaffe.compiler.frontend.karaffe.ast.names.TypeName;
+
+import java.util.ArrayList;
+import java.util.List;
+import java.util.stream.Collectors;
 
 public class NewInstance extends AbstractExpression {
 
@@ -28,6 +29,11 @@ public class NewInstance extends AbstractExpression {
         super(position);
         this.typeName = typeName;
         this.args = new ArrayList<>(args);
+    }
+
+    @Override
+    public boolean isNormalizable() {
+        return this.args.stream().anyMatch(arg -> !arg.getExpressionType().equals(ExpressionType.NAME));
     }
 
     public TypeName getTypeName() {

@@ -1,5 +1,6 @@
 package org.karaffe.compiler.frontend.karaffe.transformer;
 
+import org.karaffe.compiler.base.generator.ConsecutiveNumberGenerator;
 import org.karaffe.compiler.frontend.karaffe.ast.api.Expression;
 import org.karaffe.compiler.frontend.karaffe.ast.api.NameRef;
 import org.karaffe.compiler.frontend.karaffe.ast.api.Statement;
@@ -7,14 +8,14 @@ import org.karaffe.compiler.frontend.karaffe.ast.expressions.Apply;
 import org.karaffe.compiler.frontend.karaffe.ast.expressions.Block;
 import org.karaffe.compiler.frontend.karaffe.ast.expressions.ExpressionName;
 import org.karaffe.compiler.frontend.karaffe.ast.expressions.ExpressionType;
+import org.karaffe.compiler.frontend.karaffe.ast.expressions.NewInstance;
 import org.karaffe.compiler.frontend.karaffe.ast.expressions.Return;
+import org.karaffe.compiler.frontend.karaffe.ast.expressions.StaticApply;
 import org.karaffe.compiler.frontend.karaffe.ast.names.SimpleName;
 import org.karaffe.compiler.frontend.karaffe.ast.names.TypeName;
 import org.karaffe.compiler.frontend.karaffe.ast.statements.LetDef;
 import org.karaffe.compiler.frontend.karaffe.ast.statements.LetFieldDef;
 import org.karaffe.compiler.frontend.karaffe.ast.statements.LetLocalDef;
-import org.karaffe.compiler.base.generator.ConsecutiveNumberGenerator;
-import org.karaffe.compiler.frontend.karaffe.transformer.AbstractTransformer;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -57,19 +58,19 @@ public class KNormalizer extends AbstractTransformer {
             return scope.flatten();
         }
         switch (expression.getExpressionType()) {
-        case APPLY: {
-            Expression transformed = transform((Apply) expression);
-            return transformed;
-        }
-        case BLOCK: {
-            Expression transformed = transform((Block) expression);
-            return transformed;
-        }
-        case INT_LITERAL:
-            scope.add(new LetLocalDef(new SimpleName(this.nameGen.generate()), expression));
-            return scope.flatten();
-        default:
-            return expression;
+            case APPLY:
+                return transform((Apply) expression);
+            case BLOCK:
+                return transform((Block) expression);
+            case INT_LITERAL:
+                scope.add(new LetLocalDef(new SimpleName(this.nameGen.generate()), expression));
+                return scope.flatten();
+            case STATIC_APPLY:
+                return transform((StaticApply) expression);
+            case NEW_INSTANCE:
+                return transform((NewInstance) expression);
+            default:
+                return expression;
         }
     }
 
@@ -83,6 +84,8 @@ public class KNormalizer extends AbstractTransformer {
         } else {
             Expression transformed = transform(originalExpr);
             scope.add(transformed);
+            System.out.println("");
+            System.out.println(transformed);
             expr = transformed.asExprName().orElseThrow(IllegalStateException::new);
         }
         SimpleName methodName = apply.getMethodName();
@@ -103,6 +106,35 @@ public class KNormalizer extends AbstractTransformer {
                 .collect(Collectors.toList());
         Apply ret = new Apply(apply.getPosition(), expr, methodName, argsNames);
         scope.add(new LetLocalDef(new SimpleName(this.nameGen.generate()), ret));
+        return scope.flatten();
+    }
+
+    @Override
+    public Expression transform(StaticApply staticApply) {
+        Block scope = new Block();
+        List<? extends Expression> args = staticApply.getArgs().stream().map(this::transform).collect(Collectors.toList());
+
+        if (staticApply.getArgs().size() != args.size()) {
+            throw new IllegalStateException();
+        }
+        args.forEach(scope::add);
+        List<ExpressionName> argNames = args.stream().map(NameRef::asExprName).filter(Optional::isPresent).map(Optional::get).collect(Collectors.toList());
+        StaticApply newStaticApply = new StaticApply(staticApply.getPosition(), staticApply.getTypeName(), staticApply.getMethodName(), argNames);
+        scope.add(newStaticApply);
+        return scope.flatten();
+    }
+
+    @Override
+    public Expression transform(NewInstance oldNewInstance) {
+        Block scope = new Block();
+        List<Expression> args = oldNewInstance.getArgs().stream().map(this::transform).collect(Collectors.toList());
+        if (oldNewInstance.getArgs().size() != args.size()) {
+            throw new IllegalStateException();
+        }
+        args.forEach(scope::add);
+        List<ExpressionName> argNames = args.stream().map(NameRef::asExprName).filter(Optional::isPresent).map(Optional::get).collect(Collectors.toList());
+        NewInstance newInstance = new NewInstance(oldNewInstance.getPosition(), oldNewInstance.getTypeName(), argNames);
+        scope.add(new LetLocalDef(new SimpleName(this.nameGen.generate()), newInstance));
         return scope.flatten();
     }
 
