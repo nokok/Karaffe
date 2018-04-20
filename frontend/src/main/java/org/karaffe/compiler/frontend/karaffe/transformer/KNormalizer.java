@@ -84,8 +84,6 @@ public class KNormalizer extends AbstractTransformer {
         } else {
             Expression transformed = transform(originalExpr);
             scope.add(transformed);
-            System.out.println("");
-            System.out.println(transformed);
             expr = transformed.asExprName().orElseThrow(IllegalStateException::new);
         }
         SimpleName methodName = apply.getMethodName();
