@@ -1,0 +1,5 @@
+Usage: krfc [source files]
+where possible options include:
+  --show-phases
+  --print-tree
+  --version

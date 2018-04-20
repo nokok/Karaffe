@@ -24,30 +24,43 @@ import java.util.Set;
 import java.util.stream.Collectors;
 
 public class KaraffeCompilerLauncher {
-    public static void main(String[] args) throws Exception {
-        new KaraffeCompilerLauncher().run(args);
+
+    private InputStream stdIn = System.in;
+    private PrintStream stdOut = System.out;
+    private PrintStream stdErr = System.err;
+
+    public KaraffeCompilerLauncher(InputStream stdIn, PrintStream stdOut, PrintStream stdErr) {
+        this.stdIn = stdIn;
+        this.stdOut = stdOut;
+        this.stdErr = stdErr;
     }
 
-    private final PrintStream stdOut = System.out;
-    private final PrintStream stdErr = System.err;
-    private final InputStream stdIn = System.in;
+    public KaraffeCompilerLauncher() {
 
+    }
 
-    private void run(String[] args) throws Exception {
+    public static void main(String[] args) throws Exception {
+        KaraffeCompilerLauncher launcher = new KaraffeCompilerLauncher();
+        launcher.run(args);
+    }
+
+    public void run(String[] args) throws Exception {
         if (args.length == 0) {
             stdErr.println(usage());
             return;
         }
 
         new LogLevelConfigurator(args).update();
+        new SystemPropertyConfigurator(args).updateSystemProperty();
+
         if (hasFlag("--version", args)) {
             stdOut.println("Karaffe Compiler v0.1.0");
-            stdOut.println();
-            stdOut.println(DiagnosticInfo.INSTANCE.toString());
             return;
         }
 
-        new SystemPropertyConfigurator(args).updateSystemProperty();
+        if (hasFlag("--diag", args)) {
+            stdOut.println(DiagnosticInfo.INSTANCE.toString());
+        }
 
         Set<AbstractTransformer> transformers = new TransformerBuilder().getTransformers();
         final boolean isShowPhases = hasFlag("--show-phases", args);
@@ -113,6 +126,7 @@ public class KaraffeCompilerLauncher {
         output.add("where possible options include:");
         output.add("  --show-phases");
         output.add("  --print-tree");
+        output.add("  --version");
         return String.join("\n", output);
     }
 }
