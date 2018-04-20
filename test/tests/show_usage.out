@@ -1,5 +1,11 @@
 Usage: krfc [source files]
 where possible options include:
+  -Dkey=value
+  --diag
+  --log:<loglevel>
+  --info
+  --debug
+  --trace
   --show-phases
   --print-tree
   --version

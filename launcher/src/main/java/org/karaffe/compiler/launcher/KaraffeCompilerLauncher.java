@@ -124,6 +124,12 @@ public class KaraffeCompilerLauncher {
         List<String> output = new ArrayList<>();
         output.add("Usage: krfc [source files]");
         output.add("where possible options include:");
+        output.add("  -Dkey=value");
+        output.add("  --diag");
+        output.add("  --log:<loglevel>");
+        output.add("  --info");
+        output.add("  --debug");
+        output.add("  --trace");
         output.add("  --show-phases");
         output.add("  --print-tree");
         output.add("  --version");
