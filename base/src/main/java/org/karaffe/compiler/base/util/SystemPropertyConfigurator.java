@@ -1,5 +1,8 @@
 package org.karaffe.compiler.base.util;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.HashMap;
@@ -8,6 +11,8 @@ import java.util.stream.Stream;
 
 public class SystemPropertyConfigurator {
 
+    private final Logger logger = LoggerFactory.getLogger(SystemPropertyConfigurator.class);
+
     private final Map<String, String> configureMap;
 
     public SystemPropertyConfigurator(String[] args) {
@@ -15,6 +20,8 @@ public class SystemPropertyConfigurator {
     }
 
     private Map<String, String> buildConfigureMap(String[] args) {
+        logger.debug("buildConfigureMap");
+        logger.debug(Arrays.toString(args));
         Map<String, String> map = new HashMap<>();
         Stream.of(args).filter(f -> f.startsWith("-D")).forEach(arg -> {
             String[] prop = arg.split("=");
@@ -32,6 +39,7 @@ public class SystemPropertyConfigurator {
                 map.put(key, valueBuilder.toString());
             }
         });
+        logger.debug(map.toString());
         return map;
     }
 
