@@ -41,6 +41,7 @@ project(':launcher') {
 project(':test') {
   dependencies {
     compile project(':backend')
+    compile project(':launcher')
     compile project(':base')
     compile project(':corelib')
     compile project(':frontend')
