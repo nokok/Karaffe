@@ -4,11 +4,14 @@ import org.junit.Test;
 import org.karaffe.compiler.launcher.KaraffeCompilerLauncher;
 
 import java.io.File;
+import java.io.IOException;
 import java.io.PrintStream;
+import java.io.UncheckedIOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.List;
+import java.util.function.BiFunction;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 import java.util.stream.Collectors;
@@ -18,67 +21,64 @@ import static org.junit.Assert.fail;
 
 public class CompilerIOTest {
 
-    @Test
-    public void runTestCase() throws Exception {
-        Path tmpDirPath = Paths.get(System.getProperty("java.io.tmpdir"), String.valueOf(System.currentTimeMillis()));
+    private StringBuilder errorMsgBuilder = new StringBuilder();
+    private Path tmpDirPath;
+    private PrintStream defaultStdOut = System.out;
+    private PrintStream defaultStdErr = System.err;
+
+    private Path setUpTmpDestDir() throws IOException {
+        tmpDirPath = Paths.get(System.getProperty("java.io.tmpdir"), String.valueOf(System.currentTimeMillis()));
         Files.createDirectory(tmpDirPath);
         System.out.println("Working Directory: " + tmpDirPath.toAbsolutePath());
+        return tmpDirPath;
+    }
 
-        Path testDirectory = Paths.get("tests");
+    private List<Path> listTestCases(String dirName, String... after) throws IOException {
+        return listTestCasesWithExtension(".case", dirName, after);
+    }
+
+    private List<Path> listTestCasesWithExtension(String extension, String dirName, String... after) throws IOException {
+        Path testDirectory = Paths.get(dirName, after);
         System.out.println("Search Path: " + testDirectory.toAbsolutePath());
-        List<Path> testCases = Files.list(testDirectory).filter(p -> p.getFileName().toString().endsWith(".case")).collect(Collectors.toList());
+        List<Path> testCases = Files.list(testDirectory).filter(p -> p.getFileName().toString().endsWith(extension)).collect(Collectors.toList());
         System.out.println("TestCases: " + testCases);
+        return testCases;
+    }
 
-        PrintStream defaultStdOut = System.out;
-        PrintStream defaultStdErr = System.err;
-        StringBuilder errorMsgBuilder = new StringBuilder();
+    private String[] makeArguments(Path testCaseFile) throws IOException {
+        String inputLine = new String(Files.readAllBytes(testCaseFile));
+        return Stream.of(inputLine.split(","))
+                .filter(arg -> arg.trim().replace("\n", "").length() != 0)
+                .map(arg -> arg.replace("\n", ""))
+                .toArray(String[]::new);
+    }
+
+    private File createTestCaseOutFile(Path parentDir, String name) {
+        return new File(parentDir.toFile(), name + ".out");
+    }
+
+    private int runStandardTests(List<Path> testCases) throws Exception {
         int failed = 0;
-        for (Path testCaseFile : testCases) {
-            String inputLine = new String(Files.readAllBytes(testCaseFile));
-            String[] args = Stream.of(inputLine.split(","))
-                    .filter(arg -> arg.trim().replace("\n", "").length() != 0)
-                    .map(arg -> arg.replace("\n", ""))
-                    .toArray(String[]::new);
-            File file = new File(tmpDirPath.toFile(), testCaseFile.getFileName().toString() + ".out");
+        for (Path testCase : testCases) {
+            String[] args = makeArguments(testCase);
+            File destFile = createTestCaseOutFile(tmpDirPath, testCase.getFileName().toString());
 
-            try (PrintStream output = new PrintStream(file)) {
+            try (PrintStream output = new PrintStream(destFile)) {
                 KaraffeCompilerLauncher launcher = new KaraffeCompilerLauncher(System.in, output, output);
                 launcher.run(args);
-                List<String> actualOutputLines = Files.readAllLines(file.toPath());
-                String outputTestFileName = testCaseFile.getFileName().toString().replace(".case", ".out");
+                List<String> actualOutputLines = Files.readAllLines(destFile.toPath());
+                String outputTestFileName = testCase.getFileName().toString().replace(".case", ".out");
                 List<String> expectedOutputLines = Files.readAllLines(Paths.get("tests", outputTestFileName));
 
-                boolean allLineMatched = true;
-                if (expectedOutputLines.size() == actualOutputLines.size()) {
-                    for (int i = 0; i < expectedOutputLines.size(); i++) {
-                        String expectedLine = expectedOutputLines.get(i);
-                        String actualLine = actualOutputLines.get(i);
-                        boolean lineMatched;
-                        if (expectedLine.startsWith("#REGEX ")) {
-                            Pattern pattern = Pattern.compile(expectedLine.replace("#REGEX ", ""));
-                            Matcher matcher = pattern.matcher(actualLine);
-                            boolean findSuccess = matcher.find();
-                            boolean matched = matcher.replaceAll("").equals("");
-                            lineMatched = findSuccess && matched;
-                        } else {
-                            lineMatched = expectedLine.equals(actualLine);
-                        }
-                        if (!lineMatched) {
-                            allLineMatched = false;
-                        }
-                    }
-                } else {
-                    defaultStdOut.printf("Line count comparison failed. expected %s ,actual %s%n", expectedOutputLines.size(), actualOutputLines.size());
-                    allLineMatched = false;
-                }
+                boolean allLineMatched = isAllLineMatched(actualOutputLines, expectedOutputLines);
                 if (allLineMatched) {
-                    defaultStdOut.println("Passed : " + testCaseFile.getFileName().toString());
+                    printPassed(testCase);
                 } else {
+                    printFailed(testCase);
                     String expectedOutputs = String.join("\n", expectedOutputLines);
                     String actualOutputs = String.join("\n", actualOutputLines);
-                    defaultStdErr.println("Failed : " + testCaseFile.getFileName().toString());
                     errorMsgBuilder.append("Command: krfc ").append(String.join(" ", args)).append(System.lineSeparator());
-                    errorMsgBuilder.append("Failed: ").append(file.getAbsolutePath()).append(System.lineSeparator());
+                    errorMsgBuilder.append("Failed: ").append(destFile.getAbsolutePath()).append(System.lineSeparator());
                     errorMsgBuilder.append("===Expected===").append(System.lineSeparator());
                     errorMsgBuilder.append(expectedOutputs).append(System.lineSeparator());
                     errorMsgBuilder.append("====Actual====").append(System.lineSeparator());
@@ -87,6 +87,112 @@ public class CompilerIOTest {
                 }
             }
         }
+        return failed;
+    }
+
+    private void printPassed(Path caseName) {
+        defaultStdOut.println("Passed : " + caseName.getFileName().toString());
+    }
+
+    private void printFailed(Path caseName) {
+        defaultStdErr.println("Failed : " + caseName.getFileName().toString());
+    }
+
+    private int runTestCase(Path testCase, BiFunction<List<String>, File, Boolean> onComplete) throws Exception {
+        File destFile = createTestCaseOutFile(tmpDirPath, testCase.getFileName().toString());
+        try (PrintStream output = new PrintStream(destFile)) {
+            KaraffeCompilerLauncher launcher = new KaraffeCompilerLauncher(System.in, output, output);
+            launcher.run(new String[]{testCase.toString()});
+            List<String> actualOutputLines = Files.readAllLines(destFile.toPath());
+            return onComplete.apply(actualOutputLines, destFile) ? 0 : 1;
+        }
+    }
+
+    private int runPositiveTests(List<Path> testCases) throws Exception {
+        int failed = 0;
+        for (Path testCase : testCases) {
+            failed += runTestCase(testCase, (actualLines, destFile) -> {
+                if (actualLines.isEmpty()) {
+                    printPassed(testCase);
+                    return true;
+                } else {
+                    printFailed(testCase);
+                    String actualOutputs = String.join("\n", actualLines);
+                    errorMsgBuilder.append("Command: krfc ").append(testCase.toAbsolutePath().toString()).append(System.lineSeparator());
+                    errorMsgBuilder.append("Failed: ").append(destFile.getAbsolutePath()).append(System.lineSeparator());
+                    errorMsgBuilder.append("====Actual====").append(System.lineSeparator());
+                    errorMsgBuilder.append(actualOutputs).append(System.lineSeparator());
+                    return false;
+                }
+            });
+        }
+        return failed;
+    }
+
+    private int runNegativeTests(List<Path> testCases) throws Exception {
+        int failed = 0;
+        for (Path testCase : testCases) {
+            failed += runTestCase(testCase, (actualLines, destFile) -> {
+                List<String> expectedOutputLines = readAllLines(Paths.get("tests", "test_resources", "neg", testCase.getFileName().toString().replace(".krf", ".out")));
+
+                boolean allLineMatched = isAllLineMatched(actualLines, expectedOutputLines);
+                if (allLineMatched) {
+                    printPassed(testCase);
+                    return true;
+                } else {
+                    printFailed(testCase);
+                    String expectedOutputs = String.join("\n", expectedOutputLines);
+                    String actualOutputs = String.join("\n", actualLines);
+                    errorMsgBuilder.append("Command: krfc ").append(testCase.getFileName()).append(System.lineSeparator());
+                    errorMsgBuilder.append("Failed: ").append(destFile.getAbsolutePath()).append(System.lineSeparator());
+                    errorMsgBuilder.append("===Expected===").append(System.lineSeparator());
+                    errorMsgBuilder.append(expectedOutputs).append(System.lineSeparator());
+                    errorMsgBuilder.append("====Actual====").append(System.lineSeparator());
+                    errorMsgBuilder.append(actualOutputs).append(System.lineSeparator());
+                    return false;
+                }
+            });
+        }
+        return failed;
+    }
+
+    private boolean isAllLineMatched(List<String> actualLines, List<String> expectedOutputLines) {
+        if (expectedOutputLines.size() == actualLines.size()) {
+            for (int i = 0; i < expectedOutputLines.size(); i++) {
+                String expectedLine = expectedOutputLines.get(i);
+                String actualLine = actualLines.get(i);
+                boolean lineMatched;
+                if (expectedLine.startsWith("#REGEX ")) {
+                    Pattern pattern = Pattern.compile(expectedLine.replace("#REGEX ", ""));
+                    Matcher matcher = pattern.matcher(actualLine);
+                    boolean findSuccess = matcher.find();
+                    boolean matched = matcher.replaceAll("").equals("");
+                    lineMatched = findSuccess && matched;
+                } else {
+                    lineMatched = expectedLine.equals(actualLine);
+                }
+                if (!lineMatched) {
+                    return false;
+                }
+            }
+            return true;
+        } else {
+            defaultStdOut.printf("Line count comparison failed. expected %s ,actual %s%n", expectedOutputLines.size(), actualLines.size());
+            return false;
+        }
+    }
+
+    @Test
+    public void runTestCase() throws Exception {
+        Path tmpDirPath = setUpTmpDestDir();
+
+        PrintStream defaultStdOut = System.out;
+        PrintStream defaultStdErr = System.err;
+
+        int failed = runStandardTests(listTestCases("tests"));
+        failed += runPositiveTests(listTestCasesWithExtension(".krf", "tests", "test_resources", "pos"));
+        failed += runNegativeTests(listTestCasesWithExtension(".krf", "tests", "test_resources", "neg"));
+
         if (failed > 0) {
             defaultStdErr.println();
             defaultStdErr.println("====Failure Report====");
@@ -106,4 +212,15 @@ public class CompilerIOTest {
             defaultStdOut.println("Cleanup completed.");
         }
     }
+
+    private List<String> readAllLines(Path path) {
+        try {
+            return Files.readAllLines(path);
+        } catch (IOException e) {
+            throw new UncheckedIOException(e);
+        }
+
+    }
+
+
 }
