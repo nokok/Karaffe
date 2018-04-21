@@ -23,15 +23,15 @@ public class DefaultImportTransformer extends AbstractTransformer {
     public DefaultImportTransformer() {
         super("default-imports");
         this.defaultImports = new ArrayList<>();
-        this.defaultImports.add(new OnDemandImport(new PackageName("java", "lang")));
-        this.defaultImports.add(new OnDemandImport(new PackageName("java", "io")));
-        this.defaultImports.add(new OnDemandImport(new PackageName("java", "net")));
-        this.defaultImports.add(new OnDemandImport(new PackageName("java", "util")));
-        this.defaultImports.add(new OnDemandImport(new PackageName("java", "time")));
-        this.defaultImports.add(new OnDemandImport(new PackageName("java", "time", "chrono")));
-        this.defaultImports.add(new SimpleImport(new FullyQualifiedTypeName("java", "time", "LocalDateTime")));
-        this.defaultImports.add(new SimpleImport(new FullyQualifiedTypeName("java", "time", "chrono", "JapaneseEra")));
-        this.defaultImports.add(new OnDemandImport(new PackageName("karaffe", "core")));
+//        this.defaultImports.add(new OnDemandImport(new PackageName("java", "lang")));
+//        this.defaultImports.add(new OnDemandImport(new PackageName("java", "io")));
+//        this.defaultImports.add(new OnDemandImport(new PackageName("java", "net")));
+//        this.defaultImports.add(new OnDemandImport(new PackageName("java", "util")));
+//        this.defaultImports.add(new OnDemandImport(new PackageName("java", "time")));
+//        this.defaultImports.add(new OnDemandImport(new PackageName("java", "time", "chrono")));
+//        this.defaultImports.add(new SimpleImport(new FullyQualifiedTypeName("java", "time", "LocalDateTime")));
+//        this.defaultImports.add(new SimpleImport(new FullyQualifiedTypeName("java", "time", "chrono", "JapaneseEra")));
+//        this.defaultImports.add(new OnDemandImport(new PackageName("karaffe", "core")));
         this.defaultImports.add(new SimpleImport(new FullyQualifiedTypeName("java", "lang", "Object")));
         this.defaultImports.add(new SimpleImport(new FullyQualifiedTypeName("karaffe","core", "Console")));
         this.defaultImports.add(new SimpleImport(new FullyQualifiedTypeName("karaffe","core", "Int")));

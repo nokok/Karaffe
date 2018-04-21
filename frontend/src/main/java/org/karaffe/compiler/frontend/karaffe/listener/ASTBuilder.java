@@ -43,6 +43,8 @@ public class ASTBuilder extends KaraffeBaseListener implements ANTLRErrorListene
 
     private final Stack<Statement> stack = new Stack<>();
 
+    private String currentSourceName = "";
+
     public ASTBuilder() {
         this.compilationUnit = new CompilationUnit();
         ClassDef mainClass = new ClassDef(new SimpleName("Main"), new TypeName("Object"));
