@@ -2,7 +2,6 @@ package org.karaffe.compiler.launcher;
 
 import ch.qos.logback.classic.Level;
 import ch.qos.logback.classic.Logger;
-import karaffe.core.Console;
 import org.antlr.v4.runtime.ANTLRFileStream;
 import org.antlr.v4.runtime.CommonTokenStream;
 import org.karaffe.compiler.base.util.DiagnosticInfo;
@@ -115,6 +114,7 @@ public class KaraffeCompilerLauncher {
         for (File file : files) {
             try {
                 String fileName = file.getAbsolutePath();
+                astBuilder.enterSourceFile(fileName);
                 KaraffeLexer lexer = new KaraffeLexer(new ANTLRFileStream(fileName));
                 lexer.removeErrorListeners();
                 lexer.addErrorListener(astBuilder);
@@ -126,6 +126,7 @@ public class KaraffeCompilerLauncher {
                 KaraffeParser.CompilationUnitContext context = parser.compilationUnit();
                 contexts.put(fileName, context);
 
+                astBuilder.exitSourceFile();
                 if (astBuilder.hasError()) {
                     return;
                 }

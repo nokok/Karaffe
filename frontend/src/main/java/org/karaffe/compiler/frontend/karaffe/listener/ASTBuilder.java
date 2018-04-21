@@ -67,6 +67,14 @@ public class ASTBuilder extends KaraffeBaseListener implements ANTLRErrorListene
         return hasError;
     }
 
+    public void enterSourceFile(String sourceFileName) {
+        this.currentSourceName = sourceFileName;
+    }
+
+    public void exitSourceFile() {
+        this.currentSourceName = "";
+    }
+
     @Override
     public void exitPrintExpr(KaraffeParser.PrintExprContext ctx) {
         Expression expr = (Expression) stack.pop();
