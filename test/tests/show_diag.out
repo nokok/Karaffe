@@ -1,0 +1,9 @@
+#REGEX KARAFFE_HOME :.*$
+#REGEX JAVA_HOME    :.*$
+#REGEX Java Version :.*$
+#REGEX Vendor       :.*$
+#REGEX VMSpec       :.*$
+#REGEX OSName       :.*$
+#REGEX OSArch       :.*$
+#REGEX OSVersion    :.*$
+#REGEX Encoding     :.*$
