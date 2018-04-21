@@ -12,6 +12,7 @@ public class TransformerBuilder {
     private static final AbstractTransformer contextCreator = new CreateTransformContext();
     private static final AbstractTransformer defaultImport = new DefaultImportTransformer();
     private static final AbstractTransformer nameResolver = new NameResolver();
+    private static final AbstractTransformer cleanUp = new CleanupTransformer();
     private static final AbstractTransformer typeInfer = new TypeInferer();
     private static final AbstractTransformer typeChecker = new TypeChecker();
     private static final AbstractTransformer opNameRemap = new OperatorNameRemapper();
@@ -23,7 +24,8 @@ public class TransformerBuilder {
         this.dependencyMap.put(contextCreator, Collections.emptySet());
         this.dependencyMap.put(defaultImport, Collections.singleton(contextCreator));
         this.dependencyMap.put(nameResolver, Collections.singleton(defaultImport));
-        this.dependencyMap.put(typeInfer, Collections.singleton(nameResolver));
+        this.dependencyMap.put(cleanUp, Collections.singleton(nameResolver));
+        this.dependencyMap.put(typeInfer, Collections.singleton(cleanUp));
         this.dependencyMap.put(typeChecker, Collections.singleton(typeInfer));
         this.dependencyMap.put(opNameRemap, Collections.singleton(typeChecker));
         this.dependencyMap.put(kNormal, Collections.singleton(opNameRemap));
