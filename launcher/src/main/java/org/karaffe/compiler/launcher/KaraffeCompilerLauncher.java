@@ -78,7 +78,7 @@ public class KaraffeCompilerLauncher {
                 .collect(Collectors.toList());
 
         if (!unrecognizedArguments.isEmpty()) {
-            stdErr.println("Unrecognized option: " + unrecognizedArguments);
+            stdErr.println("Source file " + unrecognizedArguments + " could not be found");
             usage(cmdLineParser);
             return;
         }
