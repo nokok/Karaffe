@@ -1,4 +1,4 @@
-package org.karaffe.compiler.base.util;
+package org.karaffe.compiler.launcher.config;
 
 
 import ch.qos.logback.classic.Level;
@@ -8,7 +8,7 @@ import org.slf4j.LoggerFactory;
 import java.util.Optional;
 import java.util.stream.Stream;
 
-public class LogLevelConfigurator {
+public class LogLevelConfigurator implements Configurator{
 
     private final String[] args;
 
@@ -16,6 +16,7 @@ public class LogLevelConfigurator {
         this.args = args;
     }
 
+    @Override
     public void update() {
         Optional<String> logLevelConfig = Stream.of(args).filter(arg -> arg.startsWith("--log:")).findFirst();
         Level logLevel = logLevelConfig

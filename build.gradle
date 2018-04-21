@@ -69,6 +69,12 @@ project(':base') {
 project(':corelib') {
 }
 
+project(':launcher') {
+  dependencies {
+    compile group: 'args4j', name: 'args4j', version: '2.33'
+  }
+}
+
 project(':frontend') {
   apply plugin: 'antlr'
   dependencies {

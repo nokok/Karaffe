@@ -1,4 +1,4 @@
-package org.karaffe.compiler.base.util;
+package org.karaffe.compiler.launcher.config;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -9,7 +9,7 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.stream.Stream;
 
-public class SystemPropertyConfigurator {
+public class SystemPropertyConfigurator implements Configurator{
 
     private final Logger logger = LoggerFactory.getLogger(SystemPropertyConfigurator.class);
 
@@ -43,7 +43,8 @@ public class SystemPropertyConfigurator {
         return map;
     }
 
-    public void updateSystemProperty() {
+    @Override
+    public void update() {
         this.configureMap.entrySet().stream().forEach(entry -> System.setProperty(entry.getKey(), entry.getValue()));
     }
 

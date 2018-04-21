@@ -1,7 +1,7 @@
 package ut;
 
 import org.junit.Test;
-import org.karaffe.compiler.base.util.SystemPropertyConfigurator;
+import org.karaffe.compiler.launcher.config.SystemPropertyConfigurator;
 
 import java.util.Map;
 
@@ -28,7 +28,7 @@ public class SystemPropertyConfiguratorTest {
 
         assertNull(System.getProperty("foo"));
 
-        configurator.updateSystemProperty();
+        configurator.update();
 
         assertEquals("bar=baz", System.getProperty("foo"));
     }
