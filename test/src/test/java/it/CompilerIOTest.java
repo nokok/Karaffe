@@ -10,6 +10,8 @@ import java.io.UncheckedIOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
+import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import java.util.function.BiFunction;
 import java.util.regex.Matcher;
@@ -61,31 +63,24 @@ public class CompilerIOTest {
         int failed = 0;
         for (Path testCase : testCases) {
             String[] args = makeArguments(testCase);
-            File destFile = createTestCaseOutFile(tmpDirPath, testCase.getFileName().toString());
-
-            try (PrintStream output = new PrintStream(destFile)) {
-                KaraffeCompilerLauncher launcher = new KaraffeCompilerLauncher(System.in, output, output);
-                launcher.run(args);
-                List<String> actualOutputLines = Files.readAllLines(destFile.toPath());
-                String outputTestFileName = testCase.getFileName().toString().replace(".case", ".out");
-                List<String> expectedOutputLines = Files.readAllLines(Paths.get("tests", outputTestFileName));
-
-                boolean allLineMatched = isAllLineMatched(actualOutputLines, expectedOutputLines);
-                if (allLineMatched) {
+            failed += runTestCaseWithOption(args, testCase, (actualLines, destFile) -> {
+                List<String> expectedOutputLines = readAllLines(Paths.get("tests", testCase.getFileName().toString().replace(".case", ".out")));
+                if (isAllLineMatched(actualLines, expectedOutputLines)) {
                     printPassed(testCase);
+                    return true;
                 } else {
                     printFailed(testCase);
                     String expectedOutputs = String.join("\n", expectedOutputLines);
-                    String actualOutputs = String.join("\n", actualOutputLines);
+                    String actualOutputs = String.join("\n", actualLines);
                     errorMsgBuilder.append("Command: krfc ").append(String.join(" ", args)).append(System.lineSeparator());
                     errorMsgBuilder.append("Failed: ").append(destFile.getAbsolutePath()).append(System.lineSeparator());
                     errorMsgBuilder.append("===Expected===").append(System.lineSeparator());
                     errorMsgBuilder.append(expectedOutputs).append(System.lineSeparator());
                     errorMsgBuilder.append("====Actual====").append(System.lineSeparator());
                     errorMsgBuilder.append(actualOutputs).append(System.lineSeparator());
-                    failed++;
+                    return false;
                 }
-            }
+            });
         }
         return failed;
     }
@@ -99,10 +94,20 @@ public class CompilerIOTest {
     }
 
     private int runTestCase(Path testCase, BiFunction<List<String>, File, Boolean> onComplete) throws Exception {
+        return runTestCaseWithOption(new String[]{}, testCase, onComplete);
+    }
+
+    private int runTestCaseWithOption(String[] args, Path testCase, BiFunction<List<String>, File, Boolean> onComplete) throws Exception {
         File destFile = createTestCaseOutFile(tmpDirPath, testCase.getFileName().toString());
+        List<String> argsL = new ArrayList<>(Arrays.asList(args));
+        if (!testCase.toString().endsWith(".case")) {
+            argsL.add(testCase.toString());
+        }
+
         try (PrintStream output = new PrintStream(destFile)) {
             KaraffeCompilerLauncher launcher = new KaraffeCompilerLauncher(System.in, output, output);
-            launcher.run(new String[]{testCase.toString()});
+            defaultStdOut.println("Running...: krfc " + String.join(" ", argsL));
+            launcher.run(argsL.toArray(new String[]{}));
             List<String> actualOutputLines = Files.readAllLines(destFile.toPath());
             return onComplete.apply(actualOutputLines, destFile) ? 0 : 1;
         }
