@@ -1,18 +1,18 @@
 package org.karaffe.compiler.frontend.karaffe.ast.api;
 
-import java.util.List;
-
 import org.karaffe.compiler.frontend.karaffe.ast.names.SimpleName;
 import org.karaffe.compiler.frontend.karaffe.ast.names.TypeName;
+
+import java.util.List;
 
 @Deprecated
 public interface TypeDefStatement extends Statement {
 
-    public SimpleName getName();
+    SimpleName getName();
 
-    public TypeName getSuperClassName();
+    TypeName getSuperClassName();
 
-    public List<? extends TypeName> getInterfaceNames();
+    List<? extends TypeName> getInterfaceNames();
 
-    public List<? extends TypeDefMember> getBody();
+    List<? extends TypeDefMember> getBody();
 }

@@ -5,7 +5,7 @@ import org.karaffe.compiler.frontend.karaffe.ast.expressions.Block;
 
 public interface ASTVisitor {
 
-    public void visit(Apply n);
+    void visit(Apply n);
 
-    public void visit(Block block);
+    void visit(Block block);
 }

@@ -6,7 +6,7 @@ import org.karaffe.compiler.frontend.karaffe.ast.expressions.ExpressionName;
 
 public interface NameRef {
 
-    public default Optional<ExpressionName> asExprName() {
+    default Optional<ExpressionName> asExprName() {
         return Optional.empty();
     }
 }
