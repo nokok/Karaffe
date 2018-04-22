@@ -94,12 +94,7 @@ public abstract class LetDef extends AbstractTree implements Statement, NameRef 
 
     @Override
     public String toString() {
-        String typeNameString;
-        if (this.hasInferState()) {
-            typeNameString = this.getInferState().toString();
-        } else {
-            typeNameString = Optional.ofNullable(this.typeName).map(TypeName::toString).orElse("");
-        }
+        String typeNameString = Optional.ofNullable(this.typeName).map(TypeName::toString).orElse("");
         return String.format("let %s%s%s",
                 this.name,
                 typeNameString.isEmpty() ? "" : " : " + typeNameString,

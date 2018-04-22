@@ -5,9 +5,8 @@ import java.util.Objects;
 import org.karaffe.compiler.base.pos.Position;
 import org.karaffe.compiler.base.types.state.InferState;
 
-public abstract class AbstractTree implements Tree, TreePosition, Typed, InferStateStore {
-    private final Position treePosition;
-    private InferState inferState;
+public abstract class AbstractTree implements Tree, TreePosition {
+    private Position treePosition;
 
     public AbstractTree() {
         this(Position.noPos());
@@ -23,21 +22,8 @@ public abstract class AbstractTree implements Tree, TreePosition, Typed, InferSt
     }
 
     @Override
-    public boolean hasInferState() {
-        return this.inferState != null;
-    }
-
-    @Override
-    public InferState getInferState() {
-        if (!this.hasInferState()) {
-            throw new IllegalStateException();
-        }
-        return this.inferState;
-    }
-
-    @Override
-    public void setInferState(InferState inferState) {
-        this.inferState = Objects.requireNonNull(inferState);
+    public void resetPosition(Position position) {
+        this.treePosition = position;
     }
 
 }

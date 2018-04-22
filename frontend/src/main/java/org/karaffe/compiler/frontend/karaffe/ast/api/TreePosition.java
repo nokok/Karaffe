@@ -4,4 +4,6 @@ import org.karaffe.compiler.base.pos.Position;
 
 public interface TreePosition {
     public Position getPosition();
+
+    public void resetPosition(Position position);
 }
