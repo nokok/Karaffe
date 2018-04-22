@@ -5,10 +5,8 @@ import java.util.List;
 import org.karaffe.compiler.frontend.karaffe.ast.names.SimpleName;
 import org.karaffe.compiler.frontend.karaffe.ast.names.TypeName;
 
+@Deprecated
 public interface TypeDefStatement extends Statement {
-    public boolean isInterfaceDecl();
-
-    public boolean isClassDecl();
 
     public SimpleName getName();
 

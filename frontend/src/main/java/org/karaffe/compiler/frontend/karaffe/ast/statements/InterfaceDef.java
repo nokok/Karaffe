@@ -45,16 +45,6 @@ public class InterfaceDef extends AbstractTypeDefStatement {
     }
 
     @Override
-    public boolean isInterfaceDecl() {
-        return true;
-    }
-
-    @Override
-    public boolean isClassDecl() {
-        return false;
-    }
-
-    @Override
     public String toString() {
         return String.format("interface %s%s {\n"
                 + "%s\n"

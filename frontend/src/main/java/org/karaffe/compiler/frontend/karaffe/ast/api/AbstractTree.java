@@ -6,7 +6,7 @@ import org.karaffe.compiler.base.pos.Position;
 import org.karaffe.compiler.base.types.state.InferState;
 
 public abstract class AbstractTree implements Tree, TreePosition {
-    private Position treePosition;
+    private Position treePosition = Position.noPos();
 
     public AbstractTree() {
         this(Position.noPos());

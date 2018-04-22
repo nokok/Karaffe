@@ -6,14 +6,15 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 import org.karaffe.compiler.base.pos.Position;
+import org.karaffe.compiler.frontend.karaffe.ast.api.ASTVisitor;
 import org.karaffe.compiler.frontend.karaffe.ast.api.AbstractExpression;
 import org.karaffe.compiler.frontend.karaffe.ast.api.Expression;
 import org.karaffe.compiler.frontend.karaffe.ast.names.SimpleName;
 
 public class Apply extends AbstractExpression {
-    private final Expression expression;
-    private final SimpleName methodName;
-    private final List<? extends Expression> args;
+    private Expression expression;
+    private SimpleName methodName;
+    private List<? extends Expression> args;
 
     public Apply(SimpleName methodName, Expression... args) {
         this(new This(), methodName, args);
@@ -78,4 +79,8 @@ public class Apply extends AbstractExpression {
         return isExprNormalizable || isArgsNormalizable;
     }
 
+    @Override
+    public void accept(ASTVisitor visitor) {
+        visitor.visit(this);
+    }
 }

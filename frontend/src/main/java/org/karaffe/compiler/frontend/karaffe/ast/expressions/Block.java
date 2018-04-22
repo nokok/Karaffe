@@ -7,6 +7,7 @@ import java.util.Objects;
 import java.util.Optional;
 
 import org.karaffe.compiler.base.pos.Position;
+import org.karaffe.compiler.frontend.karaffe.ast.api.ASTVisitor;
 import org.karaffe.compiler.frontend.karaffe.ast.api.AbstractExpression;
 import org.karaffe.compiler.frontend.karaffe.ast.api.Expression;
 import org.karaffe.compiler.frontend.karaffe.ast.api.Statement;
@@ -16,7 +17,7 @@ import org.karaffe.compiler.frontend.karaffe.ast.statements.LetLocalDef;
 
 public class Block extends AbstractExpression {
 
-    private final List<Statement> body;
+    private List<Statement> body;
 
     public Block() {
         this(Position.noPos());
@@ -40,6 +41,10 @@ public class Block extends AbstractExpression {
         this.body = new ArrayList<>(body);
     }
 
+    public void replaceBody(List<Statement> body) {
+        this.body = body;
+    }
+
     public void add(Statement tree) {
         this.body.add(Objects.requireNonNull(tree));
     }
@@ -55,7 +60,12 @@ public class Block extends AbstractExpression {
 
     @Override
     public boolean isNormalizable() {
-        return this.body.stream().filter(Tree::isNormalizable).findAny().isPresent();
+        return this.body.stream().anyMatch(Tree::isNormalizable);
+    }
+
+    @Override
+    public void accept(ASTVisitor visitor) {
+        visitor.visit(this);
     }
 
     public boolean hasNestedBlock() {
@@ -64,7 +74,7 @@ public class Block extends AbstractExpression {
                 .stream()
                 .filter(t -> t.getStatementType().equals(StatementType.EXPRESSION))
                 .map(Expression.class::cast)
-                .filter(e -> e.getExpressionType().equals(ExpressionType.BLOCK)).findAny().isPresent();
+                .anyMatch(e -> e.getExpressionType().equals(ExpressionType.BLOCK));
     }
 
     public Block flatten() {
@@ -91,25 +101,25 @@ public class Block extends AbstractExpression {
         }
         Statement lastStatement = this.getBody().get(this.getBody().size() - 1);
         switch (lastStatement.getStatementType()) {
-        case LOCAL_LET_DEF:
-            LetLocalDef def = (LetLocalDef) lastStatement;
-            return Optional.of(new ExpressionName(def.getName().toString()));
-        case EXPRESSION: {
-            Expression expr = (Expression) lastStatement;
-            switch (expr.getExpressionType()) {
-            case RETURN: {
-                Return ret = (Return) expr;
-                if (ret.getExpr().getExpressionType().equals(ExpressionType.NAME)) {
-                    return Optional.ofNullable((ExpressionName) ret.getExpr());
+            case LOCAL_LET_DEF:
+                LetLocalDef def = (LetLocalDef) lastStatement;
+                return Optional.of(new ExpressionName(def.getName().toString()));
+            case EXPRESSION: {
+                Expression expr = (Expression) lastStatement;
+                switch (expr.getExpressionType()) {
+                    case RETURN: {
+                        Return ret = (Return) expr;
+                        if (ret.getExpr().getExpressionType().equals(ExpressionType.NAME)) {
+                            return Optional.ofNullable((ExpressionName) ret.getExpr());
+                        }
+                        return Optional.empty();
+                    }
+                    default:
+                        return Optional.empty();
                 }
-                return Optional.empty();
             }
             default:
                 return Optional.empty();
-            }
-        }
-        default:
-            return Optional.empty();
         }
     }
 

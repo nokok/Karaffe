@@ -21,13 +21,6 @@ public abstract class AbstractTypeDefStatement extends AbstractTree implements T
         this(Position.noPos(), typeName, superClassName);
     }
 
-    public AbstractTypeDefStatement(SimpleName typeName, TypeName superClassName, List<? extends TypeName> interfaces) {
-        this.typeName = Objects.requireNonNull(typeName);
-        this.superClassName = Objects.requireNonNull(superClassName);
-        this.interfaces = new ArrayList<>(interfaces);
-        this.members = new ArrayList<>();
-    }
-
     public AbstractTypeDefStatement(SimpleName typeName, TypeName superClassName, List<? extends TypeName> interfaces, List<? extends TypeDefMember> members) {
         this.typeName = Objects.requireNonNull(typeName);
         this.superClassName = Objects.requireNonNull(superClassName);

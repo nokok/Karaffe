@@ -17,4 +17,5 @@ public interface Tree {
         return !this.isNormalizable();
     }
 
+    public void accept(ASTVisitor visitor);
 }
