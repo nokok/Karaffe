@@ -35,6 +35,7 @@ public class DefaultImportTransformer extends AbstractTransformer {
         this.defaultImports.add(new SimpleImport(new FullyQualifiedTypeName("java", "lang", "Object")));
         this.defaultImports.add(new SimpleImport(new FullyQualifiedTypeName("karaffe","core", "Console")));
         this.defaultImports.add(new SimpleImport(new FullyQualifiedTypeName("karaffe","core", "Int")));
+        this.defaultImports.add(new SimpleImport(new FullyQualifiedTypeName("karaffe","core", "String")));
 
         // NPE回避の読み込み
         // Packageを動的ロードするときにここで読み込んでおかないとPackage.getPackage(...)したときにnullが返ってくるため

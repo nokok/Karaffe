@@ -52,9 +52,6 @@ public class FullyQualifiedTypeName extends TypeName {
     public FullyQualifiedTypeName(Position position, List<? extends SimpleName> names, List<? extends FullyQualifiedTypeName> parameterizedTypes) {
         super(position, names.get(names.size() - 1), parameterizedTypes);
         this.prefixNames = new ArrayList<>(names.subList(0, names.size() - 1));
-        if (this.prefixNames.isEmpty() || names.size() <= 1) {
-            throw new IllegalArgumentException();
-        }
     }
 
     public FullyQualifiedTypeName(Position position, SimpleName... names) {
@@ -69,6 +66,14 @@ public class FullyQualifiedTypeName extends TypeName {
         List<SimpleName> names = new ArrayList<>(this.prefixNames);
         names.add(this.last());
         return String.join(delimiter, names);
+    }
+
+    public void setArrayType() {
+        this.isArray = true;
+    }
+
+    public void unsetArrayType() {
+        this.isArray = false;
     }
 
     public SimpleName last() {
@@ -101,7 +106,7 @@ public class FullyQualifiedTypeName extends TypeName {
     public String toString() {
         List<SimpleName> s = new ArrayList<>(this.prefixNames);
         s.add(super.getName());
-        return String.join(".", s);
+        return String.join(".", s) + (this.isArrayType() ? "[]" : "");
     }
 
 }

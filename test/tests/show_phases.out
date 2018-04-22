@@ -1,7 +1,7 @@
-create-context
 default-imports
 name-resolver
 clean-up
+create-context
 type-inferer
 type-checker
 opname-remapper

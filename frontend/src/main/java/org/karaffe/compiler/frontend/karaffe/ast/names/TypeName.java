@@ -10,7 +10,7 @@ import org.karaffe.compiler.base.pos.Position;
 public class TypeName extends SimpleName {
     private final SimpleName name;
     private final List<TypeName> parameterizedTypes;
-    private final boolean isArray;
+    protected boolean isArray;
 
     public TypeName(String name) {
         this(new SimpleName(name), new ArrayList<>(0));
@@ -90,7 +90,7 @@ public class TypeName extends SimpleName {
     }
 
     public static TypeName voidType() {
-        return new TypeName(new SimpleName("void"));
+        return new FullyQualifiedTypeName(new SimpleName("void"));
     }
 
     @Override

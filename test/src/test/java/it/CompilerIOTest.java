@@ -64,7 +64,8 @@ public class CompilerIOTest {
         for (Path testCase : testCases) {
             String[] args = makeArguments(testCase);
             failed += runTestCaseWithOption(args, testCase, (actualLines, destFile) -> {
-                List<String> expectedOutputLines = readAllLines(Paths.get("tests", testCase.getFileName().toString().replace(".case", ".out")));
+                Path expectedOutputFile = Paths.get("tests", testCase.getFileName().toString().replace(".case", ".out"));
+                List<String> expectedOutputLines = readAllLines(expectedOutputFile);
                 if (isAllLineMatched(actualLines, expectedOutputLines)) {
                     printPassed(testCase);
                     return true;
@@ -74,6 +75,8 @@ public class CompilerIOTest {
                     String actualOutputs = String.join("\n", actualLines);
                     errorMsgBuilder.append("Command: krfc ").append(String.join(" ", args)).append(System.lineSeparator());
                     errorMsgBuilder.append("Failed: ").append(destFile.getAbsolutePath()).append(System.lineSeparator());
+                    errorMsgBuilder.append("TestCase file: ").append(testCase).append(System.lineSeparator());
+                    errorMsgBuilder.append("Expected output file: ").append(expectedOutputFile.toAbsolutePath()).append(System.lineSeparator());
                     errorMsgBuilder.append("===Expected===").append(System.lineSeparator());
                     errorMsgBuilder.append(expectedOutputs).append(System.lineSeparator());
                     errorMsgBuilder.append("====Actual====").append(System.lineSeparator());
@@ -138,7 +141,8 @@ public class CompilerIOTest {
         int failed = 0;
         for (Path testCase : testCases) {
             failed += runTestCase(testCase, (actualLines, destFile) -> {
-                List<String> expectedOutputLines = readAllLines(Paths.get("tests", "test_resources", "neg", testCase.getFileName().toString().replace(".krf", ".out")));
+                Path expectedOutputFile = Paths.get("tests", "test_resources", "neg", testCase.getFileName().toString().replace(".krf", ".out"));
+                List<String> expectedOutputLines = readAllLines(expectedOutputFile);
 
                 boolean allLineMatched = isAllLineMatched(actualLines, expectedOutputLines);
                 if (allLineMatched) {
@@ -150,6 +154,8 @@ public class CompilerIOTest {
                     String actualOutputs = String.join("\n", actualLines);
                     errorMsgBuilder.append("Command: krfc ").append(testCase.getFileName()).append(System.lineSeparator());
                     errorMsgBuilder.append("Failed: ").append(destFile.getAbsolutePath()).append(System.lineSeparator());
+                    errorMsgBuilder.append("TestCase file: ").append(testCase).append(System.lineSeparator());
+                    errorMsgBuilder.append("Expected output file: ").append(expectedOutputFile.toAbsolutePath()).append(System.lineSeparator());
                     errorMsgBuilder.append("===Expected===").append(System.lineSeparator());
                     errorMsgBuilder.append(expectedOutputs).append(System.lineSeparator());
                     errorMsgBuilder.append("====Actual====").append(System.lineSeparator());

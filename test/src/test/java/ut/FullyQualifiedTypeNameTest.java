@@ -65,34 +65,9 @@ public class FullyQualifiedTypeNameTest {
         assertEquals(0, fqn.getParameterizedTypes().size());
     }
 
-    @Test(expected = IllegalArgumentException.class)
+    @Test
     public void testSimpleName1() {
         new FullyQualifiedTypeName(new SimpleName("Invalid"));
-    }
-
-    @Test(expected = IllegalArgumentException.class)
-    public void testSimpleName2() {
-        new FullyQualifiedTypeName("Invalid");
-    }
-
-    @Test(expected = IllegalArgumentException.class)
-    public void testSimpleName3() {
-        new FullyQualifiedTypeName(Arrays.asList(new SimpleName("Invalid")));
-    }
-
-    @Test(expected = IllegalArgumentException.class)
-    public void testSimpleName4() {
-        new FullyQualifiedTypeName(Position.noPos(), new SimpleName("Invalid"));
-    }
-
-    @Test(expected = IllegalArgumentException.class)
-    public void testSimpleName5() {
-        new FullyQualifiedTypeName(Position.noPos(), "Invalid");
-    }
-
-    @Test(expected = IllegalArgumentException.class)
-    public void testSimpleName6() {
-        new FullyQualifiedTypeName(Position.noPos(), Arrays.asList(new SimpleName("Invalid")));
     }
 
 }

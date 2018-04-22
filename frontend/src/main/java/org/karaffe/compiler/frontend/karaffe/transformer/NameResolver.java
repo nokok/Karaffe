@@ -1,5 +1,6 @@
 package org.karaffe.compiler.frontend.karaffe.transformer;
 
+import org.karaffe.compiler.base.pos.Position;
 import org.karaffe.compiler.frontend.karaffe.ast.PackageDef;
 import org.karaffe.compiler.frontend.karaffe.ast.api.TypeDefStatement;
 import org.karaffe.compiler.frontend.karaffe.ast.imports.AliasImport;
@@ -10,6 +11,7 @@ import org.karaffe.compiler.frontend.karaffe.ast.names.PackageName;
 import org.karaffe.compiler.frontend.karaffe.ast.names.SimpleName;
 import org.karaffe.compiler.frontend.karaffe.ast.names.TypeName;
 
+import java.util.Arrays;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
@@ -90,11 +92,15 @@ public class NameResolver extends AbstractTransformer {
 
     private Optional<FullyQualifiedTypeName> getFqn(TypeName typeName) {
         if (typeName.isFullyQualified()) {
-            return Optional.empty();
+            return Optional.of((FullyQualifiedTypeName) typeName);
         }
-        return Optional.ofNullable(
+        Optional<FullyQualifiedTypeName> mayBeFqn = Optional.ofNullable(
                 Optional.ofNullable(this.simpleNameFqnMap.get(typeName.getName()))
                         .orElse(this.typeNameFqnMap.get(typeName)));
+        if (typeName.isArrayType()) {
+            mayBeFqn.ifPresent(FullyQualifiedTypeName::setArrayType);
+        }
+        return mayBeFqn;
     }
 
 }
