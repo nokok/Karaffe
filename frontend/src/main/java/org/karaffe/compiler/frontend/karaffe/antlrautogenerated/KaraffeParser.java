@@ -17,7 +17,7 @@ public class KaraffeParser extends Parser {
 	protected static final PredictionContextCache _sharedContextCache =
 		new PredictionContextCache();
 	public static final int
-		T__0=1, T__1=2, T__2=3, T__3=4, T__4=5, T__5=6, T__6=7, IntegerLiteral=8, 
+		T__0=1, PLUS=2, MINUS=3, MUL=4, DIV=5, LPAREN=6, RPAREN=7, IntegerLiteral=8, 
 		Whitespace=9;
 	public static final int
 		RULE_compilationUnit = 0, RULE_statement = 1, RULE_expr = 2, RULE_literal = 3, 
@@ -27,10 +27,11 @@ public class KaraffeParser extends Parser {
 	};
 
 	private static final String[] _LITERAL_NAMES = {
-		null, "'println'", "'('", "')'", "'*'", "'/'", "'+'", "'-'"
+		null, "'println'", "'+'", "'-'", "'*'", "'/'", "'('", "')'"
 	};
 	private static final String[] _SYMBOLIC_NAMES = {
-		null, null, null, null, null, null, null, null, "IntegerLiteral", "Whitespace"
+		null, null, "PLUS", "MINUS", "MUL", "DIV", "LPAREN", "RPAREN", "IntegerLiteral", 
+		"Whitespace"
 	};
 	public static final Vocabulary VOCABULARY = new VocabularyImpl(_LITERAL_NAMES, _SYMBOLIC_NAMES);
 
@@ -212,11 +213,11 @@ public class KaraffeParser extends Parser {
 				setState(17);
 				match(T__0);
 				setState(18);
-				match(T__1);
+				match(LPAREN);
 				setState(19);
 				expr(0);
 				setState(20);
-				match(T__2);
+				match(RPAREN);
 				}
 				break;
 			default:
@@ -361,7 +362,7 @@ public class KaraffeParser extends Parser {
 						setState(28);
 						((MulExprContext)_localctx).op = _input.LT(1);
 						_la = _input.LA(1);
-						if ( !(_la==T__3 || _la==T__4) ) {
+						if ( !(_la==MUL || _la==DIV) ) {
 							((MulExprContext)_localctx).op = (Token)_errHandler.recoverInline(this);
 						} else {
 							consume();
@@ -380,7 +381,7 @@ public class KaraffeParser extends Parser {
 						setState(31);
 						((AddExprContext)_localctx).op = _input.LT(1);
 						_la = _input.LA(1);
-						if ( !(_la==T__5 || _la==T__6) ) {
+						if ( !(_la==PLUS || _la==MINUS) ) {
 							((AddExprContext)_localctx).op = (Token)_errHandler.recoverInline(this);
 						} else {
 							consume();
@@ -516,11 +517,11 @@ public class KaraffeParser extends Parser {
 		"\3\u0430\ud6d1\u8206\uad2d\u4417\uaef1\u8d80\uaadd\3\13-\4\2\t\2\4\3\t"+
 		"\3\4\4\t\4\4\5\t\5\4\6\t\6\3\2\7\2\16\n\2\f\2\16\2\21\13\2\3\3\3\3\3\3"+
 		"\3\3\3\3\3\3\5\3\31\n\3\3\4\3\4\3\4\3\4\3\4\3\4\3\4\3\4\3\4\7\4$\n\4\f"+
-		"\4\16\4\'\13\4\3\5\3\5\3\6\3\6\3\6\2\3\6\7\2\4\6\b\n\2\4\3\2\6\7\3\2\b"+
-		"\t+\2\17\3\2\2\2\4\30\3\2\2\2\6\32\3\2\2\2\b(\3\2\2\2\n*\3\2\2\2\f\16"+
+		"\4\16\4\'\13\4\3\5\3\5\3\6\3\6\3\6\2\3\6\7\2\4\6\b\n\2\4\3\2\6\7\3\2\4"+
+		"\5+\2\17\3\2\2\2\4\30\3\2\2\2\6\32\3\2\2\2\b(\3\2\2\2\n*\3\2\2\2\f\16"+
 		"\5\4\3\2\r\f\3\2\2\2\16\21\3\2\2\2\17\r\3\2\2\2\17\20\3\2\2\2\20\3\3\2"+
-		"\2\2\21\17\3\2\2\2\22\31\5\6\4\2\23\24\7\3\2\2\24\25\7\4\2\2\25\26\5\6"+
-		"\4\2\26\27\7\5\2\2\27\31\3\2\2\2\30\22\3\2\2\2\30\23\3\2\2\2\31\5\3\2"+
+		"\2\2\21\17\3\2\2\2\22\31\5\6\4\2\23\24\7\3\2\2\24\25\7\b\2\2\25\26\5\6"+
+		"\4\2\26\27\7\t\2\2\27\31\3\2\2\2\30\22\3\2\2\2\30\23\3\2\2\2\31\5\3\2"+
 		"\2\2\32\33\b\4\1\2\33\34\5\b\5\2\34%\3\2\2\2\35\36\f\5\2\2\36\37\t\2\2"+
 		"\2\37$\5\6\4\6 !\f\4\2\2!\"\t\3\2\2\"$\5\6\4\5#\35\3\2\2\2# \3\2\2\2$"+
 		"\'\3\2\2\2%#\3\2\2\2%&\3\2\2\2&\7\3\2\2\2\'%\3\2\2\2()\5\n\6\2)\t\3\2"+

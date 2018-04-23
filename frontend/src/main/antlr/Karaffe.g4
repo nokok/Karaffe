@@ -23,8 +23,15 @@ intLiteral
   : IntegerLiteral
   ;
 
+PLUS: '+';
+MINUS: '-';
+MUL: '*';
+DIV: '/';
+LPAREN: '(';
+RPAREN: ')';
+
 IntegerLiteral
-  : NonZeroDigit Digit*
+  : NonZeroDigit Digit+
   | Digit
   ;
 
