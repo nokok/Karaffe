@@ -90,9 +90,11 @@ public class KaraffeCompilerLauncher {
         rootLogger.setLevel(logLevel);
 
         if (options.showVersion) {
+            String version = readVersionResource(ClassLoader.getSystemResourceAsStream("VERSION"));
+            String branch = readVersionResource(ClassLoader.getSystemResourceAsStream("BRANCH"));
             String tag = readVersionResource(ClassLoader.getSystemResourceAsStream("TAG"));
             String hash = readVersionResource(ClassLoader.getSystemResourceAsStream("HASH"));
-            Platform.stdOut("Karaffe Compiler" + tag + hash);
+            Platform.stdOut("Karaffe Compiler" + version + branch + tag + hash);
             return;
         }
 
