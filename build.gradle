@@ -84,7 +84,6 @@ project(':frontend') {
   }
 
   generateGrammarSource {
-    println projectDir
     arguments += [
             '-Xlog',
             '-long-messages',
