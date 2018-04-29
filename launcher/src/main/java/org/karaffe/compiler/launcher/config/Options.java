@@ -36,6 +36,9 @@ public class Options {
     @Option(name = "--stop-after", metaVar = "<phase>", usage = "Stop and Print tree at <phase>")
     public String stopPhaseName;
 
+    @Option(name = "--print-last-tree", usage = "Print tree", handler = MyBooleanOptionHandler.class)
+    public boolean showLastTree;
+
     @Argument
     public List<String> arguments = new ArrayList<>();
 }

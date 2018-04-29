@@ -1,6 +1,5 @@
 package org.karaffe.compiler.frontend.karaffe.transformer.util;
 
-import com.sun.tools.internal.ws.wsdl.document.Import;
 import org.karaffe.compiler.frontend.karaffe.ast.api.ImportStatement;
 
 import java.util.ArrayList;

@@ -4,7 +4,7 @@ import org.karaffe.compiler.frontend.karaffe.ast.api.TypeDefMember;
 import org.karaffe.compiler.frontend.karaffe.ast.statements.LetFieldDef;
 import org.karaffe.compiler.frontend.karaffe.ast.statements.MethodDef;
 
-public interface TypeDefMemberTransformer extends LetFieldDefTransformer, MethodDefTransformer {
+public interface TypeDefMemberTransformer extends LetFieldDefTransformer, MethodDefTransformer, StatementTransformer {
     @Override
     default TypeDefMember transform(TypeDefMember oldMember) {
         switch (oldMember.getStatementType()) {

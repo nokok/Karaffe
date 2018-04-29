@@ -17,9 +17,7 @@ import java.util.Set;
 
 public class CompilationUnit extends AbstractTree {
     private final Set<ModuleDef> modules;
-
     private final ModuleDef defaultUnnamedModule;
-
     private final PackageDef defaultUnnamedPackage;
 
     public CompilationUnit(CompilationUnit other) {
@@ -93,13 +91,15 @@ public class CompilationUnit extends AbstractTree {
     public String toString() {
         List<String> lines = new ArrayList<>();
         lines.add("/* Compilation Unit */ {");
-        if (this.defaultUnnamedModule.hasChild()) {
+        if (this.defaultUnnamedModule != null && this.defaultUnnamedModule.hasChild()) {
             lines.add(this.defaultUnnamedModule.toString());
         }
-        if (this.defaultUnnamedPackage.hasChild()) {
+        if (this.defaultUnnamedPackage != null && this.defaultUnnamedPackage.hasChild()) {
             lines.add(this.defaultUnnamedPackage.toString());
         }
-        this.modules.stream().map(ModuleDef::toString).forEach(lines::add);
+        if (this.modules != null) {
+            this.modules.stream().map(ModuleDef::toString).forEach(lines::add);
+        }
         lines.add("}");
         return String.join("\n", lines);
     }

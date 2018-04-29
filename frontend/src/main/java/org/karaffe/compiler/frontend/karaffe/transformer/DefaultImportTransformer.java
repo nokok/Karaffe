@@ -33,6 +33,7 @@ public class DefaultImportTransformer extends AbstractTransformer {
 //        this.defaultImports.add(new SimpleImport(new FullyQualifiedTypeName("java", "time", "chrono", "JapaneseEra")));
 //        this.defaultImports.add(new OnDemandImport(new PackageName("karaffe", "core")));
         this.defaultImports.add(new SimpleImport(new FullyQualifiedTypeName("java", "lang", "Object")));
+        this.defaultImports.add(new SimpleImport(new FullyQualifiedTypeName("karaffe","core", "Any")));
         this.defaultImports.add(new SimpleImport(new FullyQualifiedTypeName("karaffe","core", "Console")));
         this.defaultImports.add(new SimpleImport(new FullyQualifiedTypeName("karaffe","core", "Int")));
         this.defaultImports.add(new SimpleImport(new FullyQualifiedTypeName("karaffe","core", "String")));

@@ -18,6 +18,13 @@ public interface KaraffeVisitor<T> extends ParseTreeVisitor<T> {
 	 */
 	T visitCompilationUnit(KaraffeParser.CompilationUnitContext ctx);
 	/**
+	 * Visit a parse tree produced by the {@code classDefStmt}
+	 * labeled alternative in {@link KaraffeParser#statement}.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	T visitClassDefStmt(KaraffeParser.ClassDefStmtContext ctx);
+	/**
 	 * Visit a parse tree produced by the {@code exprStmt}
 	 * labeled alternative in {@link KaraffeParser#statement}.
 	 * @param ctx the parse tree
@@ -31,6 +38,37 @@ public interface KaraffeVisitor<T> extends ParseTreeVisitor<T> {
 	 * @return the visitor result
 	 */
 	T visitPrintExpr(KaraffeParser.PrintExprContext ctx);
+	/**
+	 * Visit a parse tree produced by the {@code mainStmt}
+	 * labeled alternative in {@link KaraffeParser#statement}.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	T visitMainStmt(KaraffeParser.MainStmtContext ctx);
+	/**
+	 * Visit a parse tree produced by {@link KaraffeParser#classDef}.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	T visitClassDef(KaraffeParser.ClassDefContext ctx);
+	/**
+	 * Visit a parse tree produced by {@link KaraffeParser#classDefMember}.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	T visitClassDefMember(KaraffeParser.ClassDefMemberContext ctx);
+	/**
+	 * Visit a parse tree produced by {@link KaraffeParser#simpleClassDef}.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	T visitSimpleClassDef(KaraffeParser.SimpleClassDefContext ctx);
+	/**
+	 * Visit a parse tree produced by {@link KaraffeParser#classDefBody}.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	T visitClassDefBody(KaraffeParser.ClassDefBodyContext ctx);
 	/**
 	 * Visit a parse tree produced by the {@code addExpr}
 	 * labeled alternative in {@link KaraffeParser#expr}.
@@ -58,6 +96,12 @@ public interface KaraffeVisitor<T> extends ParseTreeVisitor<T> {
 	 * @return the visitor result
 	 */
 	T visitLiteral(KaraffeParser.LiteralContext ctx);
+	/**
+	 * Visit a parse tree produced by {@link KaraffeParser#identifier}.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	T visitIdentifier(KaraffeParser.IdentifierContext ctx);
 	/**
 	 * Visit a parse tree produced by {@link KaraffeParser#intLiteral}.
 	 * @param ctx the parse tree

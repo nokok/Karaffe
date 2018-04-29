@@ -19,6 +19,7 @@ import org.karaffe.compiler.frontend.karaffe.ast.CompilationUnit;
 import org.karaffe.compiler.frontend.karaffe.ast.Parameter;
 import org.karaffe.compiler.frontend.karaffe.ast.api.Expression;
 import org.karaffe.compiler.frontend.karaffe.ast.api.Statement;
+import org.karaffe.compiler.frontend.karaffe.ast.api.TypeDefMember;
 import org.karaffe.compiler.frontend.karaffe.ast.expressions.Apply;
 import org.karaffe.compiler.frontend.karaffe.ast.expressions.Div;
 import org.karaffe.compiler.frontend.karaffe.ast.expressions.IntLiteral;
@@ -35,33 +36,23 @@ import org.karaffe.compiler.frontend.karaffe.ast.statements.ClassDef;
 import org.karaffe.compiler.frontend.karaffe.ast.statements.MethodDef;
 import org.karaffe.compiler.frontend.karaffe.transformer.util.TransformerContext;
 
-import java.util.Arrays;
-import java.util.BitSet;
-import java.util.Collections;
-import java.util.Stack;
+import java.util.*;
 
 public class ASTBuilder implements KaraffeListener, ANTLRErrorListener {
-    private final CompilationUnit compilationUnit;
-
-    private final MethodDef mainMethod;
+    private CompilationUnit compilationUnit = new CompilationUnit();
 
     private boolean hasError = false;
 
+    private ClassDef currentClass;
+    private MethodDef currentMethod;
+
+    private final List<Statement> members = new ArrayList<>();
     private final Stack<Statement> stack = new Stack<>();
 
     private final TransformerContext context = TransformerContext.INSTANCE;
     private String currentSourceName = "";
 
     public ASTBuilder() {
-        this.compilationUnit = new CompilationUnit();
-        ClassDef mainClass = new ClassDef(new SimpleName("Main"), new TypeName("Object"));
-        this.mainMethod = new MethodDef(
-                Arrays.asList(new Public(), new Static()),
-                TypeName.voidType(),
-                new SimpleName("main"),
-                Arrays.asList(new Parameter(new SimpleName("args"), new TypeName("String", true))));
-        mainClass.addMember(mainMethod);
-        this.compilationUnit.addTypedefStatement(mainClass);
     }
 
     public boolean hasElementInStack() {
@@ -73,8 +64,6 @@ public class ASTBuilder implements KaraffeListener, ANTLRErrorListener {
     }
 
     public CompilationUnit getCompilationUnit() {
-        stack.forEach(this.mainMethod::addMethodBody);
-        stack.clear();
         return compilationUnit;
     }
 
@@ -101,6 +90,16 @@ public class ASTBuilder implements KaraffeListener, ANTLRErrorListener {
     }
 
     @Override
+    public void enterClassDefStmt(KaraffeParser.ClassDefStmtContext ctx) {
+
+    }
+
+    @Override
+    public void exitClassDefStmt(KaraffeParser.ClassDefStmtContext ctx) {
+
+    }
+
+    @Override
     public void enterExprStmt(KaraffeParser.ExprStmtContext ctx) {
 
     }
@@ -119,6 +118,70 @@ public class ASTBuilder implements KaraffeListener, ANTLRErrorListener {
     public void exitPrintExpr(KaraffeParser.PrintExprContext ctx) {
         Expression expr = (Expression) stack.pop();
         stack.push(new StaticApply(getPosition(ctx), new TypeName("Console"), new SimpleName("println"), expr));
+        members.add(stack.peek());
+    }
+
+    @Override
+    public void enterMainStmt(KaraffeParser.MainStmtContext ctx) {
+
+    }
+
+    @Override
+    public void exitMainStmt(KaraffeParser.MainStmtContext ctx) {
+        MethodDef mainMethod = new MethodDef(
+                Arrays.asList(new Public(), new Static()),
+                TypeName.voidType(),
+                new SimpleName("main"),
+                Arrays.asList(new Parameter(new SimpleName("args"), new TypeName("String", true))));
+        this.members.forEach(mainMethod::addMethodBody);
+        this.members.clear();
+        this.currentClass.addMember(mainMethod);
+    }
+
+    @Override
+    public void enterClassDef(KaraffeParser.ClassDefContext ctx) {
+
+    }
+
+    @Override
+    public void exitClassDef(KaraffeParser.ClassDefContext ctx) {
+
+    }
+
+    @Override
+    public void enterClassDefMember(KaraffeParser.ClassDefMemberContext ctx) {
+        this.members.clear();
+    }
+
+    @Override
+    public void exitClassDefMember(KaraffeParser.ClassDefMemberContext ctx) {
+
+    }
+
+    @Override
+    public void enterSimpleClassDef(KaraffeParser.SimpleClassDefContext ctx) {
+
+    }
+
+    @Override
+    public void exitSimpleClassDef(KaraffeParser.SimpleClassDefContext ctx) {
+        Position position = getPosition(ctx);
+        KaraffeParser.IdentifierContext id = ctx.identifier();
+        ClassDef classDef = new ClassDef(new SimpleName(id.getText()));
+        classDef.resetPosition(position);
+        classDef.replaceBody(this.members);
+        this.members.clear();
+        this.compilationUnit.addTypedefStatement(classDef);
+    }
+
+    @Override
+    public void enterClassDefBody(KaraffeParser.ClassDefBodyContext ctx) {
+
+    }
+
+    @Override
+    public void exitClassDefBody(KaraffeParser.ClassDefBodyContext ctx) {
+
     }
 
     @Override
@@ -147,6 +210,16 @@ public class ASTBuilder implements KaraffeListener, ANTLRErrorListener {
 
     @Override
     public void exitLiteral(KaraffeParser.LiteralContext ctx) {
+
+    }
+
+    @Override
+    public void enterIdentifier(KaraffeParser.IdentifierContext ctx) {
+
+    }
+
+    @Override
+    public void exitIdentifier(KaraffeParser.IdentifierContext ctx) {
 
     }
 

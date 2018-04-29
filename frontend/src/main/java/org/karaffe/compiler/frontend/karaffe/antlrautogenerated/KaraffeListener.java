@@ -19,6 +19,18 @@ public interface KaraffeListener extends ParseTreeListener {
 	 */
 	void exitCompilationUnit(KaraffeParser.CompilationUnitContext ctx);
 	/**
+	 * Enter a parse tree produced by the {@code classDefStmt}
+	 * labeled alternative in {@link KaraffeParser#statement}.
+	 * @param ctx the parse tree
+	 */
+	void enterClassDefStmt(KaraffeParser.ClassDefStmtContext ctx);
+	/**
+	 * Exit a parse tree produced by the {@code classDefStmt}
+	 * labeled alternative in {@link KaraffeParser#statement}.
+	 * @param ctx the parse tree
+	 */
+	void exitClassDefStmt(KaraffeParser.ClassDefStmtContext ctx);
+	/**
 	 * Enter a parse tree produced by the {@code exprStmt}
 	 * labeled alternative in {@link KaraffeParser#statement}.
 	 * @param ctx the parse tree
@@ -42,6 +54,58 @@ public interface KaraffeListener extends ParseTreeListener {
 	 * @param ctx the parse tree
 	 */
 	void exitPrintExpr(KaraffeParser.PrintExprContext ctx);
+	/**
+	 * Enter a parse tree produced by the {@code mainStmt}
+	 * labeled alternative in {@link KaraffeParser#statement}.
+	 * @param ctx the parse tree
+	 */
+	void enterMainStmt(KaraffeParser.MainStmtContext ctx);
+	/**
+	 * Exit a parse tree produced by the {@code mainStmt}
+	 * labeled alternative in {@link KaraffeParser#statement}.
+	 * @param ctx the parse tree
+	 */
+	void exitMainStmt(KaraffeParser.MainStmtContext ctx);
+	/**
+	 * Enter a parse tree produced by {@link KaraffeParser#classDef}.
+	 * @param ctx the parse tree
+	 */
+	void enterClassDef(KaraffeParser.ClassDefContext ctx);
+	/**
+	 * Exit a parse tree produced by {@link KaraffeParser#classDef}.
+	 * @param ctx the parse tree
+	 */
+	void exitClassDef(KaraffeParser.ClassDefContext ctx);
+	/**
+	 * Enter a parse tree produced by {@link KaraffeParser#classDefMember}.
+	 * @param ctx the parse tree
+	 */
+	void enterClassDefMember(KaraffeParser.ClassDefMemberContext ctx);
+	/**
+	 * Exit a parse tree produced by {@link KaraffeParser#classDefMember}.
+	 * @param ctx the parse tree
+	 */
+	void exitClassDefMember(KaraffeParser.ClassDefMemberContext ctx);
+	/**
+	 * Enter a parse tree produced by {@link KaraffeParser#simpleClassDef}.
+	 * @param ctx the parse tree
+	 */
+	void enterSimpleClassDef(KaraffeParser.SimpleClassDefContext ctx);
+	/**
+	 * Exit a parse tree produced by {@link KaraffeParser#simpleClassDef}.
+	 * @param ctx the parse tree
+	 */
+	void exitSimpleClassDef(KaraffeParser.SimpleClassDefContext ctx);
+	/**
+	 * Enter a parse tree produced by {@link KaraffeParser#classDefBody}.
+	 * @param ctx the parse tree
+	 */
+	void enterClassDefBody(KaraffeParser.ClassDefBodyContext ctx);
+	/**
+	 * Exit a parse tree produced by {@link KaraffeParser#classDefBody}.
+	 * @param ctx the parse tree
+	 */
+	void exitClassDefBody(KaraffeParser.ClassDefBodyContext ctx);
 	/**
 	 * Enter a parse tree produced by the {@code addExpr}
 	 * labeled alternative in {@link KaraffeParser#expr}.
@@ -88,6 +152,16 @@ public interface KaraffeListener extends ParseTreeListener {
 	 * @param ctx the parse tree
 	 */
 	void exitLiteral(KaraffeParser.LiteralContext ctx);
+	/**
+	 * Enter a parse tree produced by {@link KaraffeParser#identifier}.
+	 * @param ctx the parse tree
+	 */
+	void enterIdentifier(KaraffeParser.IdentifierContext ctx);
+	/**
+	 * Exit a parse tree produced by {@link KaraffeParser#identifier}.
+	 * @param ctx the parse tree
+	 */
+	void exitIdentifier(KaraffeParser.IdentifierContext ctx);
 	/**
 	 * Enter a parse tree produced by {@link KaraffeParser#intLiteral}.
 	 * @param ctx the parse tree

@@ -104,7 +104,7 @@ public class KaraffeCompilerLauncher {
 
         boolean hasStopPhaseOption = options.stopPhaseName != null;
         Set<AbstractTransformer> transformers;
-        boolean showTreeOnExit = false;
+        boolean showTreeOnExit = options.showLastTree;
         if (hasStopPhaseOption) {
             transformers = new TransformerBuilder().buildTransformers(options.stopPhaseName);
             showTreeOnExit = true;

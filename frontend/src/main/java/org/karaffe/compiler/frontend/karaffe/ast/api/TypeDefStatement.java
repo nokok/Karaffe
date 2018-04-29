@@ -9,9 +9,19 @@ public interface TypeDefStatement extends Statement {
 
     SimpleName getName();
 
+    void setName(SimpleName className);
+
     TypeName getSuperClassName();
+
+    void setSuperClassName(TypeName superClassName);
 
     List<? extends TypeName> getInterfaceNames();
 
-    List<? extends TypeDefMember> getBody();
+    void addInterface(TypeName impl);
+
+    void replaceInterfaces(List<TypeName> interfaces);
+
+    List<? extends Statement> getBody();
+
+    void replaceBody(List<Statement> members);
 }

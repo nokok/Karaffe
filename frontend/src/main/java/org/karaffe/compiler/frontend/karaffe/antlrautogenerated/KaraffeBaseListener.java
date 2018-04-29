@@ -29,6 +29,18 @@ public class KaraffeBaseListener implements KaraffeListener {
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
+	@Override public void enterClassDefStmt(KaraffeParser.ClassDefStmtContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
+	@Override public void exitClassDefStmt(KaraffeParser.ClassDefStmtContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
 	@Override public void enterExprStmt(KaraffeParser.ExprStmtContext ctx) { }
 	/**
 	 * {@inheritDoc}
@@ -48,6 +60,66 @@ public class KaraffeBaseListener implements KaraffeListener {
 	 * <p>The default implementation does nothing.</p>
 	 */
 	@Override public void exitPrintExpr(KaraffeParser.PrintExprContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
+	@Override public void enterMainStmt(KaraffeParser.MainStmtContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
+	@Override public void exitMainStmt(KaraffeParser.MainStmtContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
+	@Override public void enterClassDef(KaraffeParser.ClassDefContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
+	@Override public void exitClassDef(KaraffeParser.ClassDefContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
+	@Override public void enterClassDefMember(KaraffeParser.ClassDefMemberContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
+	@Override public void exitClassDefMember(KaraffeParser.ClassDefMemberContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
+	@Override public void enterSimpleClassDef(KaraffeParser.SimpleClassDefContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
+	@Override public void exitSimpleClassDef(KaraffeParser.SimpleClassDefContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
+	@Override public void enterClassDefBody(KaraffeParser.ClassDefBodyContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
+	@Override public void exitClassDefBody(KaraffeParser.ClassDefBodyContext ctx) { }
 	/**
 	 * {@inheritDoc}
 	 *
@@ -96,6 +168,18 @@ public class KaraffeBaseListener implements KaraffeListener {
 	 * <p>The default implementation does nothing.</p>
 	 */
 	@Override public void exitLiteral(KaraffeParser.LiteralContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
+	@Override public void enterIdentifier(KaraffeParser.IdentifierContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
+	@Override public void exitIdentifier(KaraffeParser.IdentifierContext ctx) { }
 	/**
 	 * {@inheritDoc}
 	 *

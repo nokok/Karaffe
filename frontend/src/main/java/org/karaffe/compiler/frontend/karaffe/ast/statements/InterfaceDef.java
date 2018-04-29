@@ -1,14 +1,15 @@
 package org.karaffe.compiler.frontend.karaffe.ast.statements;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.stream.Collectors;
-
 import org.karaffe.compiler.base.pos.Position;
+import org.karaffe.compiler.frontend.karaffe.ast.api.Statement;
 import org.karaffe.compiler.frontend.karaffe.ast.api.StatementType;
 import org.karaffe.compiler.frontend.karaffe.ast.api.TypeDefMember;
 import org.karaffe.compiler.frontend.karaffe.ast.names.SimpleName;
 import org.karaffe.compiler.frontend.karaffe.ast.names.TypeName;
+
+import java.util.ArrayList;
+import java.util.List;
+import java.util.stream.Collectors;
 
 public class InterfaceDef extends AbstractTypeDefStatement {
 
@@ -23,7 +24,7 @@ public class InterfaceDef extends AbstractTypeDefStatement {
                 TypeName.rootClass());
     }
 
-    public InterfaceDef(Position position, SimpleName typeName, List<? extends TypeDefMember> body) {
+    public InterfaceDef(Position position, SimpleName typeName, List<? extends Statement> body) {
         super(position,
                 typeName,
                 TypeName.rootClass(),
@@ -51,7 +52,7 @@ public class InterfaceDef extends AbstractTypeDefStatement {
                 + "}",
                 this.getName(),
                 this.getInterfaceNames().isEmpty() ? "" : " implements " + String.join(", ", this.getInterfaceNames()),
-                String.join(";\n", this.getBody().stream().map(TypeDefMember::toString).collect(Collectors.toList())));
+                String.join(";\n", this.getBody().stream().map(Statement::toString).collect(Collectors.toList())));
     }
 
 }
