@@ -189,7 +189,7 @@ public class KaraffeCompilerLauncher {
         Platform.stdOut("Usage:");
         Platform.stdOut(" krfc <options> <sources>");
         Platform.stdOut();
-        Platform.stdOut("Options:");
+        Platform.stdOut("Available options are:");
         parser.printUsage(Platform.getStdOut());
     }
 }
