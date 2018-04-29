@@ -102,3 +102,13 @@ project(':test') {
     testCompile group: 'junit', name: 'junit', version: junitVersion
   }
 }
+
+startScripts {
+  applicationName = 'krfc'
+}
+
+distributions {
+  main {
+    baseName = 'Karaffe-compiler'
+  }
+}
