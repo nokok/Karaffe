@@ -7,6 +7,7 @@ import java.util.Map;
 import java.util.Set;
 
 public class TransformerBuilder {
+
     private final Map<AbstractTransformer, Set<AbstractTransformer>> dependencyMap = new HashMap<>();
 
     private static final AbstractTransformer contextCreator = new CreateTransformContext();

@@ -33,6 +33,7 @@ import org.karaffe.compiler.frontend.karaffe.ast.names.SimpleName;
 import org.karaffe.compiler.frontend.karaffe.ast.names.TypeName;
 import org.karaffe.compiler.frontend.karaffe.ast.statements.ClassDef;
 import org.karaffe.compiler.frontend.karaffe.ast.statements.MethodDef;
+import org.karaffe.compiler.frontend.karaffe.transformer.util.TransformerContext;
 
 import java.util.Arrays;
 import java.util.BitSet;
@@ -48,6 +49,7 @@ public class ASTBuilder implements KaraffeListener, ANTLRErrorListener {
 
     private final Stack<Statement> stack = new Stack<>();
 
+    private final TransformerContext context = TransformerContext.INSTANCE;
     private String currentSourceName = "";
 
     public ASTBuilder() {
@@ -69,7 +71,6 @@ public class ASTBuilder implements KaraffeListener, ANTLRErrorListener {
     public Statement getStackPeek() {
         return this.stack.peek();
     }
-
 
     public CompilationUnit getCompilationUnit() {
         stack.forEach(this.mainMethod::addMethodBody);

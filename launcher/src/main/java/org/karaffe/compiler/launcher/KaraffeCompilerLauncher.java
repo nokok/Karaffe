@@ -18,9 +18,7 @@ import org.kohsuke.args4j.CmdLineParser;
 import org.kohsuke.args4j.ParserProperties;
 import org.slf4j.LoggerFactory;
 
-import java.io.File;
-import java.io.InputStream;
-import java.io.PrintStream;
+import java.io.*;
 import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.util.HashMap;
@@ -92,7 +90,9 @@ public class KaraffeCompilerLauncher {
         rootLogger.setLevel(logLevel);
 
         if (options.showVersion) {
-            Platform.stdOut("Karaffe Compiler v0.1.0");
+            String tag = readVersionResource(ClassLoader.getSystemResourceAsStream("TAG"));
+            String hash = readVersionResource(ClassLoader.getSystemResourceAsStream("HASH"));
+            Platform.stdOut("Karaffe Compiler" + tag + hash);
             return;
         }
 
@@ -100,7 +100,15 @@ public class KaraffeCompilerLauncher {
             Platform.stdOut(DiagnosticInfo.INSTANCE.toString());
         }
 
-        Set<AbstractTransformer> transformers = new TransformerBuilder().getTransformers();
+        boolean hasStopPhaseOption = options.stopPhaseName != null;
+        Set<AbstractTransformer> transformers;
+        boolean showTreeOnExit = false;
+        if (hasStopPhaseOption) {
+            transformers = new TransformerBuilder().buildTransformers(options.stopPhaseName);
+            showTreeOnExit = true;
+        } else {
+            transformers = new TransformerBuilder().getTransformers();
+        }
         final boolean isShowPhases = options.showPhases;
         if (isShowPhases) {
             transformers.stream().map(AbstractTransformer::getTransformerName).forEach(Platform::stdOut);
@@ -137,9 +145,9 @@ public class KaraffeCompilerLauncher {
 
         CompilationUnit compilationUnit = astBuilder.getCompilationUnit();
 
-        final boolean isPrintTree = options.printTree;
+        final boolean isPrintTreeEveryPhase = options.printTree;
 
-        if (isPrintTree) {
+        if (isPrintTreeEveryPhase) {
             Platform.stdOut("===");
             Platform.stdOut(compilationUnit);
         }
@@ -148,7 +156,7 @@ public class KaraffeCompilerLauncher {
         String lastString = cu.toString();
         for (AbstractTransformer transformer : transformers) {
             cu = transformer.transform(cu);
-            if (isPrintTree) {
+            if (isPrintTreeEveryPhase) {
                 Platform.stdOut("=== After : " + transformer.getTransformerName() + " ===");
                 if (lastString.equals(cu.toString())) {
                     Platform.stdOut("No change.");
@@ -158,6 +166,23 @@ public class KaraffeCompilerLauncher {
             }
             lastString = cu.toString();
         }
+        if (showTreeOnExit) {
+            Platform.stdOut(cu);
+        }
+    }
+
+    private String readVersionResource(InputStream stream) throws IOException {
+        String r;
+        if (stream != null) {
+            try (BufferedReader reader = new BufferedReader(new InputStreamReader(stream))) {
+                r = " " + reader.readLine();
+            } finally {
+                stream.close();
+            }
+        } else {
+            r = "";
+        }
+        return r;
     }
 
     private void usage(CmdLineParser parser) {
