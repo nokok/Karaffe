@@ -1,22 +1,19 @@
 grammar Karaffe;
 
 compilationUnit 
-  : statement*
+  : topLevelStatement*
   ;
 
-statement 
-  : classDef #classDefStmt
-  | expr #exprStmt
-  | 'println' '(' expr ')' #printExpr
-  | 'main' LBRACE statement* RBRACE #mainStmt
+topLevelStatement
+  : classDef
   ;
 
 classDef
   : simpleClassDef
   ;
 
-classDefMember
-  : statement
+topLevelExpr
+  : expr
   ;
 
 simpleClassDef
@@ -28,10 +25,48 @@ classDefBody
   | classDefMember
   ;
 
+classDefMember
+  : mainMethodDef
+  ;
+
+mainMethodDef
+  : MAIN LBRACE statement* RBRACE
+  ;
+
+statement
+  : expr
+  ;
+
 expr
-  : left=expr op=('*' | '/') right=expr #mulExpr
-  | left=expr op=('+' | '-') right=expr #addExpr
-  | value=literal #lit
+  : additiveExpr
+  ;
+
+additiveExpr
+  : multiplicativeExpr
+  | left=additiveExpr op=(PLUS | MINUS) right=multiplicativeExpr
+  ;
+
+multiplicativeExpr
+  : primary
+  | left=multiplicativeExpr op=(MUL|DIV) right=primary
+  ;
+
+primary
+  : literal
+  | LPAREN expr RPAREN
+  | methodInvocation
+  ;
+
+methodInvocation
+  : identifier LPAREN argumentList? RPAREN
+  ;
+
+argumentList
+  : expr (COMMA expr)*
+  ;
+
+block
+  : LBRACE expr RBRACE
   ;
 
 literal
@@ -47,6 +82,8 @@ intLiteral
   ;
 
 CLASS: 'class';
+MAIN: 'main';
+COMMA: ',';
 PLUS: '+';
 MINUS: '-';
 MUL: '*';

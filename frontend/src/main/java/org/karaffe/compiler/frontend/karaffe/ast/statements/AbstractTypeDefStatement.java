@@ -14,8 +14,8 @@ import java.util.Objects;
 public abstract class AbstractTypeDefStatement extends AbstractTree implements TypeDefStatement {
     private SimpleName typeName;
     private TypeName superClassName;
-    private List<TypeName> interfaces;
-    private List<Statement> members;
+    private List<TypeName> interfaces = new ArrayList<>();
+    private List<Statement> members = new ArrayList<>();
 
     public AbstractTypeDefStatement() {
 
@@ -74,7 +74,12 @@ public abstract class AbstractTypeDefStatement extends AbstractTree implements T
 
     @Override
     public void replaceBody(List<Statement> members) {
-        this.members = new ArrayList<>(members);
+        this.members.clear();
+        for (Statement member : members) {
+            if (member != null) {
+                this.members.add(member);
+            }
+        }
     }
 
     @Override

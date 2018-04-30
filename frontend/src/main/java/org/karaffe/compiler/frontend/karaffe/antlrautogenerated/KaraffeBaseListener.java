@@ -29,49 +29,13 @@ public class KaraffeBaseListener implements KaraffeListener {
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
-	@Override public void enterClassDefStmt(KaraffeParser.ClassDefStmtContext ctx) { }
+	@Override public void enterTopLevelStatement(KaraffeParser.TopLevelStatementContext ctx) { }
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
-	@Override public void exitClassDefStmt(KaraffeParser.ClassDefStmtContext ctx) { }
-	/**
-	 * {@inheritDoc}
-	 *
-	 * <p>The default implementation does nothing.</p>
-	 */
-	@Override public void enterExprStmt(KaraffeParser.ExprStmtContext ctx) { }
-	/**
-	 * {@inheritDoc}
-	 *
-	 * <p>The default implementation does nothing.</p>
-	 */
-	@Override public void exitExprStmt(KaraffeParser.ExprStmtContext ctx) { }
-	/**
-	 * {@inheritDoc}
-	 *
-	 * <p>The default implementation does nothing.</p>
-	 */
-	@Override public void enterPrintExpr(KaraffeParser.PrintExprContext ctx) { }
-	/**
-	 * {@inheritDoc}
-	 *
-	 * <p>The default implementation does nothing.</p>
-	 */
-	@Override public void exitPrintExpr(KaraffeParser.PrintExprContext ctx) { }
-	/**
-	 * {@inheritDoc}
-	 *
-	 * <p>The default implementation does nothing.</p>
-	 */
-	@Override public void enterMainStmt(KaraffeParser.MainStmtContext ctx) { }
-	/**
-	 * {@inheritDoc}
-	 *
-	 * <p>The default implementation does nothing.</p>
-	 */
-	@Override public void exitMainStmt(KaraffeParser.MainStmtContext ctx) { }
+	@Override public void exitTopLevelStatement(KaraffeParser.TopLevelStatementContext ctx) { }
 	/**
 	 * {@inheritDoc}
 	 *
@@ -89,13 +53,13 @@ public class KaraffeBaseListener implements KaraffeListener {
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
-	@Override public void enterClassDefMember(KaraffeParser.ClassDefMemberContext ctx) { }
+	@Override public void enterTopLevelExpr(KaraffeParser.TopLevelExprContext ctx) { }
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
-	@Override public void exitClassDefMember(KaraffeParser.ClassDefMemberContext ctx) { }
+	@Override public void exitTopLevelExpr(KaraffeParser.TopLevelExprContext ctx) { }
 	/**
 	 * {@inheritDoc}
 	 *
@@ -125,37 +89,121 @@ public class KaraffeBaseListener implements KaraffeListener {
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
-	@Override public void enterAddExpr(KaraffeParser.AddExprContext ctx) { }
+	@Override public void enterClassDefMember(KaraffeParser.ClassDefMemberContext ctx) { }
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
-	@Override public void exitAddExpr(KaraffeParser.AddExprContext ctx) { }
+	@Override public void exitClassDefMember(KaraffeParser.ClassDefMemberContext ctx) { }
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
-	@Override public void enterLit(KaraffeParser.LitContext ctx) { }
+	@Override public void enterMainMethodDef(KaraffeParser.MainMethodDefContext ctx) { }
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
-	@Override public void exitLit(KaraffeParser.LitContext ctx) { }
+	@Override public void exitMainMethodDef(KaraffeParser.MainMethodDefContext ctx) { }
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
-	@Override public void enterMulExpr(KaraffeParser.MulExprContext ctx) { }
+	@Override public void enterStatement(KaraffeParser.StatementContext ctx) { }
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
-	@Override public void exitMulExpr(KaraffeParser.MulExprContext ctx) { }
+	@Override public void exitStatement(KaraffeParser.StatementContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
+	@Override public void enterExpr(KaraffeParser.ExprContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
+	@Override public void exitExpr(KaraffeParser.ExprContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
+	@Override public void enterAdditiveExpr(KaraffeParser.AdditiveExprContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
+	@Override public void exitAdditiveExpr(KaraffeParser.AdditiveExprContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
+	@Override public void enterMultiplicativeExpr(KaraffeParser.MultiplicativeExprContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
+	@Override public void exitMultiplicativeExpr(KaraffeParser.MultiplicativeExprContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
+	@Override public void enterPrimary(KaraffeParser.PrimaryContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
+	@Override public void exitPrimary(KaraffeParser.PrimaryContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
+	@Override public void enterMethodInvocation(KaraffeParser.MethodInvocationContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
+	@Override public void exitMethodInvocation(KaraffeParser.MethodInvocationContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
+	@Override public void enterArgumentList(KaraffeParser.ArgumentListContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
+	@Override public void exitArgumentList(KaraffeParser.ArgumentListContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
+	@Override public void enterBlock(KaraffeParser.BlockContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
+	@Override public void exitBlock(KaraffeParser.BlockContext ctx) { }
 	/**
 	 * {@inheritDoc}
 	 *

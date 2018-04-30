@@ -28,6 +28,10 @@ public class Apply extends AbstractExpression {
         this(Position.noPos(), expression, methodName, args);
     }
 
+    public Apply(Position position, SimpleName methodName, List<Expression> args) {
+        this(position, new This(), methodName, args);
+    }
+
     public Apply(Position position, SimpleName methodName, Expression... args) {
         this(position, new This(), methodName, args);
     }

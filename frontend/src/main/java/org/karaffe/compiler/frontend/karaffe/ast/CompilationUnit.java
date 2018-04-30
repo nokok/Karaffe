@@ -6,17 +6,14 @@ import org.karaffe.compiler.frontend.karaffe.ast.names.ModuleName;
 import org.karaffe.compiler.frontend.karaffe.ast.names.PackageName;
 import org.karaffe.compiler.base.pos.Position;
 
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Collection;
-import java.util.LinkedHashSet;
-import java.util.List;
-import java.util.Objects;
-import java.util.Optional;
-import java.util.Set;
+import java.util.*;
 
 public class CompilationUnit extends AbstractTree {
+
     private final Set<ModuleDef> modules;
+    private final Set<PackageDef> packages;
+    private final Set<TypeDefStatement> typeDefs;
+
     private final ModuleDef defaultUnnamedModule;
     private final PackageDef defaultUnnamedPackage;
 
@@ -43,6 +40,8 @@ public class CompilationUnit extends AbstractTree {
     public CompilationUnit(Position position, ModuleDef defaultUnnamedModule, PackageDef defaultUnnamedPackage, Collection<? extends ModuleDef> modules) {
         super(position);
         this.modules = new LinkedHashSet<>(modules);
+        this.packages = new HashSet<>();
+        this.typeDefs = new HashSet<>();
         this.defaultUnnamedModule = Optional.ofNullable(defaultUnnamedModule).orElseGet(ModuleDef::rootModule);
         this.defaultUnnamedPackage = Optional.ofNullable(defaultUnnamedPackage).orElseGet(() -> new PackageDef(PackageName.ofRoot()));
     }
