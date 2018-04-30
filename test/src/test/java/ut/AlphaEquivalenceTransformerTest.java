@@ -56,9 +56,6 @@ public class AlphaEquivalenceTransformerTest {
                 "}", this.transformer.transform(compilationUnit).toString());
     }
 
-    /**
-     * no op
-     */
     @Test
     public void testTransform3() {
         MethodDef mainMethod = new MethodDef(
@@ -75,21 +72,17 @@ public class AlphaEquivalenceTransformerTest {
         compilationUnit.addTypeDefStatement(classDef);
 
         assertEquals("/* Compilation Unit */ {\n" +
-                "package <root> {\n" +
                 "class A extends Any {\n" +
                 "public static void main(args StringArray) {\n" +
                 "let a = 1.+(3);\n" +
-                "}\n" +
                 "}\n" +
                 "}\n" +
                 "}", compilationUnit.toString());
 
         assertEquals("/* Compilation Unit */ {\n" +
-                "package <root> {\n" +
                 "class A extends Any {\n" +
                 "public static void main(args StringArray) {\n" +
                 "let a = 1.+(3);\n" +
-                "}\n" +
                 "}\n" +
                 "}\n" +
                 "}", this.transformer.transform(compilationUnit).toString());

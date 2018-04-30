@@ -30,12 +30,16 @@ public class CompilationUnit extends AbstractTree {
 
     public void addTypeDefStatement(TypeDefStatement typeDefStatement) {
         this.types.add(typeDefStatement);
-        this.fileTypesMap.put(this.fileName, this.types);
+        if (!this.fileName.isEmpty()) {
+            this.fileTypesMap.put(this.fileName, this.types);
+        }
     }
 
     public void setTypeDefStatements(List<TypeDefStatement> types) {
         this.types = types;
-        this.fileTypesMap.put(this.fileName, this.types);
+        if (!this.fileName.isEmpty()) {
+            this.fileTypesMap.put(this.fileName, this.types);
+        }
     }
 
     public List<TypeDefStatement> getTypeDefStatements() {
@@ -56,11 +60,13 @@ public class CompilationUnit extends AbstractTree {
     public String toString() {
         List<String> lines = new ArrayList<>();
         lines.add("/* Compilation Unit */ {");
-        lines.add("FileTypesMap = [");
-        this.fileTypesMap.forEach((k, v) -> {
-            lines.add("  " + k + " -> " + v.stream().map(TypeDefStatement::getName).map(SimpleName::toString).reduce((l, r) -> l + "," + r).orElse(""));
-        });
-        lines.add("]");
+        if (!this.fileTypesMap.isEmpty()) {
+            lines.add("FileTypesMap = [");
+            this.fileTypesMap.forEach((k, v) -> {
+                lines.add("  " + k + " -> " + v.stream().map(TypeDefStatement::getName).map(SimpleName::toString).reduce((l, r) -> l + "," + r).orElse(""));
+            });
+            lines.add("]");
+        }
         this.types.stream().map(TypeDefStatement::toString).forEach(lines::add);
         lines.add("}");
         return String.join("\n", lines);

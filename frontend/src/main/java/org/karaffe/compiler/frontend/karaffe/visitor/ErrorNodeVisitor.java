@@ -19,6 +19,7 @@ public class ErrorNodeVisitor extends KaraffeBaseVisitor<Void> implements ANTLRE
     @Override
     public void syntaxError(Recognizer<?, ?> recognizer, Object offendingSymbol, int line, int charPositionInLine, String msg, RecognitionException e) {
         Platform.stdErr("Syntax Error at " + line + ":" + charPositionInLine + " at: " + recognizer.getInputStream().getSourceName());
+        Platform.stdErr(msg);
         throw new KaraffeSemaException();
     }
 
