@@ -72,7 +72,7 @@ public class AlphaEquivalenceTransformerTest {
         ClassDef classDef = new ClassDef(new SimpleName("A"));
         classDef.addMember(mainMethod);
         CompilationUnit compilationUnit = new CompilationUnit();
-        compilationUnit.addTypedefStatement(classDef);
+        compilationUnit.addTypeDefStatement(classDef);
 
         assertEquals("/* Compilation Unit */ {\n" +
                 "package <root> {\n" +

@@ -1,104 +1,67 @@
 package org.karaffe.compiler.frontend.karaffe.ast;
 
 import org.karaffe.compiler.frontend.karaffe.ast.api.AbstractTree;
+import org.karaffe.compiler.frontend.karaffe.ast.api.ImportStatement;
 import org.karaffe.compiler.frontend.karaffe.ast.api.TypeDefStatement;
 import org.karaffe.compiler.frontend.karaffe.ast.names.ModuleName;
 import org.karaffe.compiler.frontend.karaffe.ast.names.PackageName;
 import org.karaffe.compiler.base.pos.Position;
+import org.karaffe.compiler.frontend.karaffe.ast.names.SimpleName;
 
 import java.util.*;
 
 public class CompilationUnit extends AbstractTree {
 
-    private final Set<ModuleDef> modules;
-    private final Set<PackageDef> packages;
-    private final Set<TypeDefStatement> typeDefs;
+    private String fileName = "";
+    private final Map<String, List<TypeDefStatement>> fileTypesMap = new HashMap<>();
+    private List<TypeDefStatement> types = new ArrayList<>();
 
-    private final ModuleDef defaultUnnamedModule;
-    private final PackageDef defaultUnnamedPackage;
-
-    public CompilationUnit(CompilationUnit other) {
-        this(other.getPosition(), other.getModules());
+    public void setFileName(String fileName) {
+        this.fileName = fileName;
     }
 
-    public CompilationUnit() {
-        this(new ArrayList<>());
+    public void clearFileName() {
+        this.fileName = "";
     }
 
-    public CompilationUnit(ModuleDef... modules) {
-        this(Arrays.asList(modules));
+    public String getFileName() {
+        return this.fileName;
     }
 
-    public CompilationUnit(Collection<? extends ModuleDef> modules) {
-        this(Position.noPos(), null, null, modules);
+    public void addTypeDefStatement(TypeDefStatement typeDefStatement) {
+        this.types.add(typeDefStatement);
+        this.fileTypesMap.put(this.fileName, this.types);
     }
 
-    public CompilationUnit(Position position, Collection<? extends ModuleDef> modules) {
-        this(position, null, null, modules);
+    public void setTypeDefStatements(List<TypeDefStatement> types) {
+        this.types = types;
+        this.fileTypesMap.put(this.fileName, this.types);
     }
 
-    public CompilationUnit(Position position, ModuleDef defaultUnnamedModule, PackageDef defaultUnnamedPackage, Collection<? extends ModuleDef> modules) {
-        super(position);
-        this.modules = new LinkedHashSet<>(modules);
-        this.packages = new HashSet<>();
-        this.typeDefs = new HashSet<>();
-        this.defaultUnnamedModule = Optional.ofNullable(defaultUnnamedModule).orElseGet(ModuleDef::rootModule);
-        this.defaultUnnamedPackage = Optional.ofNullable(defaultUnnamedPackage).orElseGet(() -> new PackageDef(PackageName.ofRoot()));
+    public List<TypeDefStatement> getTypeDefStatements() {
+        return Collections.unmodifiableList(this.types);
     }
 
-    public <T extends ModuleDef> void addModuleDef(T moduleDef) {
-        Objects.requireNonNull(moduleDef);
-        if (!this.modules.add(moduleDef)) {
-            throw new IllegalStateException("duplicate modules");
-        }
-    }
-
-    public List<? extends ModuleDef> getModules() {
-        return new ArrayList<>(this.modules);
-    }
-
-    public ModuleDef getDefaultUnnamedModule() {
-        return defaultUnnamedModule;
-    }
-
-    public PackageDef getDefaultUnnamedPackage() {
-        return defaultUnnamedPackage;
-    }
-
-    public void addTypedefStatement(TypeDefStatement typeDefStatement) {
-        this.defaultUnnamedPackage.addTypeDefStatement(typeDefStatement);
-    }
-
-    public CompilationUnit withModuleDef(ModuleDef moduleDef) {
-        this.modules.add(Objects.requireNonNull(moduleDef));
-        return this;
-    }
-
-    public CompilationUnit withPackageDef(ModuleName moduleName, PackageDef packageDef) {
-        ModuleDef moduleDef = this
-                .modules
-                .stream()
-                .filter(it -> it.getModuleName().equals(moduleName))
-                .findFirst()
-                .orElse(new ModuleDef(moduleName));
-        moduleDef.addPackageDef(packageDef);
-        this.modules.add(moduleDef);
-        return this;
+    public CompilationUnit merge(CompilationUnit that) {
+        CompilationUnit merged = new CompilationUnit();
+        this.fileTypesMap.forEach(merged.fileTypesMap::put);
+        that.fileTypesMap.forEach(merged.fileTypesMap::put);
+        merged.setFileName(this.fileName + ", " + that.fileName);
+        merged.types.addAll(this.types);
+        merged.types.addAll(that.types);
+        return merged;
     }
 
     @Override
     public String toString() {
         List<String> lines = new ArrayList<>();
         lines.add("/* Compilation Unit */ {");
-        if (this.defaultUnnamedModule != null && this.defaultUnnamedModule.hasChild()) {
-            lines.add(this.defaultUnnamedModule.toString());
-        }
-        if (this.defaultUnnamedPackage != null && this.defaultUnnamedPackage.hasChild()) {
-            lines.add(this.defaultUnnamedPackage.toString());
-        }
-        if (this.modules != null) {
-            this.modules.stream().map(ModuleDef::toString).forEach(lines::add);
-        }
+        lines.add("FileTypesMap = [");
+        this.fileTypesMap.forEach((k, v) -> {
+            lines.add("  " + k + " -> " + v.stream().map(TypeDefStatement::getName).map(SimpleName::toString).reduce((l, r) -> l + "," + r).orElse(""));
+        });
+        lines.add("]");
+        this.types.stream().map(TypeDefStatement::toString).forEach(lines::add);
         lines.add("}");
         return String.join("\n", lines);
     }

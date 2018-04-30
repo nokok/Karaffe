@@ -17,7 +17,7 @@ public class ASTVisitor extends KaraffeBaseVisitor<CompilationUnit> {
         TopLevelStatementVisitor visitor = new TopLevelStatementVisitor();
         for (KaraffeParser.TopLevelStatementContext topLevelStmt : context) {
             Tree stmt = topLevelStmt.accept(visitor);
-            compilationUnit.addTypedefStatement((TypeDefStatement) stmt);
+            compilationUnit.addTypeDefStatement((TypeDefStatement) stmt);
         }
         return compilationUnit;
     }
