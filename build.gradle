@@ -107,8 +107,13 @@ startScripts {
   applicationName = 'krfc'
 }
 
+startShadowScripts {
+  applicationName = 'krfc'
+}
+
 distributions {
   main {
     baseName = 'Karaffe-compiler'
   }
 }
+
