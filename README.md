@@ -14,7 +14,6 @@ The Karaffe is a new programming language, **currently under active development.
 
 - **Statically Typed** 
 - **Object Oriented**
-- **Simple**
 
 # Non-goals
 
@@ -29,22 +28,20 @@ TODO
 | [`nokok/Karaffe/v0.1.0-dev`](https://github.com/nokok/Karaffe/tree/v0.1.0-dev) | [![Build Status](https://travis-ci.org/nokok/Karaffe.svg?branch=v0.1.0-dev)](https://travis-ci.org/nokok/Karaffe) [![Build status](https://ci.appveyor.com/api/projects/status/smqreoar38kifhfs/branch/v0.1.0-dev?svg=true)](https://ci.appveyor.com/project/nokok/karaffe/branch/v0.1.0-dev) [![Maintainability](https://api.codeclimate.com/v1/badges/aa20a7b3efcbe8ebfc41/maintainability)](https://codeclimate.com/github/nokok/Karaffe/maintainability)| 
 -->
 
-### Build env Requirements
+### Requirements
 
 [JDK 1.8+ required.](http://www.oracle.com/technetwork/java/javase/downloads/jdk8-downloads-2133151.html)
-
-
 
 ### Building
 
 The project is built with Gradle(with Gradle Wrapper). You can build the project and run the tests using the following command.
 
 ```
-./gradlew build shadowJar
+$ ./gradlew installDist
 ```
 
 Run the compiler.
 
 ```
-java -jar build/libs/Karaffe-all.jar
+$ ./build/install/Karaffe-compiler/bin/krfc
 ```
