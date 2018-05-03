@@ -15,6 +15,7 @@ import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
+import java.util.Iterator;
 import java.util.List;
 import java.util.function.BiFunction;
 import java.util.regex.Matcher;
@@ -32,13 +33,13 @@ public class CompilerIOTest {
     private PrintStream defaultStdErr = System.err;
 
     private Path setUpTmpDestDir() throws IOException {
-        tmpDirPath = Paths.get(System.getProperty("java.io.tmpdir"), String.valueOf(System.currentTimeMillis()));
-        Files.createDirectory(tmpDirPath);
-        System.out.println("Working Directory: " + tmpDirPath.toAbsolutePath());
-        return tmpDirPath;
+        this.tmpDirPath = Paths.get(System.getProperty("java.io.tmpdir"), String.valueOf(System.currentTimeMillis()));
+        Files.createDirectory(this.tmpDirPath);
+        System.out.println("Working Directory: " + this.tmpDirPath.toAbsolutePath());
+        return this.tmpDirPath;
     }
 
-    private List<Path> listTestCases(String dirName, String... after) throws IOException {
+    private List<Path> listTestCases(String dirName, String... after) {
         return listTestCasesWithExtension(".case", dirName, after);
     }
 
@@ -60,7 +61,7 @@ public class CompilerIOTest {
     private String[] makeArguments(Path testCaseFile) throws IOException {
         String inputLine = new String(Files.readAllBytes(testCaseFile));
         return Stream.of(inputLine.split(","))
-                .filter(arg -> arg.trim().replace("\n", "").length() != 0)
+                .filter(arg -> !arg.trim().replace("\n", "").isEmpty())
                 .map(arg -> arg.replace("\n", ""))
                 .toArray(String[]::new);
     }
@@ -83,14 +84,14 @@ public class CompilerIOTest {
                     printFailed(testCase);
                     String expectedOutputs = String.join("\n", expectedOutputLines);
                     String actualOutputs = String.join("\n", actualLines);
-                    errorMsgBuilder.append("Command: krfc ").append(String.join(" ", args)).append(System.lineSeparator());
-                    errorMsgBuilder.append("Failed: ").append(destFile.getAbsolutePath()).append(System.lineSeparator());
-                    errorMsgBuilder.append("TestCase file: ").append(testCase).append(System.lineSeparator());
-                    errorMsgBuilder.append("Expected output file: ").append(expectedOutputFile.toAbsolutePath()).append(System.lineSeparator());
-                    errorMsgBuilder.append("===Expected===").append(System.lineSeparator());
-                    errorMsgBuilder.append(expectedOutputs).append(System.lineSeparator());
-                    errorMsgBuilder.append("====Actual====").append(System.lineSeparator());
-                    errorMsgBuilder.append(actualOutputs).append(System.lineSeparator());
+                    this.errorMsgBuilder.append("Command: krfc ").append(String.join(" ", args)).append(System.lineSeparator());
+                    this.errorMsgBuilder.append("Failed: ").append(destFile.getAbsolutePath()).append(System.lineSeparator());
+                    this.errorMsgBuilder.append("TestCase file: ").append(testCase).append(System.lineSeparator());
+                    this.errorMsgBuilder.append("Expected output file: ").append(expectedOutputFile.toAbsolutePath()).append(System.lineSeparator());
+                    this.errorMsgBuilder.append("===Expected===").append(System.lineSeparator());
+                    this.errorMsgBuilder.append(expectedOutputs).append(System.lineSeparator());
+                    this.errorMsgBuilder.append("====Actual====").append(System.lineSeparator());
+                    this.errorMsgBuilder.append(actualOutputs).append(System.lineSeparator());
                     return false;
                 }
             });
@@ -99,11 +100,11 @@ public class CompilerIOTest {
     }
 
     private void printPassed(Path caseName) {
-        defaultStdOut.println("Passed : " + caseName.getFileName().toString());
+        this.defaultStdOut.println("Passed : " + caseName.getFileName());
     }
 
     private void printFailed(Path caseName) {
-        defaultStdErr.println("Failed : " + caseName.getFileName().toString());
+        this.defaultStdErr.println("Failed : " + caseName.getFileName());
     }
 
     private int runTestCase(Path testCase, BiFunction<List<String>, File, Boolean> onComplete) throws Exception {
@@ -111,7 +112,7 @@ public class CompilerIOTest {
     }
 
     private int runTestCaseWithOption(String[] args, Path testCase, BiFunction<List<String>, File, Boolean> onComplete) throws Exception {
-        File destFile = createTestCaseOutFile(tmpDirPath, testCase.getFileName().toString());
+        File destFile = createTestCaseOutFile(this.tmpDirPath, testCase.getFileName().toString());
         List<String> argsL = new ArrayList<>(Arrays.asList(args));
         if (!testCase.toString().endsWith(".case")) {
             argsL.add(testCase.toString());
@@ -119,7 +120,7 @@ public class CompilerIOTest {
 
         try (PrintStream output = new PrintStream(destFile)) {
             KaraffeCompilerLauncher launcher = new KaraffeCompilerLauncher(System.in, output, output);
-            defaultStdOut.println("Running...: krfc " + String.join(" ", argsL));
+            this.defaultStdOut.println("Running...: krfc " + String.join(" ", argsL));
             launcher.run(argsL.toArray(new String[]{}));
             List<String> actualOutputLines = Files.readAllLines(destFile.toPath());
             return onComplete.apply(actualOutputLines, destFile) ? 0 : 1;
@@ -136,10 +137,10 @@ public class CompilerIOTest {
                 } else {
                     printFailed(testCase);
                     String actualOutputs = String.join("\n", actualLines);
-                    errorMsgBuilder.append("Command: krfc ").append(testCase.toAbsolutePath().toString()).append(System.lineSeparator());
-                    errorMsgBuilder.append("Failed: ").append(destFile.getAbsolutePath()).append(System.lineSeparator());
-                    errorMsgBuilder.append("====Actual====").append(System.lineSeparator());
-                    errorMsgBuilder.append(actualOutputs).append(System.lineSeparator());
+                    this.errorMsgBuilder.append("Command: krfc ").append(testCase.toAbsolutePath().toString()).append(System.lineSeparator());
+                    this.errorMsgBuilder.append("Failed: ").append(destFile.getAbsolutePath()).append(System.lineSeparator());
+                    this.errorMsgBuilder.append("====Actual====").append(System.lineSeparator());
+                    this.errorMsgBuilder.append(actualOutputs).append(System.lineSeparator());
                     return false;
                 }
             });
@@ -162,14 +163,14 @@ public class CompilerIOTest {
                     printFailed(testCase);
                     String expectedOutputs = String.join("\n", expectedOutputLines);
                     String actualOutputs = String.join("\n", actualLines);
-                    errorMsgBuilder.append("Command: krfc ").append(testCase.getFileName()).append(System.lineSeparator());
-                    errorMsgBuilder.append("Failed: ").append(destFile.getAbsolutePath()).append(System.lineSeparator());
-                    errorMsgBuilder.append("TestCase file: ").append(testCase).append(System.lineSeparator());
-                    errorMsgBuilder.append("Expected output file: ").append(expectedOutputFile.toAbsolutePath()).append(System.lineSeparator());
-                    errorMsgBuilder.append("===Expected===").append(System.lineSeparator());
-                    errorMsgBuilder.append(expectedOutputs).append(System.lineSeparator());
-                    errorMsgBuilder.append("====Actual====").append(System.lineSeparator());
-                    errorMsgBuilder.append(actualOutputs).append(System.lineSeparator());
+                    this.errorMsgBuilder.append("Command: krfc ").append(testCase.getFileName()).append(System.lineSeparator());
+                    this.errorMsgBuilder.append("Failed: ").append(destFile.getAbsolutePath()).append(System.lineSeparator());
+                    this.errorMsgBuilder.append("TestCase file: ").append(testCase).append(System.lineSeparator());
+                    this.errorMsgBuilder.append("Expected output file: ").append(expectedOutputFile.toAbsolutePath()).append(System.lineSeparator());
+                    this.errorMsgBuilder.append("===Expected===").append(System.lineSeparator());
+                    this.errorMsgBuilder.append(expectedOutputs).append(System.lineSeparator());
+                    this.errorMsgBuilder.append("====Actual====").append(System.lineSeparator());
+                    this.errorMsgBuilder.append(actualOutputs).append(System.lineSeparator());
                     return false;
                 }
             });
@@ -198,7 +199,7 @@ public class CompilerIOTest {
             }
             return true;
         } else {
-            defaultStdOut.printf("Line count comparison failed. expected %s ,actual %s%n", expectedOutputLines.size(), actualLines.size());
+            this.defaultStdOut.printf("Line count comparison failed. expected %s ,actual %s%n", expectedOutputLines.size(), actualLines.size());
             return false;
         }
     }
@@ -217,7 +218,7 @@ public class CompilerIOTest {
         if (failed > 0) {
             defaultStdErr.println();
             defaultStdErr.println("====Failure Report====");
-            defaultStdErr.println(errorMsgBuilder);
+            defaultStdErr.println(this.errorMsgBuilder);
             defaultStdErr.println("====END");
             fail();
         } else {
