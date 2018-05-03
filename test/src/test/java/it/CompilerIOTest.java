@@ -1,17 +1,17 @@
 package it;
 
 import org.junit.Test;
+import org.karaffe.compiler.base.util.Platform;
 import org.karaffe.compiler.launcher.KaraffeCompilerLauncher;
 
-import java.io.File;
-import java.io.IOException;
-import java.io.PrintStream;
-import java.io.UncheckedIOException;
+import java.io.*;
 import java.nio.file.Files;
+import java.nio.file.NoSuchFileException;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Collections;
 import java.util.List;
 import java.util.function.BiFunction;
 import java.util.regex.Matcher;
@@ -39,12 +39,19 @@ public class CompilerIOTest {
         return listTestCasesWithExtension(".case", dirName, after);
     }
 
-    private List<Path> listTestCasesWithExtension(String extension, String dirName, String... after) throws IOException {
-        Path testDirectory = Paths.get(dirName, after);
-        System.out.println("Search Path: " + testDirectory.toAbsolutePath());
-        List<Path> testCases = Files.list(testDirectory).filter(p -> p.getFileName().toString().endsWith(extension)).collect(Collectors.toList());
-        System.out.println("TestCases: " + testCases);
-        return testCases;
+    private List<Path> listTestCasesWithExtension(String extension, String dirName, String... after) {
+        try {
+            Path testDirectory = Paths.get(dirName, after);
+            System.out.println("Search Path: " + testDirectory.toAbsolutePath());
+            List<Path> testCases = Files.list(testDirectory).filter(p -> p.getFileName().toString().endsWith(extension)).collect(Collectors.toList());
+            System.out.println("TestCases: " + testCases);
+            return testCases;
+        } catch (NoSuchFileException e) {
+            Platform.stdErr("handle NoSuchFileException");
+            return Collections.emptyList();
+        } catch (IOException e) {
+            throw new UncheckedIOException(e);
+        }
     }
 
     private String[] makeArguments(Path testCaseFile) throws IOException {
