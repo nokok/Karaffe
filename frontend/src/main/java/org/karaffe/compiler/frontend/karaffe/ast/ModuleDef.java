@@ -35,6 +35,14 @@ public class ModuleDef {
         this.directives = new ArrayList<>(directives);
     }
 
+    public static ModuleName rootModuleName() {
+        return new ModuleName("<root>");
+    }
+
+    public static ModuleDef rootModule() {
+        return new ModuleDef(ModuleDef.rootModuleName());
+    }
+
     public void addPackageDef(PackageDef packageDef) {
         this.packages.add(Objects.requireNonNull(packageDef));
     }
@@ -65,14 +73,6 @@ public class ModuleDef {
 
     public boolean hasChild() {
         return !(this.packages.isEmpty() && this.directives.isEmpty());
-    }
-
-    public static ModuleName rootModuleName() {
-        return new ModuleName("<root>");
-    }
-
-    public static ModuleDef rootModule() {
-        return new ModuleDef(ModuleDef.rootModuleName());
     }
 
     @Override

@@ -31,7 +31,7 @@ public class Int extends Any {
     }
 
     public Double div(Int other) {
-        return new Double((double)this.value / (double)other.value);
+        return new Double((double) this.value / (double) other.value);
     }
 
     @Override

@@ -3,7 +3,6 @@ package org.karaffe.compiler.frontend.karaffe.ast.statements;
 import org.karaffe.compiler.base.pos.Position;
 import org.karaffe.compiler.frontend.karaffe.ast.api.Statement;
 import org.karaffe.compiler.frontend.karaffe.ast.api.StatementType;
-import org.karaffe.compiler.frontend.karaffe.ast.api.TypeDefMember;
 import org.karaffe.compiler.frontend.karaffe.ast.names.SimpleName;
 import org.karaffe.compiler.frontend.karaffe.ast.names.TypeName;
 
@@ -48,8 +47,8 @@ public class InterfaceDef extends AbstractTypeDefStatement {
     @Override
     public String toString() {
         return String.format("interface %s%s {\n"
-                + "%s\n"
-                + "}",
+                        + "%s\n"
+                        + "}",
                 this.getName(),
                 this.getInterfaceNames().isEmpty() ? "" : " implements " + String.join(", ", this.getInterfaceNames()),
                 String.join(";\n", this.getBody().stream().map(Statement::toString).collect(Collectors.toList())));

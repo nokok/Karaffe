@@ -1,12 +1,11 @@
 package org.karaffe.compiler.frontend.karaffe.transformer;
 
+import org.karaffe.compiler.base.generator.ConsecutiveNumberGenerator;
 import org.karaffe.compiler.frontend.karaffe.ast.api.Statement;
 import org.karaffe.compiler.frontend.karaffe.ast.expressions.Block;
 import org.karaffe.compiler.frontend.karaffe.ast.expressions.ExpressionName;
 import org.karaffe.compiler.frontend.karaffe.ast.names.SimpleName;
 import org.karaffe.compiler.frontend.karaffe.ast.statements.LetLocalDef;
-import org.karaffe.compiler.base.generator.ConsecutiveNumberGenerator;
-import org.karaffe.compiler.frontend.karaffe.transformer.AbstractTransformer;
 
 import java.util.HashMap;
 import java.util.HashSet;
@@ -15,13 +14,12 @@ import java.util.Set;
 
 public class AlphaEquivalenceTransformer extends AbstractTransformer {
 
-    public AlphaEquivalenceTransformer() {
-        super("alpha-equivalence");
-    }
-
     private final ConsecutiveNumberGenerator nameGen = new ConsecutiveNumberGenerator("s_");
     private final Set<SimpleName> names = new HashSet<>();
     private final Map<SimpleName, SimpleName> nameMapping = new HashMap<>();
+    public AlphaEquivalenceTransformer() {
+        super("alpha-equivalence");
+    }
 
     @Override
     public SimpleName transformBody(SimpleName simpleName) {

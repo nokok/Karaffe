@@ -1,11 +1,11 @@
 package org.karaffe.compiler.frontend.karaffe.ast.names;
 
+import org.karaffe.compiler.base.pos.Position;
+
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import java.util.stream.Collectors;
-
-import org.karaffe.compiler.base.pos.Position;
 
 public class TypeName extends SimpleName {
     private final SimpleName name;
@@ -69,6 +69,14 @@ public class TypeName extends SimpleName {
         this.isArray = otherTypeName.isArray;
     }
 
+    public static TypeName voidType() {
+        return new FullyQualifiedTypeName(new SimpleName("void"));
+    }
+
+    public static TypeName rootClass() {
+        return new TypeName(SimpleName.rootClass());
+    }
+
     public boolean isVoidType() {
         return this.name.toString().equals("void");
     }
@@ -89,26 +97,18 @@ public class TypeName extends SimpleName {
         return new ArrayList<>(this.parameterizedTypes);
     }
 
-    public static TypeName voidType() {
-        return new FullyQualifiedTypeName(new SimpleName("void"));
-    }
-
     @Override
     public String toString() {
         StringBuilder b = new StringBuilder(this.name);
-        if(!this.parameterizedTypes.isEmpty()) {
+        if (!this.parameterizedTypes.isEmpty()) {
             b.append("[");
             b.append(String.join(", ", this.parameterizedTypes.stream().map(TypeName::toString).collect(Collectors.toList())));
             b.append("]");
         }
-        if(this.isArray){
+        if (this.isArray) {
             b.append("[]");
         }
         return b.toString();
-    }
-
-    public static TypeName rootClass() {
-        return new TypeName(SimpleName.rootClass());
     }
 
 }

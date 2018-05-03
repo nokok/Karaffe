@@ -53,16 +53,6 @@ public abstract class AbstractTypeDefStatement extends AbstractTree implements T
     }
 
     @Override
-    public void setName(SimpleName className) {
-        this.typeName = className;
-    }
-
-    @Override
-    public void setSuperClassName(TypeName superClassName) {
-        this.superClassName = superClassName;
-    }
-
-    @Override
     public void addInterface(TypeName impl) {
         this.interfaces.add(impl);
     }
@@ -88,8 +78,18 @@ public abstract class AbstractTypeDefStatement extends AbstractTree implements T
     }
 
     @Override
+    public void setName(SimpleName className) {
+        this.typeName = className;
+    }
+
+    @Override
     public TypeName getSuperClassName() {
         return this.superClassName;
+    }
+
+    @Override
+    public void setSuperClassName(TypeName superClassName) {
+        this.superClassName = superClassName;
     }
 
     @Override

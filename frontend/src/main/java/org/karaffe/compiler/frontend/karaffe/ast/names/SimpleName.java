@@ -1,10 +1,10 @@
 package org.karaffe.compiler.frontend.karaffe.ast.names;
 
-import java.util.Objects;
-
 import org.karaffe.compiler.base.pos.Position;
 import org.karaffe.compiler.frontend.karaffe.ast.api.AbstractTree;
 import org.karaffe.compiler.frontend.karaffe.ast.api.Term;
+
+import java.util.Objects;
 
 public class SimpleName extends AbstractTree implements CharSequence, Term {
     private final String name;
@@ -30,6 +30,22 @@ public class SimpleName extends AbstractTree implements CharSequence, Term {
 
     public SimpleName(Position position, SimpleName other) {
         this(position, other.name);
+    }
+
+    public static SimpleName rootClass() {
+        return new SimpleName("Any");
+    }
+
+    public static SimpleName rootClass(Position position) {
+        return new SimpleName(position, "Any");
+    }
+
+    public static SimpleName defaultPackageName() {
+        return new SimpleName("<root>");
+    }
+
+    public static SimpleName wildCard() {
+        return new SimpleName("_");
     }
 
     @Override
@@ -77,21 +93,5 @@ public class SimpleName extends AbstractTree implements CharSequence, Term {
     @Override
     public int hashCode() {
         return this.name.hashCode();
-    }
-
-    public static SimpleName rootClass() {
-        return new SimpleName("Any");
-    }
-
-    public static SimpleName rootClass(Position position) {
-        return new SimpleName(position, "Any");
-    }
-
-    public static SimpleName defaultPackageName() {
-        return new SimpleName("<root>");
-    }
-
-    public static SimpleName wildCard() {
-        return new SimpleName("_");
     }
 }

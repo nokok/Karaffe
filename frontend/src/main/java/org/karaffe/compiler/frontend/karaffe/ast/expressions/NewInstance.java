@@ -3,7 +3,6 @@ package org.karaffe.compiler.frontend.karaffe.ast.expressions;
 import org.karaffe.compiler.base.pos.Position;
 import org.karaffe.compiler.frontend.karaffe.ast.api.AbstractExpression;
 import org.karaffe.compiler.frontend.karaffe.ast.api.Expression;
-import org.karaffe.compiler.frontend.karaffe.ast.api.NameRef;
 import org.karaffe.compiler.frontend.karaffe.ast.names.SimpleName;
 import org.karaffe.compiler.frontend.karaffe.ast.names.TypeName;
 

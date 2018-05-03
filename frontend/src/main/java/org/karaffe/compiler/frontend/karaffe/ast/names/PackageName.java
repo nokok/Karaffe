@@ -1,7 +1,7 @@
 package org.karaffe.compiler.frontend.karaffe.ast.names;
 
-import org.karaffe.compiler.frontend.karaffe.ast.api.AbstractTree;
 import org.karaffe.compiler.base.pos.Position;
+import org.karaffe.compiler.frontend.karaffe.ast.api.AbstractTree;
 
 import java.util.ArrayList;
 import java.util.Arrays;

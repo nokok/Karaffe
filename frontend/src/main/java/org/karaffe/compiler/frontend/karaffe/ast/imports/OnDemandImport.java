@@ -1,13 +1,13 @@
 package org.karaffe.compiler.frontend.karaffe.ast.imports;
 
-import java.util.Objects;
-
 import org.karaffe.compiler.base.pos.Position;
 import org.karaffe.compiler.frontend.karaffe.ast.api.AbstractTree;
 import org.karaffe.compiler.frontend.karaffe.ast.api.ImportStatement;
 import org.karaffe.compiler.frontend.karaffe.ast.api.StatementType;
 import org.karaffe.compiler.frontend.karaffe.ast.names.PackageName;
 import org.karaffe.compiler.frontend.karaffe.ast.names.SimpleName;
+
+import java.util.Objects;
 
 public class OnDemandImport extends AbstractTree implements ImportStatement {
 

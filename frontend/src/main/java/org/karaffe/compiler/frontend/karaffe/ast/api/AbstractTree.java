@@ -1,9 +1,8 @@
 package org.karaffe.compiler.frontend.karaffe.ast.api;
 
-import java.util.Objects;
-
 import org.karaffe.compiler.base.pos.Position;
-import org.karaffe.compiler.base.types.state.InferState;
+
+import java.util.Objects;
 
 public abstract class AbstractTree implements Tree, TreePosition {
     private Position treePosition = Position.noPos();

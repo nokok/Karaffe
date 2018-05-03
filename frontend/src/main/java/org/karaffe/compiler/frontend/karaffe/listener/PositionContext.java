@@ -12,7 +12,7 @@ public interface PositionContext {
         return Position.of(sym.getTokenSource().getSourceName(), sym.getLine(), sym.getCharPositionInLine());
     }
 
-    public default  Position getPosition(ParserRuleContext context) {
+    public default Position getPosition(ParserRuleContext context) {
         Token startToken = context.getStart();
         return Position.of(startToken.getTokenSource().getSourceName(), startToken.getLine(), startToken.getCharPositionInLine());
     }

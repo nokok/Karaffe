@@ -1,9 +1,9 @@
 package org.karaffe.compiler.frontend.karaffe.transformer.api;
 
-import java.util.stream.Collectors;
-
 import org.karaffe.compiler.frontend.karaffe.ast.api.Expression;
 import org.karaffe.compiler.frontend.karaffe.ast.expressions.NewInstance;
+
+import java.util.stream.Collectors;
 
 public interface NewInstanceTransformer extends TypeNameTransformer, BaseTransformer {
     public default void onNewInstanceBefore(NewInstance newInstance) {

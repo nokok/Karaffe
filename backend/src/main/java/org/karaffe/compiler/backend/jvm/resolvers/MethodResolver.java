@@ -1,7 +1,11 @@
 package org.karaffe.compiler.backend.jvm.resolvers;
 
 import java.lang.reflect.Method;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
+import java.util.Objects;
+import java.util.Optional;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
@@ -11,13 +15,6 @@ public class MethodResolver {
     public MethodResolver(Class<?> targetClass) {
         this.targetClass = targetClass;
     }
-
-    public List<Method> findMethodsByMethodName(String methodName) {
-        return Stream.of(this.targetClass.getMethods())
-                .filter(method -> method.getName().equals(methodName))
-                .collect(Collectors.toList());
-    }
-
 
     public static Optional<List<Method>> findMethods(String anyString) {
         Objects.requireNonNull(anyString);
@@ -35,6 +32,12 @@ public class MethodResolver {
                 .map(clazz -> Stream.of(clazz.getMethods())
                         .filter(method -> method.getName().equals(methodName))
                         .collect(Collectors.toList()));
+    }
+
+    public List<Method> findMethodsByMethodName(String methodName) {
+        return Stream.of(this.targetClass.getMethods())
+                .filter(method -> method.getName().equals(methodName))
+                .collect(Collectors.toList());
     }
 
     public List<Method> findMethodsByMethodNameWithParameterSize(String methodName, int paramSize) {

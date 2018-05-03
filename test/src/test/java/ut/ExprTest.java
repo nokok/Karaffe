@@ -1,13 +1,13 @@
 package ut;
 
-import static org.junit.Assert.assertEquals;
-
 import org.junit.Test;
 import org.karaffe.compiler.frontend.karaffe.ast.api.Tree;
 import org.karaffe.compiler.frontend.karaffe.ast.expressions.Apply;
 import org.karaffe.compiler.frontend.karaffe.ast.expressions.ExpressionName;
 import org.karaffe.compiler.frontend.karaffe.ast.expressions.IntLiteral;
 import org.karaffe.compiler.frontend.karaffe.ast.names.SimpleName;
+
+import static org.junit.Assert.assertEquals;
 
 public class ExprTest {
 

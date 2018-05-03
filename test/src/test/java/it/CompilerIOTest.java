@@ -4,7 +4,10 @@ import org.junit.Test;
 import org.karaffe.compiler.base.util.Platform;
 import org.karaffe.compiler.launcher.KaraffeCompilerLauncher;
 
-import java.io.*;
+import java.io.File;
+import java.io.IOException;
+import java.io.PrintStream;
+import java.io.UncheckedIOException;
 import java.nio.file.Files;
 import java.nio.file.NoSuchFileException;
 import java.nio.file.Path;

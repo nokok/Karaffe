@@ -1,12 +1,12 @@
 package org.karaffe.compiler.backend.jvm.resolvers.types;
 
+import org.karaffe.compiler.backend.jvm.resolvers.types.state.JavaTypeResolved;
+import org.karaffe.compiler.base.types.state.InferState;
+
 import java.util.Arrays;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
-
-import org.karaffe.compiler.base.types.state.InferState;
-import org.karaffe.compiler.backend.jvm.resolvers.types.state.JavaTypeResolved;
 
 public interface JavaInferStates extends InferState {
     public static InferState of(Class<? extends Object> clazz) {

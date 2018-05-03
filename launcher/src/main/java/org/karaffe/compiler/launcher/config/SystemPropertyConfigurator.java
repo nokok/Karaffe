@@ -9,7 +9,7 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.stream.Stream;
 
-public class SystemPropertyConfigurator implements Configurator{
+public class SystemPropertyConfigurator implements Configurator {
 
     private final Logger logger = LoggerFactory.getLogger(SystemPropertyConfigurator.class);
 

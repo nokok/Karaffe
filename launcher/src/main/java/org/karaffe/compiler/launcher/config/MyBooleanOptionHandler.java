@@ -10,6 +10,7 @@ public class MyBooleanOptionHandler extends BooleanOptionHandler {
     public MyBooleanOptionHandler(CmdLineParser parser, OptionDef option, Setter<Boolean> setter) {
         super(parser, option, setter);
     }
+
     @Override
     public String printDefaultValue() {
         return null;

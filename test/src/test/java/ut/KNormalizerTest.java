@@ -1,19 +1,7 @@
 package ut;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertFalse;
-import static org.junit.Assert.assertTrue;
-
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.List;
-
 import org.junit.Before;
 import org.junit.Test;
-import org.karaffe.compiler.frontend.karaffe.ast.expressions.NewInstance;
-import org.karaffe.compiler.frontend.karaffe.ast.expressions.StaticApply;
-import org.karaffe.compiler.frontend.karaffe.ast.names.TypeName;
-import org.karaffe.compiler.frontend.karaffe.transformer.KNormalizer;
 import org.karaffe.compiler.frontend.karaffe.ast.api.Expression;
 import org.karaffe.compiler.frontend.karaffe.ast.api.Statement;
 import org.karaffe.compiler.frontend.karaffe.ast.expressions.Apply;
@@ -22,9 +10,21 @@ import org.karaffe.compiler.frontend.karaffe.ast.expressions.Div;
 import org.karaffe.compiler.frontend.karaffe.ast.expressions.ExpressionName;
 import org.karaffe.compiler.frontend.karaffe.ast.expressions.IntLiteral;
 import org.karaffe.compiler.frontend.karaffe.ast.expressions.Mul;
+import org.karaffe.compiler.frontend.karaffe.ast.expressions.NewInstance;
 import org.karaffe.compiler.frontend.karaffe.ast.expressions.Plus;
+import org.karaffe.compiler.frontend.karaffe.ast.expressions.StaticApply;
 import org.karaffe.compiler.frontend.karaffe.ast.names.SimpleName;
+import org.karaffe.compiler.frontend.karaffe.ast.names.TypeName;
 import org.karaffe.compiler.frontend.karaffe.ast.statements.LetLocalDef;
+import org.karaffe.compiler.frontend.karaffe.transformer.KNormalizer;
+
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
+
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertTrue;
 
 public class KNormalizerTest {
     private KNormalizer normalizer;

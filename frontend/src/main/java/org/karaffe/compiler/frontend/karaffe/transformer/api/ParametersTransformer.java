@@ -1,10 +1,10 @@
 package org.karaffe.compiler.frontend.karaffe.transformer.api;
 
+import org.karaffe.compiler.frontend.karaffe.ast.Parameter;
+
 import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
-
-import org.karaffe.compiler.frontend.karaffe.ast.Parameter;
 
 public interface ParametersTransformer extends ParameterTransformer {
 

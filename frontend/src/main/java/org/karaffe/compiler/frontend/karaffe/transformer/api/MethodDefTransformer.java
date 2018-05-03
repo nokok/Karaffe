@@ -1,8 +1,8 @@
 package org.karaffe.compiler.frontend.karaffe.transformer.api;
 
-import java.util.stream.Collectors;
-
 import org.karaffe.compiler.frontend.karaffe.ast.statements.MethodDef;
+
+import java.util.stream.Collectors;
 
 public interface MethodDefTransformer extends BaseTransformer, ParametersTransformer {
 

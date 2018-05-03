@@ -1,11 +1,11 @@
 package ut;
 
-import static org.junit.Assert.assertEquals;
+import org.junit.Test;
+import org.karaffe.compiler.backend.jvm.resolvers.PackageResolver;
 
 import java.util.Optional;
 
-import org.junit.Test;
-import org.karaffe.compiler.backend.jvm.resolvers.PackageResolver;
+import static org.junit.Assert.assertEquals;
 
 public class PackageResolverTest {
 

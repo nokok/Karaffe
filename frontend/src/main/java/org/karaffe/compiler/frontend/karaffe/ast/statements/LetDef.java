@@ -1,5 +1,6 @@
 package org.karaffe.compiler.frontend.karaffe.ast.statements;
 
+import org.karaffe.compiler.base.pos.Position;
 import org.karaffe.compiler.frontend.karaffe.ast.api.AbstractTree;
 import org.karaffe.compiler.frontend.karaffe.ast.api.Expression;
 import org.karaffe.compiler.frontend.karaffe.ast.api.NameRef;
@@ -7,7 +8,6 @@ import org.karaffe.compiler.frontend.karaffe.ast.api.Statement;
 import org.karaffe.compiler.frontend.karaffe.ast.expressions.ExpressionName;
 import org.karaffe.compiler.frontend.karaffe.ast.names.SimpleName;
 import org.karaffe.compiler.frontend.karaffe.ast.names.TypeName;
-import org.karaffe.compiler.base.pos.Position;
 
 import java.util.Objects;
 import java.util.Optional;

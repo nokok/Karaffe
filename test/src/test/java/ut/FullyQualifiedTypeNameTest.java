@@ -1,14 +1,14 @@
 package ut;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertNotEquals;
-
-import java.util.Arrays;
-
 import org.junit.Test;
 import org.karaffe.compiler.base.pos.Position;
 import org.karaffe.compiler.frontend.karaffe.ast.names.FullyQualifiedTypeName;
 import org.karaffe.compiler.frontend.karaffe.ast.names.SimpleName;
+
+import java.util.Arrays;
+
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNotEquals;
 
 public class FullyQualifiedTypeNameTest {
 

@@ -1,18 +1,10 @@
 package ut;
 
 import org.junit.Test;
-import org.karaffe.compiler.frontend.karaffe.ast.CompilationUnit;
 import org.karaffe.compiler.frontend.karaffe.ast.ModuleDef;
 import org.karaffe.compiler.frontend.karaffe.ast.PackageDef;
-import org.karaffe.compiler.frontend.karaffe.ast.Parameter;
 import org.karaffe.compiler.frontend.karaffe.ast.api.ModuleDirective;
-import org.karaffe.compiler.frontend.karaffe.ast.expressions.Apply;
-import org.karaffe.compiler.frontend.karaffe.ast.expressions.ExpressionName;
-import org.karaffe.compiler.frontend.karaffe.ast.expressions.IntLiteral;
-import org.karaffe.compiler.frontend.karaffe.ast.expressions.Plus;
 import org.karaffe.compiler.frontend.karaffe.ast.imports.SimpleImport;
-import org.karaffe.compiler.frontend.karaffe.ast.modifiers.Public;
-import org.karaffe.compiler.frontend.karaffe.ast.modifiers.Static;
 import org.karaffe.compiler.frontend.karaffe.ast.modules.ExportsDef;
 import org.karaffe.compiler.frontend.karaffe.ast.modules.RequiresDef;
 import org.karaffe.compiler.frontend.karaffe.ast.names.FullyQualifiedTypeName;
@@ -22,11 +14,8 @@ import org.karaffe.compiler.frontend.karaffe.ast.names.SimpleName;
 import org.karaffe.compiler.frontend.karaffe.ast.names.TypeName;
 import org.karaffe.compiler.frontend.karaffe.ast.statements.ClassDef;
 import org.karaffe.compiler.frontend.karaffe.ast.statements.InterfaceDef;
-import org.karaffe.compiler.frontend.karaffe.ast.statements.LetLocalDef;
-import org.karaffe.compiler.frontend.karaffe.ast.statements.MethodDef;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.Map;

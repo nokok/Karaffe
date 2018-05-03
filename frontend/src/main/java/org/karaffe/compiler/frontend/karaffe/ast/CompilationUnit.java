@@ -1,24 +1,20 @@
 package org.karaffe.compiler.frontend.karaffe.ast;
 
 import org.karaffe.compiler.frontend.karaffe.ast.api.AbstractTree;
-import org.karaffe.compiler.frontend.karaffe.ast.api.ImportStatement;
 import org.karaffe.compiler.frontend.karaffe.ast.api.TypeDefStatement;
-import org.karaffe.compiler.frontend.karaffe.ast.names.ModuleName;
-import org.karaffe.compiler.frontend.karaffe.ast.names.PackageName;
-import org.karaffe.compiler.base.pos.Position;
 import org.karaffe.compiler.frontend.karaffe.ast.names.SimpleName;
 
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 public class CompilationUnit extends AbstractTree {
 
-    private String fileName = "";
     private final Map<String, List<TypeDefStatement>> fileTypesMap = new HashMap<>();
+    private String fileName = "";
     private List<TypeDefStatement> types = new ArrayList<>();
-
-    public void setFileName(String fileName) {
-        this.fileName = fileName;
-    }
 
     public void clearFileName() {
         this.fileName = "";
@@ -28,6 +24,10 @@ public class CompilationUnit extends AbstractTree {
         return this.fileName;
     }
 
+    public void setFileName(String fileName) {
+        this.fileName = fileName;
+    }
+
     public void addTypeDefStatement(TypeDefStatement typeDefStatement) {
         this.types.add(typeDefStatement);
         if (!this.fileName.isEmpty()) {
@@ -35,15 +35,15 @@ public class CompilationUnit extends AbstractTree {
         }
     }
 
+    public List<TypeDefStatement> getTypeDefStatements() {
+        return Collections.unmodifiableList(this.types);
+    }
+
     public void setTypeDefStatements(List<TypeDefStatement> types) {
         this.types = types;
         if (!this.fileName.isEmpty()) {
             this.fileTypesMap.put(this.fileName, this.types);
         }
-    }
-
-    public List<TypeDefStatement> getTypeDefStatements() {
-        return Collections.unmodifiableList(this.types);
     }
 
     public CompilationUnit merge(CompilationUnit that) {

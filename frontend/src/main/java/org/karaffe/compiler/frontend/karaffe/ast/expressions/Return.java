@@ -1,11 +1,11 @@
 package org.karaffe.compiler.frontend.karaffe.ast.expressions;
 
-import java.util.Objects;
-import java.util.Optional;
-
 import org.karaffe.compiler.base.pos.Position;
 import org.karaffe.compiler.frontend.karaffe.ast.api.AbstractExpression;
 import org.karaffe.compiler.frontend.karaffe.ast.api.Expression;
+
+import java.util.Objects;
+import java.util.Optional;
 
 public class Return extends AbstractExpression {
     private final Expression expression;

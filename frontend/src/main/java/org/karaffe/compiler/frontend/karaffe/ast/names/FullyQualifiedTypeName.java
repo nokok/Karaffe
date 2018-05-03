@@ -1,13 +1,13 @@
 package org.karaffe.compiler.frontend.karaffe.ast.names;
 
+import org.karaffe.compiler.base.pos.Position;
+
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Objects;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
-
-import org.karaffe.compiler.base.pos.Position;
 
 public class FullyQualifiedTypeName extends TypeName {
 

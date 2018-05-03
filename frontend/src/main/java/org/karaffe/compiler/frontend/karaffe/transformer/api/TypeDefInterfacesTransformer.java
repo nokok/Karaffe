@@ -1,10 +1,10 @@
 package org.karaffe.compiler.frontend.karaffe.transformer.api;
 
-import java.util.ArrayList;
-import java.util.List;
-
 import org.karaffe.compiler.frontend.karaffe.ast.api.TypeDefStatement;
 import org.karaffe.compiler.frontend.karaffe.ast.names.SimpleName;
+
+import java.util.ArrayList;
+import java.util.List;
 
 public interface TypeDefInterfacesTransformer extends SimpleNameTransformer {
 

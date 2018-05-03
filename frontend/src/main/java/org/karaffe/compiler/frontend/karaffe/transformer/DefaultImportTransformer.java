@@ -3,10 +3,8 @@ package org.karaffe.compiler.frontend.karaffe.transformer;
 import karaffe.core.Any;
 import org.karaffe.compiler.frontend.karaffe.ast.PackageDef;
 import org.karaffe.compiler.frontend.karaffe.ast.api.ImportStatement;
-import org.karaffe.compiler.frontend.karaffe.ast.imports.OnDemandImport;
 import org.karaffe.compiler.frontend.karaffe.ast.imports.SimpleImport;
 import org.karaffe.compiler.frontend.karaffe.ast.names.FullyQualifiedTypeName;
-import org.karaffe.compiler.frontend.karaffe.ast.names.PackageName;
 
 import java.io.Reader;
 import java.net.URL;
@@ -33,10 +31,10 @@ public class DefaultImportTransformer extends AbstractTransformer {
 //        this.defaultImports.add(new SimpleImport(new FullyQualifiedTypeName("java", "time", "chrono", "JapaneseEra")));
 //        this.defaultImports.add(new OnDemandImport(new PackageName("karaffe", "core")));
         this.defaultImports.add(new SimpleImport(new FullyQualifiedTypeName("java", "lang", "Object")));
-        this.defaultImports.add(new SimpleImport(new FullyQualifiedTypeName("karaffe","core", "Any")));
-        this.defaultImports.add(new SimpleImport(new FullyQualifiedTypeName("karaffe","core", "Console")));
-        this.defaultImports.add(new SimpleImport(new FullyQualifiedTypeName("karaffe","core", "Int")));
-        this.defaultImports.add(new SimpleImport(new FullyQualifiedTypeName("karaffe","core", "String")));
+        this.defaultImports.add(new SimpleImport(new FullyQualifiedTypeName("karaffe", "core", "Any")));
+        this.defaultImports.add(new SimpleImport(new FullyQualifiedTypeName("karaffe", "core", "Console")));
+        this.defaultImports.add(new SimpleImport(new FullyQualifiedTypeName("karaffe", "core", "Int")));
+        this.defaultImports.add(new SimpleImport(new FullyQualifiedTypeName("karaffe", "core", "String")));
 
         // NPE回避の読み込み
         // Packageを動的ロードするときにここで読み込んでおかないとPackage.getPackage(...)したときにnullが返ってくるため

@@ -2,8 +2,6 @@ package org.karaffe.compiler.frontend.karaffe.transformer.api;
 
 import org.karaffe.compiler.frontend.karaffe.ast.CompilationUnit;
 
-import java.util.stream.Collectors;
-
 public interface CompilationUnitTransformer extends ModuleDefTransformer {
 
     public default void onCompilationUnitBefore(CompilationUnit compilationUnit) {

@@ -58,19 +58,19 @@ public class KNormalizer extends AbstractTransformer {
             return scope.flatten();
         }
         switch (expression.getExpressionType()) {
-            case APPLY:
-                return transform((Apply) expression);
-            case BLOCK:
-                return transform((Block) expression);
-            case INT_LITERAL:
-                scope.add(new LetLocalDef(new SimpleName(this.nameGen.generate()), expression));
-                return scope.flatten();
-            case STATIC_APPLY:
-                return transform((StaticApply) expression);
-            case NEW_INSTANCE:
-                return transform((NewInstance) expression);
-            default:
-                return expression;
+        case APPLY:
+            return transform((Apply) expression);
+        case BLOCK:
+            return transform((Block) expression);
+        case INT_LITERAL:
+            scope.add(new LetLocalDef(new SimpleName(this.nameGen.generate()), expression));
+            return scope.flatten();
+        case STATIC_APPLY:
+            return transform((StaticApply) expression);
+        case NEW_INSTANCE:
+            return transform((NewInstance) expression);
+        default:
+            return expression;
         }
     }
 

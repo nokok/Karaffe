@@ -1,9 +1,9 @@
 package org.karaffe.compiler.frontend.karaffe.transformer.api;
 
-import java.util.stream.Collectors;
-
 import org.karaffe.compiler.frontend.karaffe.ast.api.Expression;
 import org.karaffe.compiler.frontend.karaffe.ast.expressions.Apply;
+
+import java.util.stream.Collectors;
 
 public interface ApplyTransformer extends BaseTransformer, SimpleNameTransformer {
 

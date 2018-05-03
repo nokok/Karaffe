@@ -1,8 +1,8 @@
 package org.karaffe.compiler.frontend.karaffe.ast.api;
 
-import java.util.Optional;
-
 import org.karaffe.compiler.frontend.karaffe.ast.expressions.ExpressionName;
+
+import java.util.Optional;
 
 public interface NameRef {
 

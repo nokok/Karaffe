@@ -1,11 +1,5 @@
 package org.karaffe.compiler.frontend.karaffe.ast.statements;
 
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
-import java.util.Objects;
-import java.util.stream.Collectors;
-
 import org.karaffe.compiler.base.pos.Position;
 import org.karaffe.compiler.frontend.karaffe.ast.Parameter;
 import org.karaffe.compiler.frontend.karaffe.ast.api.AbstractTree;
@@ -16,6 +10,12 @@ import org.karaffe.compiler.frontend.karaffe.ast.api.TypeDefMember;
 import org.karaffe.compiler.frontend.karaffe.ast.modifiers.Public;
 import org.karaffe.compiler.frontend.karaffe.ast.names.SimpleName;
 import org.karaffe.compiler.frontend.karaffe.ast.names.TypeName;
+
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
+import java.util.Objects;
+import java.util.stream.Collectors;
 
 public class MethodDef extends AbstractTree implements TypeDefMember {
 

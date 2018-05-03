@@ -1,9 +1,9 @@
 package ut;
 
-import static org.junit.Assert.assertEquals;
-
 import org.junit.Test;
 import org.karaffe.compiler.base.util.DiagnosticInfo;
+
+import static org.junit.Assert.assertEquals;
 
 public class DiagnosticInfoTest {
     @Test

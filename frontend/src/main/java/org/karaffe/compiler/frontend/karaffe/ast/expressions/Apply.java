@@ -1,15 +1,15 @@
 package org.karaffe.compiler.frontend.karaffe.ast.expressions;
 
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
-import java.util.stream.Collectors;
-
 import org.karaffe.compiler.base.pos.Position;
 import org.karaffe.compiler.frontend.karaffe.ast.api.ASTVisitor;
 import org.karaffe.compiler.frontend.karaffe.ast.api.AbstractExpression;
 import org.karaffe.compiler.frontend.karaffe.ast.api.Expression;
 import org.karaffe.compiler.frontend.karaffe.ast.names.SimpleName;
+
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
+import java.util.stream.Collectors;
 
 public class Apply extends AbstractExpression {
     private Expression expression;

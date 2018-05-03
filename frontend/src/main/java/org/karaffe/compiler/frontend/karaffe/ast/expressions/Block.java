@@ -1,11 +1,5 @@
 package org.karaffe.compiler.frontend.karaffe.ast.expressions;
 
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
-import java.util.Objects;
-import java.util.Optional;
-
 import org.karaffe.compiler.base.pos.Position;
 import org.karaffe.compiler.frontend.karaffe.ast.api.ASTVisitor;
 import org.karaffe.compiler.frontend.karaffe.ast.api.AbstractExpression;
@@ -14,6 +8,12 @@ import org.karaffe.compiler.frontend.karaffe.ast.api.Statement;
 import org.karaffe.compiler.frontend.karaffe.ast.api.StatementType;
 import org.karaffe.compiler.frontend.karaffe.ast.api.Tree;
 import org.karaffe.compiler.frontend.karaffe.ast.statements.LetLocalDef;
+
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
+import java.util.Objects;
+import java.util.Optional;
 
 public class Block extends AbstractExpression {
 
@@ -101,25 +101,25 @@ public class Block extends AbstractExpression {
         }
         Statement lastStatement = this.getBody().get(this.getBody().size() - 1);
         switch (lastStatement.getStatementType()) {
-            case LOCAL_LET_DEF:
-                LetLocalDef def = (LetLocalDef) lastStatement;
-                return Optional.of(new ExpressionName(def.getName().toString()));
-            case EXPRESSION: {
-                Expression expr = (Expression) lastStatement;
-                switch (expr.getExpressionType()) {
-                    case RETURN: {
-                        Return ret = (Return) expr;
-                        if (ret.getExpr().getExpressionType().equals(ExpressionType.NAME)) {
-                            return Optional.ofNullable((ExpressionName) ret.getExpr());
-                        }
-                        return Optional.empty();
-                    }
-                    default:
-                        return Optional.empty();
+        case LOCAL_LET_DEF:
+            LetLocalDef def = (LetLocalDef) lastStatement;
+            return Optional.of(new ExpressionName(def.getName().toString()));
+        case EXPRESSION: {
+            Expression expr = (Expression) lastStatement;
+            switch (expr.getExpressionType()) {
+            case RETURN: {
+                Return ret = (Return) expr;
+                if (ret.getExpr().getExpressionType().equals(ExpressionType.NAME)) {
+                    return Optional.ofNullable((ExpressionName) ret.getExpr());
                 }
+                return Optional.empty();
             }
             default:
                 return Optional.empty();
+            }
+        }
+        default:
+            return Optional.empty();
         }
     }
 

@@ -8,8 +8,6 @@ import java.util.Set;
 
 public class TransformerBuilder {
 
-    private final Map<AbstractTransformer, Set<AbstractTransformer>> dependencyMap = new HashMap<>();
-
     private static final AbstractTransformer contextCreator = new CreateTransformContext();
     private static final AbstractTransformer defaultImport = new DefaultImportTransformer();
     private static final AbstractTransformer nameResolver = new NameResolver();
@@ -20,9 +18,10 @@ public class TransformerBuilder {
     private static final AbstractTransformer kNormal = new KNormalizer();
     private static final AbstractTransformer alpha = new AlphaEquivalenceTransformer();
     private static final AbstractTransformer terminal = new TerminalTransformer();
+    private final Map<AbstractTransformer, Set<AbstractTransformer>> dependencyMap = new HashMap<>();
 
     public TransformerBuilder() {
-        this.dependencyMap.put(defaultImport,Collections.emptySet());
+        this.dependencyMap.put(defaultImport, Collections.emptySet());
         this.dependencyMap.put(nameResolver, Collections.singleton(defaultImport));
         this.dependencyMap.put(cleanUp, Collections.singleton(nameResolver));
         this.dependencyMap.put(contextCreator, Collections.singleton(cleanUp));

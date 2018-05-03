@@ -1,6 +1,5 @@
 package org.karaffe.compiler.frontend.karaffe.transformer;
 
-import org.karaffe.compiler.base.pos.Position;
 import org.karaffe.compiler.frontend.karaffe.ast.PackageDef;
 import org.karaffe.compiler.frontend.karaffe.ast.api.TypeDefStatement;
 import org.karaffe.compiler.frontend.karaffe.ast.imports.AliasImport;
@@ -11,7 +10,6 @@ import org.karaffe.compiler.frontend.karaffe.ast.names.PackageName;
 import org.karaffe.compiler.frontend.karaffe.ast.names.SimpleName;
 import org.karaffe.compiler.frontend.karaffe.ast.names.TypeName;
 
-import java.util.Arrays;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
@@ -20,12 +18,11 @@ import java.util.stream.Collectors;
 
 public class NameResolver extends AbstractTransformer {
 
+    private final Map<SimpleName, FullyQualifiedTypeName> simpleNameFqnMap = new LinkedHashMap<>();
+    private final Map<TypeName, FullyQualifiedTypeName> typeNameFqnMap = new LinkedHashMap<>();
     public NameResolver() {
         super("name-resolver");
     }
-
-    private final Map<SimpleName, FullyQualifiedTypeName> simpleNameFqnMap = new LinkedHashMap<>();
-    private final Map<TypeName, FullyQualifiedTypeName> typeNameFqnMap = new LinkedHashMap<>();
 
     @Override
     public void onPackageDefBefore(PackageDef packageDef) {

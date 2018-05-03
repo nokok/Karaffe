@@ -1,13 +1,13 @@
 package org.karaffe.compiler.frontend.karaffe.ast.imports;
 
-import java.util.Objects;
-
 import org.karaffe.compiler.base.pos.Position;
 import org.karaffe.compiler.frontend.karaffe.ast.api.AbstractTree;
 import org.karaffe.compiler.frontend.karaffe.ast.api.ImportStatement;
 import org.karaffe.compiler.frontend.karaffe.ast.api.StatementType;
 import org.karaffe.compiler.frontend.karaffe.ast.names.FullyQualifiedTypeName;
 import org.karaffe.compiler.frontend.karaffe.ast.names.SimpleName;
+
+import java.util.Objects;
 
 public class SimpleImport extends AbstractTree implements ImportStatement {
     private final FullyQualifiedTypeName name;

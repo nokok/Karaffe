@@ -1,12 +1,12 @@
 package org.karaffe.compiler.base.util;
 
-import java.util.Comparator;
-import java.util.List;
-import java.util.Optional;
-
 import org.karaffe.compiler.base.pos.Position;
 import org.karaffe.compiler.base.util.Report.AdditionalInfo;
 import org.karaffe.compiler.base.util.Report.StringCodePart;
+
+import java.util.Comparator;
+import java.util.List;
+import java.util.Optional;
 
 public class ReportFormatter {
 

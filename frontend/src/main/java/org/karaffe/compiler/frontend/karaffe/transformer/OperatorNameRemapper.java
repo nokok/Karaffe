@@ -3,7 +3,6 @@ package org.karaffe.compiler.frontend.karaffe.transformer;
 import org.karaffe.compiler.frontend.karaffe.ast.expressions.Apply;
 import org.karaffe.compiler.frontend.karaffe.ast.expressions.StaticApply;
 import org.karaffe.compiler.frontend.karaffe.ast.names.SimpleName;
-import org.karaffe.compiler.frontend.karaffe.transformer.AbstractTransformer;
 
 import java.util.stream.Collectors;
 
@@ -24,7 +23,7 @@ public class OperatorNameRemapper extends AbstractTransformer {
         return new StaticApply(staticApply.getPosition(), staticApply.getTypeName(), new SimpleName(rename(staticApply.getMethodName().toString())), staticApply.getArgs().stream().map(this::transform).collect(Collectors.toList()));
     }
 
-    private String rename(String methodName){
+    private String rename(String methodName) {
         String ret = methodName;
         ret = ret.replaceAll("\\Q+\\E", "plus");
         ret = ret.replaceAll("\\Q-\\E", "minus");

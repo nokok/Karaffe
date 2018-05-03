@@ -1,11 +1,11 @@
 package org.karaffe.compiler.frontend.karaffe.transformer.util;
 
-import org.karaffe.compiler.frontend.karaffe.ast.api.Expression;
 import org.karaffe.compiler.base.generator.Generator;
 import org.karaffe.compiler.base.generator.TypeVarGenerator;
 import org.karaffe.compiler.base.types.constraints.TypeConstraint;
 import org.karaffe.compiler.base.types.constraints.TypeVar;
 import org.karaffe.compiler.base.types.state.InferState;
+import org.karaffe.compiler.frontend.karaffe.ast.api.Expression;
 
 import java.util.ArrayList;
 import java.util.LinkedHashMap;

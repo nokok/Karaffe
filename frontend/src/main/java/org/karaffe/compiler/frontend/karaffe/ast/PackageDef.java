@@ -1,5 +1,11 @@
 package org.karaffe.compiler.frontend.karaffe.ast;
 
+import org.karaffe.compiler.base.pos.Position;
+import org.karaffe.compiler.frontend.karaffe.ast.api.AbstractTree;
+import org.karaffe.compiler.frontend.karaffe.ast.api.ImportStatement;
+import org.karaffe.compiler.frontend.karaffe.ast.api.TypeDefStatement;
+import org.karaffe.compiler.frontend.karaffe.ast.names.PackageName;
+
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashSet;
@@ -8,16 +14,10 @@ import java.util.List;
 import java.util.Objects;
 import java.util.Set;
 
-import org.karaffe.compiler.base.pos.Position;
-import org.karaffe.compiler.frontend.karaffe.ast.api.AbstractTree;
-import org.karaffe.compiler.frontend.karaffe.ast.api.ImportStatement;
-import org.karaffe.compiler.frontend.karaffe.ast.api.TypeDefStatement;
-import org.karaffe.compiler.frontend.karaffe.ast.names.PackageName;
-
 public class PackageDef extends AbstractTree {
-    private  PackageName packageName;
-    private  Set<ImportStatement> importStatements;
-    private  List<TypeDefStatement> typeDefStatements;
+    private PackageName packageName;
+    private Set<ImportStatement> importStatements;
+    private List<TypeDefStatement> typeDefStatements;
 
     public PackageDef() {
         this(PackageName.ofRoot());
@@ -61,12 +61,12 @@ public class PackageDef extends AbstractTree {
         this.typeDefStatements.add(Objects.requireNonNull(typeDefStatement));
     }
 
-    public void setPackageName(PackageName packageName) {
-        this.packageName = packageName;
-    }
-
     public PackageName getPackageName() {
         return new PackageName(this.packageName);
+    }
+
+    public void setPackageName(PackageName packageName) {
+        this.packageName = packageName;
     }
 
     public List<? extends ImportStatement> getImports() {

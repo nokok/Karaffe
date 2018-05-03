@@ -23,12 +23,12 @@ public enum Platform {
         return Platform.stdOut;
     }
 
-    public static void setStdIn(InputStream stdIn) {
-        Platform.stdIn = stdIn;
-    }
-
     public static void setStdOut(PrintStream stdOut) {
         Platform.stdOut = stdOut;
+    }
+
+    public static void setStdIn(InputStream stdIn) {
+        Platform.stdIn = stdIn;
     }
 
     public static void setStdErr(PrintStream stdErr) {

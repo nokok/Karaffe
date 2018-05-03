@@ -4,6 +4,5 @@ public enum InferStateType {
     RESOLVED,
     VOID,
     NO_HINT,
-    ERROR,
-    ;
+    ERROR,;
 }

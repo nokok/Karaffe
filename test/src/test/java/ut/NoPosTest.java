@@ -1,13 +1,13 @@
 package ut;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertFalse;
-import static org.junit.Assert.assertTrue;
+import org.junit.Test;
+import org.karaffe.compiler.base.pos.Position;
 
 import java.util.Optional;
 
-import org.junit.Test;
-import org.karaffe.compiler.base.pos.Position;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertTrue;
 
 public class NoPosTest {
     private final Position pos = Position.noPos();

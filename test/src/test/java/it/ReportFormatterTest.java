@@ -1,16 +1,16 @@
 package it;
 
-import static org.junit.Assert.assertEquals;
-
-import java.util.ArrayList;
-import java.util.Arrays;
-
 import org.junit.Test;
 import org.karaffe.compiler.base.pos.Position;
 import org.karaffe.compiler.base.util.Report;
 import org.karaffe.compiler.base.util.Report.FoundAndRequired;
 import org.karaffe.compiler.base.util.Report.StringCodePart;
 import org.karaffe.compiler.base.util.ReportFormatter;
+
+import java.util.ArrayList;
+import java.util.Arrays;
+
+import static org.junit.Assert.assertEquals;
 
 public class ReportFormatterTest {
 
