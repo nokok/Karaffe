@@ -23,6 +23,10 @@ public enum Platform {
         return Platform.stdOut;
     }
 
+    public static PrintStream getStdErr() {
+        return Platform.stdErr;
+    }
+
     public static void setStdOut(PrintStream stdOut) {
         Platform.stdOut = stdOut;
     }

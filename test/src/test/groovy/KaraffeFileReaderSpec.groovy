@@ -1,4 +1,4 @@
-import org.karaffe.compiler.frontend.karaffe.transformer.KaraffeFileReader
+import org.karaffe.compiler.frontend.karaffe.phase.file.KaraffeFileReader
 import org.karaffe.compiler.frontend.karaffe.transformer.PhaseException
 import spock.lang.Specification
 
@@ -9,7 +9,8 @@ class KaraffeFileReaderSpec extends Specification {
         File krfFile = File.createTempFile("readerspec", ".krf")
         KaraffeFileReader reader = new KaraffeFileReader()
 
-        def stream = reader.run(krfFile)
+        def result = reader.run(krfFile)
+        def stream = result.getOrThrow()
         expect:
         stream.sourceName == krfFile.getAbsolutePath()
         !reader.changed()

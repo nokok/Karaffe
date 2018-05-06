@@ -1,4 +1,4 @@
-package org.karaffe.compiler.frontend.karaffe.transformer;
+package org.karaffe.compiler.frontend.karaffe.phase;
 
 import org.karaffe.compiler.base.util.config.Options;
 import org.karaffe.compiler.frontend.karaffe.transformer.util.PhaseResult;
