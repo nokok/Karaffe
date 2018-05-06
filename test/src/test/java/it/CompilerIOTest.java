@@ -1,7 +1,6 @@
 package it;
 
 import org.junit.Test;
-import org.karaffe.compiler.base.util.Platform;
 import org.karaffe.compiler.launcher.KaraffeCompilerLauncher;
 
 import java.io.File;
@@ -15,7 +14,6 @@ import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
-import java.util.Iterator;
 import java.util.List;
 import java.util.function.BiFunction;
 import java.util.regex.Matcher;
@@ -51,7 +49,6 @@ public class CompilerIOTest {
             System.out.println("TestCases: " + testCases);
             return testCases;
         } catch (NoSuchFileException e) {
-            Platform.stdErr("handle NoSuchFileException");
             return Collections.emptyList();
         } catch (IOException e) {
             throw new UncheckedIOException(e);

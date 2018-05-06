@@ -4,14 +4,11 @@ import ch.qos.logback.classic.Level;
 import ch.qos.logback.classic.Logger;
 import org.karaffe.compiler.base.util.DiagnosticInfo;
 import org.karaffe.compiler.base.util.Platform;
-import org.karaffe.compiler.frontend.karaffe.ast.CompilationUnit;
-import org.karaffe.compiler.frontend.karaffe.transformer.AbstractTransformer;
-import org.karaffe.compiler.frontend.karaffe.transformer.PhaseException;
-import org.karaffe.compiler.frontend.karaffe.phase.Phases;
-import org.karaffe.compiler.frontend.karaffe.transformer.TransformerBuilder;
-import org.karaffe.compiler.frontend.karaffe.transformer.util.PhaseResult;
 import org.karaffe.compiler.base.util.config.Options;
-import org.karaffe.compiler.ir.Tree;
+import org.karaffe.compiler.frontend.karaffe.ast.CompilationUnit;
+import org.karaffe.compiler.frontend.karaffe.phase.CmdLineOptionPhase;
+import org.karaffe.compiler.frontend.karaffe.transformer.AbstractTransformer;
+import org.karaffe.compiler.frontend.karaffe.transformer.TransformerBuilder;
 import org.kohsuke.args4j.CmdLineException;
 import org.kohsuke.args4j.CmdLineParser;
 import org.kohsuke.args4j.ParserProperties;
@@ -25,9 +22,7 @@ import java.io.InputStreamReader;
 import java.io.PrintStream;
 import java.nio.file.Files;
 import java.nio.file.Paths;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 import java.util.Set;
 import java.util.stream.Collectors;
 
@@ -51,6 +46,10 @@ public class KaraffeCompilerLauncher {
     }
 
     public void run(String[] args) throws Exception {
+        CmdLineOptionPhase phase = new CmdLineOptionPhase();
+
+
+
         Options options = new Options();
         ParserProperties properties = ParserProperties.defaults().withUsageWidth(999);
         CmdLineParser cmdLineParser = new CmdLineParser(options, properties);
@@ -132,22 +131,6 @@ public class KaraffeCompilerLauncher {
         LOGGER.debug("Process files: {}", files);
 
         CompilationUnit compilationUnit = new CompilationUnit();
-
-        Phases phases = new Phases(options);
-
-        Map<String, Tree> mirMap = new HashMap<>();
-
-        for (File file : files) {
-            LOGGER.trace("File : {}", file);
-            try {
-                PhaseResult<Tree> mirResult = phases.run(file);
-                mirResult.ifPresent(mir -> mirMap.put(file.getAbsolutePath(), mir));
-            } catch (PhaseException e) {
-                e.printStackTrace(Platform.getStdErr());
-                Platform.stdErr("PhaseException");
-                continue;
-            }
-        }
 
         final boolean isPrintTreeEveryPhase = options.printTree;
 

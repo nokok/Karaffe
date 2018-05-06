@@ -1,6 +1,6 @@
 package org.karaffe.compiler.frontend.karaffe.transformer;
 
-import org.karaffe.compiler.base.util.Platform;
+import org.karaffe.compiler.base.Errors;
 import org.karaffe.compiler.frontend.karaffe.ast.names.TypeName;
 
 public class CreateTransformContext extends AbstractTransformer {
@@ -12,7 +12,7 @@ public class CreateTransformContext extends AbstractTransformer {
     @Override
     public void onTypeNameAfter(TypeName typeName) {
         if (!typeName.isFullyQualified()) {
-            Platform.stdErr("Symbol not found. : " + typeName);
+            Errors.symbolNotFound(typeName.toString(), typeName.getPosition());
         }
     }
 }

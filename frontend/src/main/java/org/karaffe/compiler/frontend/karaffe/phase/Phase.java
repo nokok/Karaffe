@@ -1,15 +1,21 @@
 package org.karaffe.compiler.frontend.karaffe.phase;
 
-import org.karaffe.compiler.frontend.karaffe.transformer.util.PhaseResult;
+import org.karaffe.compiler.base.CompilerContext;
+import org.karaffe.compiler.frontend.karaffe.transformer.util.Result;
 
-public interface Phase<I, O> {
+public interface Phase {
 
-    public String phaseName();
+    String phaseName();
 
-    public String phaseDescription();
+    String phaseDescription();
 
-    PhaseResult<O> run(I input);
+    Result run(CompilerContext context);
 
+    /**
+     * CompilerContextに対して変更を加えた場合はtrueを返します。
+     *
+     * @return
+     */
     boolean changed();
 
 }

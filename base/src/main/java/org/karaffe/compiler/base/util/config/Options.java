@@ -39,6 +39,14 @@ public class Options {
     @Option(name = "--print-last-tree", usage = "Print tree", handler = MyBooleanOptionHandler.class)
     public boolean showLastTree;
 
+    @Option(name = "--skip-pkg-check", usage = "skip checking of correspondence between package decl and file structure", handler = MyBooleanOptionHandler.class)
+    public boolean skipPackageCheck;
+
+    /* Hidden options */
+
+    @Option(name = "--use-default-antlr-listener", hidden = true, handler = MyBooleanOptionHandler.class)
+    public boolean useDefaultANTLRListener;
+
     @Argument
     public List<String> arguments = new ArrayList<>();
 }

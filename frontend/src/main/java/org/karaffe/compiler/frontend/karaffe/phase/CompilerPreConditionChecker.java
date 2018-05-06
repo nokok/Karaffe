@@ -1,9 +1,9 @@
 package org.karaffe.compiler.frontend.karaffe.phase;
 
-import org.karaffe.compiler.base.util.config.Options;
-import org.karaffe.compiler.frontend.karaffe.transformer.util.PhaseResult;
+import org.karaffe.compiler.base.CompilerContext;
+import org.karaffe.compiler.frontend.karaffe.transformer.util.Result;
 
-public class CompilerPreConditionChecker implements Phase<Options, Void> {
+public class CompilerPreConditionChecker implements Phase {
     @Override
     public String phaseName() {
         return "compiler-precondition";
@@ -15,12 +15,16 @@ public class CompilerPreConditionChecker implements Phase<Options, Void> {
     }
 
     @Override
-    public PhaseResult<Void> run(Options input) {
+    public Result run(CompilerContext context) {
         try {
             Class.forName("karaffe.core.Any");
-            return PhaseResult.onSuccess();
+            Package pkg = Package.getPackage("karaffe.core");
+            if (pkg == null) {
+                throw new NullPointerException("karaffe.core package not found.");
+            }
+            return Result.SUCCESS;
         } catch (ClassNotFoundException e) {
-            throw new IllegalStateException("", e);
+            return Result.FAIL;
         }
     }
 
