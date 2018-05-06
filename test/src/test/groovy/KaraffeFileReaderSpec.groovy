@@ -1,5 +1,5 @@
 import org.karaffe.compiler.frontend.karaffe.transformer.KaraffeFileReader
-import org.karaffe.compiler.frontend.karaffe.transformer.PassAbortedException
+import org.karaffe.compiler.frontend.karaffe.transformer.PhaseException
 import spock.lang.Specification
 
 class KaraffeFileReaderSpec extends Specification {
@@ -27,7 +27,7 @@ class KaraffeFileReaderSpec extends Specification {
         reader.run(new File("foobarbaz"))
 
         then:
-        def e = thrown(PassAbortedException)
+        def e = thrown(PhaseException)
         e.cause.class == FileNotFoundException.class
     }
 }

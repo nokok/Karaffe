@@ -1,12 +1,14 @@
 package org.karaffe.compiler.frontend.karaffe.transformer;
 
+import org.karaffe.compiler.frontend.karaffe.transformer.util.PhaseResult;
+
 public interface Phase<I, O> {
 
     public String phaseName();
 
     public String phaseDescription();
 
-    O run(I input);
+    PhaseResult<O> run(I input);
 
     boolean changed();
 

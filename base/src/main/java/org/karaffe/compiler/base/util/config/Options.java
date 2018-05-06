@@ -1,4 +1,4 @@
-package org.karaffe.compiler.launcher.config;
+package org.karaffe.compiler.base.util.config;
 
 import org.kohsuke.args4j.Argument;
 import org.kohsuke.args4j.Option;

@@ -1,7 +1,7 @@
 package ut;
 
 import org.junit.Test;
-import org.karaffe.compiler.launcher.config.SystemPropertyConfigurator;
+import org.karaffe.compiler.base.util.config.SystemPropertyConfigurator;
 
 import java.util.Map;
 

@@ -15,7 +15,7 @@ import org.karaffe.compiler.frontend.karaffe.transformer.AbstractTransformer;
 import org.karaffe.compiler.frontend.karaffe.transformer.TransformerBuilder;
 import org.karaffe.compiler.frontend.karaffe.visitor.ASTVisitor;
 import org.karaffe.compiler.frontend.karaffe.visitor.ErrorNodeVisitor;
-import org.karaffe.compiler.launcher.config.Options;
+import org.karaffe.compiler.base.util.config.Options;
 import org.kohsuke.args4j.CmdLineException;
 import org.kohsuke.args4j.CmdLineParser;
 import org.kohsuke.args4j.ParserProperties;

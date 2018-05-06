@@ -1,4 +1,4 @@
-package org.karaffe.compiler.launcher.config;
+package org.karaffe.compiler.base.util.config;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;

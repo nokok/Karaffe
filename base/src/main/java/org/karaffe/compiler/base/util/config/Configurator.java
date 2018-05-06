@@ -1,4 +1,4 @@
-package org.karaffe.compiler.launcher.config;
+package org.karaffe.compiler.base.util.config;
 
 public interface Configurator {
     public void update();
