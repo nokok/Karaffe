@@ -10,12 +10,12 @@ import java.io.IOException;
 public class KaraffeFileReader extends AbstractFileTransformer<CommonTokenStream> {
 
     @Override
-    public String passName() {
+    public String phaseName() {
         return "file-reader";
     }
 
     @Override
-    public String passDescription() {
+    public String phaseDescription() {
         return "read karaffe file";
     }
 

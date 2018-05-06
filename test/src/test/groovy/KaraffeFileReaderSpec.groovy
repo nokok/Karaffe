@@ -13,6 +13,7 @@ class KaraffeFileReaderSpec extends Specification {
         expect:
         stream.sourceName == krfFile.getAbsolutePath()
         !reader.changed()
+        stream.size() == 0
 
         cleanup:
         krfFile.delete()

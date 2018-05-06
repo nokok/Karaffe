@@ -1,10 +1,10 @@
 package org.karaffe.compiler.frontend.karaffe.transformer;
 
-public interface Pass<I, O> {
+public interface Phase<I, O> {
 
-    public String passName();
+    public String phaseName();
 
-    public String passDescription();
+    public String phaseDescription();
 
     O run(I input);
 
