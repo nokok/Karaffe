@@ -1,16 +1,17 @@
-package org.karaffe.compiler.frontend.karaffe.phase;
+package org.karaffe.compiler.frontend.karaffe.tasks;
 
 import org.karaffe.compiler.base.CompilerContext;
 import org.karaffe.compiler.frontend.karaffe.transformer.util.Result;
 
-public class CompilerPreConditionChecker implements Phase {
+public class CheckCompilerPrecondition implements Task {
+
     @Override
-    public String phaseName() {
+    public String name() {
         return "compiler-precondition";
     }
 
     @Override
-    public String phaseDescription() {
+    public String description() {
         return "Check precondition";
     }
 
@@ -24,8 +25,13 @@ public class CompilerPreConditionChecker implements Phase {
             }
             return Result.SUCCESS;
         } catch (ClassNotFoundException e) {
-            return Result.FAIL;
+            return Result.NON_RECOVERABLE;
         }
+    }
+
+    @Override
+    public boolean isRunnable() {
+        return true;
     }
 
     @Override

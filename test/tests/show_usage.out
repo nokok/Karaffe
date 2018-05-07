@@ -8,7 +8,7 @@ Available options are:
  --info (-i)          : Set output log levels INFO and higher
  --print-last-tree    : Print tree
  --print-tree         : Print Tree every phase
- --show-phases        : Print all phases
+ --show-tasks        : Print all tasks
  --stop-after <phase> : Stop and Print tree at <phase>
  --trace              : Set output log levels TRACE and higher
  --version (-v)       : Print compiler version and exit

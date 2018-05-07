@@ -2,11 +2,17 @@ package org.karaffe.compiler.launcher;
 
 import ch.qos.logback.classic.Level;
 import ch.qos.logback.classic.Logger;
+import org.karaffe.compiler.base.CompilerContext;
 import org.karaffe.compiler.base.util.DiagnosticInfo;
 import org.karaffe.compiler.base.util.Platform;
 import org.karaffe.compiler.base.util.config.Options;
 import org.karaffe.compiler.frontend.karaffe.ast.CompilationUnit;
-import org.karaffe.compiler.frontend.karaffe.phase.CmdLineOptionPhase;
+import org.karaffe.compiler.frontend.karaffe.tasks.CheckCompilerPrecondition;
+import org.karaffe.compiler.frontend.karaffe.tasks.ConfigureLogLevelTask;
+import org.karaffe.compiler.frontend.karaffe.tasks.ParseCommandLineOptionsTask;
+import org.karaffe.compiler.frontend.karaffe.tasks.ShowUsageTask;
+import org.karaffe.compiler.frontend.karaffe.tasks.Task;
+import org.karaffe.compiler.frontend.karaffe.tasks.TaskRunner;
 import org.karaffe.compiler.frontend.karaffe.transformer.AbstractTransformer;
 import org.karaffe.compiler.frontend.karaffe.transformer.TransformerBuilder;
 import org.kohsuke.args4j.CmdLineException;
@@ -23,6 +29,7 @@ import java.io.PrintStream;
 import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.util.List;
+import java.util.ServiceLoader;
 import java.util.Set;
 import java.util.stream.Collectors;
 
@@ -46,8 +53,27 @@ public class KaraffeCompilerLauncher {
     }
 
     public void run(String[] args) throws Exception {
-        CmdLineOptionPhase phase = new CmdLineOptionPhase();
+        TaskRunner taskRunner = TaskRunner.defaultTaskRunner();
+        ServiceLoader<Task> taskServiceLoader = ServiceLoader.load(Task.class, Thread.currentThread().getContextClassLoader());
+        taskServiceLoader.forEach(taskRunner::standby);
 
+        CompilerContext context = CompilerContext.CONTEXT;
+        context.setArgs(args);
+
+        taskRunner.exec(ParseCommandLineOptionsTask::new);
+        taskRunner.exec(ConfigureLogLevelTask::new);
+
+        LOGGER.debug("Karaffe Compiler is running on up to {} thread(s)", Runtime.getRuntime().availableProcessors());
+
+        taskRunner.standBy(ShowUsageTask::new);
+
+        taskRunner.runAll();
+
+        if (true) {
+            return;
+        }
+
+        CheckCompilerPrecondition preConditionChecker = new CheckCompilerPrecondition();
 
 
         Options options = new Options();
