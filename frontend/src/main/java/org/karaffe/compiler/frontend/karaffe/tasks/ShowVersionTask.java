@@ -13,7 +13,7 @@ public class ShowVersionTask implements Task {
 
     @Override
     public String name() {
-        return "show-version";
+        return "show version";
     }
 
     @Override

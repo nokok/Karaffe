@@ -1,14 +1,14 @@
 package org.karaffe.compiler.frontend.karaffe.tasks;
 
 import org.karaffe.compiler.base.CompilerContext;
+import org.karaffe.compiler.base.util.DiagnosticInfo;
 import org.karaffe.compiler.base.util.Platform;
 import org.karaffe.compiler.frontend.karaffe.transformer.util.Result;
-import org.kohsuke.args4j.CmdLineParser;
 
-public class ShowUsageTask implements Task {
+public class ShowDiagnosticInfo implements Task {
     @Override
     public String name() {
-        return "show usage";
+        return "show diag";
     }
 
     @Override
@@ -18,18 +18,13 @@ public class ShowUsageTask implements Task {
 
     @Override
     public Result run(CompilerContext context) {
-        CmdLineParser commandLineParser = context.getCommandLineParser();
-        Platform.stdOut("Usage:");
-        Platform.stdOut(" krfc <options> <sources>");
-        Platform.stdOut();
-        Platform.stdOut("Available options are:");
-        commandLineParser.printUsage(Platform.getStdOut());
+        Platform.stdOut(DiagnosticInfo.INSTANCE.toString());
         return Result.SUCCESS;
     }
 
     @Override
     public boolean isRunnable(CompilerContext context) {
-        return context.hasInvalidArg() || context.cmdLineOptions.showHelp;
+        return context.cmdLineOptions.showDiag;
     }
 
     @Override

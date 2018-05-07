@@ -23,17 +23,17 @@ public enum DefaultTaskRunner implements TaskRunner {
     @Override
     public void standby(Task task) {
         if (this.isExecuting) {
-            LOGGER.debug("Add task(Added) : " + task);
+            LOGGER.debug("Add task(Added) : " + task.name());
             this.addedTasks.add(task);
         } else {
-            LOGGER.debug("Add task : " + task);
+            LOGGER.debug("Add task : " + task.name());
             this.tasks.add(task);
         }
     }
 
     @Override
     public void exec(Task task) {
-        LOGGER.debug("Executing...(Immediate) : " + task);
+        LOGGER.debug("Executing...(Immediate) : " + task.name());
         Result result = task.run(CONTEXT);
         check(result);
     }
@@ -46,13 +46,13 @@ public enum DefaultTaskRunner implements TaskRunner {
         currentTasks.addAll(addedTasks);
         addedTasks.clear();
         List<Task> nextTasks = new ArrayList<>();
-        tasks.parallelStream().forEach(task -> {
-            LOGGER.debug("Executing... : " + task);
+        tasks.forEach(task -> {
+            LOGGER.debug("Executing... : {}", task.name());
             if (task.isRunnable(CONTEXT)) {
                 Result result = task.run(CONTEXT);
                 check(result);
             } else {
-                LOGGER.debug("Skipped");
+                LOGGER.debug("Skipped : {}", task.name());
                 nextTasks.add(task);
             }
         });
