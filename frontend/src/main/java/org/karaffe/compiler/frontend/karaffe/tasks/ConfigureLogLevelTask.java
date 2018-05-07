@@ -7,7 +7,7 @@ import org.karaffe.compiler.base.util.config.Options;
 import org.karaffe.compiler.frontend.karaffe.transformer.util.Result;
 import org.slf4j.LoggerFactory;
 
-public class ConfigureLogLevelTask implements Task, Runnable {
+public class ConfigureLogLevelTask implements Task {
 
     private static final org.slf4j.Logger LOGGER = LoggerFactory.getLogger(ConfigureLogLevelTask.class);
 
@@ -43,18 +43,13 @@ public class ConfigureLogLevelTask implements Task, Runnable {
     }
 
     @Override
-    public boolean isRunnable() {
+    public boolean isRunnable(CompilerContext context) {
         return true;
     }
 
     @Override
     public boolean changed() {
         return false;
-    }
-
-    @Override
-    public void run() {
-        this.run(CompilerContext.CONTEXT);
     }
 
 }

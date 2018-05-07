@@ -20,6 +20,15 @@ public enum CompilerContext {
     public Options cmdLineOptions = new Options();
     private boolean hasInvalidArg;
 
+    public void reset() {
+        this.args = null;
+        this.state = null;
+        this.commandLineParserProperties = null;
+        this.commandLineParser = null;
+        this.cmdLineOptions = new Options();
+        this.hasInvalidArg = false;
+    }
+
     public boolean hasInvalidArg() {
         return hasInvalidArg;
     }
@@ -64,5 +73,11 @@ public enum CompilerContext {
         return this.commandLineParser;
     }
 
+    public static CompilerContext getCurrent() {
+        return CONTEXT;
+    }
 
+    private void writeObject(java.io.ObjectOutputStream out) throws java.io.IOException {
+        throw new java.io.NotSerializableException("org.karaffe.compiler.base.CompilerContext");
+    }
 }

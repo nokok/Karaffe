@@ -28,8 +28,7 @@ public class ShowUsageTask implements Task {
     }
 
     @Override
-    public boolean isRunnable() {
-        CompilerContext context = CompilerContext.CONTEXT;
+    public boolean isRunnable(CompilerContext context) {
         return context.hasInvalidArg();
     }
 

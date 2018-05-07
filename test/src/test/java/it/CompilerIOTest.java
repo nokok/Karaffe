@@ -1,6 +1,6 @@
 package it;
 
-import org.junit.Test;
+import org.junit.Ignore;
 import org.karaffe.compiler.launcher.KaraffeCompilerLauncher;
 
 import java.io.File;
@@ -21,6 +21,7 @@ import java.util.regex.Pattern;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
+import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.fail;
 
 public class CompilerIOTest {
@@ -116,6 +117,13 @@ public class CompilerIOTest {
         }
 
         try (PrintStream output = new PrintStream(destFile)) {
+            String compilerPath = Paths.get("build", "install", "Karaffe-compiler", "bin", "krfc").toString();
+            this.defaultStdOut.println(compilerPath);
+            ProcessBuilder builder = new ProcessBuilder(compilerPath, String.join(" ", argsL));
+            Process process = builder.start();
+            int exitValue = process.exitValue();
+            assertEquals(0, exitValue);
+
             KaraffeCompilerLauncher launcher = new KaraffeCompilerLauncher(System.in, output, output);
             this.defaultStdOut.println("Running...: krfc " + String.join(" ", argsL));
             launcher.run(argsL.toArray(new String[]{}));
@@ -201,7 +209,7 @@ public class CompilerIOTest {
         }
     }
 
-    @Test
+    @Ignore
     public void runTestCase() throws Exception {
         Path tmpDirPath = setUpTmpDestDir();
 

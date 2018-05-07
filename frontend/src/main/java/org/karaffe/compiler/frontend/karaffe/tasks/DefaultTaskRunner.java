@@ -15,7 +15,7 @@ public enum DefaultTaskRunner implements TaskRunner {
 
     private static final Logger LOGGER = LoggerFactory.getLogger(DefaultTaskRunner.class);
 
-    private final CompilerContext CONTEXT = CompilerContext.CONTEXT;
+    private final CompilerContext CONTEXT = CompilerContext.getCurrent();
     private final List<Task> tasks = new ArrayList<>();
     private boolean isExecuting = false;
     private final List<Task> addedTasks = new ArrayList<>();
@@ -48,7 +48,7 @@ public enum DefaultTaskRunner implements TaskRunner {
         List<Task> nextTasks = new ArrayList<>();
         tasks.parallelStream().forEach(task -> {
             LOGGER.debug("Executing... : " + task);
-            if (task.isRunnable()) {
+            if (task.isRunnable(CONTEXT)) {
                 Result result = task.run(CONTEXT);
                 check(result);
             } else {

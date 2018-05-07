@@ -11,7 +11,7 @@ public interface Task {
 
     Result run(CompilerContext context);
 
-    boolean isRunnable();
+    boolean isRunnable(CompilerContext context);
 
     /**
      * CompilerContextに対して変更を加えた場合はtrueを返します。

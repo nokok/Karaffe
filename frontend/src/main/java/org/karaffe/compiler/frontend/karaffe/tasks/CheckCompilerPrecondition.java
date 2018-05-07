@@ -30,7 +30,7 @@ public class CheckCompilerPrecondition implements Task {
     }
 
     @Override
-    public boolean isRunnable() {
+    public boolean isRunnable(CompilerContext context) {
         return true;
     }
 

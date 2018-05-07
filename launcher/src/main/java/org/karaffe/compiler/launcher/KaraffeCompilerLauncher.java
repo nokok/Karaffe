@@ -11,6 +11,7 @@ import org.karaffe.compiler.frontend.karaffe.tasks.CheckCompilerPrecondition;
 import org.karaffe.compiler.frontend.karaffe.tasks.ConfigureLogLevelTask;
 import org.karaffe.compiler.frontend.karaffe.tasks.ParseCommandLineOptionsTask;
 import org.karaffe.compiler.frontend.karaffe.tasks.ShowUsageTask;
+import org.karaffe.compiler.frontend.karaffe.tasks.ShowVersionTask;
 import org.karaffe.compiler.frontend.karaffe.tasks.Task;
 import org.karaffe.compiler.frontend.karaffe.tasks.TaskRunner;
 import org.karaffe.compiler.frontend.karaffe.transformer.AbstractTransformer;
@@ -52,12 +53,13 @@ public class KaraffeCompilerLauncher {
         launcher.run(args);
     }
 
-    public void run(String[] args) throws Exception {
+    public synchronized void run(String[] args) throws Exception {
         TaskRunner taskRunner = TaskRunner.defaultTaskRunner();
         ServiceLoader<Task> taskServiceLoader = ServiceLoader.load(Task.class, Thread.currentThread().getContextClassLoader());
         taskServiceLoader.forEach(taskRunner::standby);
 
-        CompilerContext context = CompilerContext.CONTEXT;
+        CompilerContext context = CompilerContext.getCurrent();
+        context.reset();
         context.setArgs(args);
 
         taskRunner.exec(ParseCommandLineOptionsTask::new);
@@ -66,6 +68,7 @@ public class KaraffeCompilerLauncher {
         LOGGER.debug("Karaffe Compiler is running on up to {} thread(s)", Runtime.getRuntime().availableProcessors());
 
         taskRunner.standBy(ShowUsageTask::new);
+        taskRunner.standBy(ShowVersionTask::new);
 
         taskRunner.runAll();
 
