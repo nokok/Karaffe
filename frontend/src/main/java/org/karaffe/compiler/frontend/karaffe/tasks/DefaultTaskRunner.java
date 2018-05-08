@@ -48,10 +48,10 @@ public class DefaultTaskRunner implements TaskRunner {
         addedTasks.clear();
         List<Task> nextTasks = new ArrayList<>();
         currentTasks.forEach(task -> {
-            LOGGER.debug("Executing... : {}", task.name());
             if (task.isRunnable(context)) {
-                LOGGER.debug("Executing : {}", task.name());
+                LOGGER.debug("Executing... : {}", task.name());
                 Result result = task.run(context);
+                LOGGER.debug("Executed. Result : {}", result);
                 check(result);
             } else {
                 LOGGER.debug("Skipped : {}", task.name());
