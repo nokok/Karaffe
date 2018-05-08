@@ -7,13 +7,7 @@ import org.karaffe.compiler.base.util.DiagnosticInfo;
 import org.karaffe.compiler.base.util.Platform;
 import org.karaffe.compiler.base.util.config.Options;
 import org.karaffe.compiler.frontend.karaffe.ast.CompilationUnit;
-import org.karaffe.compiler.frontend.karaffe.tasks.CheckCompilerPrecondition;
-import org.karaffe.compiler.frontend.karaffe.tasks.ConfigureLogLevelTask;
-import org.karaffe.compiler.frontend.karaffe.tasks.ParseCommandLineOptionsTask;
-import org.karaffe.compiler.frontend.karaffe.tasks.ShowUsageTask;
-import org.karaffe.compiler.frontend.karaffe.tasks.ShowVersionTask;
-import org.karaffe.compiler.frontend.karaffe.tasks.Task;
-import org.karaffe.compiler.frontend.karaffe.tasks.TaskRunner;
+import org.karaffe.compiler.frontend.karaffe.tasks.*;
 import org.karaffe.compiler.frontend.karaffe.transformer.AbstractTransformer;
 import org.karaffe.compiler.frontend.karaffe.transformer.TransformerBuilder;
 import org.kohsuke.args4j.CmdLineException;
@@ -21,12 +15,7 @@ import org.kohsuke.args4j.CmdLineParser;
 import org.kohsuke.args4j.ParserProperties;
 import org.slf4j.LoggerFactory;
 
-import java.io.BufferedReader;
-import java.io.File;
-import java.io.IOException;
-import java.io.InputStream;
-import java.io.InputStreamReader;
-import java.io.PrintStream;
+import java.io.*;
 import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.util.List;
@@ -53,14 +42,13 @@ public class KaraffeCompilerLauncher {
         launcher.run(args);
     }
 
-    public synchronized void run(String[] args) throws Exception {
-        TaskRunner taskRunner = TaskRunner.defaultTaskRunner();
+    public void run(String[] args) throws Exception {
+        CompilerContext context = new CompilerContext();
+        context.setArgs(args);
+        TaskRunner taskRunner = TaskRunner.defaultTaskRunner(context);
         ServiceLoader<Task> taskServiceLoader = ServiceLoader.load(Task.class, Thread.currentThread().getContextClassLoader());
         taskServiceLoader.forEach(taskRunner::standby);
 
-        CompilerContext context = CompilerContext.getCurrent();
-        context.reset();
-        context.setArgs(args);
 
         taskRunner.exec(ParseCommandLineOptionsTask::new);
         taskRunner.exec(ConfigureLogLevelTask::new);

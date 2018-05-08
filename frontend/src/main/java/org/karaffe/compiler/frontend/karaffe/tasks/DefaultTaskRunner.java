@@ -9,16 +9,17 @@ import org.slf4j.LoggerFactory;
 import java.util.ArrayList;
 import java.util.List;
 
-public enum DefaultTaskRunner implements TaskRunner {
-
-    RUNNER,;
-
+public class DefaultTaskRunner implements TaskRunner {
     private static final Logger LOGGER = LoggerFactory.getLogger(DefaultTaskRunner.class);
 
-    private final CompilerContext CONTEXT = CompilerContext.getCurrent();
+    private final CompilerContext context;
     private final List<Task> tasks = new ArrayList<>();
     private boolean isExecuting = false;
     private final List<Task> addedTasks = new ArrayList<>();
+
+    public DefaultTaskRunner(CompilerContext context) {
+        this.context = context;
+    }
 
     @Override
     public void standby(Task task) {
@@ -34,7 +35,7 @@ public enum DefaultTaskRunner implements TaskRunner {
     @Override
     public void exec(Task task) {
         LOGGER.debug("Executing...(Immediate) : " + task);
-        Result result = task.run(CONTEXT);
+        Result result = task.run(context);
         check(result);
     }
 
@@ -46,13 +47,13 @@ public enum DefaultTaskRunner implements TaskRunner {
         currentTasks.addAll(addedTasks);
         addedTasks.clear();
         List<Task> nextTasks = new ArrayList<>();
-        tasks.parallelStream().forEach(task -> {
-            LOGGER.debug("Executing... : " + task);
-            if (task.isRunnable(CONTEXT)) {
-                Result result = task.run(CONTEXT);
+        currentTasks.parallelStream().forEach(task -> {
+            if (task.isRunnable(context)) {
+                LOGGER.debug("Executing : {}", task.name());
+                Result result = task.run(context);
                 check(result);
             } else {
-                LOGGER.debug("Skipped");
+                LOGGER.debug("Skipped : {}", task.name());
                 nextTasks.add(task);
             }
         });
