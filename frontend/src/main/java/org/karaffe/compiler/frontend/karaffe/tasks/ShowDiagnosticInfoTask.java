@@ -5,7 +5,7 @@ import org.karaffe.compiler.base.util.DiagnosticInfo;
 import org.karaffe.compiler.base.util.Platform;
 import org.karaffe.compiler.frontend.karaffe.transformer.util.Result;
 
-public class ShowDiagnosticInfo implements Task {
+public class ShowDiagnosticInfoTask implements Task {
     @Override
     public String name() {
         return "show diag";

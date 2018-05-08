@@ -5,9 +5,9 @@ import org.karaffe.compiler.frontend.karaffe.transformer.util.Result;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-public class CheckCompilerPrecondition implements Task {
+public class CheckCompilerPreconditionTask implements Task {
 
-    private static final Logger LOGGER = LoggerFactory.getLogger(CheckCompilerPrecondition.class);
+    private static final Logger LOGGER = LoggerFactory.getLogger(CheckCompilerPreconditionTask.class);
 
     @Override
     public String name() {

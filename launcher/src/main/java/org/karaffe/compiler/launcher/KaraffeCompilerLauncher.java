@@ -2,10 +2,10 @@ package org.karaffe.compiler.launcher;
 
 import org.karaffe.compiler.base.CompilerContext;
 import org.karaffe.compiler.base.util.Platform;
-import org.karaffe.compiler.frontend.karaffe.tasks.CheckCompilerPrecondition;
+import org.karaffe.compiler.frontend.karaffe.tasks.CheckCompilerPreconditionTask;
 import org.karaffe.compiler.frontend.karaffe.tasks.ConfigureLogLevelTask;
 import org.karaffe.compiler.frontend.karaffe.tasks.ParseCommandLineOptionsTask;
-import org.karaffe.compiler.frontend.karaffe.tasks.ShowDiagnosticInfo;
+import org.karaffe.compiler.frontend.karaffe.tasks.ShowDiagnosticInfoTask;
 import org.karaffe.compiler.frontend.karaffe.tasks.ShowUsageTask;
 import org.karaffe.compiler.frontend.karaffe.tasks.ShowVersionTask;
 import org.karaffe.compiler.frontend.karaffe.tasks.Task;
@@ -44,9 +44,9 @@ public class KaraffeCompilerLauncher {
 
         taskRunner.exec(ParseCommandLineOptionsTask::new);
         taskRunner.exec(ConfigureLogLevelTask::new);
-        taskRunner.exec(CheckCompilerPrecondition::new);
+        taskRunner.exec(CheckCompilerPreconditionTask::new);
 
-        taskRunner.standBy(ShowDiagnosticInfo::new);
+        taskRunner.standBy(ShowDiagnosticInfoTask::new);
         taskRunner.standBy(ShowUsageTask::new);
         taskRunner.standBy(ShowVersionTask::new);
 
