@@ -45,4 +45,21 @@ class ParseCommandLineOptionsTaskSpec extends Specification {
         ["--debug"]                  || (false)
         ["--debug", "--show-phases"] || (false)
     }
+
+    @Unroll
+    def "読み込むことのできないソースファイルがある場合は不正なオプションとして検出できる"() {
+        setup:
+        def task = new ParseCommandLineOptionsTask()
+        def context = new CompilerContext()
+
+        expect:
+        context.setArgs((String[]) args)
+        task.run(context)
+        context.hasInvalidArg() == invalidArg
+
+        where:
+        args                                               || invalidArg
+        ["foo.krf"]                                        || (true)
+        ["tests/test_resources/neg/InvalidExpr1.krf"] || (false)
+    }
 }
