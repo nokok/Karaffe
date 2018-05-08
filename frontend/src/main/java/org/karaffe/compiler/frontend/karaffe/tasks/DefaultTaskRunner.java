@@ -36,6 +36,7 @@ public class DefaultTaskRunner implements TaskRunner {
     public void exec(Task task) {
         LOGGER.debug("Executing...(Immediate) : " + task.name());
         Result result = task.run(context);
+        LOGGER.debug("Executing complete : {}", result);
         check(result);
     }
 
