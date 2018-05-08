@@ -8,8 +8,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 
-public enum CompilerContext {
-    CONTEXT,;
+public class CompilerContext {
 
     private String[] args;
     private String state;
@@ -17,10 +16,10 @@ public enum CompilerContext {
     /* Command line options */
     private ParserProperties commandLineParserProperties;
     private CmdLineParser commandLineParser;
-    public Options cmdLineOptions = new Options();
+    public Options cmdLineOptions;
     private boolean hasInvalidArg;
 
-    public void reset() {
+    public CompilerContext() {
         this.args = null;
         this.state = null;
         this.commandLineParserProperties = null;
@@ -38,6 +37,9 @@ public enum CompilerContext {
     }
 
     public void setArgs(String[] args) {
+        if (args == null) {
+            throw new NullPointerException();
+        }
         if (this.args != null) {
             throw new IllegalStateException();
         }
@@ -73,11 +75,4 @@ public enum CompilerContext {
         return this.commandLineParser;
     }
 
-    public static CompilerContext getCurrent() {
-        return CONTEXT;
-    }
-
-    private void writeObject(java.io.ObjectOutputStream out) throws java.io.IOException {
-        throw new java.io.NotSerializableException("org.karaffe.compiler.base.CompilerContext");
-    }
 }

@@ -35,19 +35,17 @@ public class KaraffeCompilerLauncher {
         launcher.run(args);
     }
 
-    public synchronized void run(String[] args) throws Exception {
-        LOGGER.debug("Karaffe Compiler is running on up to {} thread(s)", Runtime.getRuntime().availableProcessors());
-        TaskRunner taskRunner = TaskRunner.defaultTaskRunner();
-        CompilerContext context = CompilerContext.getCurrent();
-        context.reset();
+    public void run(String[] args) throws Exception {
+        CompilerContext context = new CompilerContext();
         context.setArgs(args);
+        TaskRunner taskRunner = TaskRunner.defaultTaskRunner(context);
+        ServiceLoader<Task> taskServiceLoader = ServiceLoader.load(Task.class, Thread.currentThread().getContextClassLoader());
+        taskServiceLoader.forEach(taskRunner::standby);
 
         taskRunner.exec(ParseCommandLineOptionsTask::new);
         taskRunner.exec(ConfigureLogLevelTask::new);
         taskRunner.exec(CheckCompilerPrecondition::new);
 
-        ServiceLoader<Task> taskServiceLoader = ServiceLoader.load(Task.class, Thread.currentThread().getContextClassLoader());
-        taskServiceLoader.forEach(taskRunner::standby);
         taskRunner.standBy(ShowDiagnosticInfo::new);
         taskRunner.standBy(ShowUsageTask::new);
         taskRunner.standBy(ShowVersionTask::new);

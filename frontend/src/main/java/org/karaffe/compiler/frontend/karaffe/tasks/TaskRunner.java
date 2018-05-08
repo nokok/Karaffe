@@ -1,5 +1,7 @@
 package org.karaffe.compiler.frontend.karaffe.tasks;
 
+import org.karaffe.compiler.base.CompilerContext;
+
 import java.util.function.Supplier;
 
 public interface TaskRunner {
@@ -28,7 +30,7 @@ public interface TaskRunner {
 
     void runAll();
 
-    public static TaskRunner defaultTaskRunner() {
-        return DefaultTaskRunner.RUNNER;
+    public static TaskRunner defaultTaskRunner(CompilerContext context) {
+        return new DefaultTaskRunner(context);
     }
 }

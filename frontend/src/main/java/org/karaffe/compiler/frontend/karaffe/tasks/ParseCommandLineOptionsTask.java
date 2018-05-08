@@ -1,6 +1,7 @@
 package org.karaffe.compiler.frontend.karaffe.tasks;
 
 import org.karaffe.compiler.base.CompilerContext;
+import org.karaffe.compiler.base.util.config.Options;
 import org.karaffe.compiler.frontend.karaffe.transformer.util.Result;
 import org.kohsuke.args4j.CmdLineException;
 import org.kohsuke.args4j.CmdLineParser;
@@ -26,7 +27,8 @@ public class ParseCommandLineOptionsTask implements Task {
     @Override
     public Result run(CompilerContext context) {
         ParserProperties properties = ParserProperties.defaults().withUsageWidth(999);
-        CmdLineParser cmdLineParser = new CmdLineParser(context.cmdLineOptions, properties);
+        Options options = context.cmdLineOptions;
+        CmdLineParser cmdLineParser = new CmdLineParser(options, properties);
         context.setCommandLineParserProperties(properties);
         context.setCommandLineParser(cmdLineParser);
 
@@ -37,10 +39,30 @@ public class ParseCommandLineOptionsTask implements Task {
         try {
             cmdLineParser.parseArgument(context.getArgs());
             List<String> unrecognizedOptions =
-                    context.cmdLineOptions.arguments
+                    options.arguments
                             .stream()
                             .filter(arg -> !Files.exists(Paths.get(arg)))
                             .collect(Collectors.toList());
+
+            boolean invalidLogConfig = false;
+            if (options.isDebugLog) {
+                invalidLogConfig |= !options.isInfoLog;
+                invalidLogConfig |= options.isInfoLog == options.isTraceLog;
+            }
+            if (options.isInfoLog) {
+                invalidLogConfig |= !options.isDebugLog;
+                invalidLogConfig |= options.isDebugLog == options.isTraceLog;
+            }
+
+            if (options.isTraceLog) {
+                invalidLogConfig |= !options.isDebugLog;
+                invalidLogConfig |= options.isDebugLog == options.isInfoLog;
+            }
+
+            if (invalidLogConfig) {
+                context.setInvalidArg();
+            }
+
 
             if (!unrecognizedOptions.isEmpty()) {
                 context.setInvalidArg();
