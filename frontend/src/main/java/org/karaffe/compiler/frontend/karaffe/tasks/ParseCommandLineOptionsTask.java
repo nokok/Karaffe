@@ -9,8 +9,6 @@ import org.kohsuke.args4j.ParserProperties;
 
 import java.nio.file.Files;
 import java.nio.file.Paths;
-import java.util.List;
-import java.util.stream.Collectors;
 
 public class ParseCommandLineOptionsTask implements Task {
 
@@ -38,21 +36,16 @@ public class ParseCommandLineOptionsTask implements Task {
         }
         try {
             cmdLineParser.parseArgument(context.getArgs());
-            List<String> unrecognizedOptions =
-                    options.arguments
-                            .stream()
-                            .filter(arg -> !Files.exists(Paths.get(arg)))
-                            .collect(Collectors.toList());
+            boolean someFileIsNotExists = options.arguments
+                    .stream()
+                    .anyMatch(arg -> !Files.exists(Paths.get(arg)));
 
             boolean isInvalidLogLevel = isInvalidLogLevel(options);
 
-            if (isInvalidLogLevel) {
+            if (someFileIsNotExists || isInvalidLogLevel) {
                 context.setInvalidArg();
             }
 
-            if (!unrecognizedOptions.isEmpty()) {
-                context.setInvalidArg();
-            }
             return Result.SUCCESS;
         } catch (CmdLineException e) {
             context.setInvalidArg();
