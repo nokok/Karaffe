@@ -44,25 +44,11 @@ public class ParseCommandLineOptionsTask implements Task {
                             .filter(arg -> !Files.exists(Paths.get(arg)))
                             .collect(Collectors.toList());
 
-            boolean invalidLogConfig = false;
-            if (options.isDebugLog) {
-                invalidLogConfig |= !options.isInfoLog;
-                invalidLogConfig |= options.isInfoLog == options.isTraceLog;
-            }
-            if (options.isInfoLog) {
-                invalidLogConfig |= !options.isDebugLog;
-                invalidLogConfig |= options.isDebugLog == options.isTraceLog;
-            }
+            boolean isInvalidLogLevel = isInvalidLogLevel(options);
 
-            if (options.isTraceLog) {
-                invalidLogConfig |= !options.isDebugLog;
-                invalidLogConfig |= options.isDebugLog == options.isInfoLog;
-            }
-
-            if (invalidLogConfig) {
+            if (isInvalidLogLevel) {
                 context.setInvalidArg();
             }
-
 
             if (!unrecognizedOptions.isEmpty()) {
                 context.setInvalidArg();
@@ -72,6 +58,19 @@ public class ParseCommandLineOptionsTask implements Task {
             context.setInvalidArg();
             return Result.WITH_WARN;
         }
+    }
+
+    private boolean isInvalidLogLevel(Options options) {
+        if (options.isDebugLog) {
+            return options.isInfoLog || options.isTraceLog;
+        }
+        if (options.isInfoLog) {
+            return options.isDebugLog || options.isTraceLog;
+        }
+        if (options.isTraceLog) {
+            return options.isDebugLog || options.isInfoLog;
+        }
+        return false;
     }
 
     @Override
