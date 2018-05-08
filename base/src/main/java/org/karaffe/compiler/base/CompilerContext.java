@@ -33,6 +33,9 @@ public class CompilerContext {
     }
 
     public void setInvalidArg() {
+        if (this.hasInvalidArg == true) {
+            throw new IllegalStateException("Invalid flg is already set.");
+        }
         this.hasInvalidArg = true;
     }
 
