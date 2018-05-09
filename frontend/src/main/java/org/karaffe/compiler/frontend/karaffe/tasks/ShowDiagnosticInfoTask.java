@@ -3,9 +3,9 @@ package org.karaffe.compiler.frontend.karaffe.tasks;
 import org.karaffe.compiler.base.CompilerContext;
 import org.karaffe.compiler.base.util.DiagnosticInfo;
 import org.karaffe.compiler.base.util.Platform;
-import org.karaffe.compiler.frontend.karaffe.transformer.util.Result;
+import org.karaffe.compiler.frontend.karaffe.tasks.util.TaskResult;
 
-public class ShowDiagnosticInfoTask implements Task {
+public class ShowDiagnosticInfoTask extends AbstractTask {
     @Override
     public String name() {
         return "show diag";
@@ -17,9 +17,10 @@ public class ShowDiagnosticInfoTask implements Task {
     }
 
     @Override
-    public Result run(CompilerContext context) {
+    public TaskResult run(CompilerContext context) {
         Platform.stdOut(DiagnosticInfo.INSTANCE.toString());
-        return Result.SUCCESS;
+        triggerSuccess();
+        return TaskResult.SUCCESS;
     }
 
     @Override

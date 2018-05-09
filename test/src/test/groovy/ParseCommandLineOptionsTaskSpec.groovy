@@ -1,10 +1,11 @@
 import org.karaffe.compiler.base.CompilerContext
-import org.karaffe.compiler.frontend.karaffe.tasks.ParseCommandLineOptionsTask
+import org.karaffe.compiler.frontend.karaffe.tasks.options.ParseCommandLineOptionsTask
 import spock.lang.Specification
 import spock.lang.Unroll
 
 class ParseCommandLineOptionsTaskSpec extends Specification {
 
+    @Unroll
     def "ログレベルのオプションが矛盾する場合に不正なオプションとして検出できる"() {
         setup:
         def task = new ParseCommandLineOptionsTask()
@@ -58,8 +59,8 @@ class ParseCommandLineOptionsTaskSpec extends Specification {
         context.hasInvalidArg() == invalidArg
 
         where:
-        args                                               || invalidArg
-        ["foo.krf"]                                        || (true)
+        args                                          || invalidArg
+        ["foo.krf"]                                   || (true)
         ["tests/test_resources/neg/InvalidExpr1.krf"] || (false)
     }
 }

@@ -2,14 +2,14 @@ package org.karaffe.compiler.frontend.karaffe.tasks;
 
 import org.karaffe.compiler.base.CompilerContext;
 import org.karaffe.compiler.base.util.Platform;
-import org.karaffe.compiler.frontend.karaffe.transformer.util.Result;
+import org.karaffe.compiler.frontend.karaffe.tasks.util.TaskResult;
 
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 
-public class ShowVersionTask implements Task {
+public class ShowVersionTask extends AbstractTask {
 
     @Override
     public String name() {
@@ -22,16 +22,18 @@ public class ShowVersionTask implements Task {
     }
 
     @Override
-    public Result run(CompilerContext context) {
+    public TaskResult run(CompilerContext context) {
         try {
             String version = readVersionResource(ClassLoader.getSystemResourceAsStream("VERSION"));
             String branch = readVersionResource(ClassLoader.getSystemResourceAsStream("BRANCH"));
             String tag = readVersionResource(ClassLoader.getSystemResourceAsStream("TAG"));
             String hash = readVersionResource(ClassLoader.getSystemResourceAsStream("HASH"));
             Platform.stdOut("Karaffe Compiler" + version + branch + tag + hash);
-            return Result.SUCCESS;
+            triggerSuccess();
+            return TaskResult.SUCCESS;
         } catch (IOException e) {
-            return Result.NON_RECOVERABLE;
+            triggerFailure();
+            return TaskResult.NON_RECOVERABLE;
         }
     }
 

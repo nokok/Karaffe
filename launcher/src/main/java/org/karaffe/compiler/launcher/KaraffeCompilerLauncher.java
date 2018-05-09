@@ -2,9 +2,9 @@ package org.karaffe.compiler.launcher;
 
 import org.karaffe.compiler.base.CompilerContext;
 import org.karaffe.compiler.base.util.Platform;
-import org.karaffe.compiler.frontend.karaffe.tasks.CheckCompilerPreconditionTask;
+import org.karaffe.compiler.frontend.karaffe.tasks.preconditions.CheckCompilerPreconditionTask;
 import org.karaffe.compiler.frontend.karaffe.tasks.ConfigureLogLevelTask;
-import org.karaffe.compiler.frontend.karaffe.tasks.ParseCommandLineOptionsTask;
+import org.karaffe.compiler.frontend.karaffe.tasks.options.ParseCommandLineOptionsTask;
 import org.karaffe.compiler.frontend.karaffe.tasks.ShowDiagnosticInfoTask;
 import org.karaffe.compiler.frontend.karaffe.tasks.ShowUsageTask;
 import org.karaffe.compiler.frontend.karaffe.tasks.ShowVersionTask;
@@ -38,7 +38,8 @@ public class KaraffeCompilerLauncher {
     public void run(String[] args) throws Exception {
         CompilerContext context = new CompilerContext();
         context.setArgs(args);
-        TaskRunner taskRunner = TaskRunner.defaultTaskRunner(context);
+
+        TaskRunner taskRunner = TaskRunner.newDefaultTaskRunner(context);
         ServiceLoader<Task> taskServiceLoader = ServiceLoader.load(Task.class, Thread.currentThread().getContextClassLoader());
         taskServiceLoader.forEach(taskRunner::standby);
 

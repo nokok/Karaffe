@@ -6,10 +6,10 @@ import ch.qos.logback.classic.spi.ILoggingEvent;
 import ch.qos.logback.core.Appender;
 import org.karaffe.compiler.base.CompilerContext;
 import org.karaffe.compiler.base.util.config.Options;
-import org.karaffe.compiler.frontend.karaffe.transformer.util.Result;
+import org.karaffe.compiler.frontend.karaffe.tasks.util.TaskResult;
 import org.slf4j.LoggerFactory;
 
-public class ConfigureLogLevelTask implements Task {
+public class ConfigureLogLevelTask extends AbstractReadOnlyTask {
 
     private static final org.slf4j.Logger LOGGER = LoggerFactory.getLogger(ConfigureLogLevelTask.class);
 
@@ -24,7 +24,7 @@ public class ConfigureLogLevelTask implements Task {
     }
 
     @Override
-    public Result run(CompilerContext context) {
+    public TaskResult run(CompilerContext context) {
         Options options = context.cmdLineOptions;
 
         Level logLevel;
@@ -50,15 +50,10 @@ public class ConfigureLogLevelTask implements Task {
             infoLogAppender.start();
         }
 
-
         rootLogger.setLevel(logLevel);
         LOGGER.info("{} Logger is activated.", logLevel);
-        return Result.SUCCESS;
-    }
-
-    @Override
-    public boolean isRunnable(CompilerContext context) {
-        return true;
+        triggerSuccess();
+        return TaskResult.SUCCESS;
     }
 
     @Override

@@ -12,8 +12,9 @@
         </encoder>
     </appender>
 
-    <root level="${krf-log:-OFF}" >
+    <root level="${krf-log:-OFF}" additivity="false">
         <appender-ref ref="DEBUG_LOG"/>
         <appender-ref ref="INFO_LOG"/>
     </root>
+
 </configuration>
