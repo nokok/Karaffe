@@ -13,7 +13,7 @@ public class LexerTask extends AbstractTask {
 
     @Override
     public String name() {
-        return "compile";
+        return "lexer";
     }
 
     @Override

@@ -7,6 +7,7 @@ import org.karaffe.compiler.base.task.TaskRunner;
 import org.karaffe.compiler.base.util.Platform;
 import org.karaffe.compiler.frontend.karaffe.tasks.ConfigureLogLevelTask;
 import org.karaffe.compiler.frontend.karaffe.tasks.LexerTask;
+import org.karaffe.compiler.frontend.karaffe.tasks.ParserTask;
 import org.karaffe.compiler.frontend.karaffe.tasks.ShowDiagnosticInfoTask;
 import org.karaffe.compiler.frontend.karaffe.tasks.ShowUsageTask;
 import org.karaffe.compiler.frontend.karaffe.tasks.ShowVersionTask;
@@ -65,6 +66,7 @@ public class KaraffeCompilerLauncher {
         taskRunner.standBy(ShowUsageTask::new);
         taskRunner.standBy(ShowVersionTask::new);
         taskRunner.standBy(LexerTask::new);
+        taskRunner.standBy(ParserTask::new);
 
         RunnerResult result = taskRunner.runAll();
         return result == RunnerResult.SUCCESS_ALL ? 0 : -1;
