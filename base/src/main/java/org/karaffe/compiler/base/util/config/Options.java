@@ -24,8 +24,8 @@ public class Options {
     @Option(name = "--trace", usage = "Set output log levels TRACE and higher", handler = MyBooleanOptionHandler.class)
     public boolean isTraceLog;
 
-    @Option(name = "--show-phases", usage = "Print all phases", handler = MyBooleanOptionHandler.class)
-    public boolean showPhases;
+    @Option(name = "--show-tasks", usage = "Print all tasks", handler = MyBooleanOptionHandler.class)
+    public boolean showTasks;
 
     @Option(name = "--print-tree", usage = "Print Tree every phase", handler = MyBooleanOptionHandler.class)
     public boolean printTree;
@@ -61,7 +61,7 @@ public class Options {
                 ", isInfoLog=" + isInfoLog +
                 ", isDebugLog=" + isDebugLog +
                 ", isTraceLog=" + isTraceLog +
-                ", showPhases=" + showPhases +
+                ", showTasks=" + showTasks +
                 ", printTree=" + printTree +
                 ", showHelp=" + showHelp +
                 ", stopPhaseName=" + stopPhaseName +
