@@ -4,9 +4,12 @@ import org.karaffe.compiler.base.CompilerContext;
 import org.karaffe.compiler.base.task.RunnerResult;
 import org.karaffe.compiler.base.task.TaskResult;
 import org.karaffe.compiler.base.task.TaskRunner;
+import org.karaffe.compiler.base.util.SourceFile;
 import org.karaffe.compiler.frontend.karaffe.tasks.AbstractReadOnlyTask;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+
+import java.io.File;
 
 public class CommandLineOptionsSubTask extends AbstractReadOnlyTask {
 
@@ -32,6 +35,8 @@ public class CommandLineOptionsSubTask extends AbstractReadOnlyTask {
         RunnerResult result = subTaskRunner.runAll();
         TaskResult tResult = result.toTaskResult();
         tResult.ifFailed(failedAction);
+
+        context.getCmdLineOptions().arguments.stream().map(File::new).map(SourceFile::new).forEach(context::addSourceFile);
         return tResult;
     }
 }

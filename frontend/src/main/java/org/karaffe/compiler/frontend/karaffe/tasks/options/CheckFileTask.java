@@ -2,10 +2,12 @@ package org.karaffe.compiler.frontend.karaffe.tasks.options;
 
 import org.karaffe.compiler.base.Errors;
 import org.karaffe.compiler.base.task.TaskResult;
+import org.karaffe.compiler.base.util.SourceFile;
 import org.karaffe.compiler.base.util.config.Options;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import java.io.File;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
@@ -34,6 +36,7 @@ public class CheckFileTask extends AbstractOptionTask {
             return TaskResult.FAILED;
         }
         LOGGER.debug("Passed");
+
         return TaskResult.SUCCESS;
     }
 
