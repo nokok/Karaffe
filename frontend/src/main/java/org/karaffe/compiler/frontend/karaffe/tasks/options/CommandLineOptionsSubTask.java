@@ -34,9 +34,9 @@ public class CommandLineOptionsSubTask extends AbstractReadOnlyTask {
         subTaskRunner.standBy(CheckTargetTask::new);
         RunnerResult result = subTaskRunner.runAll();
         TaskResult tResult = result.toTaskResult();
-        tResult.ifFailed(failedAction);
-
-        context.getCmdLineOptions().arguments.stream().map(File::new).map(SourceFile::new).forEach(context::addSourceFile);
+        tResult.ifFailed(failedAction).ifSuccess(() -> {
+            context.getCmdLineOptions().arguments.stream().map(File::new).map(SourceFile::new).forEach(context::addSourceFile);
+        });
         return tResult;
     }
 }
