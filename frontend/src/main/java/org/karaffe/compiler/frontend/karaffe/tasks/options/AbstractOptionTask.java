@@ -1,9 +1,9 @@
 package org.karaffe.compiler.frontend.karaffe.tasks.options;
 
 import org.karaffe.compiler.base.CompilerContext;
+import org.karaffe.compiler.base.task.TaskResult;
 import org.karaffe.compiler.base.util.config.Options;
 import org.karaffe.compiler.frontend.karaffe.tasks.AbstractTask;
-import org.karaffe.compiler.frontend.karaffe.tasks.util.TaskResult;
 
 public abstract class AbstractOptionTask extends AbstractTask {
 
@@ -14,7 +14,7 @@ public abstract class AbstractOptionTask extends AbstractTask {
 
     @Override
     public TaskResult run(CompilerContext context) {
-        return run(context.cmdLineOptions);
+        return run(context.getCmdLineOptions());
     }
 
     public abstract TaskResult run(Options options);

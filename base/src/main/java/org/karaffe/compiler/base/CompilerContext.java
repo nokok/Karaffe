@@ -1,81 +1,58 @@
 package org.karaffe.compiler.base;
 
+import org.karaffe.compiler.base.context.CommandLineOptions;
 import org.karaffe.compiler.base.util.config.Options;
-import org.kohsuke.args4j.CmdLineParser;
-import org.kohsuke.args4j.ParserProperties;
+import org.kohsuke.args4j.CmdLineException;
 
-import java.util.ArrayList;
-import java.util.List;
+import java.io.PrintStream;
 import java.util.Objects;
 
 public class CompilerContext {
 
-    private String[] args;
-    private String state;
-
-    /* Command line options */
-    private ParserProperties commandLineParserProperties;
-    private CmdLineParser commandLineParser;
-    public Options cmdLineOptions;
-    private boolean hasInvalidArg;
+    private final CommandLineOptions commandLineOptions;
+    private boolean hasInvalidCmdLineArg;
 
     public CompilerContext() {
-        this.args = null;
-        this.state = null;
-        this.commandLineParserProperties = null;
-        this.commandLineParser = null;
-        this.cmdLineOptions = new Options();
-        this.hasInvalidArg = false;
+        this(new String[0]);
     }
 
-    public boolean hasInvalidArg() {
-        return hasInvalidArg;
+    public CompilerContext(String[] args) {
+        Objects.requireNonNull(args);
+        this.commandLineOptions = new CommandLineOptions(args);
+        this.hasInvalidCmdLineArg = false;
     }
 
-    public void setInvalidArg() {
-        if (this.hasInvalidArg == true) {
-            throw new IllegalStateException("Invalid flg is already set.");
+    public void startParseArgs() throws CmdLineException {
+        try {
+            commandLineOptions.parseArgs();
+        } catch (CmdLineException e) {
+            this.hasInvalidCmdLineArg = true;
+            throw e;
         }
-        this.hasInvalidArg = true;
     }
 
-    public void setArgs(String[] args) {
-        if (args == null) {
-            throw new NullPointerException();
-        }
-        if (this.args != null) {
-            throw new IllegalStateException();
-        }
-        this.args = args;
+    public boolean hasInvalidCmdLineArg() {
+        return hasInvalidCmdLineArg;
     }
 
-    public String[] getArgs() {
-        return this.args;
+    public void setInvalidCmdLineArg() {
+        this.hasInvalidCmdLineArg = true;
     }
 
-    public void setState(Class<?> phaseClass) {
-        this.state = phaseClass.getCanonicalName();
+    public boolean isEmptyRawArg() {
+        return this.commandLineOptions.isEmptyArgs();
     }
 
-    @Override
-    public String toString() {
-        List<String> lines = new ArrayList<>();
-        return String.join("\n", lines);
+    public Options getCmdLineOptions() {
+        return this.commandLineOptions.get();
     }
 
-    public void setCommandLineParserProperties(ParserProperties properties) {
-        this.commandLineParserProperties = Objects.requireNonNull(properties);
+    public void printUsage() {
+        commandLineOptions.printUsage();
     }
 
-    public void setCommandLineParser(CmdLineParser cmdLineParser) {
-        this.commandLineParser = Objects.requireNonNull(cmdLineParser);
+    @SuppressWarnings("unused")
+    public void printUsage(PrintStream printStream) {
+        commandLineOptions.printUsage(printStream);
     }
-
-    public CmdLineParser getCommandLineParser() {
-        if (this.commandLineParser == null) {
-            throw new NullPointerException("CmdLineParser is null");
-        }
-        return this.commandLineParser;
-    }
-
 }

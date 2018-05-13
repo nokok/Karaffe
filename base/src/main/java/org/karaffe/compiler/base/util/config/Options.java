@@ -9,7 +9,7 @@ import java.util.List;
 public class Options {
 
 
-    @Option(name = "--diag", usage = "show diagnostic data", handler = MyBooleanOptionHandler.class)
+    @Option(name = "--diag", usage = "Show diagnostic data", handler = MyBooleanOptionHandler.class)
     public boolean showDiag;
 
     @Option(name = "--version", aliases = {"-v"}, usage = "Print compiler version and exit", handler = MyBooleanOptionHandler.class)
@@ -39,14 +39,37 @@ public class Options {
     @Option(name = "--print-last-tree", usage = "Print tree", handler = MyBooleanOptionHandler.class)
     public boolean showLastTree;
 
-    @Option(name = "--skip-pkg-check", usage = "skip checking of correspondence between package decl and file structure", handler = MyBooleanOptionHandler.class)
+    @Option(name = "--skip-pkg-check", usage = "Skip checking of correspondence between package decl and file structure", handler = MyBooleanOptionHandler.class)
     public boolean skipPackageCheck;
 
     /* Hidden options */
 
     @Option(name = "--use-default-antlr-listener", hidden = true, handler = MyBooleanOptionHandler.class)
-    public boolean useDefaultANTLRListener;
+    public boolean useDefaultANTLRListener = false;
+
+    @Option(name = "--target", hidden = true)
+    public String targetName = "jvm";
 
     @Argument
     public List<String> arguments = new ArrayList<>();
+
+    @Override
+    public String toString() {
+        return "Options{" +
+                "showDiag=" + showDiag +
+                ", showVersion=" + showVersion +
+                ", isInfoLog=" + isInfoLog +
+                ", isDebugLog=" + isDebugLog +
+                ", isTraceLog=" + isTraceLog +
+                ", showPhases=" + showPhases +
+                ", printTree=" + printTree +
+                ", showHelp=" + showHelp +
+                ", stopPhaseName=" + stopPhaseName +
+                ", showLastTree=" + showLastTree +
+                ", skipPackageCheck=" + skipPackageCheck +
+                ", useDefaultANTLRListener=" + useDefaultANTLRListener +
+                ", targetName=" + targetName +
+                ", arguments=" + arguments +
+                '}';
+    }
 }

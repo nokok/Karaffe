@@ -1,7 +1,7 @@
 package org.karaffe.compiler.frontend.karaffe.tasks.options;
 
+import org.karaffe.compiler.base.task.TaskResult;
 import org.karaffe.compiler.base.util.config.Options;
-import org.karaffe.compiler.frontend.karaffe.tasks.util.TaskResult;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -14,21 +14,16 @@ public class CheckLogLevelTask extends AbstractOptionTask {
         boolean invalid = false;
         if (options.isDebugLog) {
             invalid = options.isInfoLog || options.isTraceLog;
-            LOGGER.warn("InvalidLog Level : {}", options);
-        }
-        if (options.isInfoLog) {
+        } else if (options.isInfoLog) {
             invalid = options.isDebugLog || options.isTraceLog;
-            LOGGER.warn("InvalidLog Level : {}", options);
-        }
-        if (options.isTraceLog) {
+        } else if (options.isTraceLog) {
             invalid = options.isDebugLog || options.isInfoLog;
-            LOGGER.warn("InvalidLog Level : {}", options);
         }
         if (invalid) {
-            triggerFailure();
+            LOGGER.warn("Failed : {}", options);
             return TaskResult.NON_RECOVERABLE;
         } else {
-            triggerSuccess();
+            LOGGER.debug("Passed");
             return TaskResult.SUCCESS;
         }
     }

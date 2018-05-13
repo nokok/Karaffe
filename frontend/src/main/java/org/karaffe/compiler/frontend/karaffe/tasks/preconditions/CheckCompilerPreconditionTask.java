@@ -1,8 +1,10 @@
 package org.karaffe.compiler.frontend.karaffe.tasks.preconditions;
 
 import org.karaffe.compiler.base.CompilerContext;
+import org.karaffe.compiler.base.task.RunnerResult;
+import org.karaffe.compiler.base.task.TaskResult;
+import org.karaffe.compiler.base.task.TaskRunner;
 import org.karaffe.compiler.frontend.karaffe.tasks.AbstractReadOnlyTask;
-import org.karaffe.compiler.frontend.karaffe.tasks.util.TaskResult;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -22,23 +24,12 @@ public class CheckCompilerPreconditionTask extends AbstractReadOnlyTask {
 
     @Override
     public TaskResult run(CompilerContext context) {
-        try {
-            if (!context.cmdLineOptions.skipPackageCheck) {
-                LOGGER.trace("Check Package : {}", "karaffe.core");
-                Class.forName("karaffe.core.Any");
-                Package pkg = Package.getPackage("karaffe.core");
-                if (pkg == null) {
-                    LOGGER.error("karaffe.core package is not found.");
-                    return TaskResult.NON_RECOVERABLE;
-                }
-                LOGGER.trace("OK");
-            }
-            triggerSuccess();
-            return TaskResult.SUCCESS;
-        } catch (ClassNotFoundException e) {
-            triggerFailure();
-            return TaskResult.NON_RECOVERABLE;
+        TaskRunner taskRunner = TaskRunner.newDefaultTaskRunner(context);
+        if (!context.getCmdLineOptions().skipPackageCheck) {
+            taskRunner.standBy(CheckCorePackageTask::new);
         }
+        RunnerResult result = taskRunner.runAll();
+        return result.toTaskResult();
     }
 
 }

@@ -1,9 +1,6 @@
-package org.karaffe.compiler.frontend.karaffe.tasks;
+package org.karaffe.compiler.base.task;
 
 import org.karaffe.compiler.base.CompilerContext;
-import org.karaffe.compiler.frontend.karaffe.tasks.util.RecoveryStrategy;
-import org.karaffe.compiler.frontend.karaffe.tasks.util.RunnerResult;
-import org.karaffe.compiler.frontend.karaffe.tasks.util.RuntimeTaskException;
 
 import java.util.function.Supplier;
 
@@ -14,17 +11,10 @@ public interface TaskRunner {
      *
      * @param task 追加するタスク
      */
-    void standby(Task task);
+    void standBy(Task task);
 
     default void standBy(Supplier<Task> sup) {
-        standby(sup.get());
-    }
-
-    default void standBy(Supplier<Task> sup, Runnable onFailure, Runnable onSuccess) {
-        Task task = sup.get();
-        task.addOnFailureListener(onFailure);
-        task.addOnSuccessListener(onSuccess);
-        standby(task);
+        standBy(sup.get());
     }
 
     /**
@@ -32,9 +22,9 @@ public interface TaskRunner {
      *
      * @param task 実行するタスク
      */
-    RunnerResult exec(Task task);
+    TaskResult exec(Task task);
 
-    default RunnerResult exec(Supplier<Task> sup) {
+    default TaskResult exec(Supplier<Task> sup) {
         return exec(sup.get());
     }
 

@@ -1,4 +1,4 @@
-package org.karaffe.compiler.frontend.karaffe.tasks.util;
+package org.karaffe.compiler.base.task;
 
 public class RuntimeTaskException extends RuntimeException {
     public RuntimeTaskException() {

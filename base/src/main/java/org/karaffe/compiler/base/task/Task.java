@@ -1,9 +1,6 @@
-package org.karaffe.compiler.frontend.karaffe.tasks;
+package org.karaffe.compiler.base.task;
 
 import org.karaffe.compiler.base.CompilerContext;
-import org.karaffe.compiler.frontend.karaffe.tasks.util.TaskResult;
-
-import java.util.List;
 
 public interface Task {
 
@@ -23,13 +20,5 @@ public interface Task {
      * @return
      */
     boolean changed();
-
-    List<Runnable> getOnSuccessListeners();
-
-    List<Runnable> getOnFailureListeners();
-
-    void addOnSuccessListener(Runnable runnable);
-
-    void addOnFailureListener(Runnable runnable);
 
 }

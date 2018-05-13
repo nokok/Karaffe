@@ -2,13 +2,12 @@ package org.karaffe.compiler.frontend.karaffe.tasks;
 
 import org.karaffe.compiler.base.CompilerContext;
 import org.karaffe.compiler.base.task.TaskResult;
-import org.karaffe.compiler.base.util.DiagnosticInfo;
-import org.karaffe.compiler.base.util.Platform;
 
-public class ShowDiagnosticInfoTask extends AbstractTask {
+public class CompileTask extends AbstractTask {
+
     @Override
     public String name() {
-        return "show diag";
+        return "compile";
     }
 
     @Override
@@ -18,13 +17,7 @@ public class ShowDiagnosticInfoTask extends AbstractTask {
 
     @Override
     public TaskResult run(CompilerContext context) {
-        Platform.stdOut(DiagnosticInfo.INSTANCE.toString());
         return TaskResult.SUCCESS;
-    }
-
-    @Override
-    public boolean isRunnable(CompilerContext context) {
-        return context.getCmdLineOptions().showDiag;
     }
 
     @Override

@@ -5,8 +5,8 @@ import ch.qos.logback.classic.Logger;
 import ch.qos.logback.classic.spi.ILoggingEvent;
 import ch.qos.logback.core.Appender;
 import org.karaffe.compiler.base.CompilerContext;
+import org.karaffe.compiler.base.task.TaskResult;
 import org.karaffe.compiler.base.util.config.Options;
-import org.karaffe.compiler.frontend.karaffe.tasks.util.TaskResult;
 import org.slf4j.LoggerFactory;
 
 public class ConfigureLogLevelTask extends AbstractReadOnlyTask {
@@ -25,7 +25,8 @@ public class ConfigureLogLevelTask extends AbstractReadOnlyTask {
 
     @Override
     public TaskResult run(CompilerContext context) {
-        Options options = context.cmdLineOptions;
+        LOGGER.debug("run");
+        Options options = context.getCmdLineOptions();
 
         Level logLevel;
         if (options.isTraceLog) {
@@ -52,7 +53,6 @@ public class ConfigureLogLevelTask extends AbstractReadOnlyTask {
 
         rootLogger.setLevel(logLevel);
         LOGGER.info("{} Logger is activated.", logLevel);
-        triggerSuccess();
         return TaskResult.SUCCESS;
     }
 

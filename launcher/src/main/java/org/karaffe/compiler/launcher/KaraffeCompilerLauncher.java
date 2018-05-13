@@ -1,15 +1,17 @@
 package org.karaffe.compiler.launcher;
 
 import org.karaffe.compiler.base.CompilerContext;
+import org.karaffe.compiler.base.task.RunnerResult;
+import org.karaffe.compiler.base.task.Task;
+import org.karaffe.compiler.base.task.TaskRunner;
 import org.karaffe.compiler.base.util.Platform;
-import org.karaffe.compiler.frontend.karaffe.tasks.preconditions.CheckCompilerPreconditionTask;
 import org.karaffe.compiler.frontend.karaffe.tasks.ConfigureLogLevelTask;
-import org.karaffe.compiler.frontend.karaffe.tasks.options.ParseCommandLineOptionsTask;
 import org.karaffe.compiler.frontend.karaffe.tasks.ShowDiagnosticInfoTask;
 import org.karaffe.compiler.frontend.karaffe.tasks.ShowUsageTask;
 import org.karaffe.compiler.frontend.karaffe.tasks.ShowVersionTask;
-import org.karaffe.compiler.frontend.karaffe.tasks.Task;
-import org.karaffe.compiler.frontend.karaffe.tasks.TaskRunner;
+import org.karaffe.compiler.frontend.karaffe.tasks.options.CommandLineOptionsSubTask;
+import org.karaffe.compiler.frontend.karaffe.tasks.options.ParseCommandLineOptionsTask;
+import org.karaffe.compiler.frontend.karaffe.tasks.preconditions.CheckCompilerPreconditionTask;
 import org.slf4j.LoggerFactory;
 
 import java.io.InputStream;
@@ -32,26 +34,38 @@ public class KaraffeCompilerLauncher {
 
     public static void main(String[] args) throws Exception {
         KaraffeCompilerLauncher launcher = new KaraffeCompilerLauncher();
-        launcher.run(args);
+        int exit = launcher.run(args);
+        System.exit(exit);
     }
 
-    public void run(String[] args) throws Exception {
-        CompilerContext context = new CompilerContext();
-        context.setArgs(args);
+    public int run(String[] args) throws Exception {
+        CompilerContext context = new CompilerContext(args);
+
+        Thread.setDefaultUncaughtExceptionHandler((thread, throwable) -> {
+            Platform.stdErr("Uncaught Exception");
+            Platform.stdErr("ThreadName: " + thread.getName());
+            if (throwable != null) {
+                throwable.printStackTrace(Platform.getStdErr());
+            }
+        });
 
         TaskRunner taskRunner = TaskRunner.newDefaultTaskRunner(context);
         ServiceLoader<Task> taskServiceLoader = ServiceLoader.load(Task.class, Thread.currentThread().getContextClassLoader());
-        taskServiceLoader.forEach(taskRunner::standby);
+        taskServiceLoader.forEach(taskRunner::standBy);
 
-        taskRunner.exec(ParseCommandLineOptionsTask::new);
-        taskRunner.exec(ConfigureLogLevelTask::new);
-        taskRunner.exec(CheckCompilerPreconditionTask::new);
+        Runnable failedAction = context::setInvalidCmdLineArg;
+
+        taskRunner.exec(ParseCommandLineOptionsTask::new).ifFailed(failedAction);
+        taskRunner.exec(ConfigureLogLevelTask::new).ifFailed(failedAction);
+        taskRunner.exec(CheckCompilerPreconditionTask::new).ifFailed(failedAction);
+        taskRunner.exec(CommandLineOptionsSubTask::new).ifFailed(failedAction);
 
         taskRunner.standBy(ShowDiagnosticInfoTask::new);
         taskRunner.standBy(ShowUsageTask::new);
         taskRunner.standBy(ShowVersionTask::new);
 
-        taskRunner.runAll();
+        RunnerResult result = taskRunner.runAll();
+        return result == RunnerResult.SUCCESS_ALL ? 0 : -1;
     }
 
 }

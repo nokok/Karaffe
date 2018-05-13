@@ -1,8 +1,8 @@
 package org.karaffe.compiler.frontend.karaffe.tasks;
 
 import org.karaffe.compiler.base.CompilerContext;
+import org.karaffe.compiler.base.task.TaskResult;
 import org.karaffe.compiler.base.util.Platform;
-import org.karaffe.compiler.frontend.karaffe.tasks.util.TaskResult;
 
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -29,17 +29,15 @@ public class ShowVersionTask extends AbstractTask {
             String tag = readVersionResource(ClassLoader.getSystemResourceAsStream("TAG"));
             String hash = readVersionResource(ClassLoader.getSystemResourceAsStream("HASH"));
             Platform.stdOut("Karaffe Compiler" + version + branch + tag + hash);
-            triggerSuccess();
             return TaskResult.SUCCESS;
         } catch (IOException e) {
-            triggerFailure();
             return TaskResult.NON_RECOVERABLE;
         }
     }
 
     @Override
     public boolean isRunnable(CompilerContext context) {
-        return context.cmdLineOptions.showVersion;
+        return context.getCmdLineOptions().showVersion;
     }
 
     @Override
