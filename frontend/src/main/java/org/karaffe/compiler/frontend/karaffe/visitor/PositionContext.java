@@ -1,4 +1,4 @@
-package org.karaffe.compiler.frontend.karaffe.listener;
+package org.karaffe.compiler.frontend.karaffe.visitor;
 
 import org.antlr.v4.runtime.ParserRuleContext;
 import org.antlr.v4.runtime.Token;

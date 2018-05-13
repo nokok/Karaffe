@@ -6,7 +6,6 @@ import org.karaffe.compiler.frontend.karaffe.ast.api.Statement;
 import org.karaffe.compiler.frontend.karaffe.ast.names.SimpleName;
 import org.karaffe.compiler.frontend.karaffe.ast.names.TypeName;
 import org.karaffe.compiler.frontend.karaffe.ast.statements.ClassDef;
-import org.karaffe.compiler.frontend.karaffe.listener.PositionContext;
 
 import java.util.List;
 

@@ -9,7 +9,6 @@ import org.karaffe.compiler.frontend.karaffe.ast.modifiers.Static;
 import org.karaffe.compiler.frontend.karaffe.ast.names.SimpleName;
 import org.karaffe.compiler.frontend.karaffe.ast.names.TypeName;
 import org.karaffe.compiler.frontend.karaffe.ast.statements.MethodDef;
-import org.karaffe.compiler.frontend.karaffe.listener.PositionContext;
 
 import java.util.Arrays;
 import java.util.Collections;

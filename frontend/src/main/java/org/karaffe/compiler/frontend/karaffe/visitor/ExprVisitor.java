@@ -11,7 +11,6 @@ import org.karaffe.compiler.frontend.karaffe.ast.expressions.NewInstance;
 import org.karaffe.compiler.frontend.karaffe.ast.names.SimpleName;
 import org.karaffe.compiler.frontend.karaffe.ast.names.TypeName;
 import org.karaffe.compiler.frontend.karaffe.exceptions.KaraffeSemaException;
-import org.karaffe.compiler.frontend.karaffe.listener.PositionContext;
 
 import java.util.ArrayList;
 import java.util.Collections;
