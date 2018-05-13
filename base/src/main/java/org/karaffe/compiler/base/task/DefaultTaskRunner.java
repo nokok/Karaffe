@@ -46,6 +46,7 @@ public class DefaultTaskRunner implements TaskRunner {
         isExecuting = true;
         int success = 0;
         int warn = 0;
+        LOGGER.debug("start runAll");
         Queue<Task> taskQueue = new ArrayDeque<>(this.tasks);
         while (!taskQueue.isEmpty()) {
             Task task = taskQueue.poll();
@@ -53,17 +54,22 @@ public class DefaultTaskRunner implements TaskRunner {
                 this.delayedTasks.add(task);
                 if (taskQueue.isEmpty()) {
                     // タスクキューが空の場合、CompilerContextの状態が変更されることはもう無いため、このタスクは実行可能状態となることはない。
+                    LOGGER.warn("RunnerResult.FAILED : taskQueue.isEmpty");
                     return RunnerResult.FAILED;
                 }
                 continue;
             }
             TaskResult result = task.run(context);
+            LOGGER.debug("TaskResult : {} , name : {}", result, task.name());
             if (result == TaskResult.FAILED) {
+                LOGGER.debug("FAILED");
                 return RunnerResult.FAILED;
             }
             if (result == TaskResult.SUCCESS) {
+                LOGGER.debug("SUCCESS(success++)");
                 success++;
             } else if (result == TaskResult.SUCCESS_WITH_WARN) {
+                LOGGER.debug("SUCCESS_WITH_WARN(warn++)");
                 warn++;
             }
             this.delayedTasks.forEach(((ArrayDeque<Task>) taskQueue)::addFirst);
