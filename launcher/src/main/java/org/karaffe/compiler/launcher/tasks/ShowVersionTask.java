@@ -19,7 +19,7 @@ public class ShowVersionTask extends AbstractTask {
 
     @Override
     public String description() {
-        return "";
+        return "(N/A)";
     }
 
     @Override

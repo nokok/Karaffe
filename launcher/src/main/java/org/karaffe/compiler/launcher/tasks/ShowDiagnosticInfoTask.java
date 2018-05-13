@@ -14,7 +14,7 @@ public class ShowDiagnosticInfoTask extends AbstractTask {
 
     @Override
     public String description() {
-        return "";
+        return "Show diagnostic info";
     }
 
     @Override

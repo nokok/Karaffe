@@ -12,7 +12,7 @@ public class ParserTask extends AbstractTask {
 
     @Override
     public String name() {
-        return "parser";
+        return "parsing";
     }
 
     @Override

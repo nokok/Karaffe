@@ -12,12 +12,12 @@ public class CheckCorePackageTask extends AbstractReadOnlyTask {
 
     @Override
     public String name() {
-        return "check core packages";
+        return "check corelib";
     }
 
     @Override
     public String description() {
-        return "";
+        return "Check core packages(karaffe.core ...) and classes(karaffe.core.Any ...)";
     }
 
     @Override

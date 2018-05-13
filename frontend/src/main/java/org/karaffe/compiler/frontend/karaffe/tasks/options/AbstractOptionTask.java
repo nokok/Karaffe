@@ -8,11 +8,6 @@ import org.karaffe.compiler.frontend.karaffe.tasks.AbstractTask;
 public abstract class AbstractOptionTask extends AbstractTask {
 
     @Override
-    public String description() {
-        return "";
-    }
-
-    @Override
     public TaskResult run(CompilerContext context) {
         return run(context.getCmdLineOptions());
     }
@@ -22,5 +17,10 @@ public abstract class AbstractOptionTask extends AbstractTask {
     @Override
     public boolean changed() {
         return false;
+    }
+
+    @Override
+    public String description() {
+        return "(N/A)";
     }
 }

@@ -8,13 +8,13 @@ import org.karaffe.compiler.base.util.Platform;
 import org.karaffe.compiler.frontend.karaffe.tasks.ConfigureLogLevelTask;
 import org.karaffe.compiler.frontend.karaffe.tasks.LexerTask;
 import org.karaffe.compiler.frontend.karaffe.tasks.ParserTask;
-import org.karaffe.compiler.launcher.tasks.ShowDiagnosticInfoTask;
-import org.karaffe.compiler.launcher.tasks.ShowPhasesTask;
-import org.karaffe.compiler.launcher.tasks.ShowUsageTask;
-import org.karaffe.compiler.launcher.tasks.ShowVersionTask;
 import org.karaffe.compiler.frontend.karaffe.tasks.options.CommandLineOptionsSubTask;
 import org.karaffe.compiler.frontend.karaffe.tasks.options.ParseCommandLineOptionsTask;
 import org.karaffe.compiler.frontend.karaffe.tasks.preconditions.CheckCompilerPreconditionTask;
+import org.karaffe.compiler.launcher.tasks.ShowDiagnosticInfoTask;
+import org.karaffe.compiler.launcher.tasks.ShowTasksTask;
+import org.karaffe.compiler.launcher.tasks.ShowUsageTask;
+import org.karaffe.compiler.launcher.tasks.ShowVersionTask;
 import org.slf4j.LoggerFactory;
 
 import java.io.InputStream;
@@ -44,20 +44,20 @@ public class KaraffeCompilerLauncher {
         System.exit(exit);
     }
 
-    private static final Set<Class<? extends Task>> execTaskList = new LinkedHashSet<>(Arrays.asList(
-            ParseCommandLineOptionsTask.class,
-            ConfigureLogLevelTask.class,
-            CheckCompilerPreconditionTask.class,
-            CommandLineOptionsSubTask.class
+    public static final Set<Task> execTaskList = new LinkedHashSet<>(Arrays.asList(
+            new ParseCommandLineOptionsTask(),
+            new ConfigureLogLevelTask(),
+            new CheckCompilerPreconditionTask(),
+            new CommandLineOptionsSubTask()
     ));
 
-    private static final Set<Class<? extends Task>> standByTaskList = new LinkedHashSet<>(Arrays.asList(
-            ShowDiagnosticInfoTask.class,
-            ShowUsageTask.class,
-            ShowVersionTask.class,
-            ShowPhasesTask.class,
-            LexerTask.class,
-            ParserTask.class
+    public static final Set<Task> standByTaskList = new LinkedHashSet<>(Arrays.asList(
+            new ShowDiagnosticInfoTask(),
+            new ShowUsageTask(),
+            new ShowVersionTask(),
+            new ShowTasksTask(),
+            new LexerTask(),
+            new ParserTask()
     ));
 
     public int run(String[] args) throws Exception {
@@ -76,13 +76,11 @@ public class KaraffeCompilerLauncher {
         taskServiceLoader.forEach(taskRunner::standBy);
 
         Runnable failedAction = context::setInvalidCmdLineArg;
-        for (Class<? extends Task> clazz : execTaskList) {
-            Task task = clazz.getConstructor().newInstance();
+        for (Task task : execTaskList) {
             taskRunner.exec(task).ifFailed(failedAction);
         }
 
-        for (Class<? extends Task> clazz : standByTaskList) {
-            Task task = clazz.getConstructor().newInstance();
+        for (Task task : standByTaskList) {
             taskRunner.standBy(task);
         }
 

@@ -12,7 +12,7 @@ public class ShowUsageTask extends AbstractTask {
 
     @Override
     public String description() {
-        return "";
+        return "(N/A)";
     }
 
     @Override

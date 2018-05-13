@@ -15,12 +15,12 @@ public class ConfigureLogLevelTask extends AbstractReadOnlyTask {
 
     @Override
     public String name() {
-        return "configure log level";
+        return "logger";
     }
 
     @Override
     public String description() {
-        return "";
+        return "Configure log level";
     }
 
     @Override

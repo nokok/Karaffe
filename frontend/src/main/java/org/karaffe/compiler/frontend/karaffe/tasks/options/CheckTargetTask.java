@@ -14,11 +14,6 @@ public class CheckTargetTask extends AbstractOptionTask {
     }
 
     @Override
-    public String description() {
-        return "";
-    }
-
-    @Override
     public TaskResult run(Options options) {
         if (options.targetName == null) {
             LOGGER.warn("TargetName is null");
