@@ -81,7 +81,7 @@ project(':launcher') {
 project(':frontend') {
   apply plugin: 'antlr'
   dependencies {
-    antlr "org.antlr:antlr4:4.5"
+    antlr "org.antlr:antlr4:4.7.1"
   }
 
   generateGrammarSource {
