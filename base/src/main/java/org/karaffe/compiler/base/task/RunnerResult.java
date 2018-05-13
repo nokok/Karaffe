@@ -2,7 +2,6 @@ package org.karaffe.compiler.base.task;
 
 public enum RunnerResult {
     SUCCESS_ALL,
-    PARTICALLY_SUCCESSFUL,
     SUCCESS_WITH_WARNING,
     FAILED;
 

@@ -12,6 +12,7 @@ import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 
+@Deprecated
 public class TypeEnv {
 
     private final Generator<TypeVar> nameGen = new TypeVarGenerator();

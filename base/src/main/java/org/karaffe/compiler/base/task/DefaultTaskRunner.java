@@ -17,7 +17,7 @@ public class DefaultTaskRunner implements TaskRunner {
     private final CompilerContext context;
     private final List<Task> tasks = new ArrayList<>();
     private boolean isExecuting = false;
-    private final List<Task> addedTasks = new ArrayList<>();
+    private final List<Task> delayedTasks = new ArrayList<>();
 
     public DefaultTaskRunner(CompilerContext context) {
         this.context = context;
@@ -27,7 +27,7 @@ public class DefaultTaskRunner implements TaskRunner {
     public void standBy(Task task) {
         LOGGER.debug("standBy : {}", task);
         if (this.isExecuting) {
-            this.addedTasks.add(task);
+            this.delayedTasks.add(task);
         } else {
             this.tasks.add(task);
         }
@@ -50,7 +50,7 @@ public class DefaultTaskRunner implements TaskRunner {
         while (!taskQueue.isEmpty()) {
             Task task = taskQueue.poll();
             if (!task.isRunnable(context)) {
-                this.addedTasks.add(task);
+                this.delayedTasks.add(task);
                 if (taskQueue.isEmpty()) {
                     // タスクキューが空の場合、CompilerContextの状態が変更されることはもう無いため、このタスクは実行可能状態となることはない。
                     return RunnerResult.FAILED;
@@ -66,8 +66,8 @@ public class DefaultTaskRunner implements TaskRunner {
             } else if (result == TaskResult.SUCCESS_WITH_WARN) {
                 warn++;
             }
-            this.addedTasks.forEach(((ArrayDeque<Task>) taskQueue)::addFirst);
-            this.addedTasks.clear();
+            this.delayedTasks.forEach(((ArrayDeque<Task>) taskQueue)::addFirst);
+            this.delayedTasks.clear();
         }
         isExecuting = false;
 
