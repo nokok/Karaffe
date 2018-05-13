@@ -68,6 +68,7 @@ project(':backend') {
 project(':base') {
   dependencies {
     compile group: 'args4j', name: 'args4j', version: '2.33'
+    compile group: 'org.antlr', name: 'antlr4-runtime', version: '4.7.1'
   }
 }
 
