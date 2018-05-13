@@ -31,7 +31,7 @@ public class CheckFileTask extends AbstractOptionTask {
                 Errors.reportNoKaraffeFileFound(f);
             }
             LOGGER.debug("Failed");
-            return TaskResult.NON_RECOVERABLE;
+            return TaskResult.FAILED;
         }
         LOGGER.debug("Passed");
         return TaskResult.SUCCESS;

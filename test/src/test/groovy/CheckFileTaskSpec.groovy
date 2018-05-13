@@ -15,7 +15,7 @@ class CheckFileTaskSpec extends Specification {
 
         expect:
         def result = task.run(opt)
-        result == TaskResult.NON_RECOVERABLE
+        result == TaskResult.FAILED
     }
 
     def "ファイルが存在するが読み込めない場合はNON_RECOVERABLEを返す"() {
@@ -30,7 +30,7 @@ class CheckFileTaskSpec extends Specification {
         expect:
         !Files.isReadable(file.toPath())
         def result = task.run(opt)
-        result == TaskResult.NON_RECOVERABLE
+        result == TaskResult.FAILED
 
         cleanup:
         file.setReadable(true)

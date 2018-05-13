@@ -21,7 +21,7 @@ public class CheckLogLevelTask extends AbstractOptionTask {
         }
         if (invalid) {
             LOGGER.warn("Failed : {}", options);
-            return TaskResult.NON_RECOVERABLE;
+            return TaskResult.FAILED;
         } else {
             LOGGER.debug("Passed");
             return TaskResult.SUCCESS;

@@ -31,7 +31,7 @@ public class ShowVersionTask extends AbstractTask {
             Platform.stdOut("Karaffe Compiler" + version + branch + tag + hash);
             return TaskResult.SUCCESS;
         } catch (IOException e) {
-            return TaskResult.NON_RECOVERABLE;
+            return TaskResult.FAILED;
         }
     }
 

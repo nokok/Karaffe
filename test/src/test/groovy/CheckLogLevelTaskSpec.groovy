@@ -21,11 +21,11 @@ class CheckLogLevelTaskSpec extends Specification {
         where:
 
         isTraceLog | isDebugLog | isInfoLog || result
-        (true)     | (true)     | (true)    || TaskResult.NON_RECOVERABLE
-        (true)     | (true)     | (false)   || TaskResult.NON_RECOVERABLE
-        (true)     | (false)    | (true)    || TaskResult.NON_RECOVERABLE
+        (true)     | (true)     | (true)    || TaskResult.FAILED
+        (true)     | (true)     | (false)   || TaskResult.FAILED
+        (true)     | (false)    | (true)    || TaskResult.FAILED
         (true)     | (false)    | (false)   || TaskResult.SUCCESS
-        (false)    | (true)     | (true)    || TaskResult.NON_RECOVERABLE
+        (false)    | (true)     | (true)    || TaskResult.FAILED
         (false)    | (true)     | (false)   || TaskResult.SUCCESS
         (false)    | (false)    | (true)    || TaskResult.SUCCESS
         (false)    | (false)    | (false)   || TaskResult.SUCCESS

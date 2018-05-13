@@ -32,7 +32,7 @@ public class ParseCommandLineOptionsTask extends AbstractTask {
             context.startParseArgs();
         } catch (CmdLineException e) {
             LOGGER.error("Unexpected Exception", e);
-            return TaskResult.NON_RECOVERABLE;
+            return TaskResult.FAILED;
         }
         return TaskResult.SUCCESS;
     }

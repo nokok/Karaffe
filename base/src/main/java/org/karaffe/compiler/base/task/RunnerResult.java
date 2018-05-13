@@ -13,6 +13,6 @@ public enum RunnerResult {
         if (this == SUCCESS_WITH_WARNING) {
             return TaskResult.SUCCESS_WITH_WARN;
         }
-        return TaskResult.NON_RECOVERABLE;
+        return TaskResult.FAILED;
     }
 }

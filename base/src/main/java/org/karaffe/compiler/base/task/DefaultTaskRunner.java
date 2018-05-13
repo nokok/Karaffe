@@ -58,7 +58,7 @@ public class DefaultTaskRunner implements TaskRunner {
                 continue;
             }
             TaskResult result = task.run(context);
-            if (result == TaskResult.NON_RECOVERABLE) {
+            if (result == TaskResult.FAILED) {
                 return RunnerResult.FAILED;
             }
             if (result == TaskResult.SUCCESS) {

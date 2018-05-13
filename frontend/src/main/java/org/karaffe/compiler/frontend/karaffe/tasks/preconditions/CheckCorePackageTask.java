@@ -28,12 +28,12 @@ public class CheckCorePackageTask extends AbstractReadOnlyTask {
             Package pkg = Package.getPackage("karaffe.core");
             if (pkg == null) {
                 LOGGER.error("karaffe.core package is not found.");
-                return TaskResult.NON_RECOVERABLE;
+                return TaskResult.FAILED;
             }
             LOGGER.trace("OK");
             return TaskResult.SUCCESS;
         } catch (ClassNotFoundException e) {
-            return TaskResult.NON_RECOVERABLE;
+            return TaskResult.FAILED;
         }
     }
 }

@@ -22,12 +22,12 @@ public class CheckTargetTask extends AbstractOptionTask {
     public TaskResult run(Options options) {
         if (options.targetName == null) {
             LOGGER.warn("TargetName is null");
-            return TaskResult.NON_RECOVERABLE;
+            return TaskResult.FAILED;
         } else if (options.targetName.equals("jvm")) {
             LOGGER.debug("JVM Target");
             return TaskResult.SUCCESS;
         }
         LOGGER.warn("Unknown target : {}", options.targetName);
-        return TaskResult.NON_RECOVERABLE;
+        return TaskResult.FAILED;
     }
 }

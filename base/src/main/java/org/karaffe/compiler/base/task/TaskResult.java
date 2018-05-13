@@ -3,17 +3,17 @@ package org.karaffe.compiler.base.task;
 public enum TaskResult {
     SUCCESS,
     SUCCESS_WITH_WARN,
-    NON_RECOVERABLE,;
+    FAILED,;
 
     public TaskResult ifFailed(Runnable runnable) {
-        if (this == NON_RECOVERABLE) {
+        if (this == FAILED) {
             runnable.run();
         }
         return this;
     }
 
     public TaskResult ifSuccess(Runnable runnable) {
-        if (this != NON_RECOVERABLE) {
+        if (this != FAILED) {
             runnable.run();
         }
         return this;
