@@ -1,4 +1,5 @@
 import org.karaffe.compiler.base.task.TaskResult
+import org.karaffe.compiler.base.util.Platform
 import org.karaffe.compiler.base.util.config.Options
 import org.karaffe.compiler.frontend.karaffe.tasks.options.CheckFileTask
 import spock.lang.Specification
@@ -28,9 +29,13 @@ class CheckFileTaskSpec extends Specification {
         opt.arguments = [file.getAbsolutePath()]
 
         expect:
-        !Files.isReadable(file.toPath())
-        def result = task.run(opt)
-        result == TaskResult.FAILED
+        if (!Platform.isWindows()) {
+            !Files.isReadable(file.toPath())
+            def result = task.run(opt)
+            result == TaskResult.FAILED
+        } else {
+            true
+        }
 
         cleanup:
         file.setReadable(true)
