@@ -50,6 +50,11 @@ public class DefaultTaskRunner implements TaskRunner {
         Queue<Task> taskQueue = new ArrayDeque<>(this.tasks);
         while (!taskQueue.isEmpty()) {
             Task task = taskQueue.poll();
+            if (task.isRequired(context)) {
+                LOGGER.debug("Scheduled(Required) : {}", task.name());
+            } else {
+                LOGGER.debug("Scheduled : {}", task.name());
+            }
             if (!task.isRunnable(context)) {
                 this.delayedTasks.add(task);
                 if (taskQueue.isEmpty()) {
@@ -60,16 +65,13 @@ public class DefaultTaskRunner implements TaskRunner {
                 continue;
             }
             TaskResult result = task.run(context);
-            LOGGER.debug("TaskResult : {} , name : {}", result, task.name());
+            LOGGER.info("TaskResult : {}, name : {}", result, task.name());
             if (result == TaskResult.FAILED) {
-                LOGGER.debug("FAILED");
                 return RunnerResult.FAILED;
             }
             if (result == TaskResult.SUCCESS) {
-                LOGGER.debug("SUCCESS(success++)");
                 success++;
             } else if (result == TaskResult.SUCCESS_WITH_WARN) {
-                LOGGER.debug("SUCCESS_WITH_WARN(warn++)");
                 warn++;
             }
             this.delayedTasks.forEach(((ArrayDeque<Task>) taskQueue)::addFirst);

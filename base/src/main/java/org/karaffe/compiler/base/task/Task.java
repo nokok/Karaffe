@@ -14,6 +14,10 @@ public interface Task {
         return true;
     }
 
+    default boolean isRequired(CompilerContext context) {
+        return true;
+    }
+
     /**
      * CompilerContextに対して変更を加えた場合はtrueを返します。
      *

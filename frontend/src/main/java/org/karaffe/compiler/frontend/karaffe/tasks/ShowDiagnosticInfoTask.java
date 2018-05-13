@@ -31,4 +31,9 @@ public class ShowDiagnosticInfoTask extends AbstractTask {
     public boolean changed() {
         return false;
     }
+
+    @Override
+    public boolean isRequired(CompilerContext context) {
+        return false;
+    }
 }

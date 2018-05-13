@@ -45,6 +45,10 @@ public class ShowVersionTask extends AbstractTask {
         return false;
     }
 
+    @Override
+    public boolean isRequired(CompilerContext context) {
+        return false;
+    }
 
     private String readVersionResource(InputStream stream) throws IOException {
         String r;
