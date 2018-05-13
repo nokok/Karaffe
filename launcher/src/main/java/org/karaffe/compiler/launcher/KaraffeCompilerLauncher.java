@@ -9,6 +9,7 @@ import org.karaffe.compiler.frontend.karaffe.tasks.ConfigureLogLevelTask;
 import org.karaffe.compiler.frontend.karaffe.tasks.LexerTask;
 import org.karaffe.compiler.frontend.karaffe.tasks.ParserTask;
 import org.karaffe.compiler.frontend.karaffe.tasks.ShowDiagnosticInfoTask;
+import org.karaffe.compiler.frontend.karaffe.tasks.ShowPhasesTask;
 import org.karaffe.compiler.frontend.karaffe.tasks.ShowUsageTask;
 import org.karaffe.compiler.frontend.karaffe.tasks.ShowVersionTask;
 import org.karaffe.compiler.frontend.karaffe.tasks.options.CommandLineOptionsSubTask;
@@ -18,7 +19,10 @@ import org.slf4j.LoggerFactory;
 
 import java.io.InputStream;
 import java.io.PrintStream;
+import java.util.Arrays;
+import java.util.LinkedHashSet;
 import java.util.ServiceLoader;
+import java.util.Set;
 
 public class KaraffeCompilerLauncher {
 
@@ -40,6 +44,22 @@ public class KaraffeCompilerLauncher {
         System.exit(exit);
     }
 
+    private static final Set<Class<? extends Task>> execTaskList = new LinkedHashSet<>(Arrays.asList(
+            ParseCommandLineOptionsTask.class,
+            ConfigureLogLevelTask.class,
+            CheckCompilerPreconditionTask.class,
+            CommandLineOptionsSubTask.class
+    ));
+
+    private static final Set<Class<? extends Task>> standByTaskList = new LinkedHashSet<>(Arrays.asList(
+            ShowDiagnosticInfoTask.class,
+            ShowUsageTask.class,
+            ShowVersionTask.class,
+            ShowPhasesTask.class,
+            LexerTask.class,
+            ParserTask.class
+    ));
+
     public int run(String[] args) throws Exception {
         CompilerContext context = new CompilerContext(args);
 
@@ -56,17 +76,15 @@ public class KaraffeCompilerLauncher {
         taskServiceLoader.forEach(taskRunner::standBy);
 
         Runnable failedAction = context::setInvalidCmdLineArg;
+        for (Class<? extends Task> clazz : execTaskList) {
+            Task task = clazz.getConstructor().newInstance();
+            taskRunner.exec(task).ifFailed(failedAction);
+        }
 
-        taskRunner.exec(ParseCommandLineOptionsTask::new).ifFailed(failedAction);
-        taskRunner.exec(ConfigureLogLevelTask::new).ifFailed(failedAction);
-        taskRunner.exec(CheckCompilerPreconditionTask::new).ifFailed(failedAction);
-        taskRunner.exec(CommandLineOptionsSubTask::new).ifFailed(failedAction);
-
-        taskRunner.standBy(ShowDiagnosticInfoTask::new);
-        taskRunner.standBy(ShowUsageTask::new);
-        taskRunner.standBy(ShowVersionTask::new);
-        taskRunner.standBy(LexerTask::new);
-        taskRunner.standBy(ParserTask::new);
+        for (Class<? extends Task> clazz : standByTaskList) {
+            Task task = clazz.getConstructor().newInstance();
+            taskRunner.standBy(task);
+        }
 
         RunnerResult result = taskRunner.runAll();
         return result == RunnerResult.SUCCESS_ALL ? 0 : -1;
