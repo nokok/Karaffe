@@ -78,7 +78,7 @@ public final class TypeResolver {
             buildImplementedInterfaces(canonicalName).ifPresent(classes::addAll);
             classes.add(canonicalName);
         }
-        ArrayList<String> ret = new ArrayList<>(new LinkedHashSet<>(classes));
+        List<String> ret = new ArrayList<>(new LinkedHashSet<>(classes));
         return Optional.of(ret);
     }
 
