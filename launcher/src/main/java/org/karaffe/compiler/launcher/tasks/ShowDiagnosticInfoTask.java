@@ -1,12 +1,15 @@
-package org.karaffe.compiler.frontend.karaffe.tasks;
+package org.karaffe.compiler.launcher.tasks;
 
 import org.karaffe.compiler.base.CompilerContext;
 import org.karaffe.compiler.base.task.TaskResult;
+import org.karaffe.compiler.base.util.DiagnosticInfo;
+import org.karaffe.compiler.base.util.Platform;
+import org.karaffe.compiler.frontend.karaffe.tasks.AbstractTask;
 
-public class ShowUsageTask extends AbstractTask {
+public class ShowDiagnosticInfoTask extends AbstractTask {
     @Override
     public String name() {
-        return "show usage";
+        return "show diag";
     }
 
     @Override
@@ -16,13 +19,13 @@ public class ShowUsageTask extends AbstractTask {
 
     @Override
     public TaskResult run(CompilerContext context) {
-        context.printUsage();
+        Platform.stdOut(DiagnosticInfo.INSTANCE.toString());
         return TaskResult.SUCCESS;
     }
 
     @Override
     public boolean isRunnable(CompilerContext context) {
-        return context.hasInvalidCmdLineArg() || context.getCmdLineOptions().showHelp;
+        return context.getCmdLineOptions().showDiag;
     }
 
     @Override
