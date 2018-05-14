@@ -12,13 +12,13 @@ public class Options {
     @Option(name = "--diag", usage = "Show diagnostic data", handler = MyBooleanOptionHandler.class)
     public boolean showDiag;
 
-    @Option(name = "--version", aliases = {"-v"}, usage = "Print compiler version and exit", handler = MyBooleanOptionHandler.class)
+    @Option(name = "-v", aliases = "--version", usage = "Print compiler version and exit", handler = MyBooleanOptionHandler.class)
     public boolean showVersion;
 
-    @Option(name = "--info", aliases = "-i", usage = "Set output log levels INFO and higher", handler = MyBooleanOptionHandler.class)
+    @Option(name = "-i", aliases = "--info", usage = "Set output log levels INFO and higher", handler = MyBooleanOptionHandler.class)
     public boolean isInfoLog;
 
-    @Option(name = "--debug", aliases = "-d", usage = "Set output log levels DEBUG and higher", handler = MyBooleanOptionHandler.class)
+    @Option(name = "-d", aliases = "--debug", usage = "Set output log levels DEBUG and higher", handler = MyBooleanOptionHandler.class)
     public boolean isDebugLog;
 
     @Option(name = "--trace", usage = "Set output log levels TRACE and higher", handler = MyBooleanOptionHandler.class)
@@ -30,7 +30,7 @@ public class Options {
     @Option(name = "--print-tree", usage = "Print Tree every phase", handler = MyBooleanOptionHandler.class)
     public boolean printTree;
 
-    @Option(name = "--help", aliases = {"-h", "-help"}, usage = "Show usage", handler = MyBooleanOptionHandler.class)
+    @Option(name = "-h", aliases = {"--help", "-help"}, usage = "Show usage", handler = MyBooleanOptionHandler.class)
     public boolean showHelp;
 
     @Option(name = "--stop-after", metaVar = "<task>", usage = "Stop and Print tree at <task>")
