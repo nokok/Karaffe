@@ -28,38 +28,17 @@ public class ShowTasksTask extends AbstractReadOnlyTask {
         showTasks.addAll(KaraffeCompilerLauncher.execTaskList);
         showTasks.addAll(KaraffeCompilerLauncher.standByTaskList);
 
-        int maxLengthTaskName = calcHeaderLength(showTasks, context);
-
-        Platform.stdOut(String.format("%" + maxLengthTaskName + "s | description", "task name"));
         for (Task task : showTasks) {
-            printTaskRow(maxLengthTaskName, task, context);
+            printTask("+-", task, context);
         }
 
         return TaskResult.SUCCESS;
     }
 
-    private int calcHeaderLength(Set<Task> tasks, CompilerContext context) {
-        int max = 0;
-        for (Task task : tasks) {
-            max = Math.max(max, calcHeaderLength(task, context));
-        }
-        return max;
-    }
-
-    private int calcHeaderLength(Task task, CompilerContext context) {
-        int max = 0;
-        max = Math.max(max, task.name().length());
+    private void printTask(String header, Task task, CompilerContext context) {
+        Platform.stdOut(header + task.name() + " : " + task.description());
         for (Task subTask : task.getSubTask(context)) {
-            max = Math.max(max, subTask.name().length());
-        }
-        return max;
-    }
-
-    private void printTaskRow(int headerLength, Task task, CompilerContext context) {
-        Platform.stdOut(String.format("%" + headerLength + "s | %s", task.name(), task.description()));
-        Set<Task> subTaskList = task.getSubTask(context);
-        for (Task subTask : subTaskList) {
-            printTaskRow(headerLength, subTask, context);
+            printTask("|" + header + "-", subTask, context);
         }
     }
 
