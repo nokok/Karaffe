@@ -1,6 +1,7 @@
 package org.karaffe.compiler.frontend.karaffe.tasks.options;
 
 import org.karaffe.compiler.base.task.TaskResult;
+import org.karaffe.compiler.base.util.Platform;
 import org.karaffe.compiler.base.util.config.Options;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -16,13 +17,12 @@ public class CheckTargetTask extends AbstractOptionTask {
     @Override
     public TaskResult run(Options options) {
         if (options.targetName == null) {
-            LOGGER.warn("TargetName is null");
             return TaskResult.FAILED;
-        } else if (options.targetName.equals("jvm")) {
-            LOGGER.debug("JVM Target");
+        } else if (options.targetName.toLowerCase().equals("jvm")) {
+            LOGGER.debug("Target : JVM");
             return TaskResult.SUCCESS;
         }
-        LOGGER.warn("Unknown target : {}", options.targetName);
+        Platform.stdErr("Unknown target : " + options.targetName);
         return TaskResult.FAILED;
     }
 }
