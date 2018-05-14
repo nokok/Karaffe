@@ -29,12 +29,12 @@ class CheckFileTaskSpec extends Specification {
         opt.arguments = [file.getAbsolutePath()]
 
         expect:
-        if (!Platform.isWindows()) {
+        if (Platform.isWindows()) {
+            true
+        } else {
             !Files.isReadable(file.toPath())
             def result = task.run(opt)
             result == TaskResult.FAILED
-        } else {
-            true
         }
 
         cleanup:
