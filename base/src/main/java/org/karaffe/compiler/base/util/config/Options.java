@@ -33,7 +33,7 @@ public class Options {
     @Option(name = "--help", aliases = {"-h", "-help"}, usage = "Show usage", handler = MyBooleanOptionHandler.class)
     public boolean showHelp;
 
-    @Option(name = "--stop-after", metaVar = "<phase>", usage = "Stop and Print tree at <phase>")
+    @Option(name = "--stop-after", metaVar = "<task>", usage = "Stop and Print tree at <task>")
     public String stopPhaseName;
 
     @Option(name = "--print-last-tree", usage = "Print tree", handler = MyBooleanOptionHandler.class)
