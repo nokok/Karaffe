@@ -22,7 +22,7 @@ public class LexerTask extends AbstractTask {
 
     @Override
     public String description() {
-        return "";
+        return "Lexical analysis";
     }
 
     @Override

@@ -17,7 +17,7 @@ public class ParserTask extends AbstractTask {
 
     @Override
     public String description() {
-        return "";
+        return "Parsing Token Stream";
     }
 
     @Override
