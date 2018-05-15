@@ -47,6 +47,11 @@ public class ShowTasksTask extends AbstractReadOnlyTask {
     }
 
     @Override
+    public boolean isRequired(CompilerContext context) {
+        return false;
+    }
+
+    @Override
     public boolean isRunnable(CompilerContext context) {
         return context.getCmdLineOptions().showTasks;
     }
