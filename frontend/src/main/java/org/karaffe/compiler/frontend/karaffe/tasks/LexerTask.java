@@ -44,6 +44,11 @@ public class LexerTask extends AbstractTask {
     }
 
     @Override
+    public boolean isRunnable(CompilerContext context) {
+        return context.sourceFileStream().count() > 0;
+    }
+
+    @Override
     public boolean changed() {
         return false;
     }
