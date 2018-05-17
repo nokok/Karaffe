@@ -4,6 +4,7 @@ import org.antlr.v4.runtime.CommonTokenStream;
 import org.antlr.v4.runtime.Lexer;
 import org.antlr.v4.runtime.ParserRuleContext;
 import org.karaffe.compiler.base.context.CommandLineOptions;
+import org.karaffe.compiler.base.tree.Tree;
 import org.karaffe.compiler.base.util.SourceFile;
 import org.karaffe.compiler.base.util.config.Options;
 import org.kohsuke.args4j.CmdLineException;
@@ -20,6 +21,7 @@ public class CompilerContext {
     private final Set<SourceFile> sourceFiles;
     private final Set<Lexer> lexers;
     private final Set<ParserRuleContext> contexts;
+    private Tree compilationUnit;
     private boolean hasInvalidCmdLineArg;
 
     public CompilerContext() {
@@ -88,8 +90,24 @@ public class CompilerContext {
         return this.contexts.stream();
     }
 
+    public void setCompilationUnit(Tree compilationUnit) {
+        this.compilationUnit = Objects.requireNonNull(compilationUnit);
+    }
+
     @SuppressWarnings("unused")
     public void printUsage(PrintStream printStream) {
         commandLineOptions.printUsage(printStream);
+    }
+
+    @Override
+    public String toString() {
+        return "CompilerContext{" +
+                "commandLineOptions=" + commandLineOptions +
+                ", sourceFiles=" + sourceFiles +
+                ", lexers=" + lexers +
+                ", contexts=" + contexts +
+                ", compilationUnit=" + compilationUnit +
+                ", hasInvalidCmdLineArg=" + hasInvalidCmdLineArg +
+                '}';
     }
 }

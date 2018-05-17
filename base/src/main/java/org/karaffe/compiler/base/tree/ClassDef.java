@@ -1,26 +1,24 @@
 package org.karaffe.compiler.base.tree;
 
-import java.util.ArrayList;
-import java.util.List;
-
-public class ClassDef extends AbstractTree implements BodyList<Defs>, Defs, NamedElement<String> {
+public class ClassDef extends AbstractTree implements Defs, NamedElement<String> {
 
     private String name;
-    private List<Defs> body;
+    private Template body;
 
     public ClassDef(String name) {
         this.name = name;
-        this.body = new ArrayList<>();
     }
 
-    @Override
+    public void setBody(Template body) {
+        this.body = body;
+    }
+
+    public Template getBody() {
+        return this.body;
+    }
+
     public void add(Defs body) {
         this.body.add(body);
-    }
-
-    @Override
-    public List<Defs> getBody() {
-        return this.body;
     }
 
     @Override

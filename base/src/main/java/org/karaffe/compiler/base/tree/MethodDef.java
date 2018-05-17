@@ -3,7 +3,7 @@ package org.karaffe.compiler.base.tree;
 import java.util.ArrayList;
 import java.util.List;
 
-public class MethodDef extends AbstractTree implements BodyList<Defs>, Defs {
+public class MethodDef extends AbstractTree implements BodyList<Defs>, Defs, NamedElement<String> {
 
     private String name;
     private List<Defs> body;
