@@ -1,11 +1,12 @@
 package org.karaffe.compiler.frontend.karaffe.tasks.options;
 
 import org.karaffe.compiler.base.CompilerContext;
+import org.karaffe.compiler.base.task.NoDescriptionTask;
 import org.karaffe.compiler.base.task.TaskResult;
 import org.karaffe.compiler.base.util.config.Options;
 import org.karaffe.compiler.frontend.karaffe.tasks.AbstractTask;
 
-public abstract class AbstractOptionTask extends AbstractTask {
+public abstract class AbstractOptionTask extends AbstractTask implements NoDescriptionTask {
 
     @Override
     public TaskResult run(CompilerContext context) {
@@ -19,8 +20,4 @@ public abstract class AbstractOptionTask extends AbstractTask {
         return false;
     }
 
-    @Override
-    public String description() {
-        return "(N/A)";
-    }
 }
