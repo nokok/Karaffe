@@ -17,6 +17,7 @@ import java.util.stream.Stream;
 
 public class CompilerContext {
 
+    private String state = "";
     private final CommandLineOptions commandLineOptions;
     private final Set<SourceFile> sourceFiles;
     private final Set<Lexer> lexers;
@@ -44,6 +45,14 @@ public class CompilerContext {
             this.hasInvalidCmdLineArg = true;
             throw e;
         }
+    }
+
+    public String getState() {
+        return this.state;
+    }
+
+    public void setState(String state) {
+        this.state = Objects.requireNonNull(state);
     }
 
     public boolean hasInvalidCmdLineArg() {
@@ -102,7 +111,8 @@ public class CompilerContext {
     @Override
     public String toString() {
         return "CompilerContext{" +
-                "commandLineOptions=" + commandLineOptions +
+                "state=" + state +
+                ", commandLineOptions=" + commandLineOptions +
                 ", sourceFiles=" + sourceFiles +
                 ", lexers=" + lexers +
                 ", contexts=" + contexts +
