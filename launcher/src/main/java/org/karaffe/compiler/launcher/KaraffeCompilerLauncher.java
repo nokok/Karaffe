@@ -8,6 +8,7 @@ import org.karaffe.compiler.base.util.Platform;
 import org.karaffe.compiler.frontend.karaffe.tasks.ConfigureLogLevelTask;
 import org.karaffe.compiler.frontend.karaffe.tasks.LexerTask;
 import org.karaffe.compiler.frontend.karaffe.tasks.ParserTask;
+import org.karaffe.compiler.frontend.karaffe.tasks.PrintLastTreeTask;
 import org.karaffe.compiler.frontend.karaffe.tasks.options.CommandLineOptionsSubTask;
 import org.karaffe.compiler.frontend.karaffe.tasks.options.ParseCommandLineOptionsTask;
 import org.karaffe.compiler.frontend.karaffe.tasks.preconditions.CheckCompilerPreconditionTask;
@@ -56,6 +57,7 @@ public class KaraffeCompilerLauncher {
             new ShowUsageTask(),
             new ShowVersionTask(),
             new ShowTasksTask(),
+            new PrintLastTreeTask(),
             new LexerTask(),
             new ParserTask()
     ));

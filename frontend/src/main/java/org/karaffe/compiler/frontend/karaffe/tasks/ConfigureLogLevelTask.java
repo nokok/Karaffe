@@ -15,7 +15,7 @@ public class ConfigureLogLevelTask extends AbstractReadOnlyTask {
 
     @Override
     public String name() {
-        return "logger";
+        return "logger init";
     }
 
     @Override

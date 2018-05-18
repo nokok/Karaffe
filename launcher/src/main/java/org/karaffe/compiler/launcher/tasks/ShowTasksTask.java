@@ -37,12 +37,12 @@ public class ShowTasksTask extends AbstractReadOnlyTask {
 
     private void printTask(String header, Task task, CompilerContext context) {
         if (context.getCmdLineOptions().isTraceLog || context.getCmdLineOptions().isDebugLog) {
-            Platform.stdOut(header + task.name() + " : " + task.description() + " (" + task + ")");
+            Platform.stdOut(header + Platform.mkGreen(task.name()) + " : " + Platform.mkYellow(task.description()) + " (" + task + ")");
         } else {
-            Platform.stdOut(header + task.name() + " : " + task.description());
+            Platform.stdOut(header + Platform.mkGreen(task.name()) + " : " + Platform.mkYellow(task.description()));
         }
         for (Task subTask : task.getSubTask(context)) {
-            printTask("|" + header + "-", subTask, context);
+            printTask("| " + header + "-", subTask, context);
         }
     }
 
