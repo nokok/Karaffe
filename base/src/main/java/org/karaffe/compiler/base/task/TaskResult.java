@@ -3,6 +3,7 @@ package org.karaffe.compiler.base.task;
 public enum TaskResult {
     SUCCESS,
     SUCCESS_WITH_WARN,
+    RETRY,
     FAILED,;
 
     public TaskResult ifFailed(Runnable runnable) {

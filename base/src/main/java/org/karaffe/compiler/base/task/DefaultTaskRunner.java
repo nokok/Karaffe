@@ -1,14 +1,14 @@
 package org.karaffe.compiler.base.task;
 
 import org.karaffe.compiler.base.CompilerContext;
+import org.karaffe.compiler.base.task.util.ResultRecorder;
+import org.karaffe.compiler.base.task.util.TaskQueue;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import java.util.ArrayDeque;
 import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.List;
-import java.util.Queue;
 import java.util.stream.Collectors;
 
 public class DefaultTaskRunner implements TaskRunner {
@@ -17,7 +17,7 @@ public class DefaultTaskRunner implements TaskRunner {
     private final CompilerContext context;
     private final List<Task> tasks = new ArrayList<>();
     private boolean isExecuting = false;
-    private final List<Task> delayedTasks = new ArrayList<>();
+    private final TaskQueue delayedTasks = new TaskQueue();
 
     public DefaultTaskRunner(CompilerContext context) {
         this.context = context;
@@ -27,7 +27,7 @@ public class DefaultTaskRunner implements TaskRunner {
     public void standBy(Task task) {
         LOGGER.debug("standBy : {}", task);
         if (this.isExecuting) {
-            this.delayedTasks.add(task);
+            this.delayedTasks.addLast(task);
         } else {
             this.tasks.add(task);
         }
@@ -44,23 +44,21 @@ public class DefaultTaskRunner implements TaskRunner {
     @Override
     public RunnerResult runAll() {
         isExecuting = true;
-        int success = 0;
-        int warn = 0;
+        ResultRecorder resultRecorder = new ResultRecorder();
         LOGGER.debug("start runAll");
-        Queue<Task> taskQueue = new ArrayDeque<>(this.tasks);
-        while (!taskQueue.isEmpty()) {
-            Task task = taskQueue.poll();
+        TaskQueue queue = new TaskQueue(this.tasks);
+        while (queue.hasRemaining()) {
+            Task task = queue.dequeue();
             if (task.isRequired(context)) {
                 LOGGER.debug("Scheduled(Required) : {}", task.name());
             } else {
                 LOGGER.debug("Scheduled : {}", task.name());
             }
             if (!task.isRunnable(context)) {
-                this.delayedTasks.add(task);
-                if (taskQueue.isEmpty()) {
+                this.delayedTasks.addLast(task);
+                if (queue.isEmpty()) {
                     // タスクキューが空の場合、CompilerContextの状態が変更されることはもう無いため、遅延されたタスクは実行可能状態となることはない。
-                    boolean existsRemainingTask = this.delayedTasks.stream().anyMatch(t -> t.isRequired(context));
-                    if (existsRemainingTask) {
+                    if (delayedTasks.hasRemainingRequiredTask(context)) {
                         // 必須タスクが残っている場合はエラー
                         LOGGER.warn("RunnerResult.FAILED : taskQueue.isEmpty");
                         return RunnerResult.FAILED;
@@ -73,25 +71,19 @@ public class DefaultTaskRunner implements TaskRunner {
             }
             TaskResult result = task.run(context);
             LOGGER.info("TaskResult : {}, name : {}", result, task.name());
-            if (result == TaskResult.FAILED) {
-                return RunnerResult.FAILED;
+            resultRecorder.record(result);
+            if (resultRecorder.hasError()) {
+                return resultRecorder.toRunnerResult();
             }
-            if (result == TaskResult.SUCCESS) {
-                success++;
-            } else if (result == TaskResult.SUCCESS_WITH_WARN) {
-                warn++;
+            if (result == TaskResult.RETRY) {
+                this.delayedTasks.addLast(task);
             }
-            this.delayedTasks.forEach(((ArrayDeque<Task>) taskQueue)::addFirst);
-            this.delayedTasks.clear();
+            queue.mergeFirst(this.delayedTasks);
+            this.context.setState(task.name());
         }
         isExecuting = false;
 
-        if (success >= 0 && warn == 0) {
-            return RunnerResult.SUCCESS_ALL;
-        } else if (success > 0 && warn > 0) {
-            return RunnerResult.SUCCESS_WITH_WARNING;
-        }
-        throw new IllegalStateException(String.format("success=%d, warn=%d", success, warn));
+        return resultRecorder.toRunnerResult();
     }
 
     @Override
