@@ -1,7 +1,9 @@
 package org.karaffe.compiler.base.tree;
 
-public interface NamedElement<T> {
-    public void setName(T name);
+import org.karaffe.compiler.base.tree.term.Name;
 
-    public T getName();
+public interface NamedElement {
+    public void setName(Name name);
+
+    public Name getName();
 }

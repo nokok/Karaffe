@@ -1,5 +1,5 @@
 package org.karaffe.compiler.base.tree;
 
 public interface Tree {
-    <T> T accept(TreeVisitor<T> visitor);
+    <R, P> R accept(TreeVisitor<R, P> visitor, P p);
 }

@@ -29,7 +29,7 @@ public class ShowTasksTask extends AbstractReadOnlyTask {
         showTasks.addAll(KaraffeCompilerLauncher.standByTaskList);
 
         for (Task task : showTasks) {
-            printTask("+-", task, context);
+            printTask("+-- ", task, context);
         }
 
         return TaskResult.SUCCESS;
@@ -42,7 +42,7 @@ public class ShowTasksTask extends AbstractReadOnlyTask {
             Platform.stdOut(header + Platform.mkGreen(task.name()) + " : " + Platform.mkYellow(task.description()));
         }
         for (Task subTask : task.getSubTask(context)) {
-            printTask("| " + header + "-", subTask, context);
+            printTask("| " + header, subTask, context);
         }
     }
 

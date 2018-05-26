@@ -8,6 +8,8 @@ import java.util.List;
 
 public class Options {
 
+    @Option(name = "-", usage = "")
+    public boolean noInteractive;
 
     @Option(name = "--diag", usage = "Show diagnostic data", handler = MyBooleanOptionHandler.class)
     public boolean showDiag;
