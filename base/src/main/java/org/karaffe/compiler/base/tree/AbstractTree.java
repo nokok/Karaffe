@@ -1,7 +1,7 @@
 package org.karaffe.compiler.base.tree;
 
 import org.karaffe.compiler.base.pos.Position;
-import org.karaffe.compiler.base.tree.modifiers.Modifier;
+import org.karaffe.compiler.base.tree.modifier.Modifier;
 import org.karaffe.compiler.base.tree.term.Name;
 import org.karaffe.compiler.base.tree.term.Terms;
 import org.karaffe.compiler.base.tree.type.Type;
@@ -13,7 +13,7 @@ import java.util.List;
 import java.util.Objects;
 import java.util.Set;
 
-public abstract class AbstractTree implements Tree, ModifiableElement, NamedElement {
+public abstract class AbstractTree implements Tree, TypedElement, NodeOperator {
     private Tree parent;
     private TreeKind kind;
     private Position position;
@@ -36,10 +36,12 @@ public abstract class AbstractTree implements Tree, ModifiableElement, NamedElem
         this.children = new ArrayList<>();
     }
 
+    @Override
     public Type asType() {
         return this.type;
     }
 
+    @Override
     public void setType(Type type) {
         this.type = Objects.requireNonNull(type);
     }
@@ -52,22 +54,27 @@ public abstract class AbstractTree implements Tree, ModifiableElement, NamedElem
         this.kind = Objects.requireNonNull(kind);
     }
 
-    protected void addChild(Tree child) {
+    @Override
+    public void addChild(Tree child) {
         this.children.add(Objects.requireNonNull(child));
     }
 
-    protected void setOrReplaceChild(int index, Tree child) {
+    @Override
+    public void setOrReplaceChild(int index, Tree child) {
         this.children.set(index, child);
     }
 
-    protected List<Tree> getChildren() {
+    @Override
+    public List<Tree> getChildren() {
         return this.children;
     }
 
+    @Override
     public void setPos(Position pos) {
         this.position = Objects.requireNonNull(pos);
     }
 
+    @Override
     public Position getPos() {
         return this.position;
     }

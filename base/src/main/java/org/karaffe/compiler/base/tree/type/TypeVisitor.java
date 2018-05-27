@@ -7,5 +7,4 @@ public interface TypeVisitor<R, P> {
 
     R visit(ArrayType arrayType, P p);
 
-    R visit(PrimitiveArrayType primitiveArrayType, P p);
 }

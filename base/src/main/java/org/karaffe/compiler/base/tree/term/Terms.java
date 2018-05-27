@@ -2,22 +2,26 @@ package org.karaffe.compiler.base.tree.term;
 
 public interface Terms {
     static Name emptyName() {
-        return NameImpl.EMPTY_NAME;
+        return SimpleName.EMPTY_NAME;
     }
 
     static Name packageName(String name) {
-        return new NameImpl(name, NameType.PACKAGE);
+        return new SimpleName(name, NameType.PACKAGE);
     }
 
     static Name fqcn(String name) {
-        return new NameImpl(name, NameType.FQCN);
+        return new SimpleName(name, NameType.FQCN);
     }
 
     static Name typeName(String name) {
-        return new NameImpl(name, NameType.TYPENAME);
+        return new SimpleName(name, NameType.TYPENAME);
     }
 
     static Name varName(String name) {
-        return new NameImpl(name, NameType.VARNAME);
+        return new SimpleName(name, NameType.VARNAME);
+    }
+
+    static Name specialName(String name) {
+        return new SimpleName(name, NameType.NONE);
     }
 }

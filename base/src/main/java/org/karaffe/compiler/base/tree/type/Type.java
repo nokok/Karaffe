@@ -11,3 +11,4 @@ public interface Type extends Tree {
 
     <R, P> R accept(TypeVisitor<R, P> visitor, P p);
 }
+

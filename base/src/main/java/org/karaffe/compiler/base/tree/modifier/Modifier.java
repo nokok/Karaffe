@@ -1,4 +1,4 @@
-package org.karaffe.compiler.base.tree.modifiers;
+package org.karaffe.compiler.base.tree.modifier;
 
 import java.io.Serializable;
 

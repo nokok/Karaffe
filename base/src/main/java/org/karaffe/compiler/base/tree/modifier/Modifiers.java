@@ -1,13 +1,13 @@
-package org.karaffe.compiler.base.tree.modifiers;
+package org.karaffe.compiler.base.tree.modifier;
 
 import org.karaffe.compiler.base.tree.Tree;
 
 public interface Modifiers {
     static Modifier modPublic(Tree parent) {
-        return new ModifierImpl(parent, ModifierType.PUBLIC);
+        return new SimpleModifier(parent, ModifierType.PUBLIC);
     }
 
     static Modifier modStatic(Tree parent) {
-        return new ModifierImpl(parent, ModifierType.STATIC);
+        return new SimpleModifier(parent, ModifierType.STATIC);
     }
 }

@@ -5,14 +5,19 @@ import org.karaffe.compiler.base.tree.Tree;
 import org.karaffe.compiler.base.tree.TreeKind;
 import org.karaffe.compiler.base.tree.TreeVisitor;
 
-public class MainMethodDef extends AbstractTree {
+public class CompilationUnitImpl extends AbstractTree implements CompilationUnit {
 
-    public MainMethodDef(Tree parent) {
-        super(parent, TreeKind.MAIN_METHOD_DEF);
+    CompilationUnitImpl() {
+        super(null, TreeKind.COMPILE_UNIT);
     }
 
     @Override
     public <R, P> R accept(TreeVisitor<R, P> visitor, P p) {
-        return visitor.visit(this, p);
+        return visitor.visitCompileUnit(this, p);
+    }
+
+    @Override
+    public void addTopLevel(Tree source) {
+        this.addChild(source);
     }
 }

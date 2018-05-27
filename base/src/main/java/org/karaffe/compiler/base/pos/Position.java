@@ -1,5 +1,8 @@
 package org.karaffe.compiler.base.pos;
 
+import org.antlr.v4.runtime.Token;
+
+import java.util.Objects;
 import java.util.Optional;
 
 public interface Position extends Comparable<Position> {
@@ -61,6 +64,11 @@ public interface Position extends Comparable<Position> {
             throw new IllegalArgumentException("Col Number < 0 :" + column);
         }
         return new LineColPos(sourceName, line, column);
+    }
+
+    public static Position of(Token token) {
+        Objects.requireNonNull(token);
+        return of(token.getTokenSource().getSourceName(), token.getLine(), token.getCharPositionInLine());
     }
 
     public static void throwInvalidSourceNameException(final String thisSourceName, final String otherSourceName) {

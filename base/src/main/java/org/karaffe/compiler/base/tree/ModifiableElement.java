@@ -1,6 +1,6 @@
 package org.karaffe.compiler.base.tree;
 
-import org.karaffe.compiler.base.tree.modifiers.Modifier;
+import org.karaffe.compiler.base.tree.modifier.Modifier;
 
 import java.util.Set;
 

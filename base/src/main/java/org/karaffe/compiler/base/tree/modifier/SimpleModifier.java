@@ -1,21 +1,21 @@
-package org.karaffe.compiler.base.tree.modifiers;
+package org.karaffe.compiler.base.tree.modifier;
 
 import org.karaffe.compiler.base.tree.AbstractTree;
 import org.karaffe.compiler.base.tree.Tree;
 import org.karaffe.compiler.base.tree.TreeKind;
 import org.karaffe.compiler.base.tree.TreeVisitor;
 
-class ModifierImpl extends AbstractTree implements Modifier {
+class SimpleModifier extends AbstractTree implements Modifier {
     private final ModifierType modifierType;
 
-    ModifierImpl(Tree parent, ModifierType modifierType) {
+    SimpleModifier(Tree parent, ModifierType modifierType) {
         super(parent, TreeKind.MODIFIER);
         this.modifierType = modifierType;
     }
 
     @Override
     public <R, P> R accept(TreeVisitor<R, P> visitor, P p) {
-        return visitor.visit(this, p);
+        return visitor.visit((Modifier) this, p);
     }
 
     @Override
