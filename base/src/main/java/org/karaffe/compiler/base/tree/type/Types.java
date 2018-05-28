@@ -7,6 +7,10 @@ public interface Types {
         return SimpleType.NO_TYPE;
     }
 
+    static Type jvoid() {
+        return new PrimitiveType((TypeKind.VOID));
+    }
+
     static Type simple(Name typeName) {
         return new SimpleType(typeName, TypeKind.SIMPLE);
     }

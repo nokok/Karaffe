@@ -5,6 +5,9 @@ import org.karaffe.compiler.base.tree.Tree;
 import org.karaffe.compiler.base.tree.TreeKind;
 import org.karaffe.compiler.base.tree.TreeVisitor;
 
+import java.util.List;
+import java.util.Objects;
+
 public class SimpleDef extends AbstractTree implements Def {
 
     private DefKind defKind;
@@ -23,7 +26,23 @@ public class SimpleDef extends AbstractTree implements Def {
     }
 
     @Override
+    public DefKind getDefKind() {
+        return this.defKind;
+    }
+
+    @Override
+    public void setDefKind(DefKind defKind) {
+        this.defKind = Objects.requireNonNull(defKind);
+
+    }
+
+    @Override
     public void addBody(Tree body) {
         this.addChild(body);
+    }
+
+    @Override
+    public List<Tree> getBody() {
+        return this.getChildren();
     }
 }

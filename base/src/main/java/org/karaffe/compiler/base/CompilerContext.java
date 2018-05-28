@@ -103,6 +103,11 @@ public class CompilerContext {
         this.compilationUnit = Objects.requireNonNull(compilationUnit);
     }
 
+    public Tree getCompilationUnit() {
+        return this.compilationUnit;
+    }
+
+
     @SuppressWarnings("unused")
     public void printUsage(PrintStream printStream) {
         commandLineOptions.printUsage(printStream);

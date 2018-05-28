@@ -21,6 +21,14 @@ public interface Task {
         return true;
     }
 
+    default boolean isRepetable(CompilerContext context) {
+        return false;
+    }
+
+    default boolean isFinally(CompilerContext context) {
+        return false;
+    }
+
     default Set<Task> getSubTask(CompilerContext context) {
         return Collections.emptySet();
     }

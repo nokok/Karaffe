@@ -24,6 +24,11 @@ class SimpleModifier extends AbstractTree implements Modifier {
     }
 
     @Override
+    public ModifierType getType() {
+        return this.modifierType;
+    }
+
+    @Override
     public int compareTo(Modifier modifier) {
         return 0;
     }

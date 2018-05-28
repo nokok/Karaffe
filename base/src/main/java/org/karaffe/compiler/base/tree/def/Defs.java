@@ -3,6 +3,7 @@ package org.karaffe.compiler.base.tree.def;
 import org.karaffe.compiler.base.tree.Tree;
 import org.karaffe.compiler.base.tree.modifier.Modifiers;
 import org.karaffe.compiler.base.tree.term.Terms;
+import org.karaffe.compiler.base.tree.type.Types;
 
 public interface Defs {
 
@@ -54,6 +55,7 @@ public interface Defs {
         Def methodDef = methodDef(parent, "main");
         methodDef.addModifier(Modifiers.modPublic(methodDef));
         methodDef.addModifier(Modifiers.modStatic(methodDef));
+        methodDef.setType(Types.jvoid());
         return methodDef;
     }
 }

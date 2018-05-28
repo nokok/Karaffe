@@ -18,6 +18,7 @@ public class DefaultTaskRunner implements TaskRunner {
     private final List<Task> tasks = new ArrayList<>();
     private boolean isExecuting = false;
     private final TaskQueue delayedTasks = new TaskQueue();
+    private final TaskQueue finallyTasks = new TaskQueue();
 
     public DefaultTaskRunner(CompilerContext context) {
         this.context = context;
@@ -45,10 +46,16 @@ public class DefaultTaskRunner implements TaskRunner {
     public RunnerResult runAll() {
         isExecuting = true;
         ResultRecorder resultRecorder = new ResultRecorder();
-        LOGGER.debug("start runAll");
+        LOGGER.debug("start runAll : {}", this.hashCode());
         TaskQueue queue = new TaskQueue(this.tasks);
+        List<Task> repeatable = queue.filter(task -> task.isRepetable(context));
+
         while (queue.hasRemaining()) {
             Task task = queue.dequeue();
+            if (task.isFinally(context)) {
+                this.finallyTasks.addFirst(task);
+                continue;
+            }
             if (task.isRequired(context)) {
                 LOGGER.debug("Scheduled(Required) : {}", task.name());
             } else {
@@ -61,9 +68,11 @@ public class DefaultTaskRunner implements TaskRunner {
                     if (delayedTasks.hasRemainingRequiredTask(context)) {
                         // 必須タスクが残っている場合はエラー
                         LOGGER.warn("RunnerResult.FAILED : taskQueue.isEmpty");
+                        runFinallyTask(context, resultRecorder);
                         return RunnerResult.FAILED;
                     } else {
                         LOGGER.info("RunnerResult.SUCCESS : taskQueue.isEmpty");
+                        runFinallyTask(context, resultRecorder);
                         return RunnerResult.SUCCESS_ALL;
                     }
                 }
@@ -73,6 +82,7 @@ public class DefaultTaskRunner implements TaskRunner {
             LOGGER.info("TaskResult : {}, name : {}", result, task.name());
             resultRecorder.record(result);
             if (resultRecorder.hasError()) {
+                runFinallyTask(context, resultRecorder);
                 return resultRecorder.toRunnerResult();
             }
             if (result == TaskResult.RETRY) {
@@ -80,10 +90,36 @@ public class DefaultTaskRunner implements TaskRunner {
             }
             queue.mergeFirst(this.delayedTasks);
             this.context.setState(task.name());
+            for (Task repeatableTask : repeatable) {
+                if (repeatableTask.isRunnable(context)) {
+                    resultRecorder.record(repeatableTask.run(context));
+                }
+            }
         }
+
+        LOGGER.debug("Standard Task(s) is executed.");
+        runFinallyTask(context, resultRecorder);
         isExecuting = false;
 
+        LOGGER.debug("end runAll : {}", this.hashCode());
+
         return resultRecorder.toRunnerResult();
+    }
+
+    private void runFinallyTask(CompilerContext context, ResultRecorder resultRecorder) {
+        if (this.finallyTasks.hasRemaining()) {
+            LOGGER.debug("Finally Task(s) is executing...");
+            while (this.finallyTasks.hasRemaining()) {
+                Task task = this.finallyTasks.dequeue();
+                if (!task.isRunnable(context)) {
+                    continue;
+                }
+                LOGGER.info("Scheduled : {}", task.name());
+                TaskResult result = task.run(context);
+                LOGGER.info("TaskResult : {}, name : {}", result, task.name());
+                resultRecorder.record(result);
+            }
+        }
     }
 
     @Override

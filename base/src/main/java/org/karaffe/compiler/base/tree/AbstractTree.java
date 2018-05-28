@@ -13,7 +13,7 @@ import java.util.List;
 import java.util.Objects;
 import java.util.Set;
 
-public abstract class AbstractTree implements Tree, TypedElement, NodeOperator {
+public abstract class AbstractTree implements Tree {
     private Tree parent;
     private TreeKind kind;
     private Position position;
@@ -46,10 +46,12 @@ public abstract class AbstractTree implements Tree, TypedElement, NodeOperator {
         this.type = Objects.requireNonNull(type);
     }
 
+    @Override
     public TreeKind getKind() {
         return kind;
     }
 
+    @Override
     public void setKind(TreeKind kind) {
         this.kind = Objects.requireNonNull(kind);
     }

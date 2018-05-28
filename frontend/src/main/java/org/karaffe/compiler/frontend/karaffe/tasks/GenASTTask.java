@@ -3,8 +3,13 @@ package org.karaffe.compiler.frontend.karaffe.tasks;
 import org.karaffe.compiler.base.CompilerContext;
 import org.karaffe.compiler.base.task.TaskResult;
 import org.karaffe.compiler.frontend.karaffe.visitor.NewASTVisitor;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 public class GenASTTask extends AbstractTask {
+
+    private static final Logger LOGGER = LoggerFactory.getLogger(GenASTTask.class);
+
     @Override
     public String name() {
         return "gen ast";
@@ -19,6 +24,7 @@ public class GenASTTask extends AbstractTask {
     public TaskResult run(CompilerContext context) {
         NewASTVisitor visitor = new NewASTVisitor();
         context.contextStream()
+                .peek(c -> LOGGER.debug(c.toString()))
                 .map(c -> c.accept(visitor))
                 .reduce((l, r) -> r)
                 .ifPresent(context::setCompilationUnit);

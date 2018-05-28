@@ -6,9 +6,11 @@ import org.karaffe.compiler.base.task.Task;
 import org.karaffe.compiler.base.task.TaskRunner;
 import org.karaffe.compiler.base.util.Platform;
 import org.karaffe.compiler.frontend.karaffe.tasks.ConfigureLogLevelTask;
+import org.karaffe.compiler.frontend.karaffe.tasks.GenASTTask;
 import org.karaffe.compiler.frontend.karaffe.tasks.LexerTask;
 import org.karaffe.compiler.frontend.karaffe.tasks.ParserTask;
 import org.karaffe.compiler.frontend.karaffe.tasks.PrintLastTreeTask;
+import org.karaffe.compiler.frontend.karaffe.tasks.PrintTreeTask;
 import org.karaffe.compiler.frontend.karaffe.tasks.options.CommandLineOptionsSubTask;
 import org.karaffe.compiler.frontend.karaffe.tasks.options.ParseCommandLineOptionsTask;
 import org.karaffe.compiler.frontend.karaffe.tasks.preconditions.CheckCompilerPreconditionTask;
@@ -57,9 +59,11 @@ public class KaraffeCompilerLauncher {
             new ShowUsageTask(),
             new ShowVersionTask(),
             new ShowTasksTask(),
+            new PrintTreeTask(),
             new PrintLastTreeTask(),
             new LexerTask(),
-            new ParserTask()
+            new ParserTask(),
+            new GenASTTask()
     ));
 
     public int run(String[] args) throws Exception {

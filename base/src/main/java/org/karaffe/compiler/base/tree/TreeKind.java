@@ -9,5 +9,6 @@ public enum TreeKind {
     TYPE,
 
     /* General Elements */
-    COMPILE_UNIT;
+    COMPILE_UNIT,
+    TEMPLATE;
 }

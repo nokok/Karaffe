@@ -18,4 +18,7 @@ public interface TreeVisitor<R, P> {
     R visit(Type type, P p);
 
     R visitCompileUnit(Tree.CompilationUnit tree, P p);
+
+    R visitTemplate(Tree.Template template, P p);
+
 }

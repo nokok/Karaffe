@@ -6,6 +6,9 @@ import org.karaffe.compiler.base.task.Task;
 import java.util.ArrayDeque;
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.List;
+import java.util.function.Predicate;
+import java.util.stream.Collectors;
 
 public class TaskQueue {
 
@@ -50,5 +53,9 @@ public class TaskQueue {
 
     public boolean hasRemainingRequiredTask(CompilerContext context) {
         return this.taskQueue.stream().anyMatch(t -> t.isRequired(context));
+    }
+
+    public List<Task> filter(Predicate<Task> p) {
+        return this.taskQueue.stream().filter(p).collect(Collectors.toList());
     }
 }

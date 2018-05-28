@@ -49,18 +49,18 @@ public class NewASTVisitor extends KaraffeBaseVisitor<Tree> implements PositionC
         Def c = Defs.classDef(identifier.getText());
         c.setPos(getPosition(ctx.CLASS()));
         KaraffeParser.ClassDefBodyContext classDefBodyContext = ctx.classDefBody();
-        Tree accept = classDefBodyContext.accept(this);
+        c.addBody(classDefBodyContext.accept(this));
         return c;
     }
 
     @Override
     public Tree visitClassDefBody(KaraffeParser.ClassDefBodyContext ctx) {
         List<KaraffeParser.ClassDefMemberContext> classDefMemberContexts = ctx.classDefMember();
+        Tree.Template template = Trees.template();
         for (KaraffeParser.ClassDefMemberContext classDefMemberContext : classDefMemberContexts) {
-            // TODO
-            classDefMemberContext.accept(this);
+            template.addChild(classDefMemberContext.accept(this));
         }
-        return null;
+        return template;
     }
 
     @Override

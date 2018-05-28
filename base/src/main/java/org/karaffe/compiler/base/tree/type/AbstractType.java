@@ -28,4 +28,12 @@ public abstract class AbstractType extends AbstractTree implements Type {
         return visitor.visit(this, p);
     }
 
+    @Override
+    public Name getName() {
+        return this.typeName;
+    }
+
+    public TypeKind getTypeKind() {
+        return this.typeKind;
+    }
 }

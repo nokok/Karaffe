@@ -71,6 +71,12 @@ public interface Position extends Comparable<Position> {
         return of(token.getTokenSource().getSourceName(), token.getLine(), token.getCharPositionInLine());
     }
 
+    public static Position ofRange(Token startToken, Token endToken) {
+        Position startPosition = of(startToken);
+        Position endPosition = of(endToken);
+        return new Range(startPosition.getSourceName(), startPosition, endPosition);
+    }
+
     public static void throwInvalidSourceNameException(final String thisSourceName, final String otherSourceName) {
         throw new IllegalArgumentException(String.format("The merge target \"SourceName\" different. %s vs %s", thisSourceName, otherSourceName));
     }
