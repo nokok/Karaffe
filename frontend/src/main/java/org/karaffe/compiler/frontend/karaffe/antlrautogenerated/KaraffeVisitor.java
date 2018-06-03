@@ -29,12 +29,6 @@ public interface KaraffeVisitor<T> extends ParseTreeVisitor<T> {
 	 */
 	T visitClassDef(KaraffeParser.ClassDefContext ctx);
 	/**
-	 * Visit a parse tree produced by {@link KaraffeParser#topLevelExpr}.
-	 * @param ctx the parse tree
-	 * @return the visitor result
-	 */
-	T visitTopLevelExpr(KaraffeParser.TopLevelExprContext ctx);
-	/**
 	 * Visit a parse tree produced by {@link KaraffeParser#simpleClassDef}.
 	 * @param ctx the parse tree
 	 * @return the visitor result
@@ -89,35 +83,17 @@ public interface KaraffeVisitor<T> extends ParseTreeVisitor<T> {
 	 */
 	T visitPrimary(KaraffeParser.PrimaryContext ctx);
 	/**
-	 * Visit a parse tree produced by {@link KaraffeParser#methodInvocation}.
-	 * @param ctx the parse tree
-	 * @return the visitor result
-	 */
-	T visitMethodInvocation(KaraffeParser.MethodInvocationContext ctx);
-	/**
 	 * Visit a parse tree produced by {@link KaraffeParser#argumentList}.
 	 * @param ctx the parse tree
 	 * @return the visitor result
 	 */
 	T visitArgumentList(KaraffeParser.ArgumentListContext ctx);
 	/**
-	 * Visit a parse tree produced by {@link KaraffeParser#block}.
-	 * @param ctx the parse tree
-	 * @return the visitor result
-	 */
-	T visitBlock(KaraffeParser.BlockContext ctx);
-	/**
 	 * Visit a parse tree produced by {@link KaraffeParser#literal}.
 	 * @param ctx the parse tree
 	 * @return the visitor result
 	 */
 	T visitLiteral(KaraffeParser.LiteralContext ctx);
-	/**
-	 * Visit a parse tree produced by {@link KaraffeParser#identifier}.
-	 * @param ctx the parse tree
-	 * @return the visitor result
-	 */
-	T visitIdentifier(KaraffeParser.IdentifierContext ctx);
 	/**
 	 * Visit a parse tree produced by {@link KaraffeParser#intLiteral}.
 	 * @param ctx the parse tree

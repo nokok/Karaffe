@@ -10,6 +10,7 @@ import org.karaffe.compiler.base.tree.type.Types;
 
 import java.util.List;
 import java.util.Objects;
+import java.util.Optional;
 import java.util.Set;
 
 class SimpleName implements Name {
@@ -99,7 +100,7 @@ class SimpleName implements Name {
 
     @Override
     public String toString() {
-        return this.name;
+        return Optional.ofNullable(this.name).orElse("__EMPTY__");
     }
 
     @Override
@@ -126,4 +127,5 @@ class SimpleName implements Name {
     public void setType(Type type) {
         this.type = Objects.requireNonNull(type);
     }
+
 }

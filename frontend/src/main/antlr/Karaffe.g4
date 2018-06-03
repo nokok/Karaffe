@@ -12,12 +12,8 @@ classDef
   : simpleClassDef
   ;
 
-topLevelExpr
-  : expr
-  ;
-
 simpleClassDef
-  : CLASS identifier classDefBody?
+  : CLASS Identifier classDefBody?
   ;
 
 classDefBody
@@ -53,28 +49,17 @@ multiplicativeExpr
 
 primary
   : literal
-  | LPAREN expr RPAREN
-  | methodInvocation
-  ;
-
-methodInvocation
-  : identifier LPAREN argumentList? RPAREN
+  | LPAREN nested=expr RPAREN
+  | methodName=Identifier LPAREN argumentList? RPAREN
+  | owner=primary DOT methodName=Identifier LPAREN argumentList? RPAREN
   ;
 
 argumentList
   : expr (COMMA expr)*
   ;
 
-block
-  : LBRACE expr RBRACE
-  ;
-
 literal
   : intLiteral
-  ;
-
-identifier
-  : Identifier
   ;
 
 intLiteral
@@ -92,6 +77,7 @@ LBRACE: '{';
 RBRACE: '}';
 LPAREN: '(';
 RPAREN: ')';
+DOT: '.';
 
 IntegerLiteral
   : NonZeroDigit Digit+

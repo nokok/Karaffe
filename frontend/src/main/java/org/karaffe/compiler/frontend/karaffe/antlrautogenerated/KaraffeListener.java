@@ -38,16 +38,6 @@ public interface KaraffeListener extends ParseTreeListener {
 	 */
 	void exitClassDef(KaraffeParser.ClassDefContext ctx);
 	/**
-	 * Enter a parse tree produced by {@link KaraffeParser#topLevelExpr}.
-	 * @param ctx the parse tree
-	 */
-	void enterTopLevelExpr(KaraffeParser.TopLevelExprContext ctx);
-	/**
-	 * Exit a parse tree produced by {@link KaraffeParser#topLevelExpr}.
-	 * @param ctx the parse tree
-	 */
-	void exitTopLevelExpr(KaraffeParser.TopLevelExprContext ctx);
-	/**
 	 * Enter a parse tree produced by {@link KaraffeParser#simpleClassDef}.
 	 * @param ctx the parse tree
 	 */
@@ -138,16 +128,6 @@ public interface KaraffeListener extends ParseTreeListener {
 	 */
 	void exitPrimary(KaraffeParser.PrimaryContext ctx);
 	/**
-	 * Enter a parse tree produced by {@link KaraffeParser#methodInvocation}.
-	 * @param ctx the parse tree
-	 */
-	void enterMethodInvocation(KaraffeParser.MethodInvocationContext ctx);
-	/**
-	 * Exit a parse tree produced by {@link KaraffeParser#methodInvocation}.
-	 * @param ctx the parse tree
-	 */
-	void exitMethodInvocation(KaraffeParser.MethodInvocationContext ctx);
-	/**
 	 * Enter a parse tree produced by {@link KaraffeParser#argumentList}.
 	 * @param ctx the parse tree
 	 */
@@ -158,16 +138,6 @@ public interface KaraffeListener extends ParseTreeListener {
 	 */
 	void exitArgumentList(KaraffeParser.ArgumentListContext ctx);
 	/**
-	 * Enter a parse tree produced by {@link KaraffeParser#block}.
-	 * @param ctx the parse tree
-	 */
-	void enterBlock(KaraffeParser.BlockContext ctx);
-	/**
-	 * Exit a parse tree produced by {@link KaraffeParser#block}.
-	 * @param ctx the parse tree
-	 */
-	void exitBlock(KaraffeParser.BlockContext ctx);
-	/**
 	 * Enter a parse tree produced by {@link KaraffeParser#literal}.
 	 * @param ctx the parse tree
 	 */
@@ -177,16 +147,6 @@ public interface KaraffeListener extends ParseTreeListener {
 	 * @param ctx the parse tree
 	 */
 	void exitLiteral(KaraffeParser.LiteralContext ctx);
-	/**
-	 * Enter a parse tree produced by {@link KaraffeParser#identifier}.
-	 * @param ctx the parse tree
-	 */
-	void enterIdentifier(KaraffeParser.IdentifierContext ctx);
-	/**
-	 * Exit a parse tree produced by {@link KaraffeParser#identifier}.
-	 * @param ctx the parse tree
-	 */
-	void exitIdentifier(KaraffeParser.IdentifierContext ctx);
 	/**
 	 * Enter a parse tree produced by {@link KaraffeParser#intLiteral}.
 	 * @param ctx the parse tree

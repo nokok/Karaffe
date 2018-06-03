@@ -24,4 +24,9 @@ public interface Terms {
     static Name specialName(String name) {
         return new SimpleName(name, NameType.NONE);
     }
+
+    static Name thisName() {
+        return new SimpleName("this", NameType.THIS);
+    }
+
 }

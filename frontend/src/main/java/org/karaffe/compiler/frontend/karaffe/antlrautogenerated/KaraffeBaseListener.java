@@ -52,18 +52,6 @@ public class KaraffeBaseListener implements KaraffeListener {
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
-	@Override public void enterTopLevelExpr(KaraffeParser.TopLevelExprContext ctx) { }
-	/**
-	 * {@inheritDoc}
-	 *
-	 * <p>The default implementation does nothing.</p>
-	 */
-	@Override public void exitTopLevelExpr(KaraffeParser.TopLevelExprContext ctx) { }
-	/**
-	 * {@inheritDoc}
-	 *
-	 * <p>The default implementation does nothing.</p>
-	 */
 	@Override public void enterSimpleClassDef(KaraffeParser.SimpleClassDefContext ctx) { }
 	/**
 	 * {@inheritDoc}
@@ -172,18 +160,6 @@ public class KaraffeBaseListener implements KaraffeListener {
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
-	@Override public void enterMethodInvocation(KaraffeParser.MethodInvocationContext ctx) { }
-	/**
-	 * {@inheritDoc}
-	 *
-	 * <p>The default implementation does nothing.</p>
-	 */
-	@Override public void exitMethodInvocation(KaraffeParser.MethodInvocationContext ctx) { }
-	/**
-	 * {@inheritDoc}
-	 *
-	 * <p>The default implementation does nothing.</p>
-	 */
 	@Override public void enterArgumentList(KaraffeParser.ArgumentListContext ctx) { }
 	/**
 	 * {@inheritDoc}
@@ -196,18 +172,6 @@ public class KaraffeBaseListener implements KaraffeListener {
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
-	@Override public void enterBlock(KaraffeParser.BlockContext ctx) { }
-	/**
-	 * {@inheritDoc}
-	 *
-	 * <p>The default implementation does nothing.</p>
-	 */
-	@Override public void exitBlock(KaraffeParser.BlockContext ctx) { }
-	/**
-	 * {@inheritDoc}
-	 *
-	 * <p>The default implementation does nothing.</p>
-	 */
 	@Override public void enterLiteral(KaraffeParser.LiteralContext ctx) { }
 	/**
 	 * {@inheritDoc}
@@ -215,18 +179,6 @@ public class KaraffeBaseListener implements KaraffeListener {
 	 * <p>The default implementation does nothing.</p>
 	 */
 	@Override public void exitLiteral(KaraffeParser.LiteralContext ctx) { }
-	/**
-	 * {@inheritDoc}
-	 *
-	 * <p>The default implementation does nothing.</p>
-	 */
-	@Override public void enterIdentifier(KaraffeParser.IdentifierContext ctx) { }
-	/**
-	 * {@inheritDoc}
-	 *
-	 * <p>The default implementation does nothing.</p>
-	 */
-	@Override public void exitIdentifier(KaraffeParser.IdentifierContext ctx) { }
 	/**
 	 * {@inheritDoc}
 	 *

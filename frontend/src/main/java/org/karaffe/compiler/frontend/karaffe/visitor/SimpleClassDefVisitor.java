@@ -15,7 +15,7 @@ public class SimpleClassDefVisitor extends KaraffeBaseVisitor<ClassDef> implemen
     public ClassDef visitSimpleClassDef(KaraffeParser.SimpleClassDefContext ctx) {
         ClassDef classDef = new ClassDef();
         classDef.resetPosition(getPosition(ctx));
-        classDef.setName(new SimpleName(getPosition(ctx.identifier()), ctx.identifier().getText()));
+        classDef.setName(new SimpleName(getPosition(ctx.Identifier()), ctx.Identifier().getText()));
         classDef.setSuperClassName(new TypeName("Any"));
         ClassDefBodyVisitor visitor = new ClassDefBodyVisitor();
         List<Statement> body = ctx.classDefBody().accept(visitor);

@@ -5,5 +5,7 @@ public enum NameType {
     PACKAGE,
     FQCN,
     TYPENAME,
+    OPERATOR,
+    THIS,
     VARNAME
 }
