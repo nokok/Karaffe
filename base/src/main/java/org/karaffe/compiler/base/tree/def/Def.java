@@ -13,4 +13,28 @@ public interface Def extends Tree {
     void addBody(Tree child);
 
     List<Tree> getBody();
+
+    interface PackageDef extends Def {
+
+    }
+
+    interface ImportDef extends Def {
+
+    }
+
+    interface ClassDef extends Def {
+
+    }
+
+    interface MethodDef extends Def {
+
+    }
+
+    interface LetDef extends Def {
+
+    }
+
+    interface AssignmentDef extends Def {
+
+    }
 }

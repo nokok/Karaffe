@@ -1,0 +1,17 @@
++-- [32mparse args[0m : [33mParse command line options[0m
++-- [32mlogger init[0m : [33mConfigure log level[0m
++-- [32mprecondition[0m : [33mCheck compiler precondition[0m
+| +-- [32mcheck corelib[0m : [33mCheck core packages(karaffe.core ...) and classes(karaffe.core.Any ...)[0m
++-- [32mpost precondition[0m : [33mCheck other arguments[0m
+| +-- [32mcheck log level[0m : [33m(N/A)[0m
+| +-- [32mcheck files[0m : [33m(N/A)[0m
+| +-- [32mcheck target[0m : [33m(N/A)[0m
++-- [32mshow diag[0m : [33mShow diagnostic info[0m
++-- [32mshow usage[0m : [33m(N/A)[0m
++-- [32mshow version[0m : [33m(N/A)[0m
++-- [32mshow tasks[0m : [33mShow all available tasks[0m
++-- [32mprint tree[0m : [33mPrint tree each task[0m
++-- [32mprint lasttree[0m : [33m(N/A)[0m
++-- [32mlexing[0m : [33mLexical analysis[0m
++-- [32mparsing[0m : [33mParsing Token Stream[0m
++-- [32mgen ast[0m : [33mgenerate AST from ParserContext[0m

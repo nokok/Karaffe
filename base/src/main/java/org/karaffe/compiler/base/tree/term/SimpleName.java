@@ -4,6 +4,7 @@ import org.karaffe.compiler.base.pos.Position;
 import org.karaffe.compiler.base.tree.Tree;
 import org.karaffe.compiler.base.tree.TreeKind;
 import org.karaffe.compiler.base.tree.TreeVisitor;
+import org.karaffe.compiler.base.tree.expr.Operator;
 import org.karaffe.compiler.base.tree.modifier.Modifier;
 import org.karaffe.compiler.base.tree.type.Type;
 import org.karaffe.compiler.base.tree.type.Types;
@@ -45,7 +46,24 @@ class SimpleName implements Name {
 
     @Override
     public <R, P> R accept(TreeVisitor<R, P> visitor, P p) {
-        return visitor.visit(this, p);
+        switch (this.nameType) {
+        case NONE:
+            return visitor.visitNoneName(this, p);
+        case FQCN:
+            return visitor.visitFQCN(this, p);
+        case OPERATOR:
+            return visitor.visitOperator((Operator) this, p);
+        case PACKAGE:
+            return visitor.visitPackageName(this, p);
+        case THIS:
+            return visitor.visitThisName(this, p);
+        case VARNAME:
+            return visitor.visitVarName(this, p);
+        case TYPENAME:
+            return visitor.visitTypeName(this, p);
+        default:
+            throw new IllegalStateException();
+        }
     }
 
     @Override

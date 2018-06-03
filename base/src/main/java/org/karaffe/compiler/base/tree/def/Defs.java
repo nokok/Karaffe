@@ -2,8 +2,12 @@ package org.karaffe.compiler.base.tree.def;
 
 import org.karaffe.compiler.base.tree.Tree;
 import org.karaffe.compiler.base.tree.modifier.Modifiers;
+import org.karaffe.compiler.base.tree.term.Name;
 import org.karaffe.compiler.base.tree.term.Terms;
+import org.karaffe.compiler.base.tree.type.Type;
 import org.karaffe.compiler.base.tree.type.Types;
+
+import java.util.List;
 
 public interface Defs {
 
@@ -37,11 +41,7 @@ public interface Defs {
         return classDef;
     }
 
-    static Def methodDef(String methodName) {
-        return methodDef(null, methodName);
-    }
-
-    static Def methodDef(Tree parent, String methodName) {
+    static Def methodDef(Tree parent, String methodName, Type returnType, List<Tree> parameters) {
         SimpleDef methodDef = new SimpleDef(parent, DefKind.METHOD);
         methodDef.setName(Terms.varName(methodName));
         return methodDef;
@@ -52,10 +52,25 @@ public interface Defs {
     }
 
     static Def mainMethodDef(Tree parent) {
-        Def methodDef = methodDef(parent, "main");
+        Def methodDef = methodDef(parent, "main", Types.jvoid(), );
         methodDef.addModifier(Modifiers.modPublic(methodDef));
         methodDef.addModifier(Modifiers.modStatic(methodDef));
         methodDef.setType(Types.jvoid());
         return methodDef;
+    }
+
+    static Def letDef(Name letName, Name typeName, Tree initializer) {
+        SimpleDef letDef = new SimpleDef(DefKind.LET);
+        letDef.setName(letName);
+        letDef.setType(typeName.asType());
+        letDef.addChild(initializer);
+        return letDef;
+    }
+
+    static Def assignment(Name reassignName, Tree expr) {
+        SimpleDef assignment = new SimpleDef(DefKind.ASSIGNMENT);
+        assignment.setName(reassignName);
+        assignment.addChild(expr);
+        return assignment;
     }
 }

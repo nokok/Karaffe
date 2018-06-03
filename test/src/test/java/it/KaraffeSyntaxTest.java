@@ -30,7 +30,7 @@ public class KaraffeSyntaxTest {
 
         for (Map.Entry<String, String> entry : map.entrySet()) {
             KaraffeParser parser = new KaraffeParser(new CommonTokenStream(new KaraffeLexer(CharStreams.fromString(entry.getKey()))));
-            assertEquals(entry.getValue(), parser.intLiteral().getText());
+            assertEquals(entry.getValue(), parser.literal().getText());
         }
     }
 }

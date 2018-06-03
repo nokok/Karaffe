@@ -25,7 +25,34 @@ public abstract class AbstractType extends AbstractTree implements Type {
 
     @Override
     public <R, P> R accept(TreeVisitor<R, P> visitor, P p) {
-        return visitor.visit(this, p);
+        switch (this.typeKind) {
+        case SIMPLE:
+            return visitor.visitRefType((Type) this, p);
+        case ARRAY:
+            return visitor.visitArrayType((Type) this, p);
+        case INT:
+            return visitor.visitPrimitiveIntType((Type) this, p);
+        case CHAR:
+            return visitor.visitPrimitiveCharType((Type) this, p);
+        case BYTE:
+            return visitor.visitPrimitiveByteType((Type) this, p);
+        case VOID:
+            return visitor.visitVoidType((Type) this, p);
+        case BOOLEAN:
+            return visitor.visitPrimitiveBooleanType((Type) this, p);
+        case LONG:
+            return visitor.visitPrimitiveLongType((Type) this, p);
+        case FLOAT:
+            return visitor.visitPrimitiveFloatType((Type) this, p);
+        case SHORT:
+            return visitor.visitPrimitiveShortType((Type) this, p);
+        case DOUBLE:
+            return visitor.visitPrimitiveDoubleType((Type) this, p);
+        case NO_TYPE:
+            return visitor.visitNoType((Type) this, p);
+        default:
+            throw new IllegalStateException();
+        }
     }
 
     @Override

@@ -18,11 +18,30 @@ public class SimpleDef extends AbstractTree implements Def {
 
     public SimpleDef(Tree parent, DefKind defKind) {
         super(parent, TreeKind.DEF);
+        this.defKind = Objects.requireNonNull(defKind);
     }
 
     @Override
     public <R, P> R accept(TreeVisitor<R, P> visitor, P p) {
-        return visitor.visit(this, p);
+        if (this.defKind == null) {
+            throw new NullPointerException();
+        }
+        switch (this.defKind) {
+        case LET:
+            return visitor.visitLetDef(this, p);
+        case ASSIGNMENT:
+            return visitor.visitAssignmentDef(this, p);
+        case CLASS:
+            return visitor.visitClassDef(this, p);
+        case IMPORT:
+            return visitor.visitImportDef(this, p);
+        case METHOD:
+            return visitor.visitMethodDef(this, p);
+        case PACKAGE:
+            return visitor.visitPackageDef(this, p);
+        default:
+            throw new IllegalStateException(this.defKind.toString());
+        }
     }
 
     @Override
@@ -33,7 +52,6 @@ public class SimpleDef extends AbstractTree implements Def {
     @Override
     public void setDefKind(DefKind defKind) {
         this.defKind = Objects.requireNonNull(defKind);
-
     }
 
     @Override

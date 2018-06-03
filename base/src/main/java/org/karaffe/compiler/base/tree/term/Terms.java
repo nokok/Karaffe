@@ -1,5 +1,7 @@
 package org.karaffe.compiler.base.tree.term;
 
+import org.karaffe.compiler.base.tree.Tree;
+
 public interface Terms {
     static Name emptyName() {
         return SimpleName.EMPTY_NAME;
@@ -29,4 +31,7 @@ public interface Terms {
         return new SimpleName("this", NameType.THIS);
     }
 
+    static Tree emptyTree() {
+        return new EmptyTree();
+    }
 }

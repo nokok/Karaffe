@@ -29,6 +29,34 @@ public interface Operators {
             operator.setName(Terms.varName("div"));
             operator.setOperatorKind(OperatorKind.DIV);
             return operator;
+        case "%":
+            operator.setName(Terms.varName("mod"));
+            operator.setOperatorKind(OperatorKind.MOD);
+            return operator;
+        case "<":
+            operator.setName(Terms.varName("lessThan"));
+            operator.setOperatorKind(OperatorKind.LT);
+            return operator;
+        case ">":
+            operator.setName(Terms.varName("greaterThan"));
+            operator.setOperatorKind(OperatorKind.GT);
+            return operator;
+        case "<=":
+            operator.setName(Terms.varName("lessThanEquals"));
+            operator.setOperatorKind(OperatorKind.LE);
+            return operator;
+        case ">=":
+            operator.setName(Terms.varName("greaterThanEquals"));
+            operator.setOperatorKind(OperatorKind.GE);
+            return operator;
+        case "==":
+            operator.setName(Terms.varName("kEquals"));
+            operator.setOperatorKind(OperatorKind.EQEQ);
+            return operator;
+        case "!=":
+            operator.setName(Terms.varName("notEquals"));
+            operator.setOperatorKind(OperatorKind.NOTEQ);
+            return operator;
         default:
             throw new IllegalArgumentException(token.getText());
         }

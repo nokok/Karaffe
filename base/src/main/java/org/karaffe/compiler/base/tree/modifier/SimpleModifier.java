@@ -15,7 +15,13 @@ class SimpleModifier extends AbstractTree implements Modifier {
 
     @Override
     public <R, P> R accept(TreeVisitor<R, P> visitor, P p) {
-        return visitor.visit((Modifier) this, p);
+        switch (this.modifierType) {
+        case PUBLIC:
+            return visitor.visitPublicMod(this, p);
+        case STATIC:
+            return visitor.visitStaticMod(this, p);
+        }
+        return visitor.visit(this, p);
     }
 
     @Override

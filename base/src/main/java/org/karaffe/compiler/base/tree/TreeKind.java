@@ -14,5 +14,9 @@ public enum TreeKind {
     ATOM,
     BLOCK,
     SELECT,
-    TUPLE;
+    TUPLE,
+    EMPTY,
+    IFEXPR,
+    WHILEEXPR,
+    CAST;
 }

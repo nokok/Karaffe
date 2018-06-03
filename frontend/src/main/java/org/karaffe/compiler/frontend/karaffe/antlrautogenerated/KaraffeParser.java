@@ -17,28 +17,44 @@ public class KaraffeParser extends Parser {
 	protected static final PredictionContextCache _sharedContextCache =
 		new PredictionContextCache();
 	public static final int
-		CLASS=1, MAIN=2, COMMA=3, PLUS=4, MINUS=5, MUL=6, DIV=7, LBRACE=8, RBRACE=9, 
-		LPAREN=10, RPAREN=11, DOT=12, IntegerLiteral=13, Identifier=14, Whitespace=15;
+		CLASS=1, WHILE=2, MAIN=3, ELSE=4, THIS=5, NEW=6, LET=7, AS=8, IS=9, EQEQEQ=10, 
+		NOTEQEQ=11, CRANGE=12, RANGE=13, IF=14, POW=15, AND=16, OR=17, EQEQ=18, 
+		NOTEQ=19, LE=20, GE=21, GT=22, LT=23, BANG=24, COMMA=25, PLUS=26, MINUS=27, 
+		MUL=28, DIV=29, MOD=30, EQ=31, QUOTE=32, DQUOTE=33, LPAREN=34, RPAREN=35, 
+		LBRACE=36, RBRACE=37, LBRACK=38, RBRACK=39, SEMI=40, DOT=41, StringLiteral=42, 
+		IntegerLiteral=43, Identifier=44, Whitespace=45;
 	public static final int
 		RULE_compilationUnit = 0, RULE_topLevelStatement = 1, RULE_classDef = 2, 
-		RULE_simpleClassDef = 3, RULE_classDefBody = 4, RULE_classDefMember = 5, 
-		RULE_mainMethodDef = 6, RULE_statement = 7, RULE_expr = 8, RULE_additiveExpr = 9, 
-		RULE_multiplicativeExpr = 10, RULE_primary = 11, RULE_argumentList = 12, 
-		RULE_literal = 13, RULE_intLiteral = 14;
+		RULE_simpleClassDef = 3, RULE_classDefBody = 4, RULE_classDefMemberList = 5, 
+		RULE_classDefMember = 6, RULE_mainMethodDef = 7, RULE_statementBlock = 8, 
+		RULE_statementList = 9, RULE_statement = 10, RULE_expr = 11, RULE_simpleExpr = 12, 
+		RULE_exprList = 13, RULE_rangeExpr = 14, RULE_orExpr = 15, RULE_andExpr = 16, 
+		RULE_equalityExpr = 17, RULE_conditionalExpr = 18, RULE_additiveExpr = 19, 
+		RULE_multiplicativeExpr = 20, RULE_powExpr = 21, RULE_unaryExpr = 22, 
+		RULE_primary = 23, RULE_literal = 24;
 	public static final String[] ruleNames = {
 		"compilationUnit", "topLevelStatement", "classDef", "simpleClassDef", 
-		"classDefBody", "classDefMember", "mainMethodDef", "statement", "expr", 
-		"additiveExpr", "multiplicativeExpr", "primary", "argumentList", "literal", 
-		"intLiteral"
+		"classDefBody", "classDefMemberList", "classDefMember", "mainMethodDef", 
+		"statementBlock", "statementList", "statement", "expr", "simpleExpr", 
+		"exprList", "rangeExpr", "orExpr", "andExpr", "equalityExpr", "conditionalExpr", 
+		"additiveExpr", "multiplicativeExpr", "powExpr", "unaryExpr", "primary", 
+		"literal"
 	};
 
 	private static final String[] _LITERAL_NAMES = {
-		null, "'class'", "'main'", "','", "'+'", "'-'", "'*'", "'/'", "'{'", "'}'", 
-		"'('", "')'", "'.'"
+		null, "'class'", "'while'", "'main'", "'else'", "'this'", "'new'", "'let'", 
+		"'as'", "'is'", "'==='", "'!=='", "'..<'", "'..'", "'if'", "'**'", "'&&'", 
+		"'||'", "'=='", "'!='", "'<='", "'>='", "'>'", "'<'", "'!'", "','", "'+'", 
+		"'-'", "'*'", "'/'", "'%'", "'='", "'''", "'\"'", "'('", "')'", "'{'", 
+		"'}'", "'['", "']'", "';'", "'.'"
 	};
 	private static final String[] _SYMBOLIC_NAMES = {
-		null, "CLASS", "MAIN", "COMMA", "PLUS", "MINUS", "MUL", "DIV", "LBRACE", 
-		"RBRACE", "LPAREN", "RPAREN", "DOT", "IntegerLiteral", "Identifier", "Whitespace"
+		null, "CLASS", "WHILE", "MAIN", "ELSE", "THIS", "NEW", "LET", "AS", "IS", 
+		"EQEQEQ", "NOTEQEQ", "CRANGE", "RANGE", "IF", "POW", "AND", "OR", "EQEQ", 
+		"NOTEQ", "LE", "GE", "GT", "LT", "BANG", "COMMA", "PLUS", "MINUS", "MUL", 
+		"DIV", "MOD", "EQ", "QUOTE", "DQUOTE", "LPAREN", "RPAREN", "LBRACE", "RBRACE", 
+		"LBRACK", "RBRACK", "SEMI", "DOT", "StringLiteral", "IntegerLiteral", 
+		"Identifier", "Whitespace"
 	};
 	public static final Vocabulary VOCABULARY = new VocabularyImpl(_LITERAL_NAMES, _SYMBOLIC_NAMES);
 
@@ -90,6 +106,7 @@ public class KaraffeParser extends Parser {
 		_interp = new ParserATNSimulator(this,_ATN,_decisionToDFA,_sharedContextCache);
 	}
 	public static class CompilationUnitContext extends ParserRuleContext {
+		public TerminalNode EOF() { return getToken(KaraffeParser.EOF, 0); }
 		public List<TopLevelStatementContext> topLevelStatement() {
 			return getRuleContexts(TopLevelStatementContext.class);
 		}
@@ -122,20 +139,22 @@ public class KaraffeParser extends Parser {
 		try {
 			enterOuterAlt(_localctx, 1);
 			{
-			setState(33);
+			setState(53);
 			_errHandler.sync(this);
 			_la = _input.LA(1);
 			while (_la==CLASS) {
 				{
 				{
-				setState(30);
+				setState(50);
 				topLevelStatement();
 				}
 				}
-				setState(35);
+				setState(55);
 				_errHandler.sync(this);
 				_la = _input.LA(1);
 			}
+			setState(56);
+			match(EOF);
 			}
 		}
 		catch (RecognitionException re) {
@@ -178,7 +197,7 @@ public class KaraffeParser extends Parser {
 		try {
 			enterOuterAlt(_localctx, 1);
 			{
-			setState(36);
+			setState(58);
 			classDef();
 			}
 		}
@@ -222,7 +241,7 @@ public class KaraffeParser extends Parser {
 		try {
 			enterOuterAlt(_localctx, 1);
 			{
-			setState(38);
+			setState(60);
 			simpleClassDef();
 			}
 		}
@@ -269,16 +288,16 @@ public class KaraffeParser extends Parser {
 		try {
 			enterOuterAlt(_localctx, 1);
 			{
-			setState(40);
+			setState(62);
 			match(CLASS);
-			setState(41);
+			setState(63);
 			match(Identifier);
-			setState(43);
+			setState(65);
 			_errHandler.sync(this);
 			_la = _input.LA(1);
 			if (_la==MAIN || _la==LBRACE) {
 				{
-				setState(42);
+				setState(64);
 				classDefBody();
 				}
 			}
@@ -299,11 +318,11 @@ public class KaraffeParser extends Parser {
 	public static class ClassDefBodyContext extends ParserRuleContext {
 		public TerminalNode LBRACE() { return getToken(KaraffeParser.LBRACE, 0); }
 		public TerminalNode RBRACE() { return getToken(KaraffeParser.RBRACE, 0); }
-		public List<ClassDefMemberContext> classDefMember() {
-			return getRuleContexts(ClassDefMemberContext.class);
+		public ClassDefMemberListContext classDefMemberList() {
+			return getRuleContext(ClassDefMemberListContext.class,0);
 		}
-		public ClassDefMemberContext classDefMember(int i) {
-			return getRuleContext(ClassDefMemberContext.class,i);
+		public ClassDefMemberContext classDefMember() {
+			return getRuleContext(ClassDefMemberContext.class,0);
 		}
 		public ClassDefBodyContext(ParserRuleContext parent, int invokingState) {
 			super(parent, invokingState);
@@ -329,41 +348,95 @@ public class KaraffeParser extends Parser {
 		enterRule(_localctx, 8, RULE_classDefBody);
 		int _la;
 		try {
-			setState(54);
+			setState(73);
 			_errHandler.sync(this);
 			switch (_input.LA(1)) {
 			case LBRACE:
 				enterOuterAlt(_localctx, 1);
 				{
-				setState(45);
+				setState(67);
 				match(LBRACE);
-				setState(49);
+				setState(69);
 				_errHandler.sync(this);
 				_la = _input.LA(1);
-				while (_la==MAIN) {
+				if (_la==MAIN) {
 					{
-					{
-					setState(46);
-					classDefMember();
+					setState(68);
+					classDefMemberList();
 					}
-					}
-					setState(51);
-					_errHandler.sync(this);
-					_la = _input.LA(1);
 				}
-				setState(52);
+
+				setState(71);
 				match(RBRACE);
 				}
 				break;
 			case MAIN:
 				enterOuterAlt(_localctx, 2);
 				{
-				setState(53);
+				setState(72);
 				classDefMember();
 				}
 				break;
 			default:
 				throw new NoViableAltException(this);
+			}
+		}
+		catch (RecognitionException re) {
+			_localctx.exception = re;
+			_errHandler.reportError(this, re);
+			_errHandler.recover(this, re);
+		}
+		finally {
+			exitRule();
+		}
+		return _localctx;
+	}
+
+	public static class ClassDefMemberListContext extends ParserRuleContext {
+		public ClassDefMemberContext classDefMember() {
+			return getRuleContext(ClassDefMemberContext.class,0);
+		}
+		public ClassDefMemberListContext classDefMemberList() {
+			return getRuleContext(ClassDefMemberListContext.class,0);
+		}
+		public ClassDefMemberListContext(ParserRuleContext parent, int invokingState) {
+			super(parent, invokingState);
+		}
+		@Override public int getRuleIndex() { return RULE_classDefMemberList; }
+		@Override
+		public void enterRule(ParseTreeListener listener) {
+			if ( listener instanceof KaraffeListener ) ((KaraffeListener)listener).enterClassDefMemberList(this);
+		}
+		@Override
+		public void exitRule(ParseTreeListener listener) {
+			if ( listener instanceof KaraffeListener ) ((KaraffeListener)listener).exitClassDefMemberList(this);
+		}
+		@Override
+		public <T> T accept(ParseTreeVisitor<? extends T> visitor) {
+			if ( visitor instanceof KaraffeVisitor ) return ((KaraffeVisitor<? extends T>)visitor).visitClassDefMemberList(this);
+			else return visitor.visitChildren(this);
+		}
+	}
+
+	public final ClassDefMemberListContext classDefMemberList() throws RecognitionException {
+		ClassDefMemberListContext _localctx = new ClassDefMemberListContext(_ctx, getState());
+		enterRule(_localctx, 10, RULE_classDefMemberList);
+		int _la;
+		try {
+			enterOuterAlt(_localctx, 1);
+			{
+			setState(75);
+			classDefMember();
+			setState(77);
+			_errHandler.sync(this);
+			_la = _input.LA(1);
+			if (_la==MAIN) {
+				{
+				setState(76);
+				classDefMemberList();
+				}
+			}
+
 			}
 		}
 		catch (RecognitionException re) {
@@ -402,11 +475,11 @@ public class KaraffeParser extends Parser {
 
 	public final ClassDefMemberContext classDefMember() throws RecognitionException {
 		ClassDefMemberContext _localctx = new ClassDefMemberContext(_ctx, getState());
-		enterRule(_localctx, 10, RULE_classDefMember);
+		enterRule(_localctx, 12, RULE_classDefMember);
 		try {
 			enterOuterAlt(_localctx, 1);
 			{
-			setState(56);
+			setState(79);
 			mainMethodDef();
 			}
 		}
@@ -423,13 +496,8 @@ public class KaraffeParser extends Parser {
 
 	public static class MainMethodDefContext extends ParserRuleContext {
 		public TerminalNode MAIN() { return getToken(KaraffeParser.MAIN, 0); }
-		public TerminalNode LBRACE() { return getToken(KaraffeParser.LBRACE, 0); }
-		public TerminalNode RBRACE() { return getToken(KaraffeParser.RBRACE, 0); }
-		public List<StatementContext> statement() {
-			return getRuleContexts(StatementContext.class);
-		}
-		public StatementContext statement(int i) {
-			return getRuleContext(StatementContext.class,i);
+		public StatementBlockContext statementBlock() {
+			return getRuleContext(StatementBlockContext.class,0);
 		}
 		public MainMethodDefContext(ParserRuleContext parent, int invokingState) {
 			super(parent, invokingState);
@@ -452,31 +520,147 @@ public class KaraffeParser extends Parser {
 
 	public final MainMethodDefContext mainMethodDef() throws RecognitionException {
 		MainMethodDefContext _localctx = new MainMethodDefContext(_ctx, getState());
-		enterRule(_localctx, 12, RULE_mainMethodDef);
+		enterRule(_localctx, 14, RULE_mainMethodDef);
+		try {
+			enterOuterAlt(_localctx, 1);
+			{
+			setState(81);
+			match(MAIN);
+			setState(82);
+			statementBlock();
+			}
+		}
+		catch (RecognitionException re) {
+			_localctx.exception = re;
+			_errHandler.reportError(this, re);
+			_errHandler.recover(this, re);
+		}
+		finally {
+			exitRule();
+		}
+		return _localctx;
+	}
+
+	public static class StatementBlockContext extends ParserRuleContext {
+		public TerminalNode LBRACE() { return getToken(KaraffeParser.LBRACE, 0); }
+		public TerminalNode RBRACE() { return getToken(KaraffeParser.RBRACE, 0); }
+		public StatementListContext statementList() {
+			return getRuleContext(StatementListContext.class,0);
+		}
+		public StatementContext statement() {
+			return getRuleContext(StatementContext.class,0);
+		}
+		public StatementBlockContext(ParserRuleContext parent, int invokingState) {
+			super(parent, invokingState);
+		}
+		@Override public int getRuleIndex() { return RULE_statementBlock; }
+		@Override
+		public void enterRule(ParseTreeListener listener) {
+			if ( listener instanceof KaraffeListener ) ((KaraffeListener)listener).enterStatementBlock(this);
+		}
+		@Override
+		public void exitRule(ParseTreeListener listener) {
+			if ( listener instanceof KaraffeListener ) ((KaraffeListener)listener).exitStatementBlock(this);
+		}
+		@Override
+		public <T> T accept(ParseTreeVisitor<? extends T> visitor) {
+			if ( visitor instanceof KaraffeVisitor ) return ((KaraffeVisitor<? extends T>)visitor).visitStatementBlock(this);
+			else return visitor.visitChildren(this);
+		}
+	}
+
+	public final StatementBlockContext statementBlock() throws RecognitionException {
+		StatementBlockContext _localctx = new StatementBlockContext(_ctx, getState());
+		enterRule(_localctx, 16, RULE_statementBlock);
+		int _la;
+		try {
+			setState(90);
+			_errHandler.sync(this);
+			switch ( getInterpreter().adaptivePredict(_input,6,_ctx) ) {
+			case 1:
+				enterOuterAlt(_localctx, 1);
+				{
+				setState(84);
+				match(LBRACE);
+				setState(86);
+				_errHandler.sync(this);
+				_la = _input.LA(1);
+				if ((((_la) & ~0x3f) == 0 && ((1L << _la) & ((1L << WHILE) | (1L << NEW) | (1L << LET) | (1L << IF) | (1L << BANG) | (1L << PLUS) | (1L << MINUS) | (1L << LPAREN) | (1L << LBRACE) | (1L << StringLiteral) | (1L << IntegerLiteral) | (1L << Identifier))) != 0)) {
+					{
+					setState(85);
+					statementList();
+					}
+				}
+
+				setState(88);
+				match(RBRACE);
+				}
+				break;
+			case 2:
+				enterOuterAlt(_localctx, 2);
+				{
+				setState(89);
+				statement();
+				}
+				break;
+			}
+		}
+		catch (RecognitionException re) {
+			_localctx.exception = re;
+			_errHandler.reportError(this, re);
+			_errHandler.recover(this, re);
+		}
+		finally {
+			exitRule();
+		}
+		return _localctx;
+	}
+
+	public static class StatementListContext extends ParserRuleContext {
+		public StatementContext statement() {
+			return getRuleContext(StatementContext.class,0);
+		}
+		public StatementListContext statementList() {
+			return getRuleContext(StatementListContext.class,0);
+		}
+		public StatementListContext(ParserRuleContext parent, int invokingState) {
+			super(parent, invokingState);
+		}
+		@Override public int getRuleIndex() { return RULE_statementList; }
+		@Override
+		public void enterRule(ParseTreeListener listener) {
+			if ( listener instanceof KaraffeListener ) ((KaraffeListener)listener).enterStatementList(this);
+		}
+		@Override
+		public void exitRule(ParseTreeListener listener) {
+			if ( listener instanceof KaraffeListener ) ((KaraffeListener)listener).exitStatementList(this);
+		}
+		@Override
+		public <T> T accept(ParseTreeVisitor<? extends T> visitor) {
+			if ( visitor instanceof KaraffeVisitor ) return ((KaraffeVisitor<? extends T>)visitor).visitStatementList(this);
+			else return visitor.visitChildren(this);
+		}
+	}
+
+	public final StatementListContext statementList() throws RecognitionException {
+		StatementListContext _localctx = new StatementListContext(_ctx, getState());
+		enterRule(_localctx, 18, RULE_statementList);
 		int _la;
 		try {
 			enterOuterAlt(_localctx, 1);
 			{
-			setState(58);
-			match(MAIN);
-			setState(59);
-			match(LBRACE);
-			setState(63);
+			setState(92);
+			statement();
+			setState(94);
 			_errHandler.sync(this);
 			_la = _input.LA(1);
-			while ((((_la) & ~0x3f) == 0 && ((1L << _la) & ((1L << LPAREN) | (1L << IntegerLiteral) | (1L << Identifier))) != 0)) {
+			if ((((_la) & ~0x3f) == 0 && ((1L << _la) & ((1L << WHILE) | (1L << NEW) | (1L << LET) | (1L << IF) | (1L << BANG) | (1L << PLUS) | (1L << MINUS) | (1L << LPAREN) | (1L << LBRACE) | (1L << StringLiteral) | (1L << IntegerLiteral) | (1L << Identifier))) != 0)) {
 				{
-				{
-				setState(60);
-				statement();
+				setState(93);
+				statementList();
 				}
-				}
-				setState(65);
-				_errHandler.sync(this);
-				_la = _input.LA(1);
 			}
-			setState(66);
-			match(RBRACE);
+
 			}
 		}
 		catch (RecognitionException re) {
@@ -491,9 +675,20 @@ public class KaraffeParser extends Parser {
 	}
 
 	public static class StatementContext extends ParserRuleContext {
+		public Token letStmt;
+		public Token name;
+		public Token typeName;
+		public ExprContext initializer;
+		public Token assignTarget;
 		public ExprContext expr() {
 			return getRuleContext(ExprContext.class,0);
 		}
+		public TerminalNode LET() { return getToken(KaraffeParser.LET, 0); }
+		public List<TerminalNode> Identifier() { return getTokens(KaraffeParser.Identifier); }
+		public TerminalNode Identifier(int i) {
+			return getToken(KaraffeParser.Identifier, i);
+		}
+		public TerminalNode EQ() { return getToken(KaraffeParser.EQ, 0); }
 		public StatementContext(ParserRuleContext parent, int invokingState) {
 			super(parent, invokingState);
 		}
@@ -515,12 +710,53 @@ public class KaraffeParser extends Parser {
 
 	public final StatementContext statement() throws RecognitionException {
 		StatementContext _localctx = new StatementContext(_ctx, getState());
-		enterRule(_localctx, 14, RULE_statement);
+		enterRule(_localctx, 20, RULE_statement);
+		int _la;
 		try {
-			enterOuterAlt(_localctx, 1);
-			{
-			setState(68);
-			expr();
+			setState(107);
+			_errHandler.sync(this);
+			switch ( getInterpreter().adaptivePredict(_input,9,_ctx) ) {
+			case 1:
+				enterOuterAlt(_localctx, 1);
+				{
+				setState(96);
+				expr();
+				}
+				break;
+			case 2:
+				enterOuterAlt(_localctx, 2);
+				{
+				setState(97);
+				((StatementContext)_localctx).letStmt = match(LET);
+				setState(98);
+				((StatementContext)_localctx).name = match(Identifier);
+				setState(99);
+				((StatementContext)_localctx).typeName = match(Identifier);
+				setState(102);
+				_errHandler.sync(this);
+				_la = _input.LA(1);
+				if (_la==EQ) {
+					{
+					setState(100);
+					match(EQ);
+					setState(101);
+					((StatementContext)_localctx).initializer = expr();
+					}
+				}
+
+				}
+				break;
+			case 3:
+				enterOuterAlt(_localctx, 3);
+				{
+				setState(104);
+				((StatementContext)_localctx).assignTarget = match(Identifier);
+				setState(105);
+				match(EQ);
+				setState(106);
+				expr();
+				}
+				break;
 			}
 		}
 		catch (RecognitionException re) {
@@ -535,8 +771,32 @@ public class KaraffeParser extends Parser {
 	}
 
 	public static class ExprContext extends ParserRuleContext {
-		public AdditiveExprContext additiveExpr() {
-			return getRuleContext(AdditiveExprContext.class,0);
+		public Token ifExpr;
+		public ExprContext cond;
+		public StatementContext then;
+		public StatementContext el;
+		public Token loop;
+		public StatementContext body;
+		public Token block;
+		public SimpleExprContext simple;
+		public TerminalNode LPAREN() { return getToken(KaraffeParser.LPAREN, 0); }
+		public TerminalNode RPAREN() { return getToken(KaraffeParser.RPAREN, 0); }
+		public TerminalNode IF() { return getToken(KaraffeParser.IF, 0); }
+		public ExprContext expr() {
+			return getRuleContext(ExprContext.class,0);
+		}
+		public TerminalNode ELSE() { return getToken(KaraffeParser.ELSE, 0); }
+		public List<StatementContext> statement() {
+			return getRuleContexts(StatementContext.class);
+		}
+		public StatementContext statement(int i) {
+			return getRuleContext(StatementContext.class,i);
+		}
+		public TerminalNode WHILE() { return getToken(KaraffeParser.WHILE, 0); }
+		public TerminalNode RBRACE() { return getToken(KaraffeParser.RBRACE, 0); }
+		public TerminalNode LBRACE() { return getToken(KaraffeParser.LBRACE, 0); }
+		public SimpleExprContext simpleExpr() {
+			return getRuleContext(SimpleExprContext.class,0);
 		}
 		public ExprContext(ParserRuleContext parent, int invokingState) {
 			super(parent, invokingState);
@@ -559,12 +819,136 @@ public class KaraffeParser extends Parser {
 
 	public final ExprContext expr() throws RecognitionException {
 		ExprContext _localctx = new ExprContext(_ctx, getState());
-		enterRule(_localctx, 16, RULE_expr);
+		enterRule(_localctx, 22, RULE_expr);
+		int _la;
 		try {
-			enterOuterAlt(_localctx, 1);
-			{
-			setState(70);
-			additiveExpr(0);
+			int _alt;
+			setState(147);
+			_errHandler.sync(this);
+			switch (_input.LA(1)) {
+			case IF:
+				enterOuterAlt(_localctx, 1);
+				{
+				setState(109);
+				((ExprContext)_localctx).ifExpr = match(IF);
+				setState(110);
+				match(LPAREN);
+				setState(111);
+				((ExprContext)_localctx).cond = expr();
+				setState(112);
+				match(RPAREN);
+				setState(116);
+				_errHandler.sync(this);
+				_alt = getInterpreter().adaptivePredict(_input,10,_ctx);
+				while ( _alt!=2 && _alt!=org.antlr.v4.runtime.atn.ATN.INVALID_ALT_NUMBER ) {
+					if ( _alt==1 ) {
+						{
+						{
+						setState(113);
+						((ExprContext)_localctx).then = statement();
+						}
+						} 
+					}
+					setState(118);
+					_errHandler.sync(this);
+					_alt = getInterpreter().adaptivePredict(_input,10,_ctx);
+				}
+				setState(126);
+				_errHandler.sync(this);
+				switch ( getInterpreter().adaptivePredict(_input,12,_ctx) ) {
+				case 1:
+					{
+					setState(119);
+					match(ELSE);
+					setState(123);
+					_errHandler.sync(this);
+					_alt = getInterpreter().adaptivePredict(_input,11,_ctx);
+					while ( _alt!=2 && _alt!=org.antlr.v4.runtime.atn.ATN.INVALID_ALT_NUMBER ) {
+						if ( _alt==1 ) {
+							{
+							{
+							setState(120);
+							((ExprContext)_localctx).el = statement();
+							}
+							} 
+						}
+						setState(125);
+						_errHandler.sync(this);
+						_alt = getInterpreter().adaptivePredict(_input,11,_ctx);
+					}
+					}
+					break;
+				}
+				}
+				break;
+			case WHILE:
+				enterOuterAlt(_localctx, 2);
+				{
+				setState(128);
+				((ExprContext)_localctx).loop = match(WHILE);
+				setState(129);
+				match(LPAREN);
+				setState(130);
+				((ExprContext)_localctx).cond = expr();
+				setState(131);
+				match(RPAREN);
+				setState(135);
+				_errHandler.sync(this);
+				_alt = getInterpreter().adaptivePredict(_input,13,_ctx);
+				while ( _alt!=2 && _alt!=org.antlr.v4.runtime.atn.ATN.INVALID_ALT_NUMBER ) {
+					if ( _alt==1 ) {
+						{
+						{
+						setState(132);
+						((ExprContext)_localctx).body = statement();
+						}
+						} 
+					}
+					setState(137);
+					_errHandler.sync(this);
+					_alt = getInterpreter().adaptivePredict(_input,13,_ctx);
+				}
+				}
+				break;
+			case LBRACE:
+				enterOuterAlt(_localctx, 3);
+				{
+				setState(138);
+				((ExprContext)_localctx).block = match(LBRACE);
+				setState(142);
+				_errHandler.sync(this);
+				_la = _input.LA(1);
+				while ((((_la) & ~0x3f) == 0 && ((1L << _la) & ((1L << WHILE) | (1L << NEW) | (1L << LET) | (1L << IF) | (1L << BANG) | (1L << PLUS) | (1L << MINUS) | (1L << LPAREN) | (1L << LBRACE) | (1L << StringLiteral) | (1L << IntegerLiteral) | (1L << Identifier))) != 0)) {
+					{
+					{
+					setState(139);
+					statement();
+					}
+					}
+					setState(144);
+					_errHandler.sync(this);
+					_la = _input.LA(1);
+				}
+				setState(145);
+				match(RBRACE);
+				}
+				break;
+			case NEW:
+			case BANG:
+			case PLUS:
+			case MINUS:
+			case LPAREN:
+			case StringLiteral:
+			case IntegerLiteral:
+			case Identifier:
+				enterOuterAlt(_localctx, 4);
+				{
+				setState(146);
+				((ExprContext)_localctx).simple = simpleExpr();
+				}
+				break;
+			default:
+				throw new NoViableAltException(this);
 			}
 		}
 		catch (RecognitionException re) {
@@ -574,6 +958,621 @@ public class KaraffeParser extends Parser {
 		}
 		finally {
 			exitRule();
+		}
+		return _localctx;
+	}
+
+	public static class SimpleExprContext extends ParserRuleContext {
+		public ExprListContext exprList() {
+			return getRuleContext(ExprListContext.class,0);
+		}
+		public SimpleExprContext(ParserRuleContext parent, int invokingState) {
+			super(parent, invokingState);
+		}
+		@Override public int getRuleIndex() { return RULE_simpleExpr; }
+		@Override
+		public void enterRule(ParseTreeListener listener) {
+			if ( listener instanceof KaraffeListener ) ((KaraffeListener)listener).enterSimpleExpr(this);
+		}
+		@Override
+		public void exitRule(ParseTreeListener listener) {
+			if ( listener instanceof KaraffeListener ) ((KaraffeListener)listener).exitSimpleExpr(this);
+		}
+		@Override
+		public <T> T accept(ParseTreeVisitor<? extends T> visitor) {
+			if ( visitor instanceof KaraffeVisitor ) return ((KaraffeVisitor<? extends T>)visitor).visitSimpleExpr(this);
+			else return visitor.visitChildren(this);
+		}
+	}
+
+	public final SimpleExprContext simpleExpr() throws RecognitionException {
+		SimpleExprContext _localctx = new SimpleExprContext(_ctx, getState());
+		enterRule(_localctx, 24, RULE_simpleExpr);
+		try {
+			enterOuterAlt(_localctx, 1);
+			{
+			setState(149);
+			exprList(0);
+			}
+		}
+		catch (RecognitionException re) {
+			_localctx.exception = re;
+			_errHandler.reportError(this, re);
+			_errHandler.recover(this, re);
+		}
+		finally {
+			exitRule();
+		}
+		return _localctx;
+	}
+
+	public static class ExprListContext extends ParserRuleContext {
+		public ExprListContext left;
+		public Token op;
+		public RangeExprContext right;
+		public RangeExprContext rangeExpr() {
+			return getRuleContext(RangeExprContext.class,0);
+		}
+		public ExprListContext exprList() {
+			return getRuleContext(ExprListContext.class,0);
+		}
+		public TerminalNode COMMA() { return getToken(KaraffeParser.COMMA, 0); }
+		public ExprListContext(ParserRuleContext parent, int invokingState) {
+			super(parent, invokingState);
+		}
+		@Override public int getRuleIndex() { return RULE_exprList; }
+		@Override
+		public void enterRule(ParseTreeListener listener) {
+			if ( listener instanceof KaraffeListener ) ((KaraffeListener)listener).enterExprList(this);
+		}
+		@Override
+		public void exitRule(ParseTreeListener listener) {
+			if ( listener instanceof KaraffeListener ) ((KaraffeListener)listener).exitExprList(this);
+		}
+		@Override
+		public <T> T accept(ParseTreeVisitor<? extends T> visitor) {
+			if ( visitor instanceof KaraffeVisitor ) return ((KaraffeVisitor<? extends T>)visitor).visitExprList(this);
+			else return visitor.visitChildren(this);
+		}
+	}
+
+	public final ExprListContext exprList() throws RecognitionException {
+		return exprList(0);
+	}
+
+	private ExprListContext exprList(int _p) throws RecognitionException {
+		ParserRuleContext _parentctx = _ctx;
+		int _parentState = getState();
+		ExprListContext _localctx = new ExprListContext(_ctx, _parentState);
+		ExprListContext _prevctx = _localctx;
+		int _startState = 26;
+		enterRecursionRule(_localctx, 26, RULE_exprList, _p);
+		try {
+			int _alt;
+			enterOuterAlt(_localctx, 1);
+			{
+			{
+			setState(152);
+			rangeExpr(0);
+			}
+			_ctx.stop = _input.LT(-1);
+			setState(159);
+			_errHandler.sync(this);
+			_alt = getInterpreter().adaptivePredict(_input,16,_ctx);
+			while ( _alt!=2 && _alt!=org.antlr.v4.runtime.atn.ATN.INVALID_ALT_NUMBER ) {
+				if ( _alt==1 ) {
+					if ( _parseListeners!=null ) triggerExitRuleEvent();
+					_prevctx = _localctx;
+					{
+					{
+					_localctx = new ExprListContext(_parentctx, _parentState);
+					_localctx.left = _prevctx;
+					_localctx.left = _prevctx;
+					pushNewRecursionContext(_localctx, _startState, RULE_exprList);
+					setState(154);
+					if (!(precpred(_ctx, 1))) throw new FailedPredicateException(this, "precpred(_ctx, 1)");
+					setState(155);
+					((ExprListContext)_localctx).op = match(COMMA);
+					setState(156);
+					((ExprListContext)_localctx).right = rangeExpr(0);
+					}
+					} 
+				}
+				setState(161);
+				_errHandler.sync(this);
+				_alt = getInterpreter().adaptivePredict(_input,16,_ctx);
+			}
+			}
+		}
+		catch (RecognitionException re) {
+			_localctx.exception = re;
+			_errHandler.reportError(this, re);
+			_errHandler.recover(this, re);
+		}
+		finally {
+			unrollRecursionContexts(_parentctx);
+		}
+		return _localctx;
+	}
+
+	public static class RangeExprContext extends ParserRuleContext {
+		public RangeExprContext left;
+		public Token op;
+		public OrExprContext right;
+		public OrExprContext orExpr() {
+			return getRuleContext(OrExprContext.class,0);
+		}
+		public RangeExprContext rangeExpr() {
+			return getRuleContext(RangeExprContext.class,0);
+		}
+		public TerminalNode RANGE() { return getToken(KaraffeParser.RANGE, 0); }
+		public TerminalNode CRANGE() { return getToken(KaraffeParser.CRANGE, 0); }
+		public RangeExprContext(ParserRuleContext parent, int invokingState) {
+			super(parent, invokingState);
+		}
+		@Override public int getRuleIndex() { return RULE_rangeExpr; }
+		@Override
+		public void enterRule(ParseTreeListener listener) {
+			if ( listener instanceof KaraffeListener ) ((KaraffeListener)listener).enterRangeExpr(this);
+		}
+		@Override
+		public void exitRule(ParseTreeListener listener) {
+			if ( listener instanceof KaraffeListener ) ((KaraffeListener)listener).exitRangeExpr(this);
+		}
+		@Override
+		public <T> T accept(ParseTreeVisitor<? extends T> visitor) {
+			if ( visitor instanceof KaraffeVisitor ) return ((KaraffeVisitor<? extends T>)visitor).visitRangeExpr(this);
+			else return visitor.visitChildren(this);
+		}
+	}
+
+	public final RangeExprContext rangeExpr() throws RecognitionException {
+		return rangeExpr(0);
+	}
+
+	private RangeExprContext rangeExpr(int _p) throws RecognitionException {
+		ParserRuleContext _parentctx = _ctx;
+		int _parentState = getState();
+		RangeExprContext _localctx = new RangeExprContext(_ctx, _parentState);
+		RangeExprContext _prevctx = _localctx;
+		int _startState = 28;
+		enterRecursionRule(_localctx, 28, RULE_rangeExpr, _p);
+		int _la;
+		try {
+			int _alt;
+			enterOuterAlt(_localctx, 1);
+			{
+			{
+			setState(163);
+			orExpr(0);
+			}
+			_ctx.stop = _input.LT(-1);
+			setState(170);
+			_errHandler.sync(this);
+			_alt = getInterpreter().adaptivePredict(_input,17,_ctx);
+			while ( _alt!=2 && _alt!=org.antlr.v4.runtime.atn.ATN.INVALID_ALT_NUMBER ) {
+				if ( _alt==1 ) {
+					if ( _parseListeners!=null ) triggerExitRuleEvent();
+					_prevctx = _localctx;
+					{
+					{
+					_localctx = new RangeExprContext(_parentctx, _parentState);
+					_localctx.left = _prevctx;
+					_localctx.left = _prevctx;
+					pushNewRecursionContext(_localctx, _startState, RULE_rangeExpr);
+					setState(165);
+					if (!(precpred(_ctx, 1))) throw new FailedPredicateException(this, "precpred(_ctx, 1)");
+					setState(166);
+					((RangeExprContext)_localctx).op = _input.LT(1);
+					_la = _input.LA(1);
+					if ( !(_la==CRANGE || _la==RANGE) ) {
+						((RangeExprContext)_localctx).op = (Token)_errHandler.recoverInline(this);
+					}
+					else {
+						if ( _input.LA(1)==Token.EOF ) matchedEOF = true;
+						_errHandler.reportMatch(this);
+						consume();
+					}
+					setState(167);
+					((RangeExprContext)_localctx).right = orExpr(0);
+					}
+					} 
+				}
+				setState(172);
+				_errHandler.sync(this);
+				_alt = getInterpreter().adaptivePredict(_input,17,_ctx);
+			}
+			}
+		}
+		catch (RecognitionException re) {
+			_localctx.exception = re;
+			_errHandler.reportError(this, re);
+			_errHandler.recover(this, re);
+		}
+		finally {
+			unrollRecursionContexts(_parentctx);
+		}
+		return _localctx;
+	}
+
+	public static class OrExprContext extends ParserRuleContext {
+		public OrExprContext left;
+		public Token op;
+		public AndExprContext right;
+		public AndExprContext andExpr() {
+			return getRuleContext(AndExprContext.class,0);
+		}
+		public OrExprContext orExpr() {
+			return getRuleContext(OrExprContext.class,0);
+		}
+		public TerminalNode OR() { return getToken(KaraffeParser.OR, 0); }
+		public OrExprContext(ParserRuleContext parent, int invokingState) {
+			super(parent, invokingState);
+		}
+		@Override public int getRuleIndex() { return RULE_orExpr; }
+		@Override
+		public void enterRule(ParseTreeListener listener) {
+			if ( listener instanceof KaraffeListener ) ((KaraffeListener)listener).enterOrExpr(this);
+		}
+		@Override
+		public void exitRule(ParseTreeListener listener) {
+			if ( listener instanceof KaraffeListener ) ((KaraffeListener)listener).exitOrExpr(this);
+		}
+		@Override
+		public <T> T accept(ParseTreeVisitor<? extends T> visitor) {
+			if ( visitor instanceof KaraffeVisitor ) return ((KaraffeVisitor<? extends T>)visitor).visitOrExpr(this);
+			else return visitor.visitChildren(this);
+		}
+	}
+
+	public final OrExprContext orExpr() throws RecognitionException {
+		return orExpr(0);
+	}
+
+	private OrExprContext orExpr(int _p) throws RecognitionException {
+		ParserRuleContext _parentctx = _ctx;
+		int _parentState = getState();
+		OrExprContext _localctx = new OrExprContext(_ctx, _parentState);
+		OrExprContext _prevctx = _localctx;
+		int _startState = 30;
+		enterRecursionRule(_localctx, 30, RULE_orExpr, _p);
+		try {
+			int _alt;
+			enterOuterAlt(_localctx, 1);
+			{
+			{
+			setState(174);
+			andExpr(0);
+			}
+			_ctx.stop = _input.LT(-1);
+			setState(181);
+			_errHandler.sync(this);
+			_alt = getInterpreter().adaptivePredict(_input,18,_ctx);
+			while ( _alt!=2 && _alt!=org.antlr.v4.runtime.atn.ATN.INVALID_ALT_NUMBER ) {
+				if ( _alt==1 ) {
+					if ( _parseListeners!=null ) triggerExitRuleEvent();
+					_prevctx = _localctx;
+					{
+					{
+					_localctx = new OrExprContext(_parentctx, _parentState);
+					_localctx.left = _prevctx;
+					_localctx.left = _prevctx;
+					pushNewRecursionContext(_localctx, _startState, RULE_orExpr);
+					setState(176);
+					if (!(precpred(_ctx, 1))) throw new FailedPredicateException(this, "precpred(_ctx, 1)");
+					setState(177);
+					((OrExprContext)_localctx).op = match(OR);
+					setState(178);
+					((OrExprContext)_localctx).right = andExpr(0);
+					}
+					} 
+				}
+				setState(183);
+				_errHandler.sync(this);
+				_alt = getInterpreter().adaptivePredict(_input,18,_ctx);
+			}
+			}
+		}
+		catch (RecognitionException re) {
+			_localctx.exception = re;
+			_errHandler.reportError(this, re);
+			_errHandler.recover(this, re);
+		}
+		finally {
+			unrollRecursionContexts(_parentctx);
+		}
+		return _localctx;
+	}
+
+	public static class AndExprContext extends ParserRuleContext {
+		public AndExprContext left;
+		public Token op;
+		public EqualityExprContext right;
+		public EqualityExprContext equalityExpr() {
+			return getRuleContext(EqualityExprContext.class,0);
+		}
+		public AndExprContext andExpr() {
+			return getRuleContext(AndExprContext.class,0);
+		}
+		public TerminalNode AND() { return getToken(KaraffeParser.AND, 0); }
+		public AndExprContext(ParserRuleContext parent, int invokingState) {
+			super(parent, invokingState);
+		}
+		@Override public int getRuleIndex() { return RULE_andExpr; }
+		@Override
+		public void enterRule(ParseTreeListener listener) {
+			if ( listener instanceof KaraffeListener ) ((KaraffeListener)listener).enterAndExpr(this);
+		}
+		@Override
+		public void exitRule(ParseTreeListener listener) {
+			if ( listener instanceof KaraffeListener ) ((KaraffeListener)listener).exitAndExpr(this);
+		}
+		@Override
+		public <T> T accept(ParseTreeVisitor<? extends T> visitor) {
+			if ( visitor instanceof KaraffeVisitor ) return ((KaraffeVisitor<? extends T>)visitor).visitAndExpr(this);
+			else return visitor.visitChildren(this);
+		}
+	}
+
+	public final AndExprContext andExpr() throws RecognitionException {
+		return andExpr(0);
+	}
+
+	private AndExprContext andExpr(int _p) throws RecognitionException {
+		ParserRuleContext _parentctx = _ctx;
+		int _parentState = getState();
+		AndExprContext _localctx = new AndExprContext(_ctx, _parentState);
+		AndExprContext _prevctx = _localctx;
+		int _startState = 32;
+		enterRecursionRule(_localctx, 32, RULE_andExpr, _p);
+		try {
+			int _alt;
+			enterOuterAlt(_localctx, 1);
+			{
+			{
+			setState(185);
+			equalityExpr(0);
+			}
+			_ctx.stop = _input.LT(-1);
+			setState(192);
+			_errHandler.sync(this);
+			_alt = getInterpreter().adaptivePredict(_input,19,_ctx);
+			while ( _alt!=2 && _alt!=org.antlr.v4.runtime.atn.ATN.INVALID_ALT_NUMBER ) {
+				if ( _alt==1 ) {
+					if ( _parseListeners!=null ) triggerExitRuleEvent();
+					_prevctx = _localctx;
+					{
+					{
+					_localctx = new AndExprContext(_parentctx, _parentState);
+					_localctx.left = _prevctx;
+					_localctx.left = _prevctx;
+					pushNewRecursionContext(_localctx, _startState, RULE_andExpr);
+					setState(187);
+					if (!(precpred(_ctx, 1))) throw new FailedPredicateException(this, "precpred(_ctx, 1)");
+					setState(188);
+					((AndExprContext)_localctx).op = match(AND);
+					setState(189);
+					((AndExprContext)_localctx).right = equalityExpr(0);
+					}
+					} 
+				}
+				setState(194);
+				_errHandler.sync(this);
+				_alt = getInterpreter().adaptivePredict(_input,19,_ctx);
+			}
+			}
+		}
+		catch (RecognitionException re) {
+			_localctx.exception = re;
+			_errHandler.reportError(this, re);
+			_errHandler.recover(this, re);
+		}
+		finally {
+			unrollRecursionContexts(_parentctx);
+		}
+		return _localctx;
+	}
+
+	public static class EqualityExprContext extends ParserRuleContext {
+		public EqualityExprContext left;
+		public Token op;
+		public ConditionalExprContext right;
+		public ConditionalExprContext conditionalExpr() {
+			return getRuleContext(ConditionalExprContext.class,0);
+		}
+		public EqualityExprContext equalityExpr() {
+			return getRuleContext(EqualityExprContext.class,0);
+		}
+		public TerminalNode EQEQ() { return getToken(KaraffeParser.EQEQ, 0); }
+		public TerminalNode NOTEQ() { return getToken(KaraffeParser.NOTEQ, 0); }
+		public TerminalNode EQEQEQ() { return getToken(KaraffeParser.EQEQEQ, 0); }
+		public TerminalNode NOTEQEQ() { return getToken(KaraffeParser.NOTEQEQ, 0); }
+		public EqualityExprContext(ParserRuleContext parent, int invokingState) {
+			super(parent, invokingState);
+		}
+		@Override public int getRuleIndex() { return RULE_equalityExpr; }
+		@Override
+		public void enterRule(ParseTreeListener listener) {
+			if ( listener instanceof KaraffeListener ) ((KaraffeListener)listener).enterEqualityExpr(this);
+		}
+		@Override
+		public void exitRule(ParseTreeListener listener) {
+			if ( listener instanceof KaraffeListener ) ((KaraffeListener)listener).exitEqualityExpr(this);
+		}
+		@Override
+		public <T> T accept(ParseTreeVisitor<? extends T> visitor) {
+			if ( visitor instanceof KaraffeVisitor ) return ((KaraffeVisitor<? extends T>)visitor).visitEqualityExpr(this);
+			else return visitor.visitChildren(this);
+		}
+	}
+
+	public final EqualityExprContext equalityExpr() throws RecognitionException {
+		return equalityExpr(0);
+	}
+
+	private EqualityExprContext equalityExpr(int _p) throws RecognitionException {
+		ParserRuleContext _parentctx = _ctx;
+		int _parentState = getState();
+		EqualityExprContext _localctx = new EqualityExprContext(_ctx, _parentState);
+		EqualityExprContext _prevctx = _localctx;
+		int _startState = 34;
+		enterRecursionRule(_localctx, 34, RULE_equalityExpr, _p);
+		int _la;
+		try {
+			int _alt;
+			enterOuterAlt(_localctx, 1);
+			{
+			{
+			setState(196);
+			conditionalExpr(0);
+			}
+			_ctx.stop = _input.LT(-1);
+			setState(203);
+			_errHandler.sync(this);
+			_alt = getInterpreter().adaptivePredict(_input,20,_ctx);
+			while ( _alt!=2 && _alt!=org.antlr.v4.runtime.atn.ATN.INVALID_ALT_NUMBER ) {
+				if ( _alt==1 ) {
+					if ( _parseListeners!=null ) triggerExitRuleEvent();
+					_prevctx = _localctx;
+					{
+					{
+					_localctx = new EqualityExprContext(_parentctx, _parentState);
+					_localctx.left = _prevctx;
+					_localctx.left = _prevctx;
+					pushNewRecursionContext(_localctx, _startState, RULE_equalityExpr);
+					setState(198);
+					if (!(precpred(_ctx, 1))) throw new FailedPredicateException(this, "precpred(_ctx, 1)");
+					setState(199);
+					((EqualityExprContext)_localctx).op = _input.LT(1);
+					_la = _input.LA(1);
+					if ( !((((_la) & ~0x3f) == 0 && ((1L << _la) & ((1L << EQEQEQ) | (1L << NOTEQEQ) | (1L << EQEQ) | (1L << NOTEQ))) != 0)) ) {
+						((EqualityExprContext)_localctx).op = (Token)_errHandler.recoverInline(this);
+					}
+					else {
+						if ( _input.LA(1)==Token.EOF ) matchedEOF = true;
+						_errHandler.reportMatch(this);
+						consume();
+					}
+					setState(200);
+					((EqualityExprContext)_localctx).right = conditionalExpr(0);
+					}
+					} 
+				}
+				setState(205);
+				_errHandler.sync(this);
+				_alt = getInterpreter().adaptivePredict(_input,20,_ctx);
+			}
+			}
+		}
+		catch (RecognitionException re) {
+			_localctx.exception = re;
+			_errHandler.reportError(this, re);
+			_errHandler.recover(this, re);
+		}
+		finally {
+			unrollRecursionContexts(_parentctx);
+		}
+		return _localctx;
+	}
+
+	public static class ConditionalExprContext extends ParserRuleContext {
+		public ConditionalExprContext left;
+		public Token op;
+		public AdditiveExprContext right;
+		public AdditiveExprContext additiveExpr() {
+			return getRuleContext(AdditiveExprContext.class,0);
+		}
+		public ConditionalExprContext conditionalExpr() {
+			return getRuleContext(ConditionalExprContext.class,0);
+		}
+		public TerminalNode LE() { return getToken(KaraffeParser.LE, 0); }
+		public TerminalNode GE() { return getToken(KaraffeParser.GE, 0); }
+		public TerminalNode LT() { return getToken(KaraffeParser.LT, 0); }
+		public TerminalNode GT() { return getToken(KaraffeParser.GT, 0); }
+		public ConditionalExprContext(ParserRuleContext parent, int invokingState) {
+			super(parent, invokingState);
+		}
+		@Override public int getRuleIndex() { return RULE_conditionalExpr; }
+		@Override
+		public void enterRule(ParseTreeListener listener) {
+			if ( listener instanceof KaraffeListener ) ((KaraffeListener)listener).enterConditionalExpr(this);
+		}
+		@Override
+		public void exitRule(ParseTreeListener listener) {
+			if ( listener instanceof KaraffeListener ) ((KaraffeListener)listener).exitConditionalExpr(this);
+		}
+		@Override
+		public <T> T accept(ParseTreeVisitor<? extends T> visitor) {
+			if ( visitor instanceof KaraffeVisitor ) return ((KaraffeVisitor<? extends T>)visitor).visitConditionalExpr(this);
+			else return visitor.visitChildren(this);
+		}
+	}
+
+	public final ConditionalExprContext conditionalExpr() throws RecognitionException {
+		return conditionalExpr(0);
+	}
+
+	private ConditionalExprContext conditionalExpr(int _p) throws RecognitionException {
+		ParserRuleContext _parentctx = _ctx;
+		int _parentState = getState();
+		ConditionalExprContext _localctx = new ConditionalExprContext(_ctx, _parentState);
+		ConditionalExprContext _prevctx = _localctx;
+		int _startState = 36;
+		enterRecursionRule(_localctx, 36, RULE_conditionalExpr, _p);
+		int _la;
+		try {
+			int _alt;
+			enterOuterAlt(_localctx, 1);
+			{
+			{
+			setState(207);
+			additiveExpr(0);
+			}
+			_ctx.stop = _input.LT(-1);
+			setState(214);
+			_errHandler.sync(this);
+			_alt = getInterpreter().adaptivePredict(_input,21,_ctx);
+			while ( _alt!=2 && _alt!=org.antlr.v4.runtime.atn.ATN.INVALID_ALT_NUMBER ) {
+				if ( _alt==1 ) {
+					if ( _parseListeners!=null ) triggerExitRuleEvent();
+					_prevctx = _localctx;
+					{
+					{
+					_localctx = new ConditionalExprContext(_parentctx, _parentState);
+					_localctx.left = _prevctx;
+					_localctx.left = _prevctx;
+					pushNewRecursionContext(_localctx, _startState, RULE_conditionalExpr);
+					setState(209);
+					if (!(precpred(_ctx, 1))) throw new FailedPredicateException(this, "precpred(_ctx, 1)");
+					setState(210);
+					((ConditionalExprContext)_localctx).op = _input.LT(1);
+					_la = _input.LA(1);
+					if ( !((((_la) & ~0x3f) == 0 && ((1L << _la) & ((1L << LE) | (1L << GE) | (1L << GT) | (1L << LT))) != 0)) ) {
+						((ConditionalExprContext)_localctx).op = (Token)_errHandler.recoverInline(this);
+					}
+					else {
+						if ( _input.LA(1)==Token.EOF ) matchedEOF = true;
+						_errHandler.reportMatch(this);
+						consume();
+					}
+					setState(211);
+					((ConditionalExprContext)_localctx).right = additiveExpr(0);
+					}
+					} 
+				}
+				setState(216);
+				_errHandler.sync(this);
+				_alt = getInterpreter().adaptivePredict(_input,21,_ctx);
+			}
+			}
+		}
+		catch (RecognitionException re) {
+			_localctx.exception = re;
+			_errHandler.reportError(this, re);
+			_errHandler.recover(this, re);
+		}
+		finally {
+			unrollRecursionContexts(_parentctx);
 		}
 		return _localctx;
 	}
@@ -618,21 +1617,21 @@ public class KaraffeParser extends Parser {
 		int _parentState = getState();
 		AdditiveExprContext _localctx = new AdditiveExprContext(_ctx, _parentState);
 		AdditiveExprContext _prevctx = _localctx;
-		int _startState = 18;
-		enterRecursionRule(_localctx, 18, RULE_additiveExpr, _p);
+		int _startState = 38;
+		enterRecursionRule(_localctx, 38, RULE_additiveExpr, _p);
 		int _la;
 		try {
 			int _alt;
 			enterOuterAlt(_localctx, 1);
 			{
 			{
-			setState(73);
+			setState(218);
 			multiplicativeExpr(0);
 			}
 			_ctx.stop = _input.LT(-1);
-			setState(80);
+			setState(225);
 			_errHandler.sync(this);
-			_alt = getInterpreter().adaptivePredict(_input,5,_ctx);
+			_alt = getInterpreter().adaptivePredict(_input,22,_ctx);
 			while ( _alt!=2 && _alt!=org.antlr.v4.runtime.atn.ATN.INVALID_ALT_NUMBER ) {
 				if ( _alt==1 ) {
 					if ( _parseListeners!=null ) triggerExitRuleEvent();
@@ -643,9 +1642,9 @@ public class KaraffeParser extends Parser {
 					_localctx.left = _prevctx;
 					_localctx.left = _prevctx;
 					pushNewRecursionContext(_localctx, _startState, RULE_additiveExpr);
-					setState(75);
+					setState(220);
 					if (!(precpred(_ctx, 1))) throw new FailedPredicateException(this, "precpred(_ctx, 1)");
-					setState(76);
+					setState(221);
 					((AdditiveExprContext)_localctx).op = _input.LT(1);
 					_la = _input.LA(1);
 					if ( !(_la==PLUS || _la==MINUS) ) {
@@ -656,14 +1655,14 @@ public class KaraffeParser extends Parser {
 						_errHandler.reportMatch(this);
 						consume();
 					}
-					setState(77);
+					setState(222);
 					((AdditiveExprContext)_localctx).right = multiplicativeExpr(0);
 					}
 					} 
 				}
-				setState(82);
+				setState(227);
 				_errHandler.sync(this);
-				_alt = getInterpreter().adaptivePredict(_input,5,_ctx);
+				_alt = getInterpreter().adaptivePredict(_input,22,_ctx);
 			}
 			}
 		}
@@ -682,14 +1681,18 @@ public class KaraffeParser extends Parser {
 		public MultiplicativeExprContext left;
 		public Token op;
 		public PrimaryContext right;
-		public PrimaryContext primary() {
-			return getRuleContext(PrimaryContext.class,0);
+		public PowExprContext powExpr() {
+			return getRuleContext(PowExprContext.class,0);
 		}
 		public MultiplicativeExprContext multiplicativeExpr() {
 			return getRuleContext(MultiplicativeExprContext.class,0);
 		}
+		public PrimaryContext primary() {
+			return getRuleContext(PrimaryContext.class,0);
+		}
 		public TerminalNode MUL() { return getToken(KaraffeParser.MUL, 0); }
 		public TerminalNode DIV() { return getToken(KaraffeParser.DIV, 0); }
+		public TerminalNode MOD() { return getToken(KaraffeParser.MOD, 0); }
 		public MultiplicativeExprContext(ParserRuleContext parent, int invokingState) {
 			super(parent, invokingState);
 		}
@@ -718,21 +1721,21 @@ public class KaraffeParser extends Parser {
 		int _parentState = getState();
 		MultiplicativeExprContext _localctx = new MultiplicativeExprContext(_ctx, _parentState);
 		MultiplicativeExprContext _prevctx = _localctx;
-		int _startState = 20;
-		enterRecursionRule(_localctx, 20, RULE_multiplicativeExpr, _p);
+		int _startState = 40;
+		enterRecursionRule(_localctx, 40, RULE_multiplicativeExpr, _p);
 		int _la;
 		try {
 			int _alt;
 			enterOuterAlt(_localctx, 1);
 			{
 			{
-			setState(84);
-			primary(0);
+			setState(229);
+			powExpr();
 			}
 			_ctx.stop = _input.LT(-1);
-			setState(91);
+			setState(236);
 			_errHandler.sync(this);
-			_alt = getInterpreter().adaptivePredict(_input,6,_ctx);
+			_alt = getInterpreter().adaptivePredict(_input,23,_ctx);
 			while ( _alt!=2 && _alt!=org.antlr.v4.runtime.atn.ATN.INVALID_ALT_NUMBER ) {
 				if ( _alt==1 ) {
 					if ( _parseListeners!=null ) triggerExitRuleEvent();
@@ -743,12 +1746,12 @@ public class KaraffeParser extends Parser {
 					_localctx.left = _prevctx;
 					_localctx.left = _prevctx;
 					pushNewRecursionContext(_localctx, _startState, RULE_multiplicativeExpr);
-					setState(86);
+					setState(231);
 					if (!(precpred(_ctx, 1))) throw new FailedPredicateException(this, "precpred(_ctx, 1)");
-					setState(87);
+					setState(232);
 					((MultiplicativeExprContext)_localctx).op = _input.LT(1);
 					_la = _input.LA(1);
-					if ( !(_la==MUL || _la==DIV) ) {
+					if ( !((((_la) & ~0x3f) == 0 && ((1L << _la) & ((1L << MUL) | (1L << DIV) | (1L << MOD))) != 0)) ) {
 						((MultiplicativeExprContext)_localctx).op = (Token)_errHandler.recoverInline(this);
 					}
 					else {
@@ -756,14 +1759,14 @@ public class KaraffeParser extends Parser {
 						_errHandler.reportMatch(this);
 						consume();
 					}
-					setState(88);
+					setState(233);
 					((MultiplicativeExprContext)_localctx).right = primary(0);
 					}
 					} 
 				}
-				setState(93);
+				setState(238);
 				_errHandler.sync(this);
-				_alt = getInterpreter().adaptivePredict(_input,6,_ctx);
+				_alt = getInterpreter().adaptivePredict(_input,23,_ctx);
 			}
 			}
 		}
@@ -778,212 +1781,61 @@ public class KaraffeParser extends Parser {
 		return _localctx;
 	}
 
-	public static class PrimaryContext extends ParserRuleContext {
-		public PrimaryContext owner;
-		public ExprContext nested;
-		public Token methodName;
-		public LiteralContext literal() {
-			return getRuleContext(LiteralContext.class,0);
+	public static class PowExprContext extends ParserRuleContext {
+		public UnaryExprContext left;
+		public Token op;
+		public PowExprContext right;
+		public UnaryExprContext unaryExpr() {
+			return getRuleContext(UnaryExprContext.class,0);
 		}
-		public TerminalNode LPAREN() { return getToken(KaraffeParser.LPAREN, 0); }
-		public TerminalNode RPAREN() { return getToken(KaraffeParser.RPAREN, 0); }
-		public ExprContext expr() {
-			return getRuleContext(ExprContext.class,0);
+		public TerminalNode POW() { return getToken(KaraffeParser.POW, 0); }
+		public PowExprContext powExpr() {
+			return getRuleContext(PowExprContext.class,0);
 		}
-		public TerminalNode Identifier() { return getToken(KaraffeParser.Identifier, 0); }
-		public ArgumentListContext argumentList() {
-			return getRuleContext(ArgumentListContext.class,0);
-		}
-		public TerminalNode DOT() { return getToken(KaraffeParser.DOT, 0); }
-		public PrimaryContext primary() {
-			return getRuleContext(PrimaryContext.class,0);
-		}
-		public PrimaryContext(ParserRuleContext parent, int invokingState) {
+		public PowExprContext(ParserRuleContext parent, int invokingState) {
 			super(parent, invokingState);
 		}
-		@Override public int getRuleIndex() { return RULE_primary; }
+		@Override public int getRuleIndex() { return RULE_powExpr; }
 		@Override
 		public void enterRule(ParseTreeListener listener) {
-			if ( listener instanceof KaraffeListener ) ((KaraffeListener)listener).enterPrimary(this);
+			if ( listener instanceof KaraffeListener ) ((KaraffeListener)listener).enterPowExpr(this);
 		}
 		@Override
 		public void exitRule(ParseTreeListener listener) {
-			if ( listener instanceof KaraffeListener ) ((KaraffeListener)listener).exitPrimary(this);
+			if ( listener instanceof KaraffeListener ) ((KaraffeListener)listener).exitPowExpr(this);
 		}
 		@Override
 		public <T> T accept(ParseTreeVisitor<? extends T> visitor) {
-			if ( visitor instanceof KaraffeVisitor ) return ((KaraffeVisitor<? extends T>)visitor).visitPrimary(this);
+			if ( visitor instanceof KaraffeVisitor ) return ((KaraffeVisitor<? extends T>)visitor).visitPowExpr(this);
 			else return visitor.visitChildren(this);
 		}
 	}
 
-	public final PrimaryContext primary() throws RecognitionException {
-		return primary(0);
-	}
-
-	private PrimaryContext primary(int _p) throws RecognitionException {
-		ParserRuleContext _parentctx = _ctx;
-		int _parentState = getState();
-		PrimaryContext _localctx = new PrimaryContext(_ctx, _parentState);
-		PrimaryContext _prevctx = _localctx;
-		int _startState = 22;
-		enterRecursionRule(_localctx, 22, RULE_primary, _p);
-		int _la;
+	public final PowExprContext powExpr() throws RecognitionException {
+		PowExprContext _localctx = new PowExprContext(_ctx, getState());
+		enterRule(_localctx, 42, RULE_powExpr);
 		try {
-			int _alt;
-			enterOuterAlt(_localctx, 1);
-			{
-			setState(106);
+			setState(244);
 			_errHandler.sync(this);
-			switch (_input.LA(1)) {
-			case IntegerLiteral:
+			switch ( getInterpreter().adaptivePredict(_input,24,_ctx) ) {
+			case 1:
+				enterOuterAlt(_localctx, 1);
 				{
-				setState(95);
-				literal();
+				setState(239);
+				unaryExpr();
 				}
 				break;
-			case LPAREN:
+			case 2:
+				enterOuterAlt(_localctx, 2);
 				{
-				setState(96);
-				match(LPAREN);
-				setState(97);
-				((PrimaryContext)_localctx).nested = expr();
-				setState(98);
-				match(RPAREN);
+				setState(240);
+				((PowExprContext)_localctx).left = unaryExpr();
+				setState(241);
+				((PowExprContext)_localctx).op = match(POW);
+				setState(242);
+				((PowExprContext)_localctx).right = powExpr();
 				}
 				break;
-			case Identifier:
-				{
-				setState(100);
-				((PrimaryContext)_localctx).methodName = match(Identifier);
-				setState(101);
-				match(LPAREN);
-				setState(103);
-				_errHandler.sync(this);
-				_la = _input.LA(1);
-				if ((((_la) & ~0x3f) == 0 && ((1L << _la) & ((1L << LPAREN) | (1L << IntegerLiteral) | (1L << Identifier))) != 0)) {
-					{
-					setState(102);
-					argumentList();
-					}
-				}
-
-				setState(105);
-				match(RPAREN);
-				}
-				break;
-			default:
-				throw new NoViableAltException(this);
-			}
-			_ctx.stop = _input.LT(-1);
-			setState(118);
-			_errHandler.sync(this);
-			_alt = getInterpreter().adaptivePredict(_input,10,_ctx);
-			while ( _alt!=2 && _alt!=org.antlr.v4.runtime.atn.ATN.INVALID_ALT_NUMBER ) {
-				if ( _alt==1 ) {
-					if ( _parseListeners!=null ) triggerExitRuleEvent();
-					_prevctx = _localctx;
-					{
-					{
-					_localctx = new PrimaryContext(_parentctx, _parentState);
-					_localctx.owner = _prevctx;
-					_localctx.owner = _prevctx;
-					pushNewRecursionContext(_localctx, _startState, RULE_primary);
-					setState(108);
-					if (!(precpred(_ctx, 1))) throw new FailedPredicateException(this, "precpred(_ctx, 1)");
-					setState(109);
-					match(DOT);
-					setState(110);
-					((PrimaryContext)_localctx).methodName = match(Identifier);
-					setState(111);
-					match(LPAREN);
-					setState(113);
-					_errHandler.sync(this);
-					_la = _input.LA(1);
-					if ((((_la) & ~0x3f) == 0 && ((1L << _la) & ((1L << LPAREN) | (1L << IntegerLiteral) | (1L << Identifier))) != 0)) {
-						{
-						setState(112);
-						argumentList();
-						}
-					}
-
-					setState(115);
-					match(RPAREN);
-					}
-					} 
-				}
-				setState(120);
-				_errHandler.sync(this);
-				_alt = getInterpreter().adaptivePredict(_input,10,_ctx);
-			}
-			}
-		}
-		catch (RecognitionException re) {
-			_localctx.exception = re;
-			_errHandler.reportError(this, re);
-			_errHandler.recover(this, re);
-		}
-		finally {
-			unrollRecursionContexts(_parentctx);
-		}
-		return _localctx;
-	}
-
-	public static class ArgumentListContext extends ParserRuleContext {
-		public List<ExprContext> expr() {
-			return getRuleContexts(ExprContext.class);
-		}
-		public ExprContext expr(int i) {
-			return getRuleContext(ExprContext.class,i);
-		}
-		public List<TerminalNode> COMMA() { return getTokens(KaraffeParser.COMMA); }
-		public TerminalNode COMMA(int i) {
-			return getToken(KaraffeParser.COMMA, i);
-		}
-		public ArgumentListContext(ParserRuleContext parent, int invokingState) {
-			super(parent, invokingState);
-		}
-		@Override public int getRuleIndex() { return RULE_argumentList; }
-		@Override
-		public void enterRule(ParseTreeListener listener) {
-			if ( listener instanceof KaraffeListener ) ((KaraffeListener)listener).enterArgumentList(this);
-		}
-		@Override
-		public void exitRule(ParseTreeListener listener) {
-			if ( listener instanceof KaraffeListener ) ((KaraffeListener)listener).exitArgumentList(this);
-		}
-		@Override
-		public <T> T accept(ParseTreeVisitor<? extends T> visitor) {
-			if ( visitor instanceof KaraffeVisitor ) return ((KaraffeVisitor<? extends T>)visitor).visitArgumentList(this);
-			else return visitor.visitChildren(this);
-		}
-	}
-
-	public final ArgumentListContext argumentList() throws RecognitionException {
-		ArgumentListContext _localctx = new ArgumentListContext(_ctx, getState());
-		enterRule(_localctx, 24, RULE_argumentList);
-		int _la;
-		try {
-			enterOuterAlt(_localctx, 1);
-			{
-			setState(121);
-			expr();
-			setState(126);
-			_errHandler.sync(this);
-			_la = _input.LA(1);
-			while (_la==COMMA) {
-				{
-				{
-				setState(122);
-				match(COMMA);
-				setState(123);
-				expr();
-				}
-				}
-				setState(128);
-				_errHandler.sync(this);
-				_la = _input.LA(1);
-			}
 			}
 		}
 		catch (RecognitionException re) {
@@ -997,10 +1849,446 @@ public class KaraffeParser extends Parser {
 		return _localctx;
 	}
 
-	public static class LiteralContext extends ParserRuleContext {
-		public IntLiteralContext intLiteral() {
-			return getRuleContext(IntLiteralContext.class,0);
+	public static class UnaryExprContext extends ParserRuleContext {
+		public Token op;
+		public UnaryExprContext exp;
+		public PrimaryContext primary() {
+			return getRuleContext(PrimaryContext.class,0);
 		}
+		public TerminalNode BANG() { return getToken(KaraffeParser.BANG, 0); }
+		public UnaryExprContext unaryExpr() {
+			return getRuleContext(UnaryExprContext.class,0);
+		}
+		public TerminalNode PLUS() { return getToken(KaraffeParser.PLUS, 0); }
+		public TerminalNode MINUS() { return getToken(KaraffeParser.MINUS, 0); }
+		public UnaryExprContext(ParserRuleContext parent, int invokingState) {
+			super(parent, invokingState);
+		}
+		@Override public int getRuleIndex() { return RULE_unaryExpr; }
+		@Override
+		public void enterRule(ParseTreeListener listener) {
+			if ( listener instanceof KaraffeListener ) ((KaraffeListener)listener).enterUnaryExpr(this);
+		}
+		@Override
+		public void exitRule(ParseTreeListener listener) {
+			if ( listener instanceof KaraffeListener ) ((KaraffeListener)listener).exitUnaryExpr(this);
+		}
+		@Override
+		public <T> T accept(ParseTreeVisitor<? extends T> visitor) {
+			if ( visitor instanceof KaraffeVisitor ) return ((KaraffeVisitor<? extends T>)visitor).visitUnaryExpr(this);
+			else return visitor.visitChildren(this);
+		}
+	}
+
+	public final UnaryExprContext unaryExpr() throws RecognitionException {
+		UnaryExprContext _localctx = new UnaryExprContext(_ctx, getState());
+		enterRule(_localctx, 44, RULE_unaryExpr);
+		try {
+			setState(253);
+			_errHandler.sync(this);
+			switch (_input.LA(1)) {
+			case NEW:
+			case LPAREN:
+			case StringLiteral:
+			case IntegerLiteral:
+			case Identifier:
+				enterOuterAlt(_localctx, 1);
+				{
+				setState(246);
+				primary(0);
+				}
+				break;
+			case BANG:
+				enterOuterAlt(_localctx, 2);
+				{
+				setState(247);
+				((UnaryExprContext)_localctx).op = match(BANG);
+				setState(248);
+				((UnaryExprContext)_localctx).exp = unaryExpr();
+				}
+				break;
+			case PLUS:
+				enterOuterAlt(_localctx, 3);
+				{
+				setState(249);
+				((UnaryExprContext)_localctx).op = match(PLUS);
+				setState(250);
+				((UnaryExprContext)_localctx).exp = unaryExpr();
+				}
+				break;
+			case MINUS:
+				enterOuterAlt(_localctx, 4);
+				{
+				setState(251);
+				((UnaryExprContext)_localctx).op = match(MINUS);
+				setState(252);
+				((UnaryExprContext)_localctx).exp = unaryExpr();
+				}
+				break;
+			default:
+				throw new NoViableAltException(this);
+			}
+		}
+		catch (RecognitionException re) {
+			_localctx.exception = re;
+			_errHandler.reportError(this, re);
+			_errHandler.recover(this, re);
+		}
+		finally {
+			exitRule();
+		}
+		return _localctx;
+	}
+
+	public static class PrimaryContext extends ParserRuleContext {
+		public PrimaryContext(ParserRuleContext parent, int invokingState) {
+			super(parent, invokingState);
+		}
+		@Override public int getRuleIndex() { return RULE_primary; }
+	 
+		public PrimaryContext() { }
+		public void copyFrom(PrimaryContext ctx) {
+			super.copyFrom(ctx);
+		}
+	}
+	public static class CastContext extends PrimaryContext {
+		public PrimaryContext castTarget;
+		public Token typeName;
+		public TerminalNode AS() { return getToken(KaraffeParser.AS, 0); }
+		public PrimaryContext primary() {
+			return getRuleContext(PrimaryContext.class,0);
+		}
+		public TerminalNode Identifier() { return getToken(KaraffeParser.Identifier, 0); }
+		public CastContext(PrimaryContext ctx) { copyFrom(ctx); }
+		@Override
+		public void enterRule(ParseTreeListener listener) {
+			if ( listener instanceof KaraffeListener ) ((KaraffeListener)listener).enterCast(this);
+		}
+		@Override
+		public void exitRule(ParseTreeListener listener) {
+			if ( listener instanceof KaraffeListener ) ((KaraffeListener)listener).exitCast(this);
+		}
+		@Override
+		public <T> T accept(ParseTreeVisitor<? extends T> visitor) {
+			if ( visitor instanceof KaraffeVisitor ) return ((KaraffeVisitor<? extends T>)visitor).visitCast(this);
+			else return visitor.visitChildren(this);
+		}
+	}
+	public static class ObjectMethodInvocationContext extends PrimaryContext {
+		public PrimaryContext owner;
+		public Token methodName;
+		public ExprContext args;
+		public TerminalNode DOT() { return getToken(KaraffeParser.DOT, 0); }
+		public TerminalNode LPAREN() { return getToken(KaraffeParser.LPAREN, 0); }
+		public TerminalNode RPAREN() { return getToken(KaraffeParser.RPAREN, 0); }
+		public PrimaryContext primary() {
+			return getRuleContext(PrimaryContext.class,0);
+		}
+		public TerminalNode Identifier() { return getToken(KaraffeParser.Identifier, 0); }
+		public ExprContext expr() {
+			return getRuleContext(ExprContext.class,0);
+		}
+		public ObjectMethodInvocationContext(PrimaryContext ctx) { copyFrom(ctx); }
+		@Override
+		public void enterRule(ParseTreeListener listener) {
+			if ( listener instanceof KaraffeListener ) ((KaraffeListener)listener).enterObjectMethodInvocation(this);
+		}
+		@Override
+		public void exitRule(ParseTreeListener listener) {
+			if ( listener instanceof KaraffeListener ) ((KaraffeListener)listener).exitObjectMethodInvocation(this);
+		}
+		@Override
+		public <T> T accept(ParseTreeVisitor<? extends T> visitor) {
+			if ( visitor instanceof KaraffeVisitor ) return ((KaraffeVisitor<? extends T>)visitor).visitObjectMethodInvocation(this);
+			else return visitor.visitChildren(this);
+		}
+	}
+	public static class LitContext extends PrimaryContext {
+		public LiteralContext lit;
+		public LiteralContext literal() {
+			return getRuleContext(LiteralContext.class,0);
+		}
+		public LitContext(PrimaryContext ctx) { copyFrom(ctx); }
+		@Override
+		public void enterRule(ParseTreeListener listener) {
+			if ( listener instanceof KaraffeListener ) ((KaraffeListener)listener).enterLit(this);
+		}
+		@Override
+		public void exitRule(ParseTreeListener listener) {
+			if ( listener instanceof KaraffeListener ) ((KaraffeListener)listener).exitLit(this);
+		}
+		@Override
+		public <T> T accept(ParseTreeVisitor<? extends T> visitor) {
+			if ( visitor instanceof KaraffeVisitor ) return ((KaraffeVisitor<? extends T>)visitor).visitLit(this);
+			else return visitor.visitChildren(this);
+		}
+	}
+	public static class NestedExprContext extends PrimaryContext {
+		public Token nested;
+		public ExprContext expr() {
+			return getRuleContext(ExprContext.class,0);
+		}
+		public TerminalNode RPAREN() { return getToken(KaraffeParser.RPAREN, 0); }
+		public TerminalNode LPAREN() { return getToken(KaraffeParser.LPAREN, 0); }
+		public NestedExprContext(PrimaryContext ctx) { copyFrom(ctx); }
+		@Override
+		public void enterRule(ParseTreeListener listener) {
+			if ( listener instanceof KaraffeListener ) ((KaraffeListener)listener).enterNestedExpr(this);
+		}
+		@Override
+		public void exitRule(ParseTreeListener listener) {
+			if ( listener instanceof KaraffeListener ) ((KaraffeListener)listener).exitNestedExpr(this);
+		}
+		@Override
+		public <T> T accept(ParseTreeVisitor<? extends T> visitor) {
+			if ( visitor instanceof KaraffeVisitor ) return ((KaraffeVisitor<? extends T>)visitor).visitNestedExpr(this);
+			else return visitor.visitChildren(this);
+		}
+	}
+	public static class NewInstanceContext extends PrimaryContext {
+		public Token newInstance;
+		public Token typeName;
+		public ExprContext args;
+		public TerminalNode LPAREN() { return getToken(KaraffeParser.LPAREN, 0); }
+		public TerminalNode RPAREN() { return getToken(KaraffeParser.RPAREN, 0); }
+		public TerminalNode NEW() { return getToken(KaraffeParser.NEW, 0); }
+		public TerminalNode Identifier() { return getToken(KaraffeParser.Identifier, 0); }
+		public ExprContext expr() {
+			return getRuleContext(ExprContext.class,0);
+		}
+		public NewInstanceContext(PrimaryContext ctx) { copyFrom(ctx); }
+		@Override
+		public void enterRule(ParseTreeListener listener) {
+			if ( listener instanceof KaraffeListener ) ((KaraffeListener)listener).enterNewInstance(this);
+		}
+		@Override
+		public void exitRule(ParseTreeListener listener) {
+			if ( listener instanceof KaraffeListener ) ((KaraffeListener)listener).exitNewInstance(this);
+		}
+		@Override
+		public <T> T accept(ParseTreeVisitor<? extends T> visitor) {
+			if ( visitor instanceof KaraffeVisitor ) return ((KaraffeVisitor<? extends T>)visitor).visitNewInstance(this);
+			else return visitor.visitChildren(this);
+		}
+	}
+	public static class ExprNameContext extends PrimaryContext {
+		public Token exprName;
+		public TerminalNode Identifier() { return getToken(KaraffeParser.Identifier, 0); }
+		public ExprNameContext(PrimaryContext ctx) { copyFrom(ctx); }
+		@Override
+		public void enterRule(ParseTreeListener listener) {
+			if ( listener instanceof KaraffeListener ) ((KaraffeListener)listener).enterExprName(this);
+		}
+		@Override
+		public void exitRule(ParseTreeListener listener) {
+			if ( listener instanceof KaraffeListener ) ((KaraffeListener)listener).exitExprName(this);
+		}
+		@Override
+		public <T> T accept(ParseTreeVisitor<? extends T> visitor) {
+			if ( visitor instanceof KaraffeVisitor ) return ((KaraffeVisitor<? extends T>)visitor).visitExprName(this);
+			else return visitor.visitChildren(this);
+		}
+	}
+	public static class LocalMethodInvocationContext extends PrimaryContext {
+		public Token methodName;
+		public ExprContext args;
+		public TerminalNode LPAREN() { return getToken(KaraffeParser.LPAREN, 0); }
+		public TerminalNode RPAREN() { return getToken(KaraffeParser.RPAREN, 0); }
+		public TerminalNode Identifier() { return getToken(KaraffeParser.Identifier, 0); }
+		public ExprContext expr() {
+			return getRuleContext(ExprContext.class,0);
+		}
+		public LocalMethodInvocationContext(PrimaryContext ctx) { copyFrom(ctx); }
+		@Override
+		public void enterRule(ParseTreeListener listener) {
+			if ( listener instanceof KaraffeListener ) ((KaraffeListener)listener).enterLocalMethodInvocation(this);
+		}
+		@Override
+		public void exitRule(ParseTreeListener listener) {
+			if ( listener instanceof KaraffeListener ) ((KaraffeListener)listener).exitLocalMethodInvocation(this);
+		}
+		@Override
+		public <T> T accept(ParseTreeVisitor<? extends T> visitor) {
+			if ( visitor instanceof KaraffeVisitor ) return ((KaraffeVisitor<? extends T>)visitor).visitLocalMethodInvocation(this);
+			else return visitor.visitChildren(this);
+		}
+	}
+
+	public final PrimaryContext primary() throws RecognitionException {
+		return primary(0);
+	}
+
+	private PrimaryContext primary(int _p) throws RecognitionException {
+		ParserRuleContext _parentctx = _ctx;
+		int _parentState = getState();
+		PrimaryContext _localctx = new PrimaryContext(_ctx, _parentState);
+		PrimaryContext _prevctx = _localctx;
+		int _startState = 46;
+		enterRecursionRule(_localctx, 46, RULE_primary, _p);
+		int _la;
+		try {
+			int _alt;
+			enterOuterAlt(_localctx, 1);
+			{
+			setState(275);
+			_errHandler.sync(this);
+			switch ( getInterpreter().adaptivePredict(_input,28,_ctx) ) {
+			case 1:
+				{
+				_localctx = new LocalMethodInvocationContext(_localctx);
+				_ctx = _localctx;
+				_prevctx = _localctx;
+
+				setState(256);
+				((LocalMethodInvocationContext)_localctx).methodName = match(Identifier);
+				setState(257);
+				match(LPAREN);
+				setState(259);
+				_errHandler.sync(this);
+				_la = _input.LA(1);
+				if ((((_la) & ~0x3f) == 0 && ((1L << _la) & ((1L << WHILE) | (1L << NEW) | (1L << IF) | (1L << BANG) | (1L << PLUS) | (1L << MINUS) | (1L << LPAREN) | (1L << LBRACE) | (1L << StringLiteral) | (1L << IntegerLiteral) | (1L << Identifier))) != 0)) {
+					{
+					setState(258);
+					((LocalMethodInvocationContext)_localctx).args = expr();
+					}
+				}
+
+				setState(261);
+				match(RPAREN);
+				}
+				break;
+			case 2:
+				{
+				_localctx = new NewInstanceContext(_localctx);
+				_ctx = _localctx;
+				_prevctx = _localctx;
+				setState(262);
+				((NewInstanceContext)_localctx).newInstance = match(NEW);
+				setState(263);
+				((NewInstanceContext)_localctx).typeName = match(Identifier);
+				setState(264);
+				match(LPAREN);
+				setState(266);
+				_errHandler.sync(this);
+				_la = _input.LA(1);
+				if ((((_la) & ~0x3f) == 0 && ((1L << _la) & ((1L << WHILE) | (1L << NEW) | (1L << IF) | (1L << BANG) | (1L << PLUS) | (1L << MINUS) | (1L << LPAREN) | (1L << LBRACE) | (1L << StringLiteral) | (1L << IntegerLiteral) | (1L << Identifier))) != 0)) {
+					{
+					setState(265);
+					((NewInstanceContext)_localctx).args = expr();
+					}
+				}
+
+				setState(268);
+				match(RPAREN);
+				}
+				break;
+			case 3:
+				{
+				_localctx = new LitContext(_localctx);
+				_ctx = _localctx;
+				_prevctx = _localctx;
+				setState(269);
+				((LitContext)_localctx).lit = literal();
+				}
+				break;
+			case 4:
+				{
+				_localctx = new ExprNameContext(_localctx);
+				_ctx = _localctx;
+				_prevctx = _localctx;
+				setState(270);
+				((ExprNameContext)_localctx).exprName = match(Identifier);
+				}
+				break;
+			case 5:
+				{
+				_localctx = new NestedExprContext(_localctx);
+				_ctx = _localctx;
+				_prevctx = _localctx;
+				setState(271);
+				((NestedExprContext)_localctx).nested = match(LPAREN);
+				setState(272);
+				expr();
+				setState(273);
+				match(RPAREN);
+				}
+				break;
+			}
+			_ctx.stop = _input.LT(-1);
+			setState(290);
+			_errHandler.sync(this);
+			_alt = getInterpreter().adaptivePredict(_input,31,_ctx);
+			while ( _alt!=2 && _alt!=org.antlr.v4.runtime.atn.ATN.INVALID_ALT_NUMBER ) {
+				if ( _alt==1 ) {
+					if ( _parseListeners!=null ) triggerExitRuleEvent();
+					_prevctx = _localctx;
+					{
+					setState(288);
+					_errHandler.sync(this);
+					switch ( getInterpreter().adaptivePredict(_input,30,_ctx) ) {
+					case 1:
+						{
+						_localctx = new CastContext(new PrimaryContext(_parentctx, _parentState));
+						((CastContext)_localctx).castTarget = _prevctx;
+						pushNewRecursionContext(_localctx, _startState, RULE_primary);
+						setState(277);
+						if (!(precpred(_ctx, 7))) throw new FailedPredicateException(this, "precpred(_ctx, 7)");
+						setState(278);
+						match(AS);
+						setState(279);
+						((CastContext)_localctx).typeName = match(Identifier);
+						}
+						break;
+					case 2:
+						{
+						_localctx = new ObjectMethodInvocationContext(new PrimaryContext(_parentctx, _parentState));
+						((ObjectMethodInvocationContext)_localctx).owner = _prevctx;
+						pushNewRecursionContext(_localctx, _startState, RULE_primary);
+						setState(280);
+						if (!(precpred(_ctx, 5))) throw new FailedPredicateException(this, "precpred(_ctx, 5)");
+						setState(281);
+						match(DOT);
+						setState(282);
+						((ObjectMethodInvocationContext)_localctx).methodName = match(Identifier);
+						setState(283);
+						match(LPAREN);
+						setState(285);
+						_errHandler.sync(this);
+						_la = _input.LA(1);
+						if ((((_la) & ~0x3f) == 0 && ((1L << _la) & ((1L << WHILE) | (1L << NEW) | (1L << IF) | (1L << BANG) | (1L << PLUS) | (1L << MINUS) | (1L << LPAREN) | (1L << LBRACE) | (1L << StringLiteral) | (1L << IntegerLiteral) | (1L << Identifier))) != 0)) {
+							{
+							setState(284);
+							((ObjectMethodInvocationContext)_localctx).args = expr();
+							}
+						}
+
+						setState(287);
+						match(RPAREN);
+						}
+						break;
+					}
+					} 
+				}
+				setState(292);
+				_errHandler.sync(this);
+				_alt = getInterpreter().adaptivePredict(_input,31,_ctx);
+			}
+			}
+		}
+		catch (RecognitionException re) {
+			_localctx.exception = re;
+			_errHandler.reportError(this, re);
+			_errHandler.recover(this, re);
+		}
+		finally {
+			unrollRecursionContexts(_parentctx);
+		}
+		return _localctx;
+	}
+
+	public static class LiteralContext extends ParserRuleContext {
+		public TerminalNode IntegerLiteral() { return getToken(KaraffeParser.IntegerLiteral, 0); }
+		public TerminalNode StringLiteral() { return getToken(KaraffeParser.StringLiteral, 0); }
 		public LiteralContext(ParserRuleContext parent, int invokingState) {
 			super(parent, invokingState);
 		}
@@ -1022,54 +2310,21 @@ public class KaraffeParser extends Parser {
 
 	public final LiteralContext literal() throws RecognitionException {
 		LiteralContext _localctx = new LiteralContext(_ctx, getState());
-		enterRule(_localctx, 26, RULE_literal);
+		enterRule(_localctx, 48, RULE_literal);
+		int _la;
 		try {
 			enterOuterAlt(_localctx, 1);
 			{
-			setState(129);
-			intLiteral();
+			setState(293);
+			_la = _input.LA(1);
+			if ( !(_la==StringLiteral || _la==IntegerLiteral) ) {
+			_errHandler.recoverInline(this);
 			}
-		}
-		catch (RecognitionException re) {
-			_localctx.exception = re;
-			_errHandler.reportError(this, re);
-			_errHandler.recover(this, re);
-		}
-		finally {
-			exitRule();
-		}
-		return _localctx;
-	}
-
-	public static class IntLiteralContext extends ParserRuleContext {
-		public TerminalNode IntegerLiteral() { return getToken(KaraffeParser.IntegerLiteral, 0); }
-		public IntLiteralContext(ParserRuleContext parent, int invokingState) {
-			super(parent, invokingState);
-		}
-		@Override public int getRuleIndex() { return RULE_intLiteral; }
-		@Override
-		public void enterRule(ParseTreeListener listener) {
-			if ( listener instanceof KaraffeListener ) ((KaraffeListener)listener).enterIntLiteral(this);
-		}
-		@Override
-		public void exitRule(ParseTreeListener listener) {
-			if ( listener instanceof KaraffeListener ) ((KaraffeListener)listener).exitIntLiteral(this);
-		}
-		@Override
-		public <T> T accept(ParseTreeVisitor<? extends T> visitor) {
-			if ( visitor instanceof KaraffeVisitor ) return ((KaraffeVisitor<? extends T>)visitor).visitIntLiteral(this);
-			else return visitor.visitChildren(this);
-		}
-	}
-
-	public final IntLiteralContext intLiteral() throws RecognitionException {
-		IntLiteralContext _localctx = new IntLiteralContext(_ctx, getState());
-		enterRule(_localctx, 28, RULE_intLiteral);
-		try {
-			enterOuterAlt(_localctx, 1);
-			{
-			setState(131);
-			match(IntegerLiteral);
+			else {
+				if ( _input.LA(1)==Token.EOF ) matchedEOF = true;
+				_errHandler.reportMatch(this);
+				consume();
+			}
 			}
 		}
 		catch (RecognitionException re) {
@@ -1085,71 +2340,195 @@ public class KaraffeParser extends Parser {
 
 	public boolean sempred(RuleContext _localctx, int ruleIndex, int predIndex) {
 		switch (ruleIndex) {
-		case 9:
+		case 13:
+			return exprList_sempred((ExprListContext)_localctx, predIndex);
+		case 14:
+			return rangeExpr_sempred((RangeExprContext)_localctx, predIndex);
+		case 15:
+			return orExpr_sempred((OrExprContext)_localctx, predIndex);
+		case 16:
+			return andExpr_sempred((AndExprContext)_localctx, predIndex);
+		case 17:
+			return equalityExpr_sempred((EqualityExprContext)_localctx, predIndex);
+		case 18:
+			return conditionalExpr_sempred((ConditionalExprContext)_localctx, predIndex);
+		case 19:
 			return additiveExpr_sempred((AdditiveExprContext)_localctx, predIndex);
-		case 10:
+		case 20:
 			return multiplicativeExpr_sempred((MultiplicativeExprContext)_localctx, predIndex);
-		case 11:
+		case 23:
 			return primary_sempred((PrimaryContext)_localctx, predIndex);
 		}
 		return true;
 	}
-	private boolean additiveExpr_sempred(AdditiveExprContext _localctx, int predIndex) {
+	private boolean exprList_sempred(ExprListContext _localctx, int predIndex) {
 		switch (predIndex) {
 		case 0:
 			return precpred(_ctx, 1);
 		}
 		return true;
 	}
-	private boolean multiplicativeExpr_sempred(MultiplicativeExprContext _localctx, int predIndex) {
+	private boolean rangeExpr_sempred(RangeExprContext _localctx, int predIndex) {
 		switch (predIndex) {
 		case 1:
 			return precpred(_ctx, 1);
 		}
 		return true;
 	}
-	private boolean primary_sempred(PrimaryContext _localctx, int predIndex) {
+	private boolean orExpr_sempred(OrExprContext _localctx, int predIndex) {
 		switch (predIndex) {
 		case 2:
 			return precpred(_ctx, 1);
 		}
 		return true;
 	}
+	private boolean andExpr_sempred(AndExprContext _localctx, int predIndex) {
+		switch (predIndex) {
+		case 3:
+			return precpred(_ctx, 1);
+		}
+		return true;
+	}
+	private boolean equalityExpr_sempred(EqualityExprContext _localctx, int predIndex) {
+		switch (predIndex) {
+		case 4:
+			return precpred(_ctx, 1);
+		}
+		return true;
+	}
+	private boolean conditionalExpr_sempred(ConditionalExprContext _localctx, int predIndex) {
+		switch (predIndex) {
+		case 5:
+			return precpred(_ctx, 1);
+		}
+		return true;
+	}
+	private boolean additiveExpr_sempred(AdditiveExprContext _localctx, int predIndex) {
+		switch (predIndex) {
+		case 6:
+			return precpred(_ctx, 1);
+		}
+		return true;
+	}
+	private boolean multiplicativeExpr_sempred(MultiplicativeExprContext _localctx, int predIndex) {
+		switch (predIndex) {
+		case 7:
+			return precpred(_ctx, 1);
+		}
+		return true;
+	}
+	private boolean primary_sempred(PrimaryContext _localctx, int predIndex) {
+		switch (predIndex) {
+		case 8:
+			return precpred(_ctx, 7);
+		case 9:
+			return precpred(_ctx, 5);
+		}
+		return true;
+	}
 
 	public static final String _serializedATN =
-		"\3\u608b\ua72a\u8133\ub9ed\u417c\u3be7\u7786\u5964\3\21\u0088\4\2\t\2"+
-		"\4\3\t\3\4\4\t\4\4\5\t\5\4\6\t\6\4\7\t\7\4\b\t\b\4\t\t\t\4\n\t\n\4\13"+
-		"\t\13\4\f\t\f\4\r\t\r\4\16\t\16\4\17\t\17\4\20\t\20\3\2\7\2\"\n\2\f\2"+
-		"\16\2%\13\2\3\3\3\3\3\4\3\4\3\5\3\5\3\5\5\5.\n\5\3\6\3\6\7\6\62\n\6\f"+
-		"\6\16\6\65\13\6\3\6\3\6\5\69\n\6\3\7\3\7\3\b\3\b\3\b\7\b@\n\b\f\b\16\b"+
-		"C\13\b\3\b\3\b\3\t\3\t\3\n\3\n\3\13\3\13\3\13\3\13\3\13\3\13\7\13Q\n\13"+
-		"\f\13\16\13T\13\13\3\f\3\f\3\f\3\f\3\f\3\f\7\f\\\n\f\f\f\16\f_\13\f\3"+
-		"\r\3\r\3\r\3\r\3\r\3\r\3\r\3\r\3\r\5\rj\n\r\3\r\5\rm\n\r\3\r\3\r\3\r\3"+
-		"\r\3\r\5\rt\n\r\3\r\7\rw\n\r\f\r\16\rz\13\r\3\16\3\16\3\16\7\16\177\n"+
-		"\16\f\16\16\16\u0082\13\16\3\17\3\17\3\20\3\20\3\20\2\5\24\26\30\21\2"+
-		"\4\6\b\n\f\16\20\22\24\26\30\32\34\36\2\4\3\2\6\7\3\2\b\t\2\u0085\2#\3"+
-		"\2\2\2\4&\3\2\2\2\6(\3\2\2\2\b*\3\2\2\2\n8\3\2\2\2\f:\3\2\2\2\16<\3\2"+
-		"\2\2\20F\3\2\2\2\22H\3\2\2\2\24J\3\2\2\2\26U\3\2\2\2\30l\3\2\2\2\32{\3"+
-		"\2\2\2\34\u0083\3\2\2\2\36\u0085\3\2\2\2 \"\5\4\3\2! \3\2\2\2\"%\3\2\2"+
-		"\2#!\3\2\2\2#$\3\2\2\2$\3\3\2\2\2%#\3\2\2\2&\'\5\6\4\2\'\5\3\2\2\2()\5"+
-		"\b\5\2)\7\3\2\2\2*+\7\3\2\2+-\7\20\2\2,.\5\n\6\2-,\3\2\2\2-.\3\2\2\2."+
-		"\t\3\2\2\2/\63\7\n\2\2\60\62\5\f\7\2\61\60\3\2\2\2\62\65\3\2\2\2\63\61"+
-		"\3\2\2\2\63\64\3\2\2\2\64\66\3\2\2\2\65\63\3\2\2\2\669\7\13\2\2\679\5"+
-		"\f\7\28/\3\2\2\28\67\3\2\2\29\13\3\2\2\2:;\5\16\b\2;\r\3\2\2\2<=\7\4\2"+
-		"\2=A\7\n\2\2>@\5\20\t\2?>\3\2\2\2@C\3\2\2\2A?\3\2\2\2AB\3\2\2\2BD\3\2"+
-		"\2\2CA\3\2\2\2DE\7\13\2\2E\17\3\2\2\2FG\5\22\n\2G\21\3\2\2\2HI\5\24\13"+
-		"\2I\23\3\2\2\2JK\b\13\1\2KL\5\26\f\2LR\3\2\2\2MN\f\3\2\2NO\t\2\2\2OQ\5"+
-		"\26\f\2PM\3\2\2\2QT\3\2\2\2RP\3\2\2\2RS\3\2\2\2S\25\3\2\2\2TR\3\2\2\2"+
-		"UV\b\f\1\2VW\5\30\r\2W]\3\2\2\2XY\f\3\2\2YZ\t\3\2\2Z\\\5\30\r\2[X\3\2"+
-		"\2\2\\_\3\2\2\2][\3\2\2\2]^\3\2\2\2^\27\3\2\2\2_]\3\2\2\2`a\b\r\1\2am"+
-		"\5\34\17\2bc\7\f\2\2cd\5\22\n\2de\7\r\2\2em\3\2\2\2fg\7\20\2\2gi\7\f\2"+
-		"\2hj\5\32\16\2ih\3\2\2\2ij\3\2\2\2jk\3\2\2\2km\7\r\2\2l`\3\2\2\2lb\3\2"+
-		"\2\2lf\3\2\2\2mx\3\2\2\2no\f\3\2\2op\7\16\2\2pq\7\20\2\2qs\7\f\2\2rt\5"+
-		"\32\16\2sr\3\2\2\2st\3\2\2\2tu\3\2\2\2uw\7\r\2\2vn\3\2\2\2wz\3\2\2\2x"+
-		"v\3\2\2\2xy\3\2\2\2y\31\3\2\2\2zx\3\2\2\2{\u0080\5\22\n\2|}\7\5\2\2}\177"+
-		"\5\22\n\2~|\3\2\2\2\177\u0082\3\2\2\2\u0080~\3\2\2\2\u0080\u0081\3\2\2"+
-		"\2\u0081\33\3\2\2\2\u0082\u0080\3\2\2\2\u0083\u0084\5\36\20\2\u0084\35"+
-		"\3\2\2\2\u0085\u0086\7\17\2\2\u0086\37\3\2\2\2\16#-\638AR]ilsx\u0080";
+		"\3\u608b\ua72a\u8133\ub9ed\u417c\u3be7\u7786\u5964\3/\u012a\4\2\t\2\4"+
+		"\3\t\3\4\4\t\4\4\5\t\5\4\6\t\6\4\7\t\7\4\b\t\b\4\t\t\t\4\n\t\n\4\13\t"+
+		"\13\4\f\t\f\4\r\t\r\4\16\t\16\4\17\t\17\4\20\t\20\4\21\t\21\4\22\t\22"+
+		"\4\23\t\23\4\24\t\24\4\25\t\25\4\26\t\26\4\27\t\27\4\30\t\30\4\31\t\31"+
+		"\4\32\t\32\3\2\7\2\66\n\2\f\2\16\29\13\2\3\2\3\2\3\3\3\3\3\4\3\4\3\5\3"+
+		"\5\3\5\5\5D\n\5\3\6\3\6\5\6H\n\6\3\6\3\6\5\6L\n\6\3\7\3\7\5\7P\n\7\3\b"+
+		"\3\b\3\t\3\t\3\t\3\n\3\n\5\nY\n\n\3\n\3\n\5\n]\n\n\3\13\3\13\5\13a\n\13"+
+		"\3\f\3\f\3\f\3\f\3\f\3\f\5\fi\n\f\3\f\3\f\3\f\5\fn\n\f\3\r\3\r\3\r\3\r"+
+		"\3\r\7\ru\n\r\f\r\16\rx\13\r\3\r\3\r\7\r|\n\r\f\r\16\r\177\13\r\5\r\u0081"+
+		"\n\r\3\r\3\r\3\r\3\r\3\r\7\r\u0088\n\r\f\r\16\r\u008b\13\r\3\r\3\r\7\r"+
+		"\u008f\n\r\f\r\16\r\u0092\13\r\3\r\3\r\5\r\u0096\n\r\3\16\3\16\3\17\3"+
+		"\17\3\17\3\17\3\17\3\17\7\17\u00a0\n\17\f\17\16\17\u00a3\13\17\3\20\3"+
+		"\20\3\20\3\20\3\20\3\20\7\20\u00ab\n\20\f\20\16\20\u00ae\13\20\3\21\3"+
+		"\21\3\21\3\21\3\21\3\21\7\21\u00b6\n\21\f\21\16\21\u00b9\13\21\3\22\3"+
+		"\22\3\22\3\22\3\22\3\22\7\22\u00c1\n\22\f\22\16\22\u00c4\13\22\3\23\3"+
+		"\23\3\23\3\23\3\23\3\23\7\23\u00cc\n\23\f\23\16\23\u00cf\13\23\3\24\3"+
+		"\24\3\24\3\24\3\24\3\24\7\24\u00d7\n\24\f\24\16\24\u00da\13\24\3\25\3"+
+		"\25\3\25\3\25\3\25\3\25\7\25\u00e2\n\25\f\25\16\25\u00e5\13\25\3\26\3"+
+		"\26\3\26\3\26\3\26\3\26\7\26\u00ed\n\26\f\26\16\26\u00f0\13\26\3\27\3"+
+		"\27\3\27\3\27\3\27\5\27\u00f7\n\27\3\30\3\30\3\30\3\30\3\30\3\30\3\30"+
+		"\5\30\u0100\n\30\3\31\3\31\3\31\3\31\5\31\u0106\n\31\3\31\3\31\3\31\3"+
+		"\31\3\31\5\31\u010d\n\31\3\31\3\31\3\31\3\31\3\31\3\31\3\31\5\31\u0116"+
+		"\n\31\3\31\3\31\3\31\3\31\3\31\3\31\3\31\3\31\5\31\u0120\n\31\3\31\7\31"+
+		"\u0123\n\31\f\31\16\31\u0126\13\31\3\32\3\32\3\32\2\13\34\36 \"$&(*\60"+
+		"\33\2\4\6\b\n\f\16\20\22\24\26\30\32\34\36 \"$&(*,.\60\62\2\b\3\2\16\17"+
+		"\4\2\f\r\24\25\3\2\26\31\3\2\34\35\3\2\36 \3\2,-\2\u0138\2\67\3\2\2\2"+
+		"\4<\3\2\2\2\6>\3\2\2\2\b@\3\2\2\2\nK\3\2\2\2\fM\3\2\2\2\16Q\3\2\2\2\20"+
+		"S\3\2\2\2\22\\\3\2\2\2\24^\3\2\2\2\26m\3\2\2\2\30\u0095\3\2\2\2\32\u0097"+
+		"\3\2\2\2\34\u0099\3\2\2\2\36\u00a4\3\2\2\2 \u00af\3\2\2\2\"\u00ba\3\2"+
+		"\2\2$\u00c5\3\2\2\2&\u00d0\3\2\2\2(\u00db\3\2\2\2*\u00e6\3\2\2\2,\u00f6"+
+		"\3\2\2\2.\u00ff\3\2\2\2\60\u0115\3\2\2\2\62\u0127\3\2\2\2\64\66\5\4\3"+
+		"\2\65\64\3\2\2\2\669\3\2\2\2\67\65\3\2\2\2\678\3\2\2\28:\3\2\2\29\67\3"+
+		"\2\2\2:;\7\2\2\3;\3\3\2\2\2<=\5\6\4\2=\5\3\2\2\2>?\5\b\5\2?\7\3\2\2\2"+
+		"@A\7\3\2\2AC\7.\2\2BD\5\n\6\2CB\3\2\2\2CD\3\2\2\2D\t\3\2\2\2EG\7&\2\2"+
+		"FH\5\f\7\2GF\3\2\2\2GH\3\2\2\2HI\3\2\2\2IL\7\'\2\2JL\5\16\b\2KE\3\2\2"+
+		"\2KJ\3\2\2\2L\13\3\2\2\2MO\5\16\b\2NP\5\f\7\2ON\3\2\2\2OP\3\2\2\2P\r\3"+
+		"\2\2\2QR\5\20\t\2R\17\3\2\2\2ST\7\5\2\2TU\5\22\n\2U\21\3\2\2\2VX\7&\2"+
+		"\2WY\5\24\13\2XW\3\2\2\2XY\3\2\2\2YZ\3\2\2\2Z]\7\'\2\2[]\5\26\f\2\\V\3"+
+		"\2\2\2\\[\3\2\2\2]\23\3\2\2\2^`\5\26\f\2_a\5\24\13\2`_\3\2\2\2`a\3\2\2"+
+		"\2a\25\3\2\2\2bn\5\30\r\2cd\7\t\2\2de\7.\2\2eh\7.\2\2fg\7!\2\2gi\5\30"+
+		"\r\2hf\3\2\2\2hi\3\2\2\2in\3\2\2\2jk\7.\2\2kl\7!\2\2ln\5\30\r\2mb\3\2"+
+		"\2\2mc\3\2\2\2mj\3\2\2\2n\27\3\2\2\2op\7\20\2\2pq\7$\2\2qr\5\30\r\2rv"+
+		"\7%\2\2su\5\26\f\2ts\3\2\2\2ux\3\2\2\2vt\3\2\2\2vw\3\2\2\2w\u0080\3\2"+
+		"\2\2xv\3\2\2\2y}\7\6\2\2z|\5\26\f\2{z\3\2\2\2|\177\3\2\2\2}{\3\2\2\2}"+
+		"~\3\2\2\2~\u0081\3\2\2\2\177}\3\2\2\2\u0080y\3\2\2\2\u0080\u0081\3\2\2"+
+		"\2\u0081\u0096\3\2\2\2\u0082\u0083\7\4\2\2\u0083\u0084\7$\2\2\u0084\u0085"+
+		"\5\30\r\2\u0085\u0089\7%\2\2\u0086\u0088\5\26\f\2\u0087\u0086\3\2\2\2"+
+		"\u0088\u008b\3\2\2\2\u0089\u0087\3\2\2\2\u0089\u008a\3\2\2\2\u008a\u0096"+
+		"\3\2\2\2\u008b\u0089\3\2\2\2\u008c\u0090\7&\2\2\u008d\u008f\5\26\f\2\u008e"+
+		"\u008d\3\2\2\2\u008f\u0092\3\2\2\2\u0090\u008e\3\2\2\2\u0090\u0091\3\2"+
+		"\2\2\u0091\u0093\3\2\2\2\u0092\u0090\3\2\2\2\u0093\u0096\7\'\2\2\u0094"+
+		"\u0096\5\32\16\2\u0095o\3\2\2\2\u0095\u0082\3\2\2\2\u0095\u008c\3\2\2"+
+		"\2\u0095\u0094\3\2\2\2\u0096\31\3\2\2\2\u0097\u0098\5\34\17\2\u0098\33"+
+		"\3\2\2\2\u0099\u009a\b\17\1\2\u009a\u009b\5\36\20\2\u009b\u00a1\3\2\2"+
+		"\2\u009c\u009d\f\3\2\2\u009d\u009e\7\33\2\2\u009e\u00a0\5\36\20\2\u009f"+
+		"\u009c\3\2\2\2\u00a0\u00a3\3\2\2\2\u00a1\u009f\3\2\2\2\u00a1\u00a2\3\2"+
+		"\2\2\u00a2\35\3\2\2\2\u00a3\u00a1\3\2\2\2\u00a4\u00a5\b\20\1\2\u00a5\u00a6"+
+		"\5 \21\2\u00a6\u00ac\3\2\2\2\u00a7\u00a8\f\3\2\2\u00a8\u00a9\t\2\2\2\u00a9"+
+		"\u00ab\5 \21\2\u00aa\u00a7\3\2\2\2\u00ab\u00ae\3\2\2\2\u00ac\u00aa\3\2"+
+		"\2\2\u00ac\u00ad\3\2\2\2\u00ad\37\3\2\2\2\u00ae\u00ac\3\2\2\2\u00af\u00b0"+
+		"\b\21\1\2\u00b0\u00b1\5\"\22\2\u00b1\u00b7\3\2\2\2\u00b2\u00b3\f\3\2\2"+
+		"\u00b3\u00b4\7\23\2\2\u00b4\u00b6\5\"\22\2\u00b5\u00b2\3\2\2\2\u00b6\u00b9"+
+		"\3\2\2\2\u00b7\u00b5\3\2\2\2\u00b7\u00b8\3\2\2\2\u00b8!\3\2\2\2\u00b9"+
+		"\u00b7\3\2\2\2\u00ba\u00bb\b\22\1\2\u00bb\u00bc\5$\23\2\u00bc\u00c2\3"+
+		"\2\2\2\u00bd\u00be\f\3\2\2\u00be\u00bf\7\22\2\2\u00bf\u00c1\5$\23\2\u00c0"+
+		"\u00bd\3\2\2\2\u00c1\u00c4\3\2\2\2\u00c2\u00c0\3\2\2\2\u00c2\u00c3\3\2"+
+		"\2\2\u00c3#\3\2\2\2\u00c4\u00c2\3\2\2\2\u00c5\u00c6\b\23\1\2\u00c6\u00c7"+
+		"\5&\24\2\u00c7\u00cd\3\2\2\2\u00c8\u00c9\f\3\2\2\u00c9\u00ca\t\3\2\2\u00ca"+
+		"\u00cc\5&\24\2\u00cb\u00c8\3\2\2\2\u00cc\u00cf\3\2\2\2\u00cd\u00cb\3\2"+
+		"\2\2\u00cd\u00ce\3\2\2\2\u00ce%\3\2\2\2\u00cf\u00cd\3\2\2\2\u00d0\u00d1"+
+		"\b\24\1\2\u00d1\u00d2\5(\25\2\u00d2\u00d8\3\2\2\2\u00d3\u00d4\f\3\2\2"+
+		"\u00d4\u00d5\t\4\2\2\u00d5\u00d7\5(\25\2\u00d6\u00d3\3\2\2\2\u00d7\u00da"+
+		"\3\2\2\2\u00d8\u00d6\3\2\2\2\u00d8\u00d9\3\2\2\2\u00d9\'\3\2\2\2\u00da"+
+		"\u00d8\3\2\2\2\u00db\u00dc\b\25\1\2\u00dc\u00dd\5*\26\2\u00dd\u00e3\3"+
+		"\2\2\2\u00de\u00df\f\3\2\2\u00df\u00e0\t\5\2\2\u00e0\u00e2\5*\26\2\u00e1"+
+		"\u00de\3\2\2\2\u00e2\u00e5\3\2\2\2\u00e3\u00e1\3\2\2\2\u00e3\u00e4\3\2"+
+		"\2\2\u00e4)\3\2\2\2\u00e5\u00e3\3\2\2\2\u00e6\u00e7\b\26\1\2\u00e7\u00e8"+
+		"\5,\27\2\u00e8\u00ee\3\2\2\2\u00e9\u00ea\f\3\2\2\u00ea\u00eb\t\6\2\2\u00eb"+
+		"\u00ed\5\60\31\2\u00ec\u00e9\3\2\2\2\u00ed\u00f0\3\2\2\2\u00ee\u00ec\3"+
+		"\2\2\2\u00ee\u00ef\3\2\2\2\u00ef+\3\2\2\2\u00f0\u00ee\3\2\2\2\u00f1\u00f7"+
+		"\5.\30\2\u00f2\u00f3\5.\30\2\u00f3\u00f4\7\21\2\2\u00f4\u00f5\5,\27\2"+
+		"\u00f5\u00f7\3\2\2\2\u00f6\u00f1\3\2\2\2\u00f6\u00f2\3\2\2\2\u00f7-\3"+
+		"\2\2\2\u00f8\u0100\5\60\31\2\u00f9\u00fa\7\32\2\2\u00fa\u0100\5.\30\2"+
+		"\u00fb\u00fc\7\34\2\2\u00fc\u0100\5.\30\2\u00fd\u00fe\7\35\2\2\u00fe\u0100"+
+		"\5.\30\2\u00ff\u00f8\3\2\2\2\u00ff\u00f9\3\2\2\2\u00ff\u00fb\3\2\2\2\u00ff"+
+		"\u00fd\3\2\2\2\u0100/\3\2\2\2\u0101\u0102\b\31\1\2\u0102\u0103\7.\2\2"+
+		"\u0103\u0105\7$\2\2\u0104\u0106\5\30\r\2\u0105\u0104\3\2\2\2\u0105\u0106"+
+		"\3\2\2\2\u0106\u0107\3\2\2\2\u0107\u0116\7%\2\2\u0108\u0109\7\b\2\2\u0109"+
+		"\u010a\7.\2\2\u010a\u010c\7$\2\2\u010b\u010d\5\30\r\2\u010c\u010b\3\2"+
+		"\2\2\u010c\u010d\3\2\2\2\u010d\u010e\3\2\2\2\u010e\u0116\7%\2\2\u010f"+
+		"\u0116\5\62\32\2\u0110\u0116\7.\2\2\u0111\u0112\7$\2\2\u0112\u0113\5\30"+
+		"\r\2\u0113\u0114\7%\2\2\u0114\u0116\3\2\2\2\u0115\u0101\3\2\2\2\u0115"+
+		"\u0108\3\2\2\2\u0115\u010f\3\2\2\2\u0115\u0110\3\2\2\2\u0115\u0111\3\2"+
+		"\2\2\u0116\u0124\3\2\2\2\u0117\u0118\f\t\2\2\u0118\u0119\7\n\2\2\u0119"+
+		"\u0123\7.\2\2\u011a\u011b\f\7\2\2\u011b\u011c\7+\2\2\u011c\u011d\7.\2"+
+		"\2\u011d\u011f\7$\2\2\u011e\u0120\5\30\r\2\u011f\u011e\3\2\2\2\u011f\u0120"+
+		"\3\2\2\2\u0120\u0121\3\2\2\2\u0121\u0123\7%\2\2\u0122\u0117\3\2\2\2\u0122"+
+		"\u011a\3\2\2\2\u0123\u0126\3\2\2\2\u0124\u0122\3\2\2\2\u0124\u0125\3\2"+
+		"\2\2\u0125\61\3\2\2\2\u0126\u0124\3\2\2\2\u0127\u0128\t\7\2\2\u0128\63"+
+		"\3\2\2\2\"\67CGKOX\\`hmv}\u0080\u0089\u0090\u0095\u00a1\u00ac\u00b7\u00c2"+
+		"\u00cd\u00d8\u00e3\u00ee\u00f6\u00ff\u0105\u010c\u0115\u011f\u0122\u0124";
 	public static final ATN _ATN =
 		new ATNDeserializer().deserialize(_serializedATN.toCharArray());
 	static {

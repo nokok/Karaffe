@@ -63,6 +63,12 @@ public abstract class AbstractTree implements Tree {
 
     @Override
     public void setOrReplaceChild(int index, Tree child) {
+        if (this.children.size() < index) {
+            int diff = index - this.children.size();
+            for (int i = 0; i < diff; i++) {
+                this.children.add(null);
+            }
+        }
         this.children.set(index, child);
     }
 

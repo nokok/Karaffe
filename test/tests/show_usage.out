@@ -2,13 +2,14 @@ Usage:
  krfc <options> <sources>
 
 Available options are:
- --debug (-d)         : Set output log levels DEBUG and higher
- --diag               : show diagnostic data
- --help (-h, -help)   : Show usage
- --info (-i)          : Set output log levels INFO and higher
- --print-last-tree    : Print tree
- --print-tree         : Print Tree every phase
+ --diag              : Show diagnostic data
+ --print-last-tree   : Print tree
+ --print-tree        : Print Tree every phase
  --show-tasks        : Print all tasks
- --stop-after <phase> : Stop and Print tree at <phase>
- --trace              : Set output log levels TRACE and higher
- --version (-v)       : Print compiler version and exit
+ --skip-pkg-check    : Skip checking of correspondence between package decl and file structure
+ --stop-after <task> : Stop and Print tree at <task>
+ --trace             : Set output log levels TRACE and higher
+ -d (--debug)        : Set output log levels DEBUG and higher
+ -h (--help, -help)  : Show usage
+ -i (--info)         : Set output log levels INFO and higher
+ -v (--version)      : Print compiler version and exit

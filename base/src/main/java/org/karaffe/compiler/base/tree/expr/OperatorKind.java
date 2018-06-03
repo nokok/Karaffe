@@ -5,5 +5,12 @@ public enum OperatorKind {
     MUL,
     DIV,
     ERROR,
-    PLUS
+    MOD,
+    LT,
+    GT,
+    PLUS,
+    LE,
+    GE,
+    EQEQ,
+    NOTEQ;
 }

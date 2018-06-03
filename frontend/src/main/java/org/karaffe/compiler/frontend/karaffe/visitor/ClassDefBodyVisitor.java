@@ -11,15 +11,6 @@ import java.util.stream.Collectors;
 public class ClassDefBodyVisitor extends KaraffeBaseVisitor<List<Statement>> {
     @Override
     public List<Statement> visitClassDefBody(KaraffeParser.ClassDefBodyContext ctx) {
-        List<Statement> body = new ArrayList<>();
-
-        if (ctx.classDefMember() != null) {
-            ClassDefMemberVisitor classDefMemberVisitor = new ClassDefMemberVisitor();
-            body.addAll(ctx.classDefMember().stream().map(t -> t.accept(classDefMemberVisitor)).collect(Collectors.toList()));
-        } else {
-            throw new IllegalStateException("classDefMember is null");
-        }
-
-        return body;
+        throw new UnsupportedOperationException();
     }
 }

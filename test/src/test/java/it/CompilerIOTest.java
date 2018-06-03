@@ -1,6 +1,6 @@
 package it;
 
-import org.junit.Ignore;
+import org.junit.Test;
 import org.karaffe.compiler.launcher.KaraffeCompilerLauncher;
 
 import java.io.File;
@@ -116,13 +116,21 @@ public class CompilerIOTest {
             argsL.add(testCase.toString());
         }
 
+        String currentDir;
+        try {
+            currentDir = System.getProperty("user.dir");
+        } catch (SecurityException e) {
+            e.printStackTrace(this.defaultStdErr);
+            return -1;
+        }
+
         try (PrintStream output = new PrintStream(destFile)) {
-            String compilerPath = Paths.get("build", "install", "Karaffe-compiler", "bin", "krfc").toString();
-            this.defaultStdOut.println(compilerPath);
+            Path projectDir = new File(currentDir).getParentFile().toPath();
+            String compilerPath = projectDir.resolve(Paths.get("build", "install", "Karaffe-compiler", "bin", "krfc")).toAbsolutePath().toString();
+            this.defaultStdOut.println("CompilerPath : " + compilerPath);
             ProcessBuilder builder = new ProcessBuilder(compilerPath, String.join(" ", argsL));
             Process process = builder.start();
-            int exitValue = process.exitValue();
-            assertEquals(0, exitValue);
+            process.waitFor();
 
             KaraffeCompilerLauncher launcher = new KaraffeCompilerLauncher(System.in, output, output);
             this.defaultStdOut.println("Running...: krfc " + String.join(" ", argsL));
@@ -170,7 +178,7 @@ public class CompilerIOTest {
                     String actualOutputs = String.join("\n", actualLines);
                     this.errorMsgBuilder.append("Command: krfc ").append(testCase.getFileName()).append(System.lineSeparator());
                     this.errorMsgBuilder.append("Failed: ").append(destFile.getAbsolutePath()).append(System.lineSeparator());
-                    this.errorMsgBuilder.append("TestCase file: ").append(testCase).append(System.lineSeparator());
+                    this.errorMsgBuilder.append("TestCase file: ").append(testCase.toAbsolutePath()).append(System.lineSeparator());
                     this.errorMsgBuilder.append("Expected output file: ").append(expectedOutputFile.toAbsolutePath()).append(System.lineSeparator());
                     this.errorMsgBuilder.append("===Expected===").append(System.lineSeparator());
                     this.errorMsgBuilder.append(expectedOutputs).append(System.lineSeparator());
@@ -209,7 +217,7 @@ public class CompilerIOTest {
         }
     }
 
-    @Ignore
+    @Test
     public void runTestCase() throws Exception {
         Path tmpDirPath = setUpTmpDestDir();
 
