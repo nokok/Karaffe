@@ -22,12 +22,12 @@ public class Atom extends AbstractTree {
         this.value = "";
     }
 
-    public void setValue(String value) {
-        this.value = Objects.requireNonNull(value);
-    }
-
     public String getValue() {
         return value;
+    }
+
+    public void setValue(String value) {
+        this.value = Objects.requireNonNull(value);
     }
 
     @Override

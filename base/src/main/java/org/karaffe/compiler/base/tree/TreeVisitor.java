@@ -75,7 +75,7 @@ public interface TreeVisitor<R, P> {
     R visitPrimitiveDoubleType(Type type, P p);
 
     R visitNoType(Type type, P p);
-    
+
     R visitCompileUnit(Tree.CompilationUnit tree, P p);
 
     R visitTemplate(Tree.Template template, P p);

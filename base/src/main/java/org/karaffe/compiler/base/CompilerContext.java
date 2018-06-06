@@ -17,11 +17,11 @@ import java.util.stream.Stream;
 
 public class CompilerContext {
 
-    private String state = "";
     private final CommandLineOptions commandLineOptions;
     private final Set<SourceFile> sourceFiles;
     private final Set<Lexer> lexers;
     private final Set<ParserRuleContext> contexts;
+    private String state = "";
     private Tree compilationUnit;
     private boolean hasInvalidCmdLineArg;
 
@@ -99,14 +99,13 @@ public class CompilerContext {
         return this.contexts.stream();
     }
 
-    public void setCompilationUnit(Tree compilationUnit) {
-        this.compilationUnit = Objects.requireNonNull(compilationUnit);
-    }
-
     public Tree getCompilationUnit() {
         return this.compilationUnit;
     }
 
+    public void setCompilationUnit(Tree compilationUnit) {
+        this.compilationUnit = Objects.requireNonNull(compilationUnit);
+    }
 
     @SuppressWarnings("unused")
     public void printUsage(PrintStream printStream) {

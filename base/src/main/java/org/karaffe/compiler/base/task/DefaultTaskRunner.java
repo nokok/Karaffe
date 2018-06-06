@@ -16,9 +16,9 @@ public class DefaultTaskRunner implements TaskRunner {
 
     private final CompilerContext context;
     private final List<Task> tasks = new ArrayList<>();
-    private boolean isExecuting = false;
     private final TaskQueue delayedTasks = new TaskQueue();
     private final TaskQueue finallyTasks = new TaskQueue();
+    private boolean isExecuting = false;
 
     public DefaultTaskRunner(CompilerContext context) {
         this.context = context;

@@ -9,6 +9,16 @@ public enum Platform {
 
     INSTANCE,;
 
+    public static final String ANSI_RESET = "\u001B[0m";
+    public static final String ANSI_BOLD = "\u001B[1m";
+    public static final String ANSI_BLACK = "\u001B[30m";
+    public static final String ANSI_RED = "\u001B[31m";
+    public static final String ANSI_GREEN = "\u001B[32m";
+    public static final String ANSI_YELLOW = "\u001B[33m";
+    public static final String ANSI_BLUE = "\u001B[34m";
+    public static final String ANSI_PURPLE = "\u001B[35m";
+    public static final String ANSI_CYAN = "\u001B[36m";
+    public static final String ANSI_WHITE = "\u001B[37m";
     private static PrintStream defaultStdOut = System.out;
     private static PrintStream stdOut = defaultStdOut;
     private static PrintStream defaultStdErr = System.err;
@@ -24,20 +34,20 @@ public enum Platform {
         return Platform.stdOut;
     }
 
-    public static PrintStream getStdErr() {
-        return Platform.stdErr;
-    }
-
     public static void setStdOut(PrintStream stdOut) {
         Platform.stdOut = stdOut;
     }
 
-    public static void setStdIn(InputStream stdIn) {
-        Platform.stdIn = stdIn;
+    public static PrintStream getStdErr() {
+        return Platform.stdErr;
     }
 
     public static void setStdErr(PrintStream stdErr) {
         Platform.stdErr = stdErr;
+    }
+
+    public static void setStdIn(InputStream stdIn) {
+        Platform.stdIn = stdIn;
     }
 
     public static void stdOut() {
@@ -51,17 +61,6 @@ public enum Platform {
     public static void stdErr(Object msg) {
         stdErr.println(msg);
     }
-
-    public static final String ANSI_RESET = "\u001B[0m";
-    public static final String ANSI_BOLD = "\u001B[1m";
-    public static final String ANSI_BLACK = "\u001B[30m";
-    public static final String ANSI_RED = "\u001B[31m";
-    public static final String ANSI_GREEN = "\u001B[32m";
-    public static final String ANSI_YELLOW = "\u001B[33m";
-    public static final String ANSI_BLUE = "\u001B[34m";
-    public static final String ANSI_PURPLE = "\u001B[35m";
-    public static final String ANSI_CYAN = "\u001B[36m";
-    public static final String ANSI_WHITE = "\u001B[37m";
 
     public static String mkGreen(Object msg) {
         return ANSI_GREEN + Objects.toString(msg) + ANSI_RESET;

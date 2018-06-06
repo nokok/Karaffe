@@ -15,10 +15,9 @@ public interface Tree extends LocatableElement, NameableElement, ModifiableEleme
 
     void setKind(TreeKind kind);
 
-    void setParent(Tree tree);
-
     Tree getParent();
 
+    void setParent(Tree tree);
 
     class CompilationUnit extends AbstractTree implements Tree {
 
@@ -55,12 +54,12 @@ public interface Tree extends LocatableElement, NameableElement, ModifiableEleme
             this.interfaces = new ArrayList<>();
         }
 
-        public void setSuperClass(Type superClass) {
-            this.superClass = Objects.requireNonNull(superClass);
-        }
-
         public Type getSuperClass() {
             return superClass;
+        }
+
+        public void setSuperClass(Type superClass) {
+            this.superClass = Objects.requireNonNull(superClass);
         }
 
         public void addInterface(Type type) {

@@ -57,13 +57,13 @@ public abstract class AbstractTree implements Tree {
     }
 
     @Override
-    public void setParent(Tree tree) {
-        this.parent = tree;
+    public Tree getParent() {
+        return this.parent;
     }
 
     @Override
-    public Tree getParent() {
-        return this.parent;
+    public void setParent(Tree tree) {
+        this.parent = tree;
     }
 
     @Override
@@ -88,13 +88,13 @@ public abstract class AbstractTree implements Tree {
     }
 
     @Override
-    public void setPos(Position pos) {
-        this.position = Objects.requireNonNull(pos);
+    public Position getPos() {
+        return this.position;
     }
 
     @Override
-    public Position getPos() {
-        return this.position;
+    public void setPos(Position pos) {
+        this.position = Objects.requireNonNull(pos);
     }
 
     @Override
@@ -113,12 +113,12 @@ public abstract class AbstractTree implements Tree {
     }
 
     @Override
-    public void setName(Name name) {
-        this.name = Objects.requireNonNull(name);
+    public Name getName() {
+        return this.name;
     }
 
     @Override
-    public Name getName() {
-        return this.name;
+    public void setName(Name name) {
+        this.name = Objects.requireNonNull(name);
     }
 }

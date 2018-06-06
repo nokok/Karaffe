@@ -1,14 +1,11 @@
 package org.karaffe.compiler.base.tree.term;
 
-import org.karaffe.compiler.base.pos.Position;
 import org.karaffe.compiler.base.tree.AbstractTree;
 import org.karaffe.compiler.base.tree.Tree;
 import org.karaffe.compiler.base.tree.TreeKind;
 import org.karaffe.compiler.base.tree.TreeVisitor;
 import org.karaffe.compiler.base.tree.expr.Operator;
 import org.karaffe.compiler.base.tree.modifier.Modifier;
-import org.karaffe.compiler.base.tree.type.Type;
-import org.karaffe.compiler.base.tree.type.Types;
 
 import java.util.List;
 import java.util.Objects;
@@ -95,12 +92,12 @@ class SimpleName extends AbstractTree implements Name {
     }
 
     @Override
-    public void setName(Name name) {
+    public Name getName() {
         throw new UnsupportedOperationException();
     }
 
     @Override
-    public Name getName() {
+    public void setName(Name name) {
         throw new UnsupportedOperationException();
     }
 

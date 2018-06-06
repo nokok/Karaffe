@@ -23,7 +23,7 @@ public class SimpleOperator extends AbstractTree implements Operator {
 
     @Override
     public <R, P> R accept(TreeVisitor<R, P> visitor, P p) {
-        return visitor.visitOperator((Operator)this, p);
+        return visitor.visitOperator((Operator) this, p);
     }
 
     @Override

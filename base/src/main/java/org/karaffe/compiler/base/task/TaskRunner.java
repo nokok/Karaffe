@@ -7,6 +7,30 @@ import java.util.function.Supplier;
 public interface TaskRunner {
 
     /**
+     * デフォルトのストラテジを用いてタスクランナーを生成します。
+     *
+     * @param context コンパイラコンテキスト
+     * @return タスクランナー
+     */
+    public static TaskRunner newDefaultTaskRunner(CompilerContext context) {
+        return newTaskRunner(context, RecoveryStrategy.FAIL_FAST);
+    }
+
+    /**
+     * 指定されたストラテジを用いてタスクランナーを生成します。
+     *
+     * @param context  コンパイラコンテキスト
+     * @param strategy リカバリーストラテジ
+     * @return タスクランナー
+     */
+    public static TaskRunner newTaskRunner(CompilerContext context, RecoveryStrategy strategy) {
+        if (strategy == RecoveryStrategy.FAIL_FAST) {
+            return new DefaultTaskRunner(context);
+        }
+        throw new UnsupportedOperationException("未実装です");
+    }
+
+    /**
      * タスクを待機状態で追加します
      *
      * @param task 追加するタスク
@@ -34,28 +58,4 @@ public interface TaskRunner {
      * タスクの実行中は実行時例外 {@link RuntimeTaskException} がスローされる場合があります。
      */
     RunnerResult runAll();
-
-    /**
-     * デフォルトのストラテジを用いてタスクランナーを生成します。
-     *
-     * @param context コンパイラコンテキスト
-     * @return タスクランナー
-     */
-    public static TaskRunner newDefaultTaskRunner(CompilerContext context) {
-        return newTaskRunner(context, RecoveryStrategy.FAIL_FAST);
-    }
-
-    /**
-     * 指定されたストラテジを用いてタスクランナーを生成します。
-     *
-     * @param context  コンパイラコンテキスト
-     * @param strategy リカバリーストラテジ
-     * @return タスクランナー
-     */
-    public static TaskRunner newTaskRunner(CompilerContext context, RecoveryStrategy strategy) {
-        if (strategy == RecoveryStrategy.FAIL_FAST) {
-            return new DefaultTaskRunner(context);
-        }
-        throw new UnsupportedOperationException("未実装です");
-    }
 }
