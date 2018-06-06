@@ -13,7 +13,7 @@ public class Errors {
     }
 
     public static void syntaxError(Position position, String msg) {
-        reportError("Syntax Error at : " + position);
+        reportError("Syntax Error at " + position);
         reportError(msg);
     }
 
