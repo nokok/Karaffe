@@ -1,13 +1,12 @@
 package org.karaffe.compiler.base.tree.def;
 
 import org.karaffe.compiler.base.tree.Tree;
+import org.karaffe.compiler.base.tree.expr.Tuple;
 import org.karaffe.compiler.base.tree.modifier.Modifiers;
 import org.karaffe.compiler.base.tree.term.Name;
 import org.karaffe.compiler.base.tree.term.Terms;
 import org.karaffe.compiler.base.tree.type.Type;
 import org.karaffe.compiler.base.tree.type.Types;
-
-import java.util.List;
 
 public interface Defs {
 
@@ -41,8 +40,10 @@ public interface Defs {
         return classDef;
     }
 
-    static Def methodDef(Tree parent, String methodName, Type returnType, List<Tree> parameters) {
+    static Def methodDef(Tree parent, String methodName, Type returnType, Tuple parameters) {
         SimpleDef methodDef = new SimpleDef(parent, DefKind.METHOD);
+        methodDef.setType(returnType);
+        methodDef.setOrReplaceChild(0, parameters);
         methodDef.setName(Terms.varName(methodName));
         return methodDef;
     }
@@ -52,7 +53,15 @@ public interface Defs {
     }
 
     static Def mainMethodDef(Tree parent) {
-        Def methodDef = methodDef(parent, "main", Types.jvoid(), );
+        Tuple params = new Tuple();
+        params.addChild(Types.array(Types.simple(Terms.typeName("String"))));
+        Def methodDef = methodDef(
+                parent,
+                "main",
+                Types.jvoid(),
+                params
+        );
+        params.setParent(methodDef);
         methodDef.addModifier(Modifiers.modPublic(methodDef));
         methodDef.addModifier(Modifiers.modStatic(methodDef));
         methodDef.setType(Types.jvoid());
