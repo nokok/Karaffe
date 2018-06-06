@@ -113,10 +113,10 @@ public class PositionTest {
 
     @Test
     public void testMergeLineColPos() {
-        this.runTest("1:5~2:0 at A", this.pos1_5.merge(this.pos2_0));
-        this.runTest("1:5~2:0 at A", this.pos2_0.merge(this.pos1_5));
-        this.runTest("1:0~1:2 at A", this.pos1_0.merge(this.pos1_2));
-        this.runTest("1:0~1:2 at A", this.pos1_2.merge(this.pos1_0));
+        this.runTest("1:5~2:0:A", this.pos1_5.merge(this.pos2_0));
+        this.runTest("1:5~2:0:A", this.pos2_0.merge(this.pos1_5));
+        this.runTest("1:0~1:2:A", this.pos1_0.merge(this.pos1_2));
+        this.runTest("1:0~1:2:A", this.pos1_2.merge(this.pos1_0));
     }
 
     @Test
@@ -126,7 +126,7 @@ public class PositionTest {
         final Position pos1 = Position.noPos();
         final Position pos2 = Position.of("source", 2, 30);
         final Position result = pos1.merge(pos2);
-        assertEquals("2:30 at source", result.toString());
+        assertEquals("2:30:source", result.toString());
     }
 
     @Test

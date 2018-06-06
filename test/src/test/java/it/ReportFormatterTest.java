@@ -28,7 +28,7 @@ public class ReportFormatterTest {
         final Report report = Report.createError("Title", Position.of("source.krf", 1, 11), "Message", part, foundAndRequired);
         final ReportFormatter formatter = new ReportFormatter();
         final StringBuilder expected = new StringBuilder();
-        expected.append("--+ #1 [ERROR] Title in 1:11 at source.krf").append(System.lineSeparator());
+        expected.append("--+ #1 [ERROR] Title in 1:11:source.krf").append(System.lineSeparator());
         expected.append("1 |   println(1)").append(System.lineSeparator());
         expected.append("  |           ^").append(System.lineSeparator());
         expected.append("  | Message").append(System.lineSeparator());

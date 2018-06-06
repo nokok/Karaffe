@@ -1,2 +1,2 @@
-#REGEX Syntax Error at 1:0 .*InvalidExpr1.krf$
-mismatched input '1' expecting {<EOF>, 'class'}
+#REGEX Error : Syntax Error at 1:0:.*InvalidExpr1.krf$
+Error : mismatched input '1' expecting {<EOF>, 'class'}
