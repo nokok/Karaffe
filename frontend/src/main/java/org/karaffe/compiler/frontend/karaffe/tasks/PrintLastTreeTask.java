@@ -26,7 +26,6 @@ import org.karaffe.compiler.base.util.Platform;
 import java.util.Collections;
 import java.util.LinkedHashMap;
 import java.util.Map;
-import java.util.stream.Collectors;
 
 import static java.util.stream.Collectors.toList;
 
@@ -73,7 +72,7 @@ public class PrintLastTreeTask extends AbstractReadOnlyTask implements NoDescrip
 
     @Override
     public boolean isRunnable(CompilerContext context) {
-        return context.getCmdLineOptions().showLastTree;
+        return context.getCmdLineOptions().showLastTree && context.getCompilationUnit() != null;
     }
 
     static class MapVisitor extends TreeVisitorAdapter<Map<String, Object>, Void> {
@@ -212,24 +211,36 @@ public class PrintLastTreeTask extends AbstractReadOnlyTask implements NoDescrip
         @Override
         public Map<String, Object> visitLetDef(Def simpleDef, Void aVoid) {
             Map<String, Object> map = new LinkedHashMap<>();
+            map.put("kind", simpleDef.getDefKind());
+            map.put("name", simpleDef.getName().accept(this, null));
+            map.put("type", simpleDef.asType().accept(this, null));
+            map.put("expr", simpleDef.getChildren().stream().map(t -> t.accept(this, null)).collect(toList()));
             return map;
         }
 
         @Override
         public Map<String, Object> visitAssignmentDef(Def simpleDef, Void aVoid) {
             Map<String, Object> map = new LinkedHashMap<>();
+            map.put("kind", simpleDef.getDefKind());
+            map.put("target", simpleDef.getName().accept(this, null));
+            map.put("expr", simpleDef.getChildren().stream().map(i -> i.accept(this, null)).collect(toList()));
             return map;
         }
 
         @Override
         public Map<String, Object> visitClassDef(Def def, Void aVoid) {
             Map<String, Object> map = new LinkedHashMap<>();
+            map.put("kind", def.getDefKind());
+            map.put("mod", def.getModifiers().stream().map(m -> m.accept(this, null)).collect(toList()));
+            map.put("name", def.getName().accept(this, null));
+            map.put("body", def.getChildren().stream().map(m -> m.accept(this, null)).collect(toList()));
             return map;
         }
 
         @Override
         public Map<String, Object> visitImportDef(Def def, Void aVoid) {
             Map<String, Object> map = new LinkedHashMap<>();
+            map.put("importPath", def.getChildren().get(0).accept(this, null));
             return map;
         }
 
@@ -238,8 +249,9 @@ public class PrintLastTreeTask extends AbstractReadOnlyTask implements NoDescrip
             Map<String, Object> map = new LinkedHashMap<>();
             map.put("mods", def.getModifiers().stream().map(m -> m.accept(this, null)).collect(toList()));
             map.put("methodName", def.getName());
-            map.put("parameters", def.)
-            map.put("body", def.getChildren().stream().map(b -> b.accept(this, null)).collect(toList()));
+            map.put("returnType", def.asType().accept(this, null));
+            map.put("params", def.getChildren().get(0).accept(this, null));
+            map.put("body", def.getChildren().stream().skip(1).map(b -> b.accept(this, null)).collect(toList()));
             return map;
         }
 
@@ -263,32 +275,44 @@ public class PrintLastTreeTask extends AbstractReadOnlyTask implements NoDescrip
 
         @Override
         public Map<String, Object> visitPackageName(Name name, Void aVoid) {
-            return Collections.singletonMap("name", name);
+            Map<String, Object> map = new LinkedHashMap<>();
+            map.put("kind", name.getType());
+            map.put("name", name.toString());
+            return map;
         }
 
         @Override
         public Map<String, Object> visitThisName(Name name, Void aVoid) {
-            return Collections.singletonMap("name", name);
+            Map<String, Object> map = new LinkedHashMap<>();
+            map.put("kind", name.getType());
+            map.put("name", name.toString());
+            return map;
         }
 
         @Override
         public Map<String, Object> visitVarName(Name name, Void aVoid) {
-            return Collections.singletonMap("name", name);
+            Map<String, Object> map = new LinkedHashMap<>();
+            map.put("kind", name.getType());
+            map.put("name", name.toString());
+            return map;
         }
 
         @Override
         public Map<String, Object> visitTypeName(Name name, Void aVoid) {
-            return Collections.singletonMap("name", name);
+            Map<String, Object> map = new LinkedHashMap<>();
+            map.put("kind", name.getType());
+            map.put("name", name.toString());
+            return map;
         }
 
         @Override
         public Map<String, Object> visitStaticMod(Modifier modifier, Void aVoid) {
-            return Collections.singletonMap("mod", modifier);
+            return Collections.singletonMap("mod", modifier.getType());
         }
 
         @Override
         public Map<String, Object> visitPublicMod(Modifier modifier, Void aVoid) {
-            return Collections.singletonMap("mod", modifier);
+            return Collections.singletonMap("mod", modifier.getType());
         }
 
         @Override
