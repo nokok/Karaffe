@@ -120,3 +120,4 @@ distributions {
   }
 }
 
+test.dependsOn 'installDist'
