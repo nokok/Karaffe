@@ -1,6 +1,7 @@
 package org.karaffe.compiler.base.tree.term;
 
 import org.karaffe.compiler.base.pos.Position;
+import org.karaffe.compiler.base.tree.AbstractTree;
 import org.karaffe.compiler.base.tree.Tree;
 import org.karaffe.compiler.base.tree.TreeKind;
 import org.karaffe.compiler.base.tree.TreeVisitor;
@@ -14,19 +15,16 @@ import java.util.Objects;
 import java.util.Optional;
 import java.util.Set;
 
-class SimpleName implements Name {
+class SimpleName extends AbstractTree implements Name {
 
     static final SimpleName EMPTY_NAME = new SimpleName("__EMPTY__", NameType.NONE);
-    private Position position;
-    private Type type;
     private final NameType nameType;
     private final String name;
 
     SimpleName(String name, NameType nameType) {
+        super(TreeKind.NAME);
         this.nameType = Objects.requireNonNull(nameType);
         this.name = Objects.requireNonNull(name);
-        this.position = Position.noPos();
-        this.type = Types.noType();
     }
 
     @Override
@@ -82,16 +80,6 @@ class SimpleName implements Name {
     }
 
     @Override
-    public void setPos(Position pos) {
-        this.position = Objects.requireNonNull(pos);
-    }
-
-    @Override
-    public Position getPos() {
-        return this.position;
-    }
-
-    @Override
     public Set<Modifier> getModifiers() {
         throw new UnsupportedOperationException();
     }
@@ -134,16 +122,6 @@ class SimpleName implements Name {
     @Override
     public List<Tree> getChildren() {
         throw new UnsupportedOperationException();
-    }
-
-    @Override
-    public Type asType() {
-        return this.type;
-    }
-
-    @Override
-    public void setType(Type type) {
-        this.type = Objects.requireNonNull(type);
     }
 
 }

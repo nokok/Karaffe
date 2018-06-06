@@ -57,6 +57,16 @@ public abstract class AbstractTree implements Tree {
     }
 
     @Override
+    public void setParent(Tree tree) {
+        this.parent = tree;
+    }
+
+    @Override
+    public Tree getParent() {
+        return this.parent;
+    }
+
+    @Override
     public void addChild(Tree child) {
         this.children.add(Objects.requireNonNull(child));
     }

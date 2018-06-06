@@ -15,6 +15,11 @@ public interface Tree extends LocatableElement, NameableElement, ModifiableEleme
 
     void setKind(TreeKind kind);
 
+    void setParent(Tree tree);
+
+    Tree getParent();
+
+
     class CompilationUnit extends AbstractTree implements Tree {
 
         CompilationUnit() {
