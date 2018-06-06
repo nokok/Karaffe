@@ -1,6 +1,7 @@
 package it;
 
 import org.junit.Test;
+import org.karaffe.compiler.base.util.Platform;
 import org.karaffe.compiler.launcher.KaraffeCompilerLauncher;
 
 import java.io.File;
@@ -21,7 +22,6 @@ import java.util.regex.Pattern;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
-import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.fail;
 
 public class CompilerIOTest {
@@ -126,7 +126,12 @@ public class CompilerIOTest {
 
         try (PrintStream output = new PrintStream(destFile)) {
             Path projectDir = new File(currentDir).getParentFile().toPath();
-            String compilerPath = projectDir.resolve(Paths.get("build", "install", "Karaffe-compiler", "bin", "krfc")).toAbsolutePath().toString();
+            String compilerPath;
+            if (Platform.isWindows()) {
+                compilerPath = projectDir.resolve(Paths.get("build", "install", "Karaffe-compiler", "bin", "krfc.bat")).toAbsolutePath().toString();
+            } else {
+                compilerPath = projectDir.resolve(Paths.get("build", "install", "Karaffe-compiler", "bin", "krfc")).toAbsolutePath().toString();
+            }
             this.defaultStdOut.println("CompilerPath : " + compilerPath);
             ProcessBuilder builder = new ProcessBuilder(compilerPath, String.join(" ", argsL));
             Process process = builder.start();
