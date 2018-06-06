@@ -12,11 +12,11 @@ public class SimpleOperator extends AbstractTree implements Operator {
 
     private OperatorKind operatorKind;
 
-    public SimpleOperator(OperatorKind operatorKind) {
+    SimpleOperator(OperatorKind operatorKind) {
         this(null, operatorKind);
     }
 
-    public SimpleOperator(Tree parent, OperatorKind operatorKind) {
+    SimpleOperator(Tree parent, OperatorKind operatorKind) {
         super(parent, TreeKind.NAME);
         this.operatorKind = Objects.requireNonNull(operatorKind);
     }

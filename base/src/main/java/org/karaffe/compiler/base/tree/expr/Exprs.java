@@ -101,4 +101,8 @@ public interface Exprs {
         apply.addChild(args);
         return apply;
     }
+
+    static Tuple tuple() {
+        return new Tuple();
+    }
 }

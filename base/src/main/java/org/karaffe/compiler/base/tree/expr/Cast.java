@@ -7,11 +7,11 @@ import org.karaffe.compiler.base.tree.TreeVisitor;
 
 public class Cast extends AbstractTree {
 
-    public Cast() {
+    Cast() {
         this(null);
     }
 
-    public Cast(Tree parent) {
+    Cast(Tree parent) {
         super(parent, TreeKind.CAST);
     }
 

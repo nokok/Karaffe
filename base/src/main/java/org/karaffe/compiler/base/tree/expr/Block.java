@@ -7,11 +7,11 @@ import org.karaffe.compiler.base.tree.TreeVisitor;
 
 public class Block extends AbstractTree {
 
-    public Block() {
+    Block() {
         this(null);
     }
 
-    public Block(Tree parent) {
+    Block(Tree parent) {
         super(parent, TreeKind.BLOCK);
     }
 

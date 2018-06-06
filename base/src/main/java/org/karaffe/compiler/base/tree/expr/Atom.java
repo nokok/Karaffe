@@ -12,11 +12,11 @@ public class Atom extends AbstractTree {
     private AtomKind kind;
     private String value;
 
-    public Atom(AtomKind kind) {
+    Atom(AtomKind kind) {
         this(null, kind);
     }
 
-    public Atom(Tree parent, AtomKind kind) {
+    Atom(Tree parent, AtomKind kind) {
         super(parent, TreeKind.ATOM);
         this.kind = Objects.requireNonNull(kind);
         this.value = "";

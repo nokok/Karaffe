@@ -1,6 +1,7 @@
 package org.karaffe.compiler.base.tree.def;
 
 import org.karaffe.compiler.base.tree.Tree;
+import org.karaffe.compiler.base.tree.expr.Exprs;
 import org.karaffe.compiler.base.tree.expr.Tuple;
 import org.karaffe.compiler.base.tree.modifier.Modifiers;
 import org.karaffe.compiler.base.tree.term.Name;
@@ -53,7 +54,7 @@ public interface Defs {
     }
 
     static Def mainMethodDef(Tree parent) {
-        Tuple params = new Tuple();
+        Tuple params = Exprs.tuple();
         params.addChild(Types.array(Types.simple(Terms.typeName("String"))));
         Def methodDef = methodDef(
                 parent,

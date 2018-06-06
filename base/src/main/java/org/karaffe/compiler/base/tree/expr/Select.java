@@ -6,11 +6,11 @@ import org.karaffe.compiler.base.tree.TreeKind;
 import org.karaffe.compiler.base.tree.TreeVisitor;
 
 public class Select extends AbstractTree {
-    public Select() {
+    Select() {
         this(null);
     }
 
-    public Select(Tree parent) {
+    Select(Tree parent) {
         super(parent, TreeKind.SELECT);
     }
 

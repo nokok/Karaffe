@@ -7,11 +7,11 @@ import org.karaffe.compiler.base.tree.TreeVisitor;
 
 public class Tuple extends AbstractTree {
 
-    public Tuple() {
+    Tuple() {
         this(null);
     }
 
-    public Tuple(Tree parent) {
+    Tuple(Tree parent) {
         super(parent, TreeKind.TUPLE);
     }
 

@@ -7,11 +7,11 @@ import org.karaffe.compiler.base.tree.TreeVisitor;
 
 public class Apply extends AbstractTree {
 
-    public Apply() {
+    Apply() {
         this(null);
     }
 
-    public Apply(Tree parent) {
+    Apply(Tree parent) {
         super(parent, TreeKind.APPLY);
     }
 

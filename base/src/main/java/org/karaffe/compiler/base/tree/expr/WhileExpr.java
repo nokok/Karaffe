@@ -7,11 +7,11 @@ import org.karaffe.compiler.base.tree.TreeVisitor;
 
 public class WhileExpr extends AbstractTree {
 
-    public WhileExpr() {
+    WhileExpr() {
         this(null);
     }
 
-    public WhileExpr(Tree parent) {
+    WhileExpr(Tree parent) {
         super(parent, TreeKind.WHILEEXPR);
     }
 

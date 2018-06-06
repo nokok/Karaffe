@@ -7,11 +7,11 @@ import org.karaffe.compiler.base.tree.TreeVisitor;
 
 public class IfExpr extends AbstractTree {
 
-    public IfExpr() {
+    IfExpr() {
         this(null);
     }
 
-    public IfExpr(Tree parent) {
+    IfExpr(Tree parent) {
         super(parent, TreeKind.IFEXPR);
     }
 
