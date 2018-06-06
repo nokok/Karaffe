@@ -43,7 +43,7 @@ statementList
   ;
 
 statement
-  : expr
+  : exprStmt=expr
   | letStmt=LET name=Identifier typeName=Identifier (EQ initializer=expr)?
   | assignTarget=Identifier EQ expr
   ;

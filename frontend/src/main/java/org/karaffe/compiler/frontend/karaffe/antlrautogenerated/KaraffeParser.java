@@ -675,6 +675,7 @@ public class KaraffeParser extends Parser {
 	}
 
 	public static class StatementContext extends ParserRuleContext {
+		public ExprContext exprStmt;
 		public Token letStmt;
 		public Token name;
 		public Token typeName;
@@ -720,7 +721,7 @@ public class KaraffeParser extends Parser {
 				enterOuterAlt(_localctx, 1);
 				{
 				setState(96);
-				expr();
+				((StatementContext)_localctx).exprStmt = expr();
 				}
 				break;
 			case 2:
