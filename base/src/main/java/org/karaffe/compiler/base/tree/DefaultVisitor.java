@@ -15,13 +15,17 @@ import org.karaffe.compiler.base.tree.term.EmptyTree;
 import org.karaffe.compiler.base.tree.term.Name;
 import org.karaffe.compiler.base.tree.type.Type;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
 public class DefaultVisitor<P> implements TreeVisitor<Tree, P> {
 
     private List<Tree> visitChildren(Tree t, P p) {
-        return t.getChildren().stream().map(c -> c.accept(this, p)).collect(Collectors.toList());
+        if (t.getKind() != TreeKind.NAME) {
+            return t.getChildren().stream().map(c -> c.accept(this, p)).collect(Collectors.toList());
+        }
+        return new ArrayList<>();
     }
 
     private List<Tree> visitModifiers(Tree t, P p) {
@@ -29,10 +33,14 @@ public class DefaultVisitor<P> implements TreeVisitor<Tree, P> {
     }
 
     private Tree visitTree(Tree tree, P p) {
-        tree.setType(tree.asType().accept(this, p));
+        if (tree.asType() != null) {
+            tree.setType(tree.asType().accept(this, p));
+        }
         tree.setChildren(visitChildren(tree, p));
         tree.setModifiers(visitModifiers(tree, p));
-        tree.setName(tree.getName().accept(this, p));
+        if (tree.getName() != null) {
+            tree.setName(tree.getName().accept(this, p));
+        }
         return tree;
     }
 

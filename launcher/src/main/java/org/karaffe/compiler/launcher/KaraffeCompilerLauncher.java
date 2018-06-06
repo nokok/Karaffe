@@ -13,6 +13,7 @@ import org.karaffe.compiler.frontend.karaffe.tasks.PrintLastTreeTask;
 import org.karaffe.compiler.frontend.karaffe.tasks.PrintTreeTask;
 import org.karaffe.compiler.frontend.karaffe.tasks.options.CommandLineOptionsSubTask;
 import org.karaffe.compiler.frontend.karaffe.tasks.options.ParseCommandLineOptionsTask;
+import org.karaffe.compiler.frontend.karaffe.tasks.postparse.PostParseTask;
 import org.karaffe.compiler.frontend.karaffe.tasks.preconditions.CheckCompilerPreconditionTask;
 import org.karaffe.compiler.launcher.tasks.ShowDiagnosticInfoTask;
 import org.karaffe.compiler.launcher.tasks.ShowTasksTask;
@@ -63,7 +64,8 @@ public class KaraffeCompilerLauncher {
             new PrintLastTreeTask(),
             new LexerTask(),
             new ParserTask(),
-            new GenASTTask()
+            new GenASTTask(),
+            new PostParseTask()
     ));
 
     public int run(String[] args) throws Exception {

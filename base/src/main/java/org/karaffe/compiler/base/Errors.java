@@ -8,7 +8,7 @@ public class Errors {
         reportError("Source file " + absoluteFilePath + " could not be found.");
     }
 
-    public static void symbolNotFound(String symbolName, Position position) {
+    public static void symbolNotFound(Position position, String symbolName) {
         reportError("Symbol not found : " + symbolName + " at " + position);
     }
 

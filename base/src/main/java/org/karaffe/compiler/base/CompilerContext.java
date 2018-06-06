@@ -10,7 +10,9 @@ import org.karaffe.compiler.base.util.config.Options;
 import org.kohsuke.args4j.CmdLineException;
 
 import java.io.PrintStream;
+import java.util.HashMap;
 import java.util.HashSet;
+import java.util.Map;
 import java.util.Objects;
 import java.util.Set;
 import java.util.stream.Stream;
@@ -24,6 +26,8 @@ public class CompilerContext {
     private String state = "";
     private Tree compilationUnit;
     private boolean hasInvalidCmdLineArg;
+    private Map<String, String> packageFileMap;
+    private Map<String, String> fileImportMap;
 
     public CompilerContext() {
         this(new String[0]);
@@ -36,6 +40,8 @@ public class CompilerContext {
         this.lexers = new HashSet<>(args.length);
         this.contexts = new HashSet<>();
         this.hasInvalidCmdLineArg = false;
+        this.packageFileMap = new HashMap<>();
+        this.fileImportMap = new HashMap<>();
     }
 
     public void startParseArgs() throws CmdLineException {
@@ -107,6 +113,10 @@ public class CompilerContext {
         this.compilationUnit = Objects.requireNonNull(compilationUnit);
     }
 
+    public void onPackageFilePair(String packageName, String relativeFilePath) {
+        this.packageFileMap.put(Objects.requireNonNull(packageName), Objects.requireNonNull(relativeFilePath));
+    }
+
     @SuppressWarnings("unused")
     public void printUsage(PrintStream printStream) {
         commandLineOptions.printUsage(printStream);
@@ -123,5 +133,9 @@ public class CompilerContext {
                 ", compilationUnit=" + compilationUnit +
                 ", hasInvalidCmdLineArg=" + hasInvalidCmdLineArg +
                 '}';
+    }
+
+    public void onFileImportDef(String sourceName, String importPath) {
+        this.fileImportMap.put(Objects.requireNonNull(sourceName), Objects.requireNonNull(importPath));
     }
 }

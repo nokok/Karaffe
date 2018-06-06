@@ -5,12 +5,10 @@ import org.karaffe.compiler.base.tree.Tree;
 import org.karaffe.compiler.base.tree.TreeKind;
 import org.karaffe.compiler.base.tree.TreeVisitor;
 import org.karaffe.compiler.base.tree.expr.Operator;
-import org.karaffe.compiler.base.tree.modifier.Modifier;
 
 import java.util.List;
 import java.util.Objects;
 import java.util.Optional;
-import java.util.Set;
 
 class SimpleName extends AbstractTree implements Name {
 
@@ -62,63 +60,18 @@ class SimpleName extends AbstractTree implements Name {
     }
 
     @Override
-    public TreeKind getKind() {
-        return TreeKind.NAME;
-    }
-
-    @Override
-    public void setKind(TreeKind kind) {
-        throw new UnsupportedOperationException();
-    }
-
-    @Override
     public NameType getType() {
         return nameType;
     }
 
     @Override
-    public List<Tree> getModifiers() {
-        throw new UnsupportedOperationException();
-    }
-
-    @Override
-    public void addModifier(Tree modifier) {
-        throw new UnsupportedOperationException();
-    }
-
-    @Override
-    public void clearModifiers() {
-        throw new UnsupportedOperationException();
-    }
-
-    @Override
-    public Tree getName() {
-        throw new UnsupportedOperationException();
-    }
-
-    @Override
-    public void setName(Tree name) {
-        throw new UnsupportedOperationException();
+    public TreeKind getKind() {
+        return TreeKind.NAME;
     }
 
     @Override
     public String toString() {
         return Optional.ofNullable(this.name).orElse("__EMPTY__");
-    }
-
-    @Override
-    public void addChild(Tree child) {
-        throw new UnsupportedOperationException();
-    }
-
-    @Override
-    public void setOrReplaceChild(int index, Tree child) {
-        throw new UnsupportedOperationException();
-    }
-
-    @Override
-    public List<Tree> getChildren() {
-        throw new UnsupportedOperationException();
     }
 
 }
