@@ -27,6 +27,7 @@ public class LexerTask extends AbstractTask {
 
     @Override
     public TaskResult run(CompilerContext context) {
+        ErrorListener errorListener = new ErrorListener();
         context.sourceFileStream()
                 .map(SourceFile::toPath)
                 .forEach(path -> {
@@ -34,13 +35,14 @@ public class LexerTask extends AbstractTask {
                         LOGGER.trace("new Lexer for : {} ", path);
                         KaraffeLexer lexer = new KaraffeLexer(CharStreams.fromPath(path));
                         lexer.removeErrorListeners();
+                        lexer.addErrorListener(errorListener);
                         context.addLexer(lexer);
                     } catch (IOException e) {
                         LOGGER.error("Unexpected IOException", e);
                         throw new RuntimeTaskException(e);
                     }
                 });
-        return TaskResult.SUCCESS;
+        return errorListener.getResult();
     }
 
     @Override
