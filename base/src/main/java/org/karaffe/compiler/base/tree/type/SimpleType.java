@@ -15,10 +15,4 @@ class SimpleType extends AbstractType {
     SimpleType(Tree parent, Name typeName, TypeKind typeKind) {
         super(parent, typeName, typeKind);
     }
-
-    @Override
-    public <R, P> R accept(TypeVisitor<R, P> visitor, P p) {
-        return visitor.visit(this, p);
-    }
-
 }

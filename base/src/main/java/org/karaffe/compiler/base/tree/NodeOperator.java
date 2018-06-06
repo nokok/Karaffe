@@ -8,4 +8,6 @@ public interface NodeOperator {
     void setOrReplaceChild(int index, Tree child);
 
     List<Tree> getChildren();
+
+    void setChildren(List<Tree> children);
 }

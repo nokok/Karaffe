@@ -1,13 +1,13 @@
 package org.karaffe.compiler.base.tree;
 
-import org.karaffe.compiler.base.tree.modifier.Modifier;
-
-import java.util.Set;
+import java.util.List;
 
 public interface ModifiableElement {
-    Set<Modifier> getModifiers();
+    List<Tree> getModifiers();
 
-    void addModifier(Modifier modifier);
+    void addModifier(Tree modifier);
+
+    void setModifiers(List<Tree> modifiers);
 
     void clearModifiers();
 }

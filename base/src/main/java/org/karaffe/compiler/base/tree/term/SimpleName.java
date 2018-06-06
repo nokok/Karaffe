@@ -77,12 +77,12 @@ class SimpleName extends AbstractTree implements Name {
     }
 
     @Override
-    public Set<Modifier> getModifiers() {
+    public List<Tree> getModifiers() {
         throw new UnsupportedOperationException();
     }
 
     @Override
-    public void addModifier(Modifier modifier) {
+    public void addModifier(Tree modifier) {
         throw new UnsupportedOperationException();
     }
 
@@ -92,12 +92,12 @@ class SimpleName extends AbstractTree implements Name {
     }
 
     @Override
-    public Name getName() {
+    public Tree getName() {
         throw new UnsupportedOperationException();
     }
 
     @Override
-    public void setName(Name name) {
+    public void setName(Tree name) {
         throw new UnsupportedOperationException();
     }
 

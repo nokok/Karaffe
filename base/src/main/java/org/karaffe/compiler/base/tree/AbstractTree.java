@@ -1,25 +1,21 @@
 package org.karaffe.compiler.base.tree;
 
 import org.karaffe.compiler.base.pos.Position;
-import org.karaffe.compiler.base.tree.modifier.Modifier;
 import org.karaffe.compiler.base.tree.term.Name;
 import org.karaffe.compiler.base.tree.term.Terms;
-import org.karaffe.compiler.base.tree.type.Type;
 import org.karaffe.compiler.base.tree.type.Types;
 
 import java.util.ArrayList;
-import java.util.HashSet;
 import java.util.List;
 import java.util.Objects;
-import java.util.Set;
 
 public abstract class AbstractTree implements Tree {
     private Tree parent;
     private TreeKind kind;
     private Position position;
-    private Name name;
-    private Type type;
-    private Set<Modifier> modifiers;
+    private Tree name;
+    private Tree type;
+    private List<Tree> modifiers;
     private List<Tree> children;
 
     public AbstractTree(TreeKind treeKind) {
@@ -32,17 +28,17 @@ public abstract class AbstractTree implements Tree {
         this.position = Position.noPos();
         this.name = Terms.emptyName();
         this.type = Types.noType();
-        this.modifiers = new HashSet<>();
+        this.modifiers = new ArrayList<>();
         this.children = new ArrayList<>();
     }
 
     @Override
-    public Type asType() {
+    public Tree asType() {
         return this.type;
     }
 
     @Override
-    public void setType(Type type) {
+    public void setType(Tree type) {
         this.type = Objects.requireNonNull(type);
     }
 
@@ -88,6 +84,11 @@ public abstract class AbstractTree implements Tree {
     }
 
     @Override
+    public void setChildren(List<Tree> children) {
+        this.children = Objects.requireNonNull(children);
+    }
+
+    @Override
     public Position getPos() {
         return this.position;
     }
@@ -98,12 +99,17 @@ public abstract class AbstractTree implements Tree {
     }
 
     @Override
-    public Set<Modifier> getModifiers() {
+    public List<Tree> getModifiers() {
         return this.modifiers;
     }
 
     @Override
-    public void addModifier(Modifier modifier) {
+    public void setModifiers(List<Tree> modifiers) {
+        this.modifiers = Objects.requireNonNull(modifiers);
+    }
+
+    @Override
+    public void addModifier(Tree modifier) {
         this.modifiers.add(Objects.requireNonNull(modifier));
     }
 
@@ -113,12 +119,12 @@ public abstract class AbstractTree implements Tree {
     }
 
     @Override
-    public Name getName() {
+    public Tree getName() {
         return this.name;
     }
 
     @Override
-    public void setName(Name name) {
+    public void setName(Tree name) {
         this.name = Objects.requireNonNull(name);
     }
 }

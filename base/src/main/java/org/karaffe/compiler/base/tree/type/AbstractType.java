@@ -10,14 +10,14 @@ import java.util.Objects;
 
 public abstract class AbstractType extends AbstractTree implements Type {
 
-    private Name typeName;
-    private TypeKind typeKind;
+    private final Tree typeName;
+    private final TypeKind typeKind;
 
     public AbstractType(Name typeName, TypeKind typeKind) {
         this(null, typeName, typeKind);
     }
 
-    public AbstractType(Tree parent, Name typeName, TypeKind typeKind) {
+    public AbstractType(Tree parent, Tree typeName, TypeKind typeKind) {
         super(parent, TreeKind.TYPE);
         this.typeName = Objects.requireNonNull(typeName);
         this.typeKind = Objects.requireNonNull(typeKind);
@@ -27,36 +27,36 @@ public abstract class AbstractType extends AbstractTree implements Type {
     public <R, P> R accept(TreeVisitor<R, P> visitor, P p) {
         switch (this.typeKind) {
         case SIMPLE:
-            return visitor.visitRefType((Type) this, p);
+            return visitor.visitRefType(this, p);
         case ARRAY:
-            return visitor.visitArrayType((Type) this, p);
+            return visitor.visitArrayType(this, p);
         case INT:
-            return visitor.visitPrimitiveIntType((Type) this, p);
+            return visitor.visitPrimitiveIntType(this, p);
         case CHAR:
-            return visitor.visitPrimitiveCharType((Type) this, p);
+            return visitor.visitPrimitiveCharType(this, p);
         case BYTE:
-            return visitor.visitPrimitiveByteType((Type) this, p);
+            return visitor.visitPrimitiveByteType(this, p);
         case VOID:
-            return visitor.visitVoidType((Type) this, p);
+            return visitor.visitVoidType(this, p);
         case BOOLEAN:
-            return visitor.visitPrimitiveBooleanType((Type) this, p);
+            return visitor.visitPrimitiveBooleanType(this, p);
         case LONG:
-            return visitor.visitPrimitiveLongType((Type) this, p);
+            return visitor.visitPrimitiveLongType(this, p);
         case FLOAT:
-            return visitor.visitPrimitiveFloatType((Type) this, p);
+            return visitor.visitPrimitiveFloatType(this, p);
         case SHORT:
-            return visitor.visitPrimitiveShortType((Type) this, p);
+            return visitor.visitPrimitiveShortType(this, p);
         case DOUBLE:
-            return visitor.visitPrimitiveDoubleType((Type) this, p);
+            return visitor.visitPrimitiveDoubleType(this, p);
         case NO_TYPE:
-            return visitor.visitNoType((Type) this, p);
+            return visitor.visitNoType(this, p);
         default:
             throw new IllegalStateException();
         }
     }
 
     @Override
-    public Name getName() {
+    public Tree getName() {
         return this.typeName;
     }
 

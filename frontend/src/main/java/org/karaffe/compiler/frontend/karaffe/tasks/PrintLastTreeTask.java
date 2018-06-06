@@ -78,33 +78,9 @@ public class PrintLastTreeTask extends AbstractReadOnlyTask implements NoDescrip
     static class MapVisitor extends TreeVisitorAdapter<Map<String, Object>, Void> {
 
         @Override
-        public Map<String, Object> visit(Def def, Void aVoid) {
-            Map<String, Object> map = new LinkedHashMap<>();
-            map.put("kind", def.getDefKind());
-            map.put("mods", def.getModifiers().stream().map(m -> m.accept(this, null)).collect(toList()));
-            map.put("type", def.asType().accept(this, null));
-            map.put("name", def.getName().accept(this, null));
-            map.put("pos", def.getPos());
-            map.put("body", def.getBody().stream().map(d -> d.accept(this, null)).collect(toList()));
-            return map;
-        }
-
-        @Override
-        public Map<String, Object> visit(Name simpleName, Void aVoid) {
-            return Collections.singletonMap("name", simpleName);
-        }
-
-        @Override
         public Map<String, Object> visit(Modifier modifier, Void aVoid) {
             Map<String, Object> map = new LinkedHashMap<>();
             map.put("mod", modifier.getType().name());
-            return map;
-        }
-
-        @Override
-        public Map<String, Object> visit(Type type, Void aVoid) {
-            Map<String, Object> map = new LinkedHashMap<>();
-            map.put("simpleName", type.getName());
             return map;
         }
 

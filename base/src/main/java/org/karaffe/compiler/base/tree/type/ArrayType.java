@@ -16,9 +16,4 @@ public class ArrayType extends AbstractType {
         super(parent, elementType.getName(), TypeKind.ARRAY);
         this.elementType = Objects.requireNonNull(elementType);
     }
-
-    @Override
-    public <R, P> R accept(TypeVisitor<R, P> visitor, P p) {
-        return visitor.visit(this, p);
-    }
 }

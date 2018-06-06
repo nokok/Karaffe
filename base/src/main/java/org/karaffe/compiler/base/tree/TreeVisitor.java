@@ -16,7 +16,6 @@ import org.karaffe.compiler.base.tree.term.Name;
 import org.karaffe.compiler.base.tree.type.Type;
 
 public interface TreeVisitor<R, P> {
-    R visit(Def def, P p);
 
     R visitLetDef(Def simpleDef, P p);
 
@@ -29,8 +28,6 @@ public interface TreeVisitor<R, P> {
     R visitMethodDef(Def def, P p);
 
     R visitPackageDef(Def def, P p);
-
-    R visit(Name simpleName, P p);
 
     R visitNoneName(Name name, P p);
 
@@ -49,8 +46,6 @@ public interface TreeVisitor<R, P> {
     R visitStaticMod(Modifier modifier, P p);
 
     R visitPublicMod(Modifier modifier, P p);
-
-    R visit(Type type, P p);
 
     R visitRefType(Type type, P p);
 

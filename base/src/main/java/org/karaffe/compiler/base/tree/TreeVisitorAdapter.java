@@ -16,10 +16,6 @@ import org.karaffe.compiler.base.tree.term.Name;
 import org.karaffe.compiler.base.tree.type.Type;
 
 public class TreeVisitorAdapter<R, P> implements TreeVisitor<R, P> {
-    @Override
-    public R visit(Def def, P p) {
-        return null;
-    }
 
     @Override
     public R visitLetDef(Def simpleDef, P p) {
@@ -48,11 +44,6 @@ public class TreeVisitorAdapter<R, P> implements TreeVisitor<R, P> {
 
     @Override
     public R visitPackageDef(Def def, P p) {
-        return null;
-    }
-
-    @Override
-    public R visit(Name simpleName, P p) {
         return null;
     }
 
@@ -98,11 +89,6 @@ public class TreeVisitorAdapter<R, P> implements TreeVisitor<R, P> {
 
     @Override
     public R visitPublicMod(Modifier modifier, P p) {
-        return null;
-    }
-
-    @Override
-    public R visit(Type type, P p) {
         return null;
     }
 

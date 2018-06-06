@@ -13,8 +13,4 @@ public class PrimitiveType extends AbstractType {
         super(parent, Terms.typeName(typeKind.name()), typeKind);
     }
 
-    @Override
-    public <R, P> R accept(TypeVisitor<R, P> visitor, P p) {
-        return visitor.visit(this, p);
-    }
 }
