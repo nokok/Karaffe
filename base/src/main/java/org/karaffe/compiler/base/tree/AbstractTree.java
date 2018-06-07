@@ -63,6 +63,11 @@ public abstract class AbstractTree implements Tree {
     }
 
     @Override
+    public void addFirst(Tree child) {
+        this.children.add(0, child);
+    }
+
+    @Override
     public void addChild(Tree child) {
         this.children.add(Objects.requireNonNull(child));
     }
