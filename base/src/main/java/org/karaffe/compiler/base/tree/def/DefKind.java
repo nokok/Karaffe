@@ -7,4 +7,5 @@ public enum DefKind {
     METHOD,
     LET,
     ASSIGNMENT,
+    ONDEMAND_IMPORT,
 }

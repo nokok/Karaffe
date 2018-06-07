@@ -27,27 +27,27 @@ public abstract class AbstractType extends AbstractTree implements Type {
     public <R, P> R accept(TreeVisitor<R, P> visitor, P p) {
         switch (this.typeKind) {
         case SIMPLE:
-            return visitor.visitRefType(this, p);
+            return visitor.visitRefType((SimpleType) this, p);
         case ARRAY:
-            return visitor.visitArrayType(this, p);
+            return visitor.visitArrayType((ArrayType) this, p);
         case INT:
-            return visitor.visitPrimitiveIntType(this, p);
+            return visitor.visitPrimitiveIntType((PrimitiveType) this, p);
         case CHAR:
-            return visitor.visitPrimitiveCharType(this, p);
+            return visitor.visitPrimitiveCharType((PrimitiveType) this, p);
         case BYTE:
-            return visitor.visitPrimitiveByteType(this, p);
+            return visitor.visitPrimitiveByteType((PrimitiveType) this, p);
         case VOID:
-            return visitor.visitVoidType(this, p);
+            return visitor.visitVoidType((PrimitiveType) this, p);
         case BOOLEAN:
-            return visitor.visitPrimitiveBooleanType(this, p);
+            return visitor.visitPrimitiveBooleanType((PrimitiveType) this, p);
         case LONG:
-            return visitor.visitPrimitiveLongType(this, p);
+            return visitor.visitPrimitiveLongType((PrimitiveType) this, p);
         case FLOAT:
-            return visitor.visitPrimitiveFloatType(this, p);
+            return visitor.visitPrimitiveFloatType((PrimitiveType) this, p);
         case SHORT:
-            return visitor.visitPrimitiveShortType(this, p);
+            return visitor.visitPrimitiveShortType((PrimitiveType) this, p);
         case DOUBLE:
-            return visitor.visitPrimitiveDoubleType(this, p);
+            return visitor.visitPrimitiveDoubleType((PrimitiveType) this, p);
         case NO_TYPE:
             return visitor.visitNoType(this, p);
         default:

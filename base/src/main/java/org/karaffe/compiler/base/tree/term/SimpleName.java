@@ -6,7 +6,6 @@ import org.karaffe.compiler.base.tree.TreeKind;
 import org.karaffe.compiler.base.tree.TreeVisitor;
 import org.karaffe.compiler.base.tree.expr.Operator;
 
-import java.util.List;
 import java.util.Objects;
 import java.util.Optional;
 

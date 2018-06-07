@@ -4,7 +4,7 @@ import org.karaffe.compiler.base.tree.Tree;
 import org.karaffe.compiler.base.tree.term.Name;
 import org.karaffe.compiler.base.tree.term.Terms;
 
-class SimpleType extends AbstractType {
+public class SimpleType extends AbstractType {
 
     static final SimpleType NO_TYPE = new SimpleType(Terms.specialName("__EMPTY__"), TypeKind.NO_TYPE);
 

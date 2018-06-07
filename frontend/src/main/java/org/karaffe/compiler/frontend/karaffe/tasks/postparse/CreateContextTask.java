@@ -29,7 +29,7 @@ public class CreateContextTask extends AbstractReadOnlyTask implements NoDescrip
             @Override
             public Tree visitSimpleImportDef(Def tree, Void aVoid) {
                 super.visitSimpleImportDef(tree, aVoid);
-                context.onFileImportDef(tree.getPos().getSourceName(), tree.getName().toString());
+                context.onFileImportDef(tree.getPos().getSourceName(), tree);
                 return tree;
             }
         }, null);

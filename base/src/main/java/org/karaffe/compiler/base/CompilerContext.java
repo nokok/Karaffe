@@ -27,7 +27,7 @@ public class CompilerContext {
     private Tree compilationUnit;
     private boolean hasInvalidCmdLineArg;
     private Map<String, String> packageFileMap;
-    private Map<String, String> fileImportMap;
+    private Map<String, Tree> fileImportMap;
 
     public CompilerContext() {
         this(new String[0]);
@@ -135,7 +135,7 @@ public class CompilerContext {
                 '}';
     }
 
-    public void onFileImportDef(String sourceName, String importPath) {
+    public void onFileImportDef(String sourceName, Tree importPath) {
         this.fileImportMap.put(Objects.requireNonNull(sourceName), Objects.requireNonNull(importPath));
     }
 }

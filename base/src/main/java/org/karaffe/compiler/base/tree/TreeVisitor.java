@@ -13,6 +13,9 @@ import org.karaffe.compiler.base.tree.expr.WhileExpr;
 import org.karaffe.compiler.base.tree.modifier.Modifier;
 import org.karaffe.compiler.base.tree.term.EmptyTree;
 import org.karaffe.compiler.base.tree.term.Name;
+import org.karaffe.compiler.base.tree.type.ArrayType;
+import org.karaffe.compiler.base.tree.type.PrimitiveType;
+import org.karaffe.compiler.base.tree.type.SimpleType;
 import org.karaffe.compiler.base.tree.type.Type;
 
 public interface TreeVisitor<R, P> {
@@ -24,6 +27,8 @@ public interface TreeVisitor<R, P> {
     R visitClassDef(Def def, P p);
 
     R visitSimpleImportDef(Def def, P p);
+
+    R visitOnDemandImportDef(Def onDemandImport, P p);
 
     R visitMethodDef(Def def, P p);
 
@@ -47,27 +52,27 @@ public interface TreeVisitor<R, P> {
 
     R visitPublicMod(Modifier modifier, P p);
 
-    R visitRefType(Type type, P p);
+    R visitRefType(SimpleType type, P p);
 
-    R visitArrayType(Type type, P p);
+    R visitArrayType(ArrayType type, P p);
 
-    R visitPrimitiveIntType(Type type, P p);
+    R visitPrimitiveIntType(PrimitiveType type, P p);
 
-    R visitPrimitiveCharType(Type type, P p);
+    R visitPrimitiveCharType(PrimitiveType type, P p);
 
-    R visitPrimitiveByteType(Type type, P p);
+    R visitPrimitiveByteType(PrimitiveType type, P p);
 
-    R visitVoidType(Type type, P p);
+    R visitVoidType(PrimitiveType type, P p);
 
-    R visitPrimitiveBooleanType(Type type, P p);
+    R visitPrimitiveBooleanType(PrimitiveType type, P p);
 
-    R visitPrimitiveLongType(Type type, P p);
+    R visitPrimitiveLongType(PrimitiveType type, P p);
 
-    R visitPrimitiveFloatType(Type type, P p);
+    R visitPrimitiveFloatType(PrimitiveType type, P p);
 
-    R visitPrimitiveShortType(Type type, P p);
+    R visitPrimitiveShortType(PrimitiveType type, P p);
 
-    R visitPrimitiveDoubleType(Type type, P p);
+    R visitPrimitiveDoubleType(PrimitiveType type, P p);
 
     R visitNoType(Type type, P p);
 

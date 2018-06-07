@@ -10,4 +10,8 @@ public interface Modifiers {
     static Modifier modStatic(Tree parent) {
         return new SimpleModifier(parent, ModifierType.STATIC);
     }
+
+    static Tree modSynthetic(Tree parent) {
+        return new SimpleModifier(parent, ModifierType.SYNTHETIC);
+    }
 }

@@ -31,6 +31,16 @@ public interface Defs {
         return importDef;
     }
 
+    static Def onDemandImportDef(String packageName) {
+        return onDemandImportDef(null, packageName);
+    }
+
+    static Def onDemandImportDef(Tree parent, String packageName) {
+        SimpleDef importDef = new SimpleDef(parent, DefKind.ONDEMAND_IMPORT);
+        importDef.setName(Terms.packageName(packageName));
+        return importDef;
+    }
+
     static Def classDef(String className) {
         return classDef(null, className);
     }
@@ -72,7 +82,7 @@ public interface Defs {
     static Def letDef(Name letName, Name typeName, Tree initializer) {
         SimpleDef letDef = new SimpleDef(DefKind.LET);
         letDef.setName(letName);
-        letDef.setType(typeName.asType());
+        letDef.setType(typeName);
         letDef.addChild(initializer);
         return letDef;
     }

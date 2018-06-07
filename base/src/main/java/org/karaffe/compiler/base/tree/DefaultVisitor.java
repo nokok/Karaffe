@@ -13,6 +13,9 @@ import org.karaffe.compiler.base.tree.expr.WhileExpr;
 import org.karaffe.compiler.base.tree.modifier.Modifier;
 import org.karaffe.compiler.base.tree.term.EmptyTree;
 import org.karaffe.compiler.base.tree.term.Name;
+import org.karaffe.compiler.base.tree.type.ArrayType;
+import org.karaffe.compiler.base.tree.type.PrimitiveType;
+import org.karaffe.compiler.base.tree.type.SimpleType;
 import org.karaffe.compiler.base.tree.type.Type;
 
 import java.util.ArrayList;
@@ -61,6 +64,11 @@ public class DefaultVisitor<P> implements TreeVisitor<Tree, P> {
 
     @Override
     public Tree visitSimpleImportDef(Def tree, P p) {
+        return visitTree(tree, p);
+    }
+
+    @Override
+    public Tree visitOnDemandImportDef(Def tree, P p) {
         return visitTree(tree, p);
     }
 
@@ -120,57 +128,57 @@ public class DefaultVisitor<P> implements TreeVisitor<Tree, P> {
     }
 
     @Override
-    public Tree visitRefType(Type tree, P p) {
+    public Tree visitRefType(SimpleType tree, P p) {
         return visitTree(tree, p);
     }
 
     @Override
-    public Tree visitArrayType(Type tree, P p) {
+    public Tree visitArrayType(ArrayType tree, P p) {
         return visitTree(tree, p);
     }
 
     @Override
-    public Tree visitPrimitiveIntType(Type tree, P p) {
+    public Tree visitPrimitiveIntType(PrimitiveType tree, P p) {
         return visitTree(tree, p);
     }
 
     @Override
-    public Tree visitPrimitiveCharType(Type tree, P p) {
+    public Tree visitPrimitiveCharType(PrimitiveType tree, P p) {
         return visitTree(tree, p);
     }
 
     @Override
-    public Tree visitPrimitiveByteType(Type tree, P p) {
+    public Tree visitPrimitiveByteType(PrimitiveType tree, P p) {
         return visitTree(tree, p);
     }
 
     @Override
-    public Tree visitVoidType(Type tree, P p) {
+    public Tree visitVoidType(PrimitiveType tree, P p) {
         return visitTree(tree, p);
     }
 
     @Override
-    public Tree visitPrimitiveBooleanType(Type tree, P p) {
+    public Tree visitPrimitiveBooleanType(PrimitiveType tree, P p) {
         return visitTree(tree, p);
     }
 
     @Override
-    public Tree visitPrimitiveLongType(Type tree, P p) {
+    public Tree visitPrimitiveLongType(PrimitiveType tree, P p) {
         return visitTree(tree, p);
     }
 
     @Override
-    public Tree visitPrimitiveFloatType(Type tree, P p) {
+    public Tree visitPrimitiveFloatType(PrimitiveType tree, P p) {
         return visitTree(tree, p);
     }
 
     @Override
-    public Tree visitPrimitiveShortType(Type tree, P p) {
+    public Tree visitPrimitiveShortType(PrimitiveType tree, P p) {
         return visitTree(tree, p);
     }
 
     @Override
-    public Tree visitPrimitiveDoubleType(Type tree, P p) {
+    public Tree visitPrimitiveDoubleType(PrimitiveType tree, P p) {
         return visitTree(tree, p);
     }
 

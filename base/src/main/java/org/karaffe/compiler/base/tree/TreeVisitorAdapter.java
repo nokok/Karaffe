@@ -13,6 +13,9 @@ import org.karaffe.compiler.base.tree.expr.WhileExpr;
 import org.karaffe.compiler.base.tree.modifier.Modifier;
 import org.karaffe.compiler.base.tree.term.EmptyTree;
 import org.karaffe.compiler.base.tree.term.Name;
+import org.karaffe.compiler.base.tree.type.ArrayType;
+import org.karaffe.compiler.base.tree.type.PrimitiveType;
+import org.karaffe.compiler.base.tree.type.SimpleType;
 import org.karaffe.compiler.base.tree.type.Type;
 
 public class TreeVisitorAdapter<R, P> implements TreeVisitor<R, P> {
@@ -34,6 +37,11 @@ public class TreeVisitorAdapter<R, P> implements TreeVisitor<R, P> {
 
     @Override
     public R visitSimpleImportDef(Def def, P p) {
+        return null;
+    }
+
+    @Override
+    public R visitOnDemandImportDef(Def onDemandImport, P p) {
         return null;
     }
 
@@ -93,57 +101,57 @@ public class TreeVisitorAdapter<R, P> implements TreeVisitor<R, P> {
     }
 
     @Override
-    public R visitRefType(Type type, P p) {
+    public R visitRefType(SimpleType type, P p) {
         return null;
     }
 
     @Override
-    public R visitArrayType(Type type, P p) {
+    public R visitArrayType(ArrayType type, P p) {
         return null;
     }
 
     @Override
-    public R visitPrimitiveIntType(Type type, P p) {
+    public R visitPrimitiveIntType(PrimitiveType type, P p) {
         return null;
     }
 
     @Override
-    public R visitPrimitiveCharType(Type type, P p) {
+    public R visitPrimitiveCharType(PrimitiveType type, P p) {
         return null;
     }
 
     @Override
-    public R visitPrimitiveByteType(Type type, P p) {
+    public R visitPrimitiveByteType(PrimitiveType type, P p) {
         return null;
     }
 
     @Override
-    public R visitVoidType(Type type, P p) {
+    public R visitVoidType(PrimitiveType type, P p) {
         return null;
     }
 
     @Override
-    public R visitPrimitiveBooleanType(Type type, P p) {
+    public R visitPrimitiveBooleanType(PrimitiveType type, P p) {
         return null;
     }
 
     @Override
-    public R visitPrimitiveLongType(Type type, P p) {
+    public R visitPrimitiveLongType(PrimitiveType type, P p) {
         return null;
     }
 
     @Override
-    public R visitPrimitiveFloatType(Type type, P p) {
+    public R visitPrimitiveFloatType(PrimitiveType type, P p) {
         return null;
     }
 
     @Override
-    public R visitPrimitiveShortType(Type type, P p) {
+    public R visitPrimitiveShortType(PrimitiveType type, P p) {
         return null;
     }
 
     @Override
-    public R visitPrimitiveDoubleType(Type type, P p) {
+    public R visitPrimitiveDoubleType(PrimitiveType type, P p) {
         return null;
     }
 

@@ -5,22 +5,52 @@ import org.karaffe.compiler.base.task.NoDescriptionTask;
 import org.karaffe.compiler.base.task.TaskResult;
 import org.karaffe.compiler.base.tree.DefaultVisitor;
 import org.karaffe.compiler.base.tree.Tree;
+import org.karaffe.compiler.base.tree.def.Def;
 import org.karaffe.compiler.base.tree.def.Defs;
+import org.karaffe.compiler.base.tree.modifier.Modifiers;
 import org.karaffe.compiler.frontend.karaffe.tasks.AbstractTask;
 
+import java.io.Reader;
+import java.net.URI;
+import java.nio.Buffer;
+import java.nio.channels.Channel;
+import java.nio.file.Path;
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
+import java.util.concurrent.ForkJoinPool;
+import java.util.function.Function;
+import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 public class InsertDefaultImportTask extends AbstractTask implements NoDescriptionTask {
 
+    private static final Set<String> defaultImportPackages;
     private static final Set<String> defaultImportClasses;
 
     static {
         // load classes
+        List<Class<?>> classes = Arrays.asList(
+                Integer.class,
+                Reader.class,
+                URI.class,
+                List.class,
+                Stream.class,
+                Function.class,
+                ForkJoinPool.class,
+                Buffer.class,
+                Path.class,
+                Channel.class
+        );
+
+
+        defaultImportPackages = classes.stream().map(Class::getPackage).map(Package::getName).collect(Collectors.toSet());
+
         defaultImportClasses = new HashSet<>(Arrays.asList(
-                java.lang.String.class.getCanonicalName(),
-                java.lang.Integer.class.getCanonicalName()
+                java.util.regex.Matcher.class.getCanonicalName(),
+                java.util.regex.Pattern.class.getCanonicalName()
         ));
     }
 
@@ -37,10 +67,26 @@ public class InsertDefaultImportTask extends AbstractTask implements NoDescripti
             @Override
             public Tree visitCompileUnit(Tree.CompilationUnit tree, Void aVoid) {
                 super.visitCompileUnit(tree, aVoid);
-                for (String defaultImport : defaultImportClasses) {
-                    tree.addFirst(Defs.importDef(tree, defaultImport));
-                    context.onFileImportDef(tree.getPos().getSourceName(), defaultImport);
+
+                List<Tree> children = tree.getChildren();
+                tree.setChildren(new ArrayList<>());
+
+                for (String defaultImport : defaultImportPackages) {
+                    Def def = Defs.onDemandImportDef(defaultImport);
+                    def.addModifier(Modifiers.modSynthetic(def));
+                    tree.addChild(def);
+                    context.onFileImportDef(tree.getPos().getSourceName(), def);
                 }
+
+                for (String defaultImport : defaultImportClasses) {
+                    Def def = Defs.importDef(tree, defaultImport);
+                    def.addModifier(Modifiers.modSynthetic(def));
+                    tree.addChild(def);
+                    context.onFileImportDef(tree.getPos().getSourceName(), def);
+                }
+
+                children.forEach(tree::addChild);
+
                 return tree;
             }
         }, null);
