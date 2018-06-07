@@ -33,7 +33,7 @@ public class TreeVisitorAdapter<R, P> implements TreeVisitor<R, P> {
     }
 
     @Override
-    public R visitImportDef(Def def, P p) {
+    public R visitSimpleImportDef(Def def, P p) {
         return null;
     }
 

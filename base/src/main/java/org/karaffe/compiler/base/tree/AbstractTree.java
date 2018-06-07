@@ -1,7 +1,6 @@
 package org.karaffe.compiler.base.tree;
 
 import org.karaffe.compiler.base.pos.Position;
-import org.karaffe.compiler.base.tree.term.Name;
 import org.karaffe.compiler.base.tree.term.Terms;
 import org.karaffe.compiler.base.tree.type.Types;
 

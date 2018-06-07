@@ -23,7 +23,7 @@ public class ImportCheckTask extends AbstractReadOnlyTask implements NoDescripti
         AtomicBoolean hasError = new AtomicBoolean(false);
         compilationUnit.accept(new DefaultVisitor<Void>() {
             @Override
-            public Tree visitImportDef(Def tree, Void o) {
+            public Tree visitSimpleImportDef(Def tree, Void o) {
                 Tree name = tree.getName();
                 try {
                     Class.forName(tree.getName().toString());

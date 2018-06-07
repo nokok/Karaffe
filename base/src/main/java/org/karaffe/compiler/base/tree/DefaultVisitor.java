@@ -60,7 +60,7 @@ public class DefaultVisitor<P> implements TreeVisitor<Tree, P> {
     }
 
     @Override
-    public Tree visitImportDef(Def tree, P p) {
+    public Tree visitSimpleImportDef(Def tree, P p) {
         return visitTree(tree, p);
     }
 

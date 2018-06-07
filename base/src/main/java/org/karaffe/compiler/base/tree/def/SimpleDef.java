@@ -33,8 +33,8 @@ public class SimpleDef extends AbstractTree implements Def {
             return visitor.visitAssignmentDef(this, p);
         case CLASS:
             return visitor.visitClassDef(this, p);
-        case IMPORT:
-            return visitor.visitImportDef(this, p);
+        case SIMPLE_IMPORT:
+            return visitor.visitSimpleImportDef(this, p);
         case METHOD:
             return visitor.visitMethodDef(this, p);
         case PACKAGE:

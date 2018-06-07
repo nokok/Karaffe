@@ -2,7 +2,7 @@ package org.karaffe.compiler.base.tree.def;
 
 public enum DefKind {
     PACKAGE,
-    IMPORT,
+    SIMPLE_IMPORT,
     CLASS,
     METHOD,
     LET,

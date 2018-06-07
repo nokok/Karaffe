@@ -23,7 +23,7 @@ public interface TreeVisitor<R, P> {
 
     R visitClassDef(Def def, P p);
 
-    R visitImportDef(Def def, P p);
+    R visitSimpleImportDef(Def def, P p);
 
     R visitMethodDef(Def def, P p);
 

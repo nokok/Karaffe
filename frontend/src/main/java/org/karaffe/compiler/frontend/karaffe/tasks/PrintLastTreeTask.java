@@ -214,7 +214,7 @@ public class PrintLastTreeTask extends AbstractReadOnlyTask implements NoDescrip
         }
 
         @Override
-        public Map<String, Object> visitImportDef(Def def, Void aVoid) {
+        public Map<String, Object> visitSimpleImportDef(Def def, Void aVoid) {
             Map<String, Object> map = new LinkedHashMap<>();
             map.put("kind", def.getDefKind());
             map.put("importPath", def.getName().accept(this, null));

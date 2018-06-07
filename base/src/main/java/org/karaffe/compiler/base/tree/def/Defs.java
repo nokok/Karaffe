@@ -26,7 +26,7 @@ public interface Defs {
     }
 
     static Def importDef(Tree parent, String importName) {
-        SimpleDef importDef = new SimpleDef(parent, DefKind.IMPORT);
+        SimpleDef importDef = new SimpleDef(parent, DefKind.SIMPLE_IMPORT);
         importDef.setName(Terms.fqcn(importName));
         return importDef;
     }
