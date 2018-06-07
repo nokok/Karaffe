@@ -9,6 +9,7 @@ import org.karaffe.compiler.base.tree.def.Def;
 import org.karaffe.compiler.frontend.karaffe.tasks.AbstractReadOnlyTask;
 
 public class CreateContextTask extends AbstractReadOnlyTask implements NoDescriptionTask {
+
     @Override
     public String name() {
         return "create-context";

@@ -8,7 +8,22 @@ import org.karaffe.compiler.base.tree.Tree;
 import org.karaffe.compiler.base.tree.def.Defs;
 import org.karaffe.compiler.frontend.karaffe.tasks.AbstractTask;
 
+import java.util.Arrays;
+import java.util.HashSet;
+import java.util.Set;
+
 public class InsertDefaultImportTask extends AbstractTask implements NoDescriptionTask {
+
+    private static final Set<String> defaultImportClasses;
+
+    static {
+        // load classes
+        defaultImportClasses = new HashSet<>(Arrays.asList(
+                java.lang.String.class.getCanonicalName(),
+                java.lang.Integer.class.getCanonicalName()
+        ));
+    }
+
     @Override
     public String name() {
         return "insert-default-import";
@@ -22,7 +37,10 @@ public class InsertDefaultImportTask extends AbstractTask implements NoDescripti
             @Override
             public Tree visitCompileUnit(Tree.CompilationUnit tree, Void aVoid) {
                 super.visitCompileUnit(tree, aVoid);
-                tree.addTopLevel(Defs.importDef(tree, "java.lang.Integer"));
+                for (String defaultImport : defaultImportClasses) {
+                    tree.addFirst(Defs.importDef(tree, defaultImport));
+                    context.onFileImportDef(tree.getPos().getSourceName(), defaultImport);
+                }
                 return tree;
             }
         }, null);

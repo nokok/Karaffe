@@ -15,7 +15,7 @@ public interface Def extends Tree {
     List<Tree> getBody();
 
     interface PackageDef extends Def {
-
+        
     }
 
     interface ImportDef extends Def {

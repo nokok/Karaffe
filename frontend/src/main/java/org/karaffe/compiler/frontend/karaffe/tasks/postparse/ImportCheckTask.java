@@ -12,6 +12,7 @@ import org.karaffe.compiler.frontend.karaffe.tasks.AbstractReadOnlyTask;
 import java.util.concurrent.atomic.AtomicBoolean;
 
 public class ImportCheckTask extends AbstractReadOnlyTask implements NoDescriptionTask {
+
     @Override
     public String name() {
         return "import-check";
