@@ -1,9 +1,10 @@
 package org.karaffe.compiler.base.tree.expr;
 
+import org.antlr.v4.runtime.Token;
 import org.antlr.v4.runtime.tree.TerminalNode;
 import org.karaffe.compiler.base.pos.Position;
 import org.karaffe.compiler.base.tree.Tree;
-import org.karaffe.compiler.base.tree.term.Name;
+import org.karaffe.compiler.base.tree.term.Path;
 import org.karaffe.compiler.base.tree.term.Terms;
 
 import java.util.List;
@@ -22,19 +23,18 @@ public interface Exprs {
         return atom;
     }
 
-    static Tree apply(Tree target, Name methodName, Tree arg) {
+    static Tree apply(Tree target, Path methodName, Tree arg) {
         Apply apply = new Apply();
+        apply.setName(methodName);
         apply.addChild(target);
-        apply.addChild(methodName);
         apply.addChild(arg);
         return apply;
     }
 
-    static Tree apply(Tree target, Name methodName, List<Tree> args) {
+    static Tree apply(Tree target, Path methodName, List<Tree> args) {
         Apply apply = new Apply();
+        apply.setName(methodName);
         apply.addChild(target);
-        apply.addChild(methodName);
-
         for (Tree arg : args) {
             apply.addChild(arg);
         }
@@ -81,28 +81,34 @@ public interface Exprs {
 
     static Tree unaryApply(Operator operator, Tree expr) {
         Apply apply = new Apply();
-        apply.addChild(Terms.typeName("Unary"));
-        apply.addChild(operator);
+        apply.setName(Terms.varName(operator.asFullName()));
         apply.addChild(expr);
         return apply;
     }
 
-    static Tree cast(Tree expr, Tree typeName) {
+    static Tree cast(Tree tree, Path typeName) {
         Cast cast = new Cast();
-        cast.addChild(expr);
-        cast.addChild(typeName);
+        cast.addChild(tree);
+        cast.setTypeName(typeName);
         return cast;
     }
 
-    static Tree newInstance(Name typeName, Tree args) {
+    static Tree newInstance(Path typeName, Tree args) {
         Apply apply = new Apply();
-        apply.addChild(typeName);
-        apply.addChild(Terms.varName("<init>"));
+        apply.setName(Terms.varName("<init>"));
+        apply.setTypeName(typeName);
         apply.addChild(args);
         return apply;
     }
 
     static Tuple tuple() {
         return new Tuple();
+    }
+
+    static Tree id(Token exprName) {
+        Atom atom = new Atom(AtomKind.IDENTIFIER);
+        atom.setPos(Position.of(exprName));
+        atom.setValue(exprName.getText());
+        return atom;
     }
 }

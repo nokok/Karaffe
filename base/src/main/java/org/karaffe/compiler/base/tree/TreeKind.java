@@ -18,5 +18,6 @@ public enum TreeKind {
     EMPTY,
     IFEXPR,
     WHILEEXPR,
-    CAST;
+    CAST,
+    BINDING;
 }

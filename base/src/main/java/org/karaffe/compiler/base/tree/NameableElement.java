@@ -1,7 +1,9 @@
 package org.karaffe.compiler.base.tree;
 
-public interface NameableElement {
-    public Tree getName();
+import org.karaffe.compiler.base.tree.term.Path;
 
-    public void setName(Tree name);
+public interface NameableElement {
+    Path getName();
+
+    void setName(Path name);
 }

@@ -1,11 +1,12 @@
 package org.karaffe.compiler.base.tree.term;
 
-public enum NameType {
+public enum NameKind {
     NONE,
     PACKAGE,
-    FQCN,
     TYPENAME,
     OPERATOR,
     THIS,
+    MODULE,
+    NESTED,
     VARNAME
 }

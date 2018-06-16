@@ -1,13 +1,12 @@
 package org.karaffe.compiler.base.tree.def;
 
 import org.karaffe.compiler.base.tree.Tree;
+import org.karaffe.compiler.base.tree.expr.Binding;
 import org.karaffe.compiler.base.tree.expr.Exprs;
 import org.karaffe.compiler.base.tree.expr.Tuple;
 import org.karaffe.compiler.base.tree.modifier.Modifiers;
-import org.karaffe.compiler.base.tree.term.Name;
+import org.karaffe.compiler.base.tree.term.Path;
 import org.karaffe.compiler.base.tree.term.Terms;
-import org.karaffe.compiler.base.tree.type.Type;
-import org.karaffe.compiler.base.tree.type.Types;
 
 public interface Defs {
 
@@ -16,8 +15,8 @@ public interface Defs {
     }
 
     static Def packageDef(Tree parent, String packageName) {
-        SimpleDef packageDef = new SimpleDef(parent, DefKind.PACKAGE);
-        packageDef.setName(Terms.packageName(packageName));
+        AbstractDef packageDef = new PackageDef(parent);
+        Path name = Terms.packageName(packageName);
         return packageDef;
     }
 
@@ -26,8 +25,8 @@ public interface Defs {
     }
 
     static Def importDef(Tree parent, String importName) {
-        SimpleDef importDef = new SimpleDef(parent, DefKind.SIMPLE_IMPORT);
-        importDef.setName(Terms.fqcn(importName));
+        AbstractDef importDef = new SimpleImport(parent);
+        importDef.setName(Terms.typeName(importName));
         return importDef;
     }
 
@@ -36,8 +35,9 @@ public interface Defs {
     }
 
     static Def onDemandImportDef(Tree parent, String packageName) {
-        SimpleDef importDef = new SimpleDef(parent, DefKind.ONDEMAND_IMPORT);
-        importDef.setName(Terms.packageName(packageName));
+        AbstractDef importDef = new OnDemandImport(parent);
+        Path pkgName = Terms.packageName(packageName);
+        importDef.setName(pkgName);
         return importDef;
     }
 
@@ -46,16 +46,15 @@ public interface Defs {
     }
 
     static Def classDef(Tree parent, String className) {
-        SimpleDef classDef = new SimpleDef(parent, DefKind.CLASS);
-        classDef.setName(Terms.typeName(className));
+        AbstractDef classDef = new ClassDef(parent);
         return classDef;
     }
 
-    static Def methodDef(Tree parent, String methodName, Type returnType, Tuple parameters) {
-        SimpleDef methodDef = new SimpleDef(parent, DefKind.METHOD);
-        methodDef.setType(returnType);
-        methodDef.setOrReplaceChild(0, parameters);
+    static Def methodDef(Tree parent, String methodName, Path returnTypeName, Tuple parameters) {
+        AbstractDef methodDef = new MethodDef(parent);
         methodDef.setName(Terms.varName(methodName));
+        methodDef.setTypeName(returnTypeName);
+        methodDef.setOrReplaceChild(0, parameters);
         return methodDef;
     }
 
@@ -65,30 +64,32 @@ public interface Defs {
 
     static Def mainMethodDef(Tree parent) {
         Tuple params = Exprs.tuple();
-        params.addChild(Types.array(Types.simple(Terms.typeName("String"))));
+        Binding binding = new Binding(parent);
+        binding.setName(Terms.varName("args"));
+        binding.setTypeName(Terms.arrayTypeName(Terms.typeName("String")));
+        params.addChild(binding);
         Def methodDef = methodDef(
                 parent,
                 "main",
-                Types.jvoid(),
+                Terms.primitiveVoid(),
                 params
         );
         params.setParent(methodDef);
         methodDef.addModifier(Modifiers.modPublic(methodDef));
         methodDef.addModifier(Modifiers.modStatic(methodDef));
-        methodDef.setType(Types.jvoid());
         return methodDef;
     }
 
-    static Def letDef(Name letName, Name typeName, Tree initializer) {
-        SimpleDef letDef = new SimpleDef(DefKind.LET);
+    static Def letDef(Path letName, Path typeName, Tree initializer) {
+        AbstractDef letDef = new LetDef();
         letDef.setName(letName);
-        letDef.setType(typeName);
+        letDef.setTypeName(typeName);
         letDef.addChild(initializer);
         return letDef;
     }
 
-    static Def assignment(Name reassignName, Tree expr) {
-        SimpleDef assignment = new SimpleDef(DefKind.ASSIGNMENT);
+    static Def assignment(Path reassignName, Tree expr) {
+        AbstractDef assignment = new AssignmentDef();
         assignment.setName(reassignName);
         assignment.addChild(expr);
         return assignment;

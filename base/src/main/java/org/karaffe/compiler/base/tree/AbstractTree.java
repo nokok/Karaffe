@@ -1,8 +1,8 @@
 package org.karaffe.compiler.base.tree;
 
 import org.karaffe.compiler.base.pos.Position;
+import org.karaffe.compiler.base.tree.term.Path;
 import org.karaffe.compiler.base.tree.term.Terms;
-import org.karaffe.compiler.base.tree.type.Types;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -12,8 +12,8 @@ public abstract class AbstractTree implements Tree {
     private Tree parent;
     private TreeKind kind;
     private Position position;
-    private Tree name;
-    private Tree type;
+    private Path name;
+    private Path typeName;
     private List<Tree> modifiers;
     private List<Tree> children;
 
@@ -26,19 +26,19 @@ public abstract class AbstractTree implements Tree {
         this.kind = Objects.requireNonNull(treeKind);
         this.position = Position.noPos();
         this.name = Terms.emptyName();
-        this.type = Types.noType();
+        this.typeName = Terms.emptyName();
         this.modifiers = new ArrayList<>();
         this.children = new ArrayList<>();
     }
 
     @Override
-    public Tree asType() {
-        return this.type;
+    public Path getTypeName() {
+        return this.typeName;
     }
 
     @Override
-    public void setType(Tree type) {
-        this.type = Objects.requireNonNull(type);
+    public void setTypeName(Path type) {
+        this.typeName = Objects.requireNonNull(type);
     }
 
     @Override
@@ -123,12 +123,12 @@ public abstract class AbstractTree implements Tree {
     }
 
     @Override
-    public Tree getName() {
+    public Path getName() {
         return this.name;
     }
 
     @Override
-    public void setName(Tree name) {
+    public void setName(Path name) {
         this.name = Objects.requireNonNull(name);
     }
 }

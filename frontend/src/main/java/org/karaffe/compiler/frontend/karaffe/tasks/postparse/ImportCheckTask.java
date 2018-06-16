@@ -6,7 +6,8 @@ import org.karaffe.compiler.base.task.NoDescriptionTask;
 import org.karaffe.compiler.base.task.TaskResult;
 import org.karaffe.compiler.base.tree.DefaultVisitor;
 import org.karaffe.compiler.base.tree.Tree;
-import org.karaffe.compiler.base.tree.def.Def;
+import org.karaffe.compiler.base.tree.def.SimpleImport;
+import org.karaffe.compiler.base.tree.term.Path;
 import org.karaffe.compiler.frontend.karaffe.tasks.AbstractReadOnlyTask;
 
 import java.util.concurrent.atomic.AtomicBoolean;
@@ -24,8 +25,8 @@ public class ImportCheckTask extends AbstractReadOnlyTask implements NoDescripti
         AtomicBoolean hasError = new AtomicBoolean(false);
         compilationUnit.accept(new DefaultVisitor<Void>() {
             @Override
-            public Tree visitSimpleImportDef(Def tree, Void o) {
-                Tree name = tree.getName();
+            public Tree visitSimpleImportDef(SimpleImport tree, Void o) {
+                Path name = tree.getName();
                 try {
                     Class.forName(tree.getName().toString());
                 } catch (ClassNotFoundException e) {

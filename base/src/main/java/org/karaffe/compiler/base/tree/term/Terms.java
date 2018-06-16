@@ -3,35 +3,39 @@ package org.karaffe.compiler.base.tree.term;
 import org.karaffe.compiler.base.tree.Tree;
 
 public interface Terms {
-    static Name emptyName() {
-        return SimpleName.EMPTY_NAME;
+    static Path emptyName() {
+        return new EmptyPath();
     }
 
-    static Name packageName(String name) {
-        return new SimpleName(name, NameType.PACKAGE);
+    static Path moduleName(String name) {
+        return new DotSeparatedPath(name, NameKind.MODULE);
     }
 
-    static Name fqcn(String name) {
-        return new SimpleName(name, NameType.FQCN);
+    static Path packageName(String name) {
+        return new DotSeparatedPath(name, NameKind.PACKAGE);
     }
 
-    static Name typeName(String name) {
-        return new SimpleName(name, NameType.TYPENAME);
+    static Path arrayTypeName(Path elementName) {
+        return new NestedPath(typeName("Array"), elementName);
     }
 
-    static Name varName(String name) {
-        return new SimpleName(name, NameType.VARNAME);
+    static Path typeName(String name) {
+        return new DotSeparatedPath(name, NameKind.TYPENAME);
     }
 
-    static Name specialName(String name) {
-        return new SimpleName(name, NameType.NONE);
+    static Path varName(String name) {
+        return new SimplePath(name, NameKind.VARNAME);
     }
 
-    static Name thisName() {
-        return new SimpleName("this", NameType.THIS);
+    static Path thisName() {
+        return new SimplePath("this", NameKind.THIS);
     }
 
     static Tree emptyTree() {
         return new EmptyTree();
+    }
+
+    static Path primitiveVoid() {
+        return new SimplePath("void", NameKind.TYPENAME, true);
     }
 }

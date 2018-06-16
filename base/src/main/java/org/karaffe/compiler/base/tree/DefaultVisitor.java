@@ -1,8 +1,15 @@
 package org.karaffe.compiler.base.tree;
 
-import org.karaffe.compiler.base.tree.def.Def;
+import org.karaffe.compiler.base.tree.def.AssignmentDef;
+import org.karaffe.compiler.base.tree.def.ClassDef;
+import org.karaffe.compiler.base.tree.def.LetDef;
+import org.karaffe.compiler.base.tree.def.MethodDef;
+import org.karaffe.compiler.base.tree.def.OnDemandImport;
+import org.karaffe.compiler.base.tree.def.PackageDef;
+import org.karaffe.compiler.base.tree.def.SimpleImport;
 import org.karaffe.compiler.base.tree.expr.Apply;
 import org.karaffe.compiler.base.tree.expr.Atom;
+import org.karaffe.compiler.base.tree.expr.Binding;
 import org.karaffe.compiler.base.tree.expr.Block;
 import org.karaffe.compiler.base.tree.expr.Cast;
 import org.karaffe.compiler.base.tree.expr.IfExpr;
@@ -12,11 +19,7 @@ import org.karaffe.compiler.base.tree.expr.Tuple;
 import org.karaffe.compiler.base.tree.expr.WhileExpr;
 import org.karaffe.compiler.base.tree.modifier.Modifier;
 import org.karaffe.compiler.base.tree.term.EmptyTree;
-import org.karaffe.compiler.base.tree.term.Name;
-import org.karaffe.compiler.base.tree.type.ArrayType;
-import org.karaffe.compiler.base.tree.type.PrimitiveType;
-import org.karaffe.compiler.base.tree.type.SimpleType;
-import org.karaffe.compiler.base.tree.type.Type;
+import org.karaffe.compiler.base.tree.term.Path;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -36,84 +39,49 @@ public class DefaultVisitor<P> implements TreeVisitor<Tree, P> {
     }
 
     private Tree visitTree(Tree tree, P p) {
-        if (tree.asType() != null) {
-            tree.setType(tree.asType().accept(this, p));
+        if (tree.getTypeName() != null) {
+            tree.setTypeName((Path) tree.getTypeName().accept(this, p));
         }
-        tree.setChildren(visitChildren(tree, p));
-        tree.setModifiers(visitModifiers(tree, p));
-        if (tree.getName() != null) {
-            tree.setName(tree.getName().accept(this, p));
+        if (tree.getKind() != TreeKind.NAME) {
+            tree.setChildren(visitChildren(tree, p));
+            tree.setModifiers(visitModifiers(tree, p));
+            tree.setName((Path) tree.getName().accept(this, p));
         }
         return tree;
     }
 
     @Override
-    public Tree visitLetDef(Def tree, P p) {
+    public Tree visitLetDef(LetDef tree, P p) {
         return visitTree(tree, p);
     }
 
     @Override
-    public Tree visitAssignmentDef(Def tree, P p) {
+    public Tree visitAssignmentDef(AssignmentDef tree, P p) {
         return visitTree(tree, p);
     }
 
     @Override
-    public Tree visitClassDef(Def tree, P p) {
+    public Tree visitClassDef(ClassDef tree, P p) {
         return visitTree(tree, p);
     }
 
     @Override
-    public Tree visitSimpleImportDef(Def tree, P p) {
+    public Tree visitSimpleImportDef(SimpleImport tree, P p) {
         return visitTree(tree, p);
     }
 
     @Override
-    public Tree visitOnDemandImportDef(Def tree, P p) {
+    public Tree visitOnDemandImportDef(OnDemandImport tree, P p) {
         return visitTree(tree, p);
     }
 
     @Override
-    public Tree visitMethodDef(Def tree, P p) {
+    public Tree visitMethodDef(MethodDef tree, P p) {
         return visitTree(tree, p);
     }
 
     @Override
-    public Tree visitPackageDef(Def tree, P p) {
-        return visitTree(tree, p);
-    }
-
-    @Override
-    public Tree visitNoneName(Name tree, P p) {
-        return visitTree(tree, p);
-    }
-
-    @Override
-    public Tree visitFQCN(Name tree, P p) {
-        return visitTree(tree, p);
-    }
-
-    @Override
-    public Tree visitPackageName(Name tree, P p) {
-        return visitTree(tree, p);
-    }
-
-    @Override
-    public Tree visitThisName(Name tree, P p) {
-        return visitTree(tree, p);
-    }
-
-    @Override
-    public Tree visitVarName(Name tree, P p) {
-        return visitTree(tree, p);
-    }
-
-    @Override
-    public Tree visitTypeName(Name tree, P p) {
-        return visitTree(tree, p);
-    }
-
-    @Override
-    public Tree visit(Modifier tree, P p) {
+    public Tree visitPackageDef(PackageDef tree, P p) {
         return visitTree(tree, p);
     }
 
@@ -128,62 +96,7 @@ public class DefaultVisitor<P> implements TreeVisitor<Tree, P> {
     }
 
     @Override
-    public Tree visitRefType(SimpleType tree, P p) {
-        return visitTree(tree, p);
-    }
-
-    @Override
-    public Tree visitArrayType(ArrayType tree, P p) {
-        return visitTree(tree, p);
-    }
-
-    @Override
-    public Tree visitPrimitiveIntType(PrimitiveType tree, P p) {
-        return visitTree(tree, p);
-    }
-
-    @Override
-    public Tree visitPrimitiveCharType(PrimitiveType tree, P p) {
-        return visitTree(tree, p);
-    }
-
-    @Override
-    public Tree visitPrimitiveByteType(PrimitiveType tree, P p) {
-        return visitTree(tree, p);
-    }
-
-    @Override
-    public Tree visitVoidType(PrimitiveType tree, P p) {
-        return visitTree(tree, p);
-    }
-
-    @Override
-    public Tree visitPrimitiveBooleanType(PrimitiveType tree, P p) {
-        return visitTree(tree, p);
-    }
-
-    @Override
-    public Tree visitPrimitiveLongType(PrimitiveType tree, P p) {
-        return visitTree(tree, p);
-    }
-
-    @Override
-    public Tree visitPrimitiveFloatType(PrimitiveType tree, P p) {
-        return visitTree(tree, p);
-    }
-
-    @Override
-    public Tree visitPrimitiveShortType(PrimitiveType tree, P p) {
-        return visitTree(tree, p);
-    }
-
-    @Override
-    public Tree visitPrimitiveDoubleType(PrimitiveType tree, P p) {
-        return visitTree(tree, p);
-    }
-
-    @Override
-    public Tree visitNoType(Type tree, P p) {
+    public Tree visitSyntheticMod(Modifier tree, P p) {
         return visitTree(tree, p);
     }
 
@@ -218,8 +131,8 @@ public class DefaultVisitor<P> implements TreeVisitor<Tree, P> {
     }
 
     @Override
-    public Tree visitOperator(Operator tree, P p) {
-        return visitTree(tree, p);
+    public Path visitOperator(Operator tree, P p) {
+        return tree;
     }
 
     @Override
@@ -246,4 +159,40 @@ public class DefaultVisitor<P> implements TreeVisitor<Tree, P> {
     public Tree visitCast(Cast tree, P p) {
         return visitTree(tree, p);
     }
+
+    @Override
+    public Tree visitBinding(Binding tree, P p) {
+        return visitTree(tree, p);
+    }
+
+    @Override
+    public Path visitModuleName(Path path, P p) {
+        return path;
+    }
+
+    @Override
+    public Path visitPackageName(Path path, P p) {
+        return path;
+    }
+
+    @Override
+    public Path visitEmptyName(Path path, P p) {
+        return path;
+    }
+
+    @Override
+    public Path visitTypeName(Path path, P p) {
+        return path;
+    }
+
+    @Override
+    public Path visitVarName(Path path, P p) {
+        return path;
+    }
+
+    @Override
+    public Path visitThisName(Path path, P p) {
+        return path;
+    }
+
 }

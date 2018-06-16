@@ -1,8 +1,7 @@
 package org.karaffe.compiler.base.tree;
 
+import org.karaffe.compiler.base.tree.term.Path;
 import org.karaffe.compiler.base.tree.term.Terms;
-import org.karaffe.compiler.base.tree.type.Type;
-import org.karaffe.compiler.base.tree.type.Types;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -41,8 +40,8 @@ public interface Tree extends LocatableElement, NameableElement, ModifiableEleme
 
     class Template extends AbstractTree {
 
-        private Type superClass;
-        private List<Type> interfaces;
+        private Path superClass;
+        private List<Path> interfaces;
 
         Template() {
             this(null);
@@ -50,23 +49,23 @@ public interface Tree extends LocatableElement, NameableElement, ModifiableEleme
 
         Template(Tree parent) {
             super(parent, TreeKind.TEMPLATE);
-            this.superClass = Types.simple(Terms.typeName("Any"));
+            this.superClass = Terms.typeName("Any");
             this.interfaces = new ArrayList<>();
         }
 
-        public Type getSuperClass() {
+        public Path getSuperClass() {
             return superClass;
         }
 
-        public void setSuperClass(Type superClass) {
+        public void setSuperClass(Path superClass) {
             this.superClass = Objects.requireNonNull(superClass);
         }
 
-        public void addInterface(Type type) {
+        public void addInterface(Path type) {
             this.interfaces.add(Objects.requireNonNull(type));
         }
 
-        public List<Type> getInterfaces() {
+        public List<Path> getInterfaces() {
             return interfaces;
         }
 

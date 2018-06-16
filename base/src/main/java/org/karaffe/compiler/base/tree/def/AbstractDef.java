@@ -8,15 +8,15 @@ import org.karaffe.compiler.base.tree.TreeVisitor;
 import java.util.List;
 import java.util.Objects;
 
-public class SimpleDef extends AbstractTree implements Def {
+public abstract class AbstractDef extends AbstractTree implements Def {
 
     private DefKind defKind;
 
-    public SimpleDef(DefKind defKind) {
+    public AbstractDef(DefKind defKind) {
         this(null, defKind);
     }
 
-    public SimpleDef(Tree parent, DefKind defKind) {
+    public AbstractDef(Tree parent, DefKind defKind) {
         super(parent, TreeKind.DEF);
         this.defKind = Objects.requireNonNull(defKind);
     }
@@ -28,19 +28,19 @@ public class SimpleDef extends AbstractTree implements Def {
         }
         switch (this.defKind) {
         case LET:
-            return visitor.visitLetDef(this, p);
+            return visitor.visitLetDef((LetDef) this, p);
         case ASSIGNMENT:
-            return visitor.visitAssignmentDef(this, p);
+            return visitor.visitAssignmentDef((AssignmentDef) this, p);
         case CLASS:
-            return visitor.visitClassDef(this, p);
+            return visitor.visitClassDef((ClassDef) this, p);
         case ONDEMAND_IMPORT:
-            return visitor.visitOnDemandImportDef(this, p);
+            return visitor.visitOnDemandImportDef((OnDemandImport) this, p);
         case SIMPLE_IMPORT:
-            return visitor.visitSimpleImportDef(this, p);
+            return visitor.visitSimpleImportDef((SimpleImport) this, p);
         case METHOD:
-            return visitor.visitMethodDef(this, p);
+            return visitor.visitMethodDef((MethodDef) this, p);
         case PACKAGE:
-            return visitor.visitPackageDef(this, p);
+            return visitor.visitPackageDef((PackageDef) this, p);
         default:
             throw new IllegalStateException(this.defKind.toString());
         }

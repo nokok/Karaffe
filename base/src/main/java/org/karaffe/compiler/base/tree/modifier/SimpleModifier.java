@@ -20,8 +20,10 @@ class SimpleModifier extends AbstractTree implements Modifier {
             return visitor.visitPublicMod(this, p);
         case STATIC:
             return visitor.visitStaticMod(this, p);
+        case SYNTHETIC:
+            return visitor.visitSyntheticMod(this, p);
         }
-        return visitor.visit(this, p);
+        throw new IllegalStateException();
     }
 
     @Override

@@ -2,7 +2,7 @@ package org.karaffe.compiler.frontend.karaffe.tasks;
 
 import org.karaffe.compiler.base.CompilerContext;
 import org.karaffe.compiler.base.task.TaskResult;
-import org.karaffe.compiler.frontend.karaffe.visitor.NewASTVisitor;
+import org.karaffe.compiler.frontend.karaffe.visitor.CreateASTVisitor;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -22,7 +22,7 @@ public class GenASTTask extends AbstractTask {
 
     @Override
     public TaskResult run(CompilerContext context) {
-        NewASTVisitor visitor = new NewASTVisitor();
+        CreateASTVisitor visitor = new CreateASTVisitor();
         context.contextStream()
                 .peek(c -> LOGGER.debug(c.toString()))
                 .map(c -> c.accept(visitor))
