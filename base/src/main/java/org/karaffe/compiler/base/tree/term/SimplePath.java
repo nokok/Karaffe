@@ -26,7 +26,7 @@ public class SimplePath extends AbstractPath {
 
     @Override
     public String delimiterRegex() {
-        return "";
+        return "$^";
     }
 
     @Override

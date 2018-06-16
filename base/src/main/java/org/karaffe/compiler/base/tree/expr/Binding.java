@@ -15,4 +15,9 @@ public class Binding extends AbstractTree {
     public <R, P> R accept(TreeVisitor<R, P> visitor, P p) {
         return visitor.visitBinding(this, p);
     }
+
+    @Override
+    public String toString() {
+        return getName() + " " + getTypeName();
+    }
 }

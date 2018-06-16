@@ -10,4 +10,9 @@ public class OnDemandImport extends AbstractDef implements Def {
     public OnDemandImport(Tree parent) {
         super(parent, DefKind.ONDEMAND_IMPORT);
     }
+
+    @Override
+    public String toString() {
+        return "import " + this.getName() + ".*";
+    }
 }

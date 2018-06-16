@@ -10,4 +10,9 @@ public class SimpleImport extends AbstractDef implements Def {
     public SimpleImport(Tree parent) {
         super(parent, DefKind.SIMPLE_IMPORT);
     }
+
+    @Override
+    public String toString() {
+        return "import " + this.getName();
+    }
 }

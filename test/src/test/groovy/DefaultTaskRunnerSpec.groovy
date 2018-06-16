@@ -19,7 +19,7 @@ class DefaultTaskRunnerSpec extends Specification {
 
     }
 
-    def "standByに指定したタスクはrunAllが実行されるまで実行されない"() {
+    def "The task specified in standBy is not executed until runAll is executed"() {
         setup:
         def cc = new CompilerContext()
         def taskRunner = TaskRunner.newDefaultTaskRunner(cc)

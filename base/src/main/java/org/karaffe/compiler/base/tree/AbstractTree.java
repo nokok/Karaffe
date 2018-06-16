@@ -131,4 +131,22 @@ public abstract class AbstractTree implements Tree {
     public void setName(Path name) {
         this.name = Objects.requireNonNull(name);
     }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        AbstractTree that = (AbstractTree) o;
+        return kind == that.kind &&
+                Objects.equals(name, that.name) &&
+                Objects.equals(typeName, that.typeName) &&
+                Objects.equals(modifiers, that.modifiers) &&
+                Objects.equals(children, that.children);
+    }
+
+    @Override
+    public int hashCode() {
+
+        return Objects.hash(kind, name, typeName, modifiers, children);
+    }
 }

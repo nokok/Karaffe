@@ -6,4 +6,9 @@ public class PackageDef extends AbstractDef implements Def {
     public PackageDef(Tree parent) {
         super(parent, DefKind.PACKAGE);
     }
+
+    @Override
+    public String toString() {
+        return "package " + this.getName();
+    }
 }

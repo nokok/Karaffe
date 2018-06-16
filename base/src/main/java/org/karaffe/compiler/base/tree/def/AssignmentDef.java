@@ -10,4 +10,9 @@ public class AssignmentDef extends AbstractDef implements Def {
     public AssignmentDef(Tree parent) {
         super(parent, DefKind.ASSIGNMENT);
     }
+
+    @Override
+    public String toString() {
+        return getName() + " = " + getChild(0);
+    }
 }

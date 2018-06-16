@@ -17,6 +17,7 @@ public interface Defs {
     static Def packageDef(Tree parent, String packageName) {
         AbstractDef packageDef = new PackageDef(parent);
         Path name = Terms.packageName(packageName);
+        packageDef.setName(name);
         return packageDef;
     }
 
@@ -47,6 +48,7 @@ public interface Defs {
 
     static Def classDef(Tree parent, String className) {
         AbstractDef classDef = new ClassDef(parent);
+        classDef.setName(Terms.typeName(className));
         return classDef;
     }
 

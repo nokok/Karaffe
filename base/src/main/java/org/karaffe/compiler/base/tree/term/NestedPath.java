@@ -45,4 +45,9 @@ public class NestedPath extends AbstractPath {
     public <P> Path accept(TreeVisitor<?, P> visitor, P p) {
         return visitor.visitNestedName(this, p);
     }
+
+    @Override
+    public String toString() {
+        return this.basePath + "[" + this.childPath + "]";
+    }
 }

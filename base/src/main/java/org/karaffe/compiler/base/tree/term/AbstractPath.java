@@ -83,6 +83,21 @@ public abstract class AbstractPath implements Path {
     }
 
     @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        AbstractPath that = (AbstractPath) o;
+        return Objects.equals(name, that.name) &&
+                Objects.equals(simpleName, that.simpleName);
+    }
+
+    @Override
+    public int hashCode() {
+
+        return Objects.hash(name, simpleName);
+    }
+
+    @Override
     public String toString() {
         return this.asFullName();
     }

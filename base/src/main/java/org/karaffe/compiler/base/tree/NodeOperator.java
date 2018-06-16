@@ -11,5 +11,9 @@ public interface NodeOperator {
 
     List<Tree> getChildren();
 
+    default Tree getChild(int index) {
+        return getChildren().get(index);
+    }
+
     void setChildren(List<Tree> children);
 }
