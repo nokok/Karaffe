@@ -26,7 +26,6 @@ import org.karaffe.compiler.base.tree.expr.Tuple;
 import org.karaffe.compiler.base.tree.expr.WhileExpr;
 import org.karaffe.compiler.base.tree.modifier.Modifier;
 import org.karaffe.compiler.base.tree.term.EmptyTree;
-import org.karaffe.compiler.base.tree.term.Path;
 import org.karaffe.compiler.base.util.Platform;
 
 import java.util.Collections;
@@ -126,8 +125,8 @@ public class PrintLastTreeTask extends AbstractReadOnlyTask implements NoDescrip
             Map<String, Object> map = new LinkedHashMap<>();
             map.put("kind", apply.getKind());
             map.put("target", apply.getChildren().get(0).accept(this, null));
-            map.put("methodName", apply.getChildren().get(1).accept(this, null));
-            map.put("args", apply.getChildren().stream().skip(2).map(t -> t.accept(this, null)).collect(toList()));
+            map.put("methodName", apply.getName().accept(this, null));
+            map.put("args", apply.getChildren().stream().skip(1).map(t -> t.accept(this, null)).collect(toList()));
             return map;
         }
 
