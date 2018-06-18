@@ -337,7 +337,7 @@ public class CreateASTVisitor extends KaraffeBaseVisitor<Tree> implements Positi
     public Tree visitNewInstance(KaraffeParser.NewInstanceContext ctx) {
         return Exprs.newInstance(
                 Terms.typeName(ctx.typeName.getText()),
-                ctx.args.accept(this)
+                ctx.args == null ? new EmptyTree(): ctx.args.accept(this)
         );
     }
 
