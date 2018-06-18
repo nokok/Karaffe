@@ -1,6 +1,7 @@
 package org.karaffe.compiler.base.task;
 
 import org.karaffe.compiler.base.CompilerContext;
+import org.karaffe.compiler.base.task.util.ProcessTimer;
 import org.karaffe.compiler.base.task.util.ResultRecorder;
 import org.karaffe.compiler.base.task.util.TaskQueue;
 import org.slf4j.Logger;
@@ -78,8 +79,9 @@ public class DefaultTaskRunner implements TaskRunner {
                 }
                 continue;
             }
+            ProcessTimer timer = new ProcessTimer();
             TaskResult result = task.run(context);
-            LOGGER.info("TaskResult : {}, name : {}", result, task.name());
+            LOGGER.info("TaskResult : {}, name : {} [{}ms]", result, task.name(), timer.stop());
             resultRecorder.record(result);
             if (resultRecorder.hasError()) {
                 runFinallyTask(context, resultRecorder);

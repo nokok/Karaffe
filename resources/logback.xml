@@ -8,7 +8,7 @@
 
     <appender name="INFO_LOG" class="ch.qos.logback.core.ConsoleAppender">
         <encoder>
-            <pattern>%-5level --- %msg%n</pattern>
+            <pattern>%date{HH:mm:ss.SSS} %-5level --- %msg%n</pattern>
         </encoder>
     </appender>
 
