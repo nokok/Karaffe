@@ -55,7 +55,7 @@ public interface TaskRunner {
     /**
      * 待機状態のタスクをすべて実行します。
      * 実行できないタスクについては再度待機状態タスクとしてマークされ、すべてのタスクが終わってから再度実行されます。
-     * タスクの実行中は実行時例外 {@link RuntimeTaskException} がスローされる場合があります。
+     * タスクの実行中は実行時例外 {@link RuntimeException} がスローされる場合があります。
      */
     RunnerResult runAll();
 }
