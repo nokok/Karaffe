@@ -11,8 +11,15 @@ public enum OperatorKind {
     LE("<=", "lessThanEquals"),
     GE(">=", "greaterThanEquals"),
     EQEQ("==", "equalsTo"),
+    DEEPEQ("===", "deepEqualsTo"),
+    DEEPNOTEQ("!==", "deepNotEqualsTo"),
     NOTEQ("!=", "notEqualsTo"),
     COMMA(",", "comma"),
+    RANGE("..", "range"),
+    POW("**", "pow"),
+    BANG("!", "bang"),
+    OR("||", "or"),
+    AND("&&", "and"),
     ERROR("?", "error"),;
 
     private String simpleName;

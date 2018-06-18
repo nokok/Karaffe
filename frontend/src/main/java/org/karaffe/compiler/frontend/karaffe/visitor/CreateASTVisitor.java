@@ -319,7 +319,7 @@ public class CreateASTVisitor extends KaraffeBaseVisitor<Tree> implements Positi
         return Exprs.apply(
                 ctx.owner.accept(this),
                 Terms.varName(ctx.methodName.getText()),
-                ctx.args.accept(this)
+                ctx.args == null ? new EmptyTree(): ctx.args.accept(this)
         );
     }
 
@@ -351,7 +351,7 @@ public class CreateASTVisitor extends KaraffeBaseVisitor<Tree> implements Positi
         return Exprs.apply(
                 Terms.emptyTree(),
                 Terms.varName(ctx.methodName.getText()),
-                ctx.args.accept(this)
+                ctx.args == null ? new EmptyTree(): ctx.args.accept(this)
         );
     }
 
