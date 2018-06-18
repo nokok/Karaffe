@@ -12,6 +12,7 @@ public enum OperatorKind {
     GE(">=", "greaterThanEquals"),
     EQEQ("==", "equalsTo"),
     NOTEQ("!=", "notEqualsTo"),
+    COMMA(",", "comma"),
     ERROR("?", "error"),;
 
     private String simpleName;

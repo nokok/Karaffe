@@ -16,7 +16,7 @@ public interface Operators {
                 .of(OperatorKind.values())
                 .filter(n -> n.getSimpleName().equals(token.getText()))
                 .findFirst()
-                .get();
+                .orElseThrow(() -> new IllegalStateException(token.getText()));
         operator.setOperatorKind(operatorKind);
         return operator;
     }
