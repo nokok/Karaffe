@@ -1,9 +1,11 @@
 package it;
 
+import org.junit.Ignore;
 import org.junit.Test;
 import org.karaffe.compiler.base.util.Platform;
 import org.karaffe.compiler.launcher.KaraffeCompilerLauncher;
 
+import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.IOException;
 import java.io.PrintStream;
@@ -116,27 +118,7 @@ public class CompilerIOTest {
             argsL.add(testCase.toString());
         }
 
-        String currentDir;
-        try {
-            currentDir = System.getProperty("user.dir");
-        } catch (SecurityException e) {
-            e.printStackTrace(this.defaultStdErr);
-            return -1;
-        }
-
         try (PrintStream output = new PrintStream(destFile)) {
-            Path projectDir = new File(currentDir).getParentFile().toPath();
-            String compilerPath;
-            if (Platform.isWindows()) {
-                compilerPath = projectDir.resolve(Paths.get("build", "install", "Karaffe-compiler", "bin", "krfc.bat")).toAbsolutePath().toString();
-            } else {
-                compilerPath = projectDir.resolve(Paths.get("build", "install", "Karaffe-compiler", "bin", "krfc")).toAbsolutePath().toString();
-            }
-            this.defaultStdOut.println("CompilerPath : " + compilerPath);
-            ProcessBuilder builder = new ProcessBuilder(compilerPath, String.join(" ", argsL));
-            Process process = builder.start();
-            process.waitFor();
-
             KaraffeCompilerLauncher launcher = new KaraffeCompilerLauncher(System.in, output, output);
             this.defaultStdOut.println("Running...: krfc " + String.join(" ", argsL));
             launcher.run(argsL.toArray(new String[]{}));
@@ -155,7 +137,7 @@ public class CompilerIOTest {
                 } else {
                     printFailed(testCase);
                     String actualOutputs = String.join("\n", actualLines);
-                    this.errorMsgBuilder.append("Command: krfc ").append(testCase.toAbsolutePath().toString()).append(System.lineSeparator());
+                    this.errorMsgBuilder.append("Command: krfc ").append(testCase.toAbsolutePath()).append(System.lineSeparator());
                     this.errorMsgBuilder.append("Failed: ").append(destFile.getAbsolutePath()).append(System.lineSeparator());
                     this.errorMsgBuilder.append("====Actual====").append(System.lineSeparator());
                     this.errorMsgBuilder.append(actualOutputs).append(System.lineSeparator());
