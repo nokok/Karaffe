@@ -20,18 +20,19 @@ import org.karaffe.compiler.base.tree.expr.WhileExpr;
 import org.karaffe.compiler.base.tree.modifier.Modifier;
 import org.karaffe.compiler.base.tree.term.EmptyTree;
 import org.karaffe.compiler.base.tree.term.Path;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
-import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 import java.util.stream.Collectors;
 
 public class DefaultVisitor<P> implements TreeVisitor<Tree, P> {
 
+    private static final Logger LOGGER = LoggerFactory.getLogger(DefaultVisitor.class);
+
     private List<Tree> visitChildren(Tree t, P p) {
-        if (t.getKind() != TreeKind.NAME) {
-            return t.getChildren().stream().map(c -> c.accept(this, p)).collect(Collectors.toList());
-        }
-        return new ArrayList<>();
+        return t.getChildren().stream().map(c -> c.accept(this, p)).collect(Collectors.toList());
     }
 
     private List<Tree> visitModifiers(Tree t, P p) {
@@ -39,14 +40,14 @@ public class DefaultVisitor<P> implements TreeVisitor<Tree, P> {
     }
 
     private Tree visitTree(Tree tree, P p) {
-        if (tree.getTypeName() != null) {
-            tree.setTypeName((Path) tree.getTypeName().accept(this, p));
-        }
-        if (tree.getKind() != TreeKind.NAME) {
-            tree.setChildren(visitChildren(tree, p));
-            tree.setModifiers(visitModifiers(tree, p));
-            tree.setName((Path) tree.getName().accept(this, p));
-        }
+        Path name = tree.getName().accept(this, p);
+        Path typeName = tree.getTypeName().accept(this, p);
+        List<Tree> trees = visitChildren(tree, p);
+        List<Tree> modifiers = visitModifiers(tree, p);
+        tree.setName(name);
+        tree.setTypeName(typeName);
+        tree.setChildren(trees);
+        tree.setModifiers(modifiers);
         return tree;
     }
 
@@ -182,6 +183,7 @@ public class DefaultVisitor<P> implements TreeVisitor<Tree, P> {
 
     @Override
     public Path visitTypeName(Path path, P p) {
+        LOGGER.trace("TypeName: {}", path);
         return path;
     }
 

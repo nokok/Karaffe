@@ -5,7 +5,7 @@ import org.karaffe.compiler.base.tree.TreeVisitor;
 public class EmptyPath extends AbstractPath {
 
     public EmptyPath() {
-        super("");
+        super("", "");
     }
 
     @Override
@@ -20,11 +20,6 @@ public class EmptyPath extends AbstractPath {
 
     @Override
     public String asSimpleName() {
-        return "";
-    }
-
-    @Override
-    public String delimiterRegex() {
         return "";
     }
 

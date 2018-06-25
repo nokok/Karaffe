@@ -5,6 +5,7 @@ import org.karaffe.compiler.base.task.NoDescriptionTask;
 import org.karaffe.compiler.base.task.TaskResult;
 import org.karaffe.compiler.base.tree.DefaultVisitor;
 import org.karaffe.compiler.base.tree.Tree;
+import org.karaffe.compiler.base.tree.def.Def;
 import org.karaffe.compiler.base.tree.def.OnDemandImport;
 import org.karaffe.compiler.base.tree.def.PackageDef;
 import org.karaffe.compiler.base.tree.def.SimpleImport;
@@ -31,13 +32,13 @@ public class CreateContextTask extends AbstractReadOnlyTask implements NoDescrip
 
             @Override
             public Tree visitSimpleImportDef(SimpleImport tree, Void aVoid) {
-                context.onFileImportDef(tree.getPos().getSourceName(), super.visitSimpleImportDef(tree, aVoid));
+                context.onFileImportDef(tree.getPos(), (Def) super.visitSimpleImportDef(tree, aVoid));
                 return tree;
             }
 
             @Override
             public Tree visitOnDemandImportDef(OnDemandImport tree, Void aVoid) {
-                context.onFileImportDef(tree.getPos().getSourceName(), super.visitOnDemandImportDef(tree, aVoid));
+                context.onFileImportDef(tree.getPos(), (Def) super.visitOnDemandImportDef(tree, aVoid));
                 return tree;
             }
         }, null);

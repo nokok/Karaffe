@@ -47,6 +47,12 @@ public class PrintLastTreeTask extends AbstractReadOnlyTask implements NoDescrip
         map.put("state", context.getState());
         map.put("options", context.getCmdLineOptions());
         map.put("hasInvalidCmdLineArg", context.hasInvalidCmdLineArg());
+        map.put("FileImportMap", context.getFileImportMap().entrySet().stream().map(entry -> {
+            Map<String, List<String>> fileImport = new LinkedHashMap<>();
+            fileImport.put(entry.getKey(), entry.getValue().stream().map(def -> def.toString()).collect(toList()));
+            return fileImport;
+        }).collect(toList()));
+        map.put("PackageFileMap", context.getPackageFileMap());
         map.put("compilationUnit", context.getCompilationUnit().accept(new MapVisitor(), null));
 
         JSON jsonMapper = new JSON() {

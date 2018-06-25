@@ -4,14 +4,18 @@ import org.antlr.v4.runtime.CommonTokenStream;
 import org.antlr.v4.runtime.Lexer;
 import org.antlr.v4.runtime.ParserRuleContext;
 import org.karaffe.compiler.base.context.CommandLineOptions;
+import org.karaffe.compiler.base.pos.Position;
 import org.karaffe.compiler.base.tree.Tree;
+import org.karaffe.compiler.base.tree.def.Def;
 import org.karaffe.compiler.base.util.SourceFile;
 import org.karaffe.compiler.base.util.config.Options;
 import org.kohsuke.args4j.CmdLineException;
 
 import java.io.PrintStream;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Map;
 import java.util.Objects;
 import java.util.Set;
@@ -27,7 +31,7 @@ public class CompilerContext {
     private Tree compilationUnit;
     private boolean hasInvalidCmdLineArg;
     private Map<String, String> packageFileMap;
-    private Map<String, Tree> fileImportMap;
+    private Map<String, List<Def>> fileImportMap;
 
     public CompilerContext() {
         this(new String[0]);
@@ -135,7 +139,26 @@ public class CompilerContext {
                 '}';
     }
 
-    public void onFileImportDef(String sourceName, Tree importPath) {
-        this.fileImportMap.put(Objects.requireNonNull(sourceName), Objects.requireNonNull(importPath));
+    public void onFileImportDef(Position position, Def importDef) {
+        if (position.isNoPos()) {
+            return;
+        }
+        List<Def> defs;
+        String sourceName = position.getSourceName();
+        if (this.fileImportMap.containsKey(sourceName)) {
+            defs = this.fileImportMap.get(sourceName);
+        } else {
+            defs = new ArrayList<>();
+        }
+        defs.add(importDef);
+        this.fileImportMap.put(Objects.requireNonNull(sourceName), defs);
+    }
+
+    public Map<String, List<Def>> getFileImportMap() {
+        return fileImportMap;
+    }
+
+    public Map<String, String> getPackageFileMap() {
+        return packageFileMap;
     }
 }

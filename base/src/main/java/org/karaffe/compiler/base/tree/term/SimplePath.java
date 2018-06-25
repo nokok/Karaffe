@@ -14,7 +14,7 @@ public class SimplePath extends AbstractPath {
     }
 
     protected SimplePath(String name, NameKind nameKind, boolean isPrimitive) {
-        super(name);
+        super(name, "$^");
         this.nameKind = Objects.requireNonNull(nameKind);
         this.isPrimitive = isPrimitive;
     }
@@ -22,11 +22,6 @@ public class SimplePath extends AbstractPath {
     @Override
     public NameKind getNameKind() {
         return this.nameKind;
-    }
-
-    @Override
-    public String delimiterRegex() {
-        return "$^";
     }
 
     @Override

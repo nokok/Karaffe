@@ -32,6 +32,18 @@ public class NestedPath extends AbstractPath {
     }
 
     @Override
+    public void markResolved() {
+        this.basePath.markResolved();
+        this.childPath.markResolved();
+    }
+
+    @Override
+    public void markUnResolved() {
+        this.basePath.markUnResolved();
+        this.childPath.markUnResolved();
+    }
+
+    @Override
     public boolean isPrimitiveType() {
         return false;
     }

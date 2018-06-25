@@ -4,7 +4,7 @@ import spock.lang.Specification
 
 class PathSpec extends Specification {
 
-    def "QualifiedModuleNameTest"() {
+    def "moduleName"() {
         setup:
         def name = Terms.moduleName("qualified.moduleName")
 

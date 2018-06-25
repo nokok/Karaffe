@@ -1,35 +1,43 @@
 package org.karaffe.compiler.base.tree.term;
 
 import org.karaffe.compiler.base.pos.Position;
+import org.karaffe.compiler.base.tree.TreeVisitor;
+import org.karaffe.compiler.base.tree.expr.Operator;
 
 import java.util.Objects;
 
 public abstract class AbstractPath implements Path {
 
     protected Position pos;
+    private final String delimiterRegex;
     protected boolean isResolved;
     protected String name;
     protected String simpleName;
 
-    protected AbstractPath(String name) {
+    protected AbstractPath(String name, String delimiterRegex) {
         this.name = Objects.requireNonNull(name);
-        this.simpleName = processSimpleName(this.name);
+        this.simpleName = processSimpleName(this.name, Objects.requireNonNull(delimiterRegex));
+        this.delimiterRegex = delimiterRegex;
     }
 
     protected AbstractPath(Path other) {
         this.name = other.asFullName();
         this.simpleName = other.asSimpleName();
+        this.delimiterRegex = other.delimiterRegex();
     }
 
-    protected String processSimpleName(String fullName) {
-        String regex = this.delimiterRegex();
-        regex = regex == null ? "\\." : regex;
-        String[] split = fullName.split(regex);
+    protected String processSimpleName(String fullName, String delimiterRegex) {
+        String[] split = fullName.split(delimiterRegex);
         if (split.length > 1) {
             return split[split.length - 1];
         } else {
             return fullName;
         }
+    }
+
+    @Override
+    public String delimiterRegex() {
+        return this.delimiterRegex;
     }
 
     @Override
@@ -93,8 +101,29 @@ public abstract class AbstractPath implements Path {
 
     @Override
     public int hashCode() {
-
         return Objects.hash(name, simpleName);
+    }
+
+    @Override
+    public <P> Path accept(TreeVisitor<?, P> visitor, P p) {
+        switch (this.getNameKind()) {
+        case TYPENAME:
+            return visitor.visitTypeName(this, p);
+        case MODULE:
+            return visitor.visitModuleName(this, p);
+        case OPERATOR:
+            return visitor.visitOperator((Operator) this, p);
+        case PACKAGE:
+            return visitor.visitPackageName(this, p);
+        case VARNAME:
+            return visitor.visitVarName(this, p);
+        case THIS:
+            return visitor.visitThisName(this, p);
+        case NESTED:
+            return visitor.visitNestedName((NestedPath) this, p);
+        default:
+            throw new IllegalStateException(this.getNameKind().toString());
+        }
     }
 
     @Override

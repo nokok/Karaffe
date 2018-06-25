@@ -75,14 +75,14 @@ public class InsertDefaultImportTask extends AbstractTask implements NoDescripti
                     Def def = Defs.onDemandImportDef(defaultImport);
                     def.addModifier(Modifiers.modSynthetic(def));
                     tree.addChild(def);
-                    context.onFileImportDef(tree.getPos().getSourceName(), def);
+                    context.onFileImportDef(tree.getPos(), def);
                 }
 
                 for (String defaultImport : defaultImportClasses) {
                     Def def = Defs.importDef(tree, defaultImport);
                     def.addModifier(Modifiers.modSynthetic(def));
                     tree.addChild(def);
-                    context.onFileImportDef(tree.getPos().getSourceName(), def);
+                    context.onFileImportDef(tree.getPos(), def);
                 }
 
                 children.forEach(tree::addChild);
