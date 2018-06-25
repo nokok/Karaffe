@@ -14,7 +14,7 @@ public enum TaskResult {
     }
 
     public TaskResult ifSuccess(Runnable runnable) {
-        if (this != FAILED) {
+        if (this != FAILED /*SUCCESS and SUCCESS_WITH_WARN*/) {
             runnable.run();
         }
         return this;

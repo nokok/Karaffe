@@ -18,12 +18,31 @@ public class CheckFileTask extends AbstractOptionTask {
     @Override
     public TaskResult run(Options options) {
 
+        List<String> dirList = options.arguments
+                .stream()
+                .map(Paths::get)
+                .filter(Files::isDirectory)
+                .map(Path::toString)
+                .collect(Collectors.toList());
+
+        LOGGER.info("dirList : {}", dirList);
+
+        if (!dirList.isEmpty()) {
+            for (String f : dirList) {
+                Errors.unexpectedDirectory(f);
+            }
+            LOGGER.debug("Failed");
+            return TaskResult.FAILED;
+        }
+
         List<String> notExistsList = options.arguments
                 .stream()
                 .map(Paths::get)
                 .filter(p -> !Files.isReadable(p))
                 .map(Path::toString)
                 .collect(Collectors.toList());
+
+        LOGGER.info("notExistsList : {}", notExistsList);
 
         LOGGER.debug("Files.exists failed? : {}", notExistsList);
         if (!notExistsList.isEmpty()) {

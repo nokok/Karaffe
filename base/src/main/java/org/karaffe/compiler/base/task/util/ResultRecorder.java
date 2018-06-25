@@ -23,11 +23,11 @@ public class ResultRecorder {
     }
 
     public boolean isSuccessAll() {
-        return this.success >= 0 && warn == 0;
+        return this.success >= 0 && warn == 0 && !hasError;
     }
 
     public boolean isSuccessWithWarning() {
-        return this.success >= 0 && warn > 0;
+        return this.success >= 0 && warn > 0 && !hasError;
     }
 
     public boolean hasError() {
