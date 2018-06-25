@@ -1,6 +1,8 @@
 language: java
 jdk:
-- oraclejdk9
+- openjdk8
+- openjdk10
+- openjdk11
 install: "./gradlew installDist test jacocoTestReport -i"
 after_success:
   - bash <(curl -s https://codecov.io/bash)
