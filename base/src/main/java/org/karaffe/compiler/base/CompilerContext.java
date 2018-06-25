@@ -3,7 +3,6 @@ package org.karaffe.compiler.base;
 import org.antlr.v4.runtime.CommonTokenStream;
 import org.antlr.v4.runtime.Lexer;
 import org.antlr.v4.runtime.ParserRuleContext;
-import org.karaffe.compiler.base.context.CommandLineOptions;
 import org.karaffe.compiler.base.pos.Position;
 import org.karaffe.compiler.base.tree.Tree;
 import org.karaffe.compiler.base.tree.def.Def;
@@ -12,153 +11,51 @@ import org.karaffe.compiler.base.util.config.Options;
 import org.kohsuke.args4j.CmdLineException;
 
 import java.io.PrintStream;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
-import java.util.Objects;
-import java.util.Set;
 import java.util.stream.Stream;
 
-public class CompilerContext {
+public interface CompilerContext {
+    void startParseArgs() throws CmdLineException;
 
-    private final CommandLineOptions commandLineOptions;
-    private final Set<SourceFile> sourceFiles;
-    private final Set<Lexer> lexers;
-    private final Set<ParserRuleContext> contexts;
-    private String state = "";
-    private Tree compilationUnit;
-    private boolean hasInvalidCmdLineArg;
-    private Map<String, String> packageFileMap;
-    private Map<String, List<Def>> fileImportMap;
+    String getState();
 
-    public CompilerContext() {
-        this(new String[0]);
-    }
+    void setState(String state);
 
-    public CompilerContext(String[] args) {
-        Objects.requireNonNull(args);
-        this.commandLineOptions = new CommandLineOptions(args);
-        this.sourceFiles = new HashSet<>(args.length);
-        this.lexers = new HashSet<>(args.length);
-        this.contexts = new HashSet<>();
-        this.hasInvalidCmdLineArg = false;
-        this.packageFileMap = new HashMap<>();
-        this.fileImportMap = new HashMap<>();
-    }
+    boolean hasInvalidCmdLineArg();
 
-    public void startParseArgs() throws CmdLineException {
-        try {
-            commandLineOptions.parseArgs();
-        } catch (CmdLineException e) {
-            this.hasInvalidCmdLineArg = true;
-            throw e;
-        }
-    }
+    void setInvalidCmdLineArg();
 
-    public String getState() {
-        return this.state;
-    }
+    boolean isEmptyRawArg();
 
-    public void setState(String state) {
-        this.state = Objects.requireNonNull(state);
-    }
+    Options getCmdLineOptions();
 
-    public boolean hasInvalidCmdLineArg() {
-        return hasInvalidCmdLineArg;
-    }
+    void printUsage();
 
-    public void setInvalidCmdLineArg() {
-        this.hasInvalidCmdLineArg = true;
-    }
+    void addSourceFile(SourceFile sourceFile);
 
-    public boolean isEmptyRawArg() {
-        return this.commandLineOptions.isEmptyArgs();
-    }
+    Stream<SourceFile> sourceFileStream();
 
-    public Options getCmdLineOptions() {
-        return this.commandLineOptions.get();
-    }
+    void addLexer(Lexer lexer);
 
-    public void printUsage() {
-        commandLineOptions.printUsage();
-    }
+    Stream<CommonTokenStream> tokenStreamStream();
 
-    public void addSourceFile(SourceFile sourceFile) {
-        this.sourceFiles.add(Objects.requireNonNull(sourceFile));
-    }
+    void addContext(ParserRuleContext context);
 
-    public Stream<SourceFile> sourceFileStream() {
-        return this.sourceFiles.stream();
-    }
+    Stream<ParserRuleContext> contextStream();
 
-    public void addLexer(Lexer lexer) {
-        this.lexers.add(Objects.requireNonNull(lexer));
-    }
+    Tree getCompilationUnit();
 
-    public Stream<CommonTokenStream> tokenStreamStream() {
-        return this.lexers.stream().map(CommonTokenStream::new);
-    }
+    void setCompilationUnit(Tree compilationUnit);
 
-    public void addContext(ParserRuleContext context) {
-        this.contexts.add(Objects.requireNonNull(context));
-    }
-
-    public Stream<ParserRuleContext> contextStream() {
-        return this.contexts.stream();
-    }
-
-    public Tree getCompilationUnit() {
-        return this.compilationUnit;
-    }
-
-    public void setCompilationUnit(Tree compilationUnit) {
-        this.compilationUnit = Objects.requireNonNull(compilationUnit);
-    }
-
-    public void onPackageFilePair(String packageName, String relativeFilePath) {
-        this.packageFileMap.put(Objects.requireNonNull(packageName), Objects.requireNonNull(relativeFilePath));
-    }
+    void onPackageFilePair(String packageName, String relativeFilePath);
 
     @SuppressWarnings("unused")
-    public void printUsage(PrintStream printStream) {
-        commandLineOptions.printUsage(printStream);
-    }
+    void printUsage(PrintStream printStream);
 
-    @Override
-    public String toString() {
-        return "CompilerContext{" +
-                "state=" + state +
-                ", commandLineOptions=" + commandLineOptions +
-                ", sourceFiles=" + sourceFiles +
-                ", lexers=" + lexers +
-                ", contexts=" + contexts +
-                ", compilationUnit=" + compilationUnit +
-                ", hasInvalidCmdLineArg=" + hasInvalidCmdLineArg +
-                '}';
-    }
+    void onFileImportDef(Position position, Def importDef);
 
-    public void onFileImportDef(Position position, Def importDef) {
-        if (position.isNoPos()) {
-            return;
-        }
-        List<Def> defs;
-        String sourceName = position.getSourceName();
-        if (this.fileImportMap.containsKey(sourceName)) {
-            defs = this.fileImportMap.get(sourceName);
-        } else {
-            defs = new ArrayList<>();
-        }
-        defs.add(importDef);
-        this.fileImportMap.put(Objects.requireNonNull(sourceName), defs);
-    }
+    Map<String, List<Def>> getFileImportMap();
 
-    public Map<String, List<Def>> getFileImportMap() {
-        return fileImportMap;
-    }
-
-    public Map<String, String> getPackageFileMap() {
-        return packageFileMap;
-    }
+    Map<String, String> getPackageFileMap();
 }

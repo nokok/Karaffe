@@ -36,6 +36,7 @@ subprojects {
   dependencies {
     compile group: 'ch.qos.logback', name: 'logback-classic', version: logbackVersion
     compile group: 'net.arnx', name: 'jsonic', version: '1.3.10'
+    compile group: 'cglib', name: 'cglib-nodep', version: '3.2.6'
   }
 
   tasks.withType(AbstractCompile)*.options*.encoding = tasks.withType(GroovyCompile)*.groovyOptions*.encoding = 'UTF-8'

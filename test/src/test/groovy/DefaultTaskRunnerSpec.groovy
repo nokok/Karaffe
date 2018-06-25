@@ -1,4 +1,5 @@
 import org.karaffe.compiler.base.CompilerContext
+import org.karaffe.compiler.base.CompilerContextImpl
 import org.karaffe.compiler.base.task.RunnerResult
 import org.karaffe.compiler.base.task.TaskResult
 import org.karaffe.compiler.base.task.TaskRunner
@@ -21,7 +22,7 @@ class DefaultTaskRunnerSpec extends Specification {
 
     def "The task specified in standBy is not executed until runAll is executed"() {
         setup:
-        def cc = new CompilerContext()
+        def cc = new CompilerContextImpl()
         def taskRunner = TaskRunner.newDefaultTaskRunner(cc)
 
         when:
@@ -38,7 +39,7 @@ class DefaultTaskRunnerSpec extends Specification {
 
     def "runAllした時点でRunnableでないタスクは繰り返し実行をリトライする"() {
         setup:
-        def cc = new CompilerContext()
+        def cc = new CompilerContextImpl()
         def taskRunner = TaskRunner.newDefaultTaskRunner(cc)
         def count = 0
         def executed = false

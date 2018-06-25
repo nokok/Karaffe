@@ -1,7 +1,7 @@
 package org.karaffe.compiler.frontend.karaffe.tasks.postparse;
 
-import org.karaffe.compiler.base.CompilerContext;
 import org.karaffe.compiler.base.Errors;
+import org.karaffe.compiler.base.CompilerContext;
 import org.karaffe.compiler.base.task.NoDescriptionTask;
 import org.karaffe.compiler.base.task.TaskResult;
 import org.karaffe.compiler.base.tree.DefaultVisitor;

@@ -20,4 +20,8 @@ public class Errors {
     private static void reportError(String msg) {
         Platform.stdErr("Error : " + msg);
     }
+
+    public static void invalidTaskName(String stopTaskName) {
+        reportError("Invalid taskname: " + stopTaskName);
+    }
 }

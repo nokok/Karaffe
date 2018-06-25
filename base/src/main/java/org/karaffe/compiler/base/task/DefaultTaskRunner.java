@@ -3,6 +3,7 @@ package org.karaffe.compiler.base.task;
 import org.karaffe.compiler.base.CompilerContext;
 import org.karaffe.compiler.base.task.util.ProcessTimer;
 import org.karaffe.compiler.base.task.util.ResultRecorder;
+import org.karaffe.compiler.base.task.util.TaskCanceledException;
 import org.karaffe.compiler.base.task.util.TaskQueue;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -51,6 +52,11 @@ public class DefaultTaskRunner implements TaskRunner {
         TaskQueue queue = new TaskQueue(this.tasks);
         List<Task> repeatable = queue.filter(task -> task.isRepetable(context));
 
+        String stopTaskName = context.getCmdLineOptions().stopTaskName;
+        if (stopTaskName != null) {
+            LOGGER.debug("StopTaskName : {}", stopTaskName);
+        }
+
         while (queue.hasRemaining()) {
             Task task = queue.dequeue();
             if (task.isFinally(context)) {
@@ -83,6 +89,9 @@ public class DefaultTaskRunner implements TaskRunner {
             TaskResult result = task.run(context);
             LOGGER.info("TaskResult : {}, name : {} [{}ms]", result, task.name(), timer.stop());
             resultRecorder.record(result);
+            if (task.name().equals(stopTaskName)) {
+                throw new TaskCanceledException();
+            }
             if (resultRecorder.hasError()) {
                 runFinallyTask(context, resultRecorder);
                 return resultRecorder.toRunnerResult();
@@ -130,4 +139,5 @@ public class DefaultTaskRunner implements TaskRunner {
         List<String> tasks = this.tasks.stream().map(t -> String.format("%" + maxTaskNameLength + "s : %s", t.name(), t.description())).collect(Collectors.toList());
         return String.join("\n", tasks);
     }
+
 }

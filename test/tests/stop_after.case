@@ -1,0 +1,1 @@
+--stop-after,lexing,tests/test_resources/neg/EmptyClassName.krf

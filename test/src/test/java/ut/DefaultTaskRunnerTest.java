@@ -1,6 +1,7 @@
 package ut;
 
 import org.junit.Test;
+import org.karaffe.compiler.base.CompilerContextImpl;
 import org.karaffe.compiler.base.CompilerContext;
 import org.karaffe.compiler.base.task.RunnerResult;
 import org.karaffe.compiler.base.task.TaskResult;
@@ -28,7 +29,7 @@ public class DefaultTaskRunnerTest {
 
     @Test
     public void runAllした結果新たに挿入されたタスクはすべてのタスクが正常終了し後に実行される() {
-        CompilerContext cc = new CompilerContext();
+        CompilerContext cc = new CompilerContextImpl();
         TaskRunner taskRunner = TaskRunner.newDefaultTaskRunner(cc);
         AtomicInteger count = new AtomicInteger();
         AtomicBoolean executed = new AtomicBoolean(false);

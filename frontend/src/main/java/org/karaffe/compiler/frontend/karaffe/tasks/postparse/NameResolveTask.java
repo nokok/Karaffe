@@ -7,7 +7,6 @@ import org.karaffe.compiler.base.tree.Tree;
 import org.karaffe.compiler.base.tree.term.NestedPath;
 import org.karaffe.compiler.base.tree.term.Path;
 import org.karaffe.compiler.base.tree.term.Terms;
-import org.karaffe.compiler.base.util.Platform;
 import org.karaffe.compiler.frontend.karaffe.tasks.AbstractTask;
 
 public class NameResolveTask extends AbstractTask {

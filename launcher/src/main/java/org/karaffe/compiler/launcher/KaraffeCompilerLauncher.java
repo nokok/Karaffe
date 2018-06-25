@@ -1,9 +1,11 @@
 package org.karaffe.compiler.launcher;
 
 import org.karaffe.compiler.base.CompilerContext;
+import org.karaffe.compiler.base.CompilerContextImpl;
 import org.karaffe.compiler.base.task.RunnerResult;
 import org.karaffe.compiler.base.task.Task;
 import org.karaffe.compiler.base.task.TaskRunner;
+import org.karaffe.compiler.base.task.util.TaskCanceledException;
 import org.karaffe.compiler.base.util.Platform;
 import org.karaffe.compiler.frontend.karaffe.tasks.ConfigureLogLevelTask;
 import org.karaffe.compiler.frontend.karaffe.tasks.GenASTTask;
@@ -19,6 +21,7 @@ import org.karaffe.compiler.launcher.tasks.ShowDiagnosticInfoTask;
 import org.karaffe.compiler.launcher.tasks.ShowTasksTask;
 import org.karaffe.compiler.launcher.tasks.ShowUsageTask;
 import org.karaffe.compiler.launcher.tasks.ShowVersionTask;
+import org.karaffe.compiler.launcher.tasks.TaskNameCheckTask;
 import org.slf4j.LoggerFactory;
 
 import java.io.InputStream;
@@ -52,7 +55,8 @@ public class KaraffeCompilerLauncher {
             new ParseCommandLineOptionsTask(),
             new ConfigureLogLevelTask(),
             new CheckCompilerPreconditionTask(),
-            new CommandLineOptionsSubTask()
+            new CommandLineOptionsSubTask(),
+            new TaskNameCheckTask()
     ));
 
     public static final Set<Task> standByTaskList = new LinkedHashSet<>(Arrays.asList(
@@ -69,7 +73,7 @@ public class KaraffeCompilerLauncher {
     ));
 
     public int run(String[] args) throws Exception {
-        CompilerContext context = new CompilerContext(args);
+        CompilerContext context = new CompilerContextImpl(args);
 
         Thread.setDefaultUncaughtExceptionHandler((thread, throwable) -> {
             Platform.stdErr("Uncaught Exception");
@@ -80,20 +84,24 @@ public class KaraffeCompilerLauncher {
         });
 
         TaskRunner taskRunner = TaskRunner.newDefaultTaskRunner(context);
-        ServiceLoader<Task> taskServiceLoader = ServiceLoader.load(Task.class, Thread.currentThread().getContextClassLoader());
-        taskServiceLoader.forEach(taskRunner::standBy);
+        try {
+            ServiceLoader<Task> taskServiceLoader = ServiceLoader.load(Task.class, Thread.currentThread().getContextClassLoader());
+            taskServiceLoader.forEach(taskRunner::standBy);
 
-        Runnable failedAction = context::setInvalidCmdLineArg;
-        for (Task task : execTaskList) {
-            taskRunner.exec(task).ifFailed(failedAction);
+            Runnable failedAction = context::setInvalidCmdLineArg;
+            for (Task task : execTaskList) {
+                taskRunner.exec(task).ifFailed(failedAction);
+            }
+
+            for (Task task : standByTaskList) {
+                taskRunner.standBy(task);
+            }
+            RunnerResult result = taskRunner.runAll();
+            return result == RunnerResult.SUCCESS_ALL ? 0 : -1;
+        } catch (TaskCanceledException e) {
+            LOGGER.info("Task Canceled");
+            return -1;
         }
-
-        for (Task task : standByTaskList) {
-            taskRunner.standBy(task);
-        }
-
-        RunnerResult result = taskRunner.runAll();
-        return result == RunnerResult.SUCCESS_ALL ? 0 : -1;
     }
 
 }

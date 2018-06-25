@@ -6,6 +6,7 @@
 | +-- [32mcheck log level[0m : [33m(N/A)[0m
 | +-- [32mcheck files[0m : [33m(N/A)[0m
 | +-- [32mcheck target[0m : [33m(N/A)[0m
++-- [32mphase-name check[0m : [33m(N/A)[0m
 +-- [32mshow diag[0m : [33mShow diagnostic info[0m
 +-- [32mshow usage[0m : [33m(N/A)[0m
 +-- [32mshow version[0m : [33m(N/A)[0m
