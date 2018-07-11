@@ -6,6 +6,7 @@ import org.karaffe.compiler.base.task.Task;
 import org.karaffe.compiler.base.task.TaskRunner;
 import org.karaffe.compiler.base.task.util.TaskCanceledException;
 import org.karaffe.compiler.frontend.karaffe.tasks.GenASTTask;
+import org.karaffe.compiler.frontend.karaffe.tasks.GenMIRTask;
 import org.karaffe.compiler.frontend.karaffe.tasks.LexerTask;
 import org.karaffe.compiler.frontend.karaffe.tasks.ParserTask;
 import org.karaffe.compiler.frontend.karaffe.tasks.PrintLastTreeTask;
@@ -24,26 +25,34 @@ public class KaraffeSourceFrontend implements KaraffeCompilerFrontend {
 
     private static final Logger LOGGER = LoggerFactory.getLogger(KaraffeSourceFrontend.class);
 
-    private static final Set<Task> standByTaskList = new LinkedHashSet<>(Arrays.asList(
+    private static final GenMIRTask genMirTask = new GenMIRTask();
 
+    private static final Set<Task> standByTaskList = new LinkedHashSet<>(Arrays.asList(
             new PrintTreeTask(),
             new PrintLastTreeTask(),
             new LexerTask(),
             new ParserTask(),
             new GenASTTask(),
-            new PostParseTask()
+            new PostParseTask(),
+            genMirTask
     ));
 
     @Override
     public Optional<Instructions> exec(CompilerContext context) {
         TaskRunner taskRunner = TaskRunner.newDefaultTaskRunner(context);
         try {
-
             for (Task task : standByTaskList) {
                 taskRunner.standBy(task);
             }
             RunnerResult result = taskRunner.runAll();
-            return Optional.empty();
+
+            if (result != RunnerResult.SUCCESS_ALL) {
+                return Optional.empty();
+            }
+
+            Instructions instructions = genMirTask.getInstructions();
+
+            return Optional.of(instructions);
         } catch (TaskCanceledException e) {
             LOGGER.info("Task Canceled");
             return Optional.empty();

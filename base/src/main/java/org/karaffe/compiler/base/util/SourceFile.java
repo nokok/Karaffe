@@ -6,12 +6,20 @@ import java.io.UncheckedIOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
+import java.util.Arrays;
 import java.util.List;
+import java.util.Objects;
 
 public class SourceFile {
     private final String fileName;
     private final String absolutePath;
     private final List<String> lines;
+
+    public SourceFile(String fileName, String absolutePath, List<String> lines) {
+        this.fileName = Objects.requireNonNull(fileName);
+        this.absolutePath = Objects.requireNonNull(absolutePath);
+        this.lines = Objects.requireNonNull(lines);
+    }
 
     public SourceFile(File file) {
         if (file.isDirectory()) {
@@ -28,5 +36,15 @@ public class SourceFile {
 
     public Path toPath() {
         return Paths.get(this.absolutePath);
+    }
+
+    @Override
+    public String toString() {
+        return String.join("\n", this.lines);
+    }
+
+    public static SourceFile fromLiteral(String source) {
+        String[] lines = source.split("\n");
+        return new SourceFile("<empty>", "<empty>", Arrays.asList(lines));
     }
 }
