@@ -139,7 +139,6 @@ public class CompilerContextImpl implements CompilerContext {
     }
 
     @Override
-    @SuppressWarnings("unused")
     public void printUsage(PrintStream printStream) {
         commandLineOptions.printUsage(printStream);
     }
