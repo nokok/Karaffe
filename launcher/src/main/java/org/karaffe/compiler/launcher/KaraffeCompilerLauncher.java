@@ -89,10 +89,6 @@ public class KaraffeCompilerLauncher {
 
         Optional<Instructions> instructions = frontend.exec(context);
 
-        if (context.getCmdLineOptions().dumpParseTree) {
-            Platform.stdOut(context.getCompilationUnit().toString());
-        }
-
         if (context.getCmdLineOptions().dumpMIR) {
             Platform.stdOut(instructions.map(Instructions::toString).orElse("<empty>"));
         }
