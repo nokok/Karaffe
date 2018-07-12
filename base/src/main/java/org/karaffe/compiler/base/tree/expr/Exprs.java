@@ -23,16 +23,18 @@ public interface Exprs {
         return atom;
     }
 
-    static Tree apply(Tree target, Path methodName, Tree arg) {
+    static Tree apply(Position position, Tree target, Path methodName, Tree arg) {
         Apply apply = new Apply();
+        apply.setPos(position);
         apply.setName(methodName);
         apply.addChild(target);
         apply.addChild(arg);
         return apply;
     }
 
-    static Tree apply(Tree target, Path methodName, List<Tree> args) {
+    static Tree apply(Position position, Tree target, Path methodName, List<Tree> args) {
         Apply apply = new Apply();
+        apply.setPos(position);
         apply.setName(methodName);
         apply.addChild(target);
         for (Tree arg : args) {
@@ -56,16 +58,18 @@ public interface Exprs {
         return strAtom;
     }
 
-    static Tree ifExpr(Tree condition, Tree thenBlock, Tree elseBlock) {
+    static Tree ifExpr(Position position, Tree condition, Tree thenBlock, Tree elseBlock) {
         IfExpr ifExpr = new IfExpr();
+        ifExpr.setPos(position);
         ifExpr.addChild(condition);
         ifExpr.addChild(thenBlock);
         ifExpr.addChild(elseBlock);
         return ifExpr;
     }
 
-    static Tree whileExpr(Tree condition, Tree body) {
+    static Tree whileExpr(Position position, Tree condition, Tree body) {
         WhileExpr whileExpr = new WhileExpr();
+        whileExpr.setPos(position);
         whileExpr.addChild(condition);
         whileExpr.addChild(body);
         return whileExpr;
@@ -79,23 +83,26 @@ public interface Exprs {
         return block;
     }
 
-    static Tree unaryApply(Operator operator, Tree expr) {
+    static Tree unaryApply(Position position, Operator operator, Tree expr) {
         Apply apply = new Apply();
-        apply.setName(Terms.varName(operator.asFullName()));
+        apply.setPos(position);
+        apply.setName(Terms.varName(operator.getPos(), operator.asFullName()));
         apply.addChild(expr);
         return apply;
     }
 
-    static Tree cast(Tree tree, Path typeName) {
+    static Tree cast(Position position, Tree tree, Path typeName) {
         Cast cast = new Cast();
+        cast.setPos(position);
         cast.addChild(tree);
         cast.setTypeName(typeName);
         return cast;
     }
 
-    static Tree newInstance(Path typeName, Tree args) {
+    static Tree newInstance(Position position, Path typeName, Tree args) {
         Apply apply = new Apply();
-        apply.setName(Terms.varName("<init>"));
+        apply.setPos(position);
+        apply.setName(Terms.varName(Position.noPos(), "<init>"));
         apply.setTypeName(typeName);
         apply.addChild(args);
         return apply;

@@ -6,12 +6,16 @@ import org.karaffe.compiler.base.task.TaskResult;
 import org.karaffe.compiler.base.tree.Tree;
 import org.karaffe.compiler.base.tree.TreeVisitorAdapter;
 import org.karaffe.compiler.base.tree.def.LetDef;
+import org.karaffe.compiler.base.tree.expr.Apply;
 import org.karaffe.compiler.base.tree.expr.Atom;
+import org.karaffe.compiler.base.tree.expr.Block;
+import org.karaffe.compiler.mir.Instruction;
 import org.karaffe.compiler.mir.InstructionType;
 import org.karaffe.compiler.mir.Instructions;
 import org.karaffe.compiler.mir.block.Begin;
 import org.karaffe.compiler.mir.block.End;
 import org.karaffe.compiler.mir.constant.Const;
+import org.karaffe.compiler.mir.invoke.Invoke;
 import org.karaffe.compiler.mir.io.Store;
 import org.karaffe.compiler.mir.util.InstructionList;
 import org.karaffe.compiler.mir.util.Label;
@@ -45,6 +49,8 @@ public class GenMIRTask extends AbstractTask implements NoDescriptionTask {
 
     private static class TreeVisitor extends TreeVisitorAdapter<Instructions, Label> {
 
+        private int blockCount = 0;
+
         @Override
         public Instructions visitCompileUnit(Tree.CompilationUnit tree, Label parent) {
             Instructions instructions = new InstructionList();
@@ -63,7 +69,31 @@ public class GenMIRTask extends AbstractTask implements NoDescriptionTask {
             instructions.add(valDef);
             Instructions accept = simpleDef.getBody().get(0).accept(this, valLabel);
             instructions.addAll(accept);
-            instructions.add(new Store(valLabel));
+            Store store = new Store(valLabel);
+            store.setPosition(simpleDef.getName().getPos());
+            instructions.add(store);
+            return instructions;
+        }
+
+        @Override
+        public Instructions visitBlock(Block block, Label label) {
+            Instructions instructions = new InstructionList();
+            Label blockLabel = new Label(label, String.valueOf(blockCount++));
+            instructions.add(new Begin(InstructionType.BLOCK, blockLabel));
+            block.acceptChildren(this, blockLabel).forEach(instructions::addAll);
+            instructions.add(new End(blockLabel));
+            return instructions;
+        }
+
+        @Override
+        public Instructions visitApply(Apply apply, Label label) {
+            Instructions instructions = new InstructionList();
+            List<Instructions> acceptChildren = apply.acceptChildren(this, label);
+            acceptChildren.forEach(instructions::addAll);
+            Instruction targetObject = instructions.get(0);
+            Invoke invoke = new Invoke(apply.getName().toString());
+            invoke.setPosition(apply.getPos());
+            instructions.add(invoke);
             return instructions;
         }
 

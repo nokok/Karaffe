@@ -1,5 +1,6 @@
 package org.karaffe.compiler.base.tree.def;
 
+import org.antlr.v4.runtime.tree.TerminalNode;
 import org.karaffe.compiler.base.pos.Position;
 import org.karaffe.compiler.base.tree.Tree;
 import org.karaffe.compiler.base.tree.expr.Binding;
@@ -15,10 +16,18 @@ public interface Defs {
         return packageDef(position, null, packageName);
     }
 
+    static Def packageDef(Position position, Tree parent, TerminalNode packageName) {
+        AbstractDef packageDef = new PackageDef(parent);
+        packageDef.setPos(position);
+        Path name = Terms.packageName(Position.of(packageName.getSymbol()), packageName.getText());
+        packageDef.setName(name);
+        return packageDef;
+    }
+
     static Def packageDef(Position position, Tree parent, String packageName) {
         AbstractDef packageDef = new PackageDef(parent);
         packageDef.setPos(position);
-        Path name = Terms.packageName(packageName);
+        Path name = Terms.packageName(Position.noPos(), packageName);
         packageDef.setName(name);
         return packageDef;
     }
@@ -41,13 +50,20 @@ public interface Defs {
     static Def onDemandImportDef(Position position, Tree parent, String packageName) {
         AbstractDef importDef = new OnDemandImport(parent);
         importDef.setPos(position);
-        Path pkgName = Terms.packageName(packageName);
+        Path pkgName = Terms.packageName(Position.noPos(), packageName);
         importDef.setName(pkgName);
         return importDef;
     }
 
     static Def classDef(Position position, String className) {
         return classDef(position, null, className);
+    }
+
+    static Def classDef(Position position, TerminalNode className) {
+        AbstractDef classDef = new ClassDef();
+        classDef.setPos(position);
+        classDef.setName(Terms.typeName(Position.of(className.getSymbol()), className.getText()));
+        return classDef;
     }
 
     static Def classDef(Position position, Tree parent, String className) {
@@ -60,7 +76,7 @@ public interface Defs {
     static Def methodDef(Position position, Tree parent, String methodName, Path returnTypeName, Tuple parameters) {
         AbstractDef methodDef = new MethodDef(parent);
         methodDef.setPos(position);
-        methodDef.setName(Terms.varName(methodName));
+        methodDef.setName(Terms.varName(Position.noPos(), methodName));
         methodDef.setTypeName(returnTypeName);
         methodDef.setOrReplaceChild(0, parameters);
         return methodDef;
@@ -73,14 +89,14 @@ public interface Defs {
     static Def mainMethodDef(Position position, Tree parent) {
         Tuple params = Exprs.tuple();
         Binding binding = new Binding(parent);
-        binding.setName(Terms.varName("args"));
-        binding.setTypeName(Terms.arrayTypeName(Terms.typeName("String")));
+        binding.setName(Terms.varName(Position.noPos(), "args"));
+        binding.setTypeName(Terms.arrayTypeName(Position.noPos(), Terms.typeName(Position.noPos(), "String")));
         params.addChild(binding);
         Def methodDef = methodDef(
                 position,
                 parent,
                 "main",
-                Terms.primitiveVoid(),
+                Terms.primitiveVoid(Position.noPos()),
                 params
         );
         params.setParent(methodDef);

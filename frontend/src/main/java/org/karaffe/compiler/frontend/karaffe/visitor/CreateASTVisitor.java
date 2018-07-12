@@ -58,7 +58,7 @@ public class CreateASTVisitor extends KaraffeBaseVisitor<Tree> implements Positi
     @Override
     public Tree visitSimpleClassDef(KaraffeParser.SimpleClassDefContext ctx) {
         TerminalNode identifier = ctx.Identifier();
-        Def c = Defs.classDef(Position.ofRange(ctx.start, ctx.stop), identifier.getText());
+        Def c = Defs.classDef(Position.ofRange(ctx.start, ctx.stop), identifier);
         c.setPos(getPosition(ctx.CLASS()));
         KaraffeParser.ClassDefBodyContext classDefBodyContext = ctx.classDefBody();
         if (classDefBodyContext != null) {
@@ -144,15 +144,15 @@ public class CreateASTVisitor extends KaraffeBaseVisitor<Tree> implements Positi
         if (ctx.letStmt != null) {
             return Defs.letDef(
                     Position.ofRange(ctx.start, ctx.stop),
-                    Terms.varName(ctx.name.getText()),
-                    Terms.typeName(ctx.typeName.getText()),
+                    Terms.varName(ctx.name),
+                    Terms.typeName(ctx.typeName),
                     ctx.expr() == null ? Terms.emptyTree() : ctx.expr().accept(this)
             );
         }
         if (ctx.assignTarget != null) {
             return Defs.assignment(
                     Position.ofRange(ctx.start, ctx.stop),
-                    Terms.varName(ctx.assignTarget.getText()),
+                    Terms.varName(ctx.assignTarget),
                     ctx.expr().accept(this)
             );
         }
@@ -163,6 +163,7 @@ public class CreateASTVisitor extends KaraffeBaseVisitor<Tree> implements Positi
     public Tree visitExpr(KaraffeParser.ExprContext ctx) {
         if (ctx.ifExpr != null) {
             return Exprs.ifExpr(
+                    Position.ofRange(ctx.start, ctx.stop),
                     ctx.cond.accept(this),
                     ctx.then.accept(this),
                     ctx.el == null ? Terms.emptyTree() : ctx.el.accept(this)
@@ -170,6 +171,7 @@ public class CreateASTVisitor extends KaraffeBaseVisitor<Tree> implements Positi
         }
         if (ctx.loop != null) {
             return Exprs.whileExpr(
+                    Position.ofRange(ctx.start, ctx.stop),
                     ctx.cond.accept(this),
                     ctx.body.accept(this)
             );
@@ -198,6 +200,7 @@ public class CreateASTVisitor extends KaraffeBaseVisitor<Tree> implements Positi
             return ctx.rangeExpr().accept(this);
         }
         return Exprs.apply(
+                Position.ofRange(ctx.start, ctx.stop),
                 ctx.left.accept(this),
                 Operators.byToken(ctx.op),
                 ctx.right.accept(this)
@@ -210,6 +213,7 @@ public class CreateASTVisitor extends KaraffeBaseVisitor<Tree> implements Positi
             return ctx.orExpr().accept(this);
         }
         return Exprs.apply(
+                Position.ofRange(ctx.start, ctx.stop),
                 ctx.left.accept(this),
                 Operators.byToken(ctx.op),
                 ctx.right.accept(this)
@@ -222,6 +226,7 @@ public class CreateASTVisitor extends KaraffeBaseVisitor<Tree> implements Positi
             return ctx.andExpr().accept(this);
         }
         return Exprs.apply(
+                Position.ofRange(ctx.start, ctx.stop),
                 ctx.left.accept(this),
                 Operators.byToken(ctx.op),
                 ctx.right.accept(this)
@@ -234,6 +239,7 @@ public class CreateASTVisitor extends KaraffeBaseVisitor<Tree> implements Positi
             return ctx.equalityExpr().accept(this);
         }
         return Exprs.apply(
+                Position.ofRange(ctx.start, ctx.stop),
                 ctx.left.accept(this),
                 Operators.byToken(ctx.op),
                 ctx.right.accept(this)
@@ -246,6 +252,7 @@ public class CreateASTVisitor extends KaraffeBaseVisitor<Tree> implements Positi
             return ctx.conditionalExpr().accept(this);
         }
         return Exprs.apply(
+                Position.ofRange(ctx.start, ctx.stop),
                 ctx.left.accept(this),
                 Operators.byToken(ctx.op),
                 ctx.right.accept(this)
@@ -258,6 +265,7 @@ public class CreateASTVisitor extends KaraffeBaseVisitor<Tree> implements Positi
             return ctx.additiveExpr().accept(this);
         }
         return Exprs.apply(
+                Position.ofRange(ctx.start, ctx.stop),
                 ctx.left.accept(this),
                 Operators.byToken(ctx.op),
                 ctx.right.accept(this)
@@ -270,6 +278,7 @@ public class CreateASTVisitor extends KaraffeBaseVisitor<Tree> implements Positi
             return ctx.multiplicativeExpr().accept(this);
         }
         return Exprs.apply(
+                Position.ofRange(ctx.start, ctx.stop),
                 ctx.left.accept(this),
                 Operators.byToken(ctx.op),
                 ctx.right.accept(this)
@@ -282,6 +291,7 @@ public class CreateASTVisitor extends KaraffeBaseVisitor<Tree> implements Positi
             return ctx.powExpr().accept(this);
         }
         return Exprs.apply(
+                Position.ofRange(ctx.start, ctx.stop),
                 ctx.left.accept(this),
                 Operators.byToken(ctx.op),
                 ctx.right.accept(this)
@@ -294,6 +304,7 @@ public class CreateASTVisitor extends KaraffeBaseVisitor<Tree> implements Positi
             return ctx.unaryExpr().accept(this);
         }
         return Exprs.apply(
+                Position.ofRange(ctx.start, ctx.stop),
                 ctx.left.accept(this),
                 Operators.byToken(ctx.op),
                 ctx.right.accept(this)
@@ -306,6 +317,7 @@ public class CreateASTVisitor extends KaraffeBaseVisitor<Tree> implements Positi
             return ctx.primary().accept(this);
         }
         return Exprs.unaryApply(
+                Position.ofRange(ctx.start, ctx.stop),
                 Operators.byToken(ctx.op),
                 ctx.exp.accept(this)
         );
@@ -314,16 +326,18 @@ public class CreateASTVisitor extends KaraffeBaseVisitor<Tree> implements Positi
     @Override
     public Tree visitCast(KaraffeParser.CastContext ctx) {
         return Exprs.cast(
+                Position.ofRange(ctx.start, ctx.stop),
                 ctx.castTarget.accept(this),
-                Terms.typeName(ctx.typeName.getText())
+                Terms.typeName(ctx.typeName)
         );
     }
 
     @Override
     public Tree visitObjectMethodInvocation(KaraffeParser.ObjectMethodInvocationContext ctx) {
         return Exprs.apply(
+                Position.ofRange(ctx.start, ctx.stop),
                 ctx.owner.accept(this),
-                Terms.varName(ctx.methodName.getText()),
+                Terms.varName(ctx.methodName),
                 ctx.args == null ? new EmptyTree() : ctx.args.accept(this)
         );
     }
@@ -341,7 +355,8 @@ public class CreateASTVisitor extends KaraffeBaseVisitor<Tree> implements Positi
     @Override
     public Tree visitNewInstance(KaraffeParser.NewInstanceContext ctx) {
         return Exprs.newInstance(
-                Terms.typeName(ctx.typeName.getText()),
+                Position.ofRange(ctx.start, ctx.stop),
+                Terms.typeName(ctx.typeName),
                 ctx.args == null ? new EmptyTree() : ctx.args.accept(this)
         );
     }
@@ -354,8 +369,9 @@ public class CreateASTVisitor extends KaraffeBaseVisitor<Tree> implements Positi
     @Override
     public Tree visitLocalMethodInvocation(KaraffeParser.LocalMethodInvocationContext ctx) {
         return Exprs.apply(
+                Position.ofRange(ctx.start, ctx.stop),
                 Terms.emptyTree(),
-                Terms.varName(ctx.methodName.getText()),
+                Terms.varName(ctx.methodName),
                 ctx.args == null ? new EmptyTree() : ctx.args.accept(this)
         );
     }

@@ -1,5 +1,6 @@
 package org.karaffe.compiler.base.tree;
 
+import org.karaffe.compiler.base.pos.Position;
 import org.karaffe.compiler.base.tree.term.Path;
 import org.karaffe.compiler.base.tree.term.Terms;
 
@@ -54,7 +55,7 @@ public interface Tree extends LocatableElement, NameableElement, ModifiableEleme
 
         Template(Tree parent) {
             super(parent, TreeKind.TEMPLATE);
-            this.superClass = Terms.typeName("Any");
+            this.superClass = Terms.typeName(Position.noPos(), "Any");
             this.interfaces = new ArrayList<>();
         }
 
