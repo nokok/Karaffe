@@ -10,6 +10,6 @@ public class InstructionList extends ArrayList<Instruction> implements Instructi
 
     @Override
     public String toString() {
-        return String.join("\n", this.stream().map(i -> i + " " + i.getPosition()).collect(Collectors.toList()));
+        return String.join("\n", this.stream().map(i -> String.format("[%15s] %s", i.getPosition().toStringNoSource(), i)).collect(Collectors.toList()));
     }
 }
