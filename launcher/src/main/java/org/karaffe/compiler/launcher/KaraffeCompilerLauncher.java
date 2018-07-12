@@ -17,12 +17,14 @@ import org.karaffe.compiler.frontend.karaffe.tasks.preconditions.CheckCompilerPr
 import org.karaffe.compiler.launcher.tasks.ShowDiagnosticInfoTask;
 import org.karaffe.compiler.launcher.tasks.ShowUsageTask;
 import org.karaffe.compiler.launcher.tasks.ShowVersionTask;
+import org.karaffe.compiler.mir.Instructions;
 import org.slf4j.LoggerFactory;
 
 import java.io.InputStream;
 import java.io.PrintStream;
 import java.util.Arrays;
 import java.util.LinkedHashSet;
+import java.util.Optional;
 import java.util.Set;
 
 public class KaraffeCompilerLauncher {
@@ -84,7 +86,18 @@ public class KaraffeCompilerLauncher {
 
         KaraffeCompilerFrontend frontend = KaraffeCompilerFrontend.getFrontend(FrontendType.KARAFFE);
         KaraffeComilerBackend backend = KaraffeComilerBackend.getBackend(BackendType.JVM);
-        return frontend.exec(context).map(backend::exec).orElse(-1);
+
+        Optional<Instructions> instructions = frontend.exec(context);
+
+        if (context.getCmdLineOptions().dumpParseTree) {
+            Platform.stdOut(context.getCompilationUnit().toString());
+        }
+
+        if (context.getCmdLineOptions().dumpMIR) {
+            Platform.stdOut(instructions.map(Instructions::toString).orElse("<empty>"));
+        }
+
+        return instructions.map(backend::exec).orElse(-1);
     }
 
 }

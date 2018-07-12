@@ -44,8 +44,8 @@ public class Options {
     @Option(name = "--dump-parse-tree", hidden = true, usage = "Parse input file(s) and dump Tree", handler = MyBooleanOptionHandler.class)
     public boolean dumpParseTree;
 
-    @Option(name = "--dump-ast", hidden = true, usage = "Parse and type-check input file(s) and dump AST")
-    public boolean dumpAST;
+    @Option(name = "--dump-mir", hidden = true, usage = "Parse and type-check input file(s) and dump AST")
+    public boolean dumpMIR;
 
     /* Hidden options */
 
