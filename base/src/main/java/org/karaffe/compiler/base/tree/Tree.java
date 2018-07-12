@@ -6,9 +6,14 @@ import org.karaffe.compiler.base.tree.term.Terms;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
+import java.util.stream.Collectors;
 
 public interface Tree extends LocatableElement, NameableElement, ModifiableElement, TypedElement, NodeOperator {
     <R, P> R accept(TreeVisitor<R, P> visitor, P p);
+
+    default <R, P> List<R> acceptChildren(TreeVisitor<R, P> visitor, P p) {
+        return this.getChildren().stream().map(child -> child.accept(visitor, p)).collect(Collectors.toList());
+    }
 
     TreeKind getKind();
 
