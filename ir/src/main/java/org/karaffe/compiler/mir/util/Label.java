@@ -6,14 +6,11 @@ public class Label {
     private String name;
 
     public Label(String name) {
-        this(null, name);
+        this.name = Objects.requireNonNull(name);
     }
 
     public Label(Label parentLabel, String name) {
-        String parentName = "#";
-        if (parentLabel != null) {
-            parentName += parentLabel.getName();
-        }
+        String parentName = parentLabel == null ? "#" : parentLabel.getName();
         this.name = parentName + Objects.requireNonNull(name);
     }
 
@@ -22,7 +19,7 @@ public class Label {
     }
 
     public static Label createRootLabel() {
-        return new Label("");
+        return new Label("#");
     }
 
     @Override
@@ -37,5 +34,10 @@ public class Label {
     public int hashCode() {
 
         return Objects.hash(name);
+    }
+
+    @Override
+    public String toString() {
+        return name;
     }
 }
