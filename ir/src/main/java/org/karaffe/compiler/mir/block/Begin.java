@@ -17,4 +17,9 @@ public class Begin extends AbstractInstruction {
     public Label getLabel() {
         return label;
     }
+
+    @Override
+    public String toString() {
+        return "Begin " + label;
+    }
 }
