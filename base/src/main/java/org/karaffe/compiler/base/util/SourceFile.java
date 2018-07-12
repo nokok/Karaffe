@@ -40,7 +40,7 @@ public class SourceFile {
 
     @Override
     public String toString() {
-        return String.join("\n", this.lines);
+        return String.join("\n", this.lines) + "\n";
     }
 
     public static SourceFile fromLiteral(String source) {
