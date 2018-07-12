@@ -77,6 +77,10 @@ public interface Position extends Comparable<Position> {
         return new Range(startPosition.getSourceName(), startPosition, endPosition);
     }
 
+    public static Position ofRange(Position start, Position end) {
+        return new Range(start.getSourceName(), start, end);
+    }
+
     public static void throwInvalidSourceNameException(final String thisSourceName, final String otherSourceName) {
         throw new IllegalArgumentException(String.format("The merge target \"SourceName\" different. %s vs %s", thisSourceName, otherSourceName));
     }
