@@ -37,10 +37,13 @@ public class CreateASTVisitor extends KaraffeBaseVisitor<Tree> implements Positi
     @Override
     public Tree visitTopLevelStatement(KaraffeParser.TopLevelStatementContext ctx) {
         KaraffeParser.ClassDefContext classDefContext = ctx.classDef();
-        if (classDefContext == null) {
-            throw new NullPointerException();
+        if (ctx.statement() != null) {
+            return ctx.statement().accept(this);
         }
-        return classDefContext.accept(this);
+        if (classDefContext != null) {
+            return classDefContext.accept(this);
+        }
+        throw new NullPointerException();
     }
 
     @Override
@@ -319,7 +322,7 @@ public class CreateASTVisitor extends KaraffeBaseVisitor<Tree> implements Positi
         return Exprs.apply(
                 ctx.owner.accept(this),
                 Terms.varName(ctx.methodName.getText()),
-                ctx.args == null ? new EmptyTree(): ctx.args.accept(this)
+                ctx.args == null ? new EmptyTree() : ctx.args.accept(this)
         );
     }
 
@@ -337,7 +340,7 @@ public class CreateASTVisitor extends KaraffeBaseVisitor<Tree> implements Positi
     public Tree visitNewInstance(KaraffeParser.NewInstanceContext ctx) {
         return Exprs.newInstance(
                 Terms.typeName(ctx.typeName.getText()),
-                ctx.args == null ? new EmptyTree(): ctx.args.accept(this)
+                ctx.args == null ? new EmptyTree() : ctx.args.accept(this)
         );
     }
 
@@ -351,7 +354,7 @@ public class CreateASTVisitor extends KaraffeBaseVisitor<Tree> implements Positi
         return Exprs.apply(
                 Terms.emptyTree(),
                 Terms.varName(ctx.methodName.getText()),
-                ctx.args == null ? new EmptyTree(): ctx.args.accept(this)
+                ctx.args == null ? new EmptyTree() : ctx.args.accept(this)
         );
     }
 

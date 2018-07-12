@@ -6,6 +6,7 @@ compilationUnit
 
 topLevelStatement
   : classDef
+  | statement
   ;
 
 classDef
