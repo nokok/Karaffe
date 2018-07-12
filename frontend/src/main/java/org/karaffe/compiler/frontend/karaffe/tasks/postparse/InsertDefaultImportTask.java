@@ -1,6 +1,7 @@
 package org.karaffe.compiler.frontend.karaffe.tasks.postparse;
 
 import org.karaffe.compiler.base.CompilerContext;
+import org.karaffe.compiler.base.pos.Position;
 import org.karaffe.compiler.base.task.NoDescriptionTask;
 import org.karaffe.compiler.base.task.TaskResult;
 import org.karaffe.compiler.base.tree.DefaultVisitor;
@@ -72,14 +73,14 @@ public class InsertDefaultImportTask extends AbstractTask implements NoDescripti
                 tree.setChildren(new ArrayList<>());
 
                 for (String defaultImport : defaultImportPackages) {
-                    Def def = Defs.onDemandImportDef(defaultImport);
+                    Def def = Defs.onDemandImportDef(Position.noPos(), defaultImport);
                     def.addModifier(Modifiers.modSynthetic(def));
                     tree.addChild(def);
                     context.onFileImportDef(tree.getPos(), def);
                 }
 
                 for (String defaultImport : defaultImportClasses) {
-                    Def def = Defs.importDef(tree, defaultImport);
+                    Def def = Defs.importDef(Position.noPos(), tree, defaultImport);
                     def.addModifier(Modifiers.modSynthetic(def));
                     tree.addChild(def);
                     context.onFileImportDef(tree.getPos(), def);

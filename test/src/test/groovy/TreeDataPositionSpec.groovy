@@ -13,7 +13,7 @@ class TreeDataPositionSpec extends Specification {
 
     def "packageDef"() {
         setup:
-        def d = Defs.packageDef("java.lang")
+        def d = Defs.packageDef(Position.noPos(), "java.lang")
         def name = d.getName()
 
         expect:
@@ -32,7 +32,7 @@ class TreeDataPositionSpec extends Specification {
 
     def "importDef"() {
         setup:
-        def d = Defs.importDef("java.lang.Integer")
+        def d = Defs.importDef(Position.noPos(), "java.lang.Integer")
         def name = d.getName()
 
         expect:
@@ -51,7 +51,7 @@ class TreeDataPositionSpec extends Specification {
 
     def "onDemandImportDef"() {
         setup:
-        def d = Defs.onDemandImportDef("java.lang")
+        def d = Defs.onDemandImportDef(Position.noPos(), "java.lang")
         def name = d.getName()
 
         expect:
@@ -70,7 +70,7 @@ class TreeDataPositionSpec extends Specification {
 
     def "classDef"() {
         setup:
-        def d = Defs.classDef("Main")
+        def d = Defs.classDef(Position.noPos(), "Main")
         def name = d.getName()
 
         expect:
@@ -90,7 +90,7 @@ class TreeDataPositionSpec extends Specification {
 
     def "methodDef"() {
         setup:
-        def d = Defs.methodDef(null, "doSomething", Terms.primitiveVoid(), Exprs.tuple())
+        def d = Defs.methodDef(Position.noPos(), null, "doSomething", Terms.primitiveVoid(), Exprs.tuple())
         def name = d.getName()
 
         expect:
@@ -111,7 +111,7 @@ class TreeDataPositionSpec extends Specification {
 
     def "mainMethodDef"() {
         setup:
-        def d = Defs.mainMethodDef()
+        def d = Defs.mainMethodDef(Position.noPos())
         def name = d.getName()
 
         expect:
@@ -137,7 +137,7 @@ class TreeDataPositionSpec extends Specification {
 
     def "letDef"() {
         setup:
-        def d = Defs.letDef(Terms.varName("l"), Terms.typeName("Int"), Terms.emptyTree())
+        def d = Defs.letDef(Position.noPos(), Terms.varName("l"), Terms.typeName("Int"), Terms.emptyTree())
         def name = d.getName()
 
         expect:
@@ -158,7 +158,7 @@ class TreeDataPositionSpec extends Specification {
 
     def "assignmentdef"() {
         setup:
-        def d = Defs.assignment(Terms.varName("l"), Exprs.intValue("1"))
+        def d = Defs.assignment(Position.noPos(), Terms.varName("l"), Exprs.intValue("1"))
         def name = d.getName()
 
         expect:

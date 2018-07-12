@@ -58,7 +58,7 @@ public class CreateASTVisitor extends KaraffeBaseVisitor<Tree> implements Positi
     @Override
     public Tree visitSimpleClassDef(KaraffeParser.SimpleClassDefContext ctx) {
         TerminalNode identifier = ctx.Identifier();
-        Def c = Defs.classDef(identifier.getText());
+        Def c = Defs.classDef(Position.ofRange(ctx.start, ctx.stop), identifier.getText());
         c.setPos(getPosition(ctx.CLASS()));
         KaraffeParser.ClassDefBodyContext classDefBodyContext = ctx.classDefBody();
         if (classDefBodyContext != null) {
@@ -108,7 +108,7 @@ public class CreateASTVisitor extends KaraffeBaseVisitor<Tree> implements Positi
 
     @Override
     public Tree visitMainMethodDef(KaraffeParser.MainMethodDefContext ctx) {
-        Def mainMethodDef = Defs.mainMethodDef();
+        Def mainMethodDef = Defs.mainMethodDef(Position.ofRange(ctx.start, ctx.stop));
         if (ctx.statementBlock() != null) {
             mainMethodDef.addBody(ctx.statementBlock().accept(this));
         }
@@ -143,6 +143,7 @@ public class CreateASTVisitor extends KaraffeBaseVisitor<Tree> implements Positi
         }
         if (ctx.letStmt != null) {
             return Defs.letDef(
+                    Position.ofRange(ctx.start, ctx.stop),
                     Terms.varName(ctx.name.getText()),
                     Terms.typeName(ctx.typeName.getText()),
                     ctx.expr() == null ? Terms.emptyTree() : ctx.expr().accept(this)
@@ -150,6 +151,7 @@ public class CreateASTVisitor extends KaraffeBaseVisitor<Tree> implements Positi
         }
         if (ctx.assignTarget != null) {
             return Defs.assignment(
+                    Position.ofRange(ctx.start, ctx.stop),
                     Terms.varName(ctx.assignTarget.getText()),
                     ctx.expr().accept(this)
             );
