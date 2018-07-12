@@ -143,6 +143,11 @@ public class LineColPos implements Position {
     }
 
     @Override
+    public String toStringNoSource() {
+        return String.format("%d:%d", this.line, this.column);
+    }
+
+    @Override
     public String toString() {
         return String.format("%d:%d:%s", this.line, this.column, this.sourceName);
     }

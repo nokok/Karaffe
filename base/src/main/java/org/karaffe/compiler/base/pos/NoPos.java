@@ -61,6 +61,11 @@ public class NoPos implements Position {
     }
 
     @Override
+    public String toStringNoSource() {
+        return this.toString();
+    }
+
+    @Override
     public String toString() {
         return "<no-pos>";
     }

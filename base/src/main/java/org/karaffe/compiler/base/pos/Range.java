@@ -143,6 +143,11 @@ public class Range implements Position {
     }
 
     @Override
+    public String toStringNoSource() {
+        return String.format("%s:%s~%s:%s", this.begin.getLine(), this.begin.getCol(), this.end.getLine(), this.end.getCol());
+    }
+
+    @Override
     public String toString() {
         return String.format("%s:%s~%s:%s:%s", this.begin.getLine(), this.begin.getCol(), this.end.getLine(), this.end.getCol(), this.sourceName);
     }

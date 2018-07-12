@@ -112,4 +112,6 @@ public interface Position extends Comparable<Position> {
 
     public Position merge(Position position);
 
+    String toStringNoSource();
+
 }
