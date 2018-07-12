@@ -100,7 +100,7 @@ public class GenMIRTask extends AbstractTask implements NoDescriptionTask {
         @Override
         public Instructions visitAtom(Atom atom, Label label) {
             Instructions instructions = new InstructionList();
-            Const aConst = new Const(atom.getValue());
+            Const aConst = new Const(atom.getValue(), atom.getAtomKind().name());
             aConst.setPosition(atom.getPos());
             instructions.add(aConst);
             return instructions;

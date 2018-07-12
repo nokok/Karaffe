@@ -6,9 +6,11 @@ import java.util.Objects;
 
 public class Const extends AbstractInstruction {
     private String value;
+    private String kind;
 
-    public Const(String value) {
+    public Const(String value, String kind) {
         this.value = Objects.requireNonNull(value);
+        this.kind = Objects.requireNonNull(kind);
     }
 
     @Override
@@ -20,6 +22,22 @@ public class Const extends AbstractInstruction {
         return Objects.equals(value, aConst.value);
     }
 
+    public String getValue() {
+        return value;
+    }
+
+    public void setValue(String value) {
+        this.value = Objects.requireNonNull(value);
+    }
+
+    public String getKind() {
+        return kind;
+    }
+
+    public void setKind(String kind) {
+        this.kind = Objects.requireNonNull(kind);
+    }
+
     @Override
     public int hashCode() {
 
@@ -28,6 +46,6 @@ public class Const extends AbstractInstruction {
 
     @Override
     public String toString() {
-        return "Const " + value;
+        return "Const " + kind + " " + value;
     }
 }

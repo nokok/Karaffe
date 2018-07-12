@@ -22,6 +22,10 @@ public class Atom extends AbstractTree {
         this.value = "";
     }
 
+    public AtomKind getAtomKind() {
+        return kind;
+    }
+
     public String getValue() {
         return value;
     }
