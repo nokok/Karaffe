@@ -10,7 +10,7 @@ import java.util.Objects;
 public class AbstractInstruction implements Instruction {
     private List<Attribute> attributes = new ArrayList<>();
     private InstructionType type;
-    private Position position;
+    private Position position = Position.noPos();
 
     public List<Attribute> getAttributes() {
         return attributes;
@@ -24,10 +24,12 @@ public class AbstractInstruction implements Instruction {
         this.attributes = Objects.requireNonNull(attributes);
     }
 
+    @Override
     public Position getPosition() {
         return position;
     }
 
+    @Override
     public void setPosition(Position position) {
         this.position = Objects.requireNonNull(position);
     }
@@ -48,13 +50,11 @@ public class AbstractInstruction implements Instruction {
         if (o == null || getClass() != o.getClass()) return false;
         AbstractInstruction that = (AbstractInstruction) o;
         return Objects.equals(attributes, that.attributes) &&
-                type == that.type &&
-                Objects.equals(position, that.position);
+                type == that.type;
     }
 
     @Override
     public int hashCode() {
-
-        return Objects.hash(attributes, type, position);
+        return Objects.hash(attributes, type);
     }
 }
