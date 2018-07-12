@@ -20,6 +20,6 @@ public class Begin extends AbstractInstruction {
 
     @Override
     public String toString() {
-        return "Begin " + label;
+        return "Begin " + getInstType() + " " + label;
     }
 }
