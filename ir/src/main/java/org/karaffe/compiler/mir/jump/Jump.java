@@ -15,4 +15,9 @@ public class Jump extends AbstractInstruction {
     public Label getLabel() {
         return label;
     }
+
+    @Override
+    public String toString() {
+        return "Jump " + label;
+    }
 }
