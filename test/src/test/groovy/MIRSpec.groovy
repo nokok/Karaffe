@@ -4,15 +4,15 @@ import org.karaffe.compiler.base.pos.Position
 import org.karaffe.compiler.base.util.SourceFile
 import org.karaffe.compiler.frontend.karaffe.FrontendType
 import org.karaffe.compiler.frontend.karaffe.KaraffeCompilerFrontend
-import org.karaffe.compiler.mir.InstructionType
-import org.karaffe.compiler.mir.Instructions
-import org.karaffe.compiler.mir.block.Begin
-import org.karaffe.compiler.mir.block.End
-import org.karaffe.compiler.mir.constant.Const
-import org.karaffe.compiler.mir.io.Store
-import org.karaffe.compiler.mir.util.InstructionList
-import org.karaffe.compiler.mir.util.Label
-import org.karaffe.compiler.mir.variable.ValDef
+import org.karaffe.compiler.base.mir.InstructionType
+import org.karaffe.compiler.base.mir.Instructions
+import org.karaffe.compiler.base.mir.block.Begin
+import org.karaffe.compiler.base.mir.block.End
+import org.karaffe.compiler.base.mir.constant.Const
+import org.karaffe.compiler.base.mir.io.Store
+import org.karaffe.compiler.base.mir.util.InstructionList
+import org.karaffe.compiler.base.mir.util.Label
+import org.karaffe.compiler.base.mir.variable.ValDef
 import spock.lang.Specification
 
 class MIRSpec extends Specification {

@@ -1,7 +1,7 @@
 package org.karaffe.compiler.frontend.karaffe;
 
 import org.karaffe.compiler.base.CompilerContext;
-import org.karaffe.compiler.mir.Instructions;
+import org.karaffe.compiler.base.mir.Instructions;
 
 import java.util.Optional;
 

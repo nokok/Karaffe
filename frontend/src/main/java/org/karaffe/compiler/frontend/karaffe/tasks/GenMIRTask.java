@@ -19,24 +19,24 @@ import org.karaffe.compiler.base.tree.expr.Tuple;
 import org.karaffe.compiler.base.tree.expr.WhileExpr;
 import org.karaffe.compiler.base.tree.term.EmptyTree;
 import org.karaffe.compiler.base.tree.term.Path;
-import org.karaffe.compiler.mir.Instruction;
-import org.karaffe.compiler.mir.InstructionType;
-import org.karaffe.compiler.mir.Instructions;
-import org.karaffe.compiler.mir.block.Begin;
-import org.karaffe.compiler.mir.block.End;
-import org.karaffe.compiler.mir.constant.Const;
-import org.karaffe.compiler.mir.invoke.Invoke;
-import org.karaffe.compiler.mir.io.Load;
-import org.karaffe.compiler.mir.io.Store;
-import org.karaffe.compiler.mir.jump.IfJumpFalse;
-import org.karaffe.compiler.mir.jump.Jump;
-import org.karaffe.compiler.mir.jump.JumpTarget;
-import org.karaffe.compiler.mir.util.InstructionList;
-import org.karaffe.compiler.mir.util.Label;
-import org.karaffe.compiler.mir.util.attr.Attribute;
-import org.karaffe.compiler.mir.util.attr.MethodInvocationAttribute;
-import org.karaffe.compiler.mir.util.attr.ParameterAttribute;
-import org.karaffe.compiler.mir.variable.ValDef;
+import org.karaffe.compiler.base.mir.Instruction;
+import org.karaffe.compiler.base.mir.InstructionType;
+import org.karaffe.compiler.base.mir.Instructions;
+import org.karaffe.compiler.base.mir.block.Begin;
+import org.karaffe.compiler.base.mir.block.End;
+import org.karaffe.compiler.base.mir.constant.Const;
+import org.karaffe.compiler.base.mir.invoke.Invoke;
+import org.karaffe.compiler.base.mir.io.Load;
+import org.karaffe.compiler.base.mir.io.Store;
+import org.karaffe.compiler.base.mir.jump.IfJumpFalse;
+import org.karaffe.compiler.base.mir.jump.Jump;
+import org.karaffe.compiler.base.mir.jump.JumpTarget;
+import org.karaffe.compiler.base.mir.util.InstructionList;
+import org.karaffe.compiler.base.mir.util.Label;
+import org.karaffe.compiler.base.mir.util.attr.Attribute;
+import org.karaffe.compiler.base.mir.util.attr.MethodInvocationAttribute;
+import org.karaffe.compiler.base.mir.util.attr.ParameterAttribute;
+import org.karaffe.compiler.base.mir.variable.ValDef;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -202,7 +202,7 @@ public class GenMIRTask extends AbstractTask implements NoDescriptionTask {
             Instructions instructions = new InstructionList();
             Path typeName = binding.getTypeName();
             Path name = binding.getName();
-            org.karaffe.compiler.mir.constant.Binding b = new org.karaffe.compiler.mir.constant.Binding(new Label(label, name.toString()), typeName.asFullName());
+            org.karaffe.compiler.base.mir.constant.Binding b = new org.karaffe.compiler.base.mir.constant.Binding(new Label(label, name.toString()), typeName.asFullName());
             instructions.add(b);
             return instructions;
         }
@@ -210,7 +210,7 @@ public class GenMIRTask extends AbstractTask implements NoDescriptionTask {
         @Override
         public Instructions visitCast(Cast cast, Label label) {
             Instructions instructions = new InstructionList();
-            instructions.add(new org.karaffe.compiler.mir.Cast(cast.getTypeName().asFullName()));
+            instructions.add(new org.karaffe.compiler.base.mir.Cast(cast.getTypeName().asFullName()));
             return instructions;
         }
 

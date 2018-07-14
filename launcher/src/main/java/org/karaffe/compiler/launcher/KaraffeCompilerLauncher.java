@@ -17,7 +17,7 @@ import org.karaffe.compiler.frontend.karaffe.tasks.preconditions.CheckCompilerPr
 import org.karaffe.compiler.launcher.tasks.ShowDiagnosticInfoTask;
 import org.karaffe.compiler.launcher.tasks.ShowUsageTask;
 import org.karaffe.compiler.launcher.tasks.ShowVersionTask;
-import org.karaffe.compiler.mir.Instructions;
+import org.karaffe.compiler.base.mir.Instructions;
 import org.slf4j.LoggerFactory;
 
 import java.io.InputStream;

@@ -1,6 +1,6 @@
 package org.karaffe.compiler.backend.jvm;
 
-import org.karaffe.compiler.mir.Instructions;
+import org.karaffe.compiler.base.mir.Instructions;
 
 public class JVMBackend implements KaraffeComilerBackend {
     @Override
