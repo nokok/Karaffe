@@ -194,19 +194,19 @@ a == b""".stripMargin())
 
         expect:
         instructions.toString() == """[       <no-pos>] Begin PROGRAM #
-[            1:3] [InvokingSet#0] Load #a
-[            1:7] [InvokingSet#0] Load #b
-[        1:3~1:7] [InvokingSet#0] Invoke lessThan
-[       <no-pos>] IfJumpFalse #else
-[       <no-pos>] Begin BLOCK #then
+[            1:3] [InvokingSet#1] Load #a
+[            1:7] [InvokingSet#1] Load #b
+[        1:3~1:7] [InvokingSet#1] Invoke lessThan
+[       <no-pos>] IfJumpFalse #else0
+[       <no-pos>] Begin BLOCK #then0
 [           1:12] Const INTEGER 1
-[       <no-pos>] Jump #end
-[       <no-pos>] End #then
-[       <no-pos>] Begin BLOCK #else
-[       <no-pos>] JumpTarget #else
+[       <no-pos>] Jump #end0
+[       <no-pos>] End #then0
+[       <no-pos>] Begin BLOCK #else0
+[       <no-pos>] JumpTarget #else0
 [           1:23] Const INTEGER 2
-[       <no-pos>] End #else
-[       <no-pos>] JumpTarget #end
+[       <no-pos>] End #else0
+[       <no-pos>] JumpTarget #end0
 [       <no-pos>] End #"""
     }
 
@@ -217,14 +217,14 @@ a == b""".stripMargin())
 
         expect:
         instructions.toString() == """[       <no-pos>] Begin PROGRAM #
-[       <no-pos>] Begin BLOCK #whileBlock
-[       <no-pos>] JumpTarget #beginWhile
+[       <no-pos>] Begin BLOCK #whileBlock0
+[       <no-pos>] JumpTarget #beginWhile0
 [            1:6] Load #true
-[       <no-pos>] IfJumpFalse #endWhile
+[       <no-pos>] IfJumpFalse #endWhile0
 [           1:14] Const INTEGER 1
-[       <no-pos>] Jump #beginWhile
-[       <no-pos>] JumpTarget #endWhile
-[       <no-pos>] End #whileBlock
+[       <no-pos>] Jump #beginWhile0
+[       <no-pos>] JumpTarget #endWhile0
+[       <no-pos>] End #whileBlock0
 [           1:18] Const INTEGER 2
 [       <no-pos>] End #"""
     }

@@ -216,10 +216,11 @@ public class GenMIRTask extends AbstractTask implements NoDescriptionTask {
         @Override
         public Instructions visitWhileExpr(WhileExpr whileExpr, Label label) {
             Instructions instructions = new InstructionList();
-            Label whileBlockLabel = new Label(label, "whileBlock");
+            long index = seq++;
+            Label whileBlockLabel = new Label(label, "whileBlock" + index);
             instructions.add(new Begin(InstructionType.BLOCK, whileBlockLabel));
-            Label beginWhile = new Label(label, "beginWhile");
-            Label endWhile = new Label(label, "endWhile");
+            Label beginWhile = new Label(label, "beginWhile" + index);
+            Label endWhile = new Label(label, "endWhile" + index);
             instructions.add(new JumpTarget(beginWhile));
             Tree condition = whileExpr.getChild(0);
             Tree body = whileExpr.getChild(1);
@@ -235,12 +236,13 @@ public class GenMIRTask extends AbstractTask implements NoDescriptionTask {
         @Override
         public Instructions visitIfExpr(IfExpr ifExpr, Label label) {
             Instructions instructions = new InstructionList();
+            long index = seq++;
             Tree cond = ifExpr.getChild(0);
             Tree thenExpr = ifExpr.getChild(1);
             Tree elseExpr = ifExpr.getChild(2);
-            Label thenBlock = new Label(label, "then");
-            Label elseBlock = new Label(label, "else");
-            Label endBlock = new Label(label, "end");
+            Label thenBlock = new Label(label, "then" + index);
+            Label elseBlock = new Label(label, "else" + index);
+            Label endBlock = new Label(label, "end" + index);
 
             cond.acceptChildren(this, label).forEach(instructions::addAll);
             instructions.add(new IfJumpFalse(elseBlock));
