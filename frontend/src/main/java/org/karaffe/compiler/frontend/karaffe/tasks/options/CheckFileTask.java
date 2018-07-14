@@ -13,7 +13,7 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 public class CheckFileTask extends AbstractOptionTask {
-    private static final Logger LOGGER = LoggerFactory.getLogger(CheckTargetTask.class);
+    private static final Logger LOGGER = LoggerFactory.getLogger(CheckFileTask.class);
 
     @Override
     public TaskResult run(Options options) {
@@ -25,7 +25,7 @@ public class CheckFileTask extends AbstractOptionTask {
                 .map(Path::toString)
                 .collect(Collectors.toList());
 
-        LOGGER.info("dirList : {}", dirList);
+        LOGGER.debug("dirList : {}", dirList);
 
         if (!dirList.isEmpty()) {
             for (String f : dirList) {
@@ -42,7 +42,7 @@ public class CheckFileTask extends AbstractOptionTask {
                 .map(Path::toString)
                 .collect(Collectors.toList());
 
-        LOGGER.info("notExistsList : {}", notExistsList);
+        LOGGER.debug("notExistsList : {}", notExistsList);
 
         LOGGER.debug("Files.exists failed? : {}", notExistsList);
         if (!notExistsList.isEmpty()) {
