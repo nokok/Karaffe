@@ -12,14 +12,17 @@ public class AbstractInstruction implements Instruction {
     private InstructionType type;
     private Position position = Position.noPos();
 
+    @Override
     public List<Attribute> getAttributes() {
         return attributes;
     }
 
+    @Override
     public void addAttribute(Attribute attribute) {
         this.attributes.add(Objects.requireNonNull(attribute));
     }
 
+    @Override
     public void setAttributes(List<Attribute> attributes) {
         this.attributes = Objects.requireNonNull(attributes);
     }
