@@ -1,9 +1,5 @@
 import org.karaffe.compiler.base.CompilerContext
 import org.karaffe.compiler.base.CompilerContextImpl
-import org.karaffe.compiler.base.pos.Position
-import org.karaffe.compiler.base.util.SourceFile
-import org.karaffe.compiler.frontend.karaffe.FrontendType
-import org.karaffe.compiler.frontend.karaffe.KaraffeCompilerFrontend
 import org.karaffe.compiler.base.mir.InstructionType
 import org.karaffe.compiler.base.mir.Instructions
 import org.karaffe.compiler.base.mir.block.Begin
@@ -13,6 +9,10 @@ import org.karaffe.compiler.base.mir.io.Store
 import org.karaffe.compiler.base.mir.util.InstructionList
 import org.karaffe.compiler.base.mir.util.Label
 import org.karaffe.compiler.base.mir.variable.ValDef
+import org.karaffe.compiler.base.pos.Position
+import org.karaffe.compiler.base.util.SourceFile
+import org.karaffe.compiler.frontend.karaffe.FrontendType
+import org.karaffe.compiler.frontend.karaffe.KaraffeCompilerFrontend
 import spock.lang.Specification
 
 class MIRSpec extends Specification {
@@ -226,6 +226,23 @@ a == b""".stripMargin())
 [       <no-pos>] JumpTarget #endWhile0
 [       <no-pos>] End #whileBlock0
 [           1:18] Const INTEGER 2
+[       <no-pos>] End #"""
+    }
+
+    def "fieldDef"() {
+        setup:
+        def instructions = parseAndGenerateInstructions(
+                """class Main {
+let a Int = 0
+}""".stripMargin())
+
+        expect:
+        instructions.toString() == """[       <no-pos>] Begin PROGRAM #
+[       <no-pos>] Begin CLASS #Main
+[       2:0~2:12] ValDef #Main#a Int
+[           2:12] Const INTEGER 0
+[            2:4] Store #Main#a
+[       <no-pos>] End #Main
 [       <no-pos>] End #"""
     }
 

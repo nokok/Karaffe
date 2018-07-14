@@ -28,6 +28,7 @@ classDefMemberList
 
 classDefMember
   : mainMethodDef
+  | statement
   ;
 
 mainMethodDef

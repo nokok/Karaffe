@@ -100,10 +100,13 @@ public class CreateASTVisitor extends KaraffeBaseVisitor<Tree> implements Positi
     @Override
     public Tree visitClassDefMember(KaraffeParser.ClassDefMemberContext ctx) {
         KaraffeParser.MainMethodDefContext mainMethodDefContext = ctx.mainMethodDef();
-        if (mainMethodDefContext == null) {
-            throw new NullPointerException();
+        if (mainMethodDefContext != null) {
+            return mainMethodDefContext.accept(this);
         }
-        return mainMethodDefContext.accept(this);
+        if (ctx.statement() != null) {
+            return ctx.statement().accept(this);
+        }
+        throw new NullPointerException();
     }
 
     @Override
