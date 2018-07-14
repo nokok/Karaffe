@@ -70,6 +70,6 @@ public class NestedPath extends AbstractPath {
 
     @Override
     public String toString() {
-        return "[" + this.childPath + "]";
+        return this.basePath + "[" + this.childPath + "]";
     }
 }
