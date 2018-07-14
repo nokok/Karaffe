@@ -2,7 +2,6 @@ project(':backend') {
   dependencies {
     compile project(':base')
     compile project(':corelib')
-    compile project(':ir')
   }
 }
 
@@ -18,13 +17,6 @@ project(':frontend') {
   dependencies {
     compile project(':base')
     compile project(':corelib')
-    compile project(':ir')
-  }
-}
-
-project(':ir') {
-  dependencies {
-    compile project(':base')
   }
 }
 
@@ -34,7 +26,6 @@ project(':launcher') {
     compile project(':base')
     compile project(':corelib')
     compile project(':frontend')
-    compile project(':ir')
   }
 }
 
@@ -45,6 +36,5 @@ project(':test') {
     compile project(':base')
     compile project(':corelib')
     compile project(':frontend')
-    compile project(':ir')
   }
 }

@@ -4,7 +4,6 @@ include 'backend'
 include 'base'
 include 'corelib'
 include 'frontend'
-include 'ir'
 include 'launcher'
 include 'test'
 
