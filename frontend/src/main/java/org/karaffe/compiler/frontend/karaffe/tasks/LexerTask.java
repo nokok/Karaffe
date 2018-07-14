@@ -30,9 +30,14 @@ public class LexerTask extends AbstractTask {
         ErrorListener errorListener = new ErrorListener();
         context.sourceFileStream()
                 .forEach(file -> {
-                    LOGGER.trace("new Lexer for : {} ", file.toPath());
+                    LOGGER.trace("new Lexer for : {} ", file.getFileName());
                     try {
-                        CodePointCharStream codePointCharStream = CharStreams.fromReader(new StringReader(file.toString()), file.toPath().toAbsolutePath().toString());
+                        CodePointCharStream codePointCharStream;
+                        if (file.isUnknownFile()) {
+                            codePointCharStream = CharStreams.fromString(file.toString());
+                        } else {
+                            codePointCharStream = CharStreams.fromReader(new StringReader(file.toString()), file.toPath().toAbsolutePath().toString());
+                        }
                         KaraffeLexer lexer = new KaraffeLexer(codePointCharStream);
                         lexer.removeErrorListeners();
                         lexer.addErrorListener(errorListener);

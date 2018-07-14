@@ -11,6 +11,9 @@ import java.util.List;
 import java.util.Objects;
 
 public class SourceFile {
+
+    public static final String UNKNOWN_FILE_NAME = "<empty>";
+
     private final String fileName;
     private final String absolutePath;
     private final List<String> lines;
@@ -34,7 +37,18 @@ public class SourceFile {
         }
     }
 
+    public String getFileName() {
+        return this.fileName;
+    }
+
+    public boolean isUnknownFile() {
+        return this.fileName.equals(UNKNOWN_FILE_NAME);
+    }
+
     public Path toPath() {
+        if (this.isUnknownFile()) {
+            throw new UnsupportedOperationException();
+        }
         return Paths.get(this.absolutePath);
     }
 
@@ -45,6 +59,6 @@ public class SourceFile {
 
     public static SourceFile fromLiteral(String source) {
         String[] lines = source.split("\n");
-        return new SourceFile("<empty>", "<empty>", Arrays.asList(lines));
+        return new SourceFile(UNKNOWN_FILE_NAME, UNKNOWN_FILE_NAME, Arrays.asList(lines));
     }
 }
