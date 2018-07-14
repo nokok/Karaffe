@@ -5,7 +5,7 @@ import org.karaffe.compiler.base.task.NoDescriptionTask;
 import org.karaffe.compiler.base.task.Task;
 import org.karaffe.compiler.base.task.TaskResult;
 import org.karaffe.compiler.base.task.TaskRunner;
-import org.karaffe.compiler.frontend.karaffe.tasks.AbstractTask;
+import org.karaffe.compiler.base.task.AbstractTask;
 
 import java.util.LinkedHashSet;
 import java.util.Set;

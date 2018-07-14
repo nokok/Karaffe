@@ -4,7 +4,7 @@ import org.karaffe.compiler.base.CompilerContext;
 import org.karaffe.compiler.base.task.TaskResult;
 import org.karaffe.compiler.base.util.DiagnosticInfo;
 import org.karaffe.compiler.base.util.Platform;
-import org.karaffe.compiler.frontend.karaffe.tasks.AbstractTask;
+import org.karaffe.compiler.base.task.AbstractTask;
 
 public class ShowDiagnosticInfoTask extends AbstractTask {
     @Override

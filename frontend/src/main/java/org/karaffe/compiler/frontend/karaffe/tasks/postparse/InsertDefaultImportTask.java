@@ -9,7 +9,7 @@ import org.karaffe.compiler.base.tree.Tree;
 import org.karaffe.compiler.base.tree.def.Def;
 import org.karaffe.compiler.base.tree.def.Defs;
 import org.karaffe.compiler.base.tree.modifier.Modifiers;
-import org.karaffe.compiler.frontend.karaffe.tasks.AbstractTask;
+import org.karaffe.compiler.base.task.AbstractTask;
 
 import java.io.Reader;
 import java.net.URI;

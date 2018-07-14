@@ -2,7 +2,7 @@ package org.karaffe.compiler.frontend.karaffe.tasks.options;
 
 import org.karaffe.compiler.base.CompilerContext;
 import org.karaffe.compiler.base.task.TaskResult;
-import org.karaffe.compiler.frontend.karaffe.tasks.AbstractTask;
+import org.karaffe.compiler.base.task.AbstractTask;
 import org.kohsuke.args4j.CmdLineException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;

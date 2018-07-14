@@ -4,7 +4,7 @@ import org.karaffe.compiler.base.CompilerContext;
 import org.karaffe.compiler.base.task.NoDescriptionTask;
 import org.karaffe.compiler.base.task.TaskResult;
 import org.karaffe.compiler.base.util.Platform;
-import org.karaffe.compiler.frontend.karaffe.tasks.AbstractTask;
+import org.karaffe.compiler.base.task.AbstractTask;
 
 import java.io.BufferedReader;
 import java.io.IOException;
