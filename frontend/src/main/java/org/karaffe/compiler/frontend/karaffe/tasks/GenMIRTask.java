@@ -1,24 +1,6 @@
 package org.karaffe.compiler.frontend.karaffe.tasks;
 
 import org.karaffe.compiler.base.CompilerContext;
-import org.karaffe.compiler.base.task.AbstractTask;
-import org.karaffe.compiler.base.task.NoDescriptionTask;
-import org.karaffe.compiler.base.task.TaskResult;
-import org.karaffe.compiler.base.tree.Tree;
-import org.karaffe.compiler.base.tree.TreeVisitorAdapter;
-import org.karaffe.compiler.base.tree.def.ClassDef;
-import org.karaffe.compiler.base.tree.def.LetDef;
-import org.karaffe.compiler.base.tree.def.MethodDef;
-import org.karaffe.compiler.base.tree.expr.Apply;
-import org.karaffe.compiler.base.tree.expr.Atom;
-import org.karaffe.compiler.base.tree.expr.Binding;
-import org.karaffe.compiler.base.tree.expr.Block;
-import org.karaffe.compiler.base.tree.expr.Cast;
-import org.karaffe.compiler.base.tree.expr.IfExpr;
-import org.karaffe.compiler.base.tree.expr.Tuple;
-import org.karaffe.compiler.base.tree.expr.WhileExpr;
-import org.karaffe.compiler.base.tree.term.EmptyTree;
-import org.karaffe.compiler.base.tree.term.Path;
 import org.karaffe.compiler.base.mir.Instruction;
 import org.karaffe.compiler.base.mir.InstructionType;
 import org.karaffe.compiler.base.mir.Instructions;
@@ -37,6 +19,24 @@ import org.karaffe.compiler.base.mir.util.attr.Attribute;
 import org.karaffe.compiler.base.mir.util.attr.MethodInvocationAttribute;
 import org.karaffe.compiler.base.mir.util.attr.ParameterAttribute;
 import org.karaffe.compiler.base.mir.variable.ValDef;
+import org.karaffe.compiler.base.task.AbstractTask;
+import org.karaffe.compiler.base.task.NoDescriptionTask;
+import org.karaffe.compiler.base.task.TaskResult;
+import org.karaffe.compiler.base.tree.Tree;
+import org.karaffe.compiler.base.tree.TreeVisitorAdapter;
+import org.karaffe.compiler.base.tree.def.ClassDef;
+import org.karaffe.compiler.base.tree.def.LetDef;
+import org.karaffe.compiler.base.tree.def.MethodDef;
+import org.karaffe.compiler.base.tree.expr.Apply;
+import org.karaffe.compiler.base.tree.expr.Atom;
+import org.karaffe.compiler.base.tree.expr.Binding;
+import org.karaffe.compiler.base.tree.expr.Block;
+import org.karaffe.compiler.base.tree.expr.Cast;
+import org.karaffe.compiler.base.tree.expr.IfExpr;
+import org.karaffe.compiler.base.tree.expr.Tuple;
+import org.karaffe.compiler.base.tree.expr.WhileExpr;
+import org.karaffe.compiler.base.tree.term.EmptyTree;
+import org.karaffe.compiler.base.tree.term.Path;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -46,7 +46,6 @@ import java.util.stream.Collectors;
 
 public class GenMIRTask extends AbstractTask implements NoDescriptionTask {
 
-    private Instructions instructions;
 
     @Override
     public String name() {
@@ -55,15 +54,16 @@ public class GenMIRTask extends AbstractTask implements NoDescriptionTask {
 
     @Override
     public TaskResult run(CompilerContext context) {
-        this.instructions = new InstructionList();
+        Instructions instructions = new InstructionList();
+        instructions = new InstructionList();
         Label rootLabel = Label.createRootLabel();
-        this.instructions.add(new Begin(InstructionType.PROGRAM, rootLabel));
+        instructions.add(new Begin(InstructionType.PROGRAM, rootLabel));
 
         Tree compilationUnit = context.getCompilationUnit();
         Instructions generated = compilationUnit.accept(new TreeVisitor(), null);
-        this.instructions.addAll(generated);
-
-        this.instructions.add(new End(rootLabel));
+        instructions.addAll(generated);
+        instructions.add(new End(rootLabel));
+        context.setInstructions(instructions);
         return TaskResult.SUCCESS;
     }
 
@@ -261,13 +261,6 @@ public class GenMIRTask extends AbstractTask implements NoDescriptionTask {
 
             return instructions;
         }
-    }
-
-    public Instructions getInstructions() {
-        if (this.instructions == null) {
-            throw new IllegalStateException();
-        }
-        return this.instructions;
     }
 
     @Override

@@ -4,6 +4,7 @@ import org.karaffe.compiler.backend.jvm.BackendType;
 import org.karaffe.compiler.backend.jvm.KaraffeComilerBackend;
 import org.karaffe.compiler.base.CompilerContext;
 import org.karaffe.compiler.base.CompilerContextImpl;
+import org.karaffe.compiler.base.mir.Instructions;
 import org.karaffe.compiler.base.task.RunnerResult;
 import org.karaffe.compiler.base.task.Task;
 import org.karaffe.compiler.base.task.TaskRunner;
@@ -17,7 +18,6 @@ import org.karaffe.compiler.frontend.karaffe.tasks.preconditions.CheckCompilerPr
 import org.karaffe.compiler.launcher.tasks.ShowDiagnosticInfoTask;
 import org.karaffe.compiler.launcher.tasks.ShowUsageTask;
 import org.karaffe.compiler.launcher.tasks.ShowVersionTask;
-import org.karaffe.compiler.base.mir.Instructions;
 import org.slf4j.LoggerFactory;
 
 import java.io.InputStream;
@@ -93,7 +93,7 @@ public class KaraffeCompilerLauncher {
             Platform.stdOut(instructions.map(Instructions::toString).orElse("<empty>"));
         }
 
-        return instructions.map(backend::exec).orElse(-1);
+        return backend.exec(context);
     }
 
 }

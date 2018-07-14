@@ -1,6 +1,7 @@
 package org.karaffe.compiler.frontend.karaffe;
 
 import org.karaffe.compiler.base.CompilerContext;
+import org.karaffe.compiler.base.mir.Instructions;
 import org.karaffe.compiler.base.task.RunnerResult;
 import org.karaffe.compiler.base.task.Task;
 import org.karaffe.compiler.base.task.TaskRunner;
@@ -12,7 +13,6 @@ import org.karaffe.compiler.frontend.karaffe.tasks.ParserTask;
 import org.karaffe.compiler.frontend.karaffe.tasks.PrintLastTreeTask;
 import org.karaffe.compiler.frontend.karaffe.tasks.PrintTreeTask;
 import org.karaffe.compiler.frontend.karaffe.tasks.postparse.PostParseTask;
-import org.karaffe.compiler.base.mir.Instructions;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -25,8 +25,6 @@ public class KaraffeSourceFrontend implements KaraffeCompilerFrontend {
 
     private static final Logger LOGGER = LoggerFactory.getLogger(KaraffeSourceFrontend.class);
 
-    private static final GenMIRTask genMirTask = new GenMIRTask();
-
     private static final Set<Task> standByTaskList = new LinkedHashSet<>(Arrays.asList(
             new PrintTreeTask(),
             new PrintLastTreeTask(),
@@ -34,7 +32,7 @@ public class KaraffeSourceFrontend implements KaraffeCompilerFrontend {
             new ParserTask(),
             new GenASTTask(),
             new PostParseTask(),
-            genMirTask
+            new GenMIRTask()
     ));
 
     @Override
@@ -50,9 +48,7 @@ public class KaraffeSourceFrontend implements KaraffeCompilerFrontend {
                 return Optional.empty();
             }
 
-            Instructions instructions = genMirTask.getInstructions();
-
-            return Optional.of(instructions);
+            return Optional.ofNullable(context.getInstructions());
         } catch (TaskCanceledException e) {
             LOGGER.info("Task Canceled");
             return Optional.empty();

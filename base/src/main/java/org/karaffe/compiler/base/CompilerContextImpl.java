@@ -4,6 +4,7 @@ import org.antlr.v4.runtime.CommonTokenStream;
 import org.antlr.v4.runtime.Lexer;
 import org.antlr.v4.runtime.ParserRuleContext;
 import org.karaffe.compiler.base.context.CommandLineOptions;
+import org.karaffe.compiler.base.mir.Instructions;
 import org.karaffe.compiler.base.pos.Position;
 import org.karaffe.compiler.base.tree.Tree;
 import org.karaffe.compiler.base.tree.def.Def;
@@ -24,6 +25,7 @@ import java.util.stream.Stream;
 public class CompilerContextImpl implements CompilerContext {
 
     private final CommandLineOptions commandLineOptions;
+    private Instructions instructions;
     private final Set<SourceFile> sourceFiles;
     private final Set<Lexer> lexers;
     private final Set<ParserRuleContext> contexts;
@@ -170,6 +172,16 @@ public class CompilerContextImpl implements CompilerContext {
         }
         defs.add(importDef);
         this.fileImportMap.put(Objects.requireNonNull(sourceName), defs);
+    }
+
+    @Override
+    public void setInstructions(Instructions instructions) {
+        this.instructions = Objects.requireNonNull(instructions);
+    }
+
+    @Override
+    public Instructions getInstructions() {
+        return this.instructions;
     }
 
     @Override
