@@ -1,13 +1,10 @@
 import org.karaffe.compiler.base.CompilerContext
 import org.karaffe.compiler.base.CompilerContextImpl
-import org.karaffe.compiler.base.task.RunnerResult
-import org.karaffe.compiler.base.task.TaskResult
-import org.karaffe.compiler.base.task.TaskRunner
-import org.karaffe.compiler.frontend.karaffe.tasks.AbstractReadOnlyTask
+import org.karaffe.compiler.base.task.*
 import spock.lang.Specification
 
 class DefaultTaskRunnerSpec extends Specification {
-    abstract class AnonymousTask extends AbstractReadOnlyTask {
+    abstract class AnonymousTask extends AbstractTask implements ReadOnlyTask {
         @Override
         String name() {
             return ""
@@ -18,6 +15,10 @@ class DefaultTaskRunnerSpec extends Specification {
             return ""
         }
 
+        @Override
+        boolean changed() {
+            return super.changed()
+        }
     }
 
     def "The task specified in standBy is not executed until runAll is executed"() {

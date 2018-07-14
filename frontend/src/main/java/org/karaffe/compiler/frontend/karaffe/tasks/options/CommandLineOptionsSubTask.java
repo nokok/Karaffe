@@ -1,12 +1,13 @@
 package org.karaffe.compiler.frontend.karaffe.tasks.options;
 
 import org.karaffe.compiler.base.CompilerContext;
+import org.karaffe.compiler.base.task.AbstractTask;
+import org.karaffe.compiler.base.task.ReadOnlyTask;
 import org.karaffe.compiler.base.task.RunnerResult;
 import org.karaffe.compiler.base.task.Task;
 import org.karaffe.compiler.base.task.TaskResult;
 import org.karaffe.compiler.base.task.TaskRunner;
 import org.karaffe.compiler.base.util.SourceFile;
-import org.karaffe.compiler.frontend.karaffe.tasks.AbstractReadOnlyTask;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -15,7 +16,7 @@ import java.util.Collections;
 import java.util.LinkedHashSet;
 import java.util.Set;
 
-public class CommandLineOptionsSubTask extends AbstractReadOnlyTask {
+public class CommandLineOptionsSubTask extends AbstractTask implements ReadOnlyTask {
 
     private static final Logger LOGGER = LoggerFactory.getLogger(CommandLineOptionsSubTask.class);
     private Set<Task> subTask;

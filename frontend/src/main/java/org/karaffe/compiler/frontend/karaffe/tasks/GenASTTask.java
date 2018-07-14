@@ -34,6 +34,6 @@ public class GenASTTask extends AbstractTask {
 
     @Override
     public boolean changed() {
-        return false;
+        return true;
     }
 }

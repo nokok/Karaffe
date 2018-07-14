@@ -1,10 +1,12 @@
 package org.karaffe.compiler.frontend.karaffe.tasks;
 
 import org.karaffe.compiler.base.CompilerContext;
+import org.karaffe.compiler.base.task.AbstractTask;
+import org.karaffe.compiler.base.task.ReadOnlyTask;
 import org.karaffe.compiler.base.task.TaskResult;
 import org.karaffe.compiler.base.util.Platform;
 
-public class PrintTreeTask extends AbstractReadOnlyTask {
+public class PrintTreeTask extends AbstractTask implements ReadOnlyTask {
     @Override
     public String name() {
         return "print tree";

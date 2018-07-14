@@ -2,6 +2,8 @@ package org.karaffe.compiler.frontend.karaffe.tasks.postparse;
 
 import org.karaffe.compiler.base.CompilerContext;
 import org.karaffe.compiler.base.pos.Position;
+import org.karaffe.compiler.base.task.AbstractTask;
+import org.karaffe.compiler.base.task.CompilationUnitTask;
 import org.karaffe.compiler.base.task.NoDescriptionTask;
 import org.karaffe.compiler.base.task.TaskResult;
 import org.karaffe.compiler.base.tree.DefaultVisitor;
@@ -9,7 +11,6 @@ import org.karaffe.compiler.base.tree.Tree;
 import org.karaffe.compiler.base.tree.def.Def;
 import org.karaffe.compiler.base.tree.def.Defs;
 import org.karaffe.compiler.base.tree.modifier.Modifiers;
-import org.karaffe.compiler.base.task.AbstractTask;
 
 import java.io.Reader;
 import java.net.URI;
@@ -26,7 +27,7 @@ import java.util.function.Function;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
-public class InsertDefaultImportTask extends AbstractTask implements NoDescriptionTask {
+public class InsertDefaultImportTask extends AbstractTask implements NoDescriptionTask, CompilationUnitTask {
 
     private static final Set<String> defaultImportPackages;
     private static final Set<String> defaultImportClasses;
@@ -61,9 +62,7 @@ public class InsertDefaultImportTask extends AbstractTask implements NoDescripti
     }
 
     @Override
-    public TaskResult run(CompilerContext context) {
-        Tree compilationUnit = context.getCompilationUnit();
-
+    public TaskResult run(Tree compilationUnit, CompilerContext context) {
         compilationUnit.accept(new DefaultVisitor<Void>() {
             @Override
             public Tree visitCompileUnit(Tree.CompilationUnit tree, Void aVoid) {

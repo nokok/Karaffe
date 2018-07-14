@@ -5,11 +5,13 @@ import ch.qos.logback.classic.Logger;
 import ch.qos.logback.classic.spi.ILoggingEvent;
 import ch.qos.logback.core.Appender;
 import org.karaffe.compiler.base.CompilerContext;
+import org.karaffe.compiler.base.task.AbstractTask;
+import org.karaffe.compiler.base.task.ReadOnlyTask;
 import org.karaffe.compiler.base.task.TaskResult;
 import org.karaffe.compiler.base.util.config.Options;
 import org.slf4j.LoggerFactory;
 
-public class ConfigureLogLevelTask extends AbstractReadOnlyTask {
+public class ConfigureLogLevelTask extends AbstractTask implements ReadOnlyTask {
 
     private static final org.slf4j.Logger LOGGER = LoggerFactory.getLogger(ConfigureLogLevelTask.class);
 

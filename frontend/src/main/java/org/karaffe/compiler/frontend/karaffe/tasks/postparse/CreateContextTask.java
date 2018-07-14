@@ -1,7 +1,10 @@
 package org.karaffe.compiler.frontend.karaffe.tasks.postparse;
 
 import org.karaffe.compiler.base.CompilerContext;
+import org.karaffe.compiler.base.task.AbstractTask;
+import org.karaffe.compiler.base.task.CompilationUnitTask;
 import org.karaffe.compiler.base.task.NoDescriptionTask;
+import org.karaffe.compiler.base.task.ReadOnlyTask;
 import org.karaffe.compiler.base.task.TaskResult;
 import org.karaffe.compiler.base.tree.DefaultVisitor;
 import org.karaffe.compiler.base.tree.Tree;
@@ -10,10 +13,9 @@ import org.karaffe.compiler.base.tree.def.OnDemandImport;
 import org.karaffe.compiler.base.tree.def.PackageDef;
 import org.karaffe.compiler.base.tree.def.SimpleImport;
 import org.karaffe.compiler.base.util.Scope;
-import org.karaffe.compiler.frontend.karaffe.tasks.AbstractReadOnlyTask;
 import org.karaffe.compiler.frontend.karaffe.visitor.CreateScopeVisitor;
 
-public class CreateContextTask extends AbstractReadOnlyTask implements NoDescriptionTask {
+public class CreateContextTask extends AbstractTask implements ReadOnlyTask, NoDescriptionTask, CompilationUnitTask {
 
     @Override
     public String name() {
@@ -21,8 +23,7 @@ public class CreateContextTask extends AbstractReadOnlyTask implements NoDescrip
     }
 
     @Override
-    public TaskResult run(CompilerContext context) {
-        Tree compilationUnit = context.getCompilationUnit();
+    public TaskResult run(Tree compilationUnit, CompilerContext context) {
         compilationUnit.accept(new DefaultVisitor<Void>() {
             @Override
             public Tree visitPackageDef(PackageDef tree, Void aVoid) {

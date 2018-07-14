@@ -1,12 +1,13 @@
 package org.karaffe.compiler.frontend.karaffe.tasks.preconditions;
 
 import org.karaffe.compiler.base.CompilerContext;
+import org.karaffe.compiler.base.task.AbstractTask;
+import org.karaffe.compiler.base.task.ReadOnlyTask;
 import org.karaffe.compiler.base.task.TaskResult;
-import org.karaffe.compiler.frontend.karaffe.tasks.AbstractReadOnlyTask;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-public class CheckCorePackageTask extends AbstractReadOnlyTask {
+public class CheckCorePackageTask extends AbstractTask implements ReadOnlyTask {
 
     private static final Logger LOGGER = LoggerFactory.getLogger(CheckCorePackageTask.class);
 

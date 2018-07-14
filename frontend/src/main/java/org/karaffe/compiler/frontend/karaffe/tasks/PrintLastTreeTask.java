@@ -3,7 +3,9 @@ package org.karaffe.compiler.frontend.karaffe.tasks;
 import net.arnx.jsonic.JSON;
 import org.karaffe.compiler.base.CompilerContext;
 import org.karaffe.compiler.base.pos.Position;
+import org.karaffe.compiler.base.task.AbstractTask;
 import org.karaffe.compiler.base.task.NoDescriptionTask;
+import org.karaffe.compiler.base.task.ReadOnlyTask;
 import org.karaffe.compiler.base.task.TaskResult;
 import org.karaffe.compiler.base.tree.Tree;
 import org.karaffe.compiler.base.tree.TreeVisitor;
@@ -35,7 +37,7 @@ import java.util.Map;
 
 import static java.util.stream.Collectors.toList;
 
-public class PrintLastTreeTask extends AbstractReadOnlyTask implements NoDescriptionTask {
+public class PrintLastTreeTask extends AbstractTask implements ReadOnlyTask, NoDescriptionTask {
     @Override
     public String name() {
         return "print lasttree";
