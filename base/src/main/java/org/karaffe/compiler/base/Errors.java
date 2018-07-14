@@ -21,10 +21,6 @@ public class Errors {
         Platform.stdErr("Error : " + msg);
     }
 
-    public static void invalidTaskName(String stopTaskName) {
-        reportError("Invalid taskname: " + stopTaskName);
-    }
-
     public static void unexpectedDirectory(String f) {
         reportError(f + " is directory");
     }
