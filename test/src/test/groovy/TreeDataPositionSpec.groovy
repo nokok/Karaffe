@@ -90,7 +90,7 @@ class TreeDataPositionSpec extends Specification {
 
     def "methodDef"() {
         setup:
-        def d = Defs.methodDef(Position.noPos(), null, "doSomething", Terms.primitiveVoid(), Exprs.tuple())
+        def d = Defs.methodDef(Position.noPos(), null, "doSomething", Terms.primitiveVoid(Position.noPos()), Exprs.tuple())
         def name = d.getName()
 
         expect:
@@ -101,7 +101,7 @@ class TreeDataPositionSpec extends Specification {
         d.getChild(0) == Exprs.tuple()
         d.getModifiers().isEmpty()
         d.getPos() == Position.noPos()
-        d.getTypeName() == Terms.primitiveVoid()
+        d.getTypeName() == Terms.primitiveVoid(Position.noPos())
         d.toString() == "void doSomething()"
         name.asFullName() == "doSomething"
         name.asSimpleName() == "doSomething"
@@ -120,14 +120,14 @@ class TreeDataPositionSpec extends Specification {
         d.getParent() == null
         d.getChildren().size() == 1
         def b = new Binding()
-        b.setName(Terms.varName("args"))
-        b.setTypeName(Terms.arrayTypeName(Terms.typeName("String")))
+        b.setName(Terms.varName(Position.noPos(), "args"))
+        b.setTypeName(Terms.arrayTypeName(Position.noPos(), Terms.typeName(Position.noPos(), "String")))
         def t = new Tuple()
         t.addChild(b)
         d.getChild(0) == t
         d.getModifiers() == [Modifiers.modPublic(null), Modifiers.modStatic()]
         d.getPos() == Position.noPos()
-        d.getTypeName() == Terms.primitiveVoid()
+        d.getTypeName() == Terms.primitiveVoid(Position.noPos())
         d.toString() == "public static void main(args Array[String])"
         name.asFullName() == "main"
         name.asSimpleName() == "main"
@@ -137,7 +137,7 @@ class TreeDataPositionSpec extends Specification {
 
     def "letDef"() {
         setup:
-        def d = Defs.letDef(Position.noPos(), Terms.varName("l"), Terms.typeName("Int"), Terms.emptyTree())
+        def d = Defs.letDef(Position.noPos(), Terms.varName(Position.noPos(), "l"), Terms.typeName("Int"), Terms.emptyTree())
         def name = d.getName()
 
         expect:
@@ -158,7 +158,7 @@ class TreeDataPositionSpec extends Specification {
 
     def "assignmentdef"() {
         setup:
-        def d = Defs.assignment(Position.noPos(), Terms.varName("l"), Exprs.intValue("1"))
+        def d = Defs.assignment(Position.noPos(), Terms.varName(Position.noPos(), "l"), Exprs.intValue("1"))
         def name = d.getName()
 
         expect:

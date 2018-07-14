@@ -31,9 +31,13 @@ class MIRSpec extends Specification {
         def rootLabel = Label.createRootLabel()
         expected.add(new Begin(InstructionType.PROGRAM, rootLabel))
         expected.add(new End(rootLabel))
+        def actual = parseAndGenerateInstructions("")
 
         expect:
-        parseAndGenerateInstructions("") == expected
+        actual == expected
+        actual.toString() == """[       <no-pos>] Begin PROGRAM #
+[       <no-pos>] End #"""
+
     }
 
     def "simpleLet1"() {
@@ -43,7 +47,7 @@ class MIRSpec extends Specification {
         def beginProgram = new Begin(InstructionType.PROGRAM, rootLabel)
         def valName = new Label(rootLabel, "a")
         def valDef = new ValDef(valName, "Int")
-        def constant0 = new Const("0")
+        def constant0 = new Const("0", "INTEGER")
         def store0 = new Store(valName)
         def endProgram = new End(rootLabel)
         expected.add(beginProgram)
@@ -63,4 +67,95 @@ class MIRSpec extends Specification {
         Const actualConst0 = actual.get(2)
         actualConst0.getPosition() == Position.of("<unknown>", 1, 12)
     }
+
+    def "simpleClass"() {
+        setup:
+        def instructions = parseAndGenerateInstructions("""class A {
+  main {
+
+  }
+}
+let a Int = 1 + 2
+let b Int = 1 + 2 / 3
+println(a + b)""")
+
+        expect:
+        instructions.toString() == """[       <no-pos>] Begin PROGRAM #
+[       <no-pos>] Begin CLASS #A
+[       <no-pos>] Begin METHOD #A#main(args Array[String]):void
+[       <no-pos>] [ParameterName] ValDef #A#main(args Array[String]):void#args Array[String]
+[       <no-pos>] End #A#main(args Array[String]):void
+[       <no-pos>] End #A
+[       6:0~6:16] ValDef #a Int
+[           6:12] [InvokingSet#0] Const INTEGER 1
+[           6:16] [InvokingSet#0] Const INTEGER 2
+[      6:12~6:16] [InvokingSet#0] Invoke plus
+[            6:4] Store #a
+[       7:0~7:20] ValDef #b Int
+[           7:12] [InvokingSet#2] Const INTEGER 1
+[           7:16] [InvokingSet#1, InvokingSet#2] Const INTEGER 2
+[           7:20] [InvokingSet#1, InvokingSet#2] Const INTEGER 3
+[      7:16~7:20] [InvokingSet#1, InvokingSet#2] Invoke div
+[      7:12~7:20] [InvokingSet#2] Invoke plus
+[            7:4] Store #b
+[            8:8] [InvokingSet#3, InvokingSet#4] Const IDENTIFIER a
+[           8:12] [InvokingSet#3, InvokingSet#4] Const IDENTIFIER b
+[       8:8~8:12] [InvokingSet#3, InvokingSet#4] Invoke plus
+[       8:0~8:13] [InvokingSet#4] Invoke println
+[       <no-pos>] End #"""
+    }
+
+    def "mainMethod"() {
+        setup:
+        def instructions = parseAndGenerateInstructions(
+                """|class Main {
+                   |  main {
+                   |  }
+                   |}""".stripMargin())
+
+        expect:
+        instructions.toString() == """[       <no-pos>] Begin PROGRAM #
+[       <no-pos>] Begin CLASS #Main
+[       <no-pos>] Begin METHOD #Main#main(args Array[String]):void
+[       <no-pos>] [ParameterName] ValDef #Main#main(args Array[String]):void#args Array[String]
+[       <no-pos>] End #Main#main(args Array[String]):void
+[       <no-pos>] End #Main
+[       <no-pos>] End #"""
+    }
+
+    def "block"() {
+        setup:
+        def instructions = parseAndGenerateInstructions(
+                """{}""".stripMargin())
+
+        expect:
+        instructions.toString() == """[       <no-pos>] Begin PROGRAM #
+[       <no-pos>] Begin BLOCK #0
+[       <no-pos>] End #0
+[       <no-pos>] End #"""
+    }
+
+    def "apply without args"() {
+        setup:
+        def instructions = parseAndGenerateInstructions(
+                """doSomething()""".stripMargin())
+
+        expect:
+        instructions.toString() == """[       <no-pos>] Begin PROGRAM #
+[       1:0~1:12] [InvokingSet#0] Invoke doSomething
+[       <no-pos>] End #"""
+    }
+
+    def "apply with arg"() {
+        setup:
+        def instructions = parseAndGenerateInstructions(
+                """doSomething(123)""".stripMargin())
+
+        expect:
+        instructions.toString() == """[       <no-pos>] Begin PROGRAM #
+[           1:12] [InvokingSet#0] Const INTEGER 123
+[       1:0~1:15] [InvokingSet#0] Invoke doSomething
+[       <no-pos>] End #"""
+    }
+
 }
