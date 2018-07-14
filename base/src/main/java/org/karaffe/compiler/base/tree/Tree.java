@@ -12,8 +12,12 @@ import java.util.stream.Collectors;
 public interface Tree extends LocatableElement, NameableElement, ModifiableElement, TypedElement, NodeOperator {
     <R, P> R accept(TreeVisitor<R, P> visitor, P p);
 
+    default <R, P> List<R> acceptChildren(long skip, TreeVisitor<R, P> visitor, P p) {
+        return this.getChildren().stream().skip(skip).map(child -> child.accept(visitor, p)).collect(Collectors.toList());
+    }
+
     default <R, P> List<R> acceptChildren(TreeVisitor<R, P> visitor, P p) {
-        return this.getChildren().stream().map(child -> child.accept(visitor, p)).collect(Collectors.toList());
+        return acceptChildren(0, visitor, p);
     }
 
     TreeKind getKind();
