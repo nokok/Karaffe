@@ -12,16 +12,24 @@ import org.karaffe.compiler.base.tree.expr.Apply;
 import org.karaffe.compiler.base.tree.expr.Atom;
 import org.karaffe.compiler.base.tree.expr.Binding;
 import org.karaffe.compiler.base.tree.expr.Block;
+import org.karaffe.compiler.base.tree.expr.Cast;
+import org.karaffe.compiler.base.tree.expr.IfExpr;
 import org.karaffe.compiler.base.tree.expr.Tuple;
+import org.karaffe.compiler.base.tree.expr.WhileExpr;
 import org.karaffe.compiler.base.tree.term.EmptyTree;
 import org.karaffe.compiler.base.tree.term.Path;
+import org.karaffe.compiler.mir.Instruction;
 import org.karaffe.compiler.mir.InstructionType;
 import org.karaffe.compiler.mir.Instructions;
 import org.karaffe.compiler.mir.block.Begin;
 import org.karaffe.compiler.mir.block.End;
 import org.karaffe.compiler.mir.constant.Const;
 import org.karaffe.compiler.mir.invoke.Invoke;
+import org.karaffe.compiler.mir.io.Load;
 import org.karaffe.compiler.mir.io.Store;
+import org.karaffe.compiler.mir.jump.IfJumpFalse;
+import org.karaffe.compiler.mir.jump.Jump;
+import org.karaffe.compiler.mir.jump.JumpTarget;
 import org.karaffe.compiler.mir.util.InstructionList;
 import org.karaffe.compiler.mir.util.Label;
 import org.karaffe.compiler.mir.util.attr.Attribute;
@@ -163,9 +171,21 @@ public class GenMIRTask extends AbstractTask implements NoDescriptionTask {
         public Instructions visitAtom(Atom atom, Label label) {
             LOGGER.trace("visitAtom: {}", atom);
             Instructions instructions = new InstructionList();
-            Const aConst = new Const(atom.getValue(), atom.getAtomKind().name());
-            aConst.setPosition(atom.getPos());
-            instructions.add(aConst);
+
+            Instruction instruction;
+            switch (atom.getAtomKind()) {
+            case INTEGER:
+            case STRING:
+                instruction = new Const(atom.getValue(), atom.getAtomKind().name());
+                break;
+            case IDENTIFIER:
+                instruction = new Load(new Label(label, atom.getValue()));
+                break;
+            default:
+                throw new IllegalStateException();
+            }
+            instruction.setPosition(atom.getPos());
+            instructions.add(instruction);
             return instructions;
         }
 
@@ -183,6 +203,59 @@ public class GenMIRTask extends AbstractTask implements NoDescriptionTask {
             Path name = binding.getName();
             org.karaffe.compiler.mir.constant.Binding b = new org.karaffe.compiler.mir.constant.Binding(new Label(label, name.toString()), typeName.asFullName());
             instructions.add(b);
+            return instructions;
+        }
+
+        @Override
+        public Instructions visitCast(Cast cast, Label label) {
+            Instructions instructions = new InstructionList();
+            instructions.add(new org.karaffe.compiler.mir.Cast(cast.getTypeName().asFullName()));
+            return instructions;
+        }
+
+        @Override
+        public Instructions visitWhileExpr(WhileExpr whileExpr, Label label) {
+            Instructions instructions = new InstructionList();
+            Label whileBlockLabel = new Label(label, "whileBlock");
+            instructions.add(new Begin(InstructionType.BLOCK, whileBlockLabel));
+            Label beginWhile = new Label(label, "beginWhile");
+            Label endWhile = new Label(label, "endWhile");
+            instructions.add(new JumpTarget(beginWhile));
+            Tree condition = whileExpr.getChild(0);
+            Tree body = whileExpr.getChild(1);
+            condition.acceptChildren(this, label).forEach(instructions::addAll);
+            instructions.add(new IfJumpFalse(endWhile));
+            body.acceptChildren(this, label).forEach(instructions::addAll);
+            instructions.add(new Jump(beginWhile));
+            instructions.add(new JumpTarget(endWhile));
+            instructions.add(new End(whileBlockLabel));
+            return instructions;
+        }
+
+        @Override
+        public Instructions visitIfExpr(IfExpr ifExpr, Label label) {
+            Instructions instructions = new InstructionList();
+            Tree cond = ifExpr.getChild(0);
+            Tree thenExpr = ifExpr.getChild(1);
+            Tree elseExpr = ifExpr.getChild(2);
+            Label thenBlock = new Label(label, "then");
+            Label elseBlock = new Label(label, "else");
+            Label endBlock = new Label(label, "end");
+
+            cond.acceptChildren(this, label).forEach(instructions::addAll);
+            instructions.add(new IfJumpFalse(elseBlock));
+
+            instructions.add(new Begin(InstructionType.BLOCK, thenBlock));
+            thenExpr.acceptChildren(this, label).forEach(instructions::addAll);
+            instructions.add(new Jump(endBlock));
+            instructions.add(new End(thenBlock));
+
+            instructions.add(new Begin(InstructionType.BLOCK, elseBlock));
+            instructions.add(new JumpTarget(elseBlock));
+            elseExpr.acceptChildren(this, label).forEach(instructions::addAll);
+            instructions.add(new End(elseBlock));
+            instructions.add(new JumpTarget(endBlock));
+
             return instructions;
         }
     }

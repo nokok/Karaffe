@@ -61,7 +61,10 @@ public interface Exprs {
     static Tree ifExpr(Position position, Tree condition, Tree thenBlock, Tree elseBlock) {
         IfExpr ifExpr = new IfExpr();
         ifExpr.setPos(position);
-        ifExpr.addChild(condition);
+
+        Block condBlock = new Block();
+        condBlock.addChild(condition);
+        ifExpr.addChild(condBlock);
         ifExpr.addChild(thenBlock);
         ifExpr.addChild(elseBlock);
         return ifExpr;
@@ -70,8 +73,14 @@ public interface Exprs {
     static Tree whileExpr(Position position, Tree condition, Tree body) {
         WhileExpr whileExpr = new WhileExpr();
         whileExpr.setPos(position);
-        whileExpr.addChild(condition);
-        whileExpr.addChild(body);
+        // パーサー側の都合でBlockではなくそのままの値が来るため
+        Block conditionBlock = new Block();
+        conditionBlock.addChild(condition);
+        whileExpr.addChild(conditionBlock);
+
+        Block bodyBlock = new Block(body);
+        bodyBlock.addChild(body);
+        whileExpr.addChild(bodyBlock);
         return whileExpr;
     }
 

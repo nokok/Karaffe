@@ -98,8 +98,8 @@ println(a + b)""")
 [      7:16~7:20] [InvokingSet#1, InvokingSet#2] Invoke div
 [      7:12~7:20] [InvokingSet#2] Invoke plus
 [            7:4] Store #b
-[            8:8] [InvokingSet#3, InvokingSet#4] Const IDENTIFIER a
-[           8:12] [InvokingSet#3, InvokingSet#4] Const IDENTIFIER b
+[            8:8] [InvokingSet#3, InvokingSet#4] Load #a
+[           8:12] [InvokingSet#3, InvokingSet#4] Load #b
 [       8:8~8:12] [InvokingSet#3, InvokingSet#4] Invoke plus
 [       8:0~8:13] [InvokingSet#4] Invoke println
 [       <no-pos>] End #"""
@@ -155,6 +155,77 @@ println(a + b)""")
         instructions.toString() == """[       <no-pos>] Begin PROGRAM #
 [           1:12] [InvokingSet#0] Const INTEGER 123
 [       1:0~1:15] [InvokingSet#0] Invoke doSomething
+[       <no-pos>] End #"""
+    }
+
+    def "compareExpr"() {
+        setup:
+        def instructions = parseAndGenerateInstructions(
+                """a < b
+a <= b
+a >= b
+a > b
+a == b""".stripMargin())
+
+        expect:
+        instructions.toString() == """[       <no-pos>] Begin PROGRAM #
+[            1:0] [InvokingSet#0] Load #a
+[            1:4] [InvokingSet#0] Load #b
+[        1:0~1:4] [InvokingSet#0] Invoke lessThan
+[            2:0] [InvokingSet#1] Load #a
+[            2:5] [InvokingSet#1] Load #b
+[        2:0~2:5] [InvokingSet#1] Invoke lessThanEquals
+[            3:0] [InvokingSet#2] Load #a
+[            3:5] [InvokingSet#2] Load #b
+[        3:0~3:5] [InvokingSet#2] Invoke greaterThanEquals
+[            4:0] [InvokingSet#3] Load #a
+[            4:4] [InvokingSet#3] Load #b
+[        4:0~4:4] [InvokingSet#3] Invoke greaterThan
+[            5:0] [InvokingSet#4] Load #a
+[            5:5] [InvokingSet#4] Load #b
+[        5:0~5:5] [InvokingSet#4] Invoke equalsTo
+[       <no-pos>] End #"""
+    }
+
+    def "simpleIfExpr"() {
+        setup:
+        def instructions = parseAndGenerateInstructions(
+                """if(a < b) { 1 } else { 2 }""".stripMargin())
+
+        expect:
+        instructions.toString() == """[       <no-pos>] Begin PROGRAM #
+[            1:3] [InvokingSet#0] Load #a
+[            1:7] [InvokingSet#0] Load #b
+[        1:3~1:7] [InvokingSet#0] Invoke lessThan
+[       <no-pos>] IfJumpFalse #else
+[       <no-pos>] Begin BLOCK #then
+[           1:12] Const INTEGER 1
+[       <no-pos>] Jump #end
+[       <no-pos>] End #then
+[       <no-pos>] Begin BLOCK #else
+[       <no-pos>] JumpTarget #else
+[           1:23] Const INTEGER 2
+[       <no-pos>] End #else
+[       <no-pos>] JumpTarget #end
+[       <no-pos>] End #"""
+    }
+
+    def "simpleWhileExpr"() {
+        setup:
+        def instructions = parseAndGenerateInstructions(
+                """while(true) { 1 } 2""".stripMargin())
+
+        expect:
+        instructions.toString() == """[       <no-pos>] Begin PROGRAM #
+[       <no-pos>] Begin BLOCK #whileBlock
+[       <no-pos>] JumpTarget #beginWhile
+[            1:6] Load #true
+[       <no-pos>] IfJumpFalse #endWhile
+[           1:14] Const INTEGER 1
+[       <no-pos>] Jump #beginWhile
+[       <no-pos>] JumpTarget #endWhile
+[       <no-pos>] End #whileBlock
+[           1:18] Const INTEGER 2
 [       <no-pos>] End #"""
     }
 

@@ -51,7 +51,7 @@ statement
 
 expr
   : ifExpr=IF LPAREN cond=expr RPAREN then=statement* (ELSE el=statement*)?
-  | loop=WHILE LPAREN cond=expr RPAREN body=statement*
+  | loop=WHILE LPAREN cond=expr RPAREN LBRACE body=statement* RBRACE
   | block=LBRACE statement* RBRACE
   | simple=simpleExpr
   ;
