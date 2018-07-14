@@ -17,6 +17,16 @@ public class NestedPath extends AbstractPath {
         this.childPath = childPath;
     }
 
+    @Override
+    public String asSimpleName() {
+        return this.basePath.asSimpleName() + "[" + childPath.asSimpleName() + "]";
+    }
+
+    @Override
+    public String asFullName() {
+        return this.basePath.asFullName() + "[" + childPath.asFullName() + "]";
+    }
+
     public Path getChild() {
         return this.childPath;
     }
@@ -60,6 +70,6 @@ public class NestedPath extends AbstractPath {
 
     @Override
     public String toString() {
-        return this.basePath + "[" + this.childPath + "]";
+        return "[" + this.childPath + "]";
     }
 }
