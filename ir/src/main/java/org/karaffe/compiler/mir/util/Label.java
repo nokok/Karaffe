@@ -11,7 +11,13 @@ public class Label {
 
     public Label(Label parentLabel, String name) {
         String parentName = parentLabel == null ? "#" : parentLabel.getName();
-        this.name = parentName + Objects.requireNonNull(name);
+        if (!parentName.endsWith("#")) {
+            parentName += "#";
+        }
+        if (Objects.requireNonNull(name).isEmpty()) {
+            throw new IllegalArgumentException("Empty label name");
+        }
+        this.name = parentName + name;
     }
 
     public String getName() {
