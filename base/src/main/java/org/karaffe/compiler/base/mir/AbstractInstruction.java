@@ -1,13 +1,13 @@
 package org.karaffe.compiler.base.mir;
 
-import org.karaffe.compiler.base.pos.Position;
 import org.karaffe.compiler.base.mir.util.attr.Attribute;
+import org.karaffe.compiler.base.pos.Position;
 
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 
-public class AbstractInstruction implements Instruction {
+public abstract class AbstractInstruction implements Instruction {
     private List<Attribute> attributes = new ArrayList<>();
     private InstructionType type;
     private Position position = Position.noPos();
@@ -35,16 +35,6 @@ public class AbstractInstruction implements Instruction {
     @Override
     public void setPosition(Position position) {
         this.position = Objects.requireNonNull(position);
-    }
-
-    @Override
-    public InstructionType getInstType() {
-        return this.type;
-    }
-
-    @Override
-    public void setInstType(InstructionType type) {
-        this.type = Objects.requireNonNull(type);
     }
 
     @Override

@@ -1,14 +1,12 @@
 package org.karaffe.compiler.base.mir;
 
-import org.karaffe.compiler.base.pos.Position;
 import org.karaffe.compiler.base.mir.util.attr.Attribute;
+import org.karaffe.compiler.base.pos.Position;
 
 import java.util.List;
 
 public interface Instruction {
     InstructionType getInstType();
-
-    void setInstType(InstructionType type);
 
     Position getPosition();
 

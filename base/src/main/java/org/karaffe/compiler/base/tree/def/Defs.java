@@ -76,7 +76,7 @@ public interface Defs {
     static Def methodDef(Position position, Tree parent, String methodName, Path returnTypeName, Tuple parameters) {
         AbstractDef methodDef = new MethodDef(parent);
         methodDef.setPos(position);
-        methodDef.setName(Terms.varName(Position.noPos(), methodName));
+        methodDef.setName(Terms.varName(position, methodName));
         methodDef.setTypeName(returnTypeName);
         methodDef.setOrReplaceChild(0, parameters);
         return methodDef;

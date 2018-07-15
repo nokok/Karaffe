@@ -13,4 +13,9 @@ public class Cast extends AbstractInstruction {
     public String toString() {
         return "Cast " + this.castType;
     }
+
+    @Override
+    public InstructionType getInstType() {
+        return InstructionType.CAST;
+    }
 }

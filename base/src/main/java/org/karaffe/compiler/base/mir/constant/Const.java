@@ -1,6 +1,7 @@
 package org.karaffe.compiler.base.mir.constant;
 
 import org.karaffe.compiler.base.mir.AbstractInstruction;
+import org.karaffe.compiler.base.mir.InstructionType;
 
 import java.util.Objects;
 
@@ -47,5 +48,10 @@ public class Const extends AbstractInstruction {
     @Override
     public String toString() {
         return "Const " + kind + " " + value;
+    }
+
+    @Override
+    public InstructionType getInstType() {
+        return InstructionType.CONST;
     }
 }

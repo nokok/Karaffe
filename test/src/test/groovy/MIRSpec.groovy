@@ -3,6 +3,7 @@ import org.karaffe.compiler.base.CompilerContextImpl
 import org.karaffe.compiler.base.mir.InstructionType
 import org.karaffe.compiler.base.mir.Instructions
 import org.karaffe.compiler.base.mir.block.Begin
+import org.karaffe.compiler.base.mir.block.BlockType
 import org.karaffe.compiler.base.mir.block.End
 import org.karaffe.compiler.base.mir.constant.Const
 import org.karaffe.compiler.base.mir.io.Store
@@ -25,49 +26,6 @@ class MIRSpec extends Specification {
         return mayBeInstructions.get()
     }
 
-    def "Minimum Program"() {
-        setup:
-        def expected = new InstructionList()
-        def rootLabel = Label.createRootLabel()
-        expected.add(new Begin(InstructionType.PROGRAM, rootLabel))
-        expected.add(new End(rootLabel))
-        def actual = parseAndGenerateInstructions("")
-
-        expect:
-        actual == expected
-        actual.toString() == """[       <no-pos>] Begin PROGRAM #
-[       <no-pos>] End #"""
-
-    }
-
-    def "simpleLet1"() {
-        setup:
-        def expected = new InstructionList()
-        def rootLabel = Label.createRootLabel()
-        def beginProgram = new Begin(InstructionType.PROGRAM, rootLabel)
-        def valName = new Label(rootLabel, "a")
-        def valDef = new ValDef(valName, "Int")
-        def constant0 = new Const("0", "INTEGER")
-        def store0 = new Store(valName)
-        def endProgram = new End(rootLabel)
-        expected.add(beginProgram)
-        expected.add(valDef)
-        expected.add(constant0)
-        expected.add(store0)
-        expected.add(endProgram)
-        def actual = parseAndGenerateInstructions("let a Int = 0")
-
-        expect:
-        actual == expected
-        ((Begin) actual.get(0)).getLabel() == new Label("#")
-        ValDef actualValDef = actual.get(1)
-        actualValDef.getPosition() == Position.ofRange(Position.of("<unknown>", 1, 0), Position.of("<unknown>", 1, 12))
-        actualValDef.getValName() == new Label("#a")
-        actualValDef.getTypeName() == "Int"
-        Const actualConst0 = actual.get(2)
-        actualConst0.getPosition() == Position.of("<unknown>", 1, 12)
-    }
-
     def "simpleClass"() {
         setup:
         def instructions = parseAndGenerateInstructions("""class A {
@@ -80,9 +38,9 @@ let b Int = 1 + 2 / 3
 println(a + b)""")
 
         expect:
-        instructions.toString() == """[       <no-pos>] Begin PROGRAM #
-[       <no-pos>] Begin CLASS #A
-[       <no-pos>] Begin METHOD #A#main(args Array[String]):void
+        instructions.toString() == """[       <no-pos>] [PROGRAM] Begin #
+[       <no-pos>] [CLASS] Begin #A
+[        2:2~4:2] [METHOD] Begin #A#main(args Array[String]):void
 [       <no-pos>] [ParameterName] ValDef #A#main(args Array[String]):void#args Array[String]
 [       <no-pos>] End #A#main(args Array[String]):void
 [       <no-pos>] End #A
@@ -114,9 +72,9 @@ println(a + b)""")
                    |}""".stripMargin())
 
         expect:
-        instructions.toString() == """[       <no-pos>] Begin PROGRAM #
-[       <no-pos>] Begin CLASS #Main
-[       <no-pos>] Begin METHOD #Main#main(args Array[String]):void
+        instructions.toString() == """[       <no-pos>] [PROGRAM] Begin #
+[       <no-pos>] [CLASS] Begin #Main
+[        2:2~3:2] [METHOD] Begin #Main#main(args Array[String]):void
 [       <no-pos>] [ParameterName] ValDef #Main#main(args Array[String]):void#args Array[String]
 [       <no-pos>] End #Main#main(args Array[String]):void
 [       <no-pos>] End #Main
@@ -129,8 +87,8 @@ println(a + b)""")
                 """{}""".stripMargin())
 
         expect:
-        instructions.toString() == """[       <no-pos>] Begin PROGRAM #
-[       <no-pos>] Begin BLOCK #0
+        instructions.toString() == """[       <no-pos>] [PROGRAM] Begin #
+[       <no-pos>] [BLOCK] Begin #0
 [       <no-pos>] End #0
 [       <no-pos>] End #"""
     }
@@ -141,7 +99,7 @@ println(a + b)""")
                 """doSomething()""".stripMargin())
 
         expect:
-        instructions.toString() == """[       <no-pos>] Begin PROGRAM #
+        instructions.toString() == """[       <no-pos>] [PROGRAM] Begin #
 [       1:0~1:12] [InvokingSet#0] Invoke doSomething
 [       <no-pos>] End #"""
     }
@@ -152,7 +110,7 @@ println(a + b)""")
                 """doSomething(123)""".stripMargin())
 
         expect:
-        instructions.toString() == """[       <no-pos>] Begin PROGRAM #
+        instructions.toString() == """[       <no-pos>] [PROGRAM] Begin #
 [           1:12] [InvokingSet#0] Const INTEGER 123
 [       1:0~1:15] [InvokingSet#0] Invoke doSomething
 [       <no-pos>] End #"""
@@ -168,7 +126,7 @@ a > b
 a == b""".stripMargin())
 
         expect:
-        instructions.toString() == """[       <no-pos>] Begin PROGRAM #
+        instructions.toString() == """[       <no-pos>] [PROGRAM] Begin #
 [            1:0] [InvokingSet#0] Load #a
 [            1:4] [InvokingSet#0] Load #b
 [        1:0~1:4] [InvokingSet#0] Invoke lessThan
@@ -193,16 +151,16 @@ a == b""".stripMargin())
                 """if(a < b) { 1 } else { 2 }""".stripMargin())
 
         expect:
-        instructions.toString() == """[       <no-pos>] Begin PROGRAM #
+        instructions.toString() == """[       <no-pos>] [PROGRAM] Begin #
 [            1:3] [InvokingSet#1] Load #a
 [            1:7] [InvokingSet#1] Load #b
 [        1:3~1:7] [InvokingSet#1] Invoke lessThan
 [       <no-pos>] IfJumpFalse #else0
-[       <no-pos>] Begin BLOCK #then0
+[       <no-pos>] [BLOCK] Begin #then0
 [           1:12] Const INTEGER 1
 [       <no-pos>] Jump #end0
 [       <no-pos>] End #then0
-[       <no-pos>] Begin BLOCK #else0
+[       <no-pos>] [BLOCK] Begin #else0
 [       <no-pos>] JumpTarget #else0
 [           1:23] Const INTEGER 2
 [       <no-pos>] End #else0
@@ -216,8 +174,8 @@ a == b""".stripMargin())
                 """while(true) { 1 } 2""".stripMargin())
 
         expect:
-        instructions.toString() == """[       <no-pos>] Begin PROGRAM #
-[       <no-pos>] Begin BLOCK #whileBlock0
+        instructions.toString() == """[       <no-pos>] [PROGRAM] Begin #
+[       <no-pos>] [BLOCK] Begin #whileBlock0
 [       <no-pos>] JumpTarget #beginWhile0
 [            1:6] Load #true
 [       <no-pos>] IfJumpFalse #endWhile0
@@ -237,8 +195,8 @@ let a Int = 0
 }""".stripMargin())
 
         expect:
-        instructions.toString() == """[       <no-pos>] Begin PROGRAM #
-[       <no-pos>] Begin CLASS #Main
+        instructions.toString() == """[       <no-pos>] [PROGRAM] Begin #
+[       <no-pos>] [CLASS] Begin #Main
 [       2:0~2:12] ValDef #Main#a Int
 [           2:12] Const INTEGER 0
 [            2:4] Store #Main#a

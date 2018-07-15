@@ -1,8 +1,18 @@
 package org.karaffe.compiler.base.mir;
 
 public enum InstructionType {
-    BLOCK,
-    CLASS,
-    METHOD,
-    PROGRAM
+    STORE,
+    CAST,
+    BINDING,
+    LOAD,
+    INVOKE,
+    VALDEF,
+    CONST,
+    IFJUMPFALSE,
+    JUMP,
+    BEGIN,
+    RETURN,
+    END,
+    JUMPTARGET,
+    IFJUMPTRUE
 }

@@ -2,9 +2,9 @@ package org.karaffe.compiler.frontend.karaffe.tasks;
 
 import org.karaffe.compiler.base.CompilerContext;
 import org.karaffe.compiler.base.mir.Instruction;
-import org.karaffe.compiler.base.mir.InstructionType;
 import org.karaffe.compiler.base.mir.Instructions;
 import org.karaffe.compiler.base.mir.block.Begin;
+import org.karaffe.compiler.base.mir.block.BlockType;
 import org.karaffe.compiler.base.mir.block.End;
 import org.karaffe.compiler.base.mir.constant.Const;
 import org.karaffe.compiler.base.mir.invoke.Invoke;
@@ -46,7 +46,6 @@ import java.util.stream.Collectors;
 
 public class GenMIRTask extends AbstractTask implements NoDescriptionTask {
 
-
     @Override
     public String name() {
         return "gen-mir";
@@ -55,9 +54,8 @@ public class GenMIRTask extends AbstractTask implements NoDescriptionTask {
     @Override
     public TaskResult run(CompilerContext context) {
         Instructions instructions = new InstructionList();
-        instructions = new InstructionList();
         Label rootLabel = Label.createRootLabel();
-        instructions.add(new Begin(InstructionType.PROGRAM, rootLabel));
+        instructions.add(new Begin(BlockType.PROGRAM, rootLabel));
 
         Tree compilationUnit = context.getCompilationUnit();
         Instructions generated = compilationUnit.accept(new TreeVisitor(), null);
@@ -87,7 +85,7 @@ public class GenMIRTask extends AbstractTask implements NoDescriptionTask {
             LOGGER.trace("visitClassDef: {}", def);
             Instructions instructions = new InstructionList();
             Label classLabel = new Label(label, def.getName().toString());
-            instructions.add(new Begin(InstructionType.CLASS, classLabel));
+            instructions.add(new Begin(BlockType.CLASS, classLabel));
             def.acceptChildren(this, classLabel).stream().forEach(instructions::addAll);
             instructions.add(new End(classLabel));
             return instructions;
@@ -106,8 +104,9 @@ public class GenMIRTask extends AbstractTask implements NoDescriptionTask {
             LOGGER.trace("visitMethodDef: {}", def);
             Instructions instructions = new InstructionList();
             Label methodLabel = new Label(label, def.getName().toString() + def.getChild(0) + ":" + def.getTypeName());
-
-            instructions.add(new Begin(InstructionType.METHOD, methodLabel));
+            Begin beginMethod = new Begin(BlockType.METHOD, methodLabel);
+            beginMethod.setPosition(def.getName().getPos());
+            instructions.add(beginMethod);
             List<ValDef> parameters = def.getChild(0)
                     .getChildren()
                     .stream()
@@ -142,7 +141,7 @@ public class GenMIRTask extends AbstractTask implements NoDescriptionTask {
             LOGGER.trace("visitBlock: {}", block);
             Instructions instructions = new InstructionList();
             Label blockLabel = new Label(label, String.valueOf(seq++));
-            instructions.add(new Begin(InstructionType.BLOCK, blockLabel));
+            instructions.add(new Begin(BlockType.BLOCK, blockLabel));
             block.acceptChildren(this, blockLabel).forEach(instructions::addAll);
             instructions.add(new End(blockLabel));
             return instructions;
@@ -219,7 +218,7 @@ public class GenMIRTask extends AbstractTask implements NoDescriptionTask {
             Instructions instructions = new InstructionList();
             long index = seq++;
             Label whileBlockLabel = new Label(label, "whileBlock" + index);
-            instructions.add(new Begin(InstructionType.BLOCK, whileBlockLabel));
+            instructions.add(new Begin(BlockType.BLOCK, whileBlockLabel));
             Label beginWhile = new Label(label, "beginWhile" + index);
             Label endWhile = new Label(label, "endWhile" + index);
             instructions.add(new JumpTarget(beginWhile));
@@ -248,12 +247,12 @@ public class GenMIRTask extends AbstractTask implements NoDescriptionTask {
             cond.acceptChildren(this, label).forEach(instructions::addAll);
             instructions.add(new IfJumpFalse(elseBlock));
 
-            instructions.add(new Begin(InstructionType.BLOCK, thenBlock));
+            instructions.add(new Begin(BlockType.BLOCK, thenBlock));
             thenExpr.acceptChildren(this, label).forEach(instructions::addAll);
             instructions.add(new Jump(endBlock));
             instructions.add(new End(thenBlock));
 
-            instructions.add(new Begin(InstructionType.BLOCK, elseBlock));
+            instructions.add(new Begin(BlockType.BLOCK, elseBlock));
             instructions.add(new JumpTarget(elseBlock));
             elseExpr.acceptChildren(this, label).forEach(instructions::addAll);
             instructions.add(new End(elseBlock));

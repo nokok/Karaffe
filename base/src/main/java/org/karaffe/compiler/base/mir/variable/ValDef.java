@@ -1,6 +1,7 @@
 package org.karaffe.compiler.base.mir.variable;
 
 import org.karaffe.compiler.base.mir.AbstractInstruction;
+import org.karaffe.compiler.base.mir.InstructionType;
 import org.karaffe.compiler.base.mir.util.Label;
 
 import java.util.Objects;
@@ -41,5 +42,10 @@ public class ValDef extends AbstractInstruction {
     @Override
     public String toString() {
         return "ValDef " + valName + " " + typeName;
+    }
+
+    @Override
+    public InstructionType getInstType() {
+        return InstructionType.VALDEF;
     }
 }
