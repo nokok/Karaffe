@@ -18,7 +18,7 @@ public class ImportCheckTask extends AbstractTask implements ReadOnlyTask, NoDes
 
     @Override
     public String name() {
-        return "frontend-karaffe-post-parse-import-check";
+        return "frontend-karaffe-postparse-importcheck";
     }
 
     @Override

@@ -58,7 +58,7 @@ public class InsertDefaultImportTask extends AbstractTask implements NoDescripti
 
     @Override
     public String name() {
-        return "frontend-karaffe-post-parse-insert-default-import";
+        return "frontend-karaffe-postparse-import";
     }
 
     @Override

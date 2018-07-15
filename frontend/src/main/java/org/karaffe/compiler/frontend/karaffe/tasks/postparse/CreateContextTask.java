@@ -19,7 +19,7 @@ public class CreateContextTask extends AbstractTask implements ReadOnlyTask, NoD
 
     @Override
     public String name() {
-        return "frontend-karaffe-post-parse-create-context";
+        return "frontend-karaffe-postparse-context";
     }
 
     @Override

@@ -13,7 +13,7 @@ import org.karaffe.compiler.base.tree.term.Terms;
 public class NameResolveTask extends AbstractTask implements CompilationUnitTask {
     @Override
     public String name() {
-        return "frontend-karaffe-post-parse-name-resolver";
+        return "frontend-karaffe-postparse-nameresolver";
     }
 
     @Override

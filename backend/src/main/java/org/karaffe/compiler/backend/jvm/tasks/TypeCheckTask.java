@@ -20,7 +20,7 @@ public class TypeCheckTask extends AbstractTask implements BackendTask, NoDescri
 
     @Override
     public String name() {
-        return "jvm-backend-type-checker";
+        return "jvm-backend-typechecker";
     }
 
     @Override
