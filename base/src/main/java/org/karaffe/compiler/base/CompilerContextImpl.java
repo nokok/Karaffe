@@ -6,14 +6,15 @@ import org.antlr.v4.runtime.ParserRuleContext;
 import org.karaffe.compiler.base.context.CommandLineOptions;
 import org.karaffe.compiler.base.mir.Instructions;
 import org.karaffe.compiler.base.pos.Position;
+import org.karaffe.compiler.base.report.Report;
 import org.karaffe.compiler.base.tree.Tree;
 import org.karaffe.compiler.base.tree.def.Def;
-import org.karaffe.compiler.base.report.Report;
 import org.karaffe.compiler.base.util.SourceFile;
 import org.karaffe.compiler.base.util.config.Options;
 import org.kohsuke.args4j.CmdLineException;
 
 import java.io.PrintStream;
+import java.nio.file.Path;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.HashSet;
@@ -36,6 +37,7 @@ public class CompilerContextImpl implements CompilerContext {
     private Map<String, String> packageFileMap;
     private Map<String, List<Def>> fileImportMap;
     private List<Report> reports;
+    private Map<Path, byte[]> byteCodeMap;
 
     public CompilerContextImpl() {
         this(new String[0]);
@@ -51,6 +53,7 @@ public class CompilerContextImpl implements CompilerContext {
         this.packageFileMap = new HashMap<>();
         this.fileImportMap = new HashMap<>();
         this.reports = new ArrayList<>();
+        this.byteCodeMap = new HashMap<>();
     }
 
     @Override
@@ -184,6 +187,7 @@ public class CompilerContextImpl implements CompilerContext {
 
     @Override
     public Instructions getInstructions() {
+        this.instructions.updateInternalCache();
         return this.instructions;
     }
 
@@ -205,5 +209,15 @@ public class CompilerContextImpl implements CompilerContext {
     @Override
     public List<Report> getReports() {
         return this.reports;
+    }
+
+    @Override
+    public void addBytecode(Path filePath, byte[] bytecode) {
+        this.byteCodeMap.put(Objects.requireNonNull(filePath), Objects.requireNonNull(bytecode));
+    }
+
+    @Override
+    public Set<Map.Entry<Path, byte[]>> getBytecodes() {
+        return this.byteCodeMap.entrySet();
     }
 }

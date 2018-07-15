@@ -4,6 +4,7 @@ import org.karaffe.compiler.backend.jvm.BackendType;
 import org.karaffe.compiler.backend.jvm.KaraffeCompilerBackend;
 import org.karaffe.compiler.base.CompilerContext;
 import org.karaffe.compiler.base.CompilerContextImpl;
+import org.karaffe.compiler.base.mir.Instructions;
 import org.karaffe.compiler.base.report.Report;
 import org.karaffe.compiler.base.task.RunnerResult;
 import org.karaffe.compiler.base.task.Task;
@@ -22,8 +23,11 @@ import org.slf4j.LoggerFactory;
 
 import java.io.InputStream;
 import java.io.PrintStream;
+import java.nio.file.Files;
+import java.nio.file.Path;
 import java.util.Arrays;
 import java.util.LinkedHashSet;
+import java.util.Map;
 import java.util.Set;
 
 public class KaraffeCompilerLauncher {
@@ -92,8 +96,17 @@ public class KaraffeCompilerLauncher {
         taskRunner.standBy(KaraffeCompilerBackend.getBackend(BackendType.JVM));
         RunnerResult compilerResult = taskRunner.runAll();
 
+        if (context.getCmdLineOptions().dumpTables) {
+            Instructions instructions = context.getInstructions();
+        }
+
         if (context.getCmdLineOptions().dumpMIR) {
             Platform.stdOut(context.getInstructions());
+        }
+
+        for (Map.Entry<Path, byte[]> entry : context.getBytecodes()) {
+            LOGGER.debug("Write to : {}", entry.getKey());
+            Files.write(entry.getKey(), entry.getValue());
         }
 
         if (context.hasErrorReport()) {

@@ -10,9 +10,15 @@ public enum InstructionType {
     CONST,
     IFJUMPFALSE,
     JUMP,
-    BEGIN,
     RETURN,
-    END,
     JUMPTARGET,
+    BEGINCLASS,
+    BEGINMETHOD,
+    BEGINBLOCK,
+    ENDCLASS,
+    ENDMETHOD,
+    ENDBLOCK,
+    BEGINCONSTRUCTOR,
+    ENDCONSTRUCTOR,
     IFJUMPTRUE
 }

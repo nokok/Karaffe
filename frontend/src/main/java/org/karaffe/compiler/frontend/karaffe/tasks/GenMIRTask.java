@@ -3,9 +3,12 @@ package org.karaffe.compiler.frontend.karaffe.tasks;
 import org.karaffe.compiler.base.CompilerContext;
 import org.karaffe.compiler.base.mir.Instruction;
 import org.karaffe.compiler.base.mir.Instructions;
-import org.karaffe.compiler.base.mir.block.Begin;
-import org.karaffe.compiler.base.mir.block.BlockType;
-import org.karaffe.compiler.base.mir.block.End;
+import org.karaffe.compiler.base.mir.block.BeginBlock;
+import org.karaffe.compiler.base.mir.block.BeginClass;
+import org.karaffe.compiler.base.mir.block.BeginMethod;
+import org.karaffe.compiler.base.mir.block.EndBlock;
+import org.karaffe.compiler.base.mir.block.EndClass;
+import org.karaffe.compiler.base.mir.block.EndMethod;
 import org.karaffe.compiler.base.mir.constant.Const;
 import org.karaffe.compiler.base.mir.invoke.Invoke;
 import org.karaffe.compiler.base.mir.io.Load;
@@ -17,6 +20,7 @@ import org.karaffe.compiler.base.mir.util.InstructionList;
 import org.karaffe.compiler.base.mir.util.Label;
 import org.karaffe.compiler.base.mir.util.attr.Attribute;
 import org.karaffe.compiler.base.mir.util.attr.MethodInvocationAttribute;
+import org.karaffe.compiler.base.mir.util.attr.ModifierAttribute;
 import org.karaffe.compiler.base.mir.util.attr.ParameterAttribute;
 import org.karaffe.compiler.base.mir.variable.ValDef;
 import org.karaffe.compiler.base.task.AbstractTask;
@@ -35,6 +39,7 @@ import org.karaffe.compiler.base.tree.expr.Cast;
 import org.karaffe.compiler.base.tree.expr.IfExpr;
 import org.karaffe.compiler.base.tree.expr.Tuple;
 import org.karaffe.compiler.base.tree.expr.WhileExpr;
+import org.karaffe.compiler.base.tree.modifier.Modifier;
 import org.karaffe.compiler.base.tree.term.EmptyTree;
 import org.karaffe.compiler.base.tree.term.Path;
 import org.slf4j.Logger;
@@ -55,12 +60,11 @@ public class GenMIRTask extends AbstractTask implements NoDescriptionTask {
     public TaskResult run(CompilerContext context) {
         Instructions instructions = new InstructionList();
         Label rootLabel = Label.createRootLabel();
-        instructions.add(new Begin(BlockType.PROGRAM, rootLabel));
-
+        instructions.add(new BeginBlock(rootLabel));
         Tree compilationUnit = context.getCompilationUnit();
         Instructions generated = compilationUnit.accept(new TreeVisitor(), null);
         instructions.addAll(generated);
-        instructions.add(new End(rootLabel));
+        instructions.add(new EndBlock(rootLabel));
         context.setInstructions(instructions);
         return TaskResult.SUCCESS;
     }
@@ -85,9 +89,11 @@ public class GenMIRTask extends AbstractTask implements NoDescriptionTask {
             LOGGER.trace("visitClassDef: {}", def);
             Instructions instructions = new InstructionList();
             Label classLabel = new Label(label, def.getName().toString());
-            instructions.add(new Begin(BlockType.CLASS, classLabel));
+            BeginClass beginClass = new BeginClass(classLabel);
+            visitModifier(def.getModifiers()).forEach(beginClass::addAttribute);
+            instructions.add(beginClass);
             def.acceptChildren(this, classLabel).stream().forEach(instructions::addAll);
-            instructions.add(new End(classLabel));
+            instructions.add(new EndClass(classLabel));
             return instructions;
         }
 
@@ -103,8 +109,10 @@ public class GenMIRTask extends AbstractTask implements NoDescriptionTask {
         public Instructions visitMethodDef(MethodDef def, Label label) {
             LOGGER.trace("visitMethodDef: {}", def);
             Instructions instructions = new InstructionList();
-            Label methodLabel = new Label(label, def.getName().toString() + def.getChild(0) + ":" + def.getTypeName());
-            Begin beginMethod = new Begin(BlockType.METHOD, methodLabel);
+            String parameterTypes = def.getChild(0).getChildren().stream().map(Binding.class::cast).map(b -> b.getTypeName()).map(Path::asFullName).reduce((l, r) -> l + ", " + r).orElse("");
+            Label methodLabel = new Label(label, def.getName() + "(" + parameterTypes + "):" + def.getTypeName());
+            BeginMethod beginMethod = new BeginMethod(methodLabel);
+            visitModifier(def.getModifiers()).forEach(beginMethod::addAttribute);
             beginMethod.setPosition(def.getName().getPos());
             instructions.add(beginMethod);
             List<ValDef> parameters = def.getChild(0)
@@ -116,7 +124,7 @@ public class GenMIRTask extends AbstractTask implements NoDescriptionTask {
             parameters.forEach(p -> p.addAttribute(new ParameterAttribute()));
             instructions.addAll(parameters);
             def.acceptChildren(1, this, methodLabel).stream().forEach(instructions::addAll);
-            instructions.add(new End(methodLabel));
+            instructions.add(new EndMethod(methodLabel));
             return instructions;
         }
 
@@ -141,9 +149,9 @@ public class GenMIRTask extends AbstractTask implements NoDescriptionTask {
             LOGGER.trace("visitBlock: {}", block);
             Instructions instructions = new InstructionList();
             Label blockLabel = new Label(label, String.valueOf(seq++));
-            instructions.add(new Begin(BlockType.BLOCK, blockLabel));
+            instructions.add(new BeginBlock(blockLabel));
             block.acceptChildren(this, blockLabel).forEach(instructions::addAll);
-            instructions.add(new End(blockLabel));
+            instructions.add(new EndBlock(blockLabel));
             return instructions;
         }
 
@@ -218,7 +226,7 @@ public class GenMIRTask extends AbstractTask implements NoDescriptionTask {
             Instructions instructions = new InstructionList();
             long index = seq++;
             Label whileBlockLabel = new Label(label, "whileBlock" + index);
-            instructions.add(new Begin(BlockType.BLOCK, whileBlockLabel));
+            instructions.add(new BeginBlock(whileBlockLabel));
             Label beginWhile = new Label(label, "beginWhile" + index);
             Label endWhile = new Label(label, "endWhile" + index);
             instructions.add(new JumpTarget(beginWhile));
@@ -229,7 +237,7 @@ public class GenMIRTask extends AbstractTask implements NoDescriptionTask {
             body.acceptChildren(this, label).forEach(instructions::addAll);
             instructions.add(new Jump(beginWhile));
             instructions.add(new JumpTarget(endWhile));
-            instructions.add(new End(whileBlockLabel));
+            instructions.add(new EndBlock(whileBlockLabel));
             return instructions;
         }
 
@@ -247,19 +255,28 @@ public class GenMIRTask extends AbstractTask implements NoDescriptionTask {
             cond.acceptChildren(this, label).forEach(instructions::addAll);
             instructions.add(new IfJumpFalse(elseBlock));
 
-            instructions.add(new Begin(BlockType.BLOCK, thenBlock));
+            instructions.add(new BeginBlock(thenBlock));
             thenExpr.acceptChildren(this, label).forEach(instructions::addAll);
             instructions.add(new Jump(endBlock));
-            instructions.add(new End(thenBlock));
+            instructions.add(new EndBlock(thenBlock));
 
-            instructions.add(new Begin(BlockType.BLOCK, elseBlock));
+            instructions.add(new BeginBlock(elseBlock));
             instructions.add(new JumpTarget(elseBlock));
             elseExpr.acceptChildren(this, label).forEach(instructions::addAll);
-            instructions.add(new End(elseBlock));
+            instructions.add(new EndBlock(elseBlock));
             instructions.add(new JumpTarget(endBlock));
 
             return instructions;
         }
+
+        private List<ModifierAttribute> visitModifier(List<Tree> modifiers) {
+            return modifiers
+                    .stream()
+                    .map(Modifier.class::cast)
+                    .map(ModifierAttribute::new)
+                    .collect(Collectors.toList());
+        }
+
     }
 
     @Override

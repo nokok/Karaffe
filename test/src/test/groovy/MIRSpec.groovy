@@ -33,12 +33,12 @@ let b Int = 1 + 2 / 3
 println(a + b)""")
 
         expect:
-        instructions.toString() == """[       <no-pos>] [PROGRAM] Begin #
-[       <no-pos>] [CLASS] Begin #A
-[        2:2~4:2] [METHOD] Begin #A#main(args Array[String]):void
-[       <no-pos>] [ParameterName] ValDef #A#main(args Array[String]):void#args Array[String]
-[       <no-pos>] End #A#main(args Array[String]):void
-[       <no-pos>] End #A
+        instructions.toString() == """[       <no-pos>] BeginBlock #
+[       <no-pos>] BeginClass #A
+[        2:2~4:2] [public, static] BeginMethod #A#main(Array[String]):void
+[       <no-pos>] [ParameterName] ValDef #A#main(Array[String]):void#args Array[String]
+[       <no-pos>] EndMethod #A#main(Array[String]):void
+[       <no-pos>] EndClass #A
 [       6:0~6:16] ValDef #a Int
 [           6:12] [InvokingSet#0] Const INTEGER 1
 [           6:16] [InvokingSet#0] Const INTEGER 2
@@ -55,7 +55,7 @@ println(a + b)""")
 [           8:12] [InvokingSet#3, InvokingSet#4] Load #b
 [       8:8~8:12] [InvokingSet#3, InvokingSet#4] Invoke plus
 [       8:0~8:13] [InvokingSet#4] Invoke println
-[       <no-pos>] End #"""
+[       <no-pos>] EndBlock #"""
     }
 
     def "mainMethod"() {
@@ -67,13 +67,13 @@ println(a + b)""")
                    |}""".stripMargin())
 
         expect:
-        instructions.toString() == """[       <no-pos>] [PROGRAM] Begin #
-[       <no-pos>] [CLASS] Begin #Main
-[        2:2~3:2] [METHOD] Begin #Main#main(args Array[String]):void
-[       <no-pos>] [ParameterName] ValDef #Main#main(args Array[String]):void#args Array[String]
-[       <no-pos>] End #Main#main(args Array[String]):void
-[       <no-pos>] End #Main
-[       <no-pos>] End #"""
+        instructions.toString() == """[       <no-pos>] BeginBlock #
+[       <no-pos>] BeginClass #Main
+[        2:2~3:2] [public, static] BeginMethod #Main#main(Array[String]):void
+[       <no-pos>] [ParameterName] ValDef #Main#main(Array[String]):void#args Array[String]
+[       <no-pos>] EndMethod #Main#main(Array[String]):void
+[       <no-pos>] EndClass #Main
+[       <no-pos>] EndBlock #"""
     }
 
     def "block"() {
@@ -82,10 +82,10 @@ println(a + b)""")
                 """{}""".stripMargin())
 
         expect:
-        instructions.toString() == """[       <no-pos>] [PROGRAM] Begin #
-[       <no-pos>] [BLOCK] Begin #0
-[       <no-pos>] End #0
-[       <no-pos>] End #"""
+        instructions.toString() == """[       <no-pos>] BeginBlock #
+[       <no-pos>] BeginBlock #0
+[       <no-pos>] EndBlock #0
+[       <no-pos>] EndBlock #"""
     }
 
     def "apply without args"() {
@@ -94,9 +94,9 @@ println(a + b)""")
                 """doSomething()""".stripMargin())
 
         expect:
-        instructions.toString() == """[       <no-pos>] [PROGRAM] Begin #
+        instructions.toString() == """[       <no-pos>] BeginBlock #
 [       1:0~1:12] [InvokingSet#0] Invoke doSomething
-[       <no-pos>] End #"""
+[       <no-pos>] EndBlock #"""
     }
 
     def "apply with arg"() {
@@ -105,10 +105,10 @@ println(a + b)""")
                 """doSomething(123)""".stripMargin())
 
         expect:
-        instructions.toString() == """[       <no-pos>] [PROGRAM] Begin #
+        instructions.toString() == """[       <no-pos>] BeginBlock #
 [           1:12] [InvokingSet#0] Const INTEGER 123
 [       1:0~1:15] [InvokingSet#0] Invoke doSomething
-[       <no-pos>] End #"""
+[       <no-pos>] EndBlock #"""
     }
 
     def "compareExpr"() {
@@ -121,7 +121,7 @@ a > b
 a == b""".stripMargin())
 
         expect:
-        instructions.toString() == """[       <no-pos>] [PROGRAM] Begin #
+        instructions.toString() == """[       <no-pos>] BeginBlock #
 [            1:0] [InvokingSet#0] Load #a
 [            1:4] [InvokingSet#0] Load #b
 [        1:0~1:4] [InvokingSet#0] Invoke lessThan
@@ -137,7 +137,7 @@ a == b""".stripMargin())
 [            5:0] [InvokingSet#4] Load #a
 [            5:5] [InvokingSet#4] Load #b
 [        5:0~5:5] [InvokingSet#4] Invoke equalsTo
-[       <no-pos>] End #"""
+[       <no-pos>] EndBlock #"""
     }
 
     def "simpleIfExpr"() {
@@ -146,21 +146,21 @@ a == b""".stripMargin())
                 """if(a < b) { 1 } else { 2 }""".stripMargin())
 
         expect:
-        instructions.toString() == """[       <no-pos>] [PROGRAM] Begin #
+        instructions.toString() == """[       <no-pos>] BeginBlock #
 [            1:3] [InvokingSet#1] Load #a
 [            1:7] [InvokingSet#1] Load #b
 [        1:3~1:7] [InvokingSet#1] Invoke lessThan
 [       <no-pos>] IfJumpFalse #else0
-[       <no-pos>] [BLOCK] Begin #then0
+[       <no-pos>] BeginBlock #then0
 [           1:12] Const INTEGER 1
 [       <no-pos>] Jump #end0
-[       <no-pos>] End #then0
-[       <no-pos>] [BLOCK] Begin #else0
+[       <no-pos>] EndBlock #then0
+[       <no-pos>] BeginBlock #else0
 [       <no-pos>] JumpTarget #else0
 [           1:23] Const INTEGER 2
-[       <no-pos>] End #else0
+[       <no-pos>] EndBlock #else0
 [       <no-pos>] JumpTarget #end0
-[       <no-pos>] End #"""
+[       <no-pos>] EndBlock #"""
     }
 
     def "simpleWhileExpr"() {
@@ -169,17 +169,17 @@ a == b""".stripMargin())
                 """while(true) { 1 } 2""".stripMargin())
 
         expect:
-        instructions.toString() == """[       <no-pos>] [PROGRAM] Begin #
-[       <no-pos>] [BLOCK] Begin #whileBlock0
+        instructions.toString() == """[       <no-pos>] BeginBlock #
+[       <no-pos>] BeginBlock #whileBlock0
 [       <no-pos>] JumpTarget #beginWhile0
 [            1:6] Load #true
 [       <no-pos>] IfJumpFalse #endWhile0
 [           1:14] Const INTEGER 1
 [       <no-pos>] Jump #beginWhile0
 [       <no-pos>] JumpTarget #endWhile0
-[       <no-pos>] End #whileBlock0
+[       <no-pos>] EndBlock #whileBlock0
 [           1:18] Const INTEGER 2
-[       <no-pos>] End #"""
+[       <no-pos>] EndBlock #"""
     }
 
     def "fieldDef"() {
@@ -190,13 +190,13 @@ let a Int = 0
 }""".stripMargin())
 
         expect:
-        instructions.toString() == """[       <no-pos>] [PROGRAM] Begin #
-[       <no-pos>] [CLASS] Begin #Main
+        instructions.toString() == """[       <no-pos>] BeginBlock #
+[       <no-pos>] BeginClass #Main
 [       2:0~2:12] ValDef #Main#a Int
 [           2:12] Const INTEGER 0
 [            2:4] Store #Main#a
-[       <no-pos>] End #Main
-[       <no-pos>] End #"""
+[       <no-pos>] EndClass #Main
+[       <no-pos>] EndBlock #"""
     }
 
 }

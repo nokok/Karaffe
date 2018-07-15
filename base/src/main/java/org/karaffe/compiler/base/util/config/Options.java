@@ -41,10 +41,12 @@ public class Options {
     @Option(name = "--skip-pkg-check", usage = "Skip checking of correspondence between package decl and file structure", handler = MyBooleanOptionHandler.class)
     public boolean skipPackageCheck;
 
+    /* Hidden options */
     @Option(name = "--dump-mir", hidden = true, usage = "Parse and type-check input file(s) and dump AST")
     public boolean dumpMIR;
 
-    /* Hidden options */
+    @Option(name = "--dump-tables", hidden = true, usage = "Dump local variables table and methods table")
+    public boolean dumpTables;
 
     @Option(name = "--use-default-antlr-listener", hidden = true, handler = MyBooleanOptionHandler.class)
     public boolean useDefaultANTLRListener = false;
