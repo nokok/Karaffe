@@ -9,10 +9,12 @@ import java.util.Objects;
 
 public class Begin extends AbstractInstruction implements ScopeInstruction {
     private Label label;
+    private BlockType blockType;
 
     public Begin(BlockType type, Label label) {
         this.label = Objects.requireNonNull(label);
         this.addAttribute(new BlockTypeAttribute(type));
+        this.blockType = type;
     }
 
     public Label getLabel() {
@@ -32,5 +34,9 @@ public class Begin extends AbstractInstruction implements ScopeInstruction {
     @Override
     public Label getScopeName() {
         return label;
+    }
+
+    public BlockType getBlockType() {
+        return this.blockType;
     }
 }

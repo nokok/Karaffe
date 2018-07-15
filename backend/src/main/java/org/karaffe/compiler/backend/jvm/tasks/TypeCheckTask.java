@@ -39,7 +39,7 @@ public class TypeCheckTask extends AbstractTask implements BackendTask, NoDescri
             nameStack.push(new InstructionList());
         });
         interpreter.onNewName(name -> {
-            scope.newName(name);
+            scope.newName(name.getSimpleName());
         });
         interpreter.onUseName(name -> {
 

@@ -1,5 +1,6 @@
 package org.karaffe.compiler.backend.jvm;
 
+import org.karaffe.compiler.backend.jvm.tasks.GenJavaByteCodeTask;
 import org.karaffe.compiler.backend.jvm.tasks.TypeCheckTask;
 import org.karaffe.compiler.base.CompilerContext;
 import org.karaffe.compiler.base.task.AbstractTask;
@@ -14,7 +15,9 @@ import java.util.Set;
 
 public class JVMBackend extends AbstractTask {
 
-    private static final Set<Task> subTask = new LinkedHashSet<>(Arrays.asList(new TypeCheckTask()));
+    private static final Set<Task> subTask = new LinkedHashSet<>(Arrays.asList(
+            new TypeCheckTask(),
+            new GenJavaByteCodeTask()));
 
     @Override
     public String name() {
