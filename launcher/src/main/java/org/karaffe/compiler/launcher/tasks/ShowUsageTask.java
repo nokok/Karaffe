@@ -8,7 +8,7 @@ import org.karaffe.compiler.base.task.AbstractTask;
 public class ShowUsageTask extends AbstractTask implements NoDescriptionTask {
     @Override
     public String name() {
-        return "show usage";
+        return "show-usage";
     }
 
     @Override

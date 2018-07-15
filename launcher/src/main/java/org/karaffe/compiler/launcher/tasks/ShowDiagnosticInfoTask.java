@@ -9,7 +9,7 @@ import org.karaffe.compiler.base.task.AbstractTask;
 public class ShowDiagnosticInfoTask extends AbstractTask {
     @Override
     public String name() {
-        return "show diag";
+        return "show-diag";
     }
 
     @Override

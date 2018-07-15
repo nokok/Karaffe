@@ -1,16 +1,8 @@
 import org.karaffe.compiler.base.CompilerContext
 import org.karaffe.compiler.base.CompilerContextImpl
-import org.karaffe.compiler.base.mir.InstructionType
 import org.karaffe.compiler.base.mir.Instructions
-import org.karaffe.compiler.base.mir.block.Begin
-import org.karaffe.compiler.base.mir.block.BlockType
-import org.karaffe.compiler.base.mir.block.End
-import org.karaffe.compiler.base.mir.constant.Const
-import org.karaffe.compiler.base.mir.io.Store
-import org.karaffe.compiler.base.mir.util.InstructionList
-import org.karaffe.compiler.base.mir.util.Label
-import org.karaffe.compiler.base.mir.variable.ValDef
-import org.karaffe.compiler.base.pos.Position
+import org.karaffe.compiler.base.task.Task
+import org.karaffe.compiler.base.task.TaskResult
 import org.karaffe.compiler.base.util.SourceFile
 import org.karaffe.compiler.frontend.karaffe.FrontendType
 import org.karaffe.compiler.frontend.karaffe.KaraffeCompilerFrontend
@@ -19,11 +11,14 @@ import spock.lang.Specification
 class MIRSpec extends Specification {
 
     private Instructions parseAndGenerateInstructions(String source) {
-        KaraffeCompilerFrontend frontend = KaraffeCompilerFrontend.getFrontend(FrontendType.KARAFFE)
+        Task frontend = KaraffeCompilerFrontend.getFrontend(FrontendType.KARAFFE)
         CompilerContext context = new CompilerContextImpl()
         context.addSourceFile(SourceFile.fromLiteral(source))
-        def mayBeInstructions = frontend.exec(context)
-        return mayBeInstructions.get()
+        def result = frontend.run(context)
+        if (result != TaskResult.SUCCESS) {
+            throw new RuntimeException()
+        }
+        return context.getInstructions()
     }
 
     def "simpleClass"() {

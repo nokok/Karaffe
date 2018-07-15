@@ -12,7 +12,7 @@ public class CheckTargetTask extends AbstractOptionTask {
 
     @Override
     public String name() {
-        return "check target";
+        return "check-target";
     }
 
     @Override

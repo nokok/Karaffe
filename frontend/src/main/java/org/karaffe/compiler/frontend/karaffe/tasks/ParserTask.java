@@ -13,7 +13,7 @@ public class ParserTask extends AbstractTask {
 
     @Override
     public String name() {
-        return "parsing";
+        return "frontend-karaffe-parsing";
     }
 
     @Override

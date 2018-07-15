@@ -23,7 +23,7 @@ public class CommandLineOptionsSubTask extends AbstractTask implements ReadOnlyT
 
     @Override
     public String name() {
-        return "post precondition";
+        return "preexec-post-precondition";
     }
 
     @Override

@@ -31,6 +31,6 @@ public class CheckLogLevelTask extends AbstractOptionTask {
 
     @Override
     public String name() {
-        return "check log level";
+        return "check-loglevel";
     }
 }

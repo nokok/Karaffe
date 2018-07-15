@@ -1,9 +1,10 @@
 package org.karaffe.compiler.frontend.karaffe;
 
 import org.karaffe.compiler.base.CompilerContext;
-import org.karaffe.compiler.base.mir.Instructions;
+import org.karaffe.compiler.base.task.AbstractTask;
 import org.karaffe.compiler.base.task.RunnerResult;
 import org.karaffe.compiler.base.task.Task;
+import org.karaffe.compiler.base.task.TaskResult;
 import org.karaffe.compiler.base.task.TaskRunner;
 import org.karaffe.compiler.base.task.util.TaskCanceledException;
 import org.karaffe.compiler.frontend.karaffe.tasks.GenASTTask;
@@ -18,14 +19,13 @@ import org.slf4j.LoggerFactory;
 
 import java.util.Arrays;
 import java.util.LinkedHashSet;
-import java.util.Optional;
 import java.util.Set;
 
-public class KaraffeSourceFrontend implements KaraffeCompilerFrontend {
+public class KaraffeSourceFrontend extends AbstractTask {
 
     private static final Logger LOGGER = LoggerFactory.getLogger(KaraffeSourceFrontend.class);
 
-    private static final Set<Task> standByTaskList = new LinkedHashSet<>(Arrays.asList(
+    private static final Set<Task> frontendTasks = new LinkedHashSet<>(Arrays.asList(
             new PrintTreeTask(),
             new PrintLastTreeTask(),
             new LexerTask(),
@@ -36,24 +36,38 @@ public class KaraffeSourceFrontend implements KaraffeCompilerFrontend {
     ));
 
     @Override
-    public Optional<Instructions> exec(CompilerContext context) {
+    public String name() {
+        return "frontend-karaffe";
+    }
+
+    @Override
+    public String description() {
+        return "Frontend implementation for Karaffe source code.";
+    }
+
+    @Override
+    public TaskResult run(CompilerContext context) {
         TaskRunner taskRunner = TaskRunner.newDefaultTaskRunner(context);
         try {
-            for (Task task : standByTaskList) {
+            for (Task task : getSubTask(context)) {
                 taskRunner.standBy(task);
             }
             RunnerResult result = taskRunner.runAll();
-
-            if (result != RunnerResult.SUCCESS_ALL) {
-                return Optional.empty();
-            }
-
-            return Optional.ofNullable(context.getInstructions());
+            return result.toTaskResult();
         } catch (TaskCanceledException e) {
             LOGGER.info("Task Canceled");
-            return Optional.empty();
+            return TaskResult.FAILED;
         }
     }
 
+    @Override
+    public Set<Task> getSubTask(CompilerContext context) {
+        return frontendTasks;
+    }
+
+    @Override
+    public boolean changed() {
+        return true;
+    }
 
 }

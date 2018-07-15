@@ -7,10 +7,14 @@ import org.karaffe.compiler.base.mir.util.Label;
 import java.util.Objects;
 
 public class Store extends AbstractInstruction {
-    private Label label;
+    private Label storeName;
 
-    public Store(Label label) {
-        this.label = Objects.requireNonNull(label);
+    public Store(Label storeName) {
+        this.storeName = Objects.requireNonNull(storeName);
+    }
+
+    public Label getStoreName() {
+        return storeName;
     }
 
     @Override
@@ -19,18 +23,18 @@ public class Store extends AbstractInstruction {
         if (o == null || getClass() != o.getClass()) return false;
         if (!super.equals(o)) return false;
         Store store = (Store) o;
-        return Objects.equals(label, store.label);
+        return Objects.equals(storeName, store.storeName);
     }
 
     @Override
     public int hashCode() {
 
-        return Objects.hash(super.hashCode(), label);
+        return Objects.hash(super.hashCode(), storeName);
     }
 
     @Override
     public String toString() {
-        return "Store " + label;
+        return "Store " + storeName;
     }
 
     @Override

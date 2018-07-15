@@ -4,10 +4,10 @@ public class ProcessTimer {
     private final long startTime;
 
     public ProcessTimer() {
-        this.startTime = System.currentTimeMillis();
+        this.startTime = System.nanoTime();
     }
 
     public long stop() {
-        return System.currentTimeMillis() - this.startTime;
+        return System.nanoTime() - this.startTime;
     }
 }

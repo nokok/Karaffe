@@ -40,7 +40,7 @@ import static java.util.stream.Collectors.toList;
 public class PrintLastTreeTask extends AbstractTask implements ReadOnlyTask, NoDescriptionTask {
     @Override
     public String name() {
-        return "print lasttree";
+        return "frontend-karaffe-print-lasttree";
     }
 
     @Override

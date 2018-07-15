@@ -1,14 +1,10 @@
 package org.karaffe.compiler.frontend.karaffe;
 
-import org.karaffe.compiler.base.CompilerContext;
-import org.karaffe.compiler.base.mir.Instructions;
-
-import java.util.Optional;
+import org.karaffe.compiler.base.task.Task;
 
 public interface KaraffeCompilerFrontend {
-    Optional<Instructions> exec(CompilerContext container);
 
-    public static KaraffeCompilerFrontend getFrontend(FrontendType type) {
+    public static Task getFrontend(FrontendType type) {
         if (type == FrontendType.KARAFFE) {
             return new KaraffeSourceFrontend();
         }

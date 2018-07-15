@@ -13,7 +13,7 @@ public class CheckCorePackageTask extends AbstractTask implements ReadOnlyTask {
 
     @Override
     public String name() {
-        return "check corelib";
+        return "check-corelib";
     }
 
     @Override

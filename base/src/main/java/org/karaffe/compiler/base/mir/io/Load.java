@@ -13,6 +13,10 @@ public class Load extends AbstractInstruction {
         this.loadName = Objects.requireNonNull(loadName);
     }
 
+    public Label getLoadName() {
+        return loadName;
+    }
+
     @Override
     public String toString() {
         return "Load " + loadName;

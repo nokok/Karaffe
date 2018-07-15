@@ -15,7 +15,7 @@ public class ShowVersionTask extends AbstractTask implements NoDescriptionTask {
 
     @Override
     public String name() {
-        return "show version";
+        return "show-version";
     }
 
     @Override

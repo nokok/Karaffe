@@ -6,7 +6,7 @@ import org.karaffe.compiler.base.mir.util.Label;
 
 import java.util.Objects;
 
-public class End extends AbstractInstruction {
+public class End extends AbstractInstruction implements ScopeInstruction {
     private Label label;
 
     public End(Label label) {
@@ -38,5 +38,10 @@ public class End extends AbstractInstruction {
     @Override
     public InstructionType getInstType() {
         return InstructionType.END;
+    }
+
+    @Override
+    public Label getScopeName() {
+        return this.label;
     }
 }

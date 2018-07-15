@@ -13,7 +13,7 @@ public class ParseCommandLineOptionsTask extends AbstractTask {
 
     @Override
     public String name() {
-        return "parse args";
+        return "preexec-parse-cmd";
     }
 
     @Override

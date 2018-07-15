@@ -24,6 +24,11 @@ public class Label {
         return name;
     }
 
+    public String getSimpleName() {
+        String[] names = this.name.split("#");
+        return names[names.length - 1];
+    }
+
     public static Label createRootLabel() {
         return new Label("#");
     }

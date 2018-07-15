@@ -9,7 +9,7 @@ import org.karaffe.compiler.base.util.Platform;
 public class PrintTreeTask extends AbstractTask implements ReadOnlyTask {
     @Override
     public String name() {
-        return "print tree";
+        return "frontend-karaffe-print-tree";
     }
 
     @Override

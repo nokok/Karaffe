@@ -58,4 +58,9 @@ public interface TaskRunner {
      * タスクの実行中は実行時例外 {@link RuntimeException} がスローされる場合があります。
      */
     RunnerResult runAll();
+
+    /**
+     * 残っているタスクをすべてクリアします
+     */
+    void clear();
 }

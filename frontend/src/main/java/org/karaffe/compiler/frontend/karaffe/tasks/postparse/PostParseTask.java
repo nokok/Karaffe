@@ -23,7 +23,7 @@ public class PostParseTask extends AbstractTask implements NoDescriptionTask {
 
     @Override
     public String name() {
-        return "post-parse";
+        return "frontend-karaffe-post-parse";
     }
 
     @Override

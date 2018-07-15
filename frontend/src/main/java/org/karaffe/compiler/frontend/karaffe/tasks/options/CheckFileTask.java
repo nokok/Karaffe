@@ -60,6 +60,6 @@ public class CheckFileTask extends AbstractOptionTask {
 
     @Override
     public String name() {
-        return "check files";
+        return "check-files";
     }
 }

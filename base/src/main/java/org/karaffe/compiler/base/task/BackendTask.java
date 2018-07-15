@@ -6,10 +6,10 @@ import org.karaffe.compiler.base.mir.Instructions;
 public interface BackendTask extends Task {
     @Override
     default TaskResult run(CompilerContext context) {
-        return run(context.getInstructions());
+        return run(context.getInstructions(), context);
     }
 
-    TaskResult run(Instructions instructions);
+    TaskResult run(Instructions instructions, CompilerContext context);
 
     @Override
     default boolean isRunnable(CompilerContext context) {

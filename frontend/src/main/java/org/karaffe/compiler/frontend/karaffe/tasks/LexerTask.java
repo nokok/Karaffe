@@ -18,7 +18,7 @@ public class LexerTask extends AbstractTask {
 
     @Override
     public String name() {
-        return "lexing";
+        return "frontend-karaffe-lexing";
     }
 
     @Override

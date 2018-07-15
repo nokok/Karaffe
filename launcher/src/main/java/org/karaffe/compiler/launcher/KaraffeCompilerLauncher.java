@@ -1,10 +1,9 @@
 package org.karaffe.compiler.launcher;
 
 import org.karaffe.compiler.backend.jvm.BackendType;
-import org.karaffe.compiler.backend.jvm.KaraffeComilerBackend;
+import org.karaffe.compiler.backend.jvm.KaraffeCompilerBackend;
 import org.karaffe.compiler.base.CompilerContext;
 import org.karaffe.compiler.base.CompilerContextImpl;
-import org.karaffe.compiler.base.mir.Instructions;
 import org.karaffe.compiler.base.report.Report;
 import org.karaffe.compiler.base.task.RunnerResult;
 import org.karaffe.compiler.base.task.Task;
@@ -25,7 +24,6 @@ import java.io.InputStream;
 import java.io.PrintStream;
 import java.util.Arrays;
 import java.util.LinkedHashSet;
-import java.util.Optional;
 import java.util.Set;
 
 public class KaraffeCompilerLauncher {
@@ -42,7 +40,7 @@ public class KaraffeCompilerLauncher {
         this(System.in, System.out, System.err);
     }
 
-    private static final Set<Task> taskList = new LinkedHashSet<>(Arrays.asList(
+    private static final Set<Task> preExecTaskList = new LinkedHashSet<>(Arrays.asList(
             new ParseCommandLineOptionsTask(),
             new ConfigureLogLevelTask(),
             new CheckCompilerPreconditionTask(),
@@ -71,9 +69,11 @@ public class KaraffeCompilerLauncher {
         });
         CompilerContext context = new CompilerContextImpl(args);
 
+        LOGGER.debug("Executing PreExectask");
+
         TaskRunner taskRunner = TaskRunner.newDefaultTaskRunner(context);
         Runnable failedAction = context::setInvalidCmdLineArg;
-        for (Task task : taskList) {
+        for (Task task : preExecTaskList) {
             taskRunner.exec(task).ifFailed(failedAction);
         }
 
@@ -85,21 +85,24 @@ public class KaraffeCompilerLauncher {
             return -1;
         }
 
-        KaraffeCompilerFrontend frontend = KaraffeCompilerFrontend.getFrontend(FrontendType.KARAFFE);
-        KaraffeComilerBackend backend = KaraffeComilerBackend.getBackend(BackendType.JVM);
+        LOGGER.debug("PreExectask executed");
+        taskRunner.clear();
 
-        Optional<Instructions> instructions = frontend.exec(context);
+        taskRunner.standBy(KaraffeCompilerFrontend.getFrontend(FrontendType.KARAFFE));
+        taskRunner.standBy(KaraffeCompilerBackend.getBackend(BackendType.JVM));
+        RunnerResult compilerResult = taskRunner.runAll();
+
+        if (context.getCmdLineOptions().dumpMIR) {
+            Platform.stdOut(context.getInstructions());
+        }
+
         if (context.hasErrorReport()) {
             for (Report report : context.getReports()) {
                 Platform.stdErr(report);
             }
         }
 
-        if (context.getCmdLineOptions().dumpMIR) {
-            Platform.stdOut(instructions.map(Instructions::toString).orElse("<empty>"));
-        }
-
-        return backend.exec(context);
+        return compilerResult == RunnerResult.SUCCESS_ALL ? 0 : -1;
     }
 
 }

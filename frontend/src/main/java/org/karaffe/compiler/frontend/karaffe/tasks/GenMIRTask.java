@@ -48,7 +48,7 @@ public class GenMIRTask extends AbstractTask implements NoDescriptionTask {
 
     @Override
     public String name() {
-        return "gen-mir";
+        return "frontend-karaffe-gen-mir";
     }
 
     @Override

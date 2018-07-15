@@ -17,7 +17,7 @@ public class ConfigureLogLevelTask extends AbstractTask implements ReadOnlyTask 
 
     @Override
     public String name() {
-        return "logger init";
+        return "preexec-logger-init";
     }
 
     @Override

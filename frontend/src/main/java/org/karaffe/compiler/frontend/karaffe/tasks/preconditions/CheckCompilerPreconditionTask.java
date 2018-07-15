@@ -22,7 +22,7 @@ public class CheckCompilerPreconditionTask extends AbstractTask implements ReadO
 
     @Override
     public String name() {
-        return "precondition";
+        return "preexec-precondition";
     }
 
     @Override

@@ -30,8 +30,10 @@ public class DefaultTaskRunner implements TaskRunner {
     public void standBy(Task task) {
         LOGGER.debug("standBy : {}", task);
         if (this.isExecuting) {
+            LOGGER.trace("standBy(delayed) : " + task);
             this.delayedTasks.addLast(task);
         } else {
+            LOGGER.trace("standBy : " + task);
             this.tasks.add(task);
         }
     }
@@ -61,6 +63,7 @@ public class DefaultTaskRunner implements TaskRunner {
             Task task = queue.dequeue();
             if (task.isFinally(context)) {
                 this.finallyTasks.addFirst(task);
+                LOGGER.trace("Finally Task : " + task);
                 continue;
             }
             if (task.isRequired(context)) {
@@ -69,6 +72,7 @@ public class DefaultTaskRunner implements TaskRunner {
                 LOGGER.debug("Scheduled : {}", task.name());
             }
             if (!task.isRunnable(context)) {
+                LOGGER.trace("Delayed Task : " + task);
                 this.delayedTasks.addLast(task);
                 if (queue.isEmpty()) {
                     // タスクキューが空の場合、CompilerContextの状態が変更されることはもう無いため、遅延されたタスクは実行可能状態となることはない。
@@ -76,10 +80,12 @@ public class DefaultTaskRunner implements TaskRunner {
                         // 必須タスクが残っている場合はエラー
                         LOGGER.warn("RunnerResult.FAILED : taskQueue.isEmpty");
                         runFinallyTask(context, resultRecorder);
+                        isExecuting = false;
                         return RunnerResult.FAILED;
                     } else {
                         LOGGER.debug("RunnerResult.SUCCESS : taskQueue.isEmpty");
                         runFinallyTask(context, resultRecorder);
+                        isExecuting = false;
                         return RunnerResult.SUCCESS_ALL;
                     }
                 }
@@ -87,13 +93,16 @@ public class DefaultTaskRunner implements TaskRunner {
             }
             ProcessTimer timer = new ProcessTimer();
             TaskResult result = task.run(context);
-            LOGGER.info("TaskResult : {}, name : {} [{}ms]", result, task.name(), timer.stop());
+            LOGGER.info("Executed {} in [{}ms]", task.name(), String.format("%.3f", timer.stop() / 1000000.0d));
+
             resultRecorder.record(result);
             if (task.name().equals(stopTaskName)) {
+                isExecuting = false;
                 throw new TaskCanceledException();
             }
             if (resultRecorder.hasError()) {
                 runFinallyTask(context, resultRecorder);
+                isExecuting = false;
                 return resultRecorder.toRunnerResult();
             }
             if (result == TaskResult.RETRY) {
@@ -115,6 +124,14 @@ public class DefaultTaskRunner implements TaskRunner {
         LOGGER.debug("end runAll : {}", this.hashCode());
 
         return resultRecorder.toRunnerResult();
+    }
+
+    @Override
+    public void clear() {
+        this.tasks.clear();
+        this.delayedTasks.clear();
+        this.finallyTasks.clear();
+        this.isExecuting = false;
     }
 
     private void runFinallyTask(CompilerContext context, ResultRecorder resultRecorder) {

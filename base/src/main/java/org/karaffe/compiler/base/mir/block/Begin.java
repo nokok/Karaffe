@@ -7,7 +7,7 @@ import org.karaffe.compiler.base.mir.util.attr.BlockTypeAttribute;
 
 import java.util.Objects;
 
-public class Begin extends AbstractInstruction {
+public class Begin extends AbstractInstruction implements ScopeInstruction {
     private Label label;
 
     public Begin(BlockType type, Label label) {
@@ -27,5 +27,10 @@ public class Begin extends AbstractInstruction {
     @Override
     public InstructionType getInstType() {
         return InstructionType.BEGIN;
+    }
+
+    @Override
+    public Label getScopeName() {
+        return label;
     }
 }

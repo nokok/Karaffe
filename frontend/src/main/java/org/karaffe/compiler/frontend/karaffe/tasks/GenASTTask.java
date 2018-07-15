@@ -13,7 +13,7 @@ public class GenASTTask extends AbstractTask {
 
     @Override
     public String name() {
-        return "gen ast";
+        return "frontend-karaffe-gen-ast";
     }
 
     @Override

@@ -11,6 +11,10 @@ public class BlockTypeAttribute extends Attribute {
         this.blockType = Objects.requireNonNull(blockType);
     }
 
+    public BlockType getBlockType() {
+        return blockType;
+    }
+
     @Override
     public String toString() {
         return blockType.name();
