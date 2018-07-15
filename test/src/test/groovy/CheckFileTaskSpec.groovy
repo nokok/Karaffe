@@ -1,3 +1,4 @@
+import org.karaffe.compiler.base.CompilerContextImpl
 import org.karaffe.compiler.base.task.TaskResult
 import org.karaffe.compiler.base.util.Platform
 import org.karaffe.compiler.base.util.config.Options
@@ -15,7 +16,7 @@ class CheckFileTaskSpec extends Specification {
         opt.arguments = ["foo.krf"]
 
         expect:
-        def result = task.run(opt)
+        def result = task.run(opt, new CompilerContextImpl())
         result == TaskResult.FAILED
     }
 
@@ -33,7 +34,7 @@ class CheckFileTaskSpec extends Specification {
             true
         } else {
             !Files.isReadable(file.toPath())
-            def result = task.run(opt)
+            def result = task.run(opt, new CompilerContextImpl())
             result == TaskResult.FAILED
         }
 

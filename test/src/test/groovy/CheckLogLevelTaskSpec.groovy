@@ -1,3 +1,4 @@
+import org.karaffe.compiler.base.CompilerContextImpl
 import org.karaffe.compiler.base.task.TaskResult
 import org.karaffe.compiler.base.util.config.Options
 import org.karaffe.compiler.frontend.karaffe.tasks.options.CheckLogLevelTask
@@ -16,7 +17,7 @@ class CheckLogLevelTaskSpec extends Specification {
         option.isInfoLog = isInfoLog
 
         expect:
-        task.run(option) == result
+        task.run(option, new CompilerContextImpl()) == result
 
         where:
 

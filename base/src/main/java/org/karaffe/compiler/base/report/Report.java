@@ -1,10 +1,12 @@
-package org.karaffe.compiler.base.util;
+package org.karaffe.compiler.base.report;
 
 import org.karaffe.compiler.base.pos.Position;
+import org.karaffe.compiler.base.util.Platform;
 
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+import java.util.Objects;
 import java.util.Optional;
 import java.util.stream.Collectors;
 
@@ -16,11 +18,11 @@ public class Report {
     private final List<AdditionalInfo> informations;
 
     public Report(final String title, final ReportType type, final Position position, final String message, final List<AdditionalInfo> infomations) {
-        this.title = title;
-        this.type = type;
-        this.position = position;
-        this.message = message;
-        this.informations = infomations;
+        this.title = Objects.requireNonNull(title);
+        this.type = Objects.requireNonNull(type);
+        this.position = Objects.requireNonNull(position);
+        this.message = Objects.requireNonNull(message);
+        this.informations = Objects.requireNonNull(infomations);
     }
 
     public static Report createError(final String title, final Position position, final String message, final AdditionalInfo... informations) {
@@ -114,5 +116,26 @@ public class Report {
             return Arrays.asList("[TODO] : " + this.todoMessage);
         }
 
+    }
+
+    @Override
+    public String toString() {
+        StringBuilder builder = new StringBuilder();
+        builder.append(reportTypeToString(this.type)).append(" ").append(this.title).append(" ").append(this.position).append(System.lineSeparator());
+        if (!this.message.isEmpty()) {
+            builder.append(this.message).append(System.lineSeparator());
+        }
+        return builder.toString();
+    }
+
+    private String reportTypeToString(ReportType type) {
+        if (type == ReportType.ERROR) {
+            return Platform.ANSI_RED + type + Platform.ANSI_RESET;
+        } else if (type == ReportType.WARN) {
+            return Platform.ANSI_YELLOW + type + Platform.ANSI_RESET;
+        } else if (type == ReportType.INFO){
+            return Platform.ANSI_CYAN + title + Platform.ANSI_RESET;
+        }
+        return type.toString();
     }
 }

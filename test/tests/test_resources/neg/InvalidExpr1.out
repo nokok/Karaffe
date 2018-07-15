@@ -1,2 +1,3 @@
-#REGEX Error : Syntax Error at 2:0:.*InvalidExpr1.krf$
-Error : no viable alternative at input '+'
+#REGEX .*ERROR.* Syntax Error 2:0:.*InvalidExpr1.krf$
+no viable alternative at input '+'
+

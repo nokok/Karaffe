@@ -23,7 +23,7 @@ public class GenASTTask extends AbstractTask {
 
     @Override
     public TaskResult run(CompilerContext context) {
-        CreateASTVisitor visitor = new CreateASTVisitor();
+        CreateASTVisitor visitor = new CreateASTVisitor(context);
         context.contextStream()
                 .peek(c -> LOGGER.debug(c.toString()))
                 .map(c -> c.accept(visitor))

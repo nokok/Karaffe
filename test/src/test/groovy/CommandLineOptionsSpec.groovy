@@ -1,12 +1,10 @@
 import org.karaffe.compiler.base.context.CommandLineOptions
 import org.kohsuke.args4j.CmdLineException
 import spock.lang.Specification
-import spock.lang.Unroll
 
 class CommandLineOptionsSpec extends Specification {
 
-    @Unroll
-    def "isEmptyArgsで渡されたオプションが空かどうかが判別できる #option"() {
+    def "isEmptyArgsで渡されたオプションが空かどうかが判別できる"() {
         expect:
         new CommandLineOptions(option as String[]).isEmptyArgs() == expect
 

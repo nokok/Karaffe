@@ -5,6 +5,7 @@ import org.karaffe.compiler.backend.jvm.KaraffeComilerBackend;
 import org.karaffe.compiler.base.CompilerContext;
 import org.karaffe.compiler.base.CompilerContextImpl;
 import org.karaffe.compiler.base.mir.Instructions;
+import org.karaffe.compiler.base.report.Report;
 import org.karaffe.compiler.base.task.RunnerResult;
 import org.karaffe.compiler.base.task.Task;
 import org.karaffe.compiler.base.task.TaskRunner;
@@ -88,6 +89,11 @@ public class KaraffeCompilerLauncher {
         KaraffeComilerBackend backend = KaraffeComilerBackend.getBackend(BackendType.JVM);
 
         Optional<Instructions> instructions = frontend.exec(context);
+        if (context.hasErrorReport()) {
+            for (Report report : context.getReports()) {
+                Platform.stdErr(report);
+            }
+        }
 
         if (context.getCmdLineOptions().dumpMIR) {
             Platform.stdOut(instructions.map(Instructions::toString).orElse("<empty>"));

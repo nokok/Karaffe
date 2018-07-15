@@ -13,7 +13,8 @@ import java.util.stream.Stream;
 public interface CompilerContext extends
         SourceFileContainer,
         CommandLineOptionContext,
-        StructuralInfoContainer {
+        StructuralInfoContainer,
+        ReportContainer {
 
     String getState();
 

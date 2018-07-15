@@ -1,19 +1,19 @@
 package org.karaffe.compiler.frontend.karaffe.tasks.options;
 
 import org.karaffe.compiler.base.CompilerContext;
+import org.karaffe.compiler.base.task.AbstractTask;
 import org.karaffe.compiler.base.task.NoDescriptionTask;
 import org.karaffe.compiler.base.task.TaskResult;
 import org.karaffe.compiler.base.util.config.Options;
-import org.karaffe.compiler.base.task.AbstractTask;
 
 public abstract class AbstractOptionTask extends AbstractTask implements NoDescriptionTask {
 
     @Override
     public TaskResult run(CompilerContext context) {
-        return run(context.getCmdLineOptions());
+        return run(context.getCmdLineOptions(), context);
     }
 
-    public abstract TaskResult run(Options options);
+    public abstract TaskResult run(Options options, CompilerContext context);
 
     @Override
     public boolean changed() {

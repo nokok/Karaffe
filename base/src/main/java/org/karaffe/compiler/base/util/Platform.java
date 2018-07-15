@@ -3,26 +3,21 @@ package org.karaffe.compiler.base.util;
 import java.io.File;
 import java.io.InputStream;
 import java.io.PrintStream;
-import java.util.Objects;
 
 public enum Platform {
 
     INSTANCE,;
 
     static {
-        String noColorVar = System.getenv("NO_COLOR");
-        if (noColorVar != null) {
-            ANSI_RESET = "";
-            ANSI_BOLD = "";
-            ANSI_BLACK = "";
-            ANSI_RED = "";
-            ANSI_GREEN = "";
-            ANSI_YELLOW = "";
-            ANSI_BLUE = "";
-            ANSI_PURPLE = "";
-            ANSI_CYAN = "";
-            ANSI_WHITE = "";
-        } else {
+        init();
+    }
+
+    public static void init() {
+        String colorVar = System.getProperty("karaffe.console.no_color");
+        if (colorVar == null) {
+            colorVar = System.getenv("NO_COLOR");
+        }
+        if (colorVar == null) {
             ANSI_RESET = "\u001B[0m";
             ANSI_BOLD = "\u001B[1m";
             ANSI_BLACK = "\u001B[30m";
@@ -33,19 +28,30 @@ public enum Platform {
             ANSI_PURPLE = "\u001B[35m";
             ANSI_CYAN = "\u001B[36m";
             ANSI_WHITE = "\u001B[37m";
+        } else {
+            ANSI_RESET = "";
+            ANSI_BOLD = "";
+            ANSI_BLACK = "";
+            ANSI_RED = "";
+            ANSI_GREEN = "";
+            ANSI_YELLOW = "";
+            ANSI_BLUE = "";
+            ANSI_PURPLE = "";
+            ANSI_CYAN = "";
+            ANSI_WHITE = "";
         }
     }
 
-    public static final String ANSI_RESET;
-    public static final String ANSI_BOLD;
-    public static final String ANSI_BLACK;
-    public static final String ANSI_RED;
-    public static final String ANSI_GREEN;
-    public static final String ANSI_YELLOW;
-    public static final String ANSI_BLUE;
-    public static final String ANSI_PURPLE;
-    public static final String ANSI_CYAN;
-    public static final String ANSI_WHITE;
+    public static String ANSI_RESET;
+    public static String ANSI_BOLD;
+    public static String ANSI_BLACK;
+    public static String ANSI_RED;
+    public static String ANSI_GREEN;
+    public static String ANSI_YELLOW;
+    public static String ANSI_BLUE;
+    public static String ANSI_PURPLE;
+    public static String ANSI_CYAN;
+    public static String ANSI_WHITE;
     private static PrintStream defaultStdOut = System.out;
     private static PrintStream stdOut = defaultStdOut;
     private static PrintStream defaultStdErr = System.err;
@@ -89,11 +95,4 @@ public enum Platform {
         stdErr.println(msg);
     }
 
-    public static String mkGreen(Object msg) {
-        return ANSI_GREEN + Objects.toString(msg) + ANSI_RESET;
-    }
-
-    public static String mkYellow(Object msg) {
-        return ANSI_YELLOW + Objects.requireNonNull(msg) + ANSI_RESET;
-    }
 }

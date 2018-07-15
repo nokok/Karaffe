@@ -1,4 +1,3 @@
-Error : tests is directory
 Usage:
  krfc <options> <sources>
 
@@ -14,3 +13,5 @@ Available options are:
  -h (--help, -help)  : Show usage
  -i (--info)         : Set output log levels INFO and higher
  -v (--version)      : Print compiler version and exit
+#REGEX .*ERROR.* tests is directory <no-pos>
+

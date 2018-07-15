@@ -46,11 +46,10 @@ public class CommandLineOptionsSubTask extends AbstractTask implements ReadOnlyT
     @Override
     public TaskResult run(CompilerContext context) {
         TaskRunner subTaskRunner = TaskRunner.newDefaultTaskRunner(context);
-        Runnable failedAction = context::setInvalidCmdLineArg;
         this.getSubTask(context).forEach(subTaskRunner::standBy);
         RunnerResult result = subTaskRunner.runAll();
         TaskResult tResult = result.toTaskResult();
-        tResult.ifFailed(failedAction).ifSuccess(() -> context.getCmdLineOptions().arguments.stream().map(File::new).map(SourceFile::new).forEach(context::addSourceFile));
+        tResult.ifSuccess(() -> context.getCmdLineOptions().arguments.stream().map(File::new).map(SourceFile::new).forEach(context::addSourceFile));
         return tResult;
     }
 }

@@ -28,7 +28,7 @@ public class LexerTask extends AbstractTask {
 
     @Override
     public TaskResult run(CompilerContext context) {
-        ErrorListener errorListener = new ErrorListener();
+        ErrorListener errorListener = new ErrorListener(context);
         context.sourceFileStream()
                 .forEach(file -> {
                     LOGGER.trace("new Lexer for : {} ", file.getFileName());

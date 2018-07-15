@@ -1,7 +1,8 @@
 package org.karaffe.compiler.frontend.karaffe.tasks.options;
 
-import org.karaffe.compiler.base.Errors;
+import org.karaffe.compiler.base.CompilerContext;
 import org.karaffe.compiler.base.task.TaskResult;
+import org.karaffe.compiler.base.util.Errors;
 import org.karaffe.compiler.base.util.config.Options;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -16,7 +17,7 @@ public class CheckFileTask extends AbstractOptionTask {
     private static final Logger LOGGER = LoggerFactory.getLogger(CheckFileTask.class);
 
     @Override
-    public TaskResult run(Options options) {
+    public TaskResult run(Options options, CompilerContext context) {
 
         List<String> dirList = options.arguments
                 .stream()
@@ -29,7 +30,7 @@ public class CheckFileTask extends AbstractOptionTask {
 
         if (!dirList.isEmpty()) {
             for (String f : dirList) {
-                Errors.unexpectedDirectory(f);
+                context.addReport(Errors.unexpectedDirectory(f));
             }
             LOGGER.debug("Failed");
             return TaskResult.FAILED;
@@ -47,7 +48,7 @@ public class CheckFileTask extends AbstractOptionTask {
         LOGGER.debug("Files.exists failed? : {}", notExistsList);
         if (!notExistsList.isEmpty()) {
             for (String f : notExistsList) {
-                Errors.reportNoKaraffeFileFound(f);
+                context.addReport(Errors.reportNoKaraffeFileFound(f));
             }
             LOGGER.debug("Failed");
             return TaskResult.FAILED;

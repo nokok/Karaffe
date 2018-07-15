@@ -8,6 +8,7 @@ import org.karaffe.compiler.base.mir.Instructions;
 import org.karaffe.compiler.base.pos.Position;
 import org.karaffe.compiler.base.tree.Tree;
 import org.karaffe.compiler.base.tree.def.Def;
+import org.karaffe.compiler.base.report.Report;
 import org.karaffe.compiler.base.util.SourceFile;
 import org.karaffe.compiler.base.util.config.Options;
 import org.kohsuke.args4j.CmdLineException;
@@ -34,6 +35,7 @@ public class CompilerContextImpl implements CompilerContext {
     private boolean hasInvalidCmdLineArg;
     private Map<String, String> packageFileMap;
     private Map<String, List<Def>> fileImportMap;
+    private List<Report> reports;
 
     public CompilerContextImpl() {
         this(new String[0]);
@@ -48,6 +50,7 @@ public class CompilerContextImpl implements CompilerContext {
         this.hasInvalidCmdLineArg = false;
         this.packageFileMap = new HashMap<>();
         this.fileImportMap = new HashMap<>();
+        this.reports = new ArrayList<>();
     }
 
     @Override
@@ -192,5 +195,15 @@ public class CompilerContextImpl implements CompilerContext {
     @Override
     public Map<String, String> getPackageFileMap() {
         return packageFileMap;
+    }
+
+    @Override
+    public void addReport(Report report) {
+        this.reports.add(Objects.requireNonNull(report));
+    }
+
+    @Override
+    public List<Report> getReports() {
+        return this.reports;
     }
 }

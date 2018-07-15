@@ -1,5 +1,6 @@
 package org.karaffe.compiler.frontend.karaffe.tasks.options;
 
+import org.karaffe.compiler.base.CompilerContext;
 import org.karaffe.compiler.base.task.TaskResult;
 import org.karaffe.compiler.base.util.Platform;
 import org.karaffe.compiler.base.util.config.Options;
@@ -15,7 +16,7 @@ public class CheckTargetTask extends AbstractOptionTask {
     }
 
     @Override
-    public TaskResult run(Options options) {
+    public TaskResult run(Options options, CompilerContext contextss) {
         if (options.targetName == null) {
             return TaskResult.FAILED;
         } else if (options.targetName.toLowerCase().equals("jvm")) {

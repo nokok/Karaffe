@@ -23,7 +23,7 @@ public class ParserTask extends AbstractTask {
 
     @Override
     public TaskResult run(CompilerContext context) {
-        ErrorListener errorListener = new ErrorListener();
+        ErrorListener errorListener = new ErrorListener(context);
         context.tokenStreamStream().map(KaraffeParser::new).forEach(parser -> {
             LOGGER.trace("new Parser : {}", parser);
             LOGGER.trace("Removing default listeners...");

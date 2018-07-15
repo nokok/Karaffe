@@ -1,11 +1,9 @@
 package it;
 
-import org.junit.Ignore;
 import org.junit.Test;
 import org.karaffe.compiler.base.util.Platform;
 import org.karaffe.compiler.launcher.KaraffeCompilerLauncher;
 
-import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.IOException;
 import java.io.PrintStream;
@@ -207,6 +205,8 @@ public class CompilerIOTest {
     @Test
     public void runTestCase() throws Exception {
         Path tmpDirPath = setUpTmpDestDir();
+        System.setProperty("karaffe.console.no_color", "1");
+        Platform.init();
 
         PrintStream defaultStdOut = System.out;
         PrintStream defaultStdErr = System.err;
