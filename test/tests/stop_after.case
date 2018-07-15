@@ -1,1 +1,1 @@
---stop-after,lexing,tests/test_resources/neg/EmptyClassName.krf
+--stop-after,frontend-karaffe-lexing,tests/test_resources/neg/EmptyClassName.krf
