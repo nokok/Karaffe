@@ -53,4 +53,23 @@ class MIRBackendSpec extends Specification {
         !context.hasAnyReport()
         assertBytecodeFileCount(context, 1)
     }
+
+    def "mainMethod"() {
+        setup:
+        def context = runBackend("""class A {
+  main {
+  }
+}""")
+
+        expect:
+        context.getInstructions().toString() == """[       <no-pos>] BeginBlock #
+[       <no-pos>] BeginConstructor #A#<init>():void
+[       <no-pos>] EndConstructor #A#<init>():void
+[       <no-pos>] BeginClass #A
+[        2:2~3:2] [public, static] BeginMethod #A#main(Ljava/lang/String;):V
+[       <no-pos>] [ParameterName] ValDef #A#main(Ljava/lang/String;):V#args Ljava/lang/String;s
+[       <no-pos>] EndMethod #A#main(Ljava/lang/String;):V
+[       <no-pos>] EndClass #A
+[       <no-pos>] EndBlock #"""
+    }
 }

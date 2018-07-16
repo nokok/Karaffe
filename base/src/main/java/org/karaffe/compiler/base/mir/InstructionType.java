@@ -20,5 +20,7 @@ public enum InstructionType {
     ENDBLOCK,
     BEGINCONSTRUCTOR,
     ENDCONSTRUCTOR,
+    CONSTINT,
+    CONSTSTRING,
     IFJUMPTRUE
 }

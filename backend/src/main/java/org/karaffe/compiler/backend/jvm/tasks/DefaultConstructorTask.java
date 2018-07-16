@@ -9,6 +9,7 @@ import org.karaffe.compiler.base.mir.block.BeginConstructor;
 import org.karaffe.compiler.base.mir.block.EndConstructor;
 import org.karaffe.compiler.base.mir.util.InstructionList;
 import org.karaffe.compiler.base.mir.util.Label;
+import org.karaffe.compiler.base.mir.util.attr.ModifierAttribute;
 import org.karaffe.compiler.base.task.AbstractTask;
 import org.karaffe.compiler.base.task.BackendTask;
 import org.karaffe.compiler.base.task.TaskResult;

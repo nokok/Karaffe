@@ -4,7 +4,6 @@ import org.karaffe.compiler.base.CompilerContext;
 import org.karaffe.compiler.base.mir.Instruction;
 import org.karaffe.compiler.base.mir.InstructionType;
 import org.karaffe.compiler.base.mir.Instructions;
-import org.karaffe.compiler.base.mir.block.BeginMethod;
 import org.karaffe.compiler.base.mir.util.InstructionList;
 import org.karaffe.compiler.base.task.AbstractTask;
 import org.karaffe.compiler.base.task.BackendTask;
@@ -13,9 +12,17 @@ import org.karaffe.compiler.base.task.TaskResult;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
+
 public class TypeCheckTask extends AbstractTask implements BackendTask, NoDescriptionTask {
 
     private static final Logger LOGGER = LoggerFactory.getLogger(TypeCheckTask.class);
+
+    private final List<String> defaultImportPackages = new ArrayList<>(Arrays.asList(
+            Object.class.getPackage().getName()
+    ));
 
     @Override
     public String name() {
@@ -33,10 +40,8 @@ public class TypeCheckTask extends AbstractTask implements BackendTask, NoDescri
         dest.addAll(instructions);
         for (int index = 0; index < instructions.size(); index++) {
             Instruction instruction = instructions.get(index);
-            if (instruction.getInstType() == InstructionType.BEGINMETHOD) {
-                BeginMethod beginMethod = (BeginMethod) instruction;
-                BeginMethod newBeginMethod = new BeginMethod(beginMethod.getLabel());
-                dest.set(index, newBeginMethod);
+            if (instruction.getInstType() == InstructionType.CONST) {
+
             }
         }
         context.setInstructions(dest);
