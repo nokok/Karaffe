@@ -9,7 +9,6 @@ import java.util.Objects;
 
 public abstract class AbstractInstruction implements Instruction {
     private List<Attribute> attributes = new ArrayList<>();
-    private InstructionType type;
     private Position position = Position.noPos();
 
     @Override
@@ -42,12 +41,11 @@ public abstract class AbstractInstruction implements Instruction {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         AbstractInstruction that = (AbstractInstruction) o;
-        return Objects.equals(attributes, that.attributes) &&
-                type == that.type;
+        return Objects.equals(attributes, that.attributes);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(attributes, type);
+        return Objects.hash(attributes);
     }
 }
