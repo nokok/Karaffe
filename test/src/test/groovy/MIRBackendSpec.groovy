@@ -44,9 +44,12 @@ class MIRBackendSpec extends Specification {
 
         expect:
         context.getInstructions().toString() == """[       <no-pos>] BeginBlock #
-[       <no-pos>] BeginConstructor #A#<init>():void
-[       <no-pos>] EndConstructor #A#<init>():void
 [       <no-pos>] BeginClass #A
+[       <no-pos>] BeginConstructor #A#<init>():void
+[       <no-pos>] Load this
+[       <no-pos>] InvokeSpecial Ljava/lang/Object#<init>():V
+[       <no-pos>] Return
+[       <no-pos>] EndConstructor #A#<init>():void
 [       <no-pos>] EndClass #A
 [       <no-pos>] EndBlock #"""
         !context.hasErrorReport()
@@ -63,12 +66,16 @@ class MIRBackendSpec extends Specification {
 
         expect:
         context.getInstructions().toString() == """[       <no-pos>] BeginBlock #
+[       <no-pos>] BeginClass #A
 [       <no-pos>] BeginConstructor #A#<init>():void
+[       <no-pos>] Load this
+[       <no-pos>] InvokeSpecial Ljava/lang/Object#<init>():V
+[       <no-pos>] Return
 [       <no-pos>] EndConstructor #A#<init>():void
 [       <no-pos>] BeginClass #A
-[        2:2~3:2] [public, static] BeginMethod #A#main(Ljava/lang/String;):V
-[       <no-pos>] [ParameterName] ValDef #A#main(Ljava/lang/String;):V#args Ljava/lang/String;s
-[       <no-pos>] EndMethod #A#main(Ljava/lang/String;):V
+[        2:2~3:2] [public, static] BeginMethod #A#main([Ljava/lang/String;):V
+[       <no-pos>] [ParameterName] ValDef #A#main([Ljava/lang/String;):V#args Ljava/lang/String;s
+[       <no-pos>] EndMethod #A#main([Ljava/lang/String;):V
 [       <no-pos>] EndClass #A
 [       <no-pos>] EndBlock #"""
     }

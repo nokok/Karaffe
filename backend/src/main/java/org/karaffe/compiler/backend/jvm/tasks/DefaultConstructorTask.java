@@ -7,9 +7,11 @@ import org.karaffe.compiler.base.mir.Instructions;
 import org.karaffe.compiler.base.mir.block.BeginClass;
 import org.karaffe.compiler.base.mir.block.BeginConstructor;
 import org.karaffe.compiler.base.mir.block.EndConstructor;
+import org.karaffe.compiler.base.mir.invoke.InvokeSpecial;
+import org.karaffe.compiler.base.mir.io.Load;
+import org.karaffe.compiler.base.mir.jump.Return;
 import org.karaffe.compiler.base.mir.util.InstructionList;
 import org.karaffe.compiler.base.mir.util.Label;
-import org.karaffe.compiler.base.mir.util.attr.ModifierAttribute;
 import org.karaffe.compiler.base.task.AbstractTask;
 import org.karaffe.compiler.base.task.BackendTask;
 import org.karaffe.compiler.base.task.TaskResult;
@@ -32,7 +34,7 @@ public class DefaultConstructorTask extends AbstractTask implements BackendTask 
             Instruction instruction = instructions.get(index);
             if (instruction.getInstType() == InstructionType.BEGINCLASS) {
                 inClass = true;
-                insertIndex = index;
+                insertIndex = index + 1;
                 BeginClass beginClass = (BeginClass) instruction;
                 parentClass = beginClass.getLabel();
                 LOGGER.debug("Begin : {}", parentClass);
@@ -49,6 +51,9 @@ public class DefaultConstructorTask extends AbstractTask implements BackendTask 
                     Label ctorLabel = new Label(parentClass, "<init>():void");
                     BeginConstructor beginConstructor = new BeginConstructor(ctorLabel);
                     ctor.add(beginConstructor);
+                    ctor.add(new Load(new Label("this")));
+                    ctor.add(new InvokeSpecial(new Label("Ljava/lang/Object#<init>():V")));
+                    ctor.add(new Return());
                     ctor.add(new EndConstructor(ctorLabel));
                     dest.addAll(insertIndex, ctor);
                 }

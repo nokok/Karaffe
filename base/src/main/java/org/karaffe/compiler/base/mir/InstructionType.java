@@ -22,5 +22,6 @@ public enum InstructionType {
     ENDCONSTRUCTOR,
     CONSTINT,
     CONSTSTRING,
+    INVOKESPECIAL,
     IFJUMPTRUE
 }

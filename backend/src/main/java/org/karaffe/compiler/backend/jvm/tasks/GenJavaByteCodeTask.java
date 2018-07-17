@@ -10,6 +10,7 @@ import org.karaffe.compiler.base.mir.Instruction;
 import org.karaffe.compiler.base.mir.InstructionType;
 import org.karaffe.compiler.base.mir.Instructions;
 import org.karaffe.compiler.base.mir.block.BeginClass;
+import org.karaffe.compiler.base.mir.block.BeginConstructor;
 import org.karaffe.compiler.base.mir.block.BeginMethod;
 import org.karaffe.compiler.base.mir.util.attr.ModifierAttribute;
 import org.karaffe.compiler.base.mir.variable.ValDef;
@@ -66,6 +67,18 @@ public class GenJavaByteCodeTask extends AbstractTask implements BackendTask {
                         toJavaModifier(beginMethod),
                         beginMethod.getMethodName(),
                         "(" + beginMethod.getParameters() + ")" + beginMethod.getReturnTypeName(),
+                        null,
+                        null
+                );
+            }
+            if (instruction.getInstType() == InstructionType.BEGINCONSTRUCTOR) {
+                localVarNames.push(new ArrayDeque<>());
+                BeginConstructor beginConstructor = (BeginConstructor) instruction;
+                methodNames.add(beginConstructor.getLabel().getSimpleName());
+                methodVisitor = classWriter.visitMethod(
+                        toJavaModifier(beginConstructor),
+                        "<init>",
+                        "(" + beginConstructor.getParameters() + ")V",
                         null,
                         null
                 );

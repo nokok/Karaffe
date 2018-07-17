@@ -8,4 +8,9 @@ public class Return extends AbstractInstruction {
     public InstructionType getInstType() {
         return InstructionType.RETURN;
     }
+
+    @Override
+    public String toString() {
+        return "Return";
+    }
 }

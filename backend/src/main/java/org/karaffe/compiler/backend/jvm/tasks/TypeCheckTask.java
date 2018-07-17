@@ -41,7 +41,7 @@ public class TypeCheckTask extends AbstractTask implements BackendTask, NoDescri
         for (int index = 0; index < instructions.size(); index++) {
             Instruction instruction = instructions.get(index);
             if (instruction.getInstType() == InstructionType.CONST) {
-
+                
             }
         }
         context.setInstructions(dest);
