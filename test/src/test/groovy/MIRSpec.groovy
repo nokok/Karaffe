@@ -35,9 +35,9 @@ println(a + b)""")
         expect:
         instructions.toString() == """[       <no-pos>] BeginBlock #
 [       <no-pos>] BeginClass #A
-[        2:2~4:2] [public, static] BeginMethod #A#main(Array[String]):void
-[       <no-pos>] [ParameterName] ValDef #A#main(Array[String]):void#args Array[String]
-[       <no-pos>] EndMethod #A#main(Array[String]):void
+[        2:2~4:2] [public, static] BeginMethod #A#main(args Array[String]):void
+[       <no-pos>] [ParameterName] ValDef #A#main(args Array[String]):void#args Array[String]
+[       <no-pos>] EndMethod #A#main(args Array[String]):void
 [       <no-pos>] EndClass #A
 [       6:0~6:16] ValDef #a Int
 [           6:12] [InvokingSet#0] Const INTEGER 1
@@ -69,11 +69,11 @@ println(a + b)""")
         expect:
         instructions.toString() == """[       <no-pos>] BeginBlock #
 [       <no-pos>] BeginClass #Main
-[        2:2~3:2] [public, static] BeginMethod #Main#main(Array[String]):void
-[       <no-pos>] [ParameterName] ValDef #Main#main(Array[String]):void#args Array[String]
-[       <no-pos>] EndMethod #Main#main(Array[String]):void
+[        2:2~3:2] [public, static] BeginMethod #Main#main(args Array[String]):void
+[       <no-pos>] [ParameterName] ValDef #Main#main(args Array[String]):void#args Array[String]
+[       <no-pos>] EndMethod #Main#main(args Array[String]):void
 [       <no-pos>] EndClass #Main
-[       <no-pos>] EndBlock #"""
+[       <no-pos>] EndBlock #s"""
     }
 
     def "block"() {
@@ -195,8 +195,8 @@ let a Int = 0
 [       2:0~2:12] ValDef #Main#a Int
 [           2:12] Const INTEGER 0
 [            2:4] Store #Main#a
-[       <no-pos>] EndClass #Main
-[       <no-pos>] EndBlock #"""
+[       <no-pos>] End #Main
+[       <no-pos>] End #"""
     }
 
 }

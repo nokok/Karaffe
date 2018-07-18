@@ -28,12 +28,12 @@ public class DefaultTaskRunner implements TaskRunner {
 
     @Override
     public void standBy(Task task) {
-        LOGGER.debug("standBy : {}", task);
+        LOGGER.debug("standBy : {}", task.name());
         if (this.isExecuting) {
-            LOGGER.trace("standBy(delayed) : " + task);
+            LOGGER.trace("standBy(delayed) : " + task.name());
             this.delayedTasks.addLast(task);
         } else {
-            LOGGER.trace("standBy : " + task);
+            LOGGER.trace("standBy : " + task.name());
             this.tasks.add(task);
         }
     }
@@ -72,18 +72,18 @@ public class DefaultTaskRunner implements TaskRunner {
                 LOGGER.debug("Scheduled : {}", task.name());
             }
             if (!task.isRunnable(context)) {
-                LOGGER.trace("Delayed Task : " + task);
+                LOGGER.trace("Delayed Task : " + task.name());
                 this.delayedTasks.addLast(task);
                 if (queue.isEmpty()) {
                     // タスクキューが空の場合、CompilerContextの状態が変更されることはもう無いため、遅延されたタスクは実行可能状態となることはない。
                     if (delayedTasks.hasRemainingRequiredTask(context)) {
                         // 必須タスクが残っている場合はエラー
-                        LOGGER.warn("RunnerResult.FAILED : taskQueue.isEmpty");
+                        LOGGER.warn("RunnerResult.FAILED [delayedTasks.hasRemainingRequiredTask(context) == true]");
                         runFinallyTask(context, resultRecorder);
                         isExecuting = false;
                         return RunnerResult.FAILED;
                     } else {
-                        LOGGER.debug("RunnerResult.SUCCESS : taskQueue.isEmpty");
+                        LOGGER.debug("RunnerResult.SUCCESS");
                         runFinallyTask(context, resultRecorder);
                         isExecuting = false;
                         return RunnerResult.SUCCESS_ALL;
@@ -92,8 +92,9 @@ public class DefaultTaskRunner implements TaskRunner {
                 continue;
             }
             ProcessTimer timer = new ProcessTimer();
+            LOGGER.info("Started  : {}", task.name());
             TaskResult result = task.run(context);
-            LOGGER.info("Executed {} in [{}ms]", task.name(), String.format("%.3f", timer.stop() / 1000000.0d));
+            LOGGER.info("Executed : {} {} in {}ms", task.name(), result, String.format("%.3f", timer.stop() / 1000000.0d));
 
             resultRecorder.record(result);
             if (task.name().equals(stopTaskName)) {

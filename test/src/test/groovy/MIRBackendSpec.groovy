@@ -44,6 +44,12 @@ class MIRBackendSpec extends Specification {
 
         expect:
         context.getInstructions().toString() == """[       <no-pos>] BeginBlock #
+[       <no-pos>] NameRule Object -> Ljava/lang/Object;
+[       <no-pos>] NameRule String -> Ljava/lang/String;
+[       <no-pos>] NameRule System -> Ljava/lang/System;
+[       <no-pos>] NameRule Integer -> Ljava/lang/Integer;
+[       <no-pos>] NameRule Matcher -> Ljava/util/regex/Matcher;
+[       <no-pos>] NameRule Pattern -> Ljava/util/regex/Pattern;
 [       <no-pos>] BeginClass #A
 [       <no-pos>] BeginConstructor #A#<init>():void
 [       <no-pos>] Load this
@@ -66,6 +72,12 @@ class MIRBackendSpec extends Specification {
 
         expect:
         context.getInstructions().toString() == """[       <no-pos>] BeginBlock #
+[       <no-pos>] NameRule Object -> Ljava.lang.Object;
+[       <no-pos>] NameRule String -> Ljava.lang.String;
+[       <no-pos>] NameRule System -> Ljava.lang.System;
+[       <no-pos>] NameRule Integer -> Ljava.lang.Integer;
+[       <no-pos>] NameRule Matcher -> Ljava.util.regex.Matcher;
+[       <no-pos>] NameRule Pattern -> Ljava.util.regex.Pattern;
 [       <no-pos>] BeginClass #A
 [       <no-pos>] BeginConstructor #A#<init>():void
 [       <no-pos>] Load this

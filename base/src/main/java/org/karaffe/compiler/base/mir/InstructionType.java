@@ -23,5 +23,6 @@ public enum InstructionType {
     CONSTINT,
     CONSTSTRING,
     INVOKESPECIAL,
+    NAMERULE,
     IFJUMPTRUE
 }

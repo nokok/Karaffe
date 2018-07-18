@@ -16,6 +16,7 @@ import org.karaffe.compiler.base.mir.io.Store;
 import org.karaffe.compiler.base.mir.jump.IfJumpFalse;
 import org.karaffe.compiler.base.mir.jump.Jump;
 import org.karaffe.compiler.base.mir.jump.JumpTarget;
+import org.karaffe.compiler.base.mir.rule.TypeNameRewriteRule;
 import org.karaffe.compiler.base.mir.util.InstructionList;
 import org.karaffe.compiler.base.mir.util.Label;
 import org.karaffe.compiler.base.mir.util.attr.Attribute;
@@ -31,6 +32,7 @@ import org.karaffe.compiler.base.tree.TreeVisitorAdapter;
 import org.karaffe.compiler.base.tree.def.ClassDef;
 import org.karaffe.compiler.base.tree.def.LetDef;
 import org.karaffe.compiler.base.tree.def.MethodDef;
+import org.karaffe.compiler.base.tree.def.SimpleImport;
 import org.karaffe.compiler.base.tree.expr.Apply;
 import org.karaffe.compiler.base.tree.expr.Atom;
 import org.karaffe.compiler.base.tree.expr.Binding;
@@ -81,6 +83,13 @@ public class GenMIRTask extends AbstractTask implements NoDescriptionTask {
             Label rootLabel = Label.createRootLabel();
             List<Instructions> accepted = tree.acceptChildren(this, rootLabel);
             accepted.stream().filter(Objects::nonNull).forEach(instructions::addAll);
+            return instructions;
+        }
+
+        @Override
+        public Instructions visitSimpleImportDef(SimpleImport def, Label label) {
+            Instructions instructions = new InstructionList();
+            instructions.add(new TypeNameRewriteRule(def.getName().asSimpleName(), "L" + def.getName().asFullName().replaceAll("\\\\.", "/") + ";"));
             return instructions;
         }
 
