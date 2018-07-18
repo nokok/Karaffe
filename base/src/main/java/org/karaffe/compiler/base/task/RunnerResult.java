@@ -7,10 +7,10 @@ public enum RunnerResult {
 
     public TaskResult toTaskResult() {
         if (this == SUCCESS_ALL) {
-            return TaskResult.SUCCESS;
+            return TaskResult.SUCCESSFUL;
         }
         if (this == SUCCESS_WITH_WARNING) {
-            return TaskResult.SUCCESS_WITH_WARN;
+            return TaskResult.SUCCESSFUL_WITH_WARN;
         }
         return TaskResult.FAILED;
     }

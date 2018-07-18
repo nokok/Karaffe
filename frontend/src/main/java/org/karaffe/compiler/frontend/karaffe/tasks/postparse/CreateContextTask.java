@@ -48,6 +48,6 @@ public class CreateContextTask extends AbstractTask implements ReadOnlyTask, NoD
         CreateScopeVisitor visitor = new CreateScopeVisitor();
         compilationUnit.accept(visitor, globalScope);
 
-        return TaskResult.SUCCESS;
+        return TaskResult.SUCCESSFUL;
     }
 }

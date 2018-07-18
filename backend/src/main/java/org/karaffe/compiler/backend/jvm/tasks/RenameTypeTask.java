@@ -11,9 +11,9 @@ public class RenameTypeTask extends AbstractTask implements BackendTask {
     @Override
     public TaskResult run(Instructions instructions, CompilerContext context) {
         for (Instruction instruction : instructions) {
-            
+
         }
-        return TaskResult.SUCCESS;
+        return TaskResult.SUCCESSFUL;
     }
 
     @Override

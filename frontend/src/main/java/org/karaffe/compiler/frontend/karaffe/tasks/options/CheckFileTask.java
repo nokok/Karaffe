@@ -55,7 +55,7 @@ public class CheckFileTask extends AbstractOptionTask {
         }
         LOGGER.debug("Passed");
 
-        return TaskResult.SUCCESS;
+        return TaskResult.SUCCESSFUL;
     }
 
     @Override

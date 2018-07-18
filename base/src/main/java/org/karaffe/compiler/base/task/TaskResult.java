@@ -1,8 +1,8 @@
 package org.karaffe.compiler.base.task;
 
 public enum TaskResult {
-    SUCCESS,
-    SUCCESS_WITH_WARN,
+    SUCCESSFUL,
+    SUCCESSFUL_WITH_WARN,
     RETRY,
     FAILED,;
 
@@ -14,7 +14,7 @@ public enum TaskResult {
     }
 
     public TaskResult ifSuccess(Runnable runnable) {
-        if (this != FAILED /*SUCCESS and SUCCESS_WITH_WARN*/) {
+        if (this != FAILED /*SUCCESSFUL and SUCCESSFUL_WITH_WARN*/) {
             runnable.run();
         }
         return this;

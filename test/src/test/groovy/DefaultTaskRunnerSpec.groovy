@@ -50,7 +50,7 @@ class DefaultTaskRunnerSpec extends Specification {
             @Override
             TaskResult run(CompilerContext context) {
                 executed = true
-                return TaskResult.SUCCESS
+                return TaskResult.SUCCESSFUL
             }
 
             @Override
@@ -62,7 +62,7 @@ class DefaultTaskRunnerSpec extends Specification {
             @Override
             TaskResult run(CompilerContext context) {
                 count++
-                return TaskResult.SUCCESS
+                return TaskResult.SUCCESSFUL
             }
         })
 

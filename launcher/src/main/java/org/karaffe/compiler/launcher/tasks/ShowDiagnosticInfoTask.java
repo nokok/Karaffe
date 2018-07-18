@@ -20,7 +20,7 @@ public class ShowDiagnosticInfoTask extends AbstractTask {
     @Override
     public TaskResult run(CompilerContext context) {
         Platform.stdOut(DiagnosticInfo.INSTANCE.toString());
-        return TaskResult.SUCCESS;
+        return TaskResult.SUCCESSFUL;
     }
 
     @Override

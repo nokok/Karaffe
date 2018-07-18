@@ -32,7 +32,7 @@ public class CheckCorePackageTask extends AbstractTask implements ReadOnlyTask {
                 return TaskResult.FAILED;
             }
             LOGGER.trace("OK");
-            return TaskResult.SUCCESS;
+            return TaskResult.SUCCESSFUL;
         } catch (ClassNotFoundException e) {
             return TaskResult.FAILED;
         }

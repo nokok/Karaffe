@@ -20,7 +20,7 @@ public class PrintTreeTask extends AbstractTask implements ReadOnlyTask {
     @Override
     public TaskResult run(CompilerContext context) {
         Platform.stdOut(context);
-        return TaskResult.SUCCESS;
+        return TaskResult.SUCCESSFUL;
     }
 
     @Override

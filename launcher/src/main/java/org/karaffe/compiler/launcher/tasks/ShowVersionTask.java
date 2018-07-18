@@ -26,7 +26,7 @@ public class ShowVersionTask extends AbstractTask implements NoDescriptionTask {
             String tag = readVersionResource(ClassLoader.getSystemResourceAsStream("TAG"));
             String hash = readVersionResource(ClassLoader.getSystemResourceAsStream("HASH"));
             Platform.stdOut("Karaffe Compiler" + version + branch + tag + hash);
-            return TaskResult.SUCCESS;
+            return TaskResult.SUCCESSFUL;
         } catch (IOException e) {
             return TaskResult.FAILED;
         }

@@ -93,7 +93,7 @@ public class InsertDefaultImportTask extends AbstractTask implements NoDescripti
             }
         }, null);
 
-        return TaskResult.SUCCESS;
+        return TaskResult.SUCCESSFUL;
     }
 
     @Override

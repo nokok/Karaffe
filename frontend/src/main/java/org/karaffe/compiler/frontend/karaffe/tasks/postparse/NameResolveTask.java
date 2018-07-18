@@ -55,7 +55,7 @@ public class NameResolveTask extends AbstractTask implements CompilationUnitTask
                 return typeName;
             }
         }, null);
-        return TaskResult.SUCCESS;
+        return TaskResult.SUCCESSFUL;
     }
 
     @Override

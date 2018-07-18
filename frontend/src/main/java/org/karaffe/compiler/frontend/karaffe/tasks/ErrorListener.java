@@ -16,7 +16,7 @@ import java.util.BitSet;
 class ErrorListener implements ANTLRErrorListener {
 
     private final ReportContainer container;
-    private TaskResult result = TaskResult.SUCCESS;
+    private TaskResult result = TaskResult.SUCCESSFUL;
 
     public ErrorListener(ReportContainer container) {
         this.container = container;

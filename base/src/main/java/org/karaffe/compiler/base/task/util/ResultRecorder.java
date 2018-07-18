@@ -9,11 +9,11 @@ public class ResultRecorder {
     private boolean hasError;
 
     public void record(TaskResult taskResult) {
-        if (taskResult == TaskResult.SUCCESS) {
+        if (taskResult == TaskResult.SUCCESSFUL) {
             this.success++;
         } else if (taskResult == TaskResult.FAILED) {
             this.hasError = true;
-        } else if (taskResult == TaskResult.SUCCESS_WITH_WARN) {
+        } else if (taskResult == TaskResult.SUCCESSFUL_WITH_WARN) {
             this.warn++;
         } else if (taskResult == TaskResult.RETRY) {
             /* no op */

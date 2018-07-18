@@ -15,7 +15,7 @@ class MIRSpec extends Specification {
         CompilerContext context = new CompilerContextImpl()
         context.addSourceFile(SourceFile.fromLiteral(source))
         def result = frontend.run(context)
-        if (result != TaskResult.SUCCESS) {
+        if (result != TaskResult.SUCCESSFUL) {
             throw new RuntimeException()
         }
         return context.getInstructions()

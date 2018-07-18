@@ -29,7 +29,7 @@ public class GenASTTask extends AbstractTask {
                 .map(c -> c.accept(visitor))
                 .reduce((l, r) -> r)
                 .ifPresent(context::setCompilationUnit);
-        return TaskResult.SUCCESS;
+        return TaskResult.SUCCESSFUL;
     }
 
     @Override

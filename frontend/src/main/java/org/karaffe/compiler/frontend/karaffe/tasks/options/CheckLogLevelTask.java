@@ -25,7 +25,7 @@ public class CheckLogLevelTask extends AbstractOptionTask {
             return TaskResult.FAILED;
         } else {
             LOGGER.debug("Passed");
-            return TaskResult.SUCCESS;
+            return TaskResult.SUCCESSFUL;
         }
     }
 

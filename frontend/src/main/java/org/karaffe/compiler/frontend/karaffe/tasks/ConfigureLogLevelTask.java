@@ -55,7 +55,7 @@ public class ConfigureLogLevelTask extends AbstractTask implements ReadOnlyTask 
 
         rootLogger.setLevel(logLevel);
         LOGGER.info("{} Logger is activated.", logLevel);
-        return TaskResult.SUCCESS;
+        return TaskResult.SUCCESSFUL;
     }
 
     @Override

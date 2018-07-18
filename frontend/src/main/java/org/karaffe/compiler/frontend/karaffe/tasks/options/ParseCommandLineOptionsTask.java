@@ -26,7 +26,7 @@ public class ParseCommandLineOptionsTask extends AbstractTask {
         if (context.isEmptyRawArg()) {
             context.setInvalidCmdLineArg();
             LOGGER.warn("Empty args");
-            return TaskResult.SUCCESS_WITH_WARN;
+            return TaskResult.SUCCESSFUL_WITH_WARN;
         }
         try {
             context.startParseArgs();
@@ -34,7 +34,7 @@ public class ParseCommandLineOptionsTask extends AbstractTask {
             LOGGER.error("Unexpected Exception", e);
             return TaskResult.FAILED;
         }
-        return TaskResult.SUCCESS;
+        return TaskResult.SUCCESSFUL;
     }
 
     @Override

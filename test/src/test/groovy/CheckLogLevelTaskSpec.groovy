@@ -25,11 +25,11 @@ class CheckLogLevelTaskSpec extends Specification {
         (true)     | (true)     | (true)    || TaskResult.FAILED
         (true)     | (true)     | (false)   || TaskResult.FAILED
         (true)     | (false)    | (true)    || TaskResult.FAILED
-        (true)     | (false)    | (false)   || TaskResult.SUCCESS
+        (true)     | (false)    | (false)   || TaskResult.SUCCESSFUL
         (false)    | (true)     | (true)    || TaskResult.FAILED
-        (false)    | (true)     | (false)   || TaskResult.SUCCESS
-        (false)    | (false)    | (true)    || TaskResult.SUCCESS
-        (false)    | (false)    | (false)   || TaskResult.SUCCESS
+        (false)    | (true)     | (false)   || TaskResult.SUCCESSFUL
+        (false)    | (false)    | (true)    || TaskResult.SUCCESSFUL
+        (false)    | (false)    | (false)   || TaskResult.SUCCESSFUL
 
     }
 }

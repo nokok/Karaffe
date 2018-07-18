@@ -14,7 +14,7 @@ public class ShowUsageTask extends AbstractTask implements NoDescriptionTask {
     @Override
     public TaskResult run(CompilerContext context) {
         context.printUsage();
-        return TaskResult.SUCCESS;
+        return TaskResult.SUCCESSFUL;
     }
 
     @Override

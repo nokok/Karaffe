@@ -83,7 +83,7 @@ public class DefaultTaskRunner implements TaskRunner {
                         isExecuting = false;
                         return RunnerResult.FAILED;
                     } else {
-                        LOGGER.debug("RunnerResult.SUCCESS");
+                        LOGGER.debug("RunnerResult.SUCCESSFUL");
                         runFinallyTask(context, resultRecorder);
                         isExecuting = false;
                         return RunnerResult.SUCCESS_ALL;

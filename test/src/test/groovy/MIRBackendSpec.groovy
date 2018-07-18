@@ -16,7 +16,7 @@ class MIRBackendSpec extends Specification {
         CompilerContext context = new CompilerContextImpl()
         context.addSourceFile(SourceFile.fromLiteral(source))
         def result = frontend.run(context)
-        if (result != TaskResult.SUCCESS) {
+        if (result != TaskResult.SUCCESSFUL) {
             throw new RuntimeException()
         }
         return context.getInstructions()
@@ -28,7 +28,7 @@ class MIRBackendSpec extends Specification {
         CompilerContext context = new CompilerContextImpl()
         context.setInstructions(instructions)
         def run = backend.run(context)
-        if (run != TaskResult.SUCCESS) {
+        if (run != TaskResult.SUCCESSFUL) {
             throw new RuntimeException()
         }
         return context

@@ -21,7 +21,7 @@ public class CheckTargetTask extends AbstractOptionTask {
             return TaskResult.FAILED;
         } else if (options.targetName.toLowerCase().equals("jvm")) {
             LOGGER.debug("Target : JVM");
-            return TaskResult.SUCCESS;
+            return TaskResult.SUCCESSFUL;
         }
         Platform.stdErr("Unknown target : " + options.targetName);
         return TaskResult.FAILED;

@@ -76,7 +76,7 @@ public class PrintLastTreeTask extends AbstractTask implements ReadOnlyTask, NoD
         jsonMapper.setPrettyPrint(true);
         jsonMapper.setIndentText("  ");
         Platform.stdOut(jsonMapper.format(map));
-        return TaskResult.SUCCESS;
+        return TaskResult.SUCCESSFUL;
     }
 
     @Override

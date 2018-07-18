@@ -60,7 +60,7 @@ public class DefaultConstructorTask extends AbstractTask implements BackendTask 
             }
         }
         context.setInstructions(dest);
-        return TaskResult.SUCCESS;
+        return TaskResult.SUCCESSFUL;
     }
 
     @Override

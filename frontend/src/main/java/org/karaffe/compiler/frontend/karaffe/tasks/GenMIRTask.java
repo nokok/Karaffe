@@ -68,7 +68,7 @@ public class GenMIRTask extends AbstractTask implements NoDescriptionTask {
         instructions.addAll(generated);
         instructions.add(new EndBlock(rootLabel));
         context.setInstructions(instructions);
-        return TaskResult.SUCCESS;
+        return TaskResult.SUCCESSFUL;
     }
 
     private static class TreeVisitor extends TreeVisitorAdapter<Instructions, Label> {

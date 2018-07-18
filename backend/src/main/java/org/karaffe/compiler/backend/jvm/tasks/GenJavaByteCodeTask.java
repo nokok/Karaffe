@@ -102,7 +102,7 @@ public class GenJavaByteCodeTask extends AbstractTask implements BackendTask {
                 methodVisitor.visitEnd();
             }
         }
-        return TaskResult.SUCCESS;
+        return TaskResult.SUCCESSFUL;
     }
 
     @Override

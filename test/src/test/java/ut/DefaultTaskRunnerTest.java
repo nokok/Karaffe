@@ -45,13 +45,13 @@ public class DefaultTaskRunnerTest {
                     public TaskResult run(CompilerContext c) {
                         assertEquals(4, count.incrementAndGet());
                         executed.set(true);
-                        return TaskResult.SUCCESS;
+                        return TaskResult.SUCCESSFUL;
                     }
                 });
                 assertEquals(3, count.incrementAndGet());
                 subTaskRunner.runAll();
                 assertEquals(5, count.incrementAndGet());
-                return TaskResult.SUCCESS;
+                return TaskResult.SUCCESSFUL;
             }
         });
 
@@ -59,7 +59,7 @@ public class DefaultTaskRunnerTest {
             @Override
             public TaskResult run(CompilerContext context) {
                 assertEquals(6, count.incrementAndGet());
-                return TaskResult.SUCCESS;
+                return TaskResult.SUCCESSFUL;
             }
         });
         assertEquals(1, count.incrementAndGet());
