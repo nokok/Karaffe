@@ -29,6 +29,7 @@ import org.karaffe.compiler.base.task.NoDescriptionTask;
 import org.karaffe.compiler.base.task.TaskResult;
 import org.karaffe.compiler.base.tree.Tree;
 import org.karaffe.compiler.base.tree.TreeVisitorAdapter;
+import org.karaffe.compiler.base.tree.def.AssignmentDef;
 import org.karaffe.compiler.base.tree.def.ClassDef;
 import org.karaffe.compiler.base.tree.def.LetDef;
 import org.karaffe.compiler.base.tree.def.MethodDef;
@@ -275,6 +276,17 @@ public class GenMIRTask extends AbstractTask implements NoDescriptionTask {
             instructions.add(new EndBlock(elseBlock));
             instructions.add(new JumpTarget(endBlock));
 
+            return instructions;
+        }
+
+        @Override
+        public Instructions visitAssignmentDef(AssignmentDef simpleDef, Label label) {
+            Instructions instructions = new InstructionList();
+            Label l = new Label(label, simpleDef.getName().asSimpleName());
+            Store s = new Store(l);
+            simpleDef.accept(this, l).forEach(instructions::add);
+            simpleDef.acceptChildren(this, l).forEach(instructions::addAll);
+            instructions.add(s);
             return instructions;
         }
 

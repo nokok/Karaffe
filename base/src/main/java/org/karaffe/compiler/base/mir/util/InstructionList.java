@@ -5,6 +5,8 @@ import org.karaffe.compiler.base.mir.InstructionType;
 import org.karaffe.compiler.base.mir.Instructions;
 import org.karaffe.compiler.base.mir.block.BeginClass;
 import org.karaffe.compiler.base.mir.block.BeginMethod;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -16,11 +18,13 @@ import java.util.stream.Collectors;
 
 public class InstructionList extends ArrayList<Instruction> implements Instructions {
 
+    private static final Logger LOGGER = LoggerFactory.getLogger(InstructionList.class);
     private Map<Label, Instructions> classes = new HashMap<>();
     private Map<Label, Instructions> methods = new HashMap<>();
 
     @Override
     public void updateInternalCache() {
+        LOGGER.debug("Updating Internal cache");
         int beginClass = 0;
         Label classLabel = null;
         int beginMethod = 0;
@@ -29,6 +33,7 @@ public class InstructionList extends ArrayList<Instruction> implements Instructi
         this.methods = new HashMap<>();
         for (int index = 0; index < this.size(); index++) {
             Instruction instruction = this.get(index);
+            LOGGER.trace("Instruction : {}", instruction);
             if (instruction.getInstType() == InstructionType.BEGINCLASS) {
                 beginClass = index;
                 classLabel = ((BeginClass) instruction).getLabel();
@@ -50,6 +55,7 @@ public class InstructionList extends ArrayList<Instruction> implements Instructi
                 this.methods.put(methodLabel, i);
             }
         }
+        LOGGER.debug("Internal cache updated");
     }
 
     @Override

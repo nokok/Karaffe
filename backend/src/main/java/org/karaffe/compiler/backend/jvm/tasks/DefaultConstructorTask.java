@@ -52,7 +52,7 @@ public class DefaultConstructorTask extends AbstractTask implements BackendTask 
                     BeginConstructor beginConstructor = new BeginConstructor(ctorLabel);
                     ctor.add(beginConstructor);
                     ctor.add(new Load(new Label("this")));
-                    ctor.add(new InvokeSpecial(new Label("Ljava/lang/Object#<init>():V")));
+                    ctor.add(new InvokeSpecial(new Label("java/lang/Object#<init>():V")));
                     ctor.add(new Return());
                     ctor.add(new EndConstructor(ctorLabel));
                     dest.addAll(insertIndex, ctor);

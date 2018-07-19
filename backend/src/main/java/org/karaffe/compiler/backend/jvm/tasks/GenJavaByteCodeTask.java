@@ -12,19 +12,20 @@ import org.karaffe.compiler.base.mir.Instructions;
 import org.karaffe.compiler.base.mir.block.BeginClass;
 import org.karaffe.compiler.base.mir.block.BeginConstructor;
 import org.karaffe.compiler.base.mir.block.BeginMethod;
+import org.karaffe.compiler.base.mir.invoke.InvokeSpecial;
+import org.karaffe.compiler.base.mir.io.Load;
 import org.karaffe.compiler.base.mir.util.attr.ModifierAttribute;
 import org.karaffe.compiler.base.mir.variable.ValDef;
 import org.karaffe.compiler.base.task.AbstractTask;
 import org.karaffe.compiler.base.task.BackendTask;
 import org.karaffe.compiler.base.task.TaskResult;
+import org.karaffe.compiler.base.util.Errors;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.io.File;
-import java.util.ArrayDeque;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Queue;
 import java.util.Stack;
 import java.util.stream.Collectors;
 
@@ -38,11 +39,12 @@ public class GenJavaByteCodeTask extends AbstractTask implements BackendTask {
         List<String> classNames = new ArrayList<>();
         List<String> methodNames = new ArrayList<>();
         List<String> blockNames = new ArrayList<>();
-        Stack<Queue<String>> localVarNames = new Stack<>();
-        localVarNames.push(new ArrayDeque<>());
+        Stack<List<String>> localVarNames = new Stack<>();
+        localVarNames.push(new ArrayList<>());
 
         String currentClassName = "";
         MethodVisitor methodVisitor = null;
+        String currentMethodDescriptor = null;
         for (Instruction instruction : instructions) {
             LOGGER.debug("Instruction : {}", instruction);
             if (instruction.getInstType() == InstructionType.BEGINCLASS) {
@@ -60,7 +62,7 @@ public class GenJavaByteCodeTask extends AbstractTask implements BackendTask {
                 );
             }
             if (instruction.getInstType() == InstructionType.BEGINMETHOD) {
-                localVarNames.push(new ArrayDeque<>());
+                localVarNames.push(new ArrayList<>());
                 BeginMethod beginMethod = (BeginMethod) instruction;
                 methodNames.add(beginMethod.getMethodName());
                 methodVisitor = classWriter.visitMethod(
@@ -72,16 +74,54 @@ public class GenJavaByteCodeTask extends AbstractTask implements BackendTask {
                 );
             }
             if (instruction.getInstType() == InstructionType.BEGINCONSTRUCTOR) {
-                localVarNames.push(new ArrayDeque<>());
+                localVarNames.push(new ArrayList<>());
                 BeginConstructor beginConstructor = (BeginConstructor) instruction;
                 methodNames.add(beginConstructor.getLabel().getSimpleName());
+                String methodDescriptor = "(" + beginConstructor.getParameters() + ")V";
                 methodVisitor = classWriter.visitMethod(
                         toJavaModifier(beginConstructor),
                         "<init>",
-                        "(" + beginConstructor.getParameters() + ")V",
+                        methodDescriptor,
                         null,
                         null
                 );
+                currentMethodDescriptor = methodDescriptor;
+            }
+            if (instruction.getInstType() == InstructionType.LOAD) {
+                Load load = (Load) instruction;
+                if (load.getLoadName().getSimpleName().equals("this")) {
+                    methodVisitor.visitVarInsn(Opcodes.ALOAD, 0);
+                } else {
+                    int index = localVarNames.peek().indexOf(load.getLoadName().getSimpleName());
+                    if (index == -1) {
+                        context.addReport(Errors.symbolNotFound(load.getPosition(), load.getLoadName().getSimpleName()));
+                    }
+                    methodVisitor.visitVarInsn(Opcodes.ALOAD, index);
+                }
+            }
+            if (instruction.getInstType() == InstructionType.INVOKESPECIAL) {
+                InvokeSpecial invokeSpecial = (InvokeSpecial) instruction;
+                methodVisitor.visitMethodInsn(Opcodes.INVOKESPECIAL, invokeSpecial.getOwner(), invokeSpecial.getMethodName(), "(" + invokeSpecial.getParameters() + ")" + invokeSpecial.getReturnType(), false);
+            }
+            if (instruction.getInstType() == InstructionType.RETURN) {
+                Type returnType = Type.getReturnType(currentMethodDescriptor);
+                if (returnType.getSort() == Type.VOID) {
+                    methodVisitor.visitInsn(Opcodes.RETURN);
+                } else if (returnType.getSort() == Type.INT || returnType.getSort() == Type.BYTE || returnType.getSort() == Type.CHAR) {
+                    methodVisitor.visitInsn(Opcodes.IRETURN);
+                } else if (returnType.getSort() == Type.LONG) {
+                    methodVisitor.visitInsn(Opcodes.LRETURN);
+                } else if (returnType.getSort() == Type.FLOAT) {
+                    methodVisitor.visitInsn(Opcodes.FRETURN);
+                } else if (returnType.getSort() == Type.DOUBLE) {
+                    methodVisitor.visitInsn(Opcodes.DRETURN);
+                } else if (returnType.getSort() == Type.BOOLEAN) {
+                    methodVisitor.visitInsn(Opcodes.IRETURN);
+                } else if (returnType.getSort() == Type.OBJECT) {
+                    methodVisitor.visitInsn(Opcodes.ARETURN);
+                } else {
+                    throw new IllegalStateException(String.valueOf(returnType.getSort()));
+                }
             }
             if (instruction.getInstType() == InstructionType.VALDEF) {
                 ValDef valDef = (ValDef) instruction;
@@ -97,8 +137,9 @@ public class GenJavaByteCodeTask extends AbstractTask implements BackendTask {
                 byte[] bytes = classWriter.toByteArray();
                 context.addBytecode(new File(currentClassName + ".class").toPath(), bytes);
             }
-            if (instruction.getInstType() == InstructionType.ENDMETHOD) {
+            if (instruction.getInstType() == InstructionType.ENDMETHOD || instruction.getInstType() == InstructionType.ENDCONSTRUCTOR) {
                 localVarNames.pop();
+                methodVisitor.visitMaxs(0, 0);
                 methodVisitor.visitEnd();
             }
         }

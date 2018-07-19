@@ -40,20 +40,22 @@ class MIRBackendSpec extends Specification {
 
     def "simpleClass1"() {
         setup:
-        def context = runBackend("""class A""")
+        def context = runBackend("""class A
+""")
 
         expect:
         context.getInstructions().toString() == """[       <no-pos>] BeginBlock #
-[       <no-pos>] NameRule Object -> Ljava/lang/Object;
-[       <no-pos>] NameRule String -> Ljava/lang/String;
-[       <no-pos>] NameRule System -> Ljava/lang/System;
-[       <no-pos>] NameRule Integer -> Ljava/lang/Integer;
-[       <no-pos>] NameRule Matcher -> Ljava/util/regex/Matcher;
-[       <no-pos>] NameRule Pattern -> Ljava/util/regex/Pattern;
+[       <no-pos>] TypeNameRewriteRule Array[String] -> [Ljava/lang/String;
+[       <no-pos>] TypeNameRewriteRule System -> java/util/regex/Pattern
+[       <no-pos>] TypeNameRewriteRule Matcher -> java/util/regex/Matcher
+[       <no-pos>] TypeNameRewriteRule Integer -> java/lang/Integer
+[       <no-pos>] TypeNameRewriteRule System -> java/lang/System
+[       <no-pos>] TypeNameRewriteRule String -> java/lang/String
+[       <no-pos>] TypeNameRewriteRule Object -> java/lang/Object
 [       <no-pos>] BeginClass #A
 [       <no-pos>] BeginConstructor #A#<init>():void
 [       <no-pos>] Load this
-[       <no-pos>] InvokeSpecial Ljava/lang/Object#<init>():V
+[       <no-pos>] InvokeSpecial java/lang/Object#<init>():V
 [       <no-pos>] Return
 [       <no-pos>] EndConstructor #A#<init>():void
 [       <no-pos>] EndClass #A

@@ -77,6 +77,18 @@ public interface KaraffeVisitor<T> extends ParseTreeVisitor<T> {
 	 */
 	T visitStatement(KaraffeParser.StatementContext ctx);
 	/**
+	 * Visit a parse tree produced by {@link KaraffeParser#parameterList}.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	T visitParameterList(KaraffeParser.ParameterListContext ctx);
+	/**
+	 * Visit a parse tree produced by {@link KaraffeParser#binding}.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	T visitBinding(KaraffeParser.BindingContext ctx);
+	/**
 	 * Visit a parse tree produced by {@link KaraffeParser#expr}.
 	 * @param ctx the parse tree
 	 * @return the visitor result

@@ -8,8 +8,10 @@ import org.karaffe.compiler.base.tree.Tree;
 import org.karaffe.compiler.base.tree.Trees;
 import org.karaffe.compiler.base.tree.def.Def;
 import org.karaffe.compiler.base.tree.def.Defs;
+import org.karaffe.compiler.base.tree.expr.Binding;
 import org.karaffe.compiler.base.tree.expr.Exprs;
 import org.karaffe.compiler.base.tree.expr.Operators;
+import org.karaffe.compiler.base.tree.expr.Tuple;
 import org.karaffe.compiler.base.tree.term.EmptyTree;
 import org.karaffe.compiler.base.tree.term.Terms;
 import org.karaffe.compiler.base.util.Errors;
@@ -166,7 +168,36 @@ public class CreateASTVisitor extends KaraffeBaseVisitor<Tree> implements Positi
                     ctx.expr().accept(this)
             );
         }
+        if (ctx.methodName != null) {
+            return Defs.methodDef(
+                    Position.ofRange(ctx.start, ctx.stop),
+                    null,
+                    ctx.methodName.getText(),
+                    Terms.typeName(ctx.returnTypeName),
+                    ctx.parameterList() == null ? Exprs.tuple() : (Tuple) ctx.parameterList().accept(this)
+            );
+        }
         throw new IllegalStateException();
+    }
+
+    @Override
+    public Tree visitParameterList(KaraffeParser.ParameterListContext ctx) {
+        Tuple t = Exprs.tuple();
+        if (ctx.b != null) {
+            t.addChild(ctx.b.accept(this));
+        }
+        if (ctx.parameterList() != null) {
+            ctx.parameterList().accept(this).getChildren().forEach(t::addChild);
+        }
+        return t;
+    }
+
+    @Override
+    public Tree visitBinding(KaraffeParser.BindingContext ctx) {
+        Binding b = new Binding(null);
+        b.setName(Terms.varName(ctx.name));
+        b.setTypeName(Terms.typeName(ctx.typeName));
+        return b;
     }
 
     @Override

@@ -15,9 +15,17 @@ public class TypeNameRewriteRule extends AbstractInstruction {
         this.afterName = Objects.requireNonNull(after);
     }
 
+    public String getBeforeName(){
+        return this.beforeName;
+    }
+
+    public String getAfterName() {
+        return afterName;
+    }
+
     @Override
     public InstructionType getInstType() {
-        return InstructionType.NAMERULE;
+        return InstructionType.TYPENAMEREWRITE;
     }
 
     @Override

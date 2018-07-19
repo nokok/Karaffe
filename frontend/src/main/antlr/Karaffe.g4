@@ -48,6 +48,15 @@ statement
   : exprStmt=expr
   | letStmt=LET name=Identifier typeName=Identifier (EQ initializer=expr)?
   | assignTarget=Identifier EQ expr
+  | def=DEF methodName=Identifier LPAREN parameterList? RPAREN returnTypeName=Identifier EQ statement
+  ;
+
+parameterList
+  : b=binding (COMMA parameterList)?
+  ;
+
+binding
+  : name=Identifier typeName=Identifier
   ;
 
 expr
@@ -150,6 +159,7 @@ ELSE: 'else';
 THIS: 'this';
 NEW: 'new';
 LET: 'let';
+DEF: 'def';
 AS: 'as';
 IS: 'is';
 EQEQEQ: '===';

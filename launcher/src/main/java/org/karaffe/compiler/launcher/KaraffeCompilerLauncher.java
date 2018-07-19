@@ -96,6 +96,13 @@ public class KaraffeCompilerLauncher {
         taskRunner.standBy(KaraffeCompilerBackend.getBackend(BackendType.JVM));
         RunnerResult compilerResult = taskRunner.runAll();
 
+        if (context.hasErrorReport()) {
+            for (Report report : context.getReports()) {
+                Platform.stdErr(report);
+            }
+            return -1;
+        }
+
         if (context.getCmdLineOptions().dumpTables) {
             Instructions instructions = context.getInstructions();
         }
@@ -107,12 +114,6 @@ public class KaraffeCompilerLauncher {
         for (Map.Entry<Path, byte[]> entry : context.getBytecodes()) {
             LOGGER.debug("Write to : {}", entry.getKey());
             Files.write(entry.getKey(), entry.getValue());
-        }
-
-        if (context.hasErrorReport()) {
-            for (Report report : context.getReports()) {
-                Platform.stdErr(report);
-            }
         }
 
         return compilerResult == RunnerResult.SUCCESS_ALL ? 0 : -1;

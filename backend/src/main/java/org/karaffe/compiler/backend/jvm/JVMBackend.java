@@ -1,5 +1,6 @@
 package org.karaffe.compiler.backend.jvm;
 
+import org.karaffe.compiler.backend.jvm.tasks.CleanupTask;
 import org.karaffe.compiler.backend.jvm.tasks.DefaultConstructorTask;
 import org.karaffe.compiler.backend.jvm.tasks.GenJavaByteCodeTask;
 import org.karaffe.compiler.backend.jvm.tasks.InsertDefaultImportTask;
@@ -21,6 +22,7 @@ public class JVMBackend extends AbstractTask {
             new InsertDefaultImportTask(),
             new DefaultConstructorTask(),
             new TypeCheckTask(),
+            new CleanupTask(),
             new GenJavaByteCodeTask()));
 
     @Override
