@@ -21,4 +21,9 @@ public class ConstInt extends AbstractInstruction {
     public InstructionType getInstType() {
         return InstructionType.CONSTINT;
     }
+
+    @Override
+    public String toString() {
+        return "Const INTEGER " + value;
+    }
 }

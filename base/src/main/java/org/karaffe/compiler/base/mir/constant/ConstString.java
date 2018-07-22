@@ -20,4 +20,9 @@ public class ConstString extends AbstractInstruction {
     public InstructionType getInstType() {
         return InstructionType.CONSTSTRING;
     }
+
+    @Override
+    public String toString() {
+        return "Const STRING " + value;
+    }
 }

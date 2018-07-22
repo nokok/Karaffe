@@ -1,6 +1,6 @@
 import org.karaffe.compiler.base.mir.block.BeginClass
 import org.karaffe.compiler.base.mir.block.BeginMethod
-import org.karaffe.compiler.base.mir.invoke.InvokeSpecial
+
 import org.karaffe.compiler.base.mir.util.Label
 import spock.lang.Specification
 import spock.lang.Unroll
@@ -38,21 +38,4 @@ class MIRInstructionSpec extends Specification {
         "#A#a():V"                             || "a"          | ""           | "V"
     }
 
-    @Unroll
-    def "InvokeSpecial #label"() {
-        setup:
-        def invokeSpecial = new InvokeSpecial(new Label(label))
-
-        expect:
-        invokeSpecial.owner == owner
-        invokeSpecial.methodName == methodName
-        invokeSpecial.parameters == parameters
-        invokeSpecial.returnType == returnType
-
-        where:
-        label                         || owner              | methodName   | parameters | returnType
-        "owner#methodName(p):void"    || "owner"            | "methodName" | "p"        | "void"
-        "java/lang/Object#<init>():V" || "java/lang/Object" | "<init>"     | ""         | "V"
-
-    }
 }

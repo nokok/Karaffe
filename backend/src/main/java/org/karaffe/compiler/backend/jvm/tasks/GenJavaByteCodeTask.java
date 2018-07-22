@@ -24,7 +24,6 @@ import org.karaffe.compiler.base.mir.block.BeginBlock;
 import org.karaffe.compiler.base.mir.block.BeginClass;
 import org.karaffe.compiler.base.mir.block.BeginConstructor;
 import org.karaffe.compiler.base.mir.block.BeginMethod;
-import org.karaffe.compiler.base.mir.block.EndBlock;
 import org.karaffe.compiler.base.mir.constant.ConstInt;
 import org.karaffe.compiler.base.mir.constant.ConstString;
 import org.karaffe.compiler.base.mir.invoke.Invoke;
@@ -302,11 +301,7 @@ public class GenJavaByteCodeTask extends AbstractTask implements BackendTask {
             }
             break;
             case ENDBLOCK: {
-                EndBlock endBlock = (EndBlock) instruction;
                 localVarNames.pop();
-                if (!blockNames.contains(endBlock.getLabel().getName())) {
-
-                }
             }
             break;
             default:

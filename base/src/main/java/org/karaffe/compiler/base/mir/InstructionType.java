@@ -17,7 +17,6 @@ public enum InstructionType {
     IFJUMPTRUE,
     IMPORT,
     INVOKE,
-    INVOKESPECIAL,
     JUMP,
     JUMPTARGET,
     LOAD,
