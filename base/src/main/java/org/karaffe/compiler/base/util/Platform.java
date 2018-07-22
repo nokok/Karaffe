@@ -17,6 +17,9 @@ public enum Platform {
         if (colorVar == null) {
             colorVar = System.getenv("NO_COLOR");
         }
+        if (Platform.isWindows()) {
+            colorVar = "NO_COLOR";
+        }
         if (colorVar == null) {
             ANSI_RESET = "\u001B[0m";
             ANSI_BOLD = "\u001B[1m";
@@ -60,7 +63,7 @@ public enum Platform {
     private static InputStream stdIn = defaultStdIn;
 
     public static boolean isWindows() {
-        return File.separatorChar == '\\';
+        return "\\".equals(System.getProperty("file.separator"));
     }
 
     public static PrintStream getStdOut() {
