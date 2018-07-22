@@ -17,9 +17,8 @@ class MethodDefSubjectImpl<P> extends DefaultVisitor<P> implements MethodDefSubj
 
     @Override
     public Tree visitMethodDef(MethodDef def, P p) {
-        List<Tree> ret = new ArrayList<>();
-        listeners.forEach(f -> ret.add(f.apply(def, p)));
-        return ret.get(0);
+        listeners.forEach(f -> f.apply(def, p));
+        return def;
     }
 
     @Override

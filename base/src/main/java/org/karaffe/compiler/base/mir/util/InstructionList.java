@@ -33,7 +33,6 @@ public class InstructionList extends ArrayList<Instruction> implements Instructi
         this.methods = new HashMap<>();
         for (int index = 0; index < this.size(); index++) {
             Instruction instruction = this.get(index);
-            LOGGER.trace("Instruction : {}", instruction);
             if (instruction.getInstType() == InstructionType.BEGINCLASS) {
                 beginClass = index;
                 classLabel = ((BeginClass) instruction).getLabel();

@@ -1,6 +1,7 @@
 package org.karaffe.compiler.frontend.karaffe.tasks;
 
 import org.karaffe.compiler.base.CompilerContext;
+import org.karaffe.compiler.base.mir.Import;
 import org.karaffe.compiler.base.mir.Instruction;
 import org.karaffe.compiler.base.mir.Instructions;
 import org.karaffe.compiler.base.mir.block.BeginBlock;
@@ -9,7 +10,8 @@ import org.karaffe.compiler.base.mir.block.BeginMethod;
 import org.karaffe.compiler.base.mir.block.EndBlock;
 import org.karaffe.compiler.base.mir.block.EndClass;
 import org.karaffe.compiler.base.mir.block.EndMethod;
-import org.karaffe.compiler.base.mir.constant.Const;
+import org.karaffe.compiler.base.mir.constant.ConstInt;
+import org.karaffe.compiler.base.mir.constant.ConstString;
 import org.karaffe.compiler.base.mir.invoke.Invoke;
 import org.karaffe.compiler.base.mir.io.Load;
 import org.karaffe.compiler.base.mir.io.Store;
@@ -17,7 +19,6 @@ import org.karaffe.compiler.base.mir.jump.IfJumpFalse;
 import org.karaffe.compiler.base.mir.jump.Jump;
 import org.karaffe.compiler.base.mir.jump.JumpTarget;
 import org.karaffe.compiler.base.mir.jump.Return;
-import org.karaffe.compiler.base.mir.rule.TypeNameRewriteRule;
 import org.karaffe.compiler.base.mir.util.InstructionList;
 import org.karaffe.compiler.base.mir.util.Label;
 import org.karaffe.compiler.base.mir.util.attr.Attribute;
@@ -96,7 +97,7 @@ public class GenMIRTask extends AbstractTask {
         @Override
         public Instructions visitSimpleImportDef(SimpleImport def, Label label) {
             Instructions instructions = new InstructionList();
-            instructions.add(new TypeNameRewriteRule(def.getName().asSimpleName(), "L" + def.getName().asFullName().replaceAll("\\\\.", "/") + ";"));
+            instructions.add(new Import(def.getName()));
             return instructions;
         }
 
@@ -199,8 +200,10 @@ public class GenMIRTask extends AbstractTask {
             Instruction instruction;
             switch (atom.getAtomKind()) {
             case INTEGER:
+                instruction = new ConstInt(atom.getValue());
+                break;
             case STRING:
-                instruction = new Const(atom.getValue(), atom.getAtomKind().name());
+                instruction = new ConstString(atom.getValue());
                 break;
             case IDENTIFIER:
                 instruction = new Load(new Label(label, atom.getValue()));

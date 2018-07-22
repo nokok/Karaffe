@@ -13,6 +13,10 @@ public class JumpTarget extends AbstractInstruction {
         this.targetName = Objects.requireNonNull(targetName);
     }
 
+    public Label getTargetName() {
+        return targetName;
+    }
+
     @Override
     public String toString() {
         return "JumpTarget " + targetName;

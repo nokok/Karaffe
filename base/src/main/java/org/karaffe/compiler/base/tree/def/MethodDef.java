@@ -13,12 +13,19 @@ public class MethodDef extends AbstractDef implements Def {
         super(parent, DefKind.METHOD);
     }
 
+    public Tree getParameters() {
+        return this.getChild(0);
+    }
+
+    public Tree getMethodBody() {
+        return this.getChild(1);
+    }
+
+
     @Override
     public String toString() {
         String mods = String.join(" ", getModifiers().stream().map(Object::toString).collect(Collectors.toList()));
         mods = mods.isEmpty() ? "" : mods + " ";
-
-
         return String.format("%s%s%s%s",
                 mods,
                 getTypeName() + " ",

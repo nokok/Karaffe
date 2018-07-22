@@ -14,6 +14,10 @@ public class EndBlock extends AbstractInstruction {
         this.label = Objects.requireNonNull(label);
     }
 
+    public Label getLabel() {
+        return label;
+    }
+
     @Override
     public InstructionType getInstType() {
         return InstructionType.ENDBLOCK;

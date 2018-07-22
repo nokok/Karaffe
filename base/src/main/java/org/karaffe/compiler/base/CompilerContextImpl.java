@@ -36,8 +36,6 @@ public class CompilerContextImpl implements CompilerContext {
     private String state = "";
     private Tree compilationUnit;
     private boolean hasInvalidCmdLineArg;
-    private Map<String, String> packageFileMap;
-    private Map<String, List<Def>> fileImportMap;
     private List<Report> reports;
     private Map<Path, byte[]> byteCodeMap;
 
@@ -52,8 +50,6 @@ public class CompilerContextImpl implements CompilerContext {
         this.lexers = new HashSet<>(args.length);
         this.contexts = new HashSet<>();
         this.hasInvalidCmdLineArg = false;
-        this.packageFileMap = new HashMap<>();
-        this.fileImportMap = new HashMap<>();
         this.reports = new ArrayList<>();
         this.byteCodeMap = new HashMap<>();
         this.frontendType = FrontendType.KARAFFE;
@@ -146,11 +142,6 @@ public class CompilerContextImpl implements CompilerContext {
     }
 
     @Override
-    public void onPackageFilePair(String packageName, String relativeFilePath) {
-        this.packageFileMap.put(Objects.requireNonNull(packageName), Objects.requireNonNull(relativeFilePath));
-    }
-
-    @Override
     public void printUsage(PrintStream printStream) {
         commandLineOptions.printUsage(printStream);
     }
@@ -169,22 +160,6 @@ public class CompilerContextImpl implements CompilerContext {
     }
 
     @Override
-    public void onFileImportDef(Position position, Def importDef) {
-        if (position.isNoPos()) {
-            return;
-        }
-        List<Def> defs;
-        String sourceName = position.getSourceName();
-        if (this.fileImportMap.containsKey(sourceName)) {
-            defs = this.fileImportMap.get(sourceName);
-        } else {
-            defs = new ArrayList<>();
-        }
-        defs.add(importDef);
-        this.fileImportMap.put(Objects.requireNonNull(sourceName), defs);
-    }
-
-    @Override
     public void setInstructions(Instructions instructions) {
         this.instructions = Objects.requireNonNull(instructions);
     }
@@ -193,16 +168,6 @@ public class CompilerContextImpl implements CompilerContext {
     public Instructions getInstructions() {
         this.instructions.updateInternalCache();
         return this.instructions;
-    }
-
-    @Override
-    public Map<String, List<Def>> getFileImportMap() {
-        return fileImportMap;
-    }
-
-    @Override
-    public Map<String, String> getPackageFileMap() {
-        return packageFileMap;
     }
 
     @Override

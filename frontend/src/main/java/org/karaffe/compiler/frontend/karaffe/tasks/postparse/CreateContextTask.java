@@ -28,26 +28,6 @@ public class CreateContextTask extends AbstractTask implements ReadOnlyTask, Com
 
     @Override
     public TaskResult run(Tree compilationUnit, CompilerContext context) {
-        compilationUnit.accept(new DefaultVisitor<Void>() {
-            @Override
-            public Tree visitPackageDef(PackageDef tree, Void aVoid) {
-                context.onPackageFilePair(tree.getPos().getSourceName(), super.visitPackageDef(tree, aVoid).getName().toString());
-                return tree;
-            }
-
-            @Override
-            public Tree visitSimpleImportDef(SimpleImport tree, Void aVoid) {
-                context.onFileImportDef(tree.getPos(), (Def) super.visitSimpleImportDef(tree, aVoid));
-                return tree;
-            }
-
-            @Override
-            public Tree visitOnDemandImportDef(OnDemandImport tree, Void aVoid) {
-                context.onFileImportDef(tree.getPos(), (Def) super.visitOnDemandImportDef(tree, aVoid));
-                return tree;
-            }
-        }, null);
-
         Scope globalScope = new Scope();
         CreateScopeVisitor visitor = new CreateScopeVisitor();
         compilationUnit.accept(visitor, globalScope);

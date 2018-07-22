@@ -30,4 +30,5 @@ public class BeginClass extends AbstractInstruction {
     public String toString() {
         return "BeginClass " + label;
     }
+
 }

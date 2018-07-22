@@ -13,7 +13,6 @@ import java.util.stream.Stream;
 public interface CompilerContext extends
         SourceFileContainer,
         CommandLineOptionContext,
-        StructuralInfoContainer,
         ReportContainer,
         BytecodeContainer,
         BackendConfiguration,
@@ -34,10 +33,6 @@ public interface CompilerContext extends
     Tree getCompilationUnit();
 
     void setCompilationUnit(Tree compilationUnit);
-
-    void onPackageFilePair(String packageName, String relativeFilePath);
-
-    void onFileImportDef(Position position, Def importDef);
 
     void setInstructions(Instructions instructions);
 

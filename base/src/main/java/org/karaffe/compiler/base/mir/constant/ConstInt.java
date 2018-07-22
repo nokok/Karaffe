@@ -13,6 +13,10 @@ public class ConstInt extends AbstractInstruction {
         this.value = Objects.requireNonNull(value);
     }
 
+    public String getValue() {
+        return value;
+    }
+
     @Override
     public InstructionType getInstType() {
         return InstructionType.CONSTINT;

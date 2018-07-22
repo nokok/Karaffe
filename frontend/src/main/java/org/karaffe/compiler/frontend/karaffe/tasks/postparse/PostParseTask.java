@@ -19,7 +19,6 @@ public class PostParseTask extends AbstractTask implements NoDescriptionTask {
         this.subTask.add(new ImportCheckTask());
         this.subTask.add(new AutoReturnTask());
         this.subTask.add(new NameResolveTask());
-        this.subTask.add(new TypeCheckTask());
     }
 
     @Override

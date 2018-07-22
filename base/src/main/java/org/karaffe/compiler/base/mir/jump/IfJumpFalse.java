@@ -13,6 +13,10 @@ public class IfJumpFalse extends AbstractInstruction {
         this.jumpTarget = Objects.requireNonNull(jumpTarget);
     }
 
+    public Label getJumpTarget() {
+        return jumpTarget;
+    }
+
     @Override
     public String toString() {
         return "IfJumpFalse " + jumpTarget;

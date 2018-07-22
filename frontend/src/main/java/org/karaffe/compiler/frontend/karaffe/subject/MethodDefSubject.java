@@ -1,7 +1,6 @@
 package org.karaffe.compiler.frontend.karaffe.subject;
 
 import org.karaffe.compiler.base.tree.Tree;
-import org.karaffe.compiler.base.tree.TreeVisitor;
 import org.karaffe.compiler.base.tree.def.MethodDef;
 
 import java.util.Objects;
@@ -9,7 +8,7 @@ import java.util.function.BiFunction;
 import java.util.function.Consumer;
 import java.util.function.Function;
 
-public interface MethodDefSubject<P> {
+public interface MethodDefSubject<P> extends ToVisitor<P> {
     void onMethodDef(BiFunction<MethodDef, P, Tree> f);
 
     default void onMethodDef(Function<MethodDef, Tree> f) {
@@ -28,6 +27,4 @@ public interface MethodDefSubject<P> {
     static <P> MethodDefSubject<P> getSubject() {
         return new MethodDefSubjectImpl<>();
     }
-
-    TreeVisitor<Tree, P> asVisitor();
 }

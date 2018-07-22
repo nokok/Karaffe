@@ -1,24 +1,38 @@
 package org.karaffe.compiler.backend.jvm.tasks;
 
+import net.nokok.azm.ClassVisitor;
 import net.nokok.azm.ClassWriter;
+import net.nokok.azm.FieldVisitor;
+import net.nokok.azm.Label;
 import net.nokok.azm.MethodVisitor;
 import net.nokok.azm.Opcodes;
 import net.nokok.azm.Type;
+import net.nokok.azm.signature.SignatureReader;
+import net.nokok.azm.signature.SignatureWriter;
 import org.karaffe.compiler.backend.jvm.attr.ClassAttribute;
 import org.karaffe.compiler.backend.jvm.attr.ConstructorAttribute;
+import org.karaffe.compiler.backend.jvm.attr.FieldAttribute;
 import org.karaffe.compiler.backend.jvm.attr.JavaVMScopeAttribute;
 import org.karaffe.compiler.backend.jvm.attr.MethodAttribute;
 import org.karaffe.compiler.backend.jvm.attr.ReturnOpcodesAttribute;
 import org.karaffe.compiler.backend.jvm.attr.TypedInstructionAttribute;
 import org.karaffe.compiler.base.CompilerContext;
+import org.karaffe.compiler.base.mir.Cast;
 import org.karaffe.compiler.base.mir.Instruction;
-import org.karaffe.compiler.base.mir.InstructionType;
 import org.karaffe.compiler.base.mir.Instructions;
+import org.karaffe.compiler.base.mir.block.BeginBlock;
 import org.karaffe.compiler.base.mir.block.BeginClass;
 import org.karaffe.compiler.base.mir.block.BeginConstructor;
 import org.karaffe.compiler.base.mir.block.BeginMethod;
-import org.karaffe.compiler.base.mir.invoke.InvokeSpecial;
+import org.karaffe.compiler.base.mir.block.EndBlock;
+import org.karaffe.compiler.base.mir.constant.ConstInt;
+import org.karaffe.compiler.base.mir.constant.ConstString;
+import org.karaffe.compiler.base.mir.invoke.Invoke;
 import org.karaffe.compiler.base.mir.io.Load;
+import org.karaffe.compiler.base.mir.io.Store;
+import org.karaffe.compiler.base.mir.jump.IfJumpFalse;
+import org.karaffe.compiler.base.mir.jump.Jump;
+import org.karaffe.compiler.base.mir.jump.JumpTarget;
 import org.karaffe.compiler.base.mir.jump.Return;
 import org.karaffe.compiler.base.mir.util.attr.ModifierAttribute;
 import org.karaffe.compiler.base.mir.util.attr.ParameterAttribute;
@@ -32,9 +46,12 @@ import org.slf4j.LoggerFactory;
 
 import java.io.File;
 import java.lang.reflect.Constructor;
+import java.lang.reflect.Field;
 import java.lang.reflect.Method;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.Stack;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
@@ -49,21 +66,26 @@ public class GenJavaByteCodeTask extends AbstractTask implements BackendTask {
         List<String> classNames = new ArrayList<>();
         List<String> methodNames = new ArrayList<>();
         List<String> blockNames = new ArrayList<>();
+        Map<org.karaffe.compiler.base.mir.util.Label, Label> labelMap = new HashMap<>();
         Stack<List<String>> localVarNames = new Stack<>();
         localVarNames.push(new ArrayList<>());
+        int currentJavaAPI = Opcodes.V1_8;
 
         String currentClassName = "";
+        ClassVisitor classVisitor = null;
         MethodVisitor methodVisitor = null;
+        FieldVisitor fieldVisitor = null;
         for (Instruction instruction : instructions) {
             LOGGER.debug("Instruction : {}", instruction);
-            if (instruction.getInstType() == InstructionType.BEGINCLASS) {
+            switch (instruction.getInstType()) {
+            case BEGINCLASS: {
                 BeginClass b = (BeginClass) instruction;
                 ClassAttribute classAttribute = b.getAttribute(ClassAttribute.class).orElseThrow(IllegalStateException::new);
                 Class<?> classObject = classAttribute.getClassObject();
                 classNames.add(currentClassName);
                 classWriter = new ClassWriter(ClassWriter.COMPUTE_FRAMES);
                 classWriter.visit(
-                        Opcodes.V1_8,
+                        currentJavaAPI,
                         classObject.getModifiers(),
                         b.getClassName(),
                         null,
@@ -71,7 +93,8 @@ public class GenJavaByteCodeTask extends AbstractTask implements BackendTask {
                         (String[]) Stream.of(classObject.getInterfaces()).map(Type::getInternalName).toArray()
                 );
             }
-            if (instruction.getInstType() == InstructionType.BEGINMETHOD) {
+            break;
+            case BEGINMETHOD: {
                 localVarNames.push(new ArrayList<>());
                 BeginMethod beginMethod = (BeginMethod) instruction;
                 MethodAttribute methodAttribute = beginMethod.getAttribute(MethodAttribute.class).orElseThrow(IllegalStateException::new);
@@ -85,7 +108,8 @@ public class GenJavaByteCodeTask extends AbstractTask implements BackendTask {
                         (String[]) Stream.of(method.getExceptionTypes()).map(Type::getInternalName).toArray()
                 );
             }
-            if (instruction.getInstType() == InstructionType.BEGINCONSTRUCTOR) {
+            break;
+            case BEGINCONSTRUCTOR: {
                 localVarNames.push(new ArrayList<>());
                 BeginConstructor beginConstructor = (BeginConstructor) instruction;
                 methodNames.add(beginConstructor.getLabel().getSimpleName());
@@ -100,7 +124,8 @@ public class GenJavaByteCodeTask extends AbstractTask implements BackendTask {
                         (String[]) Stream.of(constructor.getExceptionTypes()).map(Type::getInternalName).toArray()
                 );
             }
-            if (instruction.getInstType() == InstructionType.LOAD) {
+            break;
+            case LOAD: {
                 Load load = (Load) instruction;
                 if (load.getLoadName().getSimpleName().equals("this")) {
                     methodVisitor.visitVarInsn(Opcodes.ALOAD, 0);
@@ -113,45 +138,179 @@ public class GenJavaByteCodeTask extends AbstractTask implements BackendTask {
                     methodVisitor.visitVarInsn(Opcodes.ALOAD, index);
                 }
             }
-            if (instruction.getInstType() == InstructionType.INVOKESPECIAL) {
-                InvokeSpecial invokeSpecial = (InvokeSpecial) instruction;
-                methodVisitor.visitMethodInsn(Opcodes.INVOKESPECIAL, invokeSpecial.getOwner(), invokeSpecial.getMethodName(), "(" + invokeSpecial.getParameters() + ")" + invokeSpecial.getReturnType(), false);
+            break;
+            case INVOKE: {
+                Invoke invoke = (Invoke) instruction;
+                int opcode;
+                String owner;
+                String name;
+                String descriptor;
+                boolean isInterface;
+                if (invoke.hasAttribute(ConstructorAttribute.class)) {
+                    ConstructorAttribute constructorAttribute = invoke.getAttribute(ConstructorAttribute.class).orElseThrow(IllegalStateException::new);
+                    Constructor<?> constructor = constructorAttribute.getConstructor();
+                    opcode = Opcodes.INVOKESPECIAL;
+                    owner = Type.getInternalName(constructor.getDeclaringClass());
+                    name = "<init>";
+                    descriptor = Type.getConstructorDescriptor(constructor);
+                    isInterface = constructor.getDeclaringClass().isInterface();
+                } else if (invoke.hasAttribute(MethodAttribute.class)) {
+                    MethodAttribute methodAttribute = invoke.getAttribute(MethodAttribute.class).orElseThrow(IllegalStateException::new);
+                    Method methodObject = methodAttribute.getMethodObject();
+                    if (methodObject.isAccessible()) {
+                        opcode = Opcodes.INVOKEVIRTUAL;
+                    } else {
+                        //private method
+                        opcode = Opcodes.INVOKESPECIAL;
+                    }
+                    owner = Type.getInternalName(methodObject.getDeclaringClass());
+                    name = methodObject.getName();
+                    descriptor = Type.getMethodDescriptor(methodObject);
+                    isInterface = methodObject.getDeclaringClass().isInterface();
+                } else {
+                    throw new IllegalStateException();
+                }
+                methodVisitor.visitMethodInsn(
+                        opcode,
+                        owner,
+                        name,
+                        descriptor,
+                        isInterface
+                );
             }
-            if (instruction.getInstType() == InstructionType.RETURN) {
+            break;
+            case RETURN: {
                 Return returnInstruction = (Return) instruction;
                 ReturnOpcodesAttribute returnOpcodesAttribute = returnInstruction.getAttribute(ReturnOpcodesAttribute.class).orElseThrow(IllegalStateException::new);
                 methodVisitor.visitInsn(returnOpcodesAttribute.getOpcodes());
             }
-            if (instruction.getInstType() == InstructionType.VALDEF) {
+            break;
+            case VALDEF: {
                 ValDef valDef = (ValDef) instruction;
                 localVarNames.peek().add(valDef.getValName().getSimpleName());
 
-                TypedInstructionAttribute typedInstructionAttribute = valDef.getAttribute(TypedInstructionAttribute.class).orElseThrow(IllegalStateException::new);
-                JavaVMScopeAttribute javaVMScopeAttribute = valDef.getAttribute(JavaVMScopeAttribute.class).orElseThrow(IllegalStateException::new);
+                if (valDef.hasAttribute(FieldAttribute.class)) {
+                    // field
+                    FieldAttribute fieldAttribute = valDef.getAttribute(FieldAttribute.class).orElseThrow(IllegalStateException::new);
+                    Field fieldObject = fieldAttribute.getFieldObject();
+                    java.lang.reflect.Type genericType = fieldObject.getGenericType();
 
-                Class<?> valDefType = typedInstructionAttribute.getTypedInfo();
+                    SignatureReader reader = new SignatureReader(genericType.getTypeName());
+                    SignatureWriter visitor = new SignatureWriter();
+                    reader.accept(visitor);
 
-                if (valDef.hasAttribute(ParameterAttribute.class)) {
-                    methodVisitor.visitParameter(valDef.getValName().getSimpleName(), toJavaModifier(valDef));
+                    fieldVisitor = classVisitor.visitField(
+                            fieldObject.getModifiers(),
+                            fieldObject.getName(),
+                            Type.getDescriptor(fieldObject.getType()),
+                            visitor.toString(),
+                            null
+                    );
                 } else {
-                    methodVisitor.visitLocalVariable(
-                            valDef.getValName().getSimpleName(),
-                            Type.getInternalName(valDefType),
-                            null,
-                            javaVMScopeAttribute.getBegin(),
-                            javaVMScopeAttribute.getEnd(),
-                            localVarNames.peek().size() - 1);
+                    // local
+                    TypedInstructionAttribute typedInstructionAttribute = valDef.getAttribute(TypedInstructionAttribute.class).orElseThrow(IllegalStateException::new);
+                    JavaVMScopeAttribute javaVMScopeAttribute = valDef.getAttribute(JavaVMScopeAttribute.class).orElseThrow(IllegalStateException::new);
+
+                    Class<?> valDefType = typedInstructionAttribute.getTypedInfo();
+
+                    if (valDef.hasAttribute(ParameterAttribute.class)) {
+                        methodVisitor.visitParameter(valDef.getValName().getSimpleName(), toJavaModifier(valDef));
+                    } else {
+                        methodVisitor.visitLocalVariable(
+                                valDef.getValName().getSimpleName(),
+                                Type.getInternalName(valDefType),
+                                null,
+                                javaVMScopeAttribute.getBegin(),
+                                javaVMScopeAttribute.getEnd(),
+                                localVarNames.peek().size() - 1);
+                    }
                 }
             }
-            if (instruction.getInstType() == InstructionType.ENDCLASS) {
+            break;
+            case CONSTINT: {
+                ConstInt i = (ConstInt) instruction;
+                String value = i.getValue();
+                int val = Integer.parseInt(value);
+                if (Byte.MIN_VALUE < val && val <= Byte.MAX_VALUE) {
+                    methodVisitor.visitIntInsn(Opcodes.BIPUSH, val);
+                } else if (Short.MIN_VALUE < val && val <= Byte.MAX_VALUE) {
+                    methodVisitor.visitIntInsn(Opcodes.SIPUSH, val);
+                } else {
+                    methodVisitor.visitLdcInsn(val);
+                }
+            }
+            break;
+            case CONSTSTRING: {
+                ConstString s = (ConstString) instruction;
+                methodVisitor.visitLdcInsn(s.getValue());
+            }
+            break;
+            case ENDCLASS: {
                 classWriter.visitEnd();
                 byte[] bytes = classWriter.toByteArray();
                 context.addBytecode(new File(currentClassName + ".class").toPath(), bytes);
             }
-            if (instruction.getInstType() == InstructionType.ENDMETHOD || instruction.getInstType() == InstructionType.ENDCONSTRUCTOR) {
+            break;
+            case ENDMETHOD:
+            case ENDCONSTRUCTOR: {
                 localVarNames.pop();
                 methodVisitor.visitMaxs(0, 0);
                 methodVisitor.visitEnd();
+            }
+            break;
+            case CAST: {
+                Cast cast = (Cast) instruction;
+                ClassAttribute classAttribute = cast.getAttribute(ClassAttribute.class).orElseThrow(IllegalStateException::new);
+                methodVisitor.visitTypeInsn(Opcodes.CHECKCAST, Type.getInternalName(classAttribute.getClassObject()));
+            }
+            break;
+            case JUMPTARGET: {
+                JumpTarget jumpTarget = (JumpTarget) instruction;
+                Label l = new Label();
+                labelMap.put(jumpTarget.getTargetName(), l);
+                methodVisitor.visitLabel(l);
+            }
+            break;
+            case JUMP: {
+                Jump jump = (Jump) instruction;
+                Label l = labelMap.get(jump.getLabel());
+                methodVisitor.visitJumpInsn(Opcodes.GOTO, l);
+            }
+            break;
+            case STORE: {
+                Store store = (Store) instruction;
+                localVarNames.peek().add(store.getStoreName().getSimpleName());
+                methodVisitor.visitVarInsn(Opcodes.ASTORE, localVarNames.size() - 1);
+            }
+            break;
+            case IFJUMPFALSE: {
+                IfJumpFalse ifJumpFalse = (IfJumpFalse) instruction;
+                Label label = labelMap.get(ifJumpFalse.getJumpTarget());
+                methodVisitor.visitJumpInsn(Opcodes.IFEQ, label);
+            }
+            break;
+            case IFJUMPTRUE: {
+                IfJumpFalse ifJumpFalse = (IfJumpFalse) instruction;
+                Label label = labelMap.get(ifJumpFalse.getJumpTarget());
+                methodVisitor.visitJumpInsn(Opcodes.IFNE, label);
+            }
+            break;
+            case BEGINBLOCK: {
+                BeginBlock beginBlock = (BeginBlock) instruction;
+                localVarNames.push(new ArrayList<>());
+                blockNames.add(beginBlock.getLabel().getName());
+            }
+            break;
+            case ENDBLOCK: {
+                EndBlock endBlock = (EndBlock) instruction;
+                localVarNames.pop();
+                if (!blockNames.contains(endBlock.getLabel().getName())) {
+
+                }
+            }
+            break;
+            default:
+                LOGGER.debug("Ignored instruction : {}", instruction);
             }
         }
         return TaskResult.SUCCESSFUL;

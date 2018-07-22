@@ -7,7 +7,7 @@ import org.karaffe.compiler.base.mir.Instructions;
 import org.karaffe.compiler.base.mir.block.BeginClass;
 import org.karaffe.compiler.base.mir.block.BeginConstructor;
 import org.karaffe.compiler.base.mir.block.EndConstructor;
-import org.karaffe.compiler.base.mir.invoke.InvokeSpecial;
+import org.karaffe.compiler.base.mir.invoke.Invoke;
 import org.karaffe.compiler.base.mir.io.Load;
 import org.karaffe.compiler.base.mir.jump.Return;
 import org.karaffe.compiler.base.mir.util.InstructionList;
@@ -50,11 +50,15 @@ public class DefaultConstructorTask extends AbstractTask implements BackendTask 
                     Instructions ctor = new InstructionList();
                     Label ctorLabel = new Label(parentClass, "<init>():void");
                     BeginConstructor beginConstructor = new BeginConstructor(ctorLabel);
+                    Load loadThis = new Load(new Label("this"));
+                    Invoke invokeCtor = new Invoke("super#<init>");
+                    Return returnVoid = new Return();
+                    EndConstructor endConstructor = new EndConstructor(ctorLabel);
                     ctor.add(beginConstructor);
-                    ctor.add(new Load(new Label("this")));
-                    ctor.add(new InvokeSpecial(new Label("java/lang/Object#<init>():V")));
-                    ctor.add(new Return());
-                    ctor.add(new EndConstructor(ctorLabel));
+                    ctor.add(loadThis);
+                    ctor.add(invokeCtor);
+                    ctor.add(returnVoid);
+                    ctor.add(endConstructor);
                     dest.addAll(insertIndex, ctor);
                 }
             }
