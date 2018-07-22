@@ -7,7 +7,6 @@ import org.karaffe.compiler.base.mir.Instructions;
 import org.karaffe.compiler.base.mir.util.InstructionList;
 import org.karaffe.compiler.base.task.AbstractTask;
 import org.karaffe.compiler.base.task.BackendTask;
-import org.karaffe.compiler.base.task.NoDescriptionTask;
 import org.karaffe.compiler.base.task.TaskResult;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -16,7 +15,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
-public class TypeCheckTask extends AbstractTask implements BackendTask, NoDescriptionTask {
+public class TypeCheckTask extends AbstractTask implements BackendTask {
 
     private static final Logger LOGGER = LoggerFactory.getLogger(TypeCheckTask.class);
 
@@ -26,7 +25,12 @@ public class TypeCheckTask extends AbstractTask implements BackendTask, NoDescri
 
     @Override
     public String name() {
-        return "jvm-backend-typechecker";
+        return "backend-jvm-typechecker";
+    }
+
+    @Override
+    public String description() {
+        return "Check the type of MIR";
     }
 
     @Override

@@ -15,7 +15,9 @@ public interface CompilerContext extends
         CommandLineOptionContext,
         StructuralInfoContainer,
         ReportContainer,
-        BytecodeContainer {
+        BytecodeContainer,
+        BackendConfiguration,
+        FrontendConfiguration {
 
     String getState();
 

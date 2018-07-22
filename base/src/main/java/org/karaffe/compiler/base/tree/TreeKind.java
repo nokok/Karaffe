@@ -19,5 +19,6 @@ public enum TreeKind {
     IFEXPR,
     WHILEEXPR,
     CAST,
-    BINDING;
+    BINDING,
+    RETURN;
 }

@@ -51,8 +51,11 @@ public class Options {
     @Option(name = "--use-default-antlr-listener", hidden = true, handler = MyBooleanOptionHandler.class)
     public boolean useDefaultANTLRListener = false;
 
-    @Option(name = "--target", hidden = true)
-    public String targetName = "jvm";
+    @Option(name = "--backend", hidden = true)
+    public String backendName = "jvm";
+
+    @Option(name = "--frontend", hidden = true)
+    public String frontendName = "karaffe";
 
     @Argument
     public List<String> arguments = new ArrayList<>();
@@ -72,7 +75,7 @@ public class Options {
                 ", showLastTree=" + showLastTree +
                 ", skipPackageCheck=" + skipPackageCheck +
                 ", useDefaultANTLRListener=" + useDefaultANTLRListener +
-                ", targetName=" + targetName +
+                ", backendName=" + backendName +
                 ", arguments=" + arguments +
                 '}';
     }

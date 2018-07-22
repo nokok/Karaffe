@@ -2,6 +2,7 @@ package org.karaffe.compiler.base.task;
 
 import org.karaffe.compiler.base.CompilerContext;
 
+import java.util.Set;
 import java.util.function.Supplier;
 
 public interface TaskRunner {
@@ -63,4 +64,9 @@ public interface TaskRunner {
      * 残っているタスクをすべてクリアします
      */
     void clear();
+
+    /**
+     * 現在このタスクランナーが持っているタスクを取得します
+     */
+    Set<Task> getTasks();
 }

@@ -95,4 +95,11 @@ public enum Platform {
         stdErr.println(msg);
     }
 
+    public static void print(Object object) {
+        Platform.stdOut.print(object);
+    }
+
+    public static void println(Object object) {
+        Platform.stdOut.println(object);
+    }
 }

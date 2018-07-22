@@ -1,29 +1,15 @@
-import org.karaffe.compiler.base.CompilerContext
-import org.karaffe.compiler.base.CompilerContextImpl
+import org.karaffe.compiler.base.mir.Instruction
 import org.karaffe.compiler.base.mir.Instructions
-import org.karaffe.compiler.base.task.Task
-import org.karaffe.compiler.base.task.TaskResult
-import org.karaffe.compiler.base.util.SourceFile
-import org.karaffe.compiler.frontend.karaffe.FrontendType
-import org.karaffe.compiler.frontend.karaffe.KaraffeCompilerFrontend
+import org.karaffe.compiler.base.mir.block.BeginMethod
 import spock.lang.Specification
+import util.FrontendUtil
 
 class MIRSpec extends Specification {
 
-    private Instructions parseAndGenerateInstructions(String source) {
-        Task frontend = KaraffeCompilerFrontend.getFrontend(FrontendType.KARAFFE)
-        CompilerContext context = new CompilerContextImpl()
-        context.addSourceFile(SourceFile.fromLiteral(source))
-        def result = frontend.run(context)
-        if (result != TaskResult.SUCCESSFUL) {
-            throw new RuntimeException()
-        }
-        return context.getInstructions()
-    }
 
     def "simpleClass"() {
         setup:
-        def instructions = parseAndGenerateInstructions("""class A {
+        def instructions = FrontendUtil.parseAndGenerateInstructions("""class A {
   main {
 
   }
@@ -37,6 +23,7 @@ println(a + b)""")
 [       <no-pos>] BeginClass #A
 [        2:2~4:2] [public, static] BeginMethod #A#main(Array[String]):void
 [       <no-pos>] [ParameterName] ValDef #A#main(Array[String]):void#args Array[String]
+[       <no-pos>] Return
 [       <no-pos>] EndMethod #A#main(Array[String]):void
 [       <no-pos>] EndClass #A
 [       6:0~6:16] ValDef #a Int
@@ -60,7 +47,7 @@ println(a + b)""")
 
     def "mainMethod"() {
         setup:
-        def instructions = parseAndGenerateInstructions(
+        def instructions = FrontendUtil.parseAndGenerateInstructions(
                 """|class Main {
                    |  main {
                    |  }
@@ -71,6 +58,7 @@ println(a + b)""")
 [       <no-pos>] BeginClass #Main
 [        2:2~3:2] [public, static] BeginMethod #Main#main(Array[String]):void
 [       <no-pos>] [ParameterName] ValDef #Main#main(Array[String]):void#args Array[String]
+[       <no-pos>] Return
 [       <no-pos>] EndMethod #Main#main(Array[String]):void
 [       <no-pos>] EndClass #Main
 [       <no-pos>] EndBlock #"""
@@ -78,7 +66,7 @@ println(a + b)""")
 
     def "block"() {
         setup:
-        def instructions = parseAndGenerateInstructions(
+        def instructions = FrontendUtil.parseAndGenerateInstructions(
                 """{}""".stripMargin())
 
         expect:
@@ -90,7 +78,7 @@ println(a + b)""")
 
     def "apply without args"() {
         setup:
-        def instructions = parseAndGenerateInstructions(
+        def instructions = FrontendUtil.parseAndGenerateInstructions(
                 """doSomething()""".stripMargin())
 
         expect:
@@ -101,7 +89,7 @@ println(a + b)""")
 
     def "apply with arg"() {
         setup:
-        def instructions = parseAndGenerateInstructions(
+        def instructions = FrontendUtil.parseAndGenerateInstructions(
                 """doSomething(123)""".stripMargin())
 
         expect:
@@ -113,7 +101,7 @@ println(a + b)""")
 
     def "compareExpr"() {
         setup:
-        def instructions = parseAndGenerateInstructions(
+        def instructions = FrontendUtil.parseAndGenerateInstructions(
                 """a < b
 a <= b
 a >= b
@@ -142,7 +130,7 @@ a == b""".stripMargin())
 
     def "simpleIfExpr"() {
         setup:
-        def instructions = parseAndGenerateInstructions(
+        def instructions = FrontendUtil.parseAndGenerateInstructions(
                 """if(a < b) { 1 } else { 2 }""".stripMargin())
 
         expect:
@@ -165,7 +153,7 @@ a == b""".stripMargin())
 
     def "simpleWhileExpr"() {
         setup:
-        def instructions = parseAndGenerateInstructions(
+        def instructions = FrontendUtil.parseAndGenerateInstructions(
                 """while(true) { 1 } 2""".stripMargin())
 
         expect:
@@ -184,7 +172,7 @@ a == b""".stripMargin())
 
     def "fieldDef"() {
         setup:
-        def instructions = parseAndGenerateInstructions(
+        def instructions = FrontendUtil.parseAndGenerateInstructions(
                 """class Main {
 let a Int = 0
 }""".stripMargin())
@@ -197,6 +185,28 @@ let a Int = 0
 [            2:4] Store #Main#a
 [       <no-pos>] EndClass #Main
 [       <no-pos>] EndBlock #"""
+    }
+
+    def "simpleMethod"() {
+        setup:
+        def instructions = FrontendUtil.parseAndGenerateInstructions("""
+class A {
+  def doSomething() void = 1
+}
+""")
+        expect:
+        instructions.toString() == """[       <no-pos>] BeginBlock #
+[       <no-pos>] BeginClass #A
+[       3:2~3:27] BeginMethod #A#doSomething():void
+[       <no-pos>] Return
+[       <no-pos>] EndMethod #A#doSomething():void
+[       <no-pos>] EndClass #A
+[       <no-pos>] EndBlock #"""
+
+        BeginMethod beginMethod = instructions.get(2)
+        beginMethod.returnTypeName == "void"
+        beginMethod.parameters == ""
+        beginMethod.methodName == "doSomething"
     }
 
 }

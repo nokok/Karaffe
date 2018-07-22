@@ -27,6 +27,8 @@ import java.util.stream.Stream;
 public class CompilerContextImpl implements CompilerContext {
 
     private final CommandLineOptions commandLineOptions;
+    private BackendType backendType;
+    private FrontendType frontendType;
     private Instructions instructions;
     private final Set<SourceFile> sourceFiles;
     private final Set<Lexer> lexers;
@@ -54,6 +56,8 @@ public class CompilerContextImpl implements CompilerContext {
         this.fileImportMap = new HashMap<>();
         this.reports = new ArrayList<>();
         this.byteCodeMap = new HashMap<>();
+        this.frontendType = FrontendType.KARAFFE;
+        this.backendType = BackendType.JVM;
     }
 
     @Override
@@ -219,5 +223,25 @@ public class CompilerContextImpl implements CompilerContext {
     @Override
     public Set<Map.Entry<Path, byte[]>> getBytecodes() {
         return this.byteCodeMap.entrySet();
+    }
+
+    @Override
+    public BackendType getTargetBackendType() {
+        return this.backendType;
+    }
+
+    @Override
+    public void setTargetBackendType(BackendType backendType) {
+        this.backendType = Objects.requireNonNull(backendType);
+    }
+
+    @Override
+    public FrontendType getFrontendType() {
+        return this.frontendType;
+    }
+
+    @Override
+    public void setFrontendType(FrontendType frontendType) {
+        this.frontendType = Objects.requireNonNull(frontendType);
     }
 }

@@ -18,6 +18,7 @@ import org.karaffe.compiler.base.tree.expr.Select;
 import org.karaffe.compiler.base.tree.expr.Tuple;
 import org.karaffe.compiler.base.tree.expr.WhileExpr;
 import org.karaffe.compiler.base.tree.modifier.Modifier;
+import org.karaffe.compiler.base.tree.stmt.ReturnStatement;
 import org.karaffe.compiler.base.tree.term.EmptyTree;
 import org.karaffe.compiler.base.tree.term.Path;
 import org.slf4j.Logger;
@@ -198,6 +199,12 @@ public class TreeVisitorAdapter<R, P> implements TreeVisitor<R, P> {
     @Override
     public R visitBinding(Binding binding, P p) {
         LOGGER.trace("visitBinding", binding);
+        return null;
+    }
+
+    @Override
+    public R visitReturn(ReturnStatement returnStatement, P p) {
+        LOGGER.trace("visitReturn", returnStatement);
         return null;
     }
 

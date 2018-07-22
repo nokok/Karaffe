@@ -41,7 +41,7 @@ public class RenameTypeTask extends AbstractTask implements BackendTask {
 
     @Override
     public String name() {
-        return "jvm-backend-renametype";
+        return "backend-jvm-renametype";
     }
 
     @Override

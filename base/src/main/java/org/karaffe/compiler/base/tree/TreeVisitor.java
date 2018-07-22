@@ -18,6 +18,7 @@ import org.karaffe.compiler.base.tree.expr.Select;
 import org.karaffe.compiler.base.tree.expr.Tuple;
 import org.karaffe.compiler.base.tree.expr.WhileExpr;
 import org.karaffe.compiler.base.tree.modifier.Modifier;
+import org.karaffe.compiler.base.tree.stmt.ReturnStatement;
 import org.karaffe.compiler.base.tree.term.EmptyTree;
 import org.karaffe.compiler.base.tree.term.NestedPath;
 import org.karaffe.compiler.base.tree.term.Path;
@@ -67,6 +68,8 @@ public interface TreeVisitor<R, P> {
     R visitCast(Cast cast, P p);
 
     R visitBinding(Binding binding, P p);
+
+    R visitReturn(ReturnStatement returnStatement, P p);
 
     default Path visitOperator(Operator operator, P p) {
         return operator;

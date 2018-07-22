@@ -10,6 +10,10 @@ import java.util.Objects;
 import java.util.stream.Collectors;
 
 public interface Tree extends LocatableElement, NameableElement, ModifiableElement, TypedElement, NodeOperator {
+    default <R> R accept(TreeVisitor<R, ?> visitor) {
+        return this.accept(visitor, null);
+    }
+
     <R, P> R accept(TreeVisitor<R, P> visitor, P p);
 
     default <R, P> List<R> acceptChildren(long skip, TreeVisitor<R, P> visitor, P p) {

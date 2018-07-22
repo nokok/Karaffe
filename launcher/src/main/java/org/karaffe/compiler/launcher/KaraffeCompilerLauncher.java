@@ -1,6 +1,5 @@
 package org.karaffe.compiler.launcher;
 
-import org.karaffe.compiler.backend.jvm.BackendType;
 import org.karaffe.compiler.backend.jvm.KaraffeCompilerBackend;
 import org.karaffe.compiler.base.CompilerContext;
 import org.karaffe.compiler.base.CompilerContextImpl;
@@ -10,7 +9,7 @@ import org.karaffe.compiler.base.task.RunnerResult;
 import org.karaffe.compiler.base.task.Task;
 import org.karaffe.compiler.base.task.TaskRunner;
 import org.karaffe.compiler.base.util.Platform;
-import org.karaffe.compiler.frontend.karaffe.FrontendType;
+import org.karaffe.compiler.base.util.TaskListPrinter;
 import org.karaffe.compiler.frontend.karaffe.KaraffeCompilerFrontend;
 import org.karaffe.compiler.frontend.karaffe.tasks.ConfigureLogLevelTask;
 import org.karaffe.compiler.frontend.karaffe.tasks.options.CommandLineOptionsSubTask;
@@ -19,6 +18,7 @@ import org.karaffe.compiler.frontend.karaffe.tasks.preconditions.CheckCompilerPr
 import org.karaffe.compiler.launcher.tasks.ShowDiagnosticInfoTask;
 import org.karaffe.compiler.launcher.tasks.ShowUsageTask;
 import org.karaffe.compiler.launcher.tasks.ShowVersionTask;
+import org.karaffe.compiler.transform.KaraffeTransformer;
 import org.slf4j.LoggerFactory;
 
 import java.io.InputStream;
@@ -92,8 +92,15 @@ public class KaraffeCompilerLauncher {
         LOGGER.debug("PreExectask executed");
         taskRunner.clear();
 
-        taskRunner.standBy(KaraffeCompilerFrontend.getFrontend(FrontendType.KARAFFE));
-        taskRunner.standBy(KaraffeCompilerBackend.getBackend(BackendType.JVM));
+        taskRunner.standBy(KaraffeCompilerFrontend.getFrontend(context));
+        taskRunner.standBy(KaraffeTransformer.getTransformer(context));
+        taskRunner.standBy(KaraffeCompilerBackend.getBackend(context));
+
+        if (context.getCmdLineOptions().showTasks) {
+            TaskListPrinter printer = new TaskListPrinter();
+            Platform.print(printer.format(context, taskRunner.getTasks()));
+        }
+
         RunnerResult compilerResult = taskRunner.runAll();
 
         if (context.hasErrorReport()) {
@@ -101,10 +108,6 @@ public class KaraffeCompilerLauncher {
                 Platform.stdErr(report);
             }
             return -1;
-        }
-
-        if (context.getCmdLineOptions().dumpTables) {
-            Instructions instructions = context.getInstructions();
         }
 
         if (context.getCmdLineOptions().dumpMIR) {

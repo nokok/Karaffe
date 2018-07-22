@@ -65,7 +65,7 @@ public class DefaultConstructorTask extends AbstractTask implements BackendTask 
 
     @Override
     public String name() {
-        return "jvm-backend-defaultctor";
+        return "backend-jvm-defaultctor";
     }
 
     @Override

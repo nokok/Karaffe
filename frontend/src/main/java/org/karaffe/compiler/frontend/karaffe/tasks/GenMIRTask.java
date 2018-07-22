@@ -16,16 +16,16 @@ import org.karaffe.compiler.base.mir.io.Store;
 import org.karaffe.compiler.base.mir.jump.IfJumpFalse;
 import org.karaffe.compiler.base.mir.jump.Jump;
 import org.karaffe.compiler.base.mir.jump.JumpTarget;
+import org.karaffe.compiler.base.mir.jump.Return;
 import org.karaffe.compiler.base.mir.rule.TypeNameRewriteRule;
 import org.karaffe.compiler.base.mir.util.InstructionList;
 import org.karaffe.compiler.base.mir.util.Label;
 import org.karaffe.compiler.base.mir.util.attr.Attribute;
-import org.karaffe.compiler.base.mir.util.attr.MethodInvocationAttribute;
+import org.karaffe.compiler.base.mir.util.attr.InvokingSetAttribute;
 import org.karaffe.compiler.base.mir.util.attr.ModifierAttribute;
 import org.karaffe.compiler.base.mir.util.attr.ParameterAttribute;
 import org.karaffe.compiler.base.mir.variable.ValDef;
 import org.karaffe.compiler.base.task.AbstractTask;
-import org.karaffe.compiler.base.task.NoDescriptionTask;
 import org.karaffe.compiler.base.task.TaskResult;
 import org.karaffe.compiler.base.tree.Tree;
 import org.karaffe.compiler.base.tree.TreeVisitorAdapter;
@@ -43,6 +43,7 @@ import org.karaffe.compiler.base.tree.expr.IfExpr;
 import org.karaffe.compiler.base.tree.expr.Tuple;
 import org.karaffe.compiler.base.tree.expr.WhileExpr;
 import org.karaffe.compiler.base.tree.modifier.Modifier;
+import org.karaffe.compiler.base.tree.stmt.ReturnStatement;
 import org.karaffe.compiler.base.tree.term.EmptyTree;
 import org.karaffe.compiler.base.tree.term.Path;
 import org.slf4j.Logger;
@@ -52,11 +53,16 @@ import java.util.List;
 import java.util.Objects;
 import java.util.stream.Collectors;
 
-public class GenMIRTask extends AbstractTask implements NoDescriptionTask {
+public class GenMIRTask extends AbstractTask {
 
     @Override
     public String name() {
         return "frontend-karaffe-mir";
+    }
+
+    @Override
+    public String description() {
+        return "Generate MIR";
     }
 
     @Override
@@ -174,7 +180,7 @@ public class GenMIRTask extends AbstractTask implements NoDescriptionTask {
             Invoke invoke = new Invoke(apply.getName().toString());
             invoke.setPosition(apply.getPos());
             instructions.add(invoke);
-            Attribute methodInvocation = new MethodInvocationAttribute(seq++);
+            Attribute methodInvocation = new InvokingSetAttribute(seq++);
             instructions.forEach(i -> i.addAttribute(methodInvocation));
             return instructions;
         }
@@ -287,6 +293,20 @@ public class GenMIRTask extends AbstractTask implements NoDescriptionTask {
             simpleDef.accept(this, l).forEach(instructions::add);
             simpleDef.acceptChildren(this, l).forEach(instructions::addAll);
             instructions.add(s);
+            return instructions;
+        }
+
+        @Override
+        public Instructions visitReturn(ReturnStatement returnStatement, Label label) {
+            Instructions instructions = new InstructionList();
+            returnStatement.acceptChildren(this, label).forEach(instructions::addAll);
+            Return ret = new Return();
+            if (instructions.size() > 0) {
+                Attribute attribute = new InvokingSetAttribute(seq++);
+                instructions.forEach(i -> i.addAttribute(attribute));
+                ret.addAttribute(attribute);
+            }
+            instructions.add(ret);
             return instructions;
         }
 

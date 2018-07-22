@@ -18,7 +18,7 @@ public class GenASTTask extends AbstractTask {
 
     @Override
     public String description() {
-        return "generate AST from ParserContext";
+        return "Generate AST from ParserContext";
     }
 
     @Override

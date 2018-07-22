@@ -2,10 +2,10 @@ package org.karaffe.compiler.base.mir.util.attr;
 
 import org.karaffe.compiler.base.mir.util.Label;
 
-public class MethodInvocationAttribute extends Attribute {
+public class InvokingSetAttribute extends Attribute {
     private Label methodInvocation;
 
-    public MethodInvocationAttribute(long index) {
+    public InvokingSetAttribute(long index) {
         this.methodInvocation = new Label("InvokingSet#" + index);
     }
 

@@ -27,12 +27,12 @@ public class JVMBackend extends AbstractTask {
 
     @Override
     public String name() {
-        return "jvm-backend";
+        return "backend-jvm";
     }
 
     @Override
     public String description() {
-        return "Backend implementation for Java VM";
+        return "Backend implementation for Java VM(JDK 8)";
     }
 
     @Override

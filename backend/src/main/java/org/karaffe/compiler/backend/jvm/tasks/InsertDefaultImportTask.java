@@ -6,7 +6,6 @@ import org.karaffe.compiler.base.mir.Instructions;
 import org.karaffe.compiler.base.mir.rule.TypeNameRewriteRule;
 import org.karaffe.compiler.base.task.AbstractTask;
 import org.karaffe.compiler.base.task.BackendTask;
-import org.karaffe.compiler.base.task.NoDescriptionTask;
 import org.karaffe.compiler.base.task.TaskResult;
 
 import java.io.Reader;
@@ -21,7 +20,7 @@ import java.util.function.Function;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
-public class InsertDefaultImportTask extends AbstractTask implements NoDescriptionTask, BackendTask {
+public class InsertDefaultImportTask extends AbstractTask implements BackendTask {
 
     private static final List<String> defaultImportPackages;
     private static final List<String> defaultImportClasses;
@@ -57,6 +56,11 @@ public class InsertDefaultImportTask extends AbstractTask implements NoDescripti
     @Override
     public String name() {
         return "backend-jvm-defaultimport";
+    }
+
+    @Override
+    public String description() {
+        return "Insert Default import(s) and built-in function";
     }
 
     @Override

@@ -8,6 +8,8 @@ import java.util.function.Function;
 
 class InstructionTransformerBuilderImpl implements InstructionTransformerBuilder {
 
+    private TransformerConfig config = new TransformerConfig();
+
     @Override
     public InstructionTransformerBuilder toEnd() {
         return this;
@@ -20,11 +22,12 @@ class InstructionTransformerBuilderImpl implements InstructionTransformerBuilder
 
     @Override
     public InstructionTransformerBuilder onRemove(InstructionType type) {
+        config.addRemoveInstructionRule(type);
         return this;
     }
 
     @Override
     public InstructionTransformer build() {
-        return new InstructionTransformerImpl();
+        return new InstructionTransformerImpl(config);
     }
 }

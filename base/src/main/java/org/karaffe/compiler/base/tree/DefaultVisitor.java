@@ -18,13 +18,13 @@ import org.karaffe.compiler.base.tree.expr.Select;
 import org.karaffe.compiler.base.tree.expr.Tuple;
 import org.karaffe.compiler.base.tree.expr.WhileExpr;
 import org.karaffe.compiler.base.tree.modifier.Modifier;
+import org.karaffe.compiler.base.tree.stmt.ReturnStatement;
 import org.karaffe.compiler.base.tree.term.EmptyTree;
 import org.karaffe.compiler.base.tree.term.Path;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.util.List;
-import java.util.Objects;
 import java.util.stream.Collectors;
 
 public class DefaultVisitor<P> implements TreeVisitor<Tree, P> {
@@ -163,6 +163,11 @@ public class DefaultVisitor<P> implements TreeVisitor<Tree, P> {
 
     @Override
     public Tree visitBinding(Binding tree, P p) {
+        return visitTree(tree, p);
+    }
+
+    @Override
+    public Tree visitReturn(ReturnStatement tree, P p) {
         return visitTree(tree, p);
     }
 

@@ -1,19 +1,20 @@
-import org.karaffe.compiler.backend.jvm.BackendType
 import org.karaffe.compiler.backend.jvm.KaraffeCompilerBackend
+import org.karaffe.compiler.base.BackendType
 import org.karaffe.compiler.base.CompilerContext
 import org.karaffe.compiler.base.CompilerContextImpl
+import org.karaffe.compiler.base.FrontendType
 import org.karaffe.compiler.base.mir.Instructions
 import org.karaffe.compiler.base.task.Task
 import org.karaffe.compiler.base.task.TaskResult
 import org.karaffe.compiler.base.util.SourceFile
-import org.karaffe.compiler.frontend.karaffe.FrontendType
 import org.karaffe.compiler.frontend.karaffe.KaraffeCompilerFrontend
 import spock.lang.Specification
 
 class MIRBackendSpec extends Specification {
     private Instructions parse(String source) {
-        Task frontend = KaraffeCompilerFrontend.getFrontend(FrontendType.KARAFFE)
         CompilerContext context = new CompilerContextImpl()
+        context.setTargetBackendType(BackendType.JVM)
+        Task frontend = KaraffeCompilerFrontend.getFrontend(context)
         context.addSourceFile(SourceFile.fromLiteral(source))
         def result = frontend.run(context)
         if (result != TaskResult.SUCCESSFUL) {
@@ -23,13 +24,19 @@ class MIRBackendSpec extends Specification {
     }
 
     private CompilerContext runBackend(String source) {
-        def instructions = parse(source)
-        Task backend = KaraffeCompilerBackend.getBackend(BackendType.JVM)
         CompilerContext context = new CompilerContextImpl()
-        context.setInstructions(instructions)
+        context.addSourceFile(SourceFile.fromLiteral(source))
+        context.setFrontendType(FrontendType.KARAFFE)
+        context.setTargetBackendType(BackendType.JVM)
+        Task frontend = KaraffeCompilerFrontend.getFrontend(context)
+        def frontendTaskResult = frontend.run(context)
+        if (frontendTaskResult != TaskResult.SUCCESSFUL) {
+            throw new RuntimeException("Frontend Task failed")
+        }
+        def backend = KaraffeCompilerBackend.getBackend(context)
         def run = backend.run(context)
         if (run != TaskResult.SUCCESSFUL) {
-            throw new RuntimeException()
+            throw new RuntimeException("Backend Task failed")
         }
         return context
     }
@@ -45,13 +52,6 @@ class MIRBackendSpec extends Specification {
 
         expect:
         context.getInstructions().toString() == """[       <no-pos>] BeginBlock #
-[       <no-pos>] TypeNameRewriteRule Array[String] -> [Ljava/lang/String;
-[       <no-pos>] TypeNameRewriteRule System -> java/util/regex/Pattern
-[       <no-pos>] TypeNameRewriteRule Matcher -> java/util/regex/Matcher
-[       <no-pos>] TypeNameRewriteRule Integer -> java/lang/Integer
-[       <no-pos>] TypeNameRewriteRule System -> java/lang/System
-[       <no-pos>] TypeNameRewriteRule String -> java/lang/String
-[       <no-pos>] TypeNameRewriteRule Object -> java/lang/Object
 [       <no-pos>] BeginClass #A
 [       <no-pos>] BeginConstructor #A#<init>():void
 [       <no-pos>] Load this

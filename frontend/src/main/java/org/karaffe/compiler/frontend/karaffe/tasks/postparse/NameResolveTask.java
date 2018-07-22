@@ -18,7 +18,7 @@ public class NameResolveTask extends AbstractTask implements CompilationUnitTask
 
     @Override
     public String description() {
-        return "resolve simple names";
+        return "Resolve simple names";
     }
 
     @Override

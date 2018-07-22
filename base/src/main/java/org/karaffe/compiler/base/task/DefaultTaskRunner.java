@@ -10,7 +10,9 @@ import org.slf4j.LoggerFactory;
 
 import java.util.ArrayList;
 import java.util.Comparator;
+import java.util.LinkedHashSet;
 import java.util.List;
+import java.util.Set;
 import java.util.stream.Collectors;
 
 public class DefaultTaskRunner implements TaskRunner {
@@ -28,7 +30,7 @@ public class DefaultTaskRunner implements TaskRunner {
 
     @Override
     public void standBy(Task task) {
-        LOGGER.debug("standBy : {}", task.name());
+        LOGGER.trace("standBy : {}", task.name());
         if (this.isExecuting) {
             LOGGER.trace("standBy(delayed) : " + task.name());
             this.delayedTasks.addLast(task);
@@ -40,9 +42,11 @@ public class DefaultTaskRunner implements TaskRunner {
 
     @Override
     public TaskResult exec(Task task) {
-        LOGGER.debug("Executing...(Immediate) : " + task.name());
+        LOGGER.debug("Started  : {}", task.name());
+        ProcessTimer timer = new ProcessTimer();
         TaskResult result = task.run(context);
         LOGGER.debug("Executing complete : {}", result);
+        LOGGER.info("Executed : {} {} in {}ms", task.name(), result, String.format("%.3f", timer.stop() / 1000000.0d));
         return result;
     }
 
@@ -50,13 +54,13 @@ public class DefaultTaskRunner implements TaskRunner {
     public RunnerResult runAll() {
         isExecuting = true;
         ResultRecorder resultRecorder = new ResultRecorder();
-        LOGGER.debug("start runAll : {}", this.hashCode());
+        LOGGER.trace("start runAll : {}", this.hashCode());
         TaskQueue queue = new TaskQueue(this.tasks);
         List<Task> repeatable = queue.filter(task -> task.isRepetable(context));
 
         String stopTaskName = context.getCmdLineOptions().stopTaskName;
         if (stopTaskName != null) {
-            LOGGER.debug("StopTaskName : {}", stopTaskName);
+            LOGGER.trace("StopTaskName : {}", stopTaskName);
         }
 
         while (queue.hasRemaining()) {
@@ -67,9 +71,9 @@ public class DefaultTaskRunner implements TaskRunner {
                 continue;
             }
             if (task.isRequired(context)) {
-                LOGGER.debug("Scheduled(Required) : {}", task.name());
+                LOGGER.trace("Scheduled(Required) : {}", task.name());
             } else {
-                LOGGER.debug("Scheduled : {}", task.name());
+                LOGGER.trace("Scheduled : {}", task.name());
             }
             if (!task.isRunnable(context)) {
                 LOGGER.trace("Delayed Task : " + task.name());
@@ -78,12 +82,12 @@ public class DefaultTaskRunner implements TaskRunner {
                     // タスクキューが空の場合、CompilerContextの状態が変更されることはもう無いため、遅延されたタスクは実行可能状態となることはない。
                     if (delayedTasks.hasRemainingRequiredTask(context)) {
                         // 必須タスクが残っている場合はエラー
-                        LOGGER.warn("RunnerResult.FAILED [delayedTasks.hasRemainingRequiredTask(context) == true]");
+                        LOGGER.error("RunnerResult.FAILED [delayedTasks.hasRemainingRequiredTask(context) == true]");
                         runFinallyTask(context, resultRecorder);
                         isExecuting = false;
                         return RunnerResult.FAILED;
                     } else {
-                        LOGGER.debug("RunnerResult.SUCCESSFUL");
+                        LOGGER.trace("RunnerResult.SUCCESSFUL");
                         runFinallyTask(context, resultRecorder);
                         isExecuting = false;
                         return RunnerResult.SUCCESS_ALL;
@@ -118,11 +122,11 @@ public class DefaultTaskRunner implements TaskRunner {
             }
         }
 
-        LOGGER.debug("Standard Task(s) is executed.");
+        LOGGER.trace("Standard Task(s) is executed.");
         runFinallyTask(context, resultRecorder);
         isExecuting = false;
 
-        LOGGER.debug("end runAll : {}", this.hashCode());
+        LOGGER.trace("end runAll : {}", this.hashCode());
 
         return resultRecorder.toRunnerResult();
     }
@@ -133,6 +137,11 @@ public class DefaultTaskRunner implements TaskRunner {
         this.delayedTasks.clear();
         this.finallyTasks.clear();
         this.isExecuting = false;
+    }
+
+    @Override
+    public Set<Task> getTasks() {
+        return new LinkedHashSet<>(this.tasks);
     }
 
     private void runFinallyTask(CompilerContext context, ResultRecorder resultRecorder) {

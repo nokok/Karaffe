@@ -1,11 +1,11 @@
 package org.karaffe.compiler.frontend.karaffe.tasks.postparse;
 
 import org.karaffe.compiler.base.CompilerContext;
+import org.karaffe.compiler.base.task.AbstractTask;
 import org.karaffe.compiler.base.task.NoDescriptionTask;
 import org.karaffe.compiler.base.task.Task;
 import org.karaffe.compiler.base.task.TaskResult;
 import org.karaffe.compiler.base.task.TaskRunner;
-import org.karaffe.compiler.base.task.AbstractTask;
 
 import java.util.LinkedHashSet;
 import java.util.Set;
@@ -17,7 +17,9 @@ public class PostParseTask extends AbstractTask implements NoDescriptionTask {
     public PostParseTask() {
         this.subTask.add(new CreateContextTask());
         this.subTask.add(new ImportCheckTask());
+        this.subTask.add(new AutoReturnTask());
         this.subTask.add(new NameResolveTask());
+        this.subTask.add(new TypeCheckTask());
     }
 
     @Override

@@ -24,7 +24,7 @@ public class InstructionList extends ArrayList<Instruction> implements Instructi
 
     @Override
     public void updateInternalCache() {
-        LOGGER.debug("Updating Internal cache");
+        LOGGER.trace("Updating Internal cache");
         int beginClass = 0;
         Label classLabel = null;
         int beginMethod = 0;
@@ -55,7 +55,7 @@ public class InstructionList extends ArrayList<Instruction> implements Instructi
                 this.methods.put(methodLabel, i);
             }
         }
-        LOGGER.debug("Internal cache updated");
+        LOGGER.trace("Internal cache updated");
     }
 
     @Override

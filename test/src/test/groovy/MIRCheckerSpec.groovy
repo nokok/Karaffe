@@ -1,7 +1,7 @@
 import org.karaffe.compiler.base.CompilerContext
 import org.karaffe.compiler.base.CompilerContextImpl
 import org.karaffe.compiler.base.util.SourceFile
-import org.karaffe.compiler.frontend.karaffe.FrontendType
+import org.karaffe.compiler.base.FrontendType
 import org.karaffe.compiler.frontend.karaffe.KaraffeCompilerFrontend
 import spock.lang.Specification
 
