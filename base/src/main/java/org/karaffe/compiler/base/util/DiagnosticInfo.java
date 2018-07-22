@@ -43,6 +43,7 @@ public enum DiagnosticInfo {
         builder.append("OSName       : ").append(this.osName()).append(System.lineSeparator());
         builder.append("OSArch       : ").append(this.osArch()).append(System.lineSeparator());
         builder.append("OSVersion    : ").append(this.osVersion()).append(System.lineSeparator());
+        builder.append("IS_WINDOWS   : ").append(Platform.isWindows()).append(System.lineSeparator());
         builder.append("Encoding     : ").append(this.fileEncoding());
         return builder.toString();
     }
