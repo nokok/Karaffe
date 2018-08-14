@@ -1,7 +1,7 @@
 package org.karaffe.compiler.backend.jvm.attr;
 
 import net.nokok.azm.Opcodes;
-import org.karaffe.compiler.base.mir.util.attr.Attribute;
+import org.karaffe.compiler.base.attr.Attribute;
 
 public class ReturnOpcodesAttribute extends Attribute {
     private int opcodes;

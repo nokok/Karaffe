@@ -14,12 +14,12 @@ import org.karaffe.compiler.base.tree.expr.Block;
 import org.karaffe.compiler.base.tree.expr.Cast;
 import org.karaffe.compiler.base.tree.expr.IfExpr;
 import org.karaffe.compiler.base.tree.expr.Operator;
-import org.karaffe.compiler.base.tree.expr.Select;
 import org.karaffe.compiler.base.tree.expr.Tuple;
 import org.karaffe.compiler.base.tree.expr.WhileExpr;
 import org.karaffe.compiler.base.tree.modifier.Modifier;
 import org.karaffe.compiler.base.tree.stmt.ReturnStatement;
 import org.karaffe.compiler.base.tree.term.EmptyTree;
+import org.karaffe.compiler.base.tree.term.NameNode;
 import org.karaffe.compiler.base.tree.term.Path;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -127,11 +127,6 @@ public class DefaultVisitor<P> implements TreeVisitor<Tree, P> {
     }
 
     @Override
-    public Tree visitSelect(Select tree, P p) {
-        return visitTree(tree, p);
-    }
-
-    @Override
     public Path visitOperator(Operator tree, P p) {
         return tree;
     }
@@ -168,6 +163,11 @@ public class DefaultVisitor<P> implements TreeVisitor<Tree, P> {
 
     @Override
     public Tree visitReturn(ReturnStatement tree, P p) {
+        return visitTree(tree, p);
+    }
+
+    @Override
+    public Tree visitNameNode(NameNode tree, P p) {
         return visitTree(tree, p);
     }
 

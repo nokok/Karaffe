@@ -2,7 +2,7 @@ package org.karaffe.compiler.frontend.karaffe.tasks.postparse;
 
 import org.karaffe.compiler.base.CompilerContext;
 import org.karaffe.compiler.base.task.AbstractTask;
-import org.karaffe.compiler.base.task.CompilationUnitTask;
+import org.karaffe.compiler.base.task.ASTTask;
 import org.karaffe.compiler.base.task.NoDescriptionTask;
 import org.karaffe.compiler.base.task.ReadOnlyTask;
 import org.karaffe.compiler.base.task.TaskResult;
@@ -11,10 +11,14 @@ import org.karaffe.compiler.base.tree.Tree;
 import org.karaffe.compiler.base.tree.def.SimpleImport;
 import org.karaffe.compiler.base.tree.term.Path;
 import org.karaffe.compiler.base.util.Errors;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.util.concurrent.atomic.AtomicBoolean;
 
-public class ImportCheckTask extends AbstractTask implements ReadOnlyTask, NoDescriptionTask, CompilationUnitTask {
+public class ImportCheckTask extends AbstractTask implements ReadOnlyTask, NoDescriptionTask, ASTTask {
+
+    private static final Logger LOGGER = LoggerFactory.getLogger(ImportCheckTask.class);
 
     @Override
     public String name() {
@@ -31,6 +35,7 @@ public class ImportCheckTask extends AbstractTask implements ReadOnlyTask, NoDes
                 try {
                     Class.forName(tree.getName().toString());
                 } catch (ClassNotFoundException e) {
+                    LOGGER.error("Import name not found. : {}", tree.getName());
                     context.addReport(Errors.symbolNotFound(tree.getPos(), name.toString()));
                     hasError.set(true);
                 }

@@ -62,14 +62,20 @@ public interface Terms {
         return aThis;
     }
 
+    static Path superName(Position position) {
+        SimplePath aSuper = new SimplePath("super", NameKind.SUPER);
+        aSuper.setPos(position);
+        return aSuper;
+    }
+
     static Tree emptyTree() {
         EmptyTree emptyTree = new EmptyTree();
         return emptyTree;
     }
 
     static Path primitiveVoid(Position position) {
-        SimplePath aVoid = new SimplePath("void", NameKind.TYPENAME, true);
-        aVoid.setPos(position);
-        return aVoid;
+        VoidPath voidPath = new VoidPath();
+        voidPath.setPos(position);
+        return voidPath;
     }
 }

@@ -2,8 +2,8 @@ package org.karaffe.compiler.base.mir.variable;
 
 import org.karaffe.compiler.base.mir.AbstractInstruction;
 import org.karaffe.compiler.base.mir.InstructionType;
+import org.karaffe.compiler.base.mir.attr.ParameterAttribute;
 import org.karaffe.compiler.base.mir.util.Label;
-import org.karaffe.compiler.base.mir.util.attr.ParameterAttribute;
 
 import java.util.Objects;
 

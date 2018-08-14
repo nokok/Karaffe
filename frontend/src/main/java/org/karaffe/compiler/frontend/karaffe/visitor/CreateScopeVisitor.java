@@ -15,7 +15,6 @@ import org.karaffe.compiler.base.tree.expr.Block;
 import org.karaffe.compiler.base.tree.expr.Cast;
 import org.karaffe.compiler.base.tree.expr.IfExpr;
 import org.karaffe.compiler.base.tree.expr.Operator;
-import org.karaffe.compiler.base.tree.expr.Select;
 import org.karaffe.compiler.base.tree.expr.Tuple;
 import org.karaffe.compiler.base.tree.expr.WhileExpr;
 import org.karaffe.compiler.base.tree.modifier.Modifier;
@@ -100,11 +99,6 @@ public class CreateScopeVisitor extends DefaultVisitor<Scope> {
     @Override
     public Tree visitBlock(Block tree, Scope scope) {
         return super.visitBlock(tree, scope);
-    }
-
-    @Override
-    public Tree visitSelect(Select tree, Scope scope) {
-        return super.visitSelect(tree, scope);
     }
 
     @Override

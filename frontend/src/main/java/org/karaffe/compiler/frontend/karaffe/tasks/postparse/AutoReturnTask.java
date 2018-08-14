@@ -2,7 +2,7 @@ package org.karaffe.compiler.frontend.karaffe.tasks.postparse;
 
 import org.karaffe.compiler.base.CompilerContext;
 import org.karaffe.compiler.base.task.AbstractTask;
-import org.karaffe.compiler.base.task.CompilationUnitTask;
+import org.karaffe.compiler.base.task.ASTTask;
 import org.karaffe.compiler.base.task.TaskResult;
 import org.karaffe.compiler.base.tree.Tree;
 import org.karaffe.compiler.base.tree.TreeKind;
@@ -13,7 +13,7 @@ import org.karaffe.compiler.frontend.karaffe.subject.MethodDefSubject;
 import java.util.List;
 import java.util.concurrent.atomic.AtomicBoolean;
 
-public class AutoReturnTask extends AbstractTask implements CompilationUnitTask {
+public class AutoReturnTask extends AbstractTask implements ASTTask {
 
     private AtomicBoolean hasChanged = new AtomicBoolean(false);
 

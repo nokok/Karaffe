@@ -1,9 +1,13 @@
 package org.karaffe.compiler.frontend.karaffe.tasks;
 
 import org.karaffe.compiler.base.CompilerContext;
+import org.karaffe.compiler.base.attr.Attribute;
 import org.karaffe.compiler.base.mir.Import;
 import org.karaffe.compiler.base.mir.Instruction;
 import org.karaffe.compiler.base.mir.Instructions;
+import org.karaffe.compiler.base.mir.attr.InvokingSetAttribute;
+import org.karaffe.compiler.base.mir.attr.ModifierAttribute;
+import org.karaffe.compiler.base.mir.attr.ParameterAttribute;
 import org.karaffe.compiler.base.mir.block.BeginBlock;
 import org.karaffe.compiler.base.mir.block.BeginClass;
 import org.karaffe.compiler.base.mir.block.BeginMethod;
@@ -12,26 +16,25 @@ import org.karaffe.compiler.base.mir.block.EndClass;
 import org.karaffe.compiler.base.mir.block.EndMethod;
 import org.karaffe.compiler.base.mir.constant.ConstInt;
 import org.karaffe.compiler.base.mir.constant.ConstString;
-import org.karaffe.compiler.base.mir.invoke.Invoke;
-import org.karaffe.compiler.base.mir.io.Load;
-import org.karaffe.compiler.base.mir.io.Store;
+import org.karaffe.compiler.base.mir.instance.Load;
+import org.karaffe.compiler.base.mir.instance.Store;
+import org.karaffe.compiler.base.mir.invoke.InvokeMethod;
 import org.karaffe.compiler.base.mir.jump.IfJumpFalse;
 import org.karaffe.compiler.base.mir.jump.Jump;
 import org.karaffe.compiler.base.mir.jump.JumpTarget;
 import org.karaffe.compiler.base.mir.jump.Return;
 import org.karaffe.compiler.base.mir.util.InstructionList;
 import org.karaffe.compiler.base.mir.util.Label;
-import org.karaffe.compiler.base.mir.util.attr.Attribute;
-import org.karaffe.compiler.base.mir.util.attr.InvokingSetAttribute;
-import org.karaffe.compiler.base.mir.util.attr.ModifierAttribute;
-import org.karaffe.compiler.base.mir.util.attr.ParameterAttribute;
 import org.karaffe.compiler.base.mir.variable.ValDef;
 import org.karaffe.compiler.base.task.AbstractTask;
 import org.karaffe.compiler.base.task.TaskResult;
 import org.karaffe.compiler.base.tree.Tree;
+import org.karaffe.compiler.base.tree.TreeKind;
 import org.karaffe.compiler.base.tree.TreeVisitorAdapter;
 import org.karaffe.compiler.base.tree.def.AssignmentDef;
 import org.karaffe.compiler.base.tree.def.ClassDef;
+import org.karaffe.compiler.base.tree.def.Def;
+import org.karaffe.compiler.base.tree.def.DefKind;
 import org.karaffe.compiler.base.tree.def.LetDef;
 import org.karaffe.compiler.base.tree.def.MethodDef;
 import org.karaffe.compiler.base.tree.def.SimpleImport;
@@ -46,6 +49,7 @@ import org.karaffe.compiler.base.tree.expr.WhileExpr;
 import org.karaffe.compiler.base.tree.modifier.Modifier;
 import org.karaffe.compiler.base.tree.stmt.ReturnStatement;
 import org.karaffe.compiler.base.tree.term.EmptyTree;
+import org.karaffe.compiler.base.tree.term.NameNode;
 import org.karaffe.compiler.base.tree.term.Path;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -70,11 +74,13 @@ public class GenMIRTask extends AbstractTask {
     public TaskResult run(CompilerContext context) {
         Instructions instructions = new InstructionList();
         Label rootLabel = Label.createRootLabel();
-        instructions.add(new BeginBlock(rootLabel));
+        BeginBlock beginBlock = new BeginBlock(rootLabel);
         Tree compilationUnit = context.getCompilationUnit();
+        EndBlock endBlock = new EndBlock(rootLabel);
         Instructions generated = compilationUnit.accept(new TreeVisitor(), null);
+        instructions.add(beginBlock);
         instructions.addAll(generated);
-        instructions.add(new EndBlock(rootLabel));
+        instructions.add(endBlock);
         context.setInstructions(instructions);
         return TaskResult.SUCCESSFUL;
     }
@@ -91,6 +97,7 @@ public class GenMIRTask extends AbstractTask {
             Label rootLabel = Label.createRootLabel();
             List<Instructions> accepted = tree.acceptChildren(this, rootLabel);
             accepted.stream().filter(Objects::nonNull).forEach(instructions::addAll);
+            instructions.forEach(i -> i.setTree(tree));
             return instructions;
         }
 
@@ -98,6 +105,7 @@ public class GenMIRTask extends AbstractTask {
         public Instructions visitSimpleImportDef(SimpleImport def, Label label) {
             Instructions instructions = new InstructionList();
             instructions.add(new Import(def.getName()));
+            instructions.forEach(i -> i.setTree(def));
             return instructions;
         }
 
@@ -111,6 +119,7 @@ public class GenMIRTask extends AbstractTask {
             instructions.add(beginClass);
             def.acceptChildren(this, classLabel).stream().forEach(instructions::addAll);
             instructions.add(new EndClass(classLabel));
+            instructions.forEach(i -> i.setTree(def));
             return instructions;
         }
 
@@ -119,6 +128,7 @@ public class GenMIRTask extends AbstractTask {
             LOGGER.trace("visitTemplate: {}", def);
             Instructions instructions = new InstructionList();
             def.acceptChildren(this, label).stream().forEach(instructions::addAll);
+            instructions.forEach(i -> i.setTree(def));
             return instructions;
         }
 
@@ -142,6 +152,7 @@ public class GenMIRTask extends AbstractTask {
             instructions.addAll(parameters);
             def.acceptChildren(1, this, methodLabel).stream().forEach(instructions::addAll);
             instructions.add(new EndMethod(methodLabel));
+            instructions.forEach(i -> i.setTree(def));
             return instructions;
         }
 
@@ -158,6 +169,7 @@ public class GenMIRTask extends AbstractTask {
             Store store = new Store(valLabel);
             store.setPosition(simpleDef.getName().getPos());
             instructions.add(store);
+            instructions.forEach(i -> i.setTree(simpleDef));
             return instructions;
         }
 
@@ -169,6 +181,7 @@ public class GenMIRTask extends AbstractTask {
             instructions.add(new BeginBlock(blockLabel));
             block.acceptChildren(this, blockLabel).forEach(instructions::addAll);
             instructions.add(new EndBlock(blockLabel));
+            instructions.forEach(i -> i.setTree(block));
             return instructions;
         }
 
@@ -176,13 +189,13 @@ public class GenMIRTask extends AbstractTask {
         public Instructions visitApply(Apply apply, Label label) {
             LOGGER.trace("visitApply: {}", apply);
             Instructions instructions = new InstructionList();
-            List<Instructions> acceptChildren = apply.acceptChildren(this, label);
-            acceptChildren.forEach(instructions::addAll);
-            Invoke invoke = new Invoke(apply.getName().toString());
-            invoke.setPosition(apply.getPos());
-            instructions.add(invoke);
-            Attribute methodInvocation = new InvokingSetAttribute(seq++);
-            instructions.forEach(i -> i.addAttribute(methodInvocation));
+            Instructions owner = apply.getChild(0).accept(this, label);
+            String methodName = apply.getName().asFullName();
+            List<Instructions> parameters = apply.acceptChildren(1, this, label);
+            InvokeMethod invokeMethod = new InvokeMethod(owner, methodName, parameters);
+            invokeMethod.setPosition(apply.getPos());
+            instructions.add(invokeMethod);
+            instructions.forEach(i -> i.setTree(apply));
             return instructions;
         }
 
@@ -213,6 +226,7 @@ public class GenMIRTask extends AbstractTask {
             }
             instruction.setPosition(atom.getPos());
             instructions.add(instruction);
+            instructions.forEach(i -> i.setTree(atom));
             return instructions;
         }
 
@@ -220,6 +234,7 @@ public class GenMIRTask extends AbstractTask {
         public Instructions visitTuple(Tuple tuple, Label label) {
             Instructions instructions = new InstructionList();
             tuple.acceptChildren(this, label).forEach(instructions::addAll);
+            instructions.forEach(i -> i.setTree(tuple));
             return instructions;
         }
 
@@ -230,6 +245,7 @@ public class GenMIRTask extends AbstractTask {
             Path name = binding.getName();
             org.karaffe.compiler.base.mir.constant.Binding b = new org.karaffe.compiler.base.mir.constant.Binding(new Label(label, name.toString()), typeName.asFullName());
             instructions.add(b);
+            instructions.forEach(i -> i.setTree(binding));
             return instructions;
         }
 
@@ -237,6 +253,7 @@ public class GenMIRTask extends AbstractTask {
         public Instructions visitCast(Cast cast, Label label) {
             Instructions instructions = new InstructionList();
             instructions.add(new org.karaffe.compiler.base.mir.Cast(cast.getTypeName().asFullName()));
+            instructions.forEach(i -> i.setTree(cast));
             return instructions;
         }
 
@@ -257,6 +274,7 @@ public class GenMIRTask extends AbstractTask {
             instructions.add(new Jump(beginWhile));
             instructions.add(new JumpTarget(endWhile));
             instructions.add(new EndBlock(whileBlockLabel));
+            instructions.forEach(i -> i.setTree(whileExpr));
             return instructions;
         }
 
@@ -285,6 +303,7 @@ public class GenMIRTask extends AbstractTask {
             instructions.add(new EndBlock(elseBlock));
             instructions.add(new JumpTarget(endBlock));
 
+            instructions.forEach(i -> i.setTree(ifExpr));
             return instructions;
         }
 
@@ -296,6 +315,7 @@ public class GenMIRTask extends AbstractTask {
             simpleDef.accept(this, l).forEach(instructions::add);
             simpleDef.acceptChildren(this, l).forEach(instructions::addAll);
             instructions.add(s);
+            instructions.forEach(i -> i.setTree(simpleDef));
             return instructions;
         }
 
@@ -304,12 +324,33 @@ public class GenMIRTask extends AbstractTask {
             Instructions instructions = new InstructionList();
             returnStatement.acceptChildren(this, label).forEach(instructions::addAll);
             Return ret = new Return();
+            Tree parent = returnStatement.getParent();
+            if (parent.getKind() == TreeKind.DEF && ((Def) parent).getDefKind() == DefKind.METHOD) {
+                MethodDef d = (MethodDef) parent;
+                Path typeName = d.getTypeName();
+                if (typeName.isVoidType()) {
+                    
+                }
+            } else {
+                throw new IllegalStateException("" + parent.getKind() + ", " + ((Def) parent).getDefKind());
+            }
             if (instructions.size() > 0) {
                 Attribute attribute = new InvokingSetAttribute(seq++);
                 instructions.forEach(i -> i.addAttribute(attribute));
                 ret.addAttribute(attribute);
             }
             instructions.add(ret);
+            instructions.forEach(i -> i.setTree(returnStatement));
+            return instructions;
+        }
+
+        @Override
+        public Instructions visitNameNode(NameNode nameNode, Label label) {
+            Instructions instructions = new InstructionList();
+            Label loadName = new Label(label, nameNode.getName().asSimpleName());
+            Load load = new Load(loadName);
+            instructions.add(load);
+            instructions.forEach(i -> i.setTree(nameNode));
             return instructions;
         }
 

@@ -8,5 +8,7 @@ public enum NameKind {
     THIS,
     MODULE,
     NESTED,
+    SUPER,
+    VOID,
     VARNAME
 }

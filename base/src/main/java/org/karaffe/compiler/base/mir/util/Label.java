@@ -3,6 +3,7 @@ package org.karaffe.compiler.base.mir.util;
 import java.util.Objects;
 
 public class Label {
+    private Label superName;
     private String name;
 
     public Label(String name) {
@@ -10,6 +11,7 @@ public class Label {
     }
 
     public Label(Label parentLabel, String name) {
+        this.superName = Objects.requireNonNull(parentLabel);
         String parentName = parentLabel == null ? "#" : parentLabel.getName();
         if (!parentName.endsWith("#")) {
             parentName += "#";
@@ -18,6 +20,10 @@ public class Label {
             throw new IllegalArgumentException("Empty label name");
         }
         this.name = parentName + name;
+    }
+
+    public Label getSuperName() {
+        return this.superName;
     }
 
     public String getName() {

@@ -1,7 +1,8 @@
 package org.karaffe.compiler.base.mir;
 
-import org.karaffe.compiler.base.mir.util.attr.Attribute;
+import org.karaffe.compiler.base.attr.Attribute;
 import org.karaffe.compiler.base.pos.Position;
+import org.karaffe.compiler.base.tree.Tree;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -9,6 +10,7 @@ import java.util.Objects;
 
 public abstract class AbstractInstruction implements Instruction {
     private List<Attribute> attributes = new ArrayList<>();
+    private Tree tree;
     private Position position = Position.noPos();
 
     @Override
@@ -34,6 +36,16 @@ public abstract class AbstractInstruction implements Instruction {
     @Override
     public void setPosition(Position position) {
         this.position = Objects.requireNonNull(position);
+    }
+
+    @Override
+    public Tree getTree() {
+        return tree;
+    }
+
+    @Override
+    public void setTree(Tree tree) {
+        this.tree = Objects.requireNonNull(tree);
     }
 
     @Override

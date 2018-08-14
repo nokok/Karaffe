@@ -1,7 +1,7 @@
 package org.karaffe.compiler.backend.jvm.attr;
 
 import net.nokok.azm.Label;
-import org.karaffe.compiler.base.mir.util.attr.Attribute;
+import org.karaffe.compiler.base.attr.Attribute;
 
 import java.util.Objects;
 

@@ -121,6 +121,8 @@ public abstract class AbstractPath implements Path {
             return visitor.visitThisName(this, p);
         case NESTED:
             return visitor.visitNestedName((NestedPath) this, p);
+        case VOID:
+            return visitor.visitVoidType(this, p);
         default:
             throw new IllegalStateException(this.getNameKind().toString());
         }

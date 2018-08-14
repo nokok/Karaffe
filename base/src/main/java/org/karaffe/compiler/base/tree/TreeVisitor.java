@@ -14,14 +14,15 @@ import org.karaffe.compiler.base.tree.expr.Block;
 import org.karaffe.compiler.base.tree.expr.Cast;
 import org.karaffe.compiler.base.tree.expr.IfExpr;
 import org.karaffe.compiler.base.tree.expr.Operator;
-import org.karaffe.compiler.base.tree.expr.Select;
 import org.karaffe.compiler.base.tree.expr.Tuple;
 import org.karaffe.compiler.base.tree.expr.WhileExpr;
 import org.karaffe.compiler.base.tree.modifier.Modifier;
 import org.karaffe.compiler.base.tree.stmt.ReturnStatement;
 import org.karaffe.compiler.base.tree.term.EmptyTree;
+import org.karaffe.compiler.base.tree.term.NameNode;
 import org.karaffe.compiler.base.tree.term.NestedPath;
 import org.karaffe.compiler.base.tree.term.Path;
+import org.karaffe.compiler.base.tree.term.SimplePath;
 
 public interface TreeVisitor<R, P> {
 
@@ -55,8 +56,6 @@ public interface TreeVisitor<R, P> {
 
     R visitBlock(Block block, P p);
 
-    R visitSelect(Select select, P p);
-
     R visitTuple(Tuple tuple, P p);
 
     R visitIfExpr(IfExpr ifExpr, P p);
@@ -70,6 +69,8 @@ public interface TreeVisitor<R, P> {
     R visitBinding(Binding binding, P p);
 
     R visitReturn(ReturnStatement returnStatement, P p);
+
+    R visitNameNode(NameNode nameNode, P p);
 
     default Path visitOperator(Operator operator, P p) {
         return operator;
@@ -100,6 +101,14 @@ public interface TreeVisitor<R, P> {
     }
 
     default Path visitNestedName(NestedPath path, P p) {
+        return path;
+    }
+
+    default Path visitSuperName(SimplePath path, P p) {
+        return path;
+    }
+
+    default Path visitVoidType(Path path, P p) {
         return path;
     }
 }

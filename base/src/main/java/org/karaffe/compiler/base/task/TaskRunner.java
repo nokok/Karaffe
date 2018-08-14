@@ -69,4 +69,6 @@ public interface TaskRunner {
      * 現在このタスクランナーが持っているタスクを取得します
      */
     Set<Task> getTasks();
+
+    <T extends Task> void disable(String taskPattern);
 }

@@ -22,5 +22,6 @@ public enum InstructionType {
     LOAD,
     RETURN,
     STORE,
+    INVOKEMETHOD,
     VALDEF
 }

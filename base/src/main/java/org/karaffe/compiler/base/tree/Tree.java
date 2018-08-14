@@ -1,5 +1,6 @@
 package org.karaffe.compiler.base.tree;
 
+import org.karaffe.compiler.base.attr.Attributes;
 import org.karaffe.compiler.base.pos.Position;
 import org.karaffe.compiler.base.tree.term.Path;
 import org.karaffe.compiler.base.tree.term.Terms;
@@ -9,7 +10,7 @@ import java.util.List;
 import java.util.Objects;
 import java.util.stream.Collectors;
 
-public interface Tree extends LocatableElement, NameableElement, ModifiableElement, TypedElement, NodeOperator {
+public interface Tree extends LocatableElement, NameableElement, ModifiableElement, TypedElement, NodeOperator, Attributes {
     default <R> R accept(TreeVisitor<R, ?> visitor) {
         return this.accept(visitor, null);
     }

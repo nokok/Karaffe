@@ -14,6 +14,10 @@ public interface Path extends CharSequence, Term, LocatableElement {
 
     boolean isPrimitiveType();
 
+    default boolean isVoidType() {
+        return false;
+    }
+
     boolean isResolved();
 
     void markResolved();

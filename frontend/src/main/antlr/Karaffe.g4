@@ -48,7 +48,8 @@ statement
   : exprStmt=expr
   | letStmt=LET name=Identifier typeName=Identifier (EQ initializer=expr)?
   | assignTarget=Identifier EQ expr
-  | def=DEF methodName=Identifier LPAREN parameterList? RPAREN returnTypeName=Identifier EQ statement
+  | def=DEF methodName=Identifier LPAREN parameterList? RPAREN returnTypeName=Identifier statement
+  | init=INIT (LPAREN parameterList RPAREN)? statement
   ;
 
 parameterList
@@ -154,9 +155,11 @@ literal
 
 CLASS: 'class';
 WHILE: 'while';
+SUPER: 'super';
 MAIN: 'main';
 ELSE: 'else';
 THIS: 'this';
+INIT: 'init';
 NEW: 'new';
 LET: 'let';
 DEF: 'def';

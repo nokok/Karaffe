@@ -2,11 +2,12 @@ package org.karaffe.compiler.base.mir.block;
 
 import org.karaffe.compiler.base.mir.AbstractInstruction;
 import org.karaffe.compiler.base.mir.InstructionType;
+import org.karaffe.compiler.base.mir.LabeledInstruction;
 import org.karaffe.compiler.base.mir.util.Label;
 
 import java.util.Objects;
 
-public class BeginBlock extends AbstractInstruction {
+public class BeginBlock extends AbstractInstruction implements LabeledInstruction {
 
     private Label label;
 
@@ -14,6 +15,7 @@ public class BeginBlock extends AbstractInstruction {
         this.label = Objects.requireNonNull(label);
     }
 
+    @Override
     public Label getLabel() {
         return label;
     }

@@ -15,12 +15,12 @@ import org.karaffe.compiler.base.tree.expr.Binding;
 import org.karaffe.compiler.base.tree.expr.Block;
 import org.karaffe.compiler.base.tree.expr.Cast;
 import org.karaffe.compiler.base.tree.expr.IfExpr;
-import org.karaffe.compiler.base.tree.expr.Select;
 import org.karaffe.compiler.base.tree.expr.Tuple;
 import org.karaffe.compiler.base.tree.expr.WhileExpr;
 import org.karaffe.compiler.base.tree.modifier.Modifier;
 import org.karaffe.compiler.base.tree.stmt.ReturnStatement;
 import org.karaffe.compiler.base.tree.term.EmptyTree;
+import org.karaffe.compiler.base.tree.term.NameNode;
 
 import java.util.Collections;
 import java.util.LinkedHashMap;
@@ -87,14 +87,6 @@ public class MapVisitor implements TreeVisitor<Map<String, Object>, Void> {
     }
 
     @Override
-    public Map<String, Object> visitSelect(Select select, Void aVoid) {
-        Map<String, Object> map = new LinkedHashMap<>();
-        map.put("kind", select.getKind());
-        map.put("body", visitChildren(select));
-        return map;
-    }
-
-    @Override
     public Map<String, Object> visitTuple(Tuple tuple, Void aVoid) {
         Map<String, Object> map = new LinkedHashMap<>();
         map.put("kind", tuple.getKind());
@@ -150,6 +142,11 @@ public class MapVisitor implements TreeVisitor<Map<String, Object>, Void> {
         map.put("kind", returnStatement.getKind());
         map.put("body", visitChildren(returnStatement));
         return map;
+    }
+
+    @Override
+    public Map<String, Object> visitNameNode(NameNode nameNode, Void aVoid) {
+        return Collections.singletonMap("name", nameNode.getName());
     }
 
     @Override

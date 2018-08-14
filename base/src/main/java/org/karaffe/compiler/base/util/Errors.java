@@ -16,6 +16,10 @@ public class Errors {
         return Report.createError("Syntax Error", position, msg);
     }
 
+    public static Report internalError(Position position, String msg) {
+        return Report.createError("Internal Error", position, msg);
+    }
+
     public static Report unexpectedDirectory(String f) {
         return Report.createError(f + " is directory", Position.noPos(), "");
     }

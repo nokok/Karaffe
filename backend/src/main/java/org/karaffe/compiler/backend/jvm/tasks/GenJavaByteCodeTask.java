@@ -10,31 +10,35 @@ import net.nokok.azm.Type;
 import net.nokok.azm.signature.SignatureReader;
 import net.nokok.azm.signature.SignatureWriter;
 import org.karaffe.compiler.backend.jvm.attr.ClassAttribute;
-import org.karaffe.compiler.backend.jvm.attr.ConstructorAttribute;
-import org.karaffe.compiler.backend.jvm.attr.FieldAttribute;
+import org.karaffe.compiler.backend.jvm.attr.FieldClassAttribute;
+import org.karaffe.compiler.backend.jvm.attr.InvokeConstructorAttribute;
+import org.karaffe.compiler.backend.jvm.attr.InvokeMethodAttribute;
 import org.karaffe.compiler.backend.jvm.attr.JavaVMScopeAttribute;
-import org.karaffe.compiler.backend.jvm.attr.MethodAttribute;
+import org.karaffe.compiler.backend.jvm.attr.NewClassAttribute;
+import org.karaffe.compiler.backend.jvm.attr.NewConstructorAttribute;
+import org.karaffe.compiler.backend.jvm.attr.NewMethodAttribute;
 import org.karaffe.compiler.backend.jvm.attr.ReturnOpcodesAttribute;
 import org.karaffe.compiler.backend.jvm.attr.TypedInstructionAttribute;
 import org.karaffe.compiler.base.CompilerContext;
 import org.karaffe.compiler.base.mir.Cast;
 import org.karaffe.compiler.base.mir.Instruction;
 import org.karaffe.compiler.base.mir.Instructions;
+import org.karaffe.compiler.base.mir.attr.ModifierAttribute;
+import org.karaffe.compiler.base.mir.attr.ParameterAttribute;
 import org.karaffe.compiler.base.mir.block.BeginBlock;
 import org.karaffe.compiler.base.mir.block.BeginClass;
 import org.karaffe.compiler.base.mir.block.BeginConstructor;
 import org.karaffe.compiler.base.mir.block.BeginMethod;
 import org.karaffe.compiler.base.mir.constant.ConstInt;
 import org.karaffe.compiler.base.mir.constant.ConstString;
+import org.karaffe.compiler.base.mir.instance.Load;
+import org.karaffe.compiler.base.mir.instance.Store;
 import org.karaffe.compiler.base.mir.invoke.Invoke;
-import org.karaffe.compiler.base.mir.io.Load;
-import org.karaffe.compiler.base.mir.io.Store;
+import org.karaffe.compiler.base.mir.invoke.InvokeMethod;
 import org.karaffe.compiler.base.mir.jump.IfJumpFalse;
 import org.karaffe.compiler.base.mir.jump.Jump;
 import org.karaffe.compiler.base.mir.jump.JumpTarget;
 import org.karaffe.compiler.base.mir.jump.Return;
-import org.karaffe.compiler.base.mir.util.attr.ModifierAttribute;
-import org.karaffe.compiler.base.mir.util.attr.ParameterAttribute;
 import org.karaffe.compiler.base.mir.variable.ValDef;
 import org.karaffe.compiler.base.task.AbstractTask;
 import org.karaffe.compiler.base.task.BackendTask;
@@ -44,16 +48,13 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.io.File;
-import java.lang.reflect.Constructor;
 import java.lang.reflect.Field;
-import java.lang.reflect.Method;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Stack;
 import java.util.stream.Collectors;
-import java.util.stream.Stream;
 
 public class GenJavaByteCodeTask extends AbstractTask implements BackendTask {
 
@@ -79,32 +80,38 @@ public class GenJavaByteCodeTask extends AbstractTask implements BackendTask {
             switch (instruction.getInstType()) {
             case BEGINCLASS: {
                 BeginClass b = (BeginClass) instruction;
-                ClassAttribute classAttribute = b.getAttribute(ClassAttribute.class).orElseThrow(IllegalStateException::new);
-                Class<?> classObject = classAttribute.getClassObject();
+                if (!b.hasAttribute(NewClassAttribute.class)) {
+                    context.addReport(Errors.internalError(b.getPosition(), "No NewClassAttribute found."));
+                    return TaskResult.FAILED;
+                }
+                NewClassAttribute newClassAttribute = b.getAttribute(NewClassAttribute.class).orElseThrow(IllegalStateException::new);
                 classNames.add(currentClassName);
                 classWriter = new ClassWriter(ClassWriter.COMPUTE_FRAMES);
                 classWriter.visit(
                         currentJavaAPI,
-                        classObject.getModifiers(),
+                        newClassAttribute.getModifiers(),
                         b.getClassName(),
                         null,
-                        Type.getInternalName(classObject.getSuperclass()),
-                        (String[]) Stream.of(classObject.getInterfaces()).map(Type::getInternalName).toArray()
+                        Type.getInternalName(newClassAttribute.getSuperClass()),
+                        newClassAttribute.getInterfaces().stream().map(Type::getInternalName).collect(Collectors.toList()).toArray(new String[]{})
                 );
             }
             break;
             case BEGINMETHOD: {
                 localVarNames.push(new ArrayList<>());
                 BeginMethod beginMethod = (BeginMethod) instruction;
-                MethodAttribute methodAttribute = beginMethod.getAttribute(MethodAttribute.class).orElseThrow(IllegalStateException::new);
-                Method method = methodAttribute.getMethodObject();
+                if (!beginMethod.hasAttribute(NewMethodAttribute.class)) {
+                    context.addReport(Errors.internalError(beginMethod.getPosition(), "No NewMethodAttribute found."));
+                    return TaskResult.FAILED;
+                }
+                NewMethodAttribute methodClassAttribute = beginMethod.getAttribute(NewMethodAttribute.class).orElseThrow(IllegalStateException::new);
                 methodNames.add(beginMethod.getMethodName());
                 methodVisitor = classWriter.visitMethod(
-                        method.getModifiers(),
-                        method.getName(),
-                        Type.getMethodDescriptor(method),
+                        methodClassAttribute.getModifiers(),
+                        methodClassAttribute.getName(),
+                        Type.getMethodDescriptor(Type.getType(methodClassAttribute.getReturnType()), methodClassAttribute.getParameters()),
                         null,
-                        (String[]) Stream.of(method.getExceptionTypes()).map(Type::getInternalName).toArray()
+                        methodClassAttribute.getThrows().stream().map(Type::getInternalName).collect(Collectors.toList()).toArray(new String[]{})
                 );
             }
             break;
@@ -112,26 +119,32 @@ public class GenJavaByteCodeTask extends AbstractTask implements BackendTask {
                 localVarNames.push(new ArrayList<>());
                 BeginConstructor beginConstructor = (BeginConstructor) instruction;
                 methodNames.add(beginConstructor.getLabel().getSimpleName());
-                ConstructorAttribute constructorAttribute = beginConstructor.getAttribute(ConstructorAttribute.class).orElseThrow(IllegalStateException::new);
-                Constructor<?> constructor = constructorAttribute.getConstructor();
-                String descriptor = Type.getConstructorDescriptor(constructor);
+                if (!beginConstructor.hasAttribute(NewConstructorAttribute.class)) {
+                    context.addReport(Errors.internalError(beginConstructor.getPosition(), "No NewConstructorAttribute found."));
+                    return TaskResult.FAILED;
+                }
+                NewConstructorAttribute constructorAttribute = beginConstructor.getAttribute(NewConstructorAttribute.class).orElseThrow(IllegalStateException::new);
                 methodVisitor = classWriter.visitMethod(
-                        constructor.getModifiers(),
+                        constructorAttribute.getModifiers(),
                         "<init>",
-                        descriptor,
+                        Type.getMethodDescriptor(Type.getType(constructorAttribute.getReturnType()), constructorAttribute.getParameters()),
                         null,
-                        (String[]) Stream.of(constructor.getExceptionTypes()).map(Type::getInternalName).toArray()
+                        constructorAttribute.getThrows().stream().map(Type::getInternalName).collect(Collectors.toList()).toArray(new String[]{})
                 );
             }
             break;
             case LOAD: {
                 Load load = (Load) instruction;
-                if (load.getLoadName().getSimpleName().equals("this")) {
+                String simpleName = load.getLoadName().getSimpleName();
+                if (simpleName.equals("this")) {
+                    methodVisitor.visitVarInsn(Opcodes.ALOAD, 0);
+                } else if (simpleName.equals("super")) {
                     methodVisitor.visitVarInsn(Opcodes.ALOAD, 0);
                 } else {
-                    int index = localVarNames.peek().indexOf(load.getLoadName().getSimpleName());
+                    int index = localVarNames.peek().indexOf(simpleName);
                     if (index == -1) {
-                        context.addReport(Errors.symbolNotFound(load.getPosition(), load.getLoadName().getSimpleName()));
+                        LOGGER.error("Symbol not found on Load Instruction : " + load.getLoadName());
+                        context.addReport(Errors.symbolNotFound(load.getPosition(), simpleName));
                         return TaskResult.FAILED;
                     }
                     methodVisitor.visitVarInsn(Opcodes.ALOAD, index);
@@ -145,29 +158,31 @@ public class GenJavaByteCodeTask extends AbstractTask implements BackendTask {
                 String name;
                 String descriptor;
                 boolean isInterface;
-                if (invoke.hasAttribute(ConstructorAttribute.class)) {
-                    ConstructorAttribute constructorAttribute = invoke.getAttribute(ConstructorAttribute.class).orElseThrow(IllegalStateException::new);
-                    Constructor<?> constructor = constructorAttribute.getConstructor();
+                if (invoke.hasAttribute(InvokeConstructorAttribute.class)) {
+                    InvokeConstructorAttribute invokeConstructorAttribute = invoke.getAttribute(InvokeConstructorAttribute.class).orElseThrow(IllegalStateException::new);
                     opcode = Opcodes.INVOKESPECIAL;
-                    owner = Type.getInternalName(constructor.getDeclaringClass());
+                    owner = invokeConstructorAttribute.getConstructorOwner();
                     name = "<init>";
-                    descriptor = Type.getConstructorDescriptor(constructor);
-                    isInterface = constructor.getDeclaringClass().isInterface();
-                } else if (invoke.hasAttribute(MethodAttribute.class)) {
-                    MethodAttribute methodAttribute = invoke.getAttribute(MethodAttribute.class).orElseThrow(IllegalStateException::new);
-                    Method methodObject = methodAttribute.getMethodObject();
-                    if (methodObject.isAccessible()) {
-                        opcode = Opcodes.INVOKEVIRTUAL;
-                    } else {
+                    descriptor = invokeConstructorAttribute.getDescriptor();
+                    isInterface = false;
+                } else if (invoke.hasAttribute(InvokeMethodAttribute.class)) {
+                    InvokeMethodAttribute invokeMethodAttribute = invoke.getAttribute(InvokeMethodAttribute.class).orElseThrow(IllegalStateException::new);
+                    if (invokeMethodAttribute.isPrivateMethod()) {
                         //private method
                         opcode = Opcodes.INVOKESPECIAL;
+                    } else {
+                        opcode = Opcodes.INVOKEVIRTUAL;
                     }
-                    owner = Type.getInternalName(methodObject.getDeclaringClass());
-                    name = methodObject.getName();
-                    descriptor = Type.getMethodDescriptor(methodObject);
-                    isInterface = methodObject.getDeclaringClass().isInterface();
+                    owner = invokeMethodAttribute.getMethodOwner();
+                    name = invokeMethodAttribute.getMethodName();
+                    descriptor = invokeMethodAttribute.getMethodDescriptor();
+                    isInterface = invokeMethodAttribute.isInterfaceMethod();
                 } else {
-                    throw new IllegalStateException();
+                    context.addReport(Errors.internalError(invoke.getPosition(), "No attribute found at INVOKE"));
+                    return TaskResult.FAILED;
+                }
+                if (opcode == Opcodes.INVOKESPECIAL) {
+                    methodVisitor.visitVarInsn(Opcodes.ALOAD, 0);// for invokespecial
                 }
                 methodVisitor.visitMethodInsn(
                         opcode,
@@ -178,8 +193,38 @@ public class GenJavaByteCodeTask extends AbstractTask implements BackendTask {
                 );
             }
             break;
+            case INVOKEMETHOD: {
+                InvokeMethod invokeMethod = (InvokeMethod) instruction;
+                int opcode;
+                String owner;
+                String name;
+                String descriptor;
+                boolean isInterface;
+                if (invokeMethod.hasAttribute(InvokeMethodAttribute.class)) {
+                    InvokeMethodAttribute invokeMethodAttribute = invokeMethod.getAttribute(InvokeMethodAttribute.class).orElseThrow(IllegalStateException::new);
+                    opcode = invokeMethodAttribute.isPrivateMethod() ? Opcodes.INVOKESPECIAL : Opcodes.INVOKEVIRTUAL;
+                    owner = invokeMethodAttribute.getMethodOwner();
+                    name = invokeMethodAttribute.getMethodName();
+                    descriptor = invokeMethodAttribute.getMethodDescriptor();
+                    isInterface = invokeMethodAttribute.isInterfaceMethod();
+                } else {
+                    throw new IllegalStateException("No attribute found at INVOKEMETHOD");
+                }
+
+                methodVisitor.visitMethodInsn(
+                        opcode,
+                        owner,
+                        name,
+                        descriptor,
+                        isInterface);
+            }
+            break;
             case RETURN: {
                 Return returnInstruction = (Return) instruction;
+                if (!returnInstruction.hasAttribute(ReturnOpcodesAttribute.class)) {
+                    context.addReport(Errors.internalError(returnInstruction.getPosition(), "No ReturnOpcodesAttribute found."));
+                    return TaskResult.FAILED;
+                }
                 ReturnOpcodesAttribute returnOpcodesAttribute = returnInstruction.getAttribute(ReturnOpcodesAttribute.class).orElseThrow(IllegalStateException::new);
                 methodVisitor.visitInsn(returnOpcodesAttribute.getOpcodes());
             }
@@ -188,10 +233,14 @@ public class GenJavaByteCodeTask extends AbstractTask implements BackendTask {
                 ValDef valDef = (ValDef) instruction;
                 localVarNames.peek().add(valDef.getValName().getSimpleName());
 
-                if (valDef.hasAttribute(FieldAttribute.class)) {
+                if (valDef.hasAttribute(FieldClassAttribute.class)) {
                     // field
-                    FieldAttribute fieldAttribute = valDef.getAttribute(FieldAttribute.class).orElseThrow(IllegalStateException::new);
-                    Field fieldObject = fieldAttribute.getFieldObject();
+                    if (!valDef.hasAttribute(FieldClassAttribute.class)) {
+                        context.addReport(Errors.internalError(valDef.getPosition(), "No FieldClassAttribute found."));
+                        return TaskResult.FAILED;
+                    }
+                    FieldClassAttribute fieldClassAttribute = valDef.getAttribute(FieldClassAttribute.class).orElseThrow(IllegalStateException::new);
+                    Field fieldObject = fieldClassAttribute.getFieldObject();
                     java.lang.reflect.Type genericType = fieldObject.getGenericType();
 
                     SignatureReader reader = new SignatureReader(genericType.getTypeName());
@@ -207,7 +256,15 @@ public class GenJavaByteCodeTask extends AbstractTask implements BackendTask {
                     );
                 } else {
                     // local
+                    if (!valDef.hasAttribute(TypedInstructionAttribute.class)) {
+                        context.addReport(Errors.internalError(valDef.getPosition(), "No TypedInstructionAttribute found."));
+                        return TaskResult.FAILED;
+                    }
                     TypedInstructionAttribute typedInstructionAttribute = valDef.getAttribute(TypedInstructionAttribute.class).orElseThrow(IllegalStateException::new);
+                    if (!valDef.hasAttribute(JavaVMScopeAttribute.class)) {
+                        context.addReport(Errors.internalError(valDef.getPosition(), "No JavaVMScopeAttribute found."));
+                        return TaskResult.FAILED;
+                    }
                     JavaVMScopeAttribute javaVMScopeAttribute = valDef.getAttribute(JavaVMScopeAttribute.class).orElseThrow(IllegalStateException::new);
 
                     Class<?> valDefType = typedInstructionAttribute.getTypedInfo();

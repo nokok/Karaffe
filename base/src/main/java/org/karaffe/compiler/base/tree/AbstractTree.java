@@ -1,5 +1,6 @@
 package org.karaffe.compiler.base.tree;
 
+import org.karaffe.compiler.base.attr.Attribute;
 import org.karaffe.compiler.base.pos.Position;
 import org.karaffe.compiler.base.tree.term.Path;
 import org.karaffe.compiler.base.tree.term.Terms;
@@ -14,6 +15,7 @@ public abstract class AbstractTree implements Tree {
     private Position position;
     private Path name;
     private Path typeName;
+    private List<Attribute> attributes;
     private List<Tree> modifiers;
     private List<Tree> children;
 
@@ -27,8 +29,24 @@ public abstract class AbstractTree implements Tree {
         this.position = Position.noPos();
         this.name = Terms.emptyName();
         this.typeName = Terms.emptyName();
+        this.attributes = new ArrayList<>();
         this.modifiers = new ArrayList<>();
         this.children = new ArrayList<>();
+    }
+
+    @Override
+    public void addAttribute(Attribute attribute) {
+        this.attributes.add(Objects.requireNonNull(attribute));
+    }
+
+    @Override
+    public void setAttributes(List<Attribute> attributes) {
+        this.attributes = Objects.requireNonNull(attributes);
+    }
+
+    @Override
+    public List<Attribute> getAttributes() {
+        return this.attributes;
     }
 
     @Override

@@ -5,6 +5,7 @@ import org.karaffe.compiler.base.mir.InstructionType;
 import org.karaffe.compiler.base.mir.Instructions;
 import org.karaffe.compiler.base.mir.block.BeginClass;
 import org.karaffe.compiler.base.mir.block.BeginMethod;
+import org.karaffe.compiler.base.tree.Tree;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -12,8 +13,6 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.Objects;
-import java.util.function.BiConsumer;
 import java.util.stream.Collectors;
 
 public class InstructionList extends ArrayList<Instruction> implements Instructions {
@@ -55,18 +54,6 @@ public class InstructionList extends ArrayList<Instruction> implements Instructi
             }
         }
         LOGGER.trace("Internal cache updated");
-    }
-
-    @Override
-    public void forEachClasses(BiConsumer<Label, Instructions> action) {
-        Objects.requireNonNull(action);
-        this.classes.entrySet().forEach(e -> action.accept(e.getKey(), e.getValue()));
-    }
-
-    @Override
-    public void forEachMethods(BiConsumer<Label, Instructions> action) {
-        Objects.requireNonNull(action);
-        this.methods.entrySet().forEach(e -> action.accept(e.getKey(), e.getValue()));
     }
 
     @Override

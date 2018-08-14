@@ -13,6 +13,7 @@ import java.util.Comparator;
 import java.util.LinkedHashSet;
 import java.util.List;
 import java.util.Set;
+import java.util.regex.Pattern;
 import java.util.stream.Collectors;
 
 public class DefaultTaskRunner implements TaskRunner {
@@ -20,6 +21,7 @@ public class DefaultTaskRunner implements TaskRunner {
 
     private final CompilerContext context;
     private final List<Task> tasks = new ArrayList<>();
+    private final List<Pattern> disables = new ArrayList<>();
     private final TaskQueue delayedTasks = new TaskQueue();
     private final TaskQueue finallyTasks = new TaskQueue();
     private boolean isExecuting = false;
@@ -95,6 +97,11 @@ public class DefaultTaskRunner implements TaskRunner {
                 }
                 continue;
             }
+
+            if (this.disables.stream().anyMatch(p -> task.name().matches(p.pattern()))) {
+                continue;
+            }
+
             ProcessTimer timer = new ProcessTimer();
             LOGGER.info("Started  : {}", task.name());
             TaskResult result = task.run(context);
@@ -142,6 +149,11 @@ public class DefaultTaskRunner implements TaskRunner {
     @Override
     public Set<Task> getTasks() {
         return new LinkedHashSet<>(this.tasks);
+    }
+
+    @Override
+    public <T extends Task> void disable(String taskPattern) {
+        this.disables.add(Pattern.compile(taskPattern));
     }
 
     private void runFinallyTask(CompilerContext context, ResultRecorder resultRecorder) {

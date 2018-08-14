@@ -1,6 +1,5 @@
-import org.karaffe.compiler.base.mir.Instruction
-import org.karaffe.compiler.base.mir.Instructions
 import org.karaffe.compiler.base.mir.block.BeginMethod
+
 import spock.lang.Specification
 import util.FrontendUtil
 
@@ -25,23 +24,28 @@ println(a + b)""")
 [       <no-pos>] [ParameterName] ValDef #A#main(Array[String]):void#args Array[String]
 [       <no-pos>] Return
 [       <no-pos>] EndMethod #A#main(Array[String]):void
+[       <no-pos>] BeginMethod #A#<init>():void
+[       <no-pos>] [InvokingSet#0] Load #A#<init>():void#super
+[       <no-pos>] [InvokingSet#0] Invoke <init>
+[       <no-pos>] Return
+[       <no-pos>] EndMethod #A#<init>():void
 [       <no-pos>] EndClass #A
 [       6:0~6:16] ValDef #a Int
-[           6:12] [InvokingSet#0] Const INTEGER 1
-[           6:16] [InvokingSet#0] Const INTEGER 2
-[      6:12~6:16] [InvokingSet#0] Invoke plus
+[           6:12] [InvokingSet#1] Const INTEGER 1
+[           6:16] [InvokingSet#1] Const INTEGER 2
+[      6:12~6:16] [InvokingSet#1] Invoke plus
 [            6:4] Store #a
 [       7:0~7:20] ValDef #b Int
-[           7:12] [InvokingSet#2] Const INTEGER 1
-[           7:16] [InvokingSet#1, InvokingSet#2] Const INTEGER 2
-[           7:20] [InvokingSet#1, InvokingSet#2] Const INTEGER 3
-[      7:16~7:20] [InvokingSet#1, InvokingSet#2] Invoke div
-[      7:12~7:20] [InvokingSet#2] Invoke plus
+[           7:12] [InvokingSet#3] Const INTEGER 1
+[           7:16] [InvokingSet#2, InvokingSet#3] Const INTEGER 2
+[           7:20] [InvokingSet#2, InvokingSet#3] Const INTEGER 3
+[      7:16~7:20] [InvokingSet#2, InvokingSet#3] Invoke div
+[      7:12~7:20] [InvokingSet#3] Invoke plus
 [            7:4] Store #b
-[            8:8] [InvokingSet#3, InvokingSet#4] Load #a
-[           8:12] [InvokingSet#3, InvokingSet#4] Load #b
-[       8:8~8:12] [InvokingSet#3, InvokingSet#4] Invoke plus
-[       8:0~8:13] [InvokingSet#4] Invoke println
+[            8:8] [InvokingSet#4, InvokingSet#5] Load #a
+[           8:12] [InvokingSet#4, InvokingSet#5] Load #b
+[       8:8~8:12] [InvokingSet#4, InvokingSet#5] Invoke plus
+[       8:0~8:13] [InvokingSet#5] Invoke println
 [       <no-pos>] EndBlock #"""
     }
 
@@ -60,6 +64,11 @@ println(a + b)""")
 [       <no-pos>] [ParameterName] ValDef #Main#main(Array[String]):void#args Array[String]
 [       <no-pos>] Return
 [       <no-pos>] EndMethod #Main#main(Array[String]):void
+[       <no-pos>] BeginMethod #Main#<init>():void
+[       <no-pos>] [InvokingSet#0] Load #Main#<init>():void#super
+[       <no-pos>] [InvokingSet#0] Invoke <init>
+[       <no-pos>] Return
+[       <no-pos>] EndMethod #Main#<init>():void
 [       <no-pos>] EndClass #Main
 [       <no-pos>] EndBlock #"""
     }
@@ -183,6 +192,11 @@ let a Int = 0
 [       2:0~2:12] ValDef #Main#a Int
 [           2:12] Const INTEGER 0
 [            2:4] Store #Main#a
+[       <no-pos>] BeginMethod #Main#<init>():void
+[       <no-pos>] [InvokingSet#0] Load #Main#<init>():void#super
+[       <no-pos>] [InvokingSet#0] Invoke <init>
+[       <no-pos>] Return
+[       <no-pos>] EndMethod #Main#<init>():void
 [       <no-pos>] EndClass #Main
 [       <no-pos>] EndBlock #"""
     }
@@ -200,6 +214,11 @@ class A {
 [       3:2~3:27] BeginMethod #A#doSomething():void
 [       <no-pos>] Return
 [       <no-pos>] EndMethod #A#doSomething():void
+[       <no-pos>] BeginMethod #A#<init>():void
+[       <no-pos>] [InvokingSet#0] Load #A#<init>():void#super
+[       <no-pos>] [InvokingSet#0] Invoke <init>
+[       <no-pos>] Return
+[       <no-pos>] EndMethod #A#<init>():void
 [       <no-pos>] EndClass #A
 [       <no-pos>] EndBlock #"""
 
@@ -207,6 +226,37 @@ class A {
         beginMethod.returnTypeName == "void"
         beginMethod.parameters == ""
         beginMethod.methodName == "doSomething"
+    }
+
+    def "HelloWorld"() {
+        setup:
+        def context = FrontendUtil.parseAndGenerateCompilerContext("""
+class Main {
+    main {
+        println("Hello World!")
+    }
+}""")
+        def transformer = KaraffeTransformer.getTransformer(context)
+        transformer.run(context)
+
+        expect:
+        context.instructions.toString() == """[       <no-pos>] BeginBlock #
+[       <no-pos>] BeginClass #Main
+[        3:4~5:4] [public, static] BeginMethod #Main#main(Array[String]):void
+[       <no-pos>] [ParameterName] ValDef #Main#main(Array[String]):void#args Array[String]
+[       <no-pos>] BeginBlock #Main#main(Array[String]):void#0
+[           4:16] [InvokingSet#1] Const STRING "Hello World!"
+[       4:8~4:30] [InvokingSet#1] Invoke println
+[       <no-pos>] EndBlock #Main#main(Array[String]):void#0
+[       <no-pos>] Return
+[       <no-pos>] EndMethod #Main#main(Array[String]):void
+[       <no-pos>] BeginMethod #Main#<init>():void
+[       <no-pos>] [InvokingSet#2] Load #Main#<init>():void#super
+[       <no-pos>] [InvokingSet#2] Invoke <init>
+[       <no-pos>] Return
+[       <no-pos>] EndMethod #Main#<init>():void
+[       <no-pos>] EndClass #Main
+[       <no-pos>] EndBlock #"""
     }
 
 }

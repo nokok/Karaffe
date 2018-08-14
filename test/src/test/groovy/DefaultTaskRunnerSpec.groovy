@@ -74,4 +74,31 @@ class DefaultTaskRunnerSpec extends Specification {
         executed
     }
 
+    def "disabled"() {
+        setup:
+        def cc = new CompilerContextImpl()
+        def taskRunner = TaskRunner.newDefaultTaskRunner(cc)
+        def ab1 = new PlainTask("ab1") {
+            @Override
+            TaskResult run(CompilerContext context) {
+                super.run(context)
+                return TaskResult.SUCCESSFUL
+            }
+        }
+        def ac1 = new PlainTask("ac1") {
+            @Override
+            TaskResult run(CompilerContext context) {
+                super.run(context)
+                return TaskResult.SUCCESSFUL
+            }
+        }
+        taskRunner.standBy(ab1)
+        taskRunner.standBy(ac1)
+        taskRunner.disable("ac.*")
+        def result = taskRunner.runAll().toTaskResult()
+
+        expect:
+        result == TaskResult.SUCCESSFUL
+        cc.state == "ab1"
+    }
 }

@@ -43,6 +43,8 @@ public class SimplePath extends AbstractPath {
             return visitor.visitThisName(this, p);
         case TYPENAME:
             return visitor.visitTypeName(this, p);
+        case SUPER:
+            return visitor.visitSuperName(this, p);
         default:
             throw new IllegalStateException(this.nameKind.name());
         }

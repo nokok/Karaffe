@@ -3,7 +3,6 @@ package org.karaffe.compiler.launcher;
 import org.karaffe.compiler.backend.jvm.KaraffeCompilerBackend;
 import org.karaffe.compiler.base.CompilerContext;
 import org.karaffe.compiler.base.CompilerContextImpl;
-import org.karaffe.compiler.base.mir.Instructions;
 import org.karaffe.compiler.base.report.Report;
 import org.karaffe.compiler.base.task.RunnerResult;
 import org.karaffe.compiler.base.task.Task;
@@ -18,7 +17,6 @@ import org.karaffe.compiler.frontend.karaffe.tasks.preconditions.CheckCompilerPr
 import org.karaffe.compiler.launcher.tasks.ShowDiagnosticInfoTask;
 import org.karaffe.compiler.launcher.tasks.ShowUsageTask;
 import org.karaffe.compiler.launcher.tasks.ShowVersionTask;
-import org.karaffe.compiler.transform.KaraffeTransformer;
 import org.slf4j.LoggerFactory;
 
 import java.io.InputStream;
@@ -93,7 +91,6 @@ public class KaraffeCompilerLauncher {
         taskRunner.clear();
 
         taskRunner.standBy(KaraffeCompilerFrontend.getFrontend(context));
-        taskRunner.standBy(KaraffeTransformer.getTransformer(context));
         taskRunner.standBy(KaraffeCompilerBackend.getBackend(context));
 
         if (context.getCmdLineOptions().showTasks) {
@@ -103,18 +100,17 @@ public class KaraffeCompilerLauncher {
 
         RunnerResult compilerResult = taskRunner.runAll();
 
+        if (context.getCmdLineOptions().dumpMIR) {
+            Platform.stdOut(context.getInstructions());
+        }
+
         if (context.hasErrorReport()) {
             for (Report report : context.getReports()) {
                 Platform.stdErr(report);
             }
             return -1;
         }
-
-        if (context.getCmdLineOptions().dumpMIR) {
-            Platform.stdOut(context.getInstructions());
-        }
-
-        for (Map.Entry<Path, byte[]> entry : context.getBytecodes()) {
+        for (Map.Entry<Path, byte[]> entry : context.getBytecodes().entrySet()) {
             LOGGER.debug("Write to : {}", entry.getKey());
             Files.write(entry.getKey(), entry.getValue());
         }

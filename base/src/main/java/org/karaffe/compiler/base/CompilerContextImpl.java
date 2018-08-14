@@ -5,10 +5,8 @@ import org.antlr.v4.runtime.Lexer;
 import org.antlr.v4.runtime.ParserRuleContext;
 import org.karaffe.compiler.base.context.CommandLineOptions;
 import org.karaffe.compiler.base.mir.Instructions;
-import org.karaffe.compiler.base.pos.Position;
 import org.karaffe.compiler.base.report.Report;
 import org.karaffe.compiler.base.tree.Tree;
-import org.karaffe.compiler.base.tree.def.Def;
 import org.karaffe.compiler.base.util.SourceFile;
 import org.karaffe.compiler.base.util.config.Options;
 import org.kohsuke.args4j.CmdLineException;
@@ -186,8 +184,8 @@ public class CompilerContextImpl implements CompilerContext {
     }
 
     @Override
-    public Set<Map.Entry<Path, byte[]>> getBytecodes() {
-        return this.byteCodeMap.entrySet();
+    public Map<Path, byte[]> getBytecodes() {
+        return this.byteCodeMap;
     }
 
     @Override
