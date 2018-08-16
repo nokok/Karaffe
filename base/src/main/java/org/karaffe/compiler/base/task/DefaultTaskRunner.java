@@ -16,7 +16,7 @@ import java.util.Set;
 import java.util.regex.Pattern;
 import java.util.stream.Collectors;
 
-public class DefaultTaskRunner implements TaskRunner {
+class DefaultTaskRunner implements TaskRunner {
     private static final Logger LOGGER = LoggerFactory.getLogger(DefaultTaskRunner.class);
 
     private final CompilerContext context;
@@ -26,7 +26,7 @@ public class DefaultTaskRunner implements TaskRunner {
     private final TaskQueue finallyTasks = new TaskQueue();
     private boolean isExecuting = false;
 
-    public DefaultTaskRunner(CompilerContext context) {
+    DefaultTaskRunner(CompilerContext context) {
         this.context = context;
     }
 
