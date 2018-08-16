@@ -13,6 +13,7 @@ import org.karaffe.compiler.frontend.karaffe.tasks.LexerTask;
 import org.karaffe.compiler.frontend.karaffe.tasks.ParserTask;
 import org.karaffe.compiler.frontend.karaffe.tasks.PrintLastTreeTask;
 import org.karaffe.compiler.frontend.karaffe.tasks.PrintTreeTask;
+import org.karaffe.compiler.frontend.karaffe.tasks.postmir.PostMIRTask;
 import org.karaffe.compiler.frontend.karaffe.tasks.postparse.PostParseTask;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -32,7 +33,8 @@ public class KaraffeSourceFrontend extends AbstractTask {
             new ParserTask(),
             new GenASTTask(),
             new PostParseTask(),
-            new GenMIRTask()
+            new GenMIRTask(),
+            new PostMIRTask()
     ));
 
     @Override
