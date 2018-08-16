@@ -5,11 +5,11 @@ import org.karaffe.compiler.base.mir.Instruction;
 import org.karaffe.compiler.base.mir.InstructionType;
 import org.karaffe.compiler.base.mir.Instructions;
 import org.karaffe.compiler.base.task.AbstractTask;
-import org.karaffe.compiler.base.task.BackendTask;
+import org.karaffe.compiler.base.task.MIRTask;
 import org.karaffe.compiler.base.task.ReadOnlyTask;
 import org.karaffe.compiler.base.task.TaskResult;
 
-public class MIRCheckTask extends AbstractTask implements BackendTask, ReadOnlyTask {
+public class MIRCheckTask extends AbstractTask implements MIRTask, ReadOnlyTask {
     @Override
     public TaskResult run(Instructions instructions, CompilerContext context) {
         boolean hasGarbage = instructions.stream().map(Instruction::getInstType).anyMatch(t -> t == InstructionType.IMPORT);

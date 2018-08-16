@@ -3,10 +3,10 @@ package org.karaffe.compiler.backend.jvm.tasks;
 import org.karaffe.compiler.base.CompilerContext;
 import org.karaffe.compiler.base.mir.Instructions;
 import org.karaffe.compiler.base.task.AbstractTask;
-import org.karaffe.compiler.base.task.BackendTask;
+import org.karaffe.compiler.base.task.MIRTask;
 import org.karaffe.compiler.base.task.TaskResult;
 
-public class CleanupTask extends AbstractTask implements BackendTask {
+public class CleanupTask extends AbstractTask implements MIRTask {
     @Override
     public TaskResult run(Instructions instructions, CompilerContext context) {
         /* 今は何もしない */

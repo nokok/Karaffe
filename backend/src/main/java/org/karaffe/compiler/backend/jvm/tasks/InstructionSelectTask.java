@@ -3,11 +3,11 @@ package org.karaffe.compiler.backend.jvm.tasks;
 import org.karaffe.compiler.base.CompilerContext;
 import org.karaffe.compiler.base.mir.Instructions;
 import org.karaffe.compiler.base.task.AbstractTask;
-import org.karaffe.compiler.base.task.BackendTask;
+import org.karaffe.compiler.base.task.MIRTask;
 import org.karaffe.compiler.base.task.NoDescriptionTask;
 import org.karaffe.compiler.base.task.TaskResult;
 
-public class InstructionSelectTask extends AbstractTask implements BackendTask, NoDescriptionTask {
+public class InstructionSelectTask extends AbstractTask implements MIRTask, NoDescriptionTask {
     @Override
     public TaskResult run(Instructions instructions, CompilerContext context) {
         return null;

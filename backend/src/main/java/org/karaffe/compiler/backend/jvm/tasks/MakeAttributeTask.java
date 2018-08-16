@@ -12,7 +12,7 @@ import org.karaffe.compiler.base.mir.block.BeginMethod;
 import org.karaffe.compiler.base.mir.invoke.InvokeMethod;
 import org.karaffe.compiler.base.mir.jump.Return;
 import org.karaffe.compiler.base.task.AbstractTask;
-import org.karaffe.compiler.base.task.BackendTask;
+import org.karaffe.compiler.base.task.MIRTask;
 import org.karaffe.compiler.base.task.TaskResult;
 import org.karaffe.compiler.base.util.Errors;
 import org.slf4j.Logger;
@@ -21,7 +21,7 @@ import org.slf4j.LoggerFactory;
 import java.util.ArrayList;
 import java.util.List;
 
-public class MakeAttributeTask extends AbstractTask implements BackendTask {
+public class MakeAttributeTask extends AbstractTask implements MIRTask {
 
     private static final Logger LOGGER = LoggerFactory.getLogger(MakeAttributeTask.class);
 

@@ -41,7 +41,7 @@ import org.karaffe.compiler.base.mir.jump.JumpTarget;
 import org.karaffe.compiler.base.mir.jump.Return;
 import org.karaffe.compiler.base.mir.variable.ValDef;
 import org.karaffe.compiler.base.task.AbstractTask;
-import org.karaffe.compiler.base.task.BackendTask;
+import org.karaffe.compiler.base.task.MIRTask;
 import org.karaffe.compiler.base.task.TaskResult;
 import org.karaffe.compiler.base.util.Errors;
 import org.slf4j.Logger;
@@ -56,7 +56,7 @@ import java.util.Map;
 import java.util.Stack;
 import java.util.stream.Collectors;
 
-public class GenJavaByteCodeTask extends AbstractTask implements BackendTask {
+public class GenJavaByteCodeTask extends AbstractTask implements MIRTask {
 
     private ClassWriter classWriter;
     private static final Logger LOGGER = LoggerFactory.getLogger(GenJavaByteCodeTask.class);

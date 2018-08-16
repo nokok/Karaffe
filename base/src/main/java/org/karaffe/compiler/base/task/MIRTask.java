@@ -3,7 +3,7 @@ package org.karaffe.compiler.base.task;
 import org.karaffe.compiler.base.CompilerContext;
 import org.karaffe.compiler.base.mir.Instructions;
 
-public interface BackendTask extends Task {
+public interface MIRTask extends Task {
     @Override
     default TaskResult run(CompilerContext context) {
         return run(context.getInstructions(), context);
