@@ -3,6 +3,7 @@ package org.karaffe.compiler.base.util;
 import java.io.File;
 import java.io.InputStream;
 import java.io.PrintStream;
+import java.util.Arrays;
 
 public enum Platform {
 
