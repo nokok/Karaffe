@@ -1,9 +1,9 @@
-import org.karaffe.compiler.base.mir.InstructionType
-import org.karaffe.compiler.base.mir.block.BeginBlock
-import org.karaffe.compiler.base.mir.block.EndBlock
-import org.karaffe.compiler.base.mir.transformer.InstructionTransformer
-import org.karaffe.compiler.base.mir.util.InstructionList
-import org.karaffe.compiler.base.mir.util.Label
+import org.karaffe.compiler.base.mir.instructions.InstructionType
+import org.karaffe.compiler.base.mir.instructions.block.BeginBlock
+import org.karaffe.compiler.base.mir.instructions.block.EndBlock
+import org.karaffe.compiler.base.mir.instructions.transformer.InstructionTransformer
+import org.karaffe.compiler.base.mir.instructions.util.InstructionList
+import org.karaffe.compiler.base.mir.instructions.util.Label
 import spock.lang.Specification
 import util.FrontendUtil
 

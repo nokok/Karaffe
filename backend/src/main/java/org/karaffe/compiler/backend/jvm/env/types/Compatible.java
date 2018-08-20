@@ -1,6 +1,6 @@
 package org.karaffe.compiler.backend.jvm.env.types;
 
-import org.karaffe.compiler.base.mir.util.Label;
+import org.karaffe.compiler.base.mir.instructions.util.Label;
 
 import java.util.Objects;
 

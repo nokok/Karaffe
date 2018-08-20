@@ -1,7 +1,7 @@
-import org.karaffe.compiler.base.mir.block.BeginClass
-import org.karaffe.compiler.base.mir.block.BeginMethod
+import org.karaffe.compiler.base.mir.instructions.block.BeginClass
+import org.karaffe.compiler.base.mir.instructions.block.BeginMethod
 
-import org.karaffe.compiler.base.mir.util.Label
+import org.karaffe.compiler.base.mir.instructions.util.Label
 import spock.lang.Specification
 import spock.lang.Unroll
 

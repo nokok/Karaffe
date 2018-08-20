@@ -1,4 +1,4 @@
-import org.karaffe.compiler.base.mir.block.BeginMethod
+import org.karaffe.compiler.base.mir.instructions.block.BeginMethod
 
 import spock.lang.Specification
 import util.FrontendUtil

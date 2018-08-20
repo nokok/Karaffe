@@ -3,7 +3,7 @@ import org.karaffe.compiler.base.BackendType
 import org.karaffe.compiler.base.CompilerContext
 import org.karaffe.compiler.base.CompilerContextImpl
 import org.karaffe.compiler.base.FrontendType
-import org.karaffe.compiler.base.mir.Instructions
+import org.karaffe.compiler.base.mir.instructions.Instructions
 import org.karaffe.compiler.base.task.Task
 import org.karaffe.compiler.base.task.TaskResult
 import org.karaffe.compiler.base.util.SourceFile

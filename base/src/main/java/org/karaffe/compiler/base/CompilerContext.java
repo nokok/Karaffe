@@ -3,10 +3,8 @@ package org.karaffe.compiler.base;
 import org.antlr.v4.runtime.CommonTokenStream;
 import org.antlr.v4.runtime.Lexer;
 import org.antlr.v4.runtime.ParserRuleContext;
-import org.karaffe.compiler.base.mir.Instructions;
-import org.karaffe.compiler.base.pos.Position;
+import org.karaffe.compiler.base.mir.instructions.Instructions;
 import org.karaffe.compiler.base.tree.Tree;
-import org.karaffe.compiler.base.tree.def.Def;
 
 import java.util.stream.Stream;
 

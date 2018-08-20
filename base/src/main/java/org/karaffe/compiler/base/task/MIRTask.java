@@ -1,7 +1,7 @@
 package org.karaffe.compiler.base.task;
 
 import org.karaffe.compiler.base.CompilerContext;
-import org.karaffe.compiler.base.mir.Instructions;
+import org.karaffe.compiler.base.mir.instructions.Instructions;
 
 public interface MIRTask extends Task {
     @Override

@@ -1,7 +1,7 @@
 package org.karaffe.compiler.frontend.karaffe.tasks.postmir;
 
 import org.karaffe.compiler.base.CompilerContext;
-import org.karaffe.compiler.base.mir.Instructions;
+import org.karaffe.compiler.base.mir.instructions.Instructions;
 import org.karaffe.compiler.base.task.AbstractTask;
 import org.karaffe.compiler.base.task.MIRTask;
 import org.karaffe.compiler.base.task.TaskResult;

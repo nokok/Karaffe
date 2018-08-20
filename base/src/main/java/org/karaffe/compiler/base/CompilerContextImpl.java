@@ -4,7 +4,7 @@ import org.antlr.v4.runtime.CommonTokenStream;
 import org.antlr.v4.runtime.Lexer;
 import org.antlr.v4.runtime.ParserRuleContext;
 import org.karaffe.compiler.base.context.CommandLineOptions;
-import org.karaffe.compiler.base.mir.Instructions;
+import org.karaffe.compiler.base.mir.instructions.Instructions;
 import org.karaffe.compiler.base.report.Report;
 import org.karaffe.compiler.base.tree.Tree;
 import org.karaffe.compiler.base.util.SourceFile;
