@@ -6,7 +6,7 @@ import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
 
-public interface Instructions extends List<Instruction> {
+public interface ir extends List<Instruction> {
     void updateInternalCache();
 
     default Optional<Instruction> getElementByLabel(Label label) {
