@@ -1,7 +1,7 @@
 package org.karaffe.compiler.base.ir.util;
 
-public interface Argument {
+public interface Binding {
     String getName();
 
-    Type getType();
+    KaraffeIRType getType();
 }

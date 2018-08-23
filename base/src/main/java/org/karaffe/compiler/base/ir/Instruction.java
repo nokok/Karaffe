@@ -1,4 +1,9 @@
 package org.karaffe.compiler.base.ir;
 
-public interface Instruction {
+import java.util.List;
+
+public interface Instruction extends Element {
+    Operand getOperand();
+
+    List<Instruction> getArguments();
 }

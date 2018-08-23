@@ -1,4 +1,8 @@
 package org.karaffe.compiler.base.ir;
 
-public interface Element {
+import org.karaffe.compiler.base.attr.Attributes;
+
+public interface Element extends Attributes {
+    public String getElementID();
+
 }
