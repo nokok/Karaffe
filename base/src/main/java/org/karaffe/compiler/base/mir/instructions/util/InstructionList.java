@@ -2,7 +2,7 @@ package org.karaffe.compiler.base.mir.instructions.util;
 
 import org.karaffe.compiler.base.mir.instructions.Instruction;
 import org.karaffe.compiler.base.mir.instructions.InstructionType;
-import org.karaffe.compiler.base.mir.instructions.Instructions;
+import org.karaffe.compiler.base.mir.instructions.IR;
 import org.karaffe.compiler.base.mir.instructions.block.BeginClass;
 import org.karaffe.compiler.base.mir.instructions.block.BeginMethod;
 import org.slf4j.Logger;
@@ -14,11 +14,11 @@ import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
 
-public class InstructionList extends ArrayList<Instruction> implements Instructions {
+public class InstructionList extends ArrayList<Instruction> implements IR {
 
     private static final Logger LOGGER = LoggerFactory.getLogger(InstructionList.class);
-    private Map<Label, Instructions> classes = new HashMap<>();
-    private Map<Label, Instructions> methods = new HashMap<>();
+    private Map<Label, IR> classes = new HashMap<>();
+    private Map<Label, IR> methods = new HashMap<>();
 
     @Override
     public void updateInternalCache() {
@@ -41,13 +41,13 @@ public class InstructionList extends ArrayList<Instruction> implements Instructi
             }
             if (instruction.getInstType() == InstructionType.ENDCLASS) {
                 List<Instruction> instructions = this.subList(beginClass, index);
-                Instructions i = new InstructionList();
+                IR i = new InstructionList();
                 i.addAll(instructions);
                 this.classes.put(classLabel, i);
             }
             if (instruction.getInstType() == InstructionType.ENDMETHOD) {
                 List<Instruction> instructions = this.subList(beginMethod, index);
-                Instructions i = new InstructionList();
+                IR i = new InstructionList();
                 i.addAll(instructions);
                 this.methods.put(methodLabel, i);
             }

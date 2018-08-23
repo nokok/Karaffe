@@ -2,7 +2,7 @@ package org.karaffe.compiler.base.mir.instructions.invoke;
 
 import org.karaffe.compiler.base.mir.instructions.AbstractInstruction;
 import org.karaffe.compiler.base.mir.instructions.InstructionType;
-import org.karaffe.compiler.base.mir.instructions.Instructions;
+import org.karaffe.compiler.base.mir.instructions.IR;
 
 import java.util.Collection;
 import java.util.List;
@@ -11,17 +11,17 @@ import java.util.stream.Collectors;
 
 public class InvokeMethod extends AbstractInstruction {
 
-    private Instructions target;
+    private IR target;
     private String methodName;
-    private List<Instructions> parameterInstructions;
+    private List<IR> parameterInstructions;
 
-    public InvokeMethod(Instructions target, String methodName, List<Instructions> parameterInstructions) {
+    public InvokeMethod(IR target, String methodName, List<IR> parameterInstructions) {
         this.target = Objects.requireNonNull(target);
         this.methodName = Objects.requireNonNull(methodName);
         this.parameterInstructions = Objects.requireNonNull(parameterInstructions);
     }
 
-    public Instructions getTarget() {
+    public IR getTarget() {
         return target;
     }
 
@@ -29,7 +29,7 @@ public class InvokeMethod extends AbstractInstruction {
         return methodName;
     }
 
-    public List<Instructions> getParameterInstructions() {
+    public List<IR> getParameterInstructions() {
         return parameterInstructions;
     }
 

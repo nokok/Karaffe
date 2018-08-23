@@ -4,7 +4,7 @@ import org.karaffe.compiler.base.CompilerContext;
 import org.karaffe.compiler.base.attr.Attribute;
 import org.karaffe.compiler.base.mir.instructions.Import;
 import org.karaffe.compiler.base.mir.instructions.Instruction;
-import org.karaffe.compiler.base.mir.instructions.Instructions;
+import org.karaffe.compiler.base.mir.instructions.IR;
 import org.karaffe.compiler.base.mir.instructions.attr.InvokingSetAttribute;
 import org.karaffe.compiler.base.mir.instructions.attr.ModifierAttribute;
 import org.karaffe.compiler.base.mir.instructions.attr.ParameterAttribute;
@@ -72,12 +72,12 @@ public class GenMIRTask extends AbstractTask {
 
     @Override
     public TaskResult run(CompilerContext context) {
-        Instructions instructions = new InstructionList();
+        IR instructions = new InstructionList();
         Label rootLabel = Label.createRootLabel();
         BeginBlock beginBlock = new BeginBlock(rootLabel);
         Tree compilationUnit = context.getCompilationUnit();
         EndBlock endBlock = new EndBlock(rootLabel);
-        Instructions generated = compilationUnit.accept(new TreeVisitor(), null);
+        IR generated = compilationUnit.accept(new TreeVisitor(), null);
         instructions.add(beginBlock);
         instructions.addAll(generated);
         instructions.add(endBlock);
@@ -85,34 +85,34 @@ public class GenMIRTask extends AbstractTask {
         return TaskResult.SUCCESSFUL;
     }
 
-    private static class TreeVisitor extends TreeVisitorAdapter<Instructions, Label> {
+    private static class TreeVisitor extends TreeVisitorAdapter<IR, Label> {
 
         private static final Logger LOGGER = LoggerFactory.getLogger(TreeVisitor.class);
         private long seq = 0;
 
         @Override
-        public Instructions visitCompileUnit(Tree.CompilationUnit tree, Label parent) {
+        public IR visitCompileUnit(Tree.CompilationUnit tree, Label parent) {
             LOGGER.trace("visitCompileUnit: {}", tree);
-            Instructions instructions = new InstructionList();
+            IR instructions = new InstructionList();
             Label rootLabel = Label.createRootLabel();
-            List<Instructions> accepted = tree.acceptChildren(this, rootLabel);
+            List<IR> accepted = tree.acceptChildren(this, rootLabel);
             accepted.stream().filter(Objects::nonNull).forEach(instructions::addAll);
             instructions.forEach(i -> i.setTree(tree));
             return instructions;
         }
 
         @Override
-        public Instructions visitSimpleImportDef(SimpleImport def, Label label) {
-            Instructions instructions = new InstructionList();
+        public IR visitSimpleImportDef(SimpleImport def, Label label) {
+            IR instructions = new InstructionList();
             instructions.add(new Import(def.getName()));
             instructions.forEach(i -> i.setTree(def));
             return instructions;
         }
 
         @Override
-        public Instructions visitClassDef(ClassDef def, Label label) {
+        public IR visitClassDef(ClassDef def, Label label) {
             LOGGER.trace("visitClassDef: {}", def);
-            Instructions instructions = new InstructionList();
+            IR instructions = new InstructionList();
             Label classLabel = new Label(label, def.getName().toString());
             BeginClass beginClass = new BeginClass(classLabel);
             visitModifier(def.getModifiers()).forEach(beginClass::addAttribute);
@@ -124,18 +124,18 @@ public class GenMIRTask extends AbstractTask {
         }
 
         @Override
-        public Instructions visitTemplate(Tree.Template def, Label label) {
+        public IR visitTemplate(Tree.Template def, Label label) {
             LOGGER.trace("visitTemplate: {}", def);
-            Instructions instructions = new InstructionList();
+            IR instructions = new InstructionList();
             def.acceptChildren(this, label).stream().forEach(instructions::addAll);
             instructions.forEach(i -> i.setTree(def));
             return instructions;
         }
 
         @Override
-        public Instructions visitMethodDef(MethodDef def, Label label) {
+        public IR visitMethodDef(MethodDef def, Label label) {
             LOGGER.trace("visitMethodDef: {}", def);
-            Instructions instructions = new InstructionList();
+            IR instructions = new InstructionList();
             String parameterTypes = def.getChild(0).getChildren().stream().map(Binding.class::cast).map(b -> b.getTypeName()).map(Path::asFullName).reduce((l, r) -> l + ", " + r).orElse("");
             Label methodLabel = new Label(label, def.getName() + "(" + parameterTypes + "):" + def.getTypeName());
             BeginMethod beginMethod = new BeginMethod(methodLabel);
@@ -157,14 +157,14 @@ public class GenMIRTask extends AbstractTask {
         }
 
         @Override
-        public Instructions visitLetDef(LetDef simpleDef, Label parent) {
+        public IR visitLetDef(LetDef simpleDef, Label parent) {
             LOGGER.trace("visitLetDef: {}", simpleDef);
-            Instructions instructions = new InstructionList();
+            IR instructions = new InstructionList();
             Label valLabel = new Label(parent, simpleDef.getName().asSimpleName());
             ValDef valDef = new ValDef(valLabel, simpleDef.getTypeName().asFullName());
             valDef.setPosition(simpleDef.getPos());
             instructions.add(valDef);
-            Instructions accept = simpleDef.getBody().get(0).accept(this, valLabel);
+            IR accept = simpleDef.getBody().get(0).accept(this, valLabel);
             instructions.addAll(accept);
             Store store = new Store(valLabel);
             store.setPosition(simpleDef.getName().getPos());
@@ -174,9 +174,9 @@ public class GenMIRTask extends AbstractTask {
         }
 
         @Override
-        public Instructions visitBlock(Block block, Label label) {
+        public IR visitBlock(Block block, Label label) {
             LOGGER.trace("visitBlock: {}", block);
-            Instructions instructions = new InstructionList();
+            IR instructions = new InstructionList();
             Label blockLabel = new Label(label, String.valueOf(seq++));
             instructions.add(new BeginBlock(blockLabel));
             block.acceptChildren(this, blockLabel).forEach(instructions::addAll);
@@ -186,12 +186,12 @@ public class GenMIRTask extends AbstractTask {
         }
 
         @Override
-        public Instructions visitApply(Apply apply, Label label) {
+        public IR visitApply(Apply apply, Label label) {
             LOGGER.trace("visitApply: {}", apply);
-            Instructions instructions = new InstructionList();
-            Instructions owner = apply.getChild(0).accept(this, label);
+            IR instructions = new InstructionList();
+            IR owner = apply.getChild(0).accept(this, label);
             String methodName = apply.getName().asFullName();
-            List<Instructions> parameters = apply.acceptChildren(1, this, label);
+            List<IR> parameters = apply.acceptChildren(1, this, label);
             InvokeMethod invokeMethod = new InvokeMethod(owner, methodName, parameters);
             invokeMethod.setPosition(apply.getPos());
             instructions.add(invokeMethod);
@@ -200,15 +200,15 @@ public class GenMIRTask extends AbstractTask {
         }
 
         @Override
-        public Instructions visitEmpty(EmptyTree emptyTree, Label label) {
+        public IR visitEmpty(EmptyTree emptyTree, Label label) {
             LOGGER.trace("visitEmpty: {}", emptyTree);
             return new InstructionList();
         }
 
         @Override
-        public Instructions visitAtom(Atom atom, Label label) {
+        public IR visitAtom(Atom atom, Label label) {
             LOGGER.trace("visitAtom: {}", atom);
-            Instructions instructions = new InstructionList();
+            IR instructions = new InstructionList();
 
             Instruction instruction;
             switch (atom.getAtomKind()) {
@@ -231,16 +231,16 @@ public class GenMIRTask extends AbstractTask {
         }
 
         @Override
-        public Instructions visitTuple(Tuple tuple, Label label) {
-            Instructions instructions = new InstructionList();
+        public IR visitTuple(Tuple tuple, Label label) {
+            IR instructions = new InstructionList();
             tuple.acceptChildren(this, label).forEach(instructions::addAll);
             instructions.forEach(i -> i.setTree(tuple));
             return instructions;
         }
 
         @Override
-        public Instructions visitBinding(Binding binding, Label label) {
-            Instructions instructions = new InstructionList();
+        public IR visitBinding(Binding binding, Label label) {
+            IR instructions = new InstructionList();
             Path typeName = binding.getTypeName();
             Path name = binding.getName();
             org.karaffe.compiler.base.mir.instructions.constant.Binding b = new org.karaffe.compiler.base.mir.instructions.constant.Binding(new Label(label, name.toString()), typeName.asFullName());
@@ -250,16 +250,16 @@ public class GenMIRTask extends AbstractTask {
         }
 
         @Override
-        public Instructions visitCast(Cast cast, Label label) {
-            Instructions instructions = new InstructionList();
+        public IR visitCast(Cast cast, Label label) {
+            IR instructions = new InstructionList();
             instructions.add(new org.karaffe.compiler.base.mir.instructions.Cast(cast.getTypeName().asFullName()));
             instructions.forEach(i -> i.setTree(cast));
             return instructions;
         }
 
         @Override
-        public Instructions visitWhileExpr(WhileExpr whileExpr, Label label) {
-            Instructions instructions = new InstructionList();
+        public IR visitWhileExpr(WhileExpr whileExpr, Label label) {
+            IR instructions = new InstructionList();
             long index = seq++;
             Label whileBlockLabel = new Label(label, "whileBlock" + index);
             instructions.add(new BeginBlock(whileBlockLabel));
@@ -279,8 +279,8 @@ public class GenMIRTask extends AbstractTask {
         }
 
         @Override
-        public Instructions visitIfExpr(IfExpr ifExpr, Label label) {
-            Instructions instructions = new InstructionList();
+        public IR visitIfExpr(IfExpr ifExpr, Label label) {
+            IR instructions = new InstructionList();
             long index = seq++;
             Tree cond = ifExpr.getChild(0);
             Tree thenExpr = ifExpr.getChild(1);
@@ -308,8 +308,8 @@ public class GenMIRTask extends AbstractTask {
         }
 
         @Override
-        public Instructions visitAssignmentDef(AssignmentDef simpleDef, Label label) {
-            Instructions instructions = new InstructionList();
+        public IR visitAssignmentDef(AssignmentDef simpleDef, Label label) {
+            IR instructions = new InstructionList();
             Label l = new Label(label, simpleDef.getName().asSimpleName());
             Store s = new Store(l);
             simpleDef.accept(this, l).forEach(instructions::add);
@@ -320,8 +320,8 @@ public class GenMIRTask extends AbstractTask {
         }
 
         @Override
-        public Instructions visitReturn(ReturnStatement returnStatement, Label label) {
-            Instructions instructions = new InstructionList();
+        public IR visitReturn(ReturnStatement returnStatement, Label label) {
+            IR instructions = new InstructionList();
             returnStatement.acceptChildren(this, label).forEach(instructions::addAll);
             Return ret = new Return();
             Tree parent = returnStatement.getParent();
@@ -345,8 +345,8 @@ public class GenMIRTask extends AbstractTask {
         }
 
         @Override
-        public Instructions visitNameNode(NameNode nameNode, Label label) {
-            Instructions instructions = new InstructionList();
+        public IR visitNameNode(NameNode nameNode, Label label) {
+            IR instructions = new InstructionList();
             Label loadName = new Label(label, nameNode.getName().asSimpleName());
             Load load = new Load(loadName);
             instructions.add(load);

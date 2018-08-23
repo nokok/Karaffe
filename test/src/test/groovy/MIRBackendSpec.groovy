@@ -3,7 +3,7 @@ import org.karaffe.compiler.base.BackendType
 import org.karaffe.compiler.base.CompilerContext
 import org.karaffe.compiler.base.CompilerContextImpl
 import org.karaffe.compiler.base.FrontendType
-import org.karaffe.compiler.base.mir.instructions.Instructions
+import org.karaffe.compiler.base.mir.instructions.IR
 import org.karaffe.compiler.base.task.Task
 import org.karaffe.compiler.base.task.TaskResult
 import org.karaffe.compiler.base.util.SourceFile
@@ -11,7 +11,7 @@ import org.karaffe.compiler.frontend.karaffe.KaraffeCompilerFrontend
 import spock.lang.Specification
 
 class MIRBackendSpec extends Specification {
-    private Instructions parse(String source) {
+    private IR parse(String source) {
         CompilerContext context = new CompilerContextImpl()
         context.setTargetBackendType(BackendType.JVM)
         Task frontend = KaraffeCompilerFrontend.getFrontend(context)

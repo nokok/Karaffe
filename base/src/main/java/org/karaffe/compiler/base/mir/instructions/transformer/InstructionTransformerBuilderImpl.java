@@ -2,7 +2,7 @@ package org.karaffe.compiler.base.mir.instructions.transformer;
 
 import org.karaffe.compiler.base.mir.instructions.Instruction;
 import org.karaffe.compiler.base.mir.instructions.InstructionType;
-import org.karaffe.compiler.base.mir.instructions.Instructions;
+import org.karaffe.compiler.base.mir.instructions.IR;
 
 import java.util.function.Function;
 
@@ -16,7 +16,7 @@ class InstructionTransformerBuilderImpl implements InstructionTransformerBuilder
     }
 
     @Override
-    public <T extends Instruction> InstructionTransformerBuilder on(InstructionType type, Class<T> clazz, Function<T, Instructions> apply) {
+    public <T extends Instruction> InstructionTransformerBuilder on(InstructionType type, Class<T> clazz, Function<T, IR> apply) {
         return this;
     }
 

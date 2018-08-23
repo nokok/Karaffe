@@ -1,7 +1,7 @@
 package org.karaffe.compiler.base.mir.instructions.transformer;
 
 import org.karaffe.compiler.base.mir.instructions.Instruction;
-import org.karaffe.compiler.base.mir.instructions.Instructions;
+import org.karaffe.compiler.base.mir.instructions.IR;
 import org.karaffe.compiler.base.mir.instructions.util.InstructionList;
 
 class InstructionTransformerImpl implements InstructionTransformer {
@@ -13,8 +13,8 @@ class InstructionTransformerImpl implements InstructionTransformer {
     }
 
     @Override
-    public Instructions transform(Instructions instructions) {
-        Instructions dest = new InstructionList();
+    public IR transform(IR instructions) {
+        IR dest = new InstructionList();
         dest.addAll(instructions);
         for (Instruction instruction : instructions) {
             if (config.getRemoveTypes().contains(instruction.getInstType())) {

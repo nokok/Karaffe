@@ -22,7 +22,7 @@ import org.karaffe.compiler.backend.jvm.attr.TypedInstructionAttribute;
 import org.karaffe.compiler.base.CompilerContext;
 import org.karaffe.compiler.base.mir.instructions.Cast;
 import org.karaffe.compiler.base.mir.instructions.Instruction;
-import org.karaffe.compiler.base.mir.instructions.Instructions;
+import org.karaffe.compiler.base.mir.instructions.IR;
 import org.karaffe.compiler.base.mir.instructions.attr.ModifierAttribute;
 import org.karaffe.compiler.base.mir.instructions.attr.ParameterAttribute;
 import org.karaffe.compiler.base.mir.instructions.block.BeginBlock;
@@ -62,7 +62,7 @@ public class GenJavaByteCodeTask extends AbstractTask implements MIRTask {
     private static final Logger LOGGER = LoggerFactory.getLogger(GenJavaByteCodeTask.class);
 
     @Override
-    public TaskResult run(Instructions instructions, CompilerContext context) {
+    public TaskResult run(IR instructions, CompilerContext context) {
         List<String> classNames = new ArrayList<>();
         List<String> methodNames = new ArrayList<>();
         List<String> blockNames = new ArrayList<>();

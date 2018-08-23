@@ -1,18 +1,19 @@
 package org.karaffe.compiler.frontend.karaffe.tasks.postmir;
 
 import org.karaffe.compiler.base.CompilerContext;
+import org.karaffe.compiler.base.mir.instructions.IR;
 import org.karaffe.compiler.base.mir.instructions.Instruction;
 import org.karaffe.compiler.base.mir.instructions.InstructionType;
-import org.karaffe.compiler.base.mir.instructions.Instructions;
 import org.karaffe.compiler.base.mir.instructions.block.BeginBlock;
 import org.karaffe.compiler.base.mir.instructions.block.EndBlock;
 import org.karaffe.compiler.base.task.AbstractTask;
+import org.karaffe.compiler.base.task.IRTask;
 import org.karaffe.compiler.base.task.MIRTask;
 import org.karaffe.compiler.base.task.TaskResult;
 
 import java.util.concurrent.atomic.AtomicBoolean;
 
-public class AutoReturnTask extends AbstractTask implements MIRTask {
+public class AutoReturnTask extends AbstractTask implements MIRTask, IRTask {
 
     private AtomicBoolean hasChanged = new AtomicBoolean(false);
 
@@ -32,7 +33,7 @@ public class AutoReturnTask extends AbstractTask implements MIRTask {
     }
 
     @Override
-    public TaskResult run(Instructions instructions, CompilerContext context) {
+    public TaskResult run(IR instructions, CompilerContext context) {
         BeginBlock beginBlock = null;
         for (Instruction instruction : instructions) {
             if (instruction.getInstType() == InstructionType.BEGINBLOCK) {
@@ -50,4 +51,5 @@ public class AutoReturnTask extends AbstractTask implements MIRTask {
         //TODO
         return TaskResult.SUCCESSFUL;
     }
+
 }

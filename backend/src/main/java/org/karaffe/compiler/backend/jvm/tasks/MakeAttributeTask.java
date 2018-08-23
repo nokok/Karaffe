@@ -6,7 +6,7 @@ import org.karaffe.compiler.backend.jvm.attr.NewClassAttribute;
 import org.karaffe.compiler.backend.jvm.attr.NewMethodAttribute;
 import org.karaffe.compiler.base.CompilerContext;
 import org.karaffe.compiler.base.mir.instructions.InstructionType;
-import org.karaffe.compiler.base.mir.instructions.Instructions;
+import org.karaffe.compiler.base.mir.instructions.IR;
 import org.karaffe.compiler.base.mir.instructions.block.BeginClass;
 import org.karaffe.compiler.base.mir.instructions.block.BeginMethod;
 import org.karaffe.compiler.base.mir.instructions.invoke.InvokeMethod;
@@ -41,7 +41,7 @@ public class MakeAttributeTask extends AbstractTask implements MIRTask {
     }
 
     @Override
-    public TaskResult run(Instructions instructions, CompilerContext context) {
+    public TaskResult run(IR instructions, CompilerContext context) {
         instructions.stream().filter(i -> i.getInstType() == InstructionType.BEGINCLASS).map(BeginClass.class::cast).forEach(beginClass -> {
             int access = Opcodes.ACC_PUBLIC;
             Class<?> superClass = Object.class;
@@ -85,9 +85,9 @@ public class MakeAttributeTask extends AbstractTask implements MIRTask {
             beginMethod.addAttribute(attribute);
         });
         instructions.stream().filter(i -> i.getInstType() == InstructionType.INVOKEMETHOD).map(InvokeMethod.class::cast).forEach(invoke -> {
-            Instructions target = invoke.getTarget();
+            IR target = invoke.getTarget();
             String methodName = invoke.getMethodName();
-            List<Instructions> parameterInstructions = invoke.getParameterInstructions();
+            List<IR> parameterInstructions = invoke.getParameterInstructions();
             InvokeMethodAttribute attribute = new InvokeMethodAttribute(Object.class, methodName, new ArrayList<>());
             invoke.addAttribute(attribute);
         });
