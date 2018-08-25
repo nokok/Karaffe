@@ -4,7 +4,8 @@ import org.antlr.v4.runtime.CommonTokenStream;
 import org.antlr.v4.runtime.Lexer;
 import org.antlr.v4.runtime.ParserRuleContext;
 import org.karaffe.compiler.base.context.CommandLineOptions;
-import org.karaffe.compiler.base.mir.instructions.IR;
+import org.karaffe.compiler.base.ir.IR;
+import org.karaffe.compiler.base.mir.instructions.DeprecatedInstructions;
 import org.karaffe.compiler.base.report.Report;
 import org.karaffe.compiler.base.tree.Tree;
 import org.karaffe.compiler.base.util.SourceFile;
@@ -27,8 +28,8 @@ public class CompilerContextImpl implements CompilerContext {
     private final CommandLineOptions commandLineOptions;
     private BackendType backendType;
     private FrontendType frontendType;
-    private IR instructions;
-    private org.karaffe.compiler.base.ir.IR ir;
+    private DeprecatedInstructions instructions;
+    private IR ir;
     private final Set<SourceFile> sourceFiles;
     private final Set<Lexer> lexers;
     private final Set<ParserRuleContext> contexts;
@@ -159,23 +160,23 @@ public class CompilerContextImpl implements CompilerContext {
     }
 
     @Override
-    public void setInstructions(IR instructions) {
+    public void setInstructions(DeprecatedInstructions instructions) {
         this.instructions = Objects.requireNonNull(instructions);
     }
 
     @Override
-    public IR getInstructions() {
+    public DeprecatedInstructions getInstructions() {
         this.instructions.updateInternalCache();
         return this.instructions;
     }
 
     @Override
-    public void setIR(org.karaffe.compiler.base.ir.IR ir) {
+    public void setIR(IR ir) {
         this.ir = Objects.requireNonNull(ir);
     }
 
     @Override
-    public org.karaffe.compiler.base.ir.IR getIR() {
+    public IR getIR() {
         return this.ir;
     }
 

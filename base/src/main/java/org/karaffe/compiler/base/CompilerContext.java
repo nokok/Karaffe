@@ -3,7 +3,8 @@ package org.karaffe.compiler.base;
 import org.antlr.v4.runtime.CommonTokenStream;
 import org.antlr.v4.runtime.Lexer;
 import org.antlr.v4.runtime.ParserRuleContext;
-import org.karaffe.compiler.base.mir.instructions.IR;
+import org.karaffe.compiler.base.ir.IR;
+import org.karaffe.compiler.base.mir.instructions.DeprecatedInstructions;
 import org.karaffe.compiler.base.tree.Tree;
 
 import java.util.stream.Stream;
@@ -32,11 +33,11 @@ public interface CompilerContext extends
 
     void setCompilationUnit(Tree compilationUnit);
 
-    void setInstructions(IR instructions);
+    void setInstructions(DeprecatedInstructions instructions);
 
-    IR getInstructions();
+    DeprecatedInstructions getInstructions();
 
-    void setIR(org.karaffe.compiler.base.ir.IR ir);
+    void setIR(IR ir);
 
-    org.karaffe.compiler.base.ir.IR getIR();
+    IR getIR();
 }

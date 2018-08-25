@@ -1,7 +1,7 @@
 package org.karaffe.compiler.base.mir.instructions.transformer;
 
-import org.karaffe.compiler.base.mir.instructions.Instruction;
-import org.karaffe.compiler.base.mir.instructions.IR;
+import org.karaffe.compiler.base.mir.instructions.DeprecatedInstruction;
+import org.karaffe.compiler.base.mir.instructions.DeprecatedInstructions;
 import org.karaffe.compiler.base.mir.instructions.util.InstructionList;
 
 class InstructionTransformerImpl implements InstructionTransformer {
@@ -13,10 +13,10 @@ class InstructionTransformerImpl implements InstructionTransformer {
     }
 
     @Override
-    public IR transform(IR instructions) {
-        IR dest = new InstructionList();
+    public DeprecatedInstructions transform(DeprecatedInstructions instructions) {
+        DeprecatedInstructions dest = new InstructionList();
         dest.addAll(instructions);
-        for (Instruction instruction : instructions) {
+        for (DeprecatedInstruction instruction : instructions) {
             if (config.getRemoveTypes().contains(instruction.getInstType())) {
                 dest.remove(instruction);
             }

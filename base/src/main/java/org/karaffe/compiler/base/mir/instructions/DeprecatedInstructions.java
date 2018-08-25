@@ -7,18 +7,18 @@ import java.util.Optional;
 import java.util.stream.Collectors;
 
 @Deprecated
-public interface IR extends List<Instruction> {
+public interface DeprecatedInstructions extends List<DeprecatedInstruction> {
     void updateInternalCache();
 
-    default Optional<Instruction> getElementByLabel(Label label) {
-        List<Instruction> instructionsByLabel = this.getInstructionsByLabel(label);
+    default Optional<DeprecatedInstruction> getElementByLabel(Label label) {
+        List<DeprecatedInstruction> instructionsByLabel = this.getInstructionsByLabel(label);
         if (instructionsByLabel.isEmpty()) {
             return Optional.empty();
         }
         return Optional.of(instructionsByLabel.get(0));
     }
 
-    default List<Instruction> getInstructionsByLabel(Label label) {
+    default List<DeprecatedInstruction> getInstructionsByLabel(Label label) {
         return this.stream()
                 .filter(i -> i instanceof LabeledInstruction)
                 .map(LabeledInstruction.class::cast)
@@ -26,7 +26,7 @@ public interface IR extends List<Instruction> {
                     Label iLabel = f.getLabel();
                     return iLabel.equals(label);
                 })
-                .map(Instruction.class::cast)
+                .map(DeprecatedInstruction.class::cast)
                 .collect(Collectors.toList());
     }
 }

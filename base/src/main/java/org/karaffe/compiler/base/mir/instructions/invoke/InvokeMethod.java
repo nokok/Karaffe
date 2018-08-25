@@ -2,7 +2,7 @@ package org.karaffe.compiler.base.mir.instructions.invoke;
 
 import org.karaffe.compiler.base.mir.instructions.AbstractInstruction;
 import org.karaffe.compiler.base.mir.instructions.InstructionType;
-import org.karaffe.compiler.base.mir.instructions.IR;
+import org.karaffe.compiler.base.mir.instructions.DeprecatedInstructions;
 
 import java.util.Collection;
 import java.util.List;
@@ -11,17 +11,17 @@ import java.util.stream.Collectors;
 
 public class InvokeMethod extends AbstractInstruction {
 
-    private IR target;
+    private DeprecatedInstructions target;
     private String methodName;
-    private List<IR> parameterInstructions;
+    private List<DeprecatedInstructions> parameterInstructions;
 
-    public InvokeMethod(IR target, String methodName, List<IR> parameterInstructions) {
+    public InvokeMethod(DeprecatedInstructions target, String methodName, List<DeprecatedInstructions> parameterInstructions) {
         this.target = Objects.requireNonNull(target);
         this.methodName = Objects.requireNonNull(methodName);
         this.parameterInstructions = Objects.requireNonNull(parameterInstructions);
     }
 
-    public IR getTarget() {
+    public DeprecatedInstructions getTarget() {
         return target;
     }
 
@@ -29,7 +29,7 @@ public class InvokeMethod extends AbstractInstruction {
         return methodName;
     }
 
-    public List<IR> getParameterInstructions() {
+    public List<DeprecatedInstructions> getParameterInstructions() {
         return parameterInstructions;
     }
 

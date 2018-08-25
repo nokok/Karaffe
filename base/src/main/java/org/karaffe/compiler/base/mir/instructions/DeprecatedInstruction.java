@@ -4,7 +4,7 @@ import org.karaffe.compiler.base.attr.Attributes;
 import org.karaffe.compiler.base.pos.Position;
 import org.karaffe.compiler.base.tree.Tree;
 
-public interface Instruction extends Attributes {
+public interface DeprecatedInstruction extends Attributes {
     InstructionType getInstType();
 
     Position getPosition();

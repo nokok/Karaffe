@@ -1,8 +1,8 @@
 package org.karaffe.compiler.base.mir.instructions.transformer;
 
-import org.karaffe.compiler.base.mir.instructions.Instruction;
+import org.karaffe.compiler.base.mir.instructions.DeprecatedInstruction;
 import org.karaffe.compiler.base.mir.instructions.InstructionType;
-import org.karaffe.compiler.base.mir.instructions.IR;
+import org.karaffe.compiler.base.mir.instructions.DeprecatedInstructions;
 
 import java.util.function.Function;
 
@@ -16,7 +16,7 @@ class InstructionTransformerBuilderImpl implements InstructionTransformerBuilder
     }
 
     @Override
-    public <T extends Instruction> InstructionTransformerBuilder on(InstructionType type, Class<T> clazz, Function<T, IR> apply) {
+    public <T extends DeprecatedInstruction> InstructionTransformerBuilder on(InstructionType type, Class<T> clazz, Function<T, DeprecatedInstructions> apply) {
         return this;
     }
 

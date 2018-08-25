@@ -8,7 +8,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 
-public abstract class AbstractInstruction implements Instruction {
+public abstract class AbstractInstruction implements DeprecatedInstruction {
     private List<Attribute> attributes = new ArrayList<>();
     private Tree tree;
     private Position position = Position.noPos();
