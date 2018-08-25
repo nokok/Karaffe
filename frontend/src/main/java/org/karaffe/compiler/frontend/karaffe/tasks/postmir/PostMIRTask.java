@@ -17,7 +17,6 @@ public class PostMIRTask extends AbstractTask implements NoDescriptionTask {
     private Set<Task> subTask = new LinkedHashSet<>();
 
     public PostMIRTask() {
-        this.subTask.add(new AutoReturnTask());
         this.subTask.add(new InsertDefaultConstructorTask());
     }
 
