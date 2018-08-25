@@ -12,6 +12,8 @@ public interface IR {
 
     void add(String moduleName, Function function);
 
+    void add(Block block);
+
     Stream<Module> moduleStream();
 
     default Stream<Function> functionStream() {
@@ -21,6 +23,8 @@ public interface IR {
     default Stream<Block> blockStream() {
         return this.functionStream().flatMap(Function::blockStream);
     }
+
+    Stream<Block> globalBlockStream();
 
     default Stream<Instruction> instructionStream() {
         return this.blockStream().flatMap(Block::instructionStream);
