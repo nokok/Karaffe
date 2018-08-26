@@ -9,6 +9,7 @@ import org.karaffe.compiler.base.tree.term.Path;
 import org.karaffe.compiler.base.tree.term.Terms;
 
 import java.util.List;
+import java.util.Objects;
 
 public interface Exprs {
 
@@ -26,10 +27,10 @@ public interface Exprs {
 
     static Tree apply(Position position, Tree target, Path methodName, Tree arg) {
         Apply apply = new Apply();
-        apply.setPos(position);
-        apply.setName(methodName);
-        apply.addChild(target);
-        apply.addChild(arg);
+        apply.setPos(Objects.requireNonNull(position));
+        apply.setName(Objects.requireNonNull(methodName));
+        apply.addChild(Objects.requireNonNull(target));
+        apply.addChild(Objects.requireNonNull(arg));
         target.setParent(apply);
         arg.setParent(apply);
         return apply;
@@ -38,7 +39,7 @@ public interface Exprs {
     static Tree tuple(List<Tree> trees) {
         Tuple tuple = new Tuple();
         for (Tree tree : trees) {
-            tuple.addChild(tree);
+            tuple.addChild(Objects.requireNonNull(tree));
             tree.setParent(tuple);
         }
         return tuple;

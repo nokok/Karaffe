@@ -2,7 +2,6 @@ package org.karaffe.compiler.base.mir.instructions.variable;
 
 import org.karaffe.compiler.base.mir.instructions.AbstractInstruction;
 import org.karaffe.compiler.base.mir.instructions.InstructionType;
-import org.karaffe.compiler.base.mir.instructions.attr.ParameterAttribute;
 import org.karaffe.compiler.base.mir.instructions.util.Label;
 
 import java.util.Objects;
@@ -22,10 +21,6 @@ public class ValDef extends AbstractInstruction {
 
     public String getTypeName() {
         return typeName;
-    }
-
-    public boolean isParameter() {
-        return this.getAttributes().stream().anyMatch(i -> i instanceof ParameterAttribute);
     }
 
     @Override

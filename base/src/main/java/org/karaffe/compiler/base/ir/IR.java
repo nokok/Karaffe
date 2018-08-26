@@ -33,4 +33,8 @@ public interface IR {
     List<Module> getModules();
 
     List<Function> getFunctions();
+
+    static IR newIR() {
+        return new DefaultIR();
+    }
 }

@@ -1,7 +1,7 @@
 package org.karaffe.compiler.base.mir.instructions.transformer;
 
+import org.karaffe.compiler.base.ir.IR;
 import org.karaffe.compiler.base.mir.instructions.InstructionType;
-import org.karaffe.compiler.base.mir.instructions.DeprecatedInstructions;
 import org.karaffe.compiler.base.mir.instructions.util.Label;
 
 public interface InstructionTransformer {
@@ -15,8 +15,8 @@ public interface InstructionTransformer {
     }
 
     static InstructionTransformerBuilder create() {
-        return new InstructionTransformerBuilderImpl();
+        return null;
     }
 
-    public DeprecatedInstructions transform(DeprecatedInstructions instructions);
+    public IR transform(IR instructions);
 }

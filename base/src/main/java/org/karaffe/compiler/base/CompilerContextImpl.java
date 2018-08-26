@@ -28,7 +28,6 @@ public class CompilerContextImpl implements CompilerContext {
     private final CommandLineOptions commandLineOptions;
     private BackendType backendType;
     private FrontendType frontendType;
-    private DeprecatedInstructions instructions;
     private IR ir;
     private final Set<SourceFile> sourceFiles;
     private final Set<Lexer> lexers;
@@ -157,17 +156,6 @@ public class CompilerContextImpl implements CompilerContext {
                 ", compilationUnit=" + compilationUnit +
                 ", hasInvalidCmdLineArg=" + hasInvalidCmdLineArg +
                 '}';
-    }
-
-    @Override
-    public void setInstructions(DeprecatedInstructions instructions) {
-        this.instructions = Objects.requireNonNull(instructions);
-    }
-
-    @Override
-    public DeprecatedInstructions getInstructions() {
-        this.instructions.updateInternalCache();
-        return this.instructions;
     }
 
     @Override

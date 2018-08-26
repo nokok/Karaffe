@@ -3,7 +3,6 @@ import org.karaffe.compiler.base.BackendType
 import org.karaffe.compiler.base.CompilerContext
 import org.karaffe.compiler.base.CompilerContextImpl
 import org.karaffe.compiler.base.FrontendType
-import org.karaffe.compiler.base.mir.instructions.DeprecatedInstructions
 import org.karaffe.compiler.base.task.Task
 import org.karaffe.compiler.base.task.TaskResult
 import org.karaffe.compiler.base.util.SourceFile
@@ -11,18 +10,6 @@ import org.karaffe.compiler.frontend.karaffe.KaraffeCompilerFrontend
 import spock.lang.Specification
 
 class MIRBackendSpec extends Specification {
-    private DeprecatedInstructions parse(String source) {
-        CompilerContext context = new CompilerContextImpl()
-        context.setTargetBackendType(BackendType.JVM)
-        Task frontend = KaraffeCompilerFrontend.getFrontend(context)
-        context.addSourceFile(SourceFile.fromLiteral(source))
-        def result = frontend.run(context)
-        if (result != TaskResult.SUCCESSFUL) {
-            throw new RuntimeException()
-        }
-        return context.getInstructions()
-    }
-
     private CompilerContext runBackend(String source) {
         CompilerContext context = new CompilerContextImpl()
         context.addSourceFile(SourceFile.fromLiteral(source))
@@ -51,15 +38,6 @@ class MIRBackendSpec extends Specification {
 """)
 
         expect:
-        context.getInstructions().toString() == """[       <no-pos>] BeginBlock #
-[       <no-pos>] BeginClass #A
-[       <no-pos>] BeginConstructor #A#<init>():void
-[       <no-pos>] Load this
-[       <no-pos>] InvokeSpecial java/lang/Object#<init>():V
-[       <no-pos>] Return
-[       <no-pos>] EndConstructor #A#<init>():void
-[       <no-pos>] EndClass #A
-[       <no-pos>] EndBlock #"""
         !context.hasErrorReport()
         !context.hasAnyReport()
         assertBytecodeFileCount(context, 1)
@@ -73,24 +51,6 @@ class MIRBackendSpec extends Specification {
 }""")
 
         expect:
-        context.getInstructions().toString() == """[       <no-pos>] BeginBlock #
-[       <no-pos>] NameRule Object -> Ljava.lang.Object;
-[       <no-pos>] NameRule String -> Ljava.lang.String;
-[       <no-pos>] NameRule System -> Ljava.lang.System;
-[       <no-pos>] NameRule Integer -> Ljava.lang.Integer;
-[       <no-pos>] NameRule Matcher -> Ljava.util.regex.Matcher;
-[       <no-pos>] NameRule Pattern -> Ljava.util.regex.Pattern;
-[       <no-pos>] BeginClass #A
-[       <no-pos>] BeginConstructor #A#<init>():void
-[       <no-pos>] Load this
-[       <no-pos>] InvokeSpecial Ljava/lang/Object#<init>():V
-[       <no-pos>] Return
-[       <no-pos>] EndConstructor #A#<init>():void
-[       <no-pos>] BeginClass #A
-[        2:2~3:2] [public, static] BeginMethod #A#main([Ljava/lang/String;):V
-[       <no-pos>] [ParameterName] ValDef #A#main([Ljava/lang/String;):V#args Ljava/lang/String;s
-[       <no-pos>] EndMethod #A#main([Ljava/lang/String;):V
-[       <no-pos>] EndClass #A
-[       <no-pos>] EndBlock #"""
+        context.getIR().toString() == """"""
     }
 }

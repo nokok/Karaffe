@@ -18,35 +18,7 @@ let b Int = 1 + 2 / 3
 println(a + b)""")
 
         expect:
-        instructions.toString() == """[       <no-pos>] BeginBlock #
-[       <no-pos>] BeginClass #A
-[        2:2~4:2] [public, static] BeginMethod #A#main(Array[String]):void
-[       <no-pos>] [ParameterName] ValDef #A#main(Array[String]):void#args Array[String]
-[       <no-pos>] Return
-[       <no-pos>] EndMethod #A#main(Array[String]):void
-[       <no-pos>] BeginMethod #A#<init>():void
-[       <no-pos>] [InvokingSet#0] Load #A#<init>():void#super
-[       <no-pos>] [InvokingSet#0] Invoke <init>
-[       <no-pos>] Return
-[       <no-pos>] EndMethod #A#<init>():void
-[       <no-pos>] EndClass #A
-[       6:0~6:16] ValDef #a Int
-[           6:12] [InvokingSet#1] Const INTEGER 1
-[           6:16] [InvokingSet#1] Const INTEGER 2
-[      6:12~6:16] [InvokingSet#1] Invoke plus
-[            6:4] Store #a
-[       7:0~7:20] ValDef #b Int
-[           7:12] [InvokingSet#3] Const INTEGER 1
-[           7:16] [InvokingSet#2, InvokingSet#3] Const INTEGER 2
-[           7:20] [InvokingSet#2, InvokingSet#3] Const INTEGER 3
-[      7:16~7:20] [InvokingSet#2, InvokingSet#3] Invoke div
-[      7:12~7:20] [InvokingSet#3] Invoke plus
-[            7:4] Store #b
-[            8:8] [InvokingSet#4, InvokingSet#5] Load #a
-[           8:12] [InvokingSet#4, InvokingSet#5] Load #b
-[       8:8~8:12] [InvokingSet#4, InvokingSet#5] Invoke plus
-[       8:0~8:13] [InvokingSet#5] Invoke println
-[       <no-pos>] EndBlock #"""
+        instructions.toString() == """"""
     }
 
     def "mainMethod"() {
@@ -58,19 +30,7 @@ println(a + b)""")
                    |}""".stripMargin())
 
         expect:
-        instructions.toString() == """[       <no-pos>] BeginBlock #
-[       <no-pos>] BeginClass #Main
-[        2:2~3:2] [public, static] BeginMethod #Main#main(Array[String]):void
-[       <no-pos>] [ParameterName] ValDef #Main#main(Array[String]):void#args Array[String]
-[       <no-pos>] Return
-[       <no-pos>] EndMethod #Main#main(Array[String]):void
-[       <no-pos>] BeginMethod #Main#<init>():void
-[       <no-pos>] [InvokingSet#0] Load #Main#<init>():void#super
-[       <no-pos>] [InvokingSet#0] Invoke <init>
-[       <no-pos>] Return
-[       <no-pos>] EndMethod #Main#<init>():void
-[       <no-pos>] EndClass #Main
-[       <no-pos>] EndBlock #"""
+        instructions.toString() == """"""
     }
 
     def "block"() {
@@ -79,10 +39,7 @@ println(a + b)""")
                 """{}""".stripMargin())
 
         expect:
-        instructions.toString() == """[       <no-pos>] BeginBlock #
-[       <no-pos>] BeginBlock #0
-[       <no-pos>] EndBlock #0
-[       <no-pos>] EndBlock #"""
+        instructions.toString() == """"""
     }
 
     def "apply without args"() {
@@ -91,9 +48,7 @@ println(a + b)""")
                 """doSomething()""".stripMargin())
 
         expect:
-        instructions.toString() == """[       <no-pos>] BeginBlock #
-[       1:0~1:12] [InvokingSet#0] Invoke doSomething
-[       <no-pos>] EndBlock #"""
+        instructions.toString() == """"""
     }
 
     def "apply with arg"() {
@@ -102,10 +57,7 @@ println(a + b)""")
                 """doSomething(123)""".stripMargin())
 
         expect:
-        instructions.toString() == """[       <no-pos>] BeginBlock #
-[           1:12] [InvokingSet#0] Const INTEGER 123
-[       1:0~1:15] [InvokingSet#0] Invoke doSomething
-[       <no-pos>] EndBlock #"""
+        instructions.toString() == """"""
     }
 
     def "compareExpr"() {
@@ -118,23 +70,7 @@ a > b
 a == b""".stripMargin())
 
         expect:
-        instructions.toString() == """[       <no-pos>] BeginBlock #
-[            1:0] [InvokingSet#0] Load #a
-[            1:4] [InvokingSet#0] Load #b
-[        1:0~1:4] [InvokingSet#0] Invoke lessThan
-[            2:0] [InvokingSet#1] Load #a
-[            2:5] [InvokingSet#1] Load #b
-[        2:0~2:5] [InvokingSet#1] Invoke lessThanEquals
-[            3:0] [InvokingSet#2] Load #a
-[            3:5] [InvokingSet#2] Load #b
-[        3:0~3:5] [InvokingSet#2] Invoke greaterThanEquals
-[            4:0] [InvokingSet#3] Load #a
-[            4:4] [InvokingSet#3] Load #b
-[        4:0~4:4] [InvokingSet#3] Invoke greaterThan
-[            5:0] [InvokingSet#4] Load #a
-[            5:5] [InvokingSet#4] Load #b
-[        5:0~5:5] [InvokingSet#4] Invoke equalsTo
-[       <no-pos>] EndBlock #"""
+        instructions.toString() == """"""
     }
 
     def "simpleIfExpr"() {
@@ -143,21 +79,7 @@ a == b""".stripMargin())
                 """if(a < b) { 1 } else { 2 }""".stripMargin())
 
         expect:
-        instructions.toString() == """[       <no-pos>] BeginBlock #
-[            1:3] [InvokingSet#1] Load #a
-[            1:7] [InvokingSet#1] Load #b
-[        1:3~1:7] [InvokingSet#1] Invoke lessThan
-[       <no-pos>] IfJumpFalse #else0
-[       <no-pos>] BeginBlock #then0
-[           1:12] Const INTEGER 1
-[       <no-pos>] Jump #end0
-[       <no-pos>] EndBlock #then0
-[       <no-pos>] BeginBlock #else0
-[       <no-pos>] JumpTarget #else0
-[           1:23] Const INTEGER 2
-[       <no-pos>] EndBlock #else0
-[       <no-pos>] JumpTarget #end0
-[       <no-pos>] EndBlock #"""
+        instructions.toString() == """"""
     }
 
     def "simpleWhileExpr"() {
@@ -166,17 +88,7 @@ a == b""".stripMargin())
                 """while(true) { 1 } 2""".stripMargin())
 
         expect:
-        instructions.toString() == """[       <no-pos>] BeginBlock #
-[       <no-pos>] BeginBlock #whileBlock0
-[       <no-pos>] JumpTarget #beginWhile0
-[            1:6] Load #true
-[       <no-pos>] IfJumpFalse #endWhile0
-[           1:14] Const INTEGER 1
-[       <no-pos>] Jump #beginWhile0
-[       <no-pos>] JumpTarget #endWhile0
-[       <no-pos>] EndBlock #whileBlock0
-[           1:18] Const INTEGER 2
-[       <no-pos>] EndBlock #"""
+        instructions.toString() == """"""
     }
 
     def "fieldDef"() {
@@ -187,18 +99,7 @@ let a Int = 0
 }""".stripMargin())
 
         expect:
-        instructions.toString() == """[       <no-pos>] BeginBlock #
-[       <no-pos>] BeginClass #Main
-[       2:0~2:12] ValDef #Main#a Int
-[           2:12] Const INTEGER 0
-[            2:4] Store #Main#a
-[       <no-pos>] BeginMethod #Main#<init>():void
-[       <no-pos>] [InvokingSet#0] Load #Main#<init>():void#super
-[       <no-pos>] [InvokingSet#0] Invoke <init>
-[       <no-pos>] Return
-[       <no-pos>] EndMethod #Main#<init>():void
-[       <no-pos>] EndClass #Main
-[       <no-pos>] EndBlock #"""
+        instructions.toString() == """"""
     }
 
     def "simpleMethod"() {
@@ -209,18 +110,7 @@ class A {
 }
 """)
         expect:
-        instructions.toString() == """[       <no-pos>] BeginBlock #
-[       <no-pos>] BeginClass #A
-[       3:2~3:27] BeginMethod #A#doSomething():void
-[       <no-pos>] Return
-[       <no-pos>] EndMethod #A#doSomething():void
-[       <no-pos>] BeginMethod #A#<init>():void
-[       <no-pos>] [InvokingSet#0] Load #A#<init>():void#super
-[       <no-pos>] [InvokingSet#0] Invoke <init>
-[       <no-pos>] Return
-[       <no-pos>] EndMethod #A#<init>():void
-[       <no-pos>] EndClass #A
-[       <no-pos>] EndBlock #"""
+        instructions.toString() == """"""
 
         BeginMethod beginMethod = instructions.get(2)
         beginMethod.returnTypeName == "void"
@@ -228,35 +118,5 @@ class A {
         beginMethod.methodName == "doSomething"
     }
 
-    def "HelloWorld"() {
-        setup:
-        def context = FrontendUtil.parseAndGenerateCompilerContext("""
-class Main {
-    main {
-        println("Hello World!")
-    }
-}""")
-        def transformer = KaraffeTransformer.getTransformer(context)
-        transformer.run(context)
-
-        expect:
-        context.instructions.toString() == """[       <no-pos>] BeginBlock #
-[       <no-pos>] BeginClass #Main
-[        3:4~5:4] [public, static] BeginMethod #Main#main(Array[String]):void
-[       <no-pos>] [ParameterName] ValDef #Main#main(Array[String]):void#args Array[String]
-[       <no-pos>] BeginBlock #Main#main(Array[String]):void#0
-[           4:16] [InvokingSet#1] Const STRING "Hello World!"
-[       4:8~4:30] [InvokingSet#1] Invoke println
-[       <no-pos>] EndBlock #Main#main(Array[String]):void#0
-[       <no-pos>] Return
-[       <no-pos>] EndMethod #Main#main(Array[String]):void
-[       <no-pos>] BeginMethod #Main#<init>():void
-[       <no-pos>] [InvokingSet#2] Load #Main#<init>():void#super
-[       <no-pos>] [InvokingSet#2] Invoke <init>
-[       <no-pos>] Return
-[       <no-pos>] EndMethod #Main#<init>():void
-[       <no-pos>] EndClass #Main
-[       <no-pos>] EndBlock #"""
-    }
 
 }

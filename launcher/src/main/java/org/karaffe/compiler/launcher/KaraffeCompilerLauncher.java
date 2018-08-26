@@ -101,7 +101,7 @@ public class KaraffeCompilerLauncher {
         RunnerResult compilerResult = taskRunner.runAll();
 
         if (context.getCmdLineOptions().dumpMIR) {
-            Platform.stdOut(context.getInstructions());
+            Platform.stdOut(context.getIR());
         }
 
         if (context.hasErrorReport()) {

@@ -8,9 +8,6 @@ public interface Generator<T> {
     }
 
     static Generator<String> defaultElementIdGenerator(boolean forUnitTest) {
-        if (forUnitTest) {
-            return new SerialNumberGenerator();
-        }
-        return new UUIDGenerator();
+        return new SerialNumberGenerator();
     }
 }
