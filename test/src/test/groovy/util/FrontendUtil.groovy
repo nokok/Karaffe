@@ -12,13 +12,13 @@ import org.karaffe.compiler.base.util.SourceFile
 import org.karaffe.compiler.frontend.karaffe.KaraffeCompilerFrontend
 
 class FrontendUtil {
-    public static IR parseAndGenerateInstructions(String source) {
+    static IR parseAndGenerateInstructions(String source) {
         return parseAndGenerateCompilerContext(source).getIR()
     }
 
-    public static CompilerContext parseAndGenerateCompilerContext(String source) {
-        CompilerContext context = new CompilerContextImpl();
-        context.setFrontendType(FrontendType.KARAFFE);
+    static CompilerContext parseAndGenerateCompilerContext(String source) {
+        CompilerContext context = new CompilerContextImpl()
+        context.setFrontendType(FrontendType.KARAFFE)
         Task frontend = KaraffeCompilerFrontend.getFrontend(context)
         context.addSourceFile(SourceFile.fromLiteral(source))
         def result = frontend.run(context)
@@ -28,7 +28,7 @@ class FrontendUtil {
         return context
     }
 
-    public static Object parseAndGenerateCompilerContextJSON(String source) {
+    static Object parseAndGenerateCompilerContextJSON(String source) {
         def jsonSlurper = new JsonSlurper()
         def context = parseAndGenerateCompilerContext(source)
         return jsonSlurper.parseText(CompilerContextJsonConverter.toJson(context))
