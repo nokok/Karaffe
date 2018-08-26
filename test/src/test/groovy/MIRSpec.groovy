@@ -1,5 +1,3 @@
-import org.karaffe.compiler.base.mir.instructions.block.BeginMethod
-
 import spock.lang.Specification
 import util.FrontendUtil
 
@@ -111,11 +109,6 @@ class A {
 """)
         expect:
         instructions.toString() == """"""
-
-        BeginMethod beginMethod = instructions.get(2)
-        beginMethod.returnTypeName == "void"
-        beginMethod.parameters == ""
-        beginMethod.methodName == "doSomething"
     }
 
 

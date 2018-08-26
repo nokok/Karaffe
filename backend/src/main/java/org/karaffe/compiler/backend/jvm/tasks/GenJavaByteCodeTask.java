@@ -1,19 +1,13 @@
 package org.karaffe.compiler.backend.jvm.tasks;
 
 import net.nokok.azm.ClassWriter;
-import net.nokok.azm.Opcodes;
 import org.karaffe.compiler.base.CompilerContext;
 import org.karaffe.compiler.base.ir.IR;
-import org.karaffe.compiler.base.mir.instructions.DeprecatedInstruction;
-import org.karaffe.compiler.base.mir.instructions.attr.JavaModifier;
 import org.karaffe.compiler.base.task.AbstractTask;
 import org.karaffe.compiler.base.task.MIRTask;
 import org.karaffe.compiler.base.task.TaskResult;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-
-import java.util.List;
-import java.util.stream.Collectors;
 
 public class GenJavaByteCodeTask extends AbstractTask implements MIRTask {
 
@@ -348,23 +342,4 @@ public class GenJavaByteCodeTask extends AbstractTask implements MIRTask {
         return false;
     }
 
-    private int toJavaModifier(DeprecatedInstruction instruction) {
-        return toJavaModifier(instruction.getAttributes().stream().filter(i -> i instanceof JavaModifier).map(JavaModifier.class::cast).collect(Collectors.toList()));
-    }
-
-    private int toJavaModifier(List<JavaModifier> mods) {
-        return mods.stream().map(m -> {
-            switch (m.getModifier().getType()) {
-            case PUBLIC:
-                return Opcodes.ACC_PUBLIC;
-            case STATIC:
-                return Opcodes.ACC_STATIC;
-            case SYNTHETIC:
-                return Opcodes.ACC_SYNTHETIC;
-            default:
-                return 0;
-            }
-        }).reduce((l, r) -> l + r)
-                .orElse(Opcodes.ACC_PUBLIC);
-    }
 }

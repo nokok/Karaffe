@@ -1,1 +1,0 @@
-@Deprecated package org.karaffe.compiler.base.mir.instructions;
