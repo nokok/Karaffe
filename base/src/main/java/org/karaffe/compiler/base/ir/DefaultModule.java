@@ -34,4 +34,14 @@ public class DefaultModule extends AbstractElement implements Module {
         return this.functions;
     }
 
+    @Override
+    public String toString() {
+        StringBuilder sb = new StringBuilder();
+        sb.append("module ").append(this.moduleName).append(" {").append(System.lineSeparator());
+        for (Function function : functions) {
+            sb.append("  ").append(function).append(System.lineSeparator());
+        }
+        sb.append("}").append(System.lineSeparator());
+        return sb.toString();
+    }
 }

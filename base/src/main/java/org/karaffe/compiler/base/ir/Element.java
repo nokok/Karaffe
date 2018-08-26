@@ -6,4 +6,6 @@ public interface Element extends Attributes {
     String getElementID();
 
     void setElementID(String elementID);
+
+    @Override String toString();
 }

@@ -8,16 +8,19 @@ import java.util.stream.Stream;
 
 class DefaultIR implements IR {
 
+    private List<Element> elements;
     private List<Module> modules;
     private List<Block> blocks;
 
     DefaultIR() {
+        this.elements = new ArrayList<>();
         this.modules = new ArrayList<>();
         this.blocks = new ArrayList<>();
     }
 
     @Override
     public void add(Module module) {
+        this.elements.add(Objects.requireNonNull(module));
         this.modules.add(Objects.requireNonNull(module));
     }
 
@@ -41,6 +44,7 @@ class DefaultIR implements IR {
 
     @Override
     public void add(Block block) {
+        this.elements.add(Objects.requireNonNull(block));
         this.blocks.add(Objects.requireNonNull(block));
     }
 
@@ -62,5 +66,14 @@ class DefaultIR implements IR {
     @Override
     public List<Function> getFunctions() {
         return this.getModules().stream().flatMap(Module::functionStream).collect(Collectors.toList());
+    }
+
+    @Override
+    public String toString() {
+        StringBuilder sb = new StringBuilder();
+        for (Element element : elements) {
+            sb.append(element).append(System.lineSeparator());
+        }
+        return sb.toString();
     }
 }

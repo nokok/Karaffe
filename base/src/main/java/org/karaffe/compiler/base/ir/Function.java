@@ -7,11 +7,16 @@ import java.util.List;
 import java.util.stream.Stream;
 
 public interface Function extends Element {
+
+    String getFunctionName();
+
     KaraffeIRType getReturnType();
 
     List<Argument> getArguments();
 
     List<Block> getBlocks();
+
+    void setFunctionName(String name);
 
     void setReturnType(KaraffeIRType returnType);
 
