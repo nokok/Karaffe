@@ -8,6 +8,6 @@ public interface Generator<T> {
     }
 
     static Generator<String> defaultElementIdGenerator(boolean forUnitTest) {
-        return new SerialNumberGenerator();
+        return new UnderScoredSerialNumberGenerator();
     }
 }
