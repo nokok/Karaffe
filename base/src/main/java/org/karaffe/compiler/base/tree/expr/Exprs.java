@@ -44,11 +44,15 @@ public interface Exprs {
         return tuple;
     }
 
-    static Tree stringValue(TerminalNode stringLiteral) {
+    static Tree stringValue(Position position, String value) {
         Atom strAtom = new Atom(AtomKind.STRING);
-        strAtom.setPos(Position.of(stringLiteral.getSymbol()));
-        strAtom.setValue(stringLiteral.getText());
+        strAtom.setPos(position);
+        strAtom.setValue(value);
         return strAtom;
+    }
+
+    static Tree stringValue(TerminalNode stringLiteral) {
+        return stringValue(Position.of(stringLiteral.getSymbol()), stringLiteral.getText());
     }
 
     static Tree ifExpr(Position position, Tree condition, Tree thenBlock, Tree elseBlock) {
@@ -140,14 +144,17 @@ public interface Exprs {
     }
 
     static Tree superInstance(Position position) {
-        NameNode nameNode = new NameNode();
-        nameNode.setName(Terms.superName(position));
-        return nameNode;
+        return pathToTree(position, Terms.superName(position));
     }
 
     static Tree thisInstance(Position position) {
+        return pathToTree(position, Terms.thisName(position));
+    }
+
+    static Tree pathToTree(Position position, Path path) {
         NameNode nameNode = new NameNode();
-        nameNode.setName(Terms.thisName(position));
+        nameNode.setPos(position);
+        nameNode.setName(path);
         return nameNode;
     }
 

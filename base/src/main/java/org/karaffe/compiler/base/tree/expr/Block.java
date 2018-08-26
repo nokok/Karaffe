@@ -19,4 +19,13 @@ public class Block extends AbstractTree {
     public <R, P> R accept(TreeVisitor<R, P> visitor, P p) {
         return visitor.visitBlock(this, p);
     }
+
+    @Override
+    public String toString() {
+        StringBuilder sb = new StringBuilder();
+        sb.append("{");
+        this.getChildren().forEach(i -> sb.append(i).append(';'));
+        sb.append("}");
+        return sb.toString();
+    }
 }

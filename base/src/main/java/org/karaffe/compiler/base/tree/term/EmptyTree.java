@@ -19,4 +19,9 @@ public class EmptyTree extends AbstractTree implements Term {
     public <R, P> R accept(TreeVisitor<R, P> visitor, P p) {
         return visitor.visitEmpty(this, p);
     }
+
+    @Override
+    public String toString() {
+        return "()";
+    }
 }

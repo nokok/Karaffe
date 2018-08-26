@@ -25,4 +25,9 @@ public class VoidPath extends AbstractPath {
     public boolean isDefaultInternalName() {
         return false;
     }
+
+    @Override
+    public String toString() {
+        return "void";
+    }
 }

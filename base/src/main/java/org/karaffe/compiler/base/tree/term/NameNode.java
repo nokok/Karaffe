@@ -15,4 +15,8 @@ public class NameNode extends AbstractTree {
         return visitor.visitNameNode(this, p);
     }
 
+    @Override
+    public String toString() {
+        return this.getName().toString();
+    }
 }
