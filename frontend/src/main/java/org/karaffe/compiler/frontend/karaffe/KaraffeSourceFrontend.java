@@ -27,8 +27,6 @@ public class KaraffeSourceFrontend extends AbstractTask {
     private static final Logger LOGGER = LoggerFactory.getLogger(KaraffeSourceFrontend.class);
 
     private static final Set<Task> frontendTasks = new LinkedHashSet<>(Arrays.asList(
-            new PrintTreeTask(),
-            new PrintLastTreeTask(),
             new LexerTask(),
             new ParserTask(),
             new GenASTTask(),
@@ -64,6 +62,12 @@ public class KaraffeSourceFrontend extends AbstractTask {
 
     @Override
     public Set<Task> getSubTask(CompilerContext context) {
+        if (context.getCmdLineOptions().showLastTree) {
+            frontendTasks.add(new PrintLastTreeTask());
+        }
+        if (context.getCmdLineOptions().printTree) {
+            frontendTasks.add(new PrintTreeTask());
+        }
         return frontendTasks;
     }
 
