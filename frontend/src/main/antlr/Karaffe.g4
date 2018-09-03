@@ -153,50 +153,93 @@ literal
   | StringLiteral
   ;
 
-CLASS: 'class';
-WHILE: 'while';
-SUPER: 'super';
-MAIN: 'main';
-ELSE: 'else';
-THIS: 'this';
-INIT: 'init';
-NEW: 'new';
-LET: 'let';
-DEF: 'def';
-AS: 'as';
-IS: 'is';
-EQEQEQ: '===';
-NOTEQEQ: '!==';
-CRANGE: '..<';
-RANGE: '..';
-IF: 'if';
-POW: '**';
-AND: '&&';
-OR: '||';
-EQEQ: '==';
-NOTEQ : '!=';
-LE : '<=';
-GE : '>=';
-GT : '>';
-LT : '<';
-BANG: '!';
-COMMA: ',';
-PLUS: '+';
-MINUS: '-';
-MUL: '*';
-DIV: '/';
-MOD: '%';
-EQ: '=';
-QUOTE: '\'';
-DQUOTE: '"';
-LPAREN: '(';
-RPAREN: ')';
-LBRACE: '{';
-RBRACE: '}';
-LBRACK: '[';
-RBRACK: ']';
-SEMI: ';';
-DOT: '.';
+FALLTHROUGH:  'fallthrough';
+
+EXTENSION:    'extension';
+PROTEDTED:    'protected';
+
+ABSTRACT:     'abstract';
+CONTINUE:     'continue';
+INTERNAL:     'internal';
+READONLY:     'readonly';
+
+PRIVATE:      'private';
+
+IMPORT:       'import';
+PUBLIC:       'public';
+RETURN:       'return';
+SEALED:       'sealed';
+STATIC:       'static';
+
+ASYNC:        'async';
+AWAIT:        'await';
+BREAK:        'break';
+CLASS:        'class';
+DEFER:        'defer';
+FALSE:        'false';
+MATCH:        'match';
+SUPER:        'super';
+THROW:        'throw';
+WHILE:        'while';
+
+CASE:         'case';
+ELSE:         'else';
+ENUM:         'enum';
+FUNC:         'func';
+INIT:         'init';
+MAIN:         'main';
+NULL:         'null';
+OPEN:         'open';
+THIS:         'this';
+TRUE:         'true';
+TYPE:         'type';
+
+DEF:          'def';
+FOR:          'for';
+LET:          'let';
+NEW:          'new';
+VAR:          'var';
+
+EQEQEQ:       '===';
+NOTEQEQ:      '!==';
+CRANGE:       '..<';
+
+AS:           'as';
+IS:           'is';
+IF:           'if';
+IN:           'in';
+RANGE:        '..';
+POW:          '**';
+AND:          '&&';
+OR:           '||';
+EQEQ:         '==';
+NOTEQ :       '!=';
+LE :          '<=';
+GE :          '>=';
+ARROW:        '->';
+DARROW:       '=>';
+RARROW:       '<-';
+
+GT :          '>';
+LT :          '<';
+BANG:         '!';
+COMMA:        ',';
+PLUS:         '+';
+MINUS:        '-';
+MUL:          '*';
+DIV:          '/';
+MOD:          '%';
+EQ:           '=';
+QUOTE:        '\'';
+DQUOTE:       '"';
+LPAREN:       '(';
+RPAREN:       ')';
+LBRACE:       '{';
+RBRACE:       '}';
+LBRACK:       '[';
+RBRACK:       ']';
+SEMI:         ';';
+DOT:          '.';
 
 StringLiteral
   : DQUOTE StringChars? DQUOTE

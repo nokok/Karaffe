@@ -133,7 +133,7 @@ public class Report {
             return Platform.ANSI_RED + type + Platform.ANSI_RESET;
         } else if (type == ReportType.WARN) {
             return Platform.ANSI_YELLOW + type + Platform.ANSI_RESET;
-        } else if (type == ReportType.INFO){
+        } else if (type == ReportType.INFO) {
             return Platform.ANSI_CYAN + title + Platform.ANSI_RESET;
         }
         return type.toString();

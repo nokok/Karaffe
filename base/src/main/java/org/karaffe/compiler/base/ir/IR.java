@@ -16,6 +16,10 @@ public interface IR {
 
     Stream<Module> moduleStream();
 
+    default boolean hasModule() {
+        return !this.getModules().isEmpty();
+    }
+
     default Stream<Function> functionStream() {
         return this.moduleStream().flatMap(Module::functionStream);
     }

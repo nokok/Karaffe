@@ -10,6 +10,7 @@ public class Array<T extends KaraffeIRType> implements KaraffeIRType {
         this.values = new Object[size];
     }
 
+    @SuppressWarnings("unchecked")
     public T get(int index) {
         return (T) this.values[index];
     }

@@ -1,9 +1,6 @@
 package org.karaffe.compiler.backend.jvm;
 
-import org.karaffe.compiler.backend.jvm.tasks.CleanupTask;
 import org.karaffe.compiler.backend.jvm.tasks.GenJavaByteCodeTask;
-import org.karaffe.compiler.backend.jvm.tasks.MIRCheckTask;
-import org.karaffe.compiler.backend.jvm.tasks.MakeAttributeTask;
 import org.karaffe.compiler.base.CompilerContext;
 import org.karaffe.compiler.base.task.AbstractTask;
 import org.karaffe.compiler.base.task.RunnerResult;
@@ -18,9 +15,7 @@ import java.util.Set;
 public class JVMBackend extends AbstractTask {
 
     private static final Set<Task> subTask = new LinkedHashSet<>(Arrays.asList(
-            new MakeAttributeTask(),
-            new MIRCheckTask(),
-            new CleanupTask(),
+//            new MIRCheckTask(),
             new GenJavaByteCodeTask()));
 
     @Override

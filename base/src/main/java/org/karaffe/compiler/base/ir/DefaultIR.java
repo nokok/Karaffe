@@ -60,7 +60,7 @@ class DefaultIR implements IR {
 
     @Override
     public List<Module> getModules() {
-        return this.getModules();
+        return this.modules;
     }
 
     @Override
