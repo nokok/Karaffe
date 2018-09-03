@@ -26,22 +26,22 @@ public class Options {
     @Option(name = "--show-tasks", usage = "Print all tasks", handler = MyBooleanOptionHandler.class)
     public boolean showTasks;
 
-    @Option(name = "--print-tree", usage = "Print Tree every phase", handler = MyBooleanOptionHandler.class)
-    public boolean printTree;
-
     @Option(name = "-h", aliases = {"--help", "-help"}, usage = "Show usage", handler = MyBooleanOptionHandler.class)
     public boolean showHelp;
 
-    @Option(name = "--stop-after", metaVar = "<task>", usage = "Stop and Print tree at <task>", handler = MyStringOptionHandler.class)
+    /* Hidden options */
+    @Option(name = "--print-tree", hidden = true, usage = "Print Tree every phase", handler = MyBooleanOptionHandler.class)
+    public boolean printTree;
+
+    @Option(name = "--stop-after", hidden = true, metaVar = "<task>", usage = "Stop and Print tree at <task>", handler = MyStringOptionHandler.class)
     public String stopTaskName;
 
-    @Option(name = "--print-last-tree", usage = "Print tree", handler = MyBooleanOptionHandler.class)
+    @Option(name = "--print-last-tree", hidden = true, usage = "Print tree", handler = MyBooleanOptionHandler.class)
     public boolean showLastTree;
 
-    @Option(name = "--skip-pkg-check", usage = "Skip checking of correspondence between package decl and file structure", handler = MyBooleanOptionHandler.class)
+    @Option(name = "--skip-pkg-check", hidden = true, usage = "Skip checking of correspondence between package decl and file structure", handler = MyBooleanOptionHandler.class)
     public boolean skipPackageCheck;
 
-    /* Hidden options */
     @Option(name = "--dump-mir", hidden = true, usage = "Parse and type-check input file(s) and dump AST")
     public boolean dumpMIR;
 
