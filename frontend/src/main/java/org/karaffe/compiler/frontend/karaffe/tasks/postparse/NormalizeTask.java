@@ -18,7 +18,7 @@ public class NormalizeTask extends AbstractTask implements ASTTask {
 
     @Override
     public String name() {
-        return "frontend-karaffe-normalize";
+        return "frontend-karaffe-postparse-normalize";
     }
 
     @Override
