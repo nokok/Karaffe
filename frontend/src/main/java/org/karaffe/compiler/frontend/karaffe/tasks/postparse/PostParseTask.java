@@ -15,10 +15,10 @@ public class PostParseTask extends AbstractTask implements NoDescriptionTask {
     private final Set<Task> subTask = new LinkedHashSet<>();
 
     public PostParseTask() {
-        this.subTask.add(new CreateContextTask());
-        this.subTask.add(new ImportCheckTask());
-        this.subTask.add(new ConfigureParentTreeTask());
-        this.subTask.add(new NameResolveTask());
+        //this.subTask.add(new CreateContextTask());
+        //this.subTask.add(new ImportCheckTask());
+        //this.subTask.add(new ConfigureParentTreeTask());
+        //this.subTask.add(new NameResolveTask());
         this.subTask.add(new NormalizeTask());
     }
 
