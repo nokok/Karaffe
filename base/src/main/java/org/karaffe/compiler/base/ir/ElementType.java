@@ -1,4 +1,5 @@
 package org.karaffe.compiler.base.ir;
 
-public enum Operand {
+public enum ElementType {
+    MODULE
 }

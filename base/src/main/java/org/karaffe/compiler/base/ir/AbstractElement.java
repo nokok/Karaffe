@@ -6,14 +6,31 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 
-public class AbstractElement implements Element {
+public abstract class AbstractElement implements Element {
 
     private String elementID;
     private List<Attribute> attributes;
+    private List<Element> elements;
 
     public AbstractElement() {
         this.elementID = "";
         this.attributes = new ArrayList<>();
+        this.elements = new ArrayList<>();
+    }
+
+    @Override
+    public void add(Element element) {
+        this.elements.add(Objects.requireNonNull(element));
+    }
+
+    @Override
+    public void addFirst(Element element) {
+        this.elements.add(0, Objects.requireNonNull(element));
+    }
+
+    @Override
+    public List<Element> getElements() {
+        return this.elements;
     }
 
     @Override

@@ -4,7 +4,6 @@ import org.karaffe.compiler.backend.jvm.util.BackendException;
 import org.karaffe.compiler.backend.jvm.util.JavaIdentifier;
 import org.karaffe.compiler.base.CompilerContext;
 import org.karaffe.compiler.base.ir.IR;
-import org.karaffe.compiler.base.ir.Module;
 import org.karaffe.compiler.base.pos.Position;
 import org.karaffe.compiler.base.report.Report;
 import org.karaffe.compiler.base.task.AbstractTask;

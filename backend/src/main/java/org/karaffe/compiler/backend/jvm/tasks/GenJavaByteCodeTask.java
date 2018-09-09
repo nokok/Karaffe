@@ -5,7 +5,6 @@ import net.nokok.azm.Opcodes;
 import net.nokok.azm.Type;
 import org.karaffe.compiler.base.CompilerContext;
 import org.karaffe.compiler.base.ir.IR;
-import org.karaffe.compiler.base.ir.Module;
 import org.karaffe.compiler.base.task.AbstractTask;
 import org.karaffe.compiler.base.task.MIRTask;
 import org.karaffe.compiler.base.task.TaskResult;
@@ -20,7 +19,7 @@ public class GenJavaByteCodeTask extends AbstractTask implements MIRTask {
 
     @Override
     public TaskResult run(IR ir, CompilerContext context) {
-        int bytecodeVersion = Opcodes.V1_8;
+        final int bytecodeVersion = Opcodes.V1_8;
         ClassWriter classWriter = new ClassWriter(ClassWriter.COMPUTE_FRAMES);
         for (Module module : ir.getModules()) {
             String moduleName = module.getModuleName();
