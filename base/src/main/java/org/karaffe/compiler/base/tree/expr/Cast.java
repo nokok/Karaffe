@@ -17,6 +17,6 @@ public class Cast extends AbstractTree {
 
     @Override
     public <R, P> R accept(TreeVisitor<R, P> visitor, P p) {
-        return visitor.visitCast(this, p);
+        return visitor.visit(this, p);
     }
 }

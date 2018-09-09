@@ -31,39 +31,39 @@ public class CreateScopeVisitor extends DefaultVisitor<Scope> {
     }
 
     @Override
-    public Tree visitLetDef(LetDef tree, Scope scope) {
-        super.visitLetDef(tree, scope);
+    public Tree visit(LetDef tree, Scope scope) {
+        super.visit(tree, scope);
         return tree;
     }
 
     @Override
-    public Tree visitAssignmentDef(AssignmentDef tree, Scope scope) {
-        return super.visitAssignmentDef(tree, scope);
+    public Tree visit(AssignmentDef tree, Scope scope) {
+        return super.visit(tree, scope);
     }
 
     @Override
-    public Tree visitClassDef(ClassDef tree, Scope scope) {
-        return super.visitClassDef(tree, scope);
+    public Tree visit(ClassDef tree, Scope scope) {
+        return super.visit(tree, scope);
     }
 
     @Override
-    public Tree visitSimpleImportDef(SimpleImport tree, Scope scope) {
-        return super.visitSimpleImportDef(tree, scope);
+    public Tree visit(SimpleImport tree, Scope scope) {
+        return super.visit(tree, scope);
     }
 
     @Override
-    public Tree visitOnDemandImportDef(OnDemandImport tree, Scope scope) {
-        return super.visitOnDemandImportDef(tree, scope);
+    public Tree visit(OnDemandImport tree, Scope scope) {
+        return super.visit(tree, scope);
     }
 
     @Override
-    public Tree visitMethodDef(MethodDef tree, Scope scope) {
-        return super.visitMethodDef(tree, scope);
+    public Tree visit(MethodDef tree, Scope scope) {
+        return super.visit(tree, scope);
     }
 
     @Override
-    public Tree visitPackageDef(PackageDef tree, Scope scope) {
-        return super.visitPackageDef(tree, scope);
+    public Tree visit(PackageDef tree, Scope scope) {
+        return super.visit(tree, scope);
     }
 
     @Override
@@ -77,28 +77,28 @@ public class CreateScopeVisitor extends DefaultVisitor<Scope> {
     }
 
     @Override
-    public Tree visitCompileUnit(Tree.CompilationUnit tree, Scope scope) {
-        return super.visitCompileUnit(tree, scope.newScope());
+    public Tree visit(Tree.CompilationUnit tree, Scope scope) {
+        return super.visit(tree, scope.newScope());
     }
 
     @Override
-    public Tree visitTemplate(Tree.Template tree, Scope scope) {
-        return super.visitTemplate(tree, scope);
+    public Tree visit(Tree.Template tree, Scope scope) {
+        return super.visit(tree, scope);
     }
 
     @Override
-    public Tree visitApply(Apply tree, Scope scope) {
-        return super.visitApply(tree, scope);
+    public Tree visit(Apply tree, Scope scope) {
+        return super.visit(tree, scope);
     }
 
     @Override
-    public Tree visitAtom(Atom tree, Scope scope) {
-        return super.visitAtom(tree, scope);
+    public Tree visit(Atom tree, Scope scope) {
+        return super.visit(tree, scope);
     }
 
     @Override
-    public Tree visitBlock(Block tree, Scope scope) {
-        return super.visitBlock(tree, scope);
+    public Tree visit(Block tree, Scope scope) {
+        return super.visit(tree, scope);
     }
 
     @Override
@@ -107,27 +107,27 @@ public class CreateScopeVisitor extends DefaultVisitor<Scope> {
     }
 
     @Override
-    public Tree visitTuple(Tuple tree, Scope scope) {
-        return super.visitTuple(tree, scope);
+    public Tree visit(Tuple tree, Scope scope) {
+        return super.visit(tree, scope);
     }
 
     @Override
-    public Tree visitIfExpr(IfExpr tree, Scope scope) {
-        return super.visitIfExpr(tree, scope);
+    public Tree visit(IfExpr tree, Scope scope) {
+        return super.visit(tree, scope);
     }
 
     @Override
-    public Tree visitWhileExpr(WhileExpr tree, Scope scope) {
-        return super.visitWhileExpr(tree, scope);
+    public Tree visit(WhileExpr tree, Scope scope) {
+        return super.visit(tree, scope);
     }
 
     @Override
-    public Tree visitEmpty(EmptyTree tree, Scope scope) {
-        return super.visitEmpty(tree, scope);
+    public Tree visit(EmptyTree tree, Scope scope) {
+        return super.visit(tree, scope);
     }
 
     @Override
-    public Tree visitCast(Cast tree, Scope scope) {
-        return super.visitCast(tree, scope);
+    public Tree visit(Cast tree, Scope scope) {
+        return super.visit(tree, scope);
     }
 }

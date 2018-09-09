@@ -24,7 +24,7 @@ import java.util.stream.Collectors;
 public class NormalizeVisitor extends DefaultVisitor<Generator<String>> {
 
     @Override
-    public Tree visitApply(Apply tree, Generator<String> generator) {
+    public Tree visit(Apply tree, Generator<String> generator) {
         if (this.isNormalizable(tree)) {
             Position basePos = tree.getPos();
             List<Tree> children = new ArrayList<>();
@@ -60,7 +60,7 @@ public class NormalizeVisitor extends DefaultVisitor<Generator<String>> {
     }
 
     @Override
-    public Tree visitTuple(Tuple tree, Generator<String> generator) {
+    public Tree visit(Tuple tree, Generator<String> generator) {
         if (tree.getChildren().isEmpty()) {
             return tree;
         }
@@ -78,12 +78,12 @@ public class NormalizeVisitor extends DefaultVisitor<Generator<String>> {
     }
 
     @Override
-    public Tree visitAtom(Atom tree, Generator<String> generator) {
+    public Tree visit(Atom tree, Generator<String> generator) {
         return tree;
     }
 
     @Override
-    public Tree visitNameNode(NameNode tree, Generator<String> generator) {
+    public Tree visit(NameNode tree, Generator<String> generator) {
         return tree;
     }
 

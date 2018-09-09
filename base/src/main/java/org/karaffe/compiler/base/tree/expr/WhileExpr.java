@@ -17,6 +17,6 @@ public class WhileExpr extends AbstractTree {
 
     @Override
     public <R, P> R accept(TreeVisitor<R, P> visitor, P p) {
-        return visitor.visitWhileExpr(this, p);
+        return visitor.visit(this, p);
     }
 }

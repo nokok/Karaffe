@@ -18,7 +18,7 @@ public class Apply extends AbstractTree {
 
     @Override
     public <R, P> R accept(TreeVisitor<R, P> visitor, P p) {
-        return visitor.visitApply(this, p);
+        return visitor.visit(this, p);
     }
 
     public Tree getTarget() {

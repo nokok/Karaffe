@@ -47,12 +47,12 @@ public class MapVisitor implements TreeVisitor<Map<String, Object>, Void> {
     }
 
     @Override
-    public Map<String, Object> visitCompileUnit(Tree.CompilationUnit tree, Void aVoid) {
+    public Map<String, Object> visit(Tree.CompilationUnit tree, Void aVoid) {
         return visitTree(tree);
     }
 
     @Override
-    public Map<String, Object> visitTemplate(Tree.Template template, Void aVoid) {
+    public Map<String, Object> visit(Tree.Template template, Void aVoid) {
         Map<String, Object> map = new LinkedHashMap<>();
         map.put("kind", template.getKind());
         map.put("name", template.getName());
@@ -64,12 +64,12 @@ public class MapVisitor implements TreeVisitor<Map<String, Object>, Void> {
     }
 
     @Override
-    public Map<String, Object> visitAtom(Atom atom, Void aVoid) {
+    public Map<String, Object> visit(Atom atom, Void aVoid) {
         return Collections.singletonMap("value", atom.getValue());
     }
 
     @Override
-    public Map<String, Object> visitApply(Apply apply, Void aVoid) {
+    public Map<String, Object> visit(Apply apply, Void aVoid) {
         Map<String, Object> map = new LinkedHashMap<>();
         map.put("kind", apply.getKind());
         map.put("target", apply.getChildren().get(0).accept(this, null));
@@ -79,7 +79,7 @@ public class MapVisitor implements TreeVisitor<Map<String, Object>, Void> {
     }
 
     @Override
-    public Map<String, Object> visitBlock(Block block, Void aVoid) {
+    public Map<String, Object> visit(Block block, Void aVoid) {
         Map<String, Object> map = new LinkedHashMap<>();
         map.put("kind", block.getKind());
         map.put("body", visitChildren(block));
@@ -87,7 +87,7 @@ public class MapVisitor implements TreeVisitor<Map<String, Object>, Void> {
     }
 
     @Override
-    public Map<String, Object> visitTuple(Tuple tuple, Void aVoid) {
+    public Map<String, Object> visit(Tuple tuple, Void aVoid) {
         Map<String, Object> map = new LinkedHashMap<>();
         map.put("kind", tuple.getKind());
         map.put("body", visitChildren(tuple));
@@ -95,7 +95,7 @@ public class MapVisitor implements TreeVisitor<Map<String, Object>, Void> {
     }
 
     @Override
-    public Map<String, Object> visitIfExpr(IfExpr ifExpr, Void aVoid) {
+    public Map<String, Object> visit(IfExpr ifExpr, Void aVoid) {
         Map<String, Object> map = new LinkedHashMap<>();
         map.put("kind", ifExpr.getKind());
         map.put("cond", ifExpr.getChildren().get(0).accept(this, null));
@@ -105,7 +105,7 @@ public class MapVisitor implements TreeVisitor<Map<String, Object>, Void> {
     }
 
     @Override
-    public Map<String, Object> visitWhileExpr(WhileExpr whileExpr, Void aVoid) {
+    public Map<String, Object> visit(WhileExpr whileExpr, Void aVoid) {
         Map<String, Object> map = new LinkedHashMap<>();
         map.put("kind", whileExpr.getKind());
         map.put("cond", whileExpr.getChildren().get(0).accept(this, null));
@@ -114,12 +114,12 @@ public class MapVisitor implements TreeVisitor<Map<String, Object>, Void> {
     }
 
     @Override
-    public Map<String, Object> visitEmpty(EmptyTree emptyTree, Void aVoid) {
+    public Map<String, Object> visit(EmptyTree emptyTree, Void aVoid) {
         return Collections.singletonMap("empty", "");
     }
 
     @Override
-    public Map<String, Object> visitCast(Cast cast, Void aVoid) {
+    public Map<String, Object> visit(Cast cast, Void aVoid) {
         Map<String, Object> map = new LinkedHashMap<>();
         map.put("kind", cast.getKind());
         map.put("expr", cast.getChildren().get(0).accept(this, null));
@@ -128,7 +128,7 @@ public class MapVisitor implements TreeVisitor<Map<String, Object>, Void> {
     }
 
     @Override
-    public Map<String, Object> visitBinding(Binding binding, Void aVoid) {
+    public Map<String, Object> visit(Binding binding, Void aVoid) {
         Map<String, Object> map = new LinkedHashMap<>();
         map.put("kind", binding.getKind());
         map.put("name", binding.getName().accept(this, null));
@@ -137,7 +137,7 @@ public class MapVisitor implements TreeVisitor<Map<String, Object>, Void> {
     }
 
     @Override
-    public Map<String, Object> visitReturn(ReturnStatement returnStatement, Void aVoid) {
+    public Map<String, Object> visit(ReturnStatement returnStatement, Void aVoid) {
         Map<String, Object> map = new LinkedHashMap<>();
         map.put("kind", returnStatement.getKind());
         map.put("body", visitChildren(returnStatement));
@@ -145,12 +145,12 @@ public class MapVisitor implements TreeVisitor<Map<String, Object>, Void> {
     }
 
     @Override
-    public Map<String, Object> visitNameNode(NameNode nameNode, Void aVoid) {
+    public Map<String, Object> visit(NameNode nameNode, Void aVoid) {
         return Collections.singletonMap("name", nameNode.getName());
     }
 
     @Override
-    public Map<String, Object> visitLetDef(LetDef simpleDef, Void aVoid) {
+    public Map<String, Object> visit(LetDef simpleDef, Void aVoid) {
         Map<String, Object> map = new LinkedHashMap<>();
         map.put("kind", simpleDef.getDefKind());
         map.put("name", simpleDef.getName());
@@ -160,17 +160,17 @@ public class MapVisitor implements TreeVisitor<Map<String, Object>, Void> {
     }
 
     @Override
-    public Map<String, Object> visitAssignmentDef(AssignmentDef simpleDef, Void aVoid) {
+    public Map<String, Object> visit(AssignmentDef simpleDef, Void aVoid) {
         return visitTree(simpleDef);
     }
 
     @Override
-    public Map<String, Object> visitClassDef(ClassDef def, Void aVoid) {
+    public Map<String, Object> visit(ClassDef def, Void aVoid) {
         return visitTree(def);
     }
 
     @Override
-    public Map<String, Object> visitSimpleImportDef(SimpleImport tree, Void aVoid) {
+    public Map<String, Object> visit(SimpleImport tree, Void aVoid) {
         Map<String, Object> map = new LinkedHashMap<>();
         map.put("mods", tree.getModifiers().stream().map(m -> m.accept(this, null)).collect(toList()));
         map.put("pos", tree.getPos());
@@ -181,7 +181,7 @@ public class MapVisitor implements TreeVisitor<Map<String, Object>, Void> {
     }
 
     @Override
-    public Map<String, Object> visitOnDemandImportDef(OnDemandImport tree, Void aVoid) {
+    public Map<String, Object> visit(OnDemandImport tree, Void aVoid) {
         Map<String, Object> map = new LinkedHashMap<>();
         map.put("mods", tree.getModifiers().stream().map(m -> m.accept(this, null)).collect(toList()));
         map.put("pos", tree.getPos());
@@ -192,12 +192,12 @@ public class MapVisitor implements TreeVisitor<Map<String, Object>, Void> {
     }
 
     @Override
-    public Map<String, Object> visitMethodDef(MethodDef def, Void aVoid) {
+    public Map<String, Object> visit(MethodDef def, Void aVoid) {
         return visitTree(def);
     }
 
     @Override
-    public Map<String, Object> visitPackageDef(PackageDef def, Void aVoid) {
+    public Map<String, Object> visit(PackageDef def, Void aVoid) {
         return visitTree(def);
     }
 

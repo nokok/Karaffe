@@ -36,7 +36,7 @@ public class Atom extends AbstractTree {
 
     @Override
     public <R, P> R accept(TreeVisitor<R, P> visitor, P p) {
-        return visitor.visitAtom(this, p);
+        return visitor.visit(this, p);
     }
 
     @Override

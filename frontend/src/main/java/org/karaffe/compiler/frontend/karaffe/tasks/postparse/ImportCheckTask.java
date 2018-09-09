@@ -30,7 +30,7 @@ public class ImportCheckTask extends AbstractTask implements ReadOnlyTask, NoDes
         AtomicBoolean hasError = new AtomicBoolean(false);
         compilationUnit.accept(new DefaultVisitor<Void>() {
             @Override
-            public Tree visitSimpleImportDef(SimpleImport tree, Void o) {
+            public Tree visit(SimpleImport tree, Void o) {
                 Path name = tree.getName();
                 try {
                     Class.forName(tree.getName().toString());

@@ -29,44 +29,44 @@ public class TreeVisitorAdapter<R, P> implements TreeVisitor<R, P> {
     private static final Logger LOGGER = LoggerFactory.getLogger(TreeVisitorAdapter.class);
 
     @Override
-    public R visitLetDef(LetDef simpleDef, P p) {
-        LOGGER.trace("visitLetDef", simpleDef);
+    public R visit(LetDef simpleDef, P p) {
+        LOGGER.trace("visit", simpleDef);
         return null;
     }
 
     @Override
-    public R visitAssignmentDef(AssignmentDef simpleDef, P p) {
-        LOGGER.trace("visitAssignmentDef", simpleDef);
+    public R visit(AssignmentDef simpleDef, P p) {
+        LOGGER.trace("visit", simpleDef);
         return null;
     }
 
     @Override
-    public R visitClassDef(ClassDef def, P p) {
-        LOGGER.trace("visitClassDef", def);
+    public R visit(ClassDef def, P p) {
+        LOGGER.trace("visit", def);
         return null;
     }
 
     @Override
-    public R visitSimpleImportDef(SimpleImport def, P p) {
-        LOGGER.trace("visitSimpleImportDef", def);
+    public R visit(SimpleImport def, P p) {
+        LOGGER.trace("visit", def);
         return null;
     }
 
     @Override
-    public R visitOnDemandImportDef(OnDemandImport onDemandImport, P p) {
-        LOGGER.trace("visitOnDemandImportDef", onDemandImport);
+    public R visit(OnDemandImport onDemandImport, P p) {
+        LOGGER.trace("visit", onDemandImport);
         return null;
     }
 
     @Override
-    public R visitMethodDef(MethodDef def, P p) {
-        LOGGER.trace("visitMethodDef", def);
+    public R visit(MethodDef def, P p) {
+        LOGGER.trace("visit", def);
         return null;
     }
 
     @Override
-    public R visitPackageDef(PackageDef def, P p) {
-        LOGGER.trace("visitPackageDef", def);
+    public R visit(PackageDef def, P p) {
+        LOGGER.trace("visit", def);
         return null;
     }
 
@@ -89,32 +89,32 @@ public class TreeVisitorAdapter<R, P> implements TreeVisitor<R, P> {
     }
 
     @Override
-    public R visitCompileUnit(Tree.CompilationUnit tree, P p) {
-        LOGGER.trace("visitCompileUnit", tree);
+    public R visit(Tree.CompilationUnit tree, P p) {
+        LOGGER.trace("visit", tree);
         return null;
     }
 
     @Override
-    public R visitTemplate(Tree.Template template, P p) {
-        LOGGER.trace("visitTemplate", template);
+    public R visit(Tree.Template template, P p) {
+        LOGGER.trace("visit", template);
         return null;
     }
 
     @Override
-    public R visitApply(Apply apply, P p) {
-        LOGGER.trace("visitApply", apply);
+    public R visit(Apply apply, P p) {
+        LOGGER.trace("visit", apply);
         return null;
     }
 
     @Override
-    public R visitAtom(Atom atom, P p) {
-        LOGGER.trace("visitAtom", atom);
+    public R visit(Atom atom, P p) {
+        LOGGER.trace("visit", atom);
         return null;
     }
 
     @Override
-    public R visitBlock(Block block, P p) {
-        LOGGER.trace("visitBlock", block);
+    public R visit(Block block, P p) {
+        LOGGER.trace("visit", block);
         return null;
     }
 
@@ -161,50 +161,50 @@ public class TreeVisitorAdapter<R, P> implements TreeVisitor<R, P> {
     }
 
     @Override
-    public R visitTuple(Tuple tuple, P p) {
-        LOGGER.trace("visitTuple", tuple);
+    public R visit(Tuple tuple, P p) {
+        LOGGER.trace("visit", tuple);
         return null;
     }
 
     @Override
-    public R visitIfExpr(IfExpr ifExpr, P p) {
-        LOGGER.trace("visitIfExpr", ifExpr);
+    public R visit(IfExpr ifExpr, P p) {
+        LOGGER.trace("visit", ifExpr);
         return null;
     }
 
     @Override
-    public R visitWhileExpr(WhileExpr whileExpr, P p) {
-        LOGGER.trace("visitWhileExpr", whileExpr);
+    public R visit(WhileExpr whileExpr, P p) {
+        LOGGER.trace("visit", whileExpr);
         return null;
     }
 
     @Override
-    public R visitEmpty(EmptyTree emptyTree, P p) {
-        LOGGER.trace("visitEmpty", emptyTree);
+    public R visit(EmptyTree emptyTree, P p) {
+        LOGGER.trace("visit", emptyTree);
         return null;
     }
 
     @Override
-    public R visitCast(Cast cast, P p) {
-        LOGGER.trace("visitCast", cast);
+    public R visit(Cast cast, P p) {
+        LOGGER.trace("visit", cast);
         return null;
     }
 
     @Override
-    public R visitBinding(Binding binding, P p) {
-        LOGGER.trace("visitBinding", binding);
+    public R visit(Binding binding, P p) {
+        LOGGER.trace("visit", binding);
         return null;
     }
 
     @Override
-    public R visitReturn(ReturnStatement returnStatement, P p) {
-        LOGGER.trace("visitReturn", returnStatement);
+    public R visit(ReturnStatement returnStatement, P p) {
+        LOGGER.trace("visit", returnStatement);
         return null;
     }
 
     @Override
-    public R visitNameNode(NameNode nameNode, P p) {
-        LOGGER.trace("visitNameNode");
+    public R visit(NameNode nameNode, P p) {
+        LOGGER.trace("visit");
         return null;
     }
 

@@ -52,37 +52,37 @@ public class DefaultVisitor<P> implements TreeVisitor<Tree, P> {
     }
 
     @Override
-    public Tree visitLetDef(LetDef tree, P p) {
+    public Tree visit(LetDef tree, P p) {
         return visitTree(tree, p);
     }
 
     @Override
-    public Tree visitAssignmentDef(AssignmentDef tree, P p) {
+    public Tree visit(AssignmentDef tree, P p) {
         return visitTree(tree, p);
     }
 
     @Override
-    public Tree visitClassDef(ClassDef tree, P p) {
+    public Tree visit(ClassDef tree, P p) {
         return visitTree(tree, p);
     }
 
     @Override
-    public Tree visitSimpleImportDef(SimpleImport tree, P p) {
+    public Tree visit(SimpleImport tree, P p) {
         return visitTree(tree, p);
     }
 
     @Override
-    public Tree visitOnDemandImportDef(OnDemandImport tree, P p) {
+    public Tree visit(OnDemandImport tree, P p) {
         return visitTree(tree, p);
     }
 
     @Override
-    public Tree visitMethodDef(MethodDef tree, P p) {
+    public Tree visit(MethodDef tree, P p) {
         return visitTree(tree, p);
     }
 
     @Override
-    public Tree visitPackageDef(PackageDef tree, P p) {
+    public Tree visit(PackageDef tree, P p) {
         return visitTree(tree, p);
     }
 
@@ -102,27 +102,27 @@ public class DefaultVisitor<P> implements TreeVisitor<Tree, P> {
     }
 
     @Override
-    public Tree visitCompileUnit(Tree.CompilationUnit tree, P p) {
+    public Tree visit(Tree.CompilationUnit tree, P p) {
         return visitTree(tree, p);
     }
 
     @Override
-    public Tree visitTemplate(Tree.Template tree, P p) {
+    public Tree visit(Tree.Template tree, P p) {
         return visitTree(tree, p);
     }
 
     @Override
-    public Tree visitApply(Apply tree, P p) {
+    public Tree visit(Apply tree, P p) {
         return visitTree(tree, p);
     }
 
     @Override
-    public Tree visitAtom(Atom tree, P p) {
+    public Tree visit(Atom tree, P p) {
         return visitTree(tree, p);
     }
 
     @Override
-    public Tree visitBlock(Block tree, P p) {
+    public Tree visit(Block tree, P p) {
         return visitTree(tree, p);
     }
 
@@ -132,42 +132,42 @@ public class DefaultVisitor<P> implements TreeVisitor<Tree, P> {
     }
 
     @Override
-    public Tree visitTuple(Tuple tree, P p) {
+    public Tree visit(Tuple tree, P p) {
         return visitTree(tree, p);
     }
 
     @Override
-    public Tree visitIfExpr(IfExpr tree, P p) {
+    public Tree visit(IfExpr tree, P p) {
         return visitTree(tree, p);
     }
 
     @Override
-    public Tree visitWhileExpr(WhileExpr tree, P p) {
+    public Tree visit(WhileExpr tree, P p) {
         return visitTree(tree, p);
     }
 
     @Override
-    public Tree visitEmpty(EmptyTree tree, P p) {
+    public Tree visit(EmptyTree tree, P p) {
         return visitTree(tree, p);
     }
 
     @Override
-    public Tree visitCast(Cast tree, P p) {
+    public Tree visit(Cast tree, P p) {
         return visitTree(tree, p);
     }
 
     @Override
-    public Tree visitBinding(Binding tree, P p) {
+    public Tree visit(Binding tree, P p) {
         return visitTree(tree, p);
     }
 
     @Override
-    public Tree visitReturn(ReturnStatement tree, P p) {
+    public Tree visit(ReturnStatement tree, P p) {
         return visitTree(tree, p);
     }
 
     @Override
-    public Tree visitNameNode(NameNode tree, P p) {
+    public Tree visit(NameNode tree, P p) {
         return visitTree(tree, p);
     }
 

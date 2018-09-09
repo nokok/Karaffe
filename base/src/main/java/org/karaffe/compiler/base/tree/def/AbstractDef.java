@@ -28,19 +28,19 @@ public abstract class AbstractDef extends AbstractTree implements Def {
         }
         switch (this.defKind) {
         case LET:
-            return visitor.visitLetDef((LetDef) this, p);
+            return visitor.visit((LetDef) this, p);
         case ASSIGNMENT:
-            return visitor.visitAssignmentDef((AssignmentDef) this, p);
+            return visitor.visit((AssignmentDef) this, p);
         case CLASS:
-            return visitor.visitClassDef((ClassDef) this, p);
+            return visitor.visit((ClassDef) this, p);
         case ONDEMAND_IMPORT:
-            return visitor.visitOnDemandImportDef((OnDemandImport) this, p);
+            return visitor.visit((OnDemandImport) this, p);
         case SIMPLE_IMPORT:
-            return visitor.visitSimpleImportDef((SimpleImport) this, p);
+            return visitor.visit((SimpleImport) this, p);
         case METHOD:
-            return visitor.visitMethodDef((MethodDef) this, p);
+            return visitor.visit((MethodDef) this, p);
         case PACKAGE:
-            return visitor.visitPackageDef((PackageDef) this, p);
+            return visitor.visit((PackageDef) this, p);
         default:
             throw new IllegalStateException(this.defKind.toString());
         }

@@ -17,7 +17,7 @@ public class Block extends AbstractTree {
 
     @Override
     public <R, P> R accept(TreeVisitor<R, P> visitor, P p) {
-        return visitor.visitBlock(this, p);
+        return visitor.visit(this, p);
     }
 
     @Override

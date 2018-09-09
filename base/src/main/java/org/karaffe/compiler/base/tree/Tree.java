@@ -45,7 +45,7 @@ public interface Tree extends LocatableElement, NameableElement, ModifiableEleme
 
         @Override
         public <R, P> R accept(TreeVisitor<R, P> visitor, P p) {
-            return visitor.visitCompileUnit(this, p);
+            return visitor.visit(this, p);
         }
 
         public void addTopLevel(Tree tree) {
@@ -86,7 +86,7 @@ public interface Tree extends LocatableElement, NameableElement, ModifiableEleme
 
         @Override
         public <R, P> R accept(TreeVisitor<R, P> visitor, P p) {
-            return visitor.visitTemplate(this, p);
+            return visitor.visit(this, p);
         }
     }
 }
