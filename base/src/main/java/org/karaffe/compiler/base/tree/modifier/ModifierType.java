@@ -3,7 +3,8 @@ package org.karaffe.compiler.base.tree.modifier;
 public enum ModifierType {
     PUBLIC("public"),
     SYNTHETIC("synthetic"),
-    STATIC("static"),;
+    STATIC("static"),
+    ;
 
     private final String string;
 

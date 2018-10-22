@@ -8,21 +8,43 @@ import org.karaffe.compiler.base.tree.def.OnDemandImport;
 import org.karaffe.compiler.base.tree.def.PackageDef;
 import org.karaffe.compiler.base.tree.def.SimpleImport;
 import org.karaffe.compiler.base.tree.expr.Apply;
-import org.karaffe.compiler.base.tree.expr.Atom;
 import org.karaffe.compiler.base.tree.expr.Binding;
 import org.karaffe.compiler.base.tree.expr.Block;
 import org.karaffe.compiler.base.tree.expr.Cast;
+import org.karaffe.compiler.base.tree.expr.Identifier;
 import org.karaffe.compiler.base.tree.expr.IfExpr;
-import org.karaffe.compiler.base.tree.expr.Operator;
+import org.karaffe.compiler.base.tree.expr.IntegerLiteral;
+import org.karaffe.compiler.base.tree.expr.StringLiteral;
 import org.karaffe.compiler.base.tree.expr.Tuple;
 import org.karaffe.compiler.base.tree.expr.WhileExpr;
-import org.karaffe.compiler.base.tree.modifier.Modifier;
+import org.karaffe.compiler.base.tree.expr.op.And;
+import org.karaffe.compiler.base.tree.expr.op.Bang;
+import org.karaffe.compiler.base.tree.expr.op.Comma;
+import org.karaffe.compiler.base.tree.expr.op.DeepEqualsTo;
+import org.karaffe.compiler.base.tree.expr.op.DeepNotEqualsTo;
+import org.karaffe.compiler.base.tree.expr.op.Div;
+import org.karaffe.compiler.base.tree.expr.op.EqualsTo;
+import org.karaffe.compiler.base.tree.expr.op.GreaterThan;
+import org.karaffe.compiler.base.tree.expr.op.GreaterThanEquals;
+import org.karaffe.compiler.base.tree.expr.op.LessThan;
+import org.karaffe.compiler.base.tree.expr.op.LessThanEquals;
+import org.karaffe.compiler.base.tree.expr.op.Minus;
+import org.karaffe.compiler.base.tree.expr.op.Mod;
+import org.karaffe.compiler.base.tree.expr.op.Mul;
+import org.karaffe.compiler.base.tree.expr.op.NotEqualsTo;
+import org.karaffe.compiler.base.tree.expr.op.Or;
+import org.karaffe.compiler.base.tree.expr.op.Plus;
+import org.karaffe.compiler.base.tree.expr.op.Pow;
+import org.karaffe.compiler.base.tree.expr.op.Range;
+import org.karaffe.compiler.base.tree.modifier.PublicModifier;
+import org.karaffe.compiler.base.tree.modifier.StaticModifier;
+import org.karaffe.compiler.base.tree.modifier.SyntheticModifier;
 import org.karaffe.compiler.base.tree.stmt.ReturnStatement;
 import org.karaffe.compiler.base.tree.term.EmptyTree;
-import org.karaffe.compiler.base.tree.term.NameNode;
-import org.karaffe.compiler.base.tree.term.NestedPath;
-import org.karaffe.compiler.base.tree.term.Path;
-import org.karaffe.compiler.base.tree.term.SimplePath;
+import org.karaffe.compiler.base.tree.term.TypeName;
+import org.karaffe.compiler.base.tree.term.VarName;
+import org.karaffe.compiler.base.tree.type.Array;
+import org.karaffe.compiler.base.tree.type.primitive.Void;
 
 public interface TreeVisitor<R, P> {
 
@@ -40,19 +62,11 @@ public interface TreeVisitor<R, P> {
 
     R visit(PackageDef def, P p);
 
-    R visitStaticMod(Modifier modifier, P p);
-
-    R visitPublicMod(Modifier modifier, P p);
-
-    R visitSyntheticMod(Modifier simpleModifier, P p);
-
     R visit(Tree.CompilationUnit tree, P p);
 
     R visit(Tree.Template template, P p);
 
     R visit(Apply apply, P p);
-
-    R visit(Atom atom, P p);
 
     R visit(Block block, P p);
 
@@ -70,45 +84,61 @@ public interface TreeVisitor<R, P> {
 
     R visit(ReturnStatement returnStatement, P p);
 
-    R visit(NameNode nameNode, P p);
+    R visit(PublicModifier publicModifier, P p);
 
-    default Path visitOperator(Operator operator, P p) {
-        return operator;
-    }
+    R visit(StaticModifier staticModifier, P p);
 
-    default Path visitModuleName(Path path, P p) {
-        return path;
-    }
+    R visit(SyntheticModifier syntheticModifier, P p);
 
-    default Path visitPackageName(Path path, P p) {
-        return path;
-    }
+    R visit(StringLiteral stringLiteral, P p);
 
-    default Path visitEmptyName(Path emptyPath, P p) {
-        return emptyPath;
-    }
+    R visit(IntegerLiteral integerLiteral, P p);
 
-    default Path visitTypeName(Path path, P p) {
-        return path;
-    }
+    R visit(Identifier identifier, P p);
 
-    default Path visitVarName(Path path, P p) {
-        return path;
-    }
+    R visit(Range range, P p);
 
-    default Path visitThisName(Path path, P p) {
-        return path;
-    }
+    R visit(Comma comma, P p);
 
-    default Path visitNestedName(NestedPath path, P p) {
-        return path;
-    }
+    R visit(Or or, P p);
 
-    default Path visitSuperName(SimplePath path, P p) {
-        return path;
-    }
+    R visit(NotEqualsTo notEqualsTo, P p);
 
-    default Path visitVoidType(Path path, P p) {
-        return path;
-    }
+    R visit(Mul mul, P p);
+
+    R visit(Mod mod, P p);
+
+    R visit(Minus minus, P p);
+
+    R visit(And and, P p);
+
+    R visit(Bang bang, P p);
+
+    R visit(DeepEqualsTo deepEqualsTo, P p);
+
+    R visit(DeepNotEqualsTo deepNotEqualsTo, P p);
+
+    R visit(Div div, P p);
+
+    R visit(EqualsTo equalsTo, P p);
+
+    R visit(GreaterThan greaterThan, P p);
+
+    R visit(GreaterThanEquals greaterThanEquals, P p);
+
+    R visit(LessThanEquals lessThanEquals, P p);
+
+    R visit(LessThan lessThan, P p);
+
+    R visit(Plus plus, P p);
+
+    R visit(Pow pow, P p);
+
+    R visit(TypeName typeName, P p);
+
+    R visit(VarName varName, P p);
+
+    R visit(Array array, P p);
+
+    R visit(Void aVoid, P p);
 }

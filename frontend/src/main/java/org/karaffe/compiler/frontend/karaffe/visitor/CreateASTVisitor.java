@@ -171,7 +171,6 @@ public class CreateASTVisitor extends KaraffeBaseVisitor<Tree> implements Positi
         if (ctx.methodName != null) {
             return Defs.methodDef(
                     Position.ofRange(ctx.start, ctx.stop),
-                    null,
                     ctx.methodName.getText(),
                     Terms.typeName(ctx.returnTypeName),
                     ctx.parameterList() == null ? Exprs.tuple() : (Tuple) ctx.parameterList().accept(this)
@@ -194,7 +193,7 @@ public class CreateASTVisitor extends KaraffeBaseVisitor<Tree> implements Positi
 
     @Override
     public Tree visitBinding(KaraffeParser.BindingContext ctx) {
-        Binding b = new Binding(null);
+        Binding b = new Binding();
         b.setName(Terms.varName(ctx.name));
         b.setTypeName(Terms.typeName(ctx.typeName));
         return b;
@@ -404,7 +403,7 @@ public class CreateASTVisitor extends KaraffeBaseVisitor<Tree> implements Positi
 
     @Override
     public Tree visitExprName(KaraffeParser.ExprNameContext ctx) {
-        return Exprs.id(ctx.exprName);
+        return Exprs.exprName(ctx.exprName);
     }
 
     @Override

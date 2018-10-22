@@ -8,19 +8,43 @@ import org.karaffe.compiler.base.tree.def.OnDemandImport;
 import org.karaffe.compiler.base.tree.def.PackageDef;
 import org.karaffe.compiler.base.tree.def.SimpleImport;
 import org.karaffe.compiler.base.tree.expr.Apply;
-import org.karaffe.compiler.base.tree.expr.Atom;
 import org.karaffe.compiler.base.tree.expr.Binding;
 import org.karaffe.compiler.base.tree.expr.Block;
 import org.karaffe.compiler.base.tree.expr.Cast;
+import org.karaffe.compiler.base.tree.expr.Identifier;
 import org.karaffe.compiler.base.tree.expr.IfExpr;
-import org.karaffe.compiler.base.tree.expr.Operator;
+import org.karaffe.compiler.base.tree.expr.IntegerLiteral;
+import org.karaffe.compiler.base.tree.expr.StringLiteral;
 import org.karaffe.compiler.base.tree.expr.Tuple;
 import org.karaffe.compiler.base.tree.expr.WhileExpr;
-import org.karaffe.compiler.base.tree.modifier.Modifier;
+import org.karaffe.compiler.base.tree.expr.op.And;
+import org.karaffe.compiler.base.tree.expr.op.Bang;
+import org.karaffe.compiler.base.tree.expr.op.Comma;
+import org.karaffe.compiler.base.tree.expr.op.DeepEqualsTo;
+import org.karaffe.compiler.base.tree.expr.op.DeepNotEqualsTo;
+import org.karaffe.compiler.base.tree.expr.op.Div;
+import org.karaffe.compiler.base.tree.expr.op.EqualsTo;
+import org.karaffe.compiler.base.tree.expr.op.GreaterThan;
+import org.karaffe.compiler.base.tree.expr.op.GreaterThanEquals;
+import org.karaffe.compiler.base.tree.expr.op.LessThan;
+import org.karaffe.compiler.base.tree.expr.op.LessThanEquals;
+import org.karaffe.compiler.base.tree.expr.op.Minus;
+import org.karaffe.compiler.base.tree.expr.op.Mod;
+import org.karaffe.compiler.base.tree.expr.op.Mul;
+import org.karaffe.compiler.base.tree.expr.op.NotEqualsTo;
+import org.karaffe.compiler.base.tree.expr.op.Or;
+import org.karaffe.compiler.base.tree.expr.op.Plus;
+import org.karaffe.compiler.base.tree.expr.op.Pow;
+import org.karaffe.compiler.base.tree.expr.op.Range;
+import org.karaffe.compiler.base.tree.modifier.PublicModifier;
+import org.karaffe.compiler.base.tree.modifier.StaticModifier;
+import org.karaffe.compiler.base.tree.modifier.SyntheticModifier;
 import org.karaffe.compiler.base.tree.stmt.ReturnStatement;
 import org.karaffe.compiler.base.tree.term.EmptyTree;
-import org.karaffe.compiler.base.tree.term.NameNode;
-import org.karaffe.compiler.base.tree.term.Path;
+import org.karaffe.compiler.base.tree.term.TypeName;
+import org.karaffe.compiler.base.tree.term.VarName;
+import org.karaffe.compiler.base.tree.type.Array;
+import org.karaffe.compiler.base.tree.type.primitive.Void;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -40,8 +64,8 @@ public class DefaultVisitor<P> implements TreeVisitor<Tree, P> {
     }
 
     private Tree visitTree(Tree tree, P p) {
-        Path name = tree.getName().accept(this, p);
-        Path typeName = tree.getTypeName().accept(this, p);
+        Tree name = tree.getName().accept(this, p);
+        Tree typeName = tree.getTypeName().accept(this, p);
         List<Tree> trees = visitChildren(tree, p);
         List<Tree> modifiers = visitModifiers(tree, p);
         tree.setName(name);
@@ -87,21 +111,6 @@ public class DefaultVisitor<P> implements TreeVisitor<Tree, P> {
     }
 
     @Override
-    public Tree visitStaticMod(Modifier tree, P p) {
-        return visitTree(tree, p);
-    }
-
-    @Override
-    public Tree visitPublicMod(Modifier tree, P p) {
-        return visitTree(tree, p);
-    }
-
-    @Override
-    public Tree visitSyntheticMod(Modifier tree, P p) {
-        return visitTree(tree, p);
-    }
-
-    @Override
     public Tree visit(Tree.CompilationUnit tree, P p) {
         return visitTree(tree, p);
     }
@@ -117,18 +126,8 @@ public class DefaultVisitor<P> implements TreeVisitor<Tree, P> {
     }
 
     @Override
-    public Tree visit(Atom tree, P p) {
-        return visitTree(tree, p);
-    }
-
-    @Override
     public Tree visit(Block tree, P p) {
         return visitTree(tree, p);
-    }
-
-    @Override
-    public Path visitOperator(Operator tree, P p) {
-        return tree;
     }
 
     @Override
@@ -148,7 +147,7 @@ public class DefaultVisitor<P> implements TreeVisitor<Tree, P> {
 
     @Override
     public Tree visit(EmptyTree tree, P p) {
-        return visitTree(tree, p);
+        return tree;
     }
 
     @Override
@@ -167,39 +166,148 @@ public class DefaultVisitor<P> implements TreeVisitor<Tree, P> {
     }
 
     @Override
-    public Tree visit(NameNode tree, P p) {
+    public Tree visit(PublicModifier tree, P p) {
         return visitTree(tree, p);
     }
 
     @Override
-    public Path visitModuleName(Path path, P p) {
-        return path;
+    public Tree visit(StaticModifier tree, P p) {
+        return visitTree(tree, p);
     }
 
     @Override
-    public Path visitPackageName(Path path, P p) {
-        return path;
+    public Tree visit(SyntheticModifier tree, P p) {
+        return visitTree(tree, p);
     }
 
     @Override
-    public Path visitEmptyName(Path path, P p) {
-        return path;
+    public Tree visit(Plus plus, P p) {
+        return null;
     }
 
     @Override
-    public Path visitTypeName(Path path, P p) {
-        LOGGER.trace("TypeName: {}", path);
-        return path;
+    public Tree visit(Pow pow, P p) {
+        return null;
     }
 
     @Override
-    public Path visitVarName(Path path, P p) {
-        return path;
+    public Tree visit(TypeName typeName, P p) {
+        return typeName;
     }
 
     @Override
-    public Path visitThisName(Path path, P p) {
-        return path;
+    public Tree visit(VarName varName, P p) {
+        return varName;
+    }
+
+    @Override
+    public Tree visit(Array array, P p) {
+        return array;
+    }
+
+    @Override
+    public Tree visit(Void aVoid, P p) {
+        return aVoid;
+    }
+
+    @Override
+    public Tree visit(StringLiteral stringLiteral, P p) {
+        return stringLiteral;
+    }
+
+    @Override
+    public Tree visit(IntegerLiteral integerLiteral, P p) {
+        return integerLiteral;
+    }
+
+    @Override
+    public Tree visit(Identifier identifier, P p) {
+        return identifier;
+    }
+
+    @Override
+    public Tree visit(Range range, P p) {
+        return null;
+    }
+
+    @Override
+    public Tree visit(Comma comma, P p) {
+        return null;
+    }
+
+    @Override
+    public Tree visit(Or or, P p) {
+        return null;
+    }
+
+    @Override
+    public Tree visit(NotEqualsTo notEqualsTo, P p) {
+        return null;
+    }
+
+    @Override
+    public Tree visit(Mul mul, P p) {
+        return null;
+    }
+
+    @Override
+    public Tree visit(Mod mod, P p) {
+        return null;
+    }
+
+    @Override
+    public Tree visit(Minus minus, P p) {
+        return null;
+    }
+
+    @Override
+    public Tree visit(And and, P p) {
+        return null;
+    }
+
+    @Override
+    public Tree visit(Bang bang, P p) {
+        return null;
+    }
+
+    @Override
+    public Tree visit(DeepEqualsTo deepEqualsTo, P p) {
+        return null;
+    }
+
+    @Override
+    public Tree visit(DeepNotEqualsTo deepNotEqualsTo, P p) {
+        return null;
+    }
+
+    @Override
+    public Tree visit(Div div, P p) {
+        return null;
+    }
+
+    @Override
+    public Tree visit(EqualsTo equalsTo, P p) {
+        return null;
+    }
+
+    @Override
+    public Tree visit(GreaterThan greaterThan, P p) {
+        return null;
+    }
+
+    @Override
+    public Tree visit(GreaterThanEquals greaterThanEquals, P p) {
+        return null;
+    }
+
+    @Override
+    public Tree visit(LessThanEquals lessThanEquals, P p) {
+        return null;
+    }
+
+    @Override
+    public Tree visit(LessThan lessThan, P p) {
+        return null;
     }
 
 }

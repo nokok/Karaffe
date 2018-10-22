@@ -20,7 +20,8 @@ public enum OperatorKind {
     BANG("!", "bang"),
     OR("||", "or"),
     AND("&&", "and"),
-    ERROR("?", "error"),;
+    ERROR("?", "error"),
+    ;
 
     private String simpleName;
     private String fullName;

@@ -1,13 +1,29 @@
 package org.karaffe.compiler.base.util;
 
-import java.io.File;
 import java.io.InputStream;
 import java.io.PrintStream;
-import java.util.Arrays;
 
 public enum Platform {
 
-    INSTANCE,;
+    INSTANCE,
+    ;
+
+    public static String ANSI_RESET;
+    public static String ANSI_BOLD;
+    public static String ANSI_BLACK;
+    public static String ANSI_RED;
+    public static String ANSI_GREEN;
+    public static String ANSI_YELLOW;
+    public static String ANSI_BLUE;
+    public static String ANSI_PURPLE;
+    public static String ANSI_CYAN;
+    public static String ANSI_WHITE;
+    private static PrintStream defaultStdOut = System.out;
+    private static PrintStream stdOut = defaultStdOut;
+    private static PrintStream defaultStdErr = System.err;
+    private static PrintStream stdErr = defaultStdErr;
+    private static InputStream defaultStdIn = System.in;
+    private static InputStream stdIn = defaultStdIn;
 
     static {
         init();
@@ -45,23 +61,6 @@ public enum Platform {
             ANSI_WHITE = "";
         }
     }
-
-    public static String ANSI_RESET;
-    public static String ANSI_BOLD;
-    public static String ANSI_BLACK;
-    public static String ANSI_RED;
-    public static String ANSI_GREEN;
-    public static String ANSI_YELLOW;
-    public static String ANSI_BLUE;
-    public static String ANSI_PURPLE;
-    public static String ANSI_CYAN;
-    public static String ANSI_WHITE;
-    private static PrintStream defaultStdOut = System.out;
-    private static PrintStream stdOut = defaultStdOut;
-    private static PrintStream defaultStdErr = System.err;
-    private static PrintStream stdErr = defaultStdErr;
-    private static InputStream defaultStdIn = System.in;
-    private static InputStream stdIn = defaultStdIn;
 
     public static boolean isWindows() {
         return "\\".equals(System.getProperty("file.separator"));

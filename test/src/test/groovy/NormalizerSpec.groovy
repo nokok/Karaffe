@@ -21,7 +21,7 @@ class NormalizerSpec extends Specification {
         visitor.isNormalizable(Exprs.ifExpr(Position.noPos(), Terms.emptyTree(), Terms.emptyTree(), Terms.emptyTree()))
         visitor.isNormalizable(Exprs.intValue("1"))
         visitor.isNormalizable(Exprs.stringValue(Position.noPos(), "ABC"))
-        visitor.isNormalizable(Exprs.id(Position.noPos(), "i"))
+        visitor.isNormalizable(Exprs.exprName(Position.noPos(), "i"))
     }
 
     def "Not normalizable group"() {

@@ -2,7 +2,6 @@ package org.karaffe.compiler.base.tree;
 
 import org.karaffe.compiler.base.attr.Attributes;
 import org.karaffe.compiler.base.pos.Position;
-import org.karaffe.compiler.base.tree.term.Path;
 import org.karaffe.compiler.base.tree.term.Terms;
 
 import java.util.ArrayList;
@@ -25,23 +24,7 @@ public interface Tree extends LocatableElement, NameableElement, ModifiableEleme
         return acceptChildren(0, visitor, p);
     }
 
-    TreeKind getKind();
-
-    void setKind(TreeKind kind);
-
-    Tree getParent();
-
-    void setParent(Tree tree);
-
     class CompilationUnit extends AbstractTree implements Tree {
-
-        CompilationUnit() {
-            this(null);
-        }
-
-        CompilationUnit(Tree parent) {
-            super(parent, TreeKind.COMPILE_UNIT);
-        }
 
         @Override
         public <R, P> R accept(TreeVisitor<R, P> visitor, P p) {
@@ -55,32 +38,27 @@ public interface Tree extends LocatableElement, NameableElement, ModifiableEleme
 
     class Template extends AbstractTree {
 
-        private Path superClass;
-        private List<Path> interfaces;
+        private Tree superClass;
+        private List<Tree> interfaces;
 
-        Template() {
-            this(null);
-        }
-
-        Template(Tree parent) {
-            super(parent, TreeKind.TEMPLATE);
+        public Template() {
             this.superClass = Terms.typeName(Position.noPos(), "Any");
             this.interfaces = new ArrayList<>();
         }
 
-        public Path getSuperClass() {
+        public Tree getSuperClass() {
             return superClass;
         }
 
-        public void setSuperClass(Path superClass) {
+        public void setSuperClass(Tree superClass) {
             this.superClass = Objects.requireNonNull(superClass);
         }
 
-        public void addInterface(Path type) {
+        public void addInterface(Tree type) {
             this.interfaces.add(Objects.requireNonNull(type));
         }
 
-        public List<Path> getInterfaces() {
+        public List<Tree> getInterfaces() {
             return interfaces;
         }
 
@@ -88,5 +66,6 @@ public interface Tree extends LocatableElement, NameableElement, ModifiableEleme
         public <R, P> R accept(TreeVisitor<R, P> visitor, P p) {
             return visitor.visit(this, p);
         }
+
     }
 }

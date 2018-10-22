@@ -9,9 +9,9 @@ public interface Attributes {
 
     void addAttribute(Attribute attribute);
 
-    void setAttributes(List<Attribute> attributes);
-
     List<Attribute> getAttributes();
+
+    void setAttributes(List<Attribute> attributes);
 
     default List<Attribute> getAttributes(Predicate<Attribute> p) {
         return this.getAttributes().stream().filter(p).collect(Collectors.toList());

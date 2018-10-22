@@ -1,9 +1,7 @@
 package org.karaffe.compiler.base.tree;
 
-import org.karaffe.compiler.base.tree.term.Path;
-
 public interface TypedElement {
-    Path getTypeName();
+    Tree getTypeName();
 
-    void setTypeName(Path type);
+    void setTypeName(Tree type);
 }

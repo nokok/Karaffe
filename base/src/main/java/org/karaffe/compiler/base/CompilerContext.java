@@ -32,7 +32,7 @@ public interface CompilerContext extends
 
     void setCompilationUnit(Tree compilationUnit);
 
-    void setIR(IR ir);
-
     IR getIR();
+
+    void setIR(IR ir);
 }

@@ -9,7 +9,6 @@ import org.karaffe.compiler.base.task.TaskResult;
 import org.karaffe.compiler.base.tree.DefaultVisitor;
 import org.karaffe.compiler.base.tree.Tree;
 import org.karaffe.compiler.base.tree.def.SimpleImport;
-import org.karaffe.compiler.base.tree.term.Path;
 import org.karaffe.compiler.base.util.Errors;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -31,7 +30,7 @@ public class ImportCheckTask extends AbstractTask implements ReadOnlyTask, NoDes
         compilationUnit.accept(new DefaultVisitor<Void>() {
             @Override
             public Tree visit(SimpleImport tree, Void o) {
-                Path name = tree.getName();
+                Tree name = tree.getName();
                 try {
                     Class.forName(tree.getName().toString());
                 } catch (ClassNotFoundException e) {

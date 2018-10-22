@@ -1,9 +1,7 @@
 package org.karaffe.compiler.base;
 
 import java.nio.file.Path;
-import java.util.List;
 import java.util.Map;
-import java.util.Set;
 
 public interface BytecodeContainer {
     void addBytecode(Path filePath, byte[] bytecode);

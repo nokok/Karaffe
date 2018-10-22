@@ -10,7 +10,7 @@ public interface Operators {
     static Operator byToken(Token token) {
         Objects.requireNonNull(token);
         Objects.requireNonNull(token.getText());
-        Operator operator = new SimpleOperator(OperatorKind.ERROR);
+        Operator operator = null; // TODO
         operator.setPos(Position.of(token));
         OperatorKind operatorKind = Stream
                 .of(OperatorKind.values())

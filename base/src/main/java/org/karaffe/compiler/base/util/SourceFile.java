@@ -37,6 +37,11 @@ public class SourceFile {
         }
     }
 
+    public static SourceFile fromLiteral(String source) {
+        String[] lines = source.split("\n");
+        return new SourceFile(UNKNOWN_FILE_NAME, UNKNOWN_FILE_NAME, Arrays.asList(lines));
+    }
+
     public String getFileName() {
         return this.fileName;
     }
@@ -55,10 +60,5 @@ public class SourceFile {
     @Override
     public String toString() {
         return String.join("\n", this.lines) + "\n";
-    }
-
-    public static SourceFile fromLiteral(String source) {
-        String[] lines = source.split("\n");
-        return new SourceFile(UNKNOWN_FILE_NAME, UNKNOWN_FILE_NAME, Arrays.asList(lines));
     }
 }

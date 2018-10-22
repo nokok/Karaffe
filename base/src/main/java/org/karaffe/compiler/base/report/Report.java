@@ -53,6 +53,27 @@ public class Report {
         return this.title;
     }
 
+    @Override
+    public String toString() {
+        StringBuilder builder = new StringBuilder();
+        builder.append(reportTypeToString(this.type)).append(" ").append(this.title).append(" ").append(this.position).append(System.lineSeparator());
+        if (!this.message.isEmpty()) {
+            builder.append(this.message).append(System.lineSeparator());
+        }
+        return builder.toString();
+    }
+
+    private String reportTypeToString(ReportType type) {
+        if (type == ReportType.ERROR) {
+            return Platform.ANSI_RED + type + Platform.ANSI_RESET;
+        } else if (type == ReportType.WARN) {
+            return Platform.ANSI_YELLOW + type + Platform.ANSI_RESET;
+        } else if (type == ReportType.INFO) {
+            return Platform.ANSI_CYAN + title + Platform.ANSI_RESET;
+        }
+        return type.toString();
+    }
+
     public enum ReportType {
         ERROR,
         WARN,
@@ -116,26 +137,5 @@ public class Report {
             return Arrays.asList("[TODO] : " + this.todoMessage);
         }
 
-    }
-
-    @Override
-    public String toString() {
-        StringBuilder builder = new StringBuilder();
-        builder.append(reportTypeToString(this.type)).append(" ").append(this.title).append(" ").append(this.position).append(System.lineSeparator());
-        if (!this.message.isEmpty()) {
-            builder.append(this.message).append(System.lineSeparator());
-        }
-        return builder.toString();
-    }
-
-    private String reportTypeToString(ReportType type) {
-        if (type == ReportType.ERROR) {
-            return Platform.ANSI_RED + type + Platform.ANSI_RESET;
-        } else if (type == ReportType.WARN) {
-            return Platform.ANSI_YELLOW + type + Platform.ANSI_RESET;
-        } else if (type == ReportType.INFO) {
-            return Platform.ANSI_CYAN + title + Platform.ANSI_RESET;
-        }
-        return type.toString();
     }
 }

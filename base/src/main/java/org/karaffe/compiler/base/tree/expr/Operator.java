@@ -1,8 +1,9 @@
 package org.karaffe.compiler.base.tree.expr;
 
-import org.karaffe.compiler.base.tree.term.Path;
+import org.karaffe.compiler.base.tree.Tree;
+import org.karaffe.compiler.base.tree.term.Term;
 
-public interface Operator extends Path {
+public interface Operator extends CharSequence, Term, Tree {
     OperatorKind getOperatorKind();
 
     void setOperatorKind(OperatorKind operatorKind);

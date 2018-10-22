@@ -1,8 +1,8 @@
 package org.karaffe.compiler.base.ir.builtin;
 
 public class Array<T extends KaraffeIRType> implements KaraffeIRType {
-    private Object[] values;
     public int length;
+    private Object[] values;
 
     public Array(int size) {
         this.values = new Object[size];

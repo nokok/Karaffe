@@ -2,33 +2,25 @@ package org.karaffe.compiler.base.tree;
 
 import org.karaffe.compiler.base.attr.Attribute;
 import org.karaffe.compiler.base.pos.Position;
-import org.karaffe.compiler.base.tree.term.Path;
-import org.karaffe.compiler.base.tree.term.Terms;
+import org.karaffe.compiler.base.tree.term.EmptyTree;
 
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
+import java.util.Optional;
 
 public abstract class AbstractTree implements Tree {
-    private Tree parent;
-    private TreeKind kind;
     private Position position;
-    private Path name;
-    private Path typeName;
+    private Tree name;
+    private Tree typeName;
     private List<Attribute> attributes;
     private List<Tree> modifiers;
     private List<Tree> children;
 
-    public AbstractTree(TreeKind treeKind) {
-        this(null, treeKind);
-    }
-
-    public AbstractTree(Tree parent, TreeKind treeKind) {
-        this.parent = parent;
-        this.kind = Objects.requireNonNull(treeKind);
+    public AbstractTree() {
         this.position = Position.noPos();
-        this.name = Terms.emptyName();
-        this.typeName = Terms.emptyName();
+        this.name = null; // new EmptyTreeしたかったが構造上StackOverflowになるので
+        this.typeName = null;
         this.attributes = new ArrayList<>();
         this.modifiers = new ArrayList<>();
         this.children = new ArrayList<>();
@@ -40,43 +32,23 @@ public abstract class AbstractTree implements Tree {
     }
 
     @Override
-    public void setAttributes(List<Attribute> attributes) {
-        this.attributes = Objects.requireNonNull(attributes);
-    }
-
-    @Override
     public List<Attribute> getAttributes() {
         return this.attributes;
     }
 
     @Override
-    public Path getTypeName() {
-        return this.typeName;
+    public void setAttributes(List<Attribute> attributes) {
+        this.attributes = Objects.requireNonNull(attributes);
     }
 
     @Override
-    public void setTypeName(Path type) {
+    public Tree getTypeName() {
+        return Optional.ofNullable(this.typeName).orElse(new EmptyTree());
+    }
+
+    @Override
+    public void setTypeName(Tree type) {
         this.typeName = Objects.requireNonNull(type);
-    }
-
-    @Override
-    public TreeKind getKind() {
-        return kind;
-    }
-
-    @Override
-    public void setKind(TreeKind kind) {
-        this.kind = Objects.requireNonNull(kind);
-    }
-
-    @Override
-    public Tree getParent() {
-        return this.parent;
-    }
-
-    @Override
-    public void setParent(Tree tree) {
-        this.parent = tree;
     }
 
     @Override
@@ -141,30 +113,13 @@ public abstract class AbstractTree implements Tree {
     }
 
     @Override
-    public Path getName() {
-        return this.name;
+    public Tree getName() {
+        return Optional.ofNullable(this.name).orElse(new EmptyTree());
     }
 
     @Override
-    public void setName(Path name) {
+    public void setName(Tree name) {
         this.name = Objects.requireNonNull(name);
     }
 
-    @Override
-    public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
-        AbstractTree that = (AbstractTree) o;
-        return kind == that.kind &&
-                Objects.equals(name, that.name) &&
-                Objects.equals(typeName, that.typeName) &&
-                Objects.equals(modifiers, that.modifiers) &&
-                Objects.equals(children, that.children);
-    }
-
-    @Override
-    public int hashCode() {
-
-        return Objects.hash(kind, name, typeName, modifiers, children);
-    }
 }

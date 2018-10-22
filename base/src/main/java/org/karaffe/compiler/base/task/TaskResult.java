@@ -4,7 +4,8 @@ public enum TaskResult {
     SUCCESSFUL,
     SUCCESSFUL_WITH_WARN,
     RETRY,
-    FAILED,;
+    FAILED,
+    ;
 
     public TaskResult ifFailed(Runnable runnable) {
         if (this == FAILED) {

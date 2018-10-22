@@ -2,7 +2,8 @@ package org.karaffe.compiler.base.util;
 
 public enum DiagnosticInfo {
 
-    INSTANCE,;
+    INSTANCE,
+    ;
 
     public String fileEncoding() {
         return System.getProperty("file.encoding");

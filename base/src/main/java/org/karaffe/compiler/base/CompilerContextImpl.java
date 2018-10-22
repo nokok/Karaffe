@@ -25,12 +25,12 @@ import java.util.stream.Stream;
 public class CompilerContextImpl implements CompilerContext {
 
     private final CommandLineOptions commandLineOptions;
-    private BackendType backendType;
-    private FrontendType frontendType;
-    private IR ir;
     private final Set<SourceFile> sourceFiles;
     private final Set<Lexer> lexers;
     private final Set<ParserRuleContext> contexts;
+    private BackendType backendType;
+    private FrontendType frontendType;
+    private IR ir;
     private String state = "";
     private Tree compilationUnit;
     private boolean hasInvalidCmdLineArg;
@@ -158,13 +158,13 @@ public class CompilerContextImpl implements CompilerContext {
     }
 
     @Override
-    public void setIR(IR ir) {
-        this.ir = Objects.requireNonNull(ir);
+    public IR getIR() {
+        return this.ir;
     }
 
     @Override
-    public IR getIR() {
-        return this.ir;
+    public void setIR(IR ir) {
+        this.ir = Objects.requireNonNull(ir);
     }
 
     @Override

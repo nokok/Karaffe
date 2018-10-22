@@ -7,56 +7,31 @@ import org.karaffe.compiler.base.tree.expr.Binding;
 import org.karaffe.compiler.base.tree.expr.Exprs;
 import org.karaffe.compiler.base.tree.expr.Tuple;
 import org.karaffe.compiler.base.tree.modifier.Modifiers;
-import org.karaffe.compiler.base.tree.term.Path;
 import org.karaffe.compiler.base.tree.term.Terms;
 
 public interface Defs {
 
     static Def packageDef(Position position, String packageName) {
-        return packageDef(position, null, packageName);
-    }
-
-    static Def packageDef(Position position, Tree parent, TerminalNode packageName) {
-        AbstractDef packageDef = new PackageDef(parent);
+        AbstractDef packageDef = new PackageDef();
         packageDef.setPos(position);
-        Path name = Terms.packageName(Position.of(packageName.getSymbol()), packageName.getText());
-        packageDef.setName(name);
-        return packageDef;
-    }
-
-    static Def packageDef(Position position, Tree parent, String packageName) {
-        AbstractDef packageDef = new PackageDef(parent);
-        packageDef.setPos(position);
-        Path name = Terms.packageName(Position.noPos(), packageName);
+        Tree name = Terms.packageName(Position.noPos(), packageName);
         packageDef.setName(name);
         return packageDef;
     }
 
     static Def importDef(Position position, String importName) {
-        return importDef(position, null, importName);
-    }
-
-    static Def importDef(Position position, Tree parent, String importName) {
-        AbstractDef importDef = new SimpleImport(parent);
+        AbstractDef importDef = new SimpleImport();
         importDef.setPos(position);
         importDef.setName(Terms.typeName(importName));
         return importDef;
     }
 
     static Def onDemandImportDef(Position position, String packageName) {
-        return onDemandImportDef(position, null, packageName);
-    }
-
-    static Def onDemandImportDef(Position position, Tree parent, String packageName) {
-        AbstractDef importDef = new OnDemandImport(parent);
+        AbstractDef importDef = new OnDemandImport();
         importDef.setPos(position);
-        Path pkgName = Terms.packageName(Position.noPos(), packageName);
+        Tree pkgName = Terms.packageName(Position.noPos(), packageName);
         importDef.setName(pkgName);
         return importDef;
-    }
-
-    static Def classDef(Position position, String className) {
-        return classDef(position, null, className);
     }
 
     static Def classDef(Position position, TerminalNode className) {
@@ -66,15 +41,15 @@ public interface Defs {
         return classDef;
     }
 
-    static Def classDef(Position position, Tree parent, String className) {
-        AbstractDef classDef = new ClassDef(parent);
+    static Def classDef(Position position, String className) {
+        AbstractDef classDef = new ClassDef();
         classDef.setPos(position);
         classDef.setName(Terms.typeName(className));
         return classDef;
     }
 
-    static Def methodDef(Position position, Tree parent, String methodName, Path returnTypeName, Tuple parameters) {
-        AbstractDef methodDef = new MethodDef(parent);
+    static Def methodDef(Position position, String methodName, Tree returnTypeName, Tuple parameters) {
+        AbstractDef methodDef = new MethodDef();
         methodDef.setPos(position);
         methodDef.setName(Terms.varName(position, methodName));
         methodDef.setTypeName(returnTypeName);
@@ -88,24 +63,22 @@ public interface Defs {
 
     static Def mainMethodDef(Position position, Tree parent) {
         Tuple params = Exprs.tuple();
-        Binding binding = new Binding(parent);
+        Binding binding = new Binding();
         binding.setName(Terms.varName(Position.noPos(), "args"));
         binding.setTypeName(Terms.arrayTypeName(Position.noPos(), Terms.typeName(Position.noPos(), "String")));
         params.addChild(binding);
         Def methodDef = methodDef(
                 position,
-                parent,
                 "main",
                 Terms.primitiveVoid(Position.noPos()),
                 params
         );
-        params.setParent(methodDef);
-        methodDef.addModifier(Modifiers.modPublic(methodDef));
-        methodDef.addModifier(Modifiers.modStatic(methodDef));
+        methodDef.addModifier(Modifiers.modPublic(methodDef.getPos()));
+        methodDef.addModifier(Modifiers.modStatic(methodDef.getPos()));
         return methodDef;
     }
 
-    static Def letDef(Position position, Path letName, Path typeName, Tree initializer) {
+    static Def letDef(Position position, Tree letName, Tree typeName, Tree initializer) {
         AbstractDef letDef = new LetDef();
         letDef.setPos(position);
         letDef.setName(letName);
@@ -114,7 +87,7 @@ public interface Defs {
         return letDef;
     }
 
-    static Def assignment(Position position, Path reassignName, Tree expr) {
+    static Def assignment(Position position, Tree reassignName, Tree expr) {
         AbstractDef assignment = new AssignmentDef();
         assignment.setPos(position);
         assignment.setName(reassignName);

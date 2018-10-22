@@ -49,12 +49,12 @@ public abstract class AbstractElement implements Element {
     }
 
     @Override
-    public void setAttributes(List<Attribute> attributes) {
-        this.attributes = Objects.requireNonNull(attributes);
+    public List<Attribute> getAttributes() {
+        return this.attributes;
     }
 
     @Override
-    public List<Attribute> getAttributes() {
-        return this.attributes;
+    public void setAttributes(List<Attribute> attributes) {
+        this.attributes = Objects.requireNonNull(attributes);
     }
 }

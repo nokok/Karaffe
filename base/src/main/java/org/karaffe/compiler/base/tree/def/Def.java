@@ -6,10 +6,6 @@ import java.util.List;
 
 public interface Def extends Tree {
 
-    DefKind getDefKind();
-
-    void setDefKind(DefKind defKind);
-
     void addBody(Tree child);
 
     List<Tree> getBody();

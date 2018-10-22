@@ -1,13 +1,16 @@
 package org.karaffe.compiler.base.tree.term;
 
 import org.karaffe.compiler.base.tree.AbstractTree;
-import org.karaffe.compiler.base.tree.TreeKind;
 import org.karaffe.compiler.base.tree.TreeVisitor;
 
-public class NameNode extends AbstractTree {
+import java.util.Objects;
 
-    public NameNode() {
-        super(TreeKind.NAME);
+public class VarName extends AbstractTree {
+
+    private String varName;
+
+    public VarName(String varName) {
+        this.varName = Objects.requireNonNull(varName);
     }
 
     @Override
@@ -17,6 +20,6 @@ public class NameNode extends AbstractTree {
 
     @Override
     public String toString() {
-        return this.getName().toString();
+        return varName;
     }
 }
