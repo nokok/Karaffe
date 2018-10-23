@@ -43,6 +43,7 @@ import org.karaffe.compiler.base.tree.modifier.StaticModifier;
 import org.karaffe.compiler.base.tree.modifier.SyntheticModifier;
 import org.karaffe.compiler.base.tree.stmt.ReturnStatement;
 import org.karaffe.compiler.base.tree.term.EmptyTree;
+import org.karaffe.compiler.base.tree.term.InternalName;
 import org.karaffe.compiler.base.tree.term.TypeName;
 import org.karaffe.compiler.base.tree.term.VarName;
 import org.karaffe.compiler.base.tree.type.Array;
@@ -298,6 +299,11 @@ public class MapVisitor implements TreeVisitor<Map<String, Object>, Void> {
 
     @Override
     public Map<String, Object> visit(Void aVoid, Void aVoid2) {
+        return null;
+    }
+
+    @Override
+    public Map<String, Object> visit(InternalName internalName, Void aVoid) {
         return null;
     }
 

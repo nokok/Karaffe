@@ -41,6 +41,7 @@ import org.karaffe.compiler.base.tree.modifier.StaticModifier;
 import org.karaffe.compiler.base.tree.modifier.SyntheticModifier;
 import org.karaffe.compiler.base.tree.stmt.ReturnStatement;
 import org.karaffe.compiler.base.tree.term.EmptyTree;
+import org.karaffe.compiler.base.tree.term.InternalName;
 import org.karaffe.compiler.base.tree.term.TypeName;
 import org.karaffe.compiler.base.tree.term.VarName;
 import org.karaffe.compiler.base.tree.type.Array;
@@ -141,4 +142,6 @@ public interface TreeVisitor<R, P> {
     R visit(Array array, P p);
 
     R visit(Void aVoid, P p);
+
+    R visit(InternalName internalName, P p);
 }

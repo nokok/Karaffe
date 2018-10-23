@@ -41,6 +41,7 @@ import org.karaffe.compiler.base.tree.modifier.StaticModifier;
 import org.karaffe.compiler.base.tree.modifier.SyntheticModifier;
 import org.karaffe.compiler.base.tree.stmt.ReturnStatement;
 import org.karaffe.compiler.base.tree.term.EmptyTree;
+import org.karaffe.compiler.base.tree.term.InternalName;
 import org.karaffe.compiler.base.tree.term.TypeName;
 import org.karaffe.compiler.base.tree.term.VarName;
 import org.karaffe.compiler.base.tree.type.Array;
@@ -208,6 +209,11 @@ public class DefaultVisitor<P> implements TreeVisitor<Tree, P> {
     @Override
     public Tree visit(Void aVoid, P p) {
         return aVoid;
+    }
+
+    @Override
+    public Tree visit(InternalName internalName, P p) {
+        return internalName;
     }
 
     @Override
