@@ -4,7 +4,7 @@ jdk:
 - openjdk9
 - openjdk10
 - openjdk11
-install: "./gradlew installDist test jacocoTestReport -i"
+install: "./gradlew installDist test -i"
 after_success:
   - bash <(curl -s https://codecov.io/bash)
 notifications:
