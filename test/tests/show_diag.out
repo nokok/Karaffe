@@ -6,4 +6,5 @@
 #REGEX OSName       :.*$
 #REGEX OSArch       :.*$
 #REGEX OSVersion    :.*$
+#REGEX IS_WINDOWS   :.*$
 #REGEX Encoding     :.*$

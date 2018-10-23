@@ -4,11 +4,7 @@ Usage:
 
 Available options are:
  --diag              : Show diagnostic data
- --print-last-tree   : Print tree
- --print-tree        : Print Tree every phase
  --show-tasks        : Print all tasks
- --skip-pkg-check    : Skip checking of correspondence between package decl and file structure
- --stop-after <task> : Stop and Print tree at <task>
  --trace             : Set output log levels TRACE and higher
  -d (--debug)        : Set output log levels DEBUG and higher
  -h (--help, -help)  : Show usage

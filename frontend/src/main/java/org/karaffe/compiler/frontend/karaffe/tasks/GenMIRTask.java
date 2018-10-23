@@ -4,6 +4,7 @@ import org.karaffe.compiler.base.CompilerContext;
 import org.karaffe.compiler.base.task.ASTTask;
 import org.karaffe.compiler.base.task.AbstractTask;
 import org.karaffe.compiler.base.task.TaskResult;
+import org.karaffe.compiler.base.tree.DefaultVisitor;
 import org.karaffe.compiler.base.tree.Tree;
 
 public class GenMIRTask extends AbstractTask implements ASTTask {
@@ -20,6 +21,7 @@ public class GenMIRTask extends AbstractTask implements ASTTask {
 
     @Override
     public TaskResult run(Tree compilationUnit, CompilerContext context) {
+        compilationUnit.accept(new DefaultVisitor<>(), context);
         return TaskResult.SUCCESSFUL;
     }
 
