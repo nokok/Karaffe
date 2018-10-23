@@ -2,17 +2,13 @@ package org.karaffe.compiler.backend.jvm.tasks;
 
 import net.nokok.azm.ClassWriter;
 import net.nokok.azm.Opcodes;
-import net.nokok.azm.Type;
 import org.karaffe.compiler.base.CompilerContext;
 import org.karaffe.compiler.base.ir.IR;
-import org.karaffe.compiler.base.ir.Module;
 import org.karaffe.compiler.base.task.AbstractTask;
 import org.karaffe.compiler.base.task.MIRTask;
 import org.karaffe.compiler.base.task.TaskResult;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-
-import java.nio.file.Paths;
 
 public class GenJavaByteCodeTask extends AbstractTask implements MIRTask {
 

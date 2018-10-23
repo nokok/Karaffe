@@ -17,4 +17,9 @@ public class InternalName extends AbstractTree {
     public <R, P> R accept(TreeVisitor<R, P> visitor, P p) {
         return visitor.visit(this, p);
     }
+
+    @Override
+    public String toString() {
+        return name;
+    }
 }

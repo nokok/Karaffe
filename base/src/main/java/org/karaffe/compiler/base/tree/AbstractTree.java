@@ -22,8 +22,8 @@ public abstract class AbstractTree implements Tree {
         this.name = null; // new EmptyTreeしたかったが構造上StackOverflowになるので
         this.typeName = null;
         this.attributes = new ArrayList<>();
-        this.modifiers = new ArrayList<>();
-        this.children = new ArrayList<>();
+        this.modifiers = new TreeList();
+        this.children = new TreeList();
     }
 
     @Override
@@ -122,4 +122,24 @@ public abstract class AbstractTree implements Tree {
         this.name = Objects.requireNonNull(name);
     }
 
+    @Override
+    public String toString() {
+        return toString("");
+    }
+
+    @Override
+    public String toString(String indent) {
+        String nextIndent = "  " + indent;
+        return String.format("%s {%n%smeta:(mod:%s, attr:%s)%n%sname:%s%n%s%s%n%s}",
+                getClass().getSimpleName(),
+                nextIndent,
+                this.modifiers.stream().map(t -> t.toString(nextIndent)).reduce((l, r) -> l + "\n" + r).orElse("<none>"),
+                this.attributes.stream().map(t -> t.getClass().getSimpleName()).reduce((l, r) -> l + ", " + r).orElse("<none>"),
+                nextIndent,
+                Optional.ofNullable(this.name).map(o -> o.toString(nextIndent)).orElse("<none>"),
+                nextIndent,
+                this.children.stream().map(t -> t.toString(nextIndent)).reduce((l, r) -> l + "\n" + nextIndent + r).orElse("<none>"),
+                indent
+        );
+    }
 }

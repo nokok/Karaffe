@@ -82,7 +82,7 @@ public interface Exprs {
         return block;
     }
 
-    static Tree unaryApply(Position position, Operator operator, Tree expr) {
+    static Tree unaryApply(Position position, Tree operator, Tree expr) {
         Apply apply = new Apply();
         apply.setPos(position);
         apply.setName(Terms.varName(operator.getPos(), operator.toString()));

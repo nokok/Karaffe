@@ -4,7 +4,6 @@ import org.karaffe.compiler.base.CompilerContext;
 import org.karaffe.compiler.base.task.AbstractTask;
 import org.karaffe.compiler.base.task.ReadOnlyTask;
 import org.karaffe.compiler.base.task.TaskResult;
-import org.karaffe.compiler.base.util.CompilerContextJsonConverter;
 import org.karaffe.compiler.base.util.Platform;
 
 public class PrintLastTreeTask extends AbstractTask implements ReadOnlyTask {
@@ -20,8 +19,7 @@ public class PrintLastTreeTask extends AbstractTask implements ReadOnlyTask {
 
     @Override
     public TaskResult run(CompilerContext context) {
-        String json = CompilerContextJsonConverter.toJson(context);
-        Platform.stdOut(json);
+        Platform.stdOut(context.getCompilationUnit());
         return TaskResult.SUCCESSFUL;
     }
 

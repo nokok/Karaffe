@@ -10,8 +10,28 @@ import org.karaffe.compiler.base.tree.def.Def;
 import org.karaffe.compiler.base.tree.def.Defs;
 import org.karaffe.compiler.base.tree.expr.Binding;
 import org.karaffe.compiler.base.tree.expr.Exprs;
-import org.karaffe.compiler.base.tree.expr.Operators;
+import org.karaffe.compiler.base.tree.expr.Operator;
 import org.karaffe.compiler.base.tree.expr.Tuple;
+import org.karaffe.compiler.base.tree.expr.op.AbstractOperator;
+import org.karaffe.compiler.base.tree.expr.op.And;
+import org.karaffe.compiler.base.tree.expr.op.Bang;
+import org.karaffe.compiler.base.tree.expr.op.Comma;
+import org.karaffe.compiler.base.tree.expr.op.DeepEqualsTo;
+import org.karaffe.compiler.base.tree.expr.op.DeepNotEqualsTo;
+import org.karaffe.compiler.base.tree.expr.op.Div;
+import org.karaffe.compiler.base.tree.expr.op.EqualsTo;
+import org.karaffe.compiler.base.tree.expr.op.GreaterThan;
+import org.karaffe.compiler.base.tree.expr.op.GreaterThanEquals;
+import org.karaffe.compiler.base.tree.expr.op.LessThan;
+import org.karaffe.compiler.base.tree.expr.op.LessThanEquals;
+import org.karaffe.compiler.base.tree.expr.op.Minus;
+import org.karaffe.compiler.base.tree.expr.op.Mod;
+import org.karaffe.compiler.base.tree.expr.op.Mul;
+import org.karaffe.compiler.base.tree.expr.op.NotEqualsTo;
+import org.karaffe.compiler.base.tree.expr.op.Or;
+import org.karaffe.compiler.base.tree.expr.op.Plus;
+import org.karaffe.compiler.base.tree.expr.op.Pow;
+import org.karaffe.compiler.base.tree.expr.op.Range;
 import org.karaffe.compiler.base.tree.term.EmptyTree;
 import org.karaffe.compiler.base.tree.term.Terms;
 import org.karaffe.compiler.base.util.Errors;
@@ -242,7 +262,7 @@ public class CreateASTVisitor extends KaraffeBaseVisitor<Tree> implements Positi
         return Exprs.apply(
                 Position.ofRange(ctx.start, ctx.stop),
                 ctx.left.accept(this),
-                Operators.byToken(ctx.op),
+                new Comma().withPos(Position.of(ctx.op)),
                 ctx.right.accept(this)
         );
     }
@@ -255,7 +275,7 @@ public class CreateASTVisitor extends KaraffeBaseVisitor<Tree> implements Positi
         return Exprs.apply(
                 Position.ofRange(ctx.start, ctx.stop),
                 ctx.left.accept(this),
-                Operators.byToken(ctx.op),
+                new Range().withPos(Position.of(ctx.op)),
                 ctx.right.accept(this)
         );
     }
@@ -268,7 +288,7 @@ public class CreateASTVisitor extends KaraffeBaseVisitor<Tree> implements Positi
         return Exprs.apply(
                 Position.ofRange(ctx.start, ctx.stop),
                 ctx.left.accept(this),
-                Operators.byToken(ctx.op),
+                new Or().withPos(Position.of(ctx.op)),
                 ctx.right.accept(this)
         );
     }
@@ -281,7 +301,7 @@ public class CreateASTVisitor extends KaraffeBaseVisitor<Tree> implements Positi
         return Exprs.apply(
                 Position.ofRange(ctx.start, ctx.stop),
                 ctx.left.accept(this),
-                Operators.byToken(ctx.op),
+                new And().withPos(Position.of(ctx.op)),
                 ctx.right.accept(this)
         );
     }
@@ -291,10 +311,23 @@ public class CreateASTVisitor extends KaraffeBaseVisitor<Tree> implements Positi
         if (ctx.op == null) {
             return ctx.conditionalExpr().accept(this);
         }
+        String op = ctx.op.getText();
+        AbstractOperator operator;
+        if (op.equals("==")) {
+            operator = new EqualsTo();
+        } else if (op.equals("!=")) {
+            operator = new NotEqualsTo();
+        } else if (op.equals("===")) {
+            operator = new DeepEqualsTo();
+        } else if (op.equals("!==")) {
+            operator = new DeepNotEqualsTo();
+        } else {
+            throw new IllegalStateException("Unknown operator : " + op);
+        }
         return Exprs.apply(
                 Position.ofRange(ctx.start, ctx.stop),
                 ctx.left.accept(this),
-                Operators.byToken(ctx.op),
+                operator.withPos(Position.of(ctx.op)),
                 ctx.right.accept(this)
         );
     }
@@ -304,10 +337,23 @@ public class CreateASTVisitor extends KaraffeBaseVisitor<Tree> implements Positi
         if (ctx.op == null) {
             return ctx.additiveExpr().accept(this);
         }
+        String op = ctx.op.getText();
+        AbstractOperator operator;
+        if (op.equals("<=")) {
+            operator = new LessThanEquals();
+        } else if (op.equals(">=")) {
+            operator = new GreaterThanEquals();
+        } else if (op.equals("<")) {
+            operator = new LessThan();
+        } else if (op.equals(">")) {
+            operator = new GreaterThan();
+        } else {
+            throw new IllegalStateException("Unknown operator : " + op);
+        }
         return Exprs.apply(
                 Position.ofRange(ctx.start, ctx.stop),
                 ctx.left.accept(this),
-                Operators.byToken(ctx.op),
+                operator.withPos(Position.of(ctx.op)),
                 ctx.right.accept(this)
         );
     }
@@ -317,10 +363,19 @@ public class CreateASTVisitor extends KaraffeBaseVisitor<Tree> implements Positi
         if (ctx.op == null) {
             return ctx.multiplicativeExpr().accept(this);
         }
+        String op = ctx.op.getText();
+        AbstractOperator operator;
+        if (op.equals("+")) {
+            operator = new Plus();
+        } else if (op.equals("-")) {
+            operator = new Minus();
+        } else {
+            throw new IllegalStateException("Unknown operator : " + op);
+        }
         return Exprs.apply(
                 Position.ofRange(ctx.start, ctx.stop),
                 ctx.left.accept(this),
-                Operators.byToken(ctx.op),
+                operator.withPos(Position.of(ctx.op)),
                 ctx.right.accept(this)
         );
     }
@@ -330,10 +385,21 @@ public class CreateASTVisitor extends KaraffeBaseVisitor<Tree> implements Positi
         if (ctx.op == null) {
             return ctx.powExpr().accept(this);
         }
+        String op = ctx.op.getText();
+        Operator operator;
+        if (op.equals("*")) {
+            operator = new Mul();
+        } else if (op.equals("/")) {
+            operator = new Div();
+        } else if (op.equals("%")) {
+            operator = new Mod();
+        } else {
+            throw new IllegalStateException("Unknown operator : " + op);
+        }
         return Exprs.apply(
                 Position.ofRange(ctx.start, ctx.stop),
                 ctx.left.accept(this),
-                Operators.byToken(ctx.op),
+                operator.withPos(ctx.op),
                 ctx.right.accept(this)
         );
     }
@@ -346,7 +412,7 @@ public class CreateASTVisitor extends KaraffeBaseVisitor<Tree> implements Positi
         return Exprs.apply(
                 Position.ofRange(ctx.start, ctx.stop),
                 ctx.left.accept(this),
-                Operators.byToken(ctx.op),
+                new Pow().withPos(ctx.op),
                 ctx.right.accept(this)
         );
     }
@@ -356,9 +422,20 @@ public class CreateASTVisitor extends KaraffeBaseVisitor<Tree> implements Positi
         if (ctx.op == null) {
             return ctx.primary().accept(this);
         }
+        String op = ctx.op.getText();
+        Operator operator;
+        if (op.equals("!")) {
+            operator = new Bang();
+        } else if (op.equals("+")) {
+            operator = new Plus();
+        } else if (op.equals("-")) {
+            operator = new Minus();
+        } else {
+            throw new IllegalStateException("Unknown operator : " + op);
+        }
         return Exprs.unaryApply(
                 Position.ofRange(ctx.start, ctx.stop),
-                Operators.byToken(ctx.op),
+                operator.withPos(ctx.op),
                 ctx.exp.accept(this)
         );
     }

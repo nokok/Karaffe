@@ -3,7 +3,6 @@ package org.karaffe.compiler.base.util;
 import net.arnx.jsonic.JSON;
 import org.karaffe.compiler.base.CompilerContext;
 import org.karaffe.compiler.base.pos.Position;
-import org.karaffe.compiler.base.tree.expr.Operator;
 
 import java.util.LinkedHashMap;
 import java.util.Map;
@@ -22,9 +21,6 @@ public class CompilerContextJsonConverter {
             protected Object preformat(Context context, Object value) throws Exception {
                 if (value instanceof Position) {
                     return value.toString();
-                }
-                if (value instanceof Operator) {
-                    return ((Operator) value).getOperatorKind().toString();
                 }
                 return super.preformat(context, value);
             }

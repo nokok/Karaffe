@@ -1,10 +1,10 @@
 package org.karaffe.compiler.base.tree;
 
+import org.antlr.v4.runtime.Token;
 import org.karaffe.compiler.base.attr.Attributes;
 import org.karaffe.compiler.base.pos.Position;
 import org.karaffe.compiler.base.tree.term.Terms;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 import java.util.stream.Collectors;
@@ -43,7 +43,7 @@ public interface Tree extends LocatableElement, NameableElement, ModifiableEleme
 
         public Template() {
             this.superClass = Terms.typeName(Position.noPos(), "Any");
-            this.interfaces = new ArrayList<>();
+            this.interfaces = new TreeList();
         }
 
         public Tree getSuperClass() {
@@ -68,4 +68,21 @@ public interface Tree extends LocatableElement, NameableElement, ModifiableEleme
         }
 
     }
+
+    default Tree withPos(Position pos) {
+        this.setPos(Objects.requireNonNull(pos));
+        return this;
+    }
+
+    default Tree withPos(Token token) {
+        this.setPos(Position.of(token));
+        return this;
+    }
+
+    default Tree withName(Tree name) {
+        this.setName(Objects.requireNonNull(name));
+        return this;
+    }
+
+    String toString(String indent);
 }
