@@ -1,8 +1,8 @@
 package org.karaffe.compiler.frontend.karaffe.tasks.postparse;
 
 import org.karaffe.compiler.base.CompilerContext;
-import org.karaffe.compiler.base.task.AbstractTask;
 import org.karaffe.compiler.base.task.ASTTask;
+import org.karaffe.compiler.base.task.AbstractTask;
 import org.karaffe.compiler.base.task.NoDescriptionTask;
 import org.karaffe.compiler.base.task.ReadOnlyTask;
 import org.karaffe.compiler.base.task.TaskResult;

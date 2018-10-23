@@ -7,10 +7,8 @@ import org.karaffe.compiler.backend.jvm.util.JavaIdentifier
 import org.karaffe.compiler.base.BackendType
 import org.karaffe.compiler.base.CompilerContext
 import org.karaffe.compiler.base.CompilerContextImpl
-
 import org.karaffe.compiler.base.ir.IR
 import org.karaffe.compiler.base.ir.Module
-import org.karaffe.compiler.base.ir.builtin.Int16
 import spock.lang.Specification
 import spock.lang.Unroll
 

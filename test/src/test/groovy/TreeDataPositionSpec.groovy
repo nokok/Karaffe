@@ -1,6 +1,5 @@
 import org.karaffe.compiler.base.pos.Position
 import org.karaffe.compiler.base.tree.TreeKind
-
 import org.karaffe.compiler.base.tree.def.Defs
 import org.karaffe.compiler.base.tree.expr.Binding
 import org.karaffe.compiler.base.tree.expr.Exprs
