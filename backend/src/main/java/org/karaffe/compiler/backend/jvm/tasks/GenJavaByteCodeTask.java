@@ -4,6 +4,8 @@ import net.nokok.azm.ClassWriter;
 import net.nokok.azm.Opcodes;
 import org.karaffe.compiler.base.CompilerContext;
 import org.karaffe.compiler.base.ir.IR;
+import org.karaffe.compiler.base.ir.IRVisitor;
+import org.karaffe.compiler.base.ir.Module;
 import org.karaffe.compiler.base.task.AbstractTask;
 import org.karaffe.compiler.base.task.MIRTask;
 import org.karaffe.compiler.base.task.TaskResult;

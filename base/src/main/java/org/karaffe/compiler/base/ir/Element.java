@@ -9,8 +9,6 @@ public interface Element extends Attributes, IR {
 
     void setElementID(String elementID);
 
-    ElementType getElementType();
-
     void add(Element element);
 
     void addFirst(Element element);

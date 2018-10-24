@@ -15,7 +15,6 @@ import java.util.Set;
 public class JVMBackend extends AbstractTask {
 
     private static final Set<Task> subTask = new LinkedHashSet<>(Arrays.asList(
-//            new MIRCheckTask(),
             new GenJavaByteCodeTask()));
 
     @Override

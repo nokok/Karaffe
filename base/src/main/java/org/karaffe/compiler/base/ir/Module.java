@@ -6,8 +6,4 @@ public class Module extends AbstractElement {
         return visitor.visit(this);
     }
 
-    @Override
-    public ElementType getElementType() {
-        return ElementType.MODULE;
-    }
 }
