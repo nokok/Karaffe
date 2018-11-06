@@ -1,0 +1,20 @@
+<configuration>
+
+    <appender name="DEBUG_LOG" class="ch.qos.logback.core.ConsoleAppender">
+        <encoder>
+            <pattern>%date{HH:mm:ss.SSS} [%-5level] %thread{0} [%logger] --- %msg%n</pattern>
+        </encoder>
+    </appender>
+
+    <appender name="INFO_LOG" class="ch.qos.logback.core.ConsoleAppender">
+        <encoder>
+            <pattern>%date{HH:mm:ss.SSS} %-5level --- %msg%n</pattern>
+        </encoder>
+    </appender>
+
+    <root level="${krf-log:-OFF}" additivity="false">
+        <appender-ref ref="DEBUG_LOG"/>
+        <appender-ref ref="INFO_LOG"/>
+    </root>
+
+</configuration>
