@@ -21,4 +21,12 @@ public enum TaskResult {
         return this;
     }
 
+    public boolean isSuccessful() {
+        return this == SUCCESSFUL;
+    }
+
+    public boolean isFailed() {
+        return !isSuccessful();
+    }
+
 }
