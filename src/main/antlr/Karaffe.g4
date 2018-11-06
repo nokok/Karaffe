@@ -1,0 +1,5 @@
+grammar Karaffe;
+
+compilationUnit
+  : EOF
+  ;
