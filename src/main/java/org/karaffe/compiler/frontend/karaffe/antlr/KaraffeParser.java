@@ -17,14 +17,18 @@ public class KaraffeParser extends Parser {
 	protected static final PredictionContextCache _sharedContextCache =
 		new PredictionContextCache();
 	public static final int
+		PLUS=1;
+	public static final int
 		RULE_compilationUnit = 0;
 	public static final String[] ruleNames = {
 		"compilationUnit"
 	};
 
 	private static final String[] _LITERAL_NAMES = {
+		null, "'+'"
 	};
 	private static final String[] _SYMBOLIC_NAMES = {
+		null, "PLUS"
 	};
 	public static final Vocabulary VOCABULARY = new VocabularyImpl(_LITERAL_NAMES, _SYMBOLIC_NAMES);
 
@@ -77,6 +81,7 @@ public class KaraffeParser extends Parser {
 	}
 	public static class CompilationUnitContext extends ParserRuleContext {
 		public TerminalNode EOF() { return getToken(KaraffeParser.EOF, 0); }
+		public TerminalNode PLUS() { return getToken(KaraffeParser.PLUS, 0); }
 		public CompilationUnitContext(ParserRuleContext parent, int invokingState) {
 			super(parent, invokingState);
 		}
@@ -99,10 +104,21 @@ public class KaraffeParser extends Parser {
 	public final CompilationUnitContext compilationUnit() throws RecognitionException {
 		CompilationUnitContext _localctx = new CompilationUnitContext(_ctx, getState());
 		enterRule(_localctx, 0, RULE_compilationUnit);
+		int _la;
 		try {
 			enterOuterAlt(_localctx, 1);
 			{
-			setState(2);
+			setState(3);
+			_errHandler.sync(this);
+			_la = _input.LA(1);
+			if (_la==PLUS) {
+				{
+				setState(2);
+				match(PLUS);
+				}
+			}
+
+			setState(5);
 			match(EOF);
 			}
 		}
@@ -118,8 +134,9 @@ public class KaraffeParser extends Parser {
 	}
 
 	public static final String _serializedATN =
-		"\3\u608b\ua72a\u8133\ub9ed\u417c\u3be7\u7786\u5964\3\2\7\4\2\t\2\3\2\3"+
-		"\2\3\2\2\2\3\2\2\2\2\5\2\4\3\2\2\2\4\5\7\2\2\3\5\3\3\2\2\2\2";
+		"\3\u608b\ua72a\u8133\ub9ed\u417c\u3be7\u7786\u5964\3\3\n\4\2\t\2\3\2\5"+
+		"\2\6\n\2\3\2\3\2\3\2\2\2\3\2\2\2\2\t\2\5\3\2\2\2\4\6\7\3\2\2\5\4\3\2\2"+
+		"\2\5\6\3\2\2\2\6\7\3\2\2\2\7\b\7\2\2\3\b\3\3\2\2\2\3\5";
 	public static final ATN _ATN =
 		new ATNDeserializer().deserialize(_serializedATN.toCharArray());
 	static {

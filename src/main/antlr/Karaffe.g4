@@ -1,5 +1,7 @@
 grammar Karaffe;
 
 compilationUnit
-  : EOF
+  : PLUS? EOF
   ;
+
+PLUS: '+';
