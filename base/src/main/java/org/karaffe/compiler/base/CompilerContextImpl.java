@@ -3,6 +3,7 @@ package org.karaffe.compiler.base;
 import org.antlr.v4.runtime.CommonTokenStream;
 import org.antlr.v4.runtime.Lexer;
 import org.antlr.v4.runtime.ParserRuleContext;
+import org.karaffe.compiler.base.context.BackendContext;
 import org.karaffe.compiler.base.context.CommandLineOptions;
 import org.karaffe.compiler.base.ir.IR;
 import org.karaffe.compiler.base.report.Report;
@@ -28,7 +29,7 @@ public class CompilerContextImpl implements CompilerContext {
     private final Set<SourceFile> sourceFiles;
     private final Set<Lexer> lexers;
     private final Set<ParserRuleContext> contexts;
-    private BackendType backendType;
+    private BackendConfiguration backendConfiguration;
     private FrontendType frontendType;
     private IR ir;
     private String state = "";
@@ -51,7 +52,7 @@ public class CompilerContextImpl implements CompilerContext {
         this.reports = new ArrayList<>();
         this.byteCodeMap = new HashMap<>();
         this.frontendType = FrontendType.KARAFFE;
-        this.backendType = BackendType.JVM;
+        this.backendConfiguration = BackendContext.defaultBackend();
     }
 
     @Override
@@ -107,6 +108,11 @@ public class CompilerContextImpl implements CompilerContext {
     @Override
     public Stream<SourceFile> sourceFileStream() {
         return this.sourceFiles.stream();
+    }
+
+    @Override
+    public boolean hasFile() {
+        return !this.sourceFiles.isEmpty();
     }
 
     @Override
@@ -189,12 +195,12 @@ public class CompilerContextImpl implements CompilerContext {
 
     @Override
     public BackendType getTargetBackendType() {
-        return this.backendType;
+        return this.backendConfiguration.getTargetBackendType();
     }
 
     @Override
     public void setTargetBackendType(BackendType backendType) {
-        this.backendType = Objects.requireNonNull(backendType);
+        this.backendConfiguration.setTargetBackendType(backendType);
     }
 
     @Override

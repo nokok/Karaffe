@@ -23,7 +23,7 @@ public class ParseCommandLineOptionsTask extends AbstractTask {
 
     @Override
     public TaskResult run(CompilerContext context) {
-        if (context.isEmptyRawArg()) {
+        if (context.isEmptyRawArg() && !context.hasFile()) {
             context.setInvalidCmdLineArg();
             LOGGER.warn("Empty args");
             return TaskResult.SUCCESSFUL_WITH_WARN;

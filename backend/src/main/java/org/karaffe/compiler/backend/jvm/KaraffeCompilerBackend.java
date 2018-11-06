@@ -8,7 +8,7 @@ public interface KaraffeCompilerBackend {
 
     public static Task getBackend(CompilerContext context) {
         if (context.getTargetBackendType() == BackendType.JVM) {
-            return new JVMBackend();
+            return new JVMBackendTask();
         }
         throw new UnsupportedOperationException();
     }
