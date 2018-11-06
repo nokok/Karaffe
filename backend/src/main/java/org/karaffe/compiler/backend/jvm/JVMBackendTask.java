@@ -1,6 +1,7 @@
 package org.karaffe.compiler.backend.jvm;
 
 import org.karaffe.compiler.backend.jvm.tasks.GenJavaByteCodeTask;
+import org.karaffe.compiler.backend.jvm.tasks.visitors.WriteJavaBytecodeTask;
 import org.karaffe.compiler.base.CompilerContext;
 import org.karaffe.compiler.base.task.AbstractTask;
 import org.karaffe.compiler.base.task.RunnerResult;
@@ -15,7 +16,8 @@ import java.util.Set;
 public class JVMBackendTask extends AbstractTask {
 
     private static final Set<Task> subTask = new LinkedHashSet<>(Arrays.asList(
-            new GenJavaByteCodeTask()));
+            new GenJavaByteCodeTask(),
+            new WriteJavaBytecodeTask()));
 
     @Override
     public String name() {

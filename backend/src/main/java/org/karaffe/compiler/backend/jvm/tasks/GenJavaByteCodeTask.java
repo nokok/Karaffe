@@ -1,5 +1,6 @@
 package org.karaffe.compiler.backend.jvm.tasks;
 
+import net.nokok.azm.ClassWriter;
 import net.nokok.azm.Opcodes;
 import org.karaffe.compiler.backend.jvm.tasks.visitors.GenJavaByteCodeVisitor;
 import org.karaffe.compiler.base.CompilerContext;
@@ -14,16 +15,14 @@ public class GenJavaByteCodeTask extends AbstractTask implements MIRTask {
 
     private static final Logger LOGGER = LoggerFactory.getLogger(GenJavaByteCodeTask.class);
 
-    private final int JAVA_VM_BYTECODE_VERSION;
-
-    public GenJavaByteCodeTask() {
-        this.JAVA_VM_BYTECODE_VERSION = Opcodes.V1_8;
-    }
+    private final int JAVA_VM_BYTECODE_VERSION = Opcodes.V1_8;
 
     @Override
     public TaskResult run(IR ir, CompilerContext context) {
+        ClassWriter writer = new ClassWriter(ClassWriter.COMPUTE_FRAMES);
         ir.accept(new GenJavaByteCodeVisitor(context));
-        return TaskResult.SUCCESSFUL;
+        byte[] byteCode = writer.toByteArray();
+        return TaskResult.FAILED;
     }
 
     @Override

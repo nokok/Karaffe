@@ -5,6 +5,7 @@ import org.karaffe.compiler.base.attr.FilePathAttribute;
 import org.karaffe.compiler.base.ir.IRVisitorAdaptor;
 import org.karaffe.compiler.base.ir.Module;
 
+import java.nio.file.Paths;
 import java.util.Objects;
 
 public class GenJavaByteCodeVisitor extends IRVisitorAdaptor<CompilerContext> {

@@ -5,4 +5,14 @@ public class IRVisitorAdaptor<R> implements IRVisitor<R> {
     public R visit(Module module) {
         return null;
     }
+
+    @Override
+    public R visit(DefaultIR ir) {
+        return null;
+    }
+
+    @Override
+    public R visit(Class clazz) {
+        return null;
+    }
 }

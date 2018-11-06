@@ -66,42 +66,52 @@ public enum Platform {
         return "\\".equals(System.getProperty("file.separator"));
     }
 
+    @Deprecated
     public static PrintStream getStdOut() {
         return Platform.stdOut;
     }
 
+    @Deprecated
     public static void setStdOut(PrintStream stdOut) {
         Platform.stdOut = stdOut;
     }
 
+    @Deprecated
     public static PrintStream getStdErr() {
         return Platform.stdErr;
     }
 
+    @Deprecated
     public static void setStdErr(PrintStream stdErr) {
         Platform.stdErr = stdErr;
     }
 
+    @Deprecated
     public static void setStdIn(InputStream stdIn) {
         Platform.stdIn = stdIn;
     }
 
+    @Deprecated
     public static void stdOut() {
         stdOut.println();
     }
 
+    @Deprecated
     public static void stdOut(Object msg) {
         stdOut.println(msg);
     }
 
+    @Deprecated
     public static void stdErr(Object msg) {
         stdErr.println(msg);
     }
 
+    @Deprecated
     public static void print(Object object) {
         Platform.stdOut.print(object);
     }
 
+    @Deprecated
     public static void println(Object object) {
         Platform.stdOut.println(object);
     }

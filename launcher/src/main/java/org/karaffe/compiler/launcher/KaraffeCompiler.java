@@ -133,4 +133,8 @@ public class KaraffeCompiler {
     public static KaraffeCompiler newCompilerWithDebug(String source) {
         return new KaraffeCompiler(source, "--debug");
     }
+
+    public CompilerContext getContext() {
+        return context;
+    }
 }

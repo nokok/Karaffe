@@ -4,7 +4,7 @@ import spock.lang.Specification
 
 class JVMBackendSpec extends Specification {
 
-    def "classファイルが作成される"() {
+    def "should be generated SimpleClass.class"() {
         setup:
         def file = new File("SimpleClass.class")
         file.delete()
