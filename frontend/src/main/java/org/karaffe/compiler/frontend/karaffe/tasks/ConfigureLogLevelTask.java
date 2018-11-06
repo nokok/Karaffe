@@ -45,6 +45,11 @@ public class ConfigureLogLevelTask extends AbstractTask implements ReadOnlyTask 
         Appender<ILoggingEvent> debugLogAppender = rootLogger.getAppender("DEBUG_LOG");
         Appender<ILoggingEvent> infoLogAppender = rootLogger.getAppender("INFO_LOG");
 
+        if (debugLogAppender == null || infoLogAppender == null) {
+            LOGGER.error("logback.xml not found.");
+            return TaskResult.FAILED;
+        }
+
         if (Level.DEBUG.isGreaterOrEqual(logLevel)) {
             debugLogAppender.start();
             infoLogAppender.stop();

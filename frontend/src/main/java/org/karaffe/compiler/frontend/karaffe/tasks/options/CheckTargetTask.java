@@ -21,6 +21,7 @@ public class CheckTargetTask extends AbstractOptionTask {
     public TaskResult run(Options options, CompilerContext context) {
         // frontend
         if (options.frontendName == null) {
+            LOGGER.error("null frontendName");
             return TaskResult.FAILED;
         } else if (options.frontendName.toLowerCase().equals("karaffe")) {
             LOGGER.debug("Frontend : Karaffe");
@@ -32,6 +33,7 @@ public class CheckTargetTask extends AbstractOptionTask {
 
         // backend
         if (options.backendName == null) {
+            LOGGER.error("null backendName");
             return TaskResult.FAILED;
         } else if (options.backendName.toLowerCase().equals("jvm")) {
             LOGGER.debug("Backend : JVM");
@@ -43,6 +45,7 @@ public class CheckTargetTask extends AbstractOptionTask {
             return TaskResult.SUCCESSFUL;
         } else {
             Platform.stdErr("Unknown target : " + options.backendName);
+            LOGGER.error("Unknown target : " + options.backendName);
             return TaskResult.FAILED;
         }
     }

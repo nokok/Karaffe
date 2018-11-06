@@ -124,6 +124,7 @@ class DefaultTaskRunner implements TaskRunner {
             this.context.setState(task.name());
             for (Task repeatableTask : repeatable) {
                 if (repeatableTask.isRunnable(context)) {
+                    LOGGER.warn("Repeatable Task : " + repeatableTask.name());
                     resultRecorder.record(repeatableTask.run(context));
                 }
             }
@@ -162,6 +163,7 @@ class DefaultTaskRunner implements TaskRunner {
             while (this.finallyTasks.hasRemaining()) {
                 Task task = this.finallyTasks.dequeue();
                 if (!task.isRunnable(context)) {
+                    LOGGER.warn("Not satisfy the executable condition : " + task.name());
                     continue;
                 }
                 LOGGER.info("Scheduled : {}", task.name());

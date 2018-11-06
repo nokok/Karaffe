@@ -50,7 +50,7 @@ public class CheckFileTask extends AbstractOptionTask {
             for (String f : notExistsList) {
                 context.addReport(Errors.reportNoKaraffeFileFound(f));
             }
-            LOGGER.debug("Failed");
+            LOGGER.error("File not found.");
             return TaskResult.FAILED;
         }
         LOGGER.debug("Passed");

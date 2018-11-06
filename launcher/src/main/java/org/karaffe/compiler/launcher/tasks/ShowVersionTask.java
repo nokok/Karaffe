@@ -5,6 +5,8 @@ import org.karaffe.compiler.base.task.AbstractTask;
 import org.karaffe.compiler.base.task.NoDescriptionTask;
 import org.karaffe.compiler.base.task.TaskResult;
 import org.karaffe.compiler.base.util.Platform;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -12,6 +14,8 @@ import java.io.InputStream;
 import java.io.InputStreamReader;
 
 public class ShowVersionTask extends AbstractTask implements NoDescriptionTask {
+
+    private static final Logger LOGGER = LoggerFactory.getLogger(ShowVersionTask.class);
 
     @Override
     public String name() {
@@ -28,6 +32,7 @@ public class ShowVersionTask extends AbstractTask implements NoDescriptionTask {
             Platform.stdOut("Karaffe Compiler" + version + branch + tag + hash);
             return TaskResult.SUCCESSFUL;
         } catch (IOException e) {
+            LOGGER.error("show version failed", e);
             return TaskResult.FAILED;
         }
     }

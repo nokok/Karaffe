@@ -2,8 +2,11 @@ package org.karaffe.compiler.base.task.util;
 
 import org.karaffe.compiler.base.task.RunnerResult;
 import org.karaffe.compiler.base.task.TaskResult;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 public class ResultRecorder {
+    private static final Logger LOGGER = LoggerFactory.getLogger(ResultRecorder.class);
     private int success = 0;
     private int warn = 0;
     private boolean hasError;
@@ -40,6 +43,7 @@ public class ResultRecorder {
         } else if (this.isSuccessWithWarning()) {
             return RunnerResult.SUCCESS_WITH_WARNING;
         } else if (this.hasError()) {
+            LOGGER.warn("FAILED");
             return RunnerResult.FAILED;
         }
         throw new IllegalStateException(String.format("success = %d, warn = %d, hasError = %s", this.success, this.warn, this.hasError));

@@ -42,6 +42,7 @@ public class ImportCheckTask extends AbstractTask implements ReadOnlyTask, NoDes
             }
         }, null);
         if (hasError.get()) {
+            LOGGER.error("hasError");
             return TaskResult.FAILED;
         }
         return TaskResult.SUCCESSFUL;
