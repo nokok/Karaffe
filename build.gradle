@@ -3,6 +3,7 @@ import org.apache.tools.ant.filters.FixCrLfFilter
 plugins {
     id 'com.github.johnrengelman.shadow' version '4.0.2'
     id 'java'
+    id 'application'
     id 'groovy'
     id 'antlr'
 }
@@ -56,3 +57,13 @@ task filter(type: Copy, dependsOn: generateGrammarSource) {
 }
 
 compileJava.dependsOn filter
+
+startScripts {
+    applicationName = 'krfc'
+}
+
+startShadowScripts {
+    applicationName = 'krfc'
+}
+
+mainClassName = "org.karaffe.compiler.Main"
