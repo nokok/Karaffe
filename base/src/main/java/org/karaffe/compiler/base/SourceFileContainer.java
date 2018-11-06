@@ -9,4 +9,6 @@ public interface SourceFileContainer {
     void addSourceFile(SourceFile sourceFile);
 
     Stream<SourceFile> sourceFileStream();
+
+    boolean hasFile();
 }
