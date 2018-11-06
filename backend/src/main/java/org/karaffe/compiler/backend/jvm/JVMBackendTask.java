@@ -12,7 +12,7 @@ import java.util.Arrays;
 import java.util.LinkedHashSet;
 import java.util.Set;
 
-public class JVMBackend extends AbstractTask {
+public class JVMBackendTask extends AbstractTask {
 
     private static final Set<Task> subTask = new LinkedHashSet<>(Arrays.asList(
             new GenJavaByteCodeTask()));
