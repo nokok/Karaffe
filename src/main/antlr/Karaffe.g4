@@ -1,7 +1,7 @@
 grammar Karaffe;
 
 compilationUnit
-  : classDef? EOF
+  : classDef?
   ;
 
 classDef
@@ -26,5 +26,5 @@ LetterOrDigit
   ;
 
 WS
-    : [ \t\r\n]+ -> channel(HIDDEN)
-;
+  : [ \t\r\n]+ -> skip
+  ;

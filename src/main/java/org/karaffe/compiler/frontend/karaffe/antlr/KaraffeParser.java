@@ -80,7 +80,6 @@ public class KaraffeParser extends Parser {
 		_interp = new ParserATNSimulator(this,_ATN,_decisionToDFA,_sharedContextCache);
 	}
 	public static class CompilationUnitContext extends ParserRuleContext {
-		public TerminalNode EOF() { return getToken(KaraffeParser.EOF, 0); }
 		public ClassDefContext classDef() {
 			return getRuleContext(ClassDefContext.class,0);
 		}
@@ -120,8 +119,6 @@ public class KaraffeParser extends Parser {
 				}
 			}
 
-			setState(7);
-			match(EOF);
 			}
 		}
 		catch (RecognitionException re) {
@@ -163,9 +160,9 @@ public class KaraffeParser extends Parser {
 		try {
 			enterOuterAlt(_localctx, 1);
 			{
-			setState(9);
+			setState(7);
 			match(CLASS);
-			setState(10);
+			setState(8);
 			match(Identifier);
 			}
 		}
@@ -181,10 +178,10 @@ public class KaraffeParser extends Parser {
 	}
 
 	public static final String _serializedATN =
-		"\3\u608b\ua72a\u8133\ub9ed\u417c\u3be7\u7786\u5964\3\5\17\4\2\t\2\4\3"+
-		"\t\3\3\2\5\2\b\n\2\3\2\3\2\3\3\3\3\3\3\3\3\2\2\4\2\4\2\2\2\r\2\7\3\2\2"+
-		"\2\4\13\3\2\2\2\6\b\5\4\3\2\7\6\3\2\2\2\7\b\3\2\2\2\b\t\3\2\2\2\t\n\7"+
-		"\2\2\3\n\3\3\2\2\2\13\f\7\3\2\2\f\r\7\4\2\2\r\5\3\2\2\2\3\7";
+		"\3\u608b\ua72a\u8133\ub9ed\u417c\u3be7\u7786\u5964\3\5\r\4\2\t\2\4\3\t"+
+		"\3\3\2\5\2\b\n\2\3\3\3\3\3\3\3\3\2\2\4\2\4\2\2\2\13\2\7\3\2\2\2\4\t\3"+
+		"\2\2\2\6\b\5\4\3\2\7\6\3\2\2\2\7\b\3\2\2\2\b\3\3\2\2\2\t\n\7\3\2\2\n\13"+
+		"\7\4\2\2\13\5\3\2\2\2\3\7";
 	public static final ATN _ATN =
 		new ATNDeserializer().deserialize(_serializedATN.toCharArray());
 	static {
