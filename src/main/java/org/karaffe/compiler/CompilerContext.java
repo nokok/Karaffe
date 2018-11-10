@@ -23,7 +23,7 @@ public class CompilerContext {
         this.rawArgs = Objects.requireNonNull(rawArgs);
     }
 
-    public void addOutputs(String line) {
+    public void addOutputText(String line) {
         this.outputs.add(Objects.requireNonNull(line));
     }
 

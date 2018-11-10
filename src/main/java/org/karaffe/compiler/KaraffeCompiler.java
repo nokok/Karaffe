@@ -32,8 +32,8 @@ public class KaraffeCompiler {
 
     public void run() {
         if (this.context.requireShowUsage()) {
-            this.context.addOutputs("Usage:");
-            this.context.addOutputs("  krfc <options> <sources>");
+            this.context.addOutputText("Usage:");
+            this.context.addOutputText("  krfc <options> <sources>");
             return;
         }
         for (String arg : context.getRawArgs()) {
