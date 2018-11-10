@@ -6,6 +6,6 @@ public class Main {
         context.setRawArgs(args);
         KaraffeCompiler compiler = new KaraffeCompiler(context);
         compiler.run();
-        System.out.println(context.getOutputText());
+        System.out.print(context.getOutputText());
     }
 }
