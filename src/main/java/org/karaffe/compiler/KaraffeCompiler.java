@@ -54,7 +54,12 @@ public class KaraffeCompiler {
                 charStream = CharStreams.fromString(source.toString());
             }
             KaraffeLexer lexer = new KaraffeLexer(charStream);
+            lexer.removeErrorListeners();
+            DefaultErrorListener defaultErrorListener = new DefaultErrorListener(context);
+            lexer.addErrorListener(defaultErrorListener);
             KaraffeParser parser = new KaraffeParser(new CommonTokenStream(lexer));
+            parser.removeErrorListeners();
+            parser.addErrorListener(defaultErrorListener);
             KaraffeParser.CompilationUnitContext compilationUnitContext = parser.compilationUnit();
             compilationUnitContext.accept(new KaraffeBaseVisitor<Void>() {
                 @Override
