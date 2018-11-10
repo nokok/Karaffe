@@ -6,6 +6,7 @@ import org.antlr.v4.runtime.dfa.DFA
 import org.karaffe.compiler.frontend.karaffe.antlr.KaraffeLexer
 import org.karaffe.compiler.frontend.karaffe.antlr.KaraffeParser
 import spock.lang.Specification
+import spock.lang.Unroll
 
 class SyntaxSpec extends Specification {
 
@@ -42,5 +43,53 @@ class SyntaxSpec extends Specification {
 
         expect:
         context != null
+    }
+
+    @Unroll
+    def "identifier #source"() {
+        setup:
+        def lexer = new KaraffeLexer(CharStreams.fromString(source))
+        lexer.removeErrorListeners()
+        def stream = new CommonTokenStream(lexer)
+        String actualErrorText
+        String tokenText = ""
+        try {
+            stream.consume()
+            def token = stream.get(0)
+            actualErrorText = token.getText()
+        } catch (IllegalStateException e) {
+            actualErrorText = e.getMessage()
+        }
+
+        expect:
+        if (errorText.isEmpty()) {
+            tokenText == source
+            actualErrorText == ""
+        } else {
+            errorText == actualErrorText
+        }
+
+        where:
+        source  || errorText
+        "A"     || ""
+        "Hello" || ""
+        "a"     || ""
+        "z"     || ""
+        "HB"    || ""
+        "H1"    || ""
+        "1"     || "cannot consume EOF"
+        "3"     || "cannot consume EOF"
+        "-"     || "cannot consume EOF"
+    }
+
+    def "classDef"() {
+        setup:
+        def parse = new KaraffeParser(new CommonTokenStream(new KaraffeLexer(CharStreams.fromString("class A"))))
+        parse.addErrorListener(DEFULT_ERROR_LISTENER)
+        def context = parse.classDef()
+
+        expect:
+        context != null
+        context.Identifier().getText() == "A"
     }
 }

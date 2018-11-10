@@ -1,2 +1,4 @@
-PLUS=1
-'+'=1
+CLASS=1
+Identifier=2
+WS=3
+'class'=1
