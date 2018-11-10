@@ -51,7 +51,7 @@ public class KaraffeCompiler {
             if (source.hasFilePath()) {
                 throw new UnsupportedOperationException("Not implemented");
             } else {
-                charStream = CharStreams.fromString(sources.toString());
+                charStream = CharStreams.fromString(source.toString());
             }
             KaraffeLexer lexer = new KaraffeLexer(charStream);
             KaraffeParser parser = new KaraffeParser(new CommonTokenStream(lexer));
