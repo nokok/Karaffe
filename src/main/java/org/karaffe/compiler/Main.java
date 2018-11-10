@@ -2,6 +2,10 @@ package org.karaffe.compiler;
 
 public class Main {
     public static void main(String[] args) {
-        System.out.println("Hello World!");
+        CompilerContext context = new CompilerContext();
+        context.setRawArgs(args);
+        KaraffeCompiler compiler = new KaraffeCompiler(context);
+        compiler.run();
+        System.out.print(context.hasNoOutputText() ? "" : context.getOutputText() + "\n");
     }
 }

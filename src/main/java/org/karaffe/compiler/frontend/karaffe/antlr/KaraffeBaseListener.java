@@ -23,6 +23,18 @@ public class KaraffeBaseListener implements KaraffeListener {
 	 * <p>The default implementation does nothing.</p>
 	 */
 	@Override public void exitCompilationUnit(KaraffeParser.CompilationUnitContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
+	@Override public void enterClassDef(KaraffeParser.ClassDefContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
+	@Override public void exitClassDef(KaraffeParser.ClassDefContext ctx) { }
 
 	/**
 	 * {@inheritDoc}
