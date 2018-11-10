@@ -32,8 +32,8 @@ public class KaraffeCompiler {
 
     public void run() {
         if (this.context.requireShowUsage()) {
-            this.context.addOutputs("Usage:");
-            this.context.addOutputs("  krfc <options> <sources>");
+            this.context.addOutputText("Usage:");
+            this.context.addOutputText("  krfc <options> <sources>");
             return;
         }
         for (String arg : context.getRawArgs()) {
@@ -51,10 +51,15 @@ public class KaraffeCompiler {
             if (source.hasFilePath()) {
                 throw new UnsupportedOperationException("Not implemented");
             } else {
-                charStream = CharStreams.fromString(sources.toString());
+                charStream = CharStreams.fromString(source.toString());
             }
             KaraffeLexer lexer = new KaraffeLexer(charStream);
+            lexer.removeErrorListeners();
+            DefaultErrorListener defaultErrorListener = new DefaultErrorListener(context);
+            lexer.addErrorListener(defaultErrorListener);
             KaraffeParser parser = new KaraffeParser(new CommonTokenStream(lexer));
+            parser.removeErrorListeners();
+            parser.addErrorListener(defaultErrorListener);
             KaraffeParser.CompilationUnitContext compilationUnitContext = parser.compilationUnit();
             compilationUnitContext.accept(new KaraffeBaseVisitor<Void>() {
                 @Override
