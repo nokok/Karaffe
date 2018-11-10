@@ -2,9 +2,10 @@ package org.karaffe.compiler;
 
 public class Main {
     public static void main(String[] args) {
-        if (args.length == 0) {
-            System.out.println("Usage:");
-            System.out.println("  krfc <options> <sources>");
-        }
+        CompilerContext context = new CompilerContext();
+        context.setRawArgs(args);
+        KaraffeCompiler compiler = new KaraffeCompiler(context);
+        compiler.run();
+        System.out.println(context.getOutputText());
     }
 }
