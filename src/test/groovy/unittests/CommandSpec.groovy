@@ -14,6 +14,6 @@ class CommandSpec extends Specification {
 
         expect:
         out == """Usage:
-  krfc <options> <sources>"""
+                 |  krfc <options> <sources>""".stripMargin()
     }
 }
