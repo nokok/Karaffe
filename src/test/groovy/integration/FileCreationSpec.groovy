@@ -21,4 +21,17 @@ class FileCreationSpec extends Specification {
         context.outputFiles.get(Paths.get("SimpleClass.class")) != null
         context.hasNoOutputText()
     }
+
+    def "Invalid Class 1A"() {
+        setup:
+        def context = new CompilerContext()
+        context.addSource(KaraffeSource.fromString("class 1A"))
+        def compiler = new KaraffeCompiler(context)
+        compiler.run()
+
+        expect:
+        context.outputFiles.size() == 0
+        context.outputFiles.get(Paths.get("A.class")) == null
+        !context.hasNoOutputText()
+    }
 }
