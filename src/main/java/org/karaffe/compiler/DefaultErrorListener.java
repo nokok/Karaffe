@@ -12,6 +12,7 @@ import java.util.BitSet;
 public class DefaultErrorListener implements ANTLRErrorListener {
 
     private final CompilerContext context;
+    private boolean hasSyntaxError = false;
 
     public DefaultErrorListener(CompilerContext context) {
         this.context = context;
@@ -20,6 +21,7 @@ public class DefaultErrorListener implements ANTLRErrorListener {
     @Override
     public void syntaxError(Recognizer<?, ?> recognizer, Object offendingSymbol, int line, int charPositionInLine, String msg, RecognitionException e) {
         context.addOutputText("Syntax Error at " + line + ":" + charPositionInLine + ", " + msg);
+        this.hasSyntaxError = true;
     }
 
     @Override
@@ -35,5 +37,9 @@ public class DefaultErrorListener implements ANTLRErrorListener {
     @Override
     public void reportContextSensitivity(Parser recognizer, DFA dfa, int startIndex, int stopIndex, int prediction, ATNConfigSet configs) {
         throw new IllegalStateException("reportContextSensitivity : " + dfa + ", " + startIndex + ", " + stopIndex);
+    }
+
+    public boolean hasSyntaxError() {
+        return this.hasSyntaxError;
     }
 }
