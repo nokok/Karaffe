@@ -1,6 +1,7 @@
 package org.karaffe.compiler;
 
 import net.nokok.azm.ClassWriter;
+import net.nokok.azm.MethodVisitor;
 import net.nokok.azm.Opcodes;
 import net.nokok.azm.Type;
 import org.antlr.v4.runtime.CharStream;
@@ -67,14 +68,26 @@ public class KaraffeCompiler {
             }
 
             compilationUnitContext.accept(new KaraffeBaseVisitor<Void>() {
+
+                ClassWriter classWriter = null;
+
                 @Override
                 public Void visitClassDef(KaraffeParser.ClassDefContext ctx) {
-                    ClassWriter classWriter = new ClassWriter(ClassWriter.COMPUTE_FRAMES);
+                    classWriter = new ClassWriter(ClassWriter.COMPUTE_FRAMES);
                     classWriter.visit(Opcodes.V1_8, Opcodes.ACC_PUBLIC, ctx.Identifier().getText(), null, Type.getInternalName(Object.class), null);
+                    super.visitClassDef(ctx);
                     classWriter.visitEnd();
                     byte[] bytes = classWriter.toByteArray();
                     context.addOutputFile(Paths.get(ctx.Identifier().getText() + ".class"), bytes);
-                    return super.visitClassDef(ctx);
+                    return null;
+                }
+
+                @Override
+                public Void visitEntryPointBlock(KaraffeParser.EntryPointBlockContext ctx) {
+                    MethodVisitor methodVisitor = classWriter.visitMethod(Opcodes.ACC_PUBLIC + Opcodes.ACC_STATIC, "main", Type.getMethodDescriptor(Type.VOID_TYPE, Type.getType(String[].class)), null, null);
+                    methodVisitor.visitInsn(Opcodes.RETURN);
+                    methodVisitor.visitEnd();
+                    return super.visitEntryPointBlock(ctx);
                 }
             });
         }
