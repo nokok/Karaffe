@@ -13,22 +13,22 @@ class SyntaxSpec extends Specification {
     private static final ANTLRErrorListener DEFULT_ERROR_LISTENER = new ANTLRErrorListener() {
         @Override
         void syntaxError(Recognizer<?, ?> recognizer, Object offendingSymbol, int line, int charPositionInLine, String msg, RecognitionException e) {
-            throw new RuntimeException()
+            throw new RuntimeException("Syntax Error at " + line + ":" + charPositionInLine + ", " + msg)
         }
 
         @Override
         void reportAmbiguity(Parser recognizer, DFA dfa, int startIndex, int stopIndex, boolean exact, BitSet ambigAlts, ATNConfigSet configs) {
-            throw new RuntimeException()
+            throw new RuntimeException("reportAmbiguity : " + dfa + ", " + startIndex + ", " + stopIndex)
         }
 
         @Override
         void reportAttemptingFullContext(Parser recognizer, DFA dfa, int startIndex, int stopIndex, BitSet conflictingAlts, ATNConfigSet configs) {
-            throw new RuntimeException()
+            throw new RuntimeException("reportAttemptingFullContext : " + dfa + ", " + startIndex + ", " + stopIndex)
         }
 
         @Override
         void reportContextSensitivity(Parser recognizer, DFA dfa, int startIndex, int stopIndex, int prediction, ATNConfigSet configs) {
-            throw new RuntimeException()
+            throw new RuntimeException("reportContextSensitivity : " + dfa + ", " + startIndex + ", " + stopIndex)
         }
     }
 
@@ -84,12 +84,46 @@ class SyntaxSpec extends Specification {
 
     def "classDef"() {
         setup:
-        def parse = new KaraffeParser(new CommonTokenStream(new KaraffeLexer(CharStreams.fromString("class A"))))
+        def lexer = new KaraffeLexer(CharStreams.fromString("class A"))
+        lexer.addErrorListener(DEFULT_ERROR_LISTENER)
+        def parse = new KaraffeParser(new CommonTokenStream(lexer))
         parse.addErrorListener(DEFULT_ERROR_LISTENER)
         def context = parse.classDef()
 
         expect:
         context != null
         context.Identifier().getText() == "A"
+    }
+
+    def "classDef2"() {
+        setup:
+        def lexer = new KaraffeLexer(CharStreams.fromString("class A {}"))
+        lexer.addErrorListener(DEFULT_ERROR_LISTENER)
+        def parse = new KaraffeParser(new CommonTokenStream(lexer))
+        parse.addErrorListener(DEFULT_ERROR_LISTENER)
+        def context = parse.classDef()
+
+        expect:
+        context != null
+        context.Identifier().getText() == "A"
+    }
+
+    def "entryPoint"() {
+        setup:
+        def lexer = new KaraffeLexer(CharStreams.fromString(
+                """class Main {
+                  |  entrypoint {
+                  |  }
+                  |}""".stripMargin()
+        ))
+        lexer.addErrorListener(DEFULT_ERROR_LISTENER)
+        def parse = new KaraffeParser(new CommonTokenStream(lexer))
+        parse.addErrorListener(DEFULT_ERROR_LISTENER)
+        def context = parse.classDef()
+
+        expect:
+        context != null
+        context.Identifier().getText() == "Main"
+        context.typeDefBody().statement(0).entryPointBlock().ENTRYPOINT() != null
     }
 }

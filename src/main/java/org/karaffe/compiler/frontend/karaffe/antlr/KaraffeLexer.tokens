@@ -1,4 +1,10 @@
-CLASS=1
-Identifier=2
-WS=3
-'class'=1
+ENTRYPOINT=1
+CLASS=2
+LBRACE=3
+RBRACE=4
+Identifier=5
+WS=6
+'entrypoint'=1
+'class'=2
+'{'=3
+'}'=4
