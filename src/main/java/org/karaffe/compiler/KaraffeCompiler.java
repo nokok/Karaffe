@@ -78,11 +78,13 @@ public class KaraffeCompiler {
                 }
             });
         }
-        for (Map.Entry<Path, byte[]> entry : context.getOutputFiles().entrySet()) {
-            try {
-                Files.write(entry.getKey(), entry.getValue());
-            } catch (IOException e) {
-                throw new UncheckedIOException(e);
+        if (!this.context.hasFlag("dry-run")) {
+            for (Map.Entry<Path, byte[]> entry : context.getOutputFiles().entrySet()) {
+                try {
+                    Files.write(entry.getKey(), entry.getValue());
+                } catch (IOException e) {
+                    throw new UncheckedIOException(e);
+                }
             }
         }
     }
