@@ -71,6 +71,18 @@ public class KaraffeBaseListener implements KaraffeListener {
 	 * <p>The default implementation does nothing.</p>
 	 */
 	@Override public void exitEntryPointBlock(KaraffeParser.EntryPointBlockContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
+	@Override public void enterPrintFunction(KaraffeParser.PrintFunctionContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
+	@Override public void exitPrintFunction(KaraffeParser.PrintFunctionContext ctx) { }
 
 	/**
 	 * {@inheritDoc}

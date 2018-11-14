@@ -126,4 +126,26 @@ class SyntaxSpec extends Specification {
         context.Identifier().getText() == "Main"
         context.typeDefBody().statement(0).entryPointBlock().ENTRYPOINT() != null
     }
+
+    def "stringLiteralAndPrintFunction"() {
+        def lexer = new KaraffeLexer(CharStreams.fromString(literal))
+        lexer.addErrorListener(DEFULT_ERROR_LISTENER)
+        def parse = new KaraffeParser(new CommonTokenStream(lexer))
+        parse.addErrorListener(DEFULT_ERROR_LISTENER)
+        def context = parse.printFunction()
+
+        expect:
+        context != null
+        if (context.StringLiteral() == null) {
+            expectedText.isEmpty()
+            return
+        }
+        context.StringLiteral().getText() == expectedText
+
+        where:
+        literal              || expectedText
+        """print()"""        || ""
+        """print("Hello")""" || "\"Hello\""
+        """print("Hello World!")""" || "\"Hello World!\""
+    }
 }

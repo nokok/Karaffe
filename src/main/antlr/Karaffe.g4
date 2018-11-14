@@ -14,16 +14,30 @@ typeDefBody
 
 statement
   : entryPointBlock
+  | printFunction
   ;
 
 entryPointBlock
-  : ENTRYPOINT LBRACE RBRACE
+  : ENTRYPOINT LBRACE statement* RBRACE
+  ;
+
+printFunction
+  : 'print' '(' + StringLiteral? ')'
   ;
 
 ENTRYPOINT: 'entrypoint';
 CLASS: 'class';
 LBRACE: '{';
 RBRACE: '}';
+
+StringLiteral
+  : '"' StringChar* '"'
+  ;
+
+fragment
+StringChar
+  : ~["\\\r\n]
+  ;
 
 Identifier
   : Letter LetterOrDigit*
