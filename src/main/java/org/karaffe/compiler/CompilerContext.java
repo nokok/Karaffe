@@ -5,12 +5,15 @@ import org.karaffe.compiler.util.KaraffeSource;
 import java.nio.file.Path;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
 import java.util.Objects;
+import java.util.Set;
 
 public class CompilerContext {
     private String[] rawArgs = new String[0];
+    private Set<String> flags = new HashSet<>();
     private List<KaraffeSource> sources = new ArrayList<>();
     private List<String> outputs = new ArrayList<>();
     private Map<Path, byte[]> outputFiles = new HashMap<>();
@@ -21,6 +24,13 @@ public class CompilerContext {
 
     public void setRawArgs(String[] rawArgs) {
         this.rawArgs = Objects.requireNonNull(rawArgs);
+        for (String arg : this.rawArgs) {
+            if (arg.equals("--dry-run")) {
+                if (!this.flags.add("dry-run")) {
+                    this.outputs.add("Duplicate flag: dry-run");
+                }
+            }
+        }
     }
 
     public void addOutputText(String line) {
@@ -53,5 +63,9 @@ public class CompilerContext {
 
     public boolean requireShowUsage() {
         return this.rawArgs.length == 0 && this.getSources().isEmpty();
+    }
+
+    public boolean hasFlag(String flagName) {
+        return this.flags.contains(flagName);
     }
 }

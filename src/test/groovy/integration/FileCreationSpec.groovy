@@ -12,6 +12,7 @@ class FileCreationSpec extends Specification {
     def "Valid SimpleClass.class"() {
         setup:
         def context = new CompilerContext()
+        context.setRawArgs(["--dry-run"] as String[])
         context.addSource(KaraffeSource.fromString("class SimpleClass"))
         def compiler = new KaraffeCompiler(context)
         compiler.run()
