@@ -7,12 +7,14 @@ import net.nokok.azm.Type;
 import org.antlr.v4.runtime.CharStream;
 import org.antlr.v4.runtime.CharStreams;
 import org.antlr.v4.runtime.CommonTokenStream;
+import org.antlr.v4.runtime.Token;
 import org.karaffe.compiler.frontend.karaffe.antlr.KaraffeBaseVisitor;
 import org.karaffe.compiler.frontend.karaffe.antlr.KaraffeLexer;
 import org.karaffe.compiler.frontend.karaffe.antlr.KaraffeParser;
 import org.karaffe.compiler.util.KaraffeSource;
 
 import java.io.IOException;
+import java.io.PrintStream;
 import java.io.UncheckedIOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
@@ -70,6 +72,7 @@ public class KaraffeCompiler {
             compilationUnitContext.accept(new KaraffeBaseVisitor<Void>() {
 
                 ClassWriter classWriter = null;
+                MethodVisitor methodVisitor = null;
 
                 @Override
                 public Void visitClassDef(KaraffeParser.ClassDefContext ctx) {
@@ -84,10 +87,26 @@ public class KaraffeCompiler {
 
                 @Override
                 public Void visitEntryPointBlock(KaraffeParser.EntryPointBlockContext ctx) {
-                    MethodVisitor methodVisitor = classWriter.visitMethod(Opcodes.ACC_PUBLIC + Opcodes.ACC_STATIC, "main", Type.getMethodDescriptor(Type.VOID_TYPE, Type.getType(String[].class)), null, null);
+                    methodVisitor = classWriter.visitMethod(Opcodes.ACC_PUBLIC + Opcodes.ACC_STATIC, "main", Type.getMethodDescriptor(Type.VOID_TYPE, Type.getType(String[].class)), null, null);
+                    super.visitEntryPointBlock(ctx);
                     methodVisitor.visitInsn(Opcodes.RETURN);
+                    methodVisitor.visitMaxs(0, 0);
                     methodVisitor.visitEnd();
-                    return super.visitEntryPointBlock(ctx);
+                    return null;
+                }
+
+                @Override
+                public Void visitPrintFunction(KaraffeParser.PrintFunctionContext ctx) {
+                    super.visitPrintFunction(ctx);
+                    methodVisitor.visitFieldInsn(Opcodes.GETSTATIC, Type.getInternalName(System.class), "out", Type.getDescriptor(PrintStream.class));
+                    if (ctx.StringLiteral() == null) {
+                        methodVisitor.visitLdcInsn("");
+                    } else {
+                        Token token = ctx.StringLiteral().getSymbol();
+                        methodVisitor.visitLdcInsn(token.getText().substring(1, token.getText().length() - 1));
+                    }
+                    methodVisitor.visitMethodInsn(Opcodes.INVOKEVIRTUAL, Type.getInternalName(PrintStream.class), "println", Type.getMethodDescriptor(Type.VOID_TYPE, Type.getType(String.class)), false);
+                    return null;
                 }
             });
         }
