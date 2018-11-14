@@ -80,8 +80,12 @@ public class KaraffeParser extends Parser {
 		_interp = new ParserATNSimulator(this,_ATN,_decisionToDFA,_sharedContextCache);
 	}
 	public static class CompilationUnitContext extends ParserRuleContext {
-		public ClassDefContext classDef() {
-			return getRuleContext(ClassDefContext.class,0);
+		public TerminalNode EOF() { return getToken(KaraffeParser.EOF, 0); }
+		public List<ClassDefContext> classDef() {
+			return getRuleContexts(ClassDefContext.class);
+		}
+		public ClassDefContext classDef(int i) {
+			return getRuleContext(ClassDefContext.class,i);
 		}
 		public CompilationUnitContext(ParserRuleContext parent, int invokingState) {
 			super(parent, invokingState);
@@ -109,16 +113,22 @@ public class KaraffeParser extends Parser {
 		try {
 			enterOuterAlt(_localctx, 1);
 			{
-			setState(5);
+			setState(7);
 			_errHandler.sync(this);
 			_la = _input.LA(1);
-			if (_la==CLASS) {
+			while (_la==CLASS) {
+				{
 				{
 				setState(4);
 				classDef();
 				}
+				}
+				setState(9);
+				_errHandler.sync(this);
+				_la = _input.LA(1);
 			}
-
+			setState(10);
+			match(EOF);
 			}
 		}
 		catch (RecognitionException re) {
@@ -160,9 +170,9 @@ public class KaraffeParser extends Parser {
 		try {
 			enterOuterAlt(_localctx, 1);
 			{
-			setState(7);
+			setState(12);
 			match(CLASS);
-			setState(8);
+			setState(13);
 			match(Identifier);
 			}
 		}
@@ -178,10 +188,11 @@ public class KaraffeParser extends Parser {
 	}
 
 	public static final String _serializedATN =
-		"\3\u608b\ua72a\u8133\ub9ed\u417c\u3be7\u7786\u5964\3\5\r\4\2\t\2\4\3\t"+
-		"\3\3\2\5\2\b\n\2\3\3\3\3\3\3\3\3\2\2\4\2\4\2\2\2\13\2\7\3\2\2\2\4\t\3"+
-		"\2\2\2\6\b\5\4\3\2\7\6\3\2\2\2\7\b\3\2\2\2\b\3\3\2\2\2\t\n\7\3\2\2\n\13"+
-		"\7\4\2\2\13\5\3\2\2\2\3\7";
+		"\3\u608b\ua72a\u8133\ub9ed\u417c\u3be7\u7786\u5964\3\5\22\4\2\t\2\4\3"+
+		"\t\3\3\2\7\2\b\n\2\f\2\16\2\13\13\2\3\2\3\2\3\3\3\3\3\3\3\3\2\2\4\2\4"+
+		"\2\2\2\20\2\t\3\2\2\2\4\16\3\2\2\2\6\b\5\4\3\2\7\6\3\2\2\2\b\13\3\2\2"+
+		"\2\t\7\3\2\2\2\t\n\3\2\2\2\n\f\3\2\2\2\13\t\3\2\2\2\f\r\7\2\2\3\r\3\3"+
+		"\2\2\2\16\17\7\3\2\2\17\20\7\4\2\2\20\5\3\2\2\2\3\t";
 	public static final ATN _ATN =
 		new ATNDeserializer().deserialize(_serializedATN.toCharArray());
 	static {
