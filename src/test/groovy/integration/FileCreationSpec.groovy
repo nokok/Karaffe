@@ -6,12 +6,18 @@ import org.karaffe.compiler.util.KaraffeSource
 import spock.lang.Specification
 
 import java.nio.file.Files
+import java.nio.file.NoSuchFileException
 import java.nio.file.Paths
 
 class FileCreationSpec extends Specification {
 
     def "Valid SimpleClass.class"() {
         setup:
+        try {
+            Files.delete(Paths.get("SimpleClass.class"))
+        } catch (NoSuchFileException e) {
+            // ignore
+        }
         def context = new CompilerContext()
         context.setRawArgs(["--dry-run"] as String[])
         context.addSource(KaraffeSource.fromString("class SimpleClass"))
@@ -27,6 +33,12 @@ class FileCreationSpec extends Specification {
 
     def "Invalid Class 1A"() {
         setup:
+        try {
+            Files.delete(Paths.get("A.class"))
+            Files.delete(Paths.get("1A.class"))
+        } catch (NoSuchFileException e) {
+            // ignore
+        }
         def context = new CompilerContext()
         context.setRawArgs(["--dry-run"] as String[])
         context.addSource(KaraffeSource.fromString("class 1A"))
