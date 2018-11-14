@@ -25,4 +25,11 @@ public class KaraffeBaseVisitor<T> extends AbstractParseTreeVisitor<T> implement
 	 * {@link #visitChildren} on {@code ctx}.</p>
 	 */
 	@Override public T visitClassDef(KaraffeParser.ClassDefContext ctx) { return visitChildren(ctx); }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation returns the result of calling
+	 * {@link #visitChildren} on {@code ctx}.</p>
+	 */
+	@Override public T visitTypeDefBody(KaraffeParser.TypeDefBodyContext ctx) { return visitChildren(ctx); }
 }

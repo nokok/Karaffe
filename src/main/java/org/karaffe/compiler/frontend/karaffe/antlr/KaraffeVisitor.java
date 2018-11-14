@@ -22,4 +22,10 @@ public interface KaraffeVisitor<T> extends ParseTreeVisitor<T> {
 	 * @return the visitor result
 	 */
 	T visitClassDef(KaraffeParser.ClassDefContext ctx);
+	/**
+	 * Visit a parse tree produced by {@link KaraffeParser#typeDefBody}.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	T visitTypeDefBody(KaraffeParser.TypeDefBodyContext ctx);
 }

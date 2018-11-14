@@ -1,14 +1,20 @@
 grammar Karaffe;
 
 compilationUnit
-  : classDef?
+  : classDef* EOF
   ;
 
 classDef
-  : CLASS Identifier
+  : CLASS Identifier typeDefBody?
+  ;
+
+typeDefBody
+  : LBRACE RBRACE
   ;
 
 CLASS: 'class';
+LBRACE: '{';
+RBRACE: '}';
 
 Identifier
   : Letter LetterOrDigit*
