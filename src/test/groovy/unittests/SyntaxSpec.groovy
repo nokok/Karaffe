@@ -107,4 +107,23 @@ class SyntaxSpec extends Specification {
         context != null
         context.Identifier().getText() == "A"
     }
+
+    def "entryPoint"() {
+        setup:
+        def lexer = new KaraffeLexer(CharStreams.fromString(
+                """class Main {
+                  |  entrypoint {
+                  |  }
+                  |}""".stripMargin()
+        ))
+        lexer.addErrorListener(DEFULT_ERROR_LISTENER)
+        def parse = new KaraffeParser(new CommonTokenStream(lexer))
+        parse.addErrorListener(DEFULT_ERROR_LISTENER)
+        def context = parse.classDef()
+
+        expect:
+        context != null
+        context.Identifier().getText() == "Main"
+        context.typeDefBody().statement(0).entryPointBlock().ENTRYPOINT() != null
+    }
 }

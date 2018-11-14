@@ -9,9 +9,18 @@ classDef
   ;
 
 typeDefBody
-  : LBRACE RBRACE
+  : LBRACE statement* RBRACE
   ;
 
+statement
+  : entryPointBlock
+  ;
+
+entryPointBlock
+  : ENTRYPOINT LBRACE RBRACE
+  ;
+
+ENTRYPOINT: 'entrypoint';
 CLASS: 'class';
 LBRACE: '{';
 RBRACE: '}';
