@@ -51,6 +51,7 @@ public class KaraffeCompiler {
             KaraffeParser parser = new KaraffeParser(new CommonTokenStream(lexer));
             parser.removeErrorListeners();
             parser.addErrorListener(errorHandler);
+            parser.addParseListener(new WarningListener(context));
             KaraffeParser.CompilationUnitContext compilationUnitContext = parser.compilationUnit();
 
             if (errorHandler.hasSyntaxError()) {

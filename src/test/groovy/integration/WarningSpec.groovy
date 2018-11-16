@@ -20,6 +20,6 @@ class WarningSpec extends Specification {
 
         where:
         source              || size || outputText
-        "class simpleClass" || 1    || "[warning] class name must be PascalCase(u)"
+        "class simpleClass" || 1    || "[warning] class name must be PascalCase : simpleClass"
     }
 }
