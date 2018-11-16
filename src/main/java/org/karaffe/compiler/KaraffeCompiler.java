@@ -4,10 +4,9 @@ import net.nokok.azm.ClassWriter;
 import net.nokok.azm.MethodVisitor;
 import net.nokok.azm.Opcodes;
 import net.nokok.azm.Type;
-import org.antlr.v4.runtime.CharStream;
-import org.antlr.v4.runtime.CharStreams;
 import org.antlr.v4.runtime.CommonTokenStream;
 import org.antlr.v4.runtime.Token;
+import org.karaffe.compiler.frontend.karaffe.antlr.KaraffeBaseListener;
 import org.karaffe.compiler.frontend.karaffe.antlr.KaraffeBaseVisitor;
 import org.karaffe.compiler.frontend.karaffe.antlr.KaraffeLexer;
 import org.karaffe.compiler.frontend.karaffe.antlr.KaraffeParser;
@@ -50,13 +49,10 @@ public class KaraffeCompiler {
         }
         List<KaraffeSource> sources = context.getSources();
         for (KaraffeSource source : sources) {
-            CharStream charStream;
             if (source.hasFilePath()) {
                 throw new UnsupportedOperationException("Not implemented");
-            } else {
-                charStream = CharStreams.fromString(source.toString());
             }
-            KaraffeLexer lexer = new KaraffeLexer(charStream);
+            KaraffeLexer lexer = new KaraffeLexer(source.asCharStream());
             lexer.removeErrorListeners();
             DefaultErrorListener errorHandler = new DefaultErrorListener(context);
             lexer.addErrorListener(errorHandler);

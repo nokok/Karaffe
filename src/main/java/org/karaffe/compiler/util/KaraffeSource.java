@@ -1,5 +1,8 @@
 package org.karaffe.compiler.util;
 
+import org.antlr.v4.runtime.CharStream;
+import org.antlr.v4.runtime.CharStreams;
+
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
@@ -50,5 +53,9 @@ public class KaraffeSource implements CharSequence {
 
     public boolean hasFilePath() {
         return false;
+    }
+
+    public CharStream asCharStream() {
+        return CharStreams.fromString(this.toString());
     }
 }
