@@ -1,4 +1,4 @@
-package integration
+package org.karaffe.integration
 
 import org.karaffe.compiler.CompilerContext
 import org.karaffe.compiler.KaraffeCompiler
@@ -9,7 +9,7 @@ class WarningSpec extends Specification {
     def "naming"() {
         setup:
         def context = new CompilerContext()
-        context.setRawArgs(["--dry-run"] as String[])
+        context.parseRawArgs(["--dry-run"] as String[])
         context.addSource(KaraffeSource.fromString(source))
         def compiler = new KaraffeCompiler(context)
         compiler.run()

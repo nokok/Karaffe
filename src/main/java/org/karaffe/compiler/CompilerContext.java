@@ -22,7 +22,7 @@ public class CompilerContext {
         return rawArgs;
     }
 
-    public void setRawArgs(String[] rawArgs) {
+    public void parseRawArgs(String[] rawArgs) {
         this.rawArgs = Objects.requireNonNull(rawArgs);
         for (String arg : this.rawArgs) {
             if (arg.equals("--dry-run")) {

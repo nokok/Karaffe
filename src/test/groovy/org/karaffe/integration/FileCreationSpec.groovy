@@ -1,4 +1,4 @@
-package integration
+package org.karaffe.integration
 
 import org.karaffe.compiler.CompilerContext
 import org.karaffe.compiler.KaraffeCompiler
@@ -19,7 +19,7 @@ class FileCreationSpec extends Specification {
             // ignore
         }
         def context = new CompilerContext()
-        context.setRawArgs(["--dry-run"] as String[])
+        context.parseRawArgs(["--dry-run"] as String[])
         context.addSource(KaraffeSource.fromString("class SimpleClass"))
         def compiler = new KaraffeCompiler(context)
         compiler.run()
@@ -40,7 +40,7 @@ class FileCreationSpec extends Specification {
             // ignore
         }
         def context = new CompilerContext()
-        context.setRawArgs(["--dry-run"] as String[])
+        context.parseRawArgs(["--dry-run"] as String[])
         context.addSource(KaraffeSource.fromString("class 1A"))
         def compiler = new KaraffeCompiler(context)
         compiler.run()
