@@ -1,4 +1,4 @@
-package unittests
+package org.karaffe.unittests
 
 import spock.lang.Specification
 

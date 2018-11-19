@@ -1,4 +1,4 @@
-package integration
+package org.karaffe.integration
 
 import org.karaffe.compiler.CompilerContext
 import org.karaffe.compiler.KaraffeCompiler

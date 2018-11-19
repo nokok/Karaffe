@@ -21,17 +21,41 @@ entryPointBlock
   : ENTRYPOINT LBRACE statement* RBRACE
   ;
 
+expr
+  : additiveExpr
+  ;
+
+additiveExpr
+  : primary
+  | left=additiveExpr op=PLUS right=primary
+  ;
+
+primary
+  : literal
+  | printFunction
+  ;
+
+literal
+  : StringLiteral
+  | IntegerLiteral
+  ;
+
 printFunction
-  : 'print' '(' + StringLiteral? ')'
+  : 'print' '(' + body=expr? ')'
   ;
 
 ENTRYPOINT: 'entrypoint';
 CLASS: 'class';
 LBRACE: '{';
 RBRACE: '}';
+PLUS: '+';
 
 StringLiteral
   : '"' StringChar* '"'
+  ;
+
+IntegerLiteral
+  : [1-9][0-9]*
   ;
 
 fragment

@@ -1,4 +1,4 @@
-package unittests
+package org.karaffe.unittests
 
 import org.antlr.v4.runtime.*
 import org.antlr.v4.runtime.atn.ATNConfigSet
@@ -127,8 +127,8 @@ class SyntaxSpec extends Specification {
         context.typeDefBody().statement(0).entryPointBlock().ENTRYPOINT() != null
     }
 
-    def "stringLiteralAndPrintFunction"() {
-        def lexer = new KaraffeLexer(CharStreams.fromString(literal))
+    def "nullExpr"() {
+        def lexer = new KaraffeLexer(CharStreams.fromString("print()"))
         lexer.addErrorListener(DEFULT_ERROR_LISTENER)
         def parse = new KaraffeParser(new CommonTokenStream(lexer))
         parse.addErrorListener(DEFULT_ERROR_LISTENER)
@@ -136,16 +136,54 @@ class SyntaxSpec extends Specification {
 
         expect:
         context != null
+        context.expr() == null
+    }
+
+    @Unroll
+    def "stringLiteral #literal"() {
+        def lexer = new KaraffeLexer(CharStreams.fromString(literal))
+        lexer.addErrorListener(DEFULT_ERROR_LISTENER)
+        def parse = new KaraffeParser(new CommonTokenStream(lexer))
+        parse.addErrorListener(DEFULT_ERROR_LISTENER)
+        def context = parse.literal()
+
+        expect:
+        context != null
         if (context.StringLiteral() == null) {
-            expectedText.isEmpty()
+            assert expectedText.isEmpty()
             return
         }
+
         context.StringLiteral().getText() == expectedText
 
         where:
         literal              || expectedText
-        """print()"""        || ""
-        """print("Hello")""" || "\"Hello\""
-        """print("Hello World!")""" || "\"Hello World!\""
+        '""'                 || '""'
+        '''"Hello"'''        || '"Hello"'
+        '''"Hello World!"''' || '"Hello World!"'
     }
+
+    @Unroll
+    def "intLiteral #literal"() {
+        def lexer = new KaraffeLexer(CharStreams.fromString(literal))
+        lexer.addErrorListener(DEFULT_ERROR_LISTENER)
+        def parse = new KaraffeParser(new CommonTokenStream(lexer))
+        parse.addErrorListener(DEFULT_ERROR_LISTENER)
+        def context = parse.literal()
+
+        expect:
+        context != null
+        if (context.IntegerLiteral() == null) {
+            assert expectedText.isEmpty()
+            return
+        }
+
+        context.IntegerLiteral().getText() == expectedText
+
+        where:
+        literal || expectedText
+        "1"     || "1"
+        "150"   || "150"
+    }
+
 }

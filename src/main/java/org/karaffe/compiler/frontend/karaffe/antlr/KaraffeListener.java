@@ -58,6 +58,46 @@ public interface KaraffeListener extends ParseTreeListener {
 	 */
 	void exitEntryPointBlock(KaraffeParser.EntryPointBlockContext ctx);
 	/**
+	 * Enter a parse tree produced by {@link KaraffeParser#expr}.
+	 * @param ctx the parse tree
+	 */
+	void enterExpr(KaraffeParser.ExprContext ctx);
+	/**
+	 * Exit a parse tree produced by {@link KaraffeParser#expr}.
+	 * @param ctx the parse tree
+	 */
+	void exitExpr(KaraffeParser.ExprContext ctx);
+	/**
+	 * Enter a parse tree produced by {@link KaraffeParser#additiveExpr}.
+	 * @param ctx the parse tree
+	 */
+	void enterAdditiveExpr(KaraffeParser.AdditiveExprContext ctx);
+	/**
+	 * Exit a parse tree produced by {@link KaraffeParser#additiveExpr}.
+	 * @param ctx the parse tree
+	 */
+	void exitAdditiveExpr(KaraffeParser.AdditiveExprContext ctx);
+	/**
+	 * Enter a parse tree produced by {@link KaraffeParser#primary}.
+	 * @param ctx the parse tree
+	 */
+	void enterPrimary(KaraffeParser.PrimaryContext ctx);
+	/**
+	 * Exit a parse tree produced by {@link KaraffeParser#primary}.
+	 * @param ctx the parse tree
+	 */
+	void exitPrimary(KaraffeParser.PrimaryContext ctx);
+	/**
+	 * Enter a parse tree produced by {@link KaraffeParser#literal}.
+	 * @param ctx the parse tree
+	 */
+	void enterLiteral(KaraffeParser.LiteralContext ctx);
+	/**
+	 * Exit a parse tree produced by {@link KaraffeParser#literal}.
+	 * @param ctx the parse tree
+	 */
+	void exitLiteral(KaraffeParser.LiteralContext ctx);
+	/**
 	 * Enter a parse tree produced by {@link KaraffeParser#printFunction}.
 	 * @param ctx the parse tree
 	 */
