@@ -56,5 +56,24 @@ class MethodResolverSpec extends Specification {
         methodResolver.getCompatibleMethod("number", Number.class).isPresent()
         methodResolver.getCompatibleMethod("number", Integer.class).isPresent()
         methodResolver.getCompatibleMethod("number", Float.class).isPresent()
+        !methodResolver.getCompatibleMethod("hoge").isPresent()
+    }
+
+
+    def "getMethod"() {
+        setup:
+        def methodResolver = new MethodResolver(Derived.class)
+
+        expect:
+        methodResolver.getMethod("doSomething").isPresent()
+        methodResolver.getMethod("toString").isPresent()
+        methodResolver.getMethod("equals", Object.class).isPresent()
+        !methodResolver.getMethod("equals", Integer.class).isPresent()
+        methodResolver.getMethod("number", Number.class).isPresent()
+        !methodResolver.getMethod("number", Object.class).isPresent()
+        !methodResolver.getMethod("number", Object.class, Integer.class).isPresent()
+        !methodResolver.getMethod("number", Integer.class).isPresent()
+        !methodResolver.getMethod("number", Float.class).isPresent()
+        !methodResolver.getMethod("hoge").isPresent()
     }
 }
