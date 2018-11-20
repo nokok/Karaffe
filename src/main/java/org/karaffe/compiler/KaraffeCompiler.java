@@ -16,10 +16,6 @@ import java.util.Map;
 public class KaraffeCompiler {
     private final CompilerContext context;
 
-    public KaraffeCompiler() {
-        this(new CompilerContext());
-    }
-
     public KaraffeCompiler(CompilerContext context) {
         this.context = context;
     }
