@@ -5,9 +5,11 @@ import net.nokok.azm.ClassWriter;
 import net.nokok.azm.MethodVisitor;
 import net.nokok.azm.Opcodes;
 import net.nokok.azm.Type;
+import net.nokok.azm.tree.AbstractInsnNode;
 import org.karaffe.compiler.frontend.karaffe.antlr.KaraffeBaseVisitor;
 import org.karaffe.compiler.frontend.karaffe.antlr.KaraffeParser;
 
+import java.lang.reflect.Method;
 import java.nio.file.Paths;
 import java.util.Objects;
 import java.util.Stack;
@@ -50,7 +52,9 @@ public class KaraffeParserVisitor extends KaraffeBaseVisitor<CompilerContext> {
             typeStack.push(String.class);
             methodVisitor.visitLdcInsn("");
         }
-        methodVisitor.visitMethodInsn(Opcodes.INVOKESTATIC, Type.getInternalName(Console.class), "println", Type.getMethodDescriptor(Type.VOID_TYPE, Type.getType(typeStack.pop())), false);
+        MethodResolver resolver = new MethodResolver(Console.class);
+        Method method = resolver.getCompatibleMethod("println", typeStack.pop()).orElseThrow(IllegalStateException::new);
+        methodVisitor.visitMethodInsn(Opcodes.INVOKESTATIC, Type.getInternalName(Console.class), "println", Type.getMethodDescriptor(method), false);
         return context;
     }
 
@@ -74,41 +78,9 @@ public class KaraffeParserVisitor extends KaraffeBaseVisitor<CompilerContext> {
     public CompilerContext visitLiteral(KaraffeParser.LiteralContext ctx) {
         if (ctx.IntegerLiteral() != null) {
             int i = Integer.parseInt(ctx.getText());
-            if (-1 <= i && i <= 5) {
-                typeStack.push(int.class);
-                switch (i) {
-                case -1:
-                    methodVisitor.visitInsn(Opcodes.ICONST_M1);
-                    break;
-                case 0:
-                    methodVisitor.visitInsn(Opcodes.ICONST_0);
-                    break;
-                case 1:
-                    methodVisitor.visitInsn(Opcodes.ICONST_1);
-                    break;
-                case 2:
-                    methodVisitor.visitInsn(Opcodes.ICONST_2);
-                    break;
-                case 3:
-                    methodVisitor.visitInsn(Opcodes.ICONST_3);
-                    break;
-                case 4:
-                    methodVisitor.visitInsn(Opcodes.ICONST_4);
-                    break;
-                case 5:
-                    methodVisitor.visitInsn(Opcodes.ICONST_5);
-                    break;
-                }
-            } else if (Byte.MIN_VALUE < i && i < Byte.MAX_VALUE) {
-                typeStack.push(byte.class);
-                methodVisitor.visitIntInsn(Opcodes.BIPUSH, i);
-            } else if (Short.MIN_VALUE < i && i < Short.MAX_VALUE) {
-                typeStack.push(short.class);
-                methodVisitor.visitIntInsn(Opcodes.SIPUSH, i);
-            } else {
-                typeStack.push(int.class);
-                methodVisitor.visitLdcInsn(i);
-            }
+            AbstractInsnNode abstractInsnNode = BytecodeSelectorForNumber.fromInt(i);
+            typeStack.push(int.class);
+            abstractInsnNode.accept(methodVisitor);
         } else if (ctx.StringLiteral() != null) {
             typeStack.push(String.class);
             methodVisitor.visitLdcInsn(ctx.getText().substring(1, ctx.getText().length() - 1));
