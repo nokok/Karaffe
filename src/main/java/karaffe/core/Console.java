@@ -1,6 +1,7 @@
 package karaffe.core;
 
 public class Console {
+
     public static void println(int value) {
         System.out.println(value);
     }

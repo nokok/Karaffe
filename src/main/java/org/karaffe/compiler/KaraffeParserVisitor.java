@@ -1,13 +1,17 @@
 package org.karaffe.compiler;
 
 import karaffe.core.Console;
+import karaffe.core.Int;
 import net.nokok.azm.ClassWriter;
 import net.nokok.azm.MethodVisitor;
 import net.nokok.azm.Opcodes;
 import net.nokok.azm.Type;
+import net.nokok.azm.tree.AbstractInsnNode;
 import org.karaffe.compiler.frontend.karaffe.antlr.KaraffeBaseVisitor;
 import org.karaffe.compiler.frontend.karaffe.antlr.KaraffeParser;
 
+import java.lang.reflect.Constructor;
+import java.lang.reflect.Method;
 import java.nio.file.Paths;
 import java.util.Objects;
 import java.util.Stack;
@@ -50,7 +54,9 @@ public class KaraffeParserVisitor extends KaraffeBaseVisitor<CompilerContext> {
             typeStack.push(String.class);
             methodVisitor.visitLdcInsn("");
         }
-        methodVisitor.visitMethodInsn(Opcodes.INVOKESTATIC, Type.getInternalName(Console.class), "println", Type.getMethodDescriptor(Type.VOID_TYPE, Type.getType(typeStack.pop())), false);
+        MethodResolver resolver = new MethodResolver(Console.class);
+        Method method = resolver.getCompatibleMethod("println", typeStack.pop()).orElseThrow(IllegalStateException::new);
+        methodVisitor.visitMethodInsn(Opcodes.INVOKESTATIC, Type.getInternalName(Console.class), "println", Type.getMethodDescriptor(method), false);
         return context;
     }
 
@@ -62,8 +68,16 @@ public class KaraffeParserVisitor extends KaraffeBaseVisitor<CompilerContext> {
         ctx.left.accept(this);
         ctx.right.accept(this);
         if (ctx.op.getText().equals("+")) {
-            methodVisitor.visitInsn(Opcodes.IADD);
-            typeStack.push(int.class);
+            Class<?> param = typeStack.pop();
+            Class<?> owner = typeStack.pop();
+            if (!owner.equals(param)) {
+                context.addOutputText(String.format("[ERROR]'%s'+'%s' is not applicable", owner.getName(), param.getName()));
+                typeStack.push(Object.class);
+                return context;
+            }
+            OperatorResolver operatorResolver = new OperatorResolver(owner);
+            operatorResolver.plus(param).accept(methodVisitor);
+            typeStack.push(owner);
         } else {
             throw new IllegalStateException(ctx.op.getText());
         }
@@ -74,43 +88,17 @@ public class KaraffeParserVisitor extends KaraffeBaseVisitor<CompilerContext> {
     public CompilerContext visitLiteral(KaraffeParser.LiteralContext ctx) {
         if (ctx.IntegerLiteral() != null) {
             int i = Integer.parseInt(ctx.getText());
-            if (-1 <= i && i <= 5) {
-                typeStack.push(int.class);
-                switch (i) {
-                case -1:
-                    methodVisitor.visitInsn(Opcodes.ICONST_M1);
-                    break;
-                case 0:
-                    methodVisitor.visitInsn(Opcodes.ICONST_0);
-                    break;
-                case 1:
-                    methodVisitor.visitInsn(Opcodes.ICONST_1);
-                    break;
-                case 2:
-                    methodVisitor.visitInsn(Opcodes.ICONST_2);
-                    break;
-                case 3:
-                    methodVisitor.visitInsn(Opcodes.ICONST_3);
-                    break;
-                case 4:
-                    methodVisitor.visitInsn(Opcodes.ICONST_4);
-                    break;
-                case 5:
-                    methodVisitor.visitInsn(Opcodes.ICONST_5);
-                    break;
-                }
-            } else if (Byte.MIN_VALUE < i && i < Byte.MAX_VALUE) {
-                typeStack.push(byte.class);
-                methodVisitor.visitIntInsn(Opcodes.BIPUSH, i);
-            } else if (Short.MIN_VALUE < i && i < Short.MAX_VALUE) {
-                typeStack.push(short.class);
-                methodVisitor.visitIntInsn(Opcodes.SIPUSH, i);
-            } else {
-                typeStack.push(int.class);
-                methodVisitor.visitLdcInsn(i);
-            }
+            methodVisitor.visitTypeInsn(Opcodes.NEW, Type.getInternalName(Int.class));
+            methodVisitor.visitInsn(Opcodes.DUP);
+            ConstructorResolver constructorResolver = new ConstructorResolver(Int.class);
+            Constructor<?> constructor = constructorResolver.getConstructor(int.class).orElseThrow(IllegalStateException::new);
+            AbstractInsnNode abstractInsnNode = BytecodeSelectorForNumber.fromInt(i);
+            abstractInsnNode.accept(methodVisitor);
+            methodVisitor.visitMethodInsn(Opcodes.INVOKESPECIAL, Type.getInternalName(Int.class), "<init>", Type.getConstructorDescriptor(constructor), false);
+            typeStack.push(Int.class);
+
         } else if (ctx.StringLiteral() != null) {
-            typeStack.push(String.class);
+            typeStack.push(karaffe.core.String.class);
             methodVisitor.visitLdcInsn(ctx.getText().substring(1, ctx.getText().length() - 1));
         } else {
             throw new IllegalStateException(ctx.toString());

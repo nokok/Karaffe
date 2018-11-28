@@ -16,4 +16,13 @@ class CommandSpec extends Specification {
         out == """Usage:
                  |  krfc <options> <sources>""".stripMargin()
     }
+
+    def "duplicate"() {
+        def context = new CompilerContext()
+        context.parseRawArgs(["--dry-run", "--dry-run"] as String[])
+
+        expect:
+        !context.hasNoOutputText()
+        context.getOutputText() == """Duplicate flag: dry-run"""
+    }
 }
