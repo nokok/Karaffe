@@ -11,6 +11,10 @@ public class MethodResolver {
         this.owner = Objects.requireNonNull(owner);
     }
 
+    public boolean isResolvable() {
+        return !this.owner.isPrimitive();
+    }
+
     public boolean hasMethod(String methodName) {
         for (Method method : owner.getMethods()) {
             if (method.getName().equals(methodName)) {

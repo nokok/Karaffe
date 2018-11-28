@@ -2,6 +2,7 @@ package org.karaffe.unittests
 
 import org.karaffe.compiler.MethodResolver
 import spock.lang.Specification
+import spock.lang.Unroll
 
 class MethodResolverSpec extends Specification {
     static class Base {
@@ -75,5 +76,22 @@ class MethodResolverSpec extends Specification {
         !methodResolver.getMethod("number", Integer.class).isPresent()
         !methodResolver.getMethod("number", Float.class).isPresent()
         !methodResolver.getMethod("hoge").isPresent()
+    }
+
+    @Unroll
+    def "isResolvable #source"() {
+        setup:
+        def methodResolver = new MethodResolver(source)
+
+        expect:
+        methodResolver.resolvable == expected
+
+        where:
+        source        || expected
+        int.class     || (false)
+        float.class   || (false)
+        double.class  || (false)
+        Integer.class || (true)
+
     }
 }

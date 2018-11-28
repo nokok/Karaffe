@@ -13,22 +13,22 @@ class SyntaxSpec extends Specification {
     private static final ANTLRErrorListener DEFULT_ERROR_LISTENER = new ANTLRErrorListener() {
         @Override
         void syntaxError(Recognizer<?, ?> recognizer, Object offendingSymbol, int line, int charPositionInLine, String msg, RecognitionException e) {
-            throw new RuntimeException("Syntax Error at " + line + ":" + charPositionInLine + ", " + msg)
+            throw new RuntimeException("Syntax Error at $line : $charPositionInLine , $msg")
         }
 
         @Override
         void reportAmbiguity(Parser recognizer, DFA dfa, int startIndex, int stopIndex, boolean exact, BitSet ambigAlts, ATNConfigSet configs) {
-            throw new RuntimeException("reportAmbiguity : " + dfa + ", " + startIndex + ", " + stopIndex)
+            throw new RuntimeException("reportAmbiguity : $dfa , $startIndex, $stopIndex")
         }
 
         @Override
         void reportAttemptingFullContext(Parser recognizer, DFA dfa, int startIndex, int stopIndex, BitSet conflictingAlts, ATNConfigSet configs) {
-            throw new RuntimeException("reportAttemptingFullContext : " + dfa + ", " + startIndex + ", " + stopIndex)
+            throw new RuntimeException("reportAttemptingFullContext : $dfa , $startIndex, $stopIndex")
         }
 
         @Override
         void reportContextSensitivity(Parser recognizer, DFA dfa, int startIndex, int stopIndex, int prediction, ATNConfigSet configs) {
-            throw new RuntimeException("reportContextSensitivity : " + dfa + ", " + startIndex + ", " + stopIndex)
+            throw new RuntimeException("reportContextSensitivity : $dfa , $startIndex, $stopIndex")
         }
     }
 
