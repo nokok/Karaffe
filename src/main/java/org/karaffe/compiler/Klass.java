@@ -1,8 +1,5 @@
 package org.karaffe.compiler;
 
-import karaffe.core.Int;
-import karaffe.core.String;
-
 import java.lang.reflect.Method;
 import java.util.Objects;
 

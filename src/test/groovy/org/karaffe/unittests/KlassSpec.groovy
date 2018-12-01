@@ -6,20 +6,36 @@ import spock.lang.Unroll
 
 class KlassSpec extends Specification {
     @Unroll
-    def "isOperatorApplicable #source"() {
+    def "isOperatorApplicable == true #source"() {
         setup:
         def klass = new Klass(source)
 
         expect:
-        klass.arithmeticOperatorApplicable == arithmeticOperatorApplicable
+        klass.arithmeticOperatorApplicable
 
         where:
-        source              || arithmeticOperatorApplicable
-        int                 || (true)
-        float               || (true)
-        boolean             || (false)
-        karaffe.core.Int    || (true)
-        karaffe.core.String || (true)
-        Object              || (false)
+        source << [
+                int,
+                float,
+                long,
+                double,
+                karaffe.core.Int,
+                karaffe.core.String,
+        ]
+    }
+
+    @Unroll
+    def "isOperatorApplicable == false #source"() {
+        setup:
+        def klass = new Klass(source)
+
+        expect:
+        !klass.arithmeticOperatorApplicable
+
+        where:
+        source << [
+                boolean,
+                Object
+        ]
     }
 }

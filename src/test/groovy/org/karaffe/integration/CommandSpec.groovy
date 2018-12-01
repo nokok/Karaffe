@@ -1,16 +1,13 @@
 package org.karaffe.integration
 
-import org.karaffe.compiler.CompilerContext
-import org.karaffe.compiler.KaraffeCompiler
+import org.karaffe.compiler.util.CompilerContext
+import org.karaffe.compiler.Main
 import spock.lang.Specification
 
 class CommandSpec extends Specification {
     def "should show usage"() {
-        def context = new CompilerContext()
-        context.rawArgs = []
-        def compiler = new KaraffeCompiler(context)
-        compiler.run()
-        def out = compiler.out()
+        Main.main([] as String[])
+        def out = Main.getContext().getOutputText()
 
         expect:
         out == """Usage:
@@ -23,6 +20,23 @@ class CommandSpec extends Specification {
 
         expect:
         !context.hasNoOutputText()
-        context.getOutputText() == """Duplicate flag: dry-run"""
+        context.getOutputText() == """Duplicated flag : --dry-run"""
+    }
+
+    def "unrecognized options"() {
+        def context = new CompilerContext()
+        context.parseRawArgs(["--foo"] as String[])
+
+        expect:
+        context.hasOutputText()
+        context.getOutputText() == "Unrecognized option : --foo"
+    }
+
+    def "source file"() {
+        def context = new CompilerContext()
+        context.parseRawArgs(["src/test/resources/Main.krf"] as String[])
+
+        expect:
+        context.hasNoOutputText()
     }
 }

@@ -1,23 +1,25 @@
-package org.karaffe.compiler;
+package org.karaffe.compiler.visitor;
 
-import org.karaffe.compiler.frontend.karaffe.antlr.KaraffeBaseListener;
+import org.karaffe.compiler.frontend.karaffe.antlr.KaraffeBaseVisitor;
 import org.karaffe.compiler.frontend.karaffe.antlr.KaraffeParser;
+import org.karaffe.compiler.util.CompilerContext;
 
 import java.util.Objects;
 
-public class WarningListener extends KaraffeBaseListener {
+public class WarningVisitor extends KaraffeBaseVisitor<Void> {
 
     private CompilerContext context;
 
-    public WarningListener(CompilerContext context) {
+    public WarningVisitor(CompilerContext context) {
         this.context = Objects.requireNonNull(context);
     }
 
     @Override
-    public void exitClassDef(KaraffeParser.ClassDefContext ctx) {
+    public Void visitClassDef(KaraffeParser.ClassDefContext ctx) {
         String className = ctx.Identifier().getText();
         if (Character.isLowerCase(className.charAt(0))) {
             this.context.addOutputText("[warning] class name must be PascalCase : " + className);
         }
+        return null;
     }
 }

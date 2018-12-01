@@ -1,11 +1,25 @@
 package org.karaffe.compiler;
 
+import karaffe.core.Console;
+import org.karaffe.compiler.util.CompilerContext;
+
 public class Main {
+
+    private static CompilerContext context = new CompilerContext();
+
     public static void main(String[] args) {
-        CompilerContext context = new CompilerContext();
         context.parseRawArgs(args);
+        if (context.requireShowUsage()) {
+            context.addOutputText("Usage:");
+            context.addOutputText("  krfc <options> <sources>");
+            return;
+        }
         KaraffeCompiler compiler = new KaraffeCompiler(context);
         compiler.run();
-        System.out.print(context.hasNoOutputText() ? "" : context.getOutputText() + "\n");
+        Console.print(context.hasOutputText() ? context.getOutputText() + "\n" : "");
+    }
+
+    public static CompilerContext getContext() {
+        return Main.context;
     }
 }

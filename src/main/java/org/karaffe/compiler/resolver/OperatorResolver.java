@@ -1,10 +1,11 @@
-package org.karaffe.compiler;
+package org.karaffe.compiler.resolver;
 
 import net.nokok.azm.Opcodes;
 import net.nokok.azm.Type;
 import net.nokok.azm.tree.AbstractInsnNode;
 import net.nokok.azm.tree.InsnNode;
 import net.nokok.azm.tree.MethodInsnNode;
+import org.karaffe.compiler.Klass;
 
 import java.lang.reflect.Method;
 import java.util.Objects;
@@ -21,11 +22,11 @@ public class OperatorResolver {
 
     public AbstractInsnNode plus(Class<?> param) {
         if (this.ownerClass.isPrimitive()) {
-            if (this.ownerClass.equals(double.class)) {
+            if (this.ownerClass.equals(double.class) || param.equals(double.class)) {
                 return new InsnNode(Opcodes.DADD);
-            } else if (this.ownerClass.equals(float.class)) {
+            } else if (this.ownerClass.equals(float.class) || param.equals(float.class)) {
                 return new InsnNode(Opcodes.FADD);
-            } else if (this.ownerClass.equals(long.class)) {
+            } else if (this.ownerClass.equals(long.class) || param.equals(long.class)) {
                 return new InsnNode(Opcodes.LADD);
             }
             return new InsnNode(Opcodes.IADD);
