@@ -98,8 +98,14 @@ public class KaraffeParserVisitor extends KaraffeBaseVisitor<CompilerContext> {
             typeStack.push(Int.class);
 
         } else if (ctx.StringLiteral() != null) {
+            String value = ctx.getText().substring(1, ctx.getText().length() - 1);
+            methodVisitor.visitTypeInsn(Opcodes.NEW, Type.getInternalName(karaffe.core.String.class));
+            methodVisitor.visitInsn(Opcodes.DUP);
+            ConstructorResolver constructorResolver = new ConstructorResolver(karaffe.core.String.class);
+            Constructor<?> constructor = constructorResolver.getConstructor(String.class).orElseThrow(IllegalStateException::new);
+            methodVisitor.visitLdcInsn(value);
+            methodVisitor.visitMethodInsn(Opcodes.INVOKESPECIAL, Type.getInternalName(karaffe.core.String.class), "<init>", Type.getConstructorDescriptor(constructor), false);
             typeStack.push(karaffe.core.String.class);
-            methodVisitor.visitLdcInsn(ctx.getText().substring(1, ctx.getText().length() - 1));
         } else {
             throw new IllegalStateException(ctx.toString());
         }

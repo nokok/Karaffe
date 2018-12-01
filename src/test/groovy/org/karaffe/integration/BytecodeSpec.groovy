@@ -62,18 +62,31 @@ class BytecodeSpec extends Specification {
         def analyzer = new Analyzer<>(new SimpleVerifier())
         analyzer.analyze(classNode.name, mainMethod)
 
-
         expect:
+        //   public static void main(java.lang.String[]);
+        //    descriptor: ([Ljava/lang/String;)V
+        //    flags: (0x0009) ACC_PUBLIC, ACC_STATIC
+        //    Code:
+        //      stack=3, locals=1, args_size=1
+        //         0: new           #8                  // class karaffe/core/String
+        //         3: dup
+        //         4: ldc           #10                 // String Hello World!
+        //         6: invokespecial #14                 // Method karaffe/core/String."<init>":(Ljava/lang/String;)V
+        //         9: invokestatic  #20                 // Method karaffe/core/Console.println:(Ljava/lang/Object;)V
+        //        12: return
         classNode.access == Opcodes.ACC_PUBLIC
         classNode.methods.size() == 1
         mainMethod.access == Opcodes.ACC_PUBLIC + Opcodes.ACC_STATIC
         mainMethod.name == "main"
         mainMethod.desc == "([Ljava/lang/String;)V"
-        mainMethod.maxStack == 1
+        mainMethod.maxStack == 3
         mainMethod.maxLocals == 1
-        mainMethod.instructions.get(0).opcode == Opcodes.LDC
-        mainMethod.instructions.get(1).opcode == Opcodes.INVOKESTATIC
-        mainMethod.instructions.get(2).opcode == Opcodes.RETURN
+        mainMethod.instructions.get(0).opcode == Opcodes.NEW
+        mainMethod.instructions.get(1).opcode == Opcodes.DUP
+        mainMethod.instructions.get(2).opcode == Opcodes.LDC
+        mainMethod.instructions.get(3).opcode == Opcodes.INVOKESPECIAL
+        mainMethod.instructions.get(4).opcode == Opcodes.INVOKESTATIC
+        mainMethod.instructions.get(5).opcode == Opcodes.RETURN
 
     }
 
