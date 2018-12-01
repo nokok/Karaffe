@@ -4,6 +4,7 @@ import org.antlr.v4.runtime.CharStream;
 import org.antlr.v4.runtime.CharStreams;
 
 import java.io.IOException;
+import java.io.UncheckedIOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.util.List;
@@ -11,15 +12,18 @@ import java.util.Objects;
 
 public class KaraffeSource implements CharSequence {
 
+    private final Path path;
     private final String source;
 
     private KaraffeSource(String source) {
+        this.path = null;
         this.source = Objects.requireNonNull(source);
     }
 
     private KaraffeSource(Path path) throws IOException {
         Objects.requireNonNull(path);
         List<String> strings = Files.readAllLines(path);
+        this.path = path;
         this.source = strings.stream().reduce((l, r) -> l + "\n" + r).orElse("");
     }
 
@@ -56,6 +60,14 @@ public class KaraffeSource implements CharSequence {
     }
 
     public CharStream asCharStream() {
-        return CharStreams.fromString(this.toString());
+        if (this.path == null) {
+            return CharStreams.fromString(this.toString());
+        } else {
+            try {
+                return CharStreams.fromPath(path);
+            } catch (IOException e) {
+                throw new UncheckedIOException(e);
+            }
+        }
     }
 }
