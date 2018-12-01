@@ -54,7 +54,12 @@ public class KaraffeCompiler {
                 continue;
             }
 
-            compilationUnitContext.accept(new KaraffeParserVisitor(context));
+            try {
+                compilationUnitContext.accept(new KaraffeParserVisitor(context));
+            } catch (KaraffeCompilerRuntimeException e) {
+                context.addOutputText(e.getMessage());
+                continue;
+            }
         }
         if (!this.context.hasFlag("dry-run")) {
             for (Map.Entry<Path, byte[]> entry : context.getOutputFiles().entrySet()) {

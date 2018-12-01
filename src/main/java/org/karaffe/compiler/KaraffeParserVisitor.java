@@ -70,10 +70,10 @@ public class KaraffeParserVisitor extends KaraffeBaseVisitor<CompilerContext> {
         if (ctx.op.getText().equals("+")) {
             Class<?> param = typeStack.pop();
             Class<?> owner = typeStack.pop();
+            String sourceName = ctx.op.getInputStream().getSourceName();
             if (!owner.equals(param)) {
-                context.addOutputText(String.format("[ERROR]'%s'+'%s' is not applicable", owner.getName(), param.getName()));
-                typeStack.push(Object.class);
-                return context;
+                String msg = String.format("[ERROR]'%s'+'%s' is not applicable at %s:%s in %s", owner.getName(), param.getName(), ctx.op.getLine(), ctx.op.getCharPositionInLine(), sourceName);
+                throw new SemanticAnalysisException(msg);
             }
             OperatorResolver operatorResolver = new OperatorResolver(owner);
             operatorResolver.plus(param).accept(methodVisitor);

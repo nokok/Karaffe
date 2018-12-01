@@ -22,8 +22,8 @@ class OperatorSpec extends Specification {
         where:
         source        || outputText
         "1 + 1"       || ""
-        '1 + "Hoge"'  || "[ERROR]'karaffe.core.Int'+'karaffe.core.String' is not applicable"
-        '"Hoge" + 1'  || "[ERROR]'karaffe.core.String'+'karaffe.core.Int' is not applicable"
+        '1 + "Hoge"'  || "[ERROR]'karaffe.core.Int'+'karaffe.core.String' is not applicable at 1:34 in <unknown>"
+        '"Hoge" + 1'  || "[ERROR]'karaffe.core.String'+'karaffe.core.Int' is not applicable at 1:39 in <unknown>"
         '"Ho" + "ge"' || ""
     }
 }
