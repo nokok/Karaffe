@@ -2,7 +2,10 @@ package org.karaffe.compiler;
 
 import org.karaffe.compiler.util.KaraffeSource;
 
+import java.io.IOException;
+import java.io.UncheckedIOException;
 import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
@@ -30,6 +33,15 @@ public class CompilerContext {
         argStack.addAll(Arrays.asList(rawArgs));
         while (!argStack.empty()) {
             String arg = argStack.pop();
+            if (arg.endsWith(".krf")) {
+                try {
+                    this.sources.add(KaraffeSource.fromPath(Paths.get(arg)));
+                } catch (IOException e) {
+                    throw new UncheckedIOException(Paths.get(arg).toAbsolutePath().toString(), e);
+                }
+                continue;
+            }
+
             boolean added = false;
             switch (arg) {
             case "--dry-run":

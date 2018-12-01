@@ -32,5 +32,14 @@ class CommandSpec extends Specification {
 
         expect:
         context.hasOutputText()
+        context.getOutputText() == "Unrecognized option : --foo"
+    }
+
+    def "source file"() {
+        def context = new CompilerContext()
+        context.parseRawArgs(["src/test/resources/Main.krf"] as String[])
+
+        expect:
+        context.hasNoOutputText()
     }
 }
