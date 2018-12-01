@@ -28,7 +28,7 @@ public class KaraffeParserVisitor extends KaraffeBaseVisitor<CompilerContext> {
 
     @Override
     public CompilerContext visitClassDef(KaraffeParser.ClassDefContext ctx) {
-        classWriter = new ClassWriter(net.nokok.azm.ClassWriter.COMPUTE_FRAMES);
+        classWriter = new ClassWriter(ClassWriter.COMPUTE_FRAMES);
         classWriter.visit(Opcodes.V1_8, Opcodes.ACC_PUBLIC, ctx.Identifier().getText(), null, Type.getInternalName(Object.class), null);
         super.visitClassDef(ctx);
         classWriter.visitEnd();
