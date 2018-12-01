@@ -5,7 +5,7 @@ import net.nokok.azm.Type;
 import net.nokok.azm.tree.AbstractInsnNode;
 import net.nokok.azm.tree.InsnNode;
 import net.nokok.azm.tree.MethodInsnNode;
-import org.karaffe.compiler.Klass;
+import karaffe.core.Klass;
 
 import java.lang.reflect.Method;
 import java.util.Objects;
