@@ -10,7 +10,7 @@ import spock.lang.Unroll
 
 class SyntaxSpec extends Specification {
 
-    private static final ANTLRErrorListener DEFULT_ERROR_LISTENER = new ANTLRErrorListener() {
+    public static final ANTLRErrorListener DEFULT_ERROR_LISTENER = new ANTLRErrorListener() {
         @Override
         void syntaxError(Recognizer<?, ?> recognizer, Object offendingSymbol, int line, int charPositionInLine, String msg, RecognitionException e) {
             throw new RuntimeException("Syntax Error at $line : $charPositionInLine , $msg")
@@ -43,43 +43,6 @@ class SyntaxSpec extends Specification {
 
         expect:
         context != null
-    }
-
-    @Unroll
-    def "identifier #source"() {
-        setup:
-        def lexer = new KaraffeLexer(CharStreams.fromString(source))
-        lexer.removeErrorListeners()
-        def stream = new CommonTokenStream(lexer)
-        String actualErrorText
-        String tokenText = ""
-        try {
-            stream.consume()
-            def token = stream.get(0)
-            actualErrorText = token.getText()
-        } catch (IllegalStateException e) {
-            actualErrorText = e.getMessage()
-        }
-
-        expect:
-        if (errorText.isEmpty()) {
-            tokenText == source
-            actualErrorText == ""
-        } else {
-            errorText == actualErrorText
-        }
-
-        where:
-        source  || errorText
-        "A"     || ""
-        "Hello" || ""
-        "a"     || ""
-        "z"     || ""
-        "HB"    || ""
-        "H1"    || ""
-        "1"     || "cannot consume EOF"
-        "3"     || "cannot consume EOF"
-        "-"     || "cannot consume EOF"
     }
 
     def "classDef"() {
