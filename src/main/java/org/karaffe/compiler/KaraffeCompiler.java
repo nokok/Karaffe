@@ -20,11 +20,6 @@ public class KaraffeCompiler {
     }
 
     public void run() {
-        if (this.context.requireShowUsage()) {
-            this.context.addOutputText("Usage:");
-            this.context.addOutputText("  krfc <options> <sources>");
-            return;
-        }
         List<KaraffeSource> sources = context.getSources();
         for (KaraffeSource source : sources) {
             if (source.hasFilePath()) {
