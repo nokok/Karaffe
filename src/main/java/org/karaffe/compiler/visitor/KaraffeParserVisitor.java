@@ -1,4 +1,4 @@
-package org.karaffe.compiler;
+package org.karaffe.compiler.visitor;
 
 import karaffe.core.Console;
 import karaffe.core.Int;
@@ -7,8 +7,14 @@ import net.nokok.azm.MethodVisitor;
 import net.nokok.azm.Opcodes;
 import net.nokok.azm.Type;
 import net.nokok.azm.tree.AbstractInsnNode;
+import org.karaffe.compiler.BytecodeSelectorForNumber;
+import org.karaffe.compiler.SemanticAnalysisException;
 import org.karaffe.compiler.frontend.karaffe.antlr.KaraffeBaseVisitor;
 import org.karaffe.compiler.frontend.karaffe.antlr.KaraffeParser;
+import org.karaffe.compiler.resolver.ConstructorResolver;
+import org.karaffe.compiler.resolver.MethodResolver;
+import org.karaffe.compiler.resolver.OperatorResolver;
+import org.karaffe.compiler.util.CompilerContext;
 
 import java.lang.reflect.Constructor;
 import java.lang.reflect.Method;
@@ -22,7 +28,7 @@ public class KaraffeParserVisitor extends KaraffeBaseVisitor<CompilerContext> {
     private MethodVisitor methodVisitor = null;
     private Stack<Class<?>> typeStack = new Stack<>();
 
-    KaraffeParserVisitor(CompilerContext context) {
+    public KaraffeParserVisitor(CompilerContext context) {
         this.context = Objects.requireNonNull(context);
     }
 

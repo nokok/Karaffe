@@ -1,6 +1,7 @@
 package org.karaffe.compiler;
 
 import karaffe.core.Console;
+import org.karaffe.compiler.util.CompilerContext;
 
 public class Main {
 

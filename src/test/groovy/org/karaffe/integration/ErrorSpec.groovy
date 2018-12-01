@@ -1,6 +1,6 @@
 package org.karaffe.integration
 
-import org.karaffe.compiler.CompilerContext
+import org.karaffe.compiler.util.CompilerContext
 import org.karaffe.compiler.KaraffeCompiler
 import spock.lang.Specification
 

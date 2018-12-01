@@ -1,4 +1,4 @@
-package org.karaffe.compiler;
+package org.karaffe.compiler.resolver;
 
 import java.lang.reflect.Constructor;
 import java.util.Objects;

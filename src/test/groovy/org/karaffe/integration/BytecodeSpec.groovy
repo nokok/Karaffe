@@ -5,7 +5,7 @@ import net.nokok.azm.Opcodes
 import net.nokok.azm.tree.ClassNode
 import net.nokok.azm.tree.analysis.Analyzer
 import net.nokok.azm.tree.analysis.SimpleVerifier
-import org.karaffe.compiler.CompilerContext
+import org.karaffe.compiler.util.CompilerContext
 import org.karaffe.compiler.KaraffeCompiler
 import org.karaffe.compiler.util.KaraffeSource
 import spock.lang.Specification

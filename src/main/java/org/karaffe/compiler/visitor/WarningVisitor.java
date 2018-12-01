@@ -1,7 +1,8 @@
-package org.karaffe.compiler;
+package org.karaffe.compiler.visitor;
 
 import org.karaffe.compiler.frontend.karaffe.antlr.KaraffeBaseVisitor;
 import org.karaffe.compiler.frontend.karaffe.antlr.KaraffeParser;
+import org.karaffe.compiler.util.CompilerContext;
 
 import java.util.Objects;
 

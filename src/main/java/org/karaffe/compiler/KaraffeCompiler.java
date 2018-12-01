@@ -4,7 +4,10 @@ import org.antlr.v4.runtime.CommonTokenStream;
 import org.antlr.v4.runtime.RecognitionException;
 import org.karaffe.compiler.frontend.karaffe.antlr.KaraffeLexer;
 import org.karaffe.compiler.frontend.karaffe.antlr.KaraffeParser;
+import org.karaffe.compiler.util.CompilerContext;
 import org.karaffe.compiler.util.KaraffeSource;
+import org.karaffe.compiler.visitor.KaraffeParserVisitor;
+import org.karaffe.compiler.visitor.WarningVisitor;
 
 import java.io.IOException;
 import java.io.UncheckedIOException;

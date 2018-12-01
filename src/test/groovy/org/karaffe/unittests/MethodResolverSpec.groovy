@@ -1,22 +1,22 @@
 package org.karaffe.unittests
 
-import org.karaffe.compiler.MethodResolver
+import org.karaffe.compiler.resolver.MethodResolver
 import spock.lang.Specification
 import spock.lang.Unroll
 
 class MethodResolverSpec extends Specification {
     static class Base {
-        public void doSomething() {
+        void doSomething() {
 
         }
     }
 
     static class Derived extends Base {
-        public void doSomething2() {
+        void doSomething2() {
 
         }
 
-        public void number(Number i) {
+        void number(Number i) {
 
         }
     }
