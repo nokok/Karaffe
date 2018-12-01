@@ -23,6 +23,14 @@ class CommandSpec extends Specification {
 
         expect:
         !context.hasNoOutputText()
-        context.getOutputText() == """Duplicate flag: dry-run"""
+        context.getOutputText() == """Duplicated flag : --dry-run"""
+    }
+
+    def "unrecognized options"() {
+        def context = new CompilerContext()
+        context.parseRawArgs(["--foo"] as String[])
+
+        expect:
+        context.hasOutputText()
     }
 }

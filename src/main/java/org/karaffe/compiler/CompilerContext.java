@@ -4,12 +4,14 @@ import org.karaffe.compiler.util.KaraffeSource;
 
 import java.nio.file.Path;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
 import java.util.Objects;
 import java.util.Set;
+import java.util.Stack;
 
 public class CompilerContext {
     private String[] rawArgs = new String[0];
@@ -24,11 +26,22 @@ public class CompilerContext {
 
     public void parseRawArgs(String[] rawArgs) {
         this.rawArgs = Objects.requireNonNull(rawArgs);
-        for (String arg : this.rawArgs) {
-            if (arg.equals("--dry-run")) {
-                if (!this.flags.add("dry-run")) {
-                    this.outputs.add("Duplicate flag: dry-run");
-                }
+        Stack<String> argStack = new Stack<>();
+        argStack.addAll(Arrays.asList(rawArgs));
+        while (!argStack.empty()) {
+            String arg = argStack.pop();
+            boolean added = false;
+            switch (arg) {
+            case "--dry-run":
+                added |= this.flags.add(arg);
+                added |= this.flags.add(arg);
+                break;
+            default:
+                this.addOutputText("Unrecognized option : " + arg);
+                added = true;
+            }
+            if (!added) {
+                this.addOutputText("Duplicated flag : " + arg);
             }
         }
     }
@@ -39,6 +52,10 @@ public class CompilerContext {
 
     public String getOutputText() {
         return String.join("\n", outputs);
+    }
+
+    public boolean hasOutputText() {
+        return !hasNoOutputText();
     }
 
     public boolean hasNoOutputText() {
