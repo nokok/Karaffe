@@ -9,7 +9,6 @@ import java.io.IOException;
 import java.io.UncheckedIOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
-import java.nio.file.Paths;
 import java.util.List;
 import java.util.Map;
 
@@ -25,15 +24,6 @@ public class KaraffeCompiler {
             this.context.addOutputText("Usage:");
             this.context.addOutputText("  krfc <options> <sources>");
             return;
-        }
-        for (String arg : context.getRawArgs()) {
-            if (arg.endsWith(".krf")) {
-                try {
-                    this.context.addSource(KaraffeSource.fromPath(Paths.get(arg)));
-                } catch (IOException e) {
-                    throw new UncheckedIOException(e);
-                }
-            }
         }
         List<KaraffeSource> sources = context.getSources();
         for (KaraffeSource source : sources) {
@@ -72,7 +62,4 @@ public class KaraffeCompiler {
         }
     }
 
-    public String out() {
-        return context.getOutputText();
-    }
 }

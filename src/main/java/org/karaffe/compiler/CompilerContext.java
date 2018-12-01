@@ -23,10 +23,6 @@ public class CompilerContext {
     private List<String> outputs = new ArrayList<>();
     private Map<Path, byte[]> outputFiles = new HashMap<>();
 
-    public String[] getRawArgs() {
-        return rawArgs;
-    }
-
     public void parseRawArgs(String[] rawArgs) {
         this.rawArgs = Objects.requireNonNull(rawArgs);
         Stack<String> argStack = new Stack<>();

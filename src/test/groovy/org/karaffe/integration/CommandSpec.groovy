@@ -10,7 +10,7 @@ class CommandSpec extends Specification {
         context.rawArgs = []
         def compiler = new KaraffeCompiler(context)
         compiler.run()
-        def out = compiler.out()
+        def out = context.getOutputText()
 
         expect:
         out == """Usage:
