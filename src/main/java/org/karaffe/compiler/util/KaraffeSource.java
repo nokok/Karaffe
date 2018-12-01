@@ -55,10 +55,6 @@ public class KaraffeSource implements CharSequence {
         return this.source;
     }
 
-    public boolean hasFilePath() {
-        return false;
-    }
-
     public CharStream asCharStream() {
         if (this.path == null) {
             return CharStreams.fromString(this.toString());
