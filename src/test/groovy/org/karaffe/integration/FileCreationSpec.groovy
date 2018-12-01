@@ -28,7 +28,7 @@ class FileCreationSpec extends Specification {
         context.outputFiles.size() == 1
         context.outputFiles.get(Paths.get("SimpleClass.class")) != null
         context.hasNoOutputText()
-        !Files.exists(Paths.get("SimpleClass.class"))
+        Files.exists(Paths.get("SimpleClass.class"))
     }
 
     def "Invalid Class 1A"() {
