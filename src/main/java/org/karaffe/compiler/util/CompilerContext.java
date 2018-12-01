@@ -40,7 +40,6 @@ public class CompilerContext {
             switch (arg) {
             case "--dry-run":
                 added |= this.flags.add(arg);
-                added |= this.flags.add(arg);
                 break;
             default:
                 this.addOutputText("Unrecognized option : " + arg);
