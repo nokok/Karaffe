@@ -73,16 +73,19 @@ public class KaraffeParserVisitor extends KaraffeBaseVisitor<CompilerContext> {
         }
         ctx.left.accept(this);
         ctx.right.accept(this);
+        Class<?> param = typeStack.pop();
+        Class<?> owner = typeStack.pop();
+        String sourceName = ctx.op.getInputStream().getSourceName();
+        if (!owner.equals(param)) {
+            String msg = String.format("[ERROR]'%s'+'%s' is not applicable at %s:%s in %s", owner.getName(), param.getName(), ctx.op.getLine(), ctx.op.getCharPositionInLine(), sourceName);
+            throw new SemanticAnalysisException(msg);
+        }
+        OperatorResolver operatorResolver = new OperatorResolver(owner);
         if (ctx.op.getText().equals("+")) {
-            Class<?> param = typeStack.pop();
-            Class<?> owner = typeStack.pop();
-            String sourceName = ctx.op.getInputStream().getSourceName();
-            if (!owner.equals(param)) {
-                String msg = String.format("[ERROR]'%s'+'%s' is not applicable at %s:%s in %s", owner.getName(), param.getName(), ctx.op.getLine(), ctx.op.getCharPositionInLine(), sourceName);
-                throw new SemanticAnalysisException(msg);
-            }
-            OperatorResolver operatorResolver = new OperatorResolver(owner);
             operatorResolver.plus(param).accept(methodVisitor);
+            typeStack.push(owner);
+        } else if (ctx.op.getText().equals("-")) {
+            operatorResolver.minus(param).accept(methodVisitor);
             typeStack.push(owner);
         } else {
             throw new IllegalStateException(ctx.op.getText());
