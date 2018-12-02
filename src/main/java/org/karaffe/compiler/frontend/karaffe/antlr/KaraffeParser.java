@@ -18,7 +18,7 @@ public class KaraffeParser extends Parser {
 		new PredictionContextCache();
 	public static final int
 		T__0=1, T__1=2, T__2=3, ENTRYPOINT=4, CLASS=5, LBRACE=6, RBRACE=7, PLUS=8, 
-		StringLiteral=9, IntegerLiteral=10, Identifier=11, WS=12;
+		MINUS=9, StringLiteral=10, IntegerLiteral=11, Identifier=12, WS=13;
 	public static final int
 		RULE_compilationUnit = 0, RULE_classDef = 1, RULE_typeDefBody = 2, RULE_statement = 3, 
 		RULE_entryPointBlock = 4, RULE_expr = 5, RULE_additiveExpr = 6, RULE_primary = 7, 
@@ -30,11 +30,11 @@ public class KaraffeParser extends Parser {
 
 	private static final String[] _LITERAL_NAMES = {
 		null, "'print'", "'('", "')'", "'entrypoint'", "'class'", "'{'", "'}'", 
-		"'+'"
+		"'+'", "'-'"
 	};
 	private static final String[] _SYMBOLIC_NAMES = {
 		null, null, null, null, "ENTRYPOINT", "CLASS", "LBRACE", "RBRACE", "PLUS", 
-		"StringLiteral", "IntegerLiteral", "Identifier", "WS"
+		"MINUS", "StringLiteral", "IntegerLiteral", "Identifier", "WS"
 	};
 	public static final Vocabulary VOCABULARY = new VocabularyImpl(_LITERAL_NAMES, _SYMBOLIC_NAMES);
 
@@ -459,6 +459,7 @@ public class KaraffeParser extends Parser {
 			return getRuleContext(AdditiveExprContext.class,0);
 		}
 		public TerminalNode PLUS() { return getToken(KaraffeParser.PLUS, 0); }
+		public TerminalNode MINUS() { return getToken(KaraffeParser.MINUS, 0); }
 		public AdditiveExprContext(ParserRuleContext parent, int invokingState) {
 			super(parent, invokingState);
 		}
@@ -489,6 +490,7 @@ public class KaraffeParser extends Parser {
 		AdditiveExprContext _prevctx = _localctx;
 		int _startState = 12;
 		enterRecursionRule(_localctx, 12, RULE_additiveExpr, _p);
+		int _la;
 		try {
 			int _alt;
 			enterOuterAlt(_localctx, 1);
@@ -514,7 +516,16 @@ public class KaraffeParser extends Parser {
 					setState(61);
 					if (!(precpred(_ctx, 1))) throw new FailedPredicateException(this, "precpred(_ctx, 1)");
 					setState(62);
-					((AdditiveExprContext)_localctx).op = match(PLUS);
+					((AdditiveExprContext)_localctx).op = _input.LT(1);
+					_la = _input.LA(1);
+					if ( !(_la==PLUS || _la==MINUS) ) {
+						((AdditiveExprContext)_localctx).op = (Token)_errHandler.recoverInline(this);
+					}
+					else {
+						if ( _input.LA(1)==Token.EOF ) matchedEOF = true;
+						_errHandler.reportMatch(this);
+						consume();
+					}
 					setState(63);
 					((AdditiveExprContext)_localctx).right = primary();
 					}
@@ -740,28 +751,28 @@ public class KaraffeParser extends Parser {
 	}
 
 	public static final String _serializedATN =
-		"\3\u608b\ua72a\u8133\ub9ed\u417c\u3be7\u7786\u5964\3\16Y\4\2\t\2\4\3\t"+
+		"\3\u608b\ua72a\u8133\ub9ed\u417c\u3be7\u7786\u5964\3\17Y\4\2\t\2\4\3\t"+
 		"\3\4\4\t\4\4\5\t\5\4\6\t\6\4\7\t\7\4\b\t\b\4\t\t\t\4\n\t\n\4\13\t\13\3"+
 		"\2\7\2\30\n\2\f\2\16\2\33\13\2\3\2\3\2\3\3\3\3\3\3\5\3\"\n\3\3\4\3\4\7"+
 		"\4&\n\4\f\4\16\4)\13\4\3\4\3\4\3\5\3\5\5\5/\n\5\3\6\3\6\3\6\7\6\64\n\6"+
 		"\f\6\16\6\67\13\6\3\6\3\6\3\7\3\7\3\b\3\b\3\b\3\b\3\b\3\b\7\bC\n\b\f\b"+
 		"\16\bF\13\b\3\t\3\t\5\tJ\n\t\3\n\3\n\3\13\3\13\6\13P\n\13\r\13\16\13Q"+
-		"\3\13\5\13U\n\13\3\13\3\13\3\13\2\3\16\f\2\4\6\b\n\f\16\20\22\24\2\3\3"+
-		"\2\13\f\2W\2\31\3\2\2\2\4\36\3\2\2\2\6#\3\2\2\2\b.\3\2\2\2\n\60\3\2\2"+
-		"\2\f:\3\2\2\2\16<\3\2\2\2\20I\3\2\2\2\22K\3\2\2\2\24M\3\2\2\2\26\30\5"+
-		"\4\3\2\27\26\3\2\2\2\30\33\3\2\2\2\31\27\3\2\2\2\31\32\3\2\2\2\32\34\3"+
-		"\2\2\2\33\31\3\2\2\2\34\35\7\2\2\3\35\3\3\2\2\2\36\37\7\7\2\2\37!\7\r"+
-		"\2\2 \"\5\6\4\2! \3\2\2\2!\"\3\2\2\2\"\5\3\2\2\2#\'\7\b\2\2$&\5\b\5\2"+
-		"%$\3\2\2\2&)\3\2\2\2\'%\3\2\2\2\'(\3\2\2\2(*\3\2\2\2)\'\3\2\2\2*+\7\t"+
-		"\2\2+\7\3\2\2\2,/\5\n\6\2-/\5\24\13\2.,\3\2\2\2.-\3\2\2\2/\t\3\2\2\2\60"+
-		"\61\7\6\2\2\61\65\7\b\2\2\62\64\5\b\5\2\63\62\3\2\2\2\64\67\3\2\2\2\65"+
-		"\63\3\2\2\2\65\66\3\2\2\2\668\3\2\2\2\67\65\3\2\2\289\7\t\2\29\13\3\2"+
-		"\2\2:;\5\16\b\2;\r\3\2\2\2<=\b\b\1\2=>\5\20\t\2>D\3\2\2\2?@\f\3\2\2@A"+
-		"\7\n\2\2AC\5\20\t\2B?\3\2\2\2CF\3\2\2\2DB\3\2\2\2DE\3\2\2\2E\17\3\2\2"+
-		"\2FD\3\2\2\2GJ\5\22\n\2HJ\5\24\13\2IG\3\2\2\2IH\3\2\2\2J\21\3\2\2\2KL"+
-		"\t\2\2\2L\23\3\2\2\2MO\7\3\2\2NP\7\4\2\2ON\3\2\2\2PQ\3\2\2\2QO\3\2\2\2"+
-		"QR\3\2\2\2RT\3\2\2\2SU\5\f\7\2TS\3\2\2\2TU\3\2\2\2UV\3\2\2\2VW\7\5\2\2"+
-		"W\25\3\2\2\2\13\31!\'.\65DIQT";
+		"\3\13\5\13U\n\13\3\13\3\13\3\13\2\3\16\f\2\4\6\b\n\f\16\20\22\24\2\4\3"+
+		"\2\n\13\3\2\f\r\2W\2\31\3\2\2\2\4\36\3\2\2\2\6#\3\2\2\2\b.\3\2\2\2\n\60"+
+		"\3\2\2\2\f:\3\2\2\2\16<\3\2\2\2\20I\3\2\2\2\22K\3\2\2\2\24M\3\2\2\2\26"+
+		"\30\5\4\3\2\27\26\3\2\2\2\30\33\3\2\2\2\31\27\3\2\2\2\31\32\3\2\2\2\32"+
+		"\34\3\2\2\2\33\31\3\2\2\2\34\35\7\2\2\3\35\3\3\2\2\2\36\37\7\7\2\2\37"+
+		"!\7\16\2\2 \"\5\6\4\2! \3\2\2\2!\"\3\2\2\2\"\5\3\2\2\2#\'\7\b\2\2$&\5"+
+		"\b\5\2%$\3\2\2\2&)\3\2\2\2\'%\3\2\2\2\'(\3\2\2\2(*\3\2\2\2)\'\3\2\2\2"+
+		"*+\7\t\2\2+\7\3\2\2\2,/\5\n\6\2-/\5\24\13\2.,\3\2\2\2.-\3\2\2\2/\t\3\2"+
+		"\2\2\60\61\7\6\2\2\61\65\7\b\2\2\62\64\5\b\5\2\63\62\3\2\2\2\64\67\3\2"+
+		"\2\2\65\63\3\2\2\2\65\66\3\2\2\2\668\3\2\2\2\67\65\3\2\2\289\7\t\2\29"+
+		"\13\3\2\2\2:;\5\16\b\2;\r\3\2\2\2<=\b\b\1\2=>\5\20\t\2>D\3\2\2\2?@\f\3"+
+		"\2\2@A\t\2\2\2AC\5\20\t\2B?\3\2\2\2CF\3\2\2\2DB\3\2\2\2DE\3\2\2\2E\17"+
+		"\3\2\2\2FD\3\2\2\2GJ\5\22\n\2HJ\5\24\13\2IG\3\2\2\2IH\3\2\2\2J\21\3\2"+
+		"\2\2KL\t\3\2\2L\23\3\2\2\2MO\7\3\2\2NP\7\4\2\2ON\3\2\2\2PQ\3\2\2\2QO\3"+
+		"\2\2\2QR\3\2\2\2RT\3\2\2\2SU\5\f\7\2TS\3\2\2\2TU\3\2\2\2UV\3\2\2\2VW\7"+
+		"\5\2\2W\25\3\2\2\2\13\31!\'.\65DIQT";
 	public static final ATN _ATN =
 		new ATNDeserializer().deserialize(_serializedATN.toCharArray());
 	static {
