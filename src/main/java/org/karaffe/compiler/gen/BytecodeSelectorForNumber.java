@@ -1,4 +1,4 @@
-package org.karaffe.compiler;
+package org.karaffe.compiler.gen;
 
 import net.nokok.azm.Opcodes;
 import net.nokok.azm.tree.AbstractInsnNode;

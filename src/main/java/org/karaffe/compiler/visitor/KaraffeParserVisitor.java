@@ -7,7 +7,7 @@ import net.nokok.azm.MethodVisitor;
 import net.nokok.azm.Opcodes;
 import net.nokok.azm.Type;
 import net.nokok.azm.tree.AbstractInsnNode;
-import org.karaffe.compiler.BytecodeSelectorForNumber;
+import org.karaffe.compiler.gen.BytecodeSelectorForNumber;
 import org.karaffe.compiler.SemanticAnalysisException;
 import org.karaffe.compiler.frontend.karaffe.antlr.KaraffeBaseVisitor;
 import org.karaffe.compiler.frontend.karaffe.antlr.KaraffeParser;
