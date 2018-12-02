@@ -11,6 +11,10 @@ public class Int {
         return new Int(this.value + other.value);
     }
 
+    public Int minus(Int other) {
+        return new Int(this.value - other.value);
+    }
+
     @Override
     public java.lang.String toString() {
         return java.lang.String.valueOf(this.value);

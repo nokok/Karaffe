@@ -27,7 +27,7 @@ expr
 
 additiveExpr
   : primary
-  | left=additiveExpr op=PLUS right=primary
+  | left=additiveExpr op=(PLUS | MINUS) right=primary
   ;
 
 primary
@@ -49,6 +49,7 @@ CLASS: 'class';
 LBRACE: '{';
 RBRACE: '}';
 PLUS: '+';
+MINUS: '-';
 
 StringLiteral
   : '"' StringChar* '"'
