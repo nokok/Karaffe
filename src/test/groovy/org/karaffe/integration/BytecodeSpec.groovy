@@ -1,7 +1,7 @@
 package org.karaffe.integration
 
-import org.karaffe.compiler.util.CompilerContext
 import org.karaffe.compiler.KaraffeCompiler
+import org.karaffe.compiler.util.CompilerContext
 import org.karaffe.compiler.util.KaraffeSource
 import org.objectweb.asm.ClassReader
 import org.objectweb.asm.Opcodes
@@ -17,6 +17,7 @@ class BytecodeSpec extends Specification {
     def "entrypoint"() {
         setup:
         def context = new CompilerContext()
+        context.parseRawArgs(["--dry-run"] as String[])
         context.addSource(KaraffeSource.fromString(
                 """class Main {
                   |  entrypoint {
@@ -45,6 +46,7 @@ class BytecodeSpec extends Specification {
     def "helloWorld"() {
         setup:
         def context = new CompilerContext()
+        context.parseRawArgs(["--dry-run"] as String[])
         context.addSource(KaraffeSource.fromString(
                 """class Main {
                   |  entrypoint {
@@ -93,6 +95,7 @@ class BytecodeSpec extends Specification {
     def "1+2"() {
         setup:
         def context = new CompilerContext()
+        context.parseRawArgs(["--dry-run"] as String[])
         context.addSource(KaraffeSource.fromString(
                 """class Main {
                   |  entrypoint {
@@ -152,6 +155,7 @@ class BytecodeSpec extends Specification {
     def "intLiteral"() {
         setup:
         def context = new CompilerContext()
+        context.parseRawArgs(["--dry-run"] as String[])
         context.addSource(KaraffeSource.fromString(
                 """class Main {
                   |  entrypoint {

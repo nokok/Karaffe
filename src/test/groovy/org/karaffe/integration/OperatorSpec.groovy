@@ -12,6 +12,7 @@ class OperatorSpec extends Specification {
     def "operator applicability #source"() {
         setup:
         def context = new CompilerContext()
+        context.parseRawArgs(["--dry-run"] as String[])
         context.addSource(KaraffeSource.fromString("class Main { entrypoint { print($source)}}"))
         def compiler = new KaraffeCompiler(context)
         compiler.run()
