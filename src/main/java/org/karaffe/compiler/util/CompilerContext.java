@@ -79,6 +79,11 @@ public class CompilerContext {
         this.outputFiles.put(Objects.requireNonNull(target), Objects.requireNonNull(content));
     }
 
+    public void addOutput(BytecodeEntry entry) {
+        Objects.requireNonNull(entry);
+        this.outputFiles.put(entry.getPath(), entry.getByteCode());
+    }
+
     public Map<Path, byte[]> getOutputFiles() {
         return outputFiles;
     }

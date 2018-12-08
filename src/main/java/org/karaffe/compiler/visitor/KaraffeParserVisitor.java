@@ -1,30 +1,25 @@
 package org.karaffe.compiler.visitor;
 
 import karaffe.core.Console;
-import karaffe.core.Int;
-import net.nokok.azm.ClassWriter;
 import net.nokok.azm.MethodVisitor;
 import net.nokok.azm.Opcodes;
 import net.nokok.azm.Type;
-import net.nokok.azm.tree.AbstractInsnNode;
-import org.karaffe.compiler.gen.BytecodeSelectorForNumber;
 import org.karaffe.compiler.SemanticAnalysisException;
 import org.karaffe.compiler.frontend.karaffe.antlr.KaraffeBaseVisitor;
 import org.karaffe.compiler.frontend.karaffe.antlr.KaraffeParser;
-import org.karaffe.compiler.resolver.ConstructorResolver;
+import org.karaffe.compiler.gen.BytecodeSupport;
 import org.karaffe.compiler.resolver.MethodResolver;
 import org.karaffe.compiler.resolver.OperatorResolver;
+import org.karaffe.compiler.util.BytecodeEntry;
 import org.karaffe.compiler.util.CompilerContext;
 
-import java.lang.reflect.Constructor;
 import java.lang.reflect.Method;
-import java.nio.file.Paths;
 import java.util.Objects;
 import java.util.Stack;
 
 public class KaraffeParserVisitor extends KaraffeBaseVisitor<CompilerContext> {
+    private BytecodeSupport bytecodeSupport = new BytecodeSupport();
     private CompilerContext context;
-    private ClassWriter classWriter = null;
     private MethodVisitor methodVisitor = null;
     private Stack<Class<?>> typeStack = new Stack<>();
 
@@ -34,22 +29,18 @@ public class KaraffeParserVisitor extends KaraffeBaseVisitor<CompilerContext> {
 
     @Override
     public CompilerContext visitClassDef(KaraffeParser.ClassDefContext ctx) {
-        classWriter = new ClassWriter(ClassWriter.COMPUTE_FRAMES);
-        classWriter.visit(Opcodes.V1_8, Opcodes.ACC_PUBLIC, ctx.Identifier().getText(), null, Type.getInternalName(Object.class), null);
+        bytecodeSupport.newClassDefinition(ctx.Identifier().getText());
         super.visitClassDef(ctx);
-        classWriter.visitEnd();
-        byte[] bytes = classWriter.toByteArray();
-        context.addOutputFile(Paths.get(ctx.Identifier().getText() + ".class"), bytes);
+        BytecodeEntry bytecodeEntry = bytecodeSupport.closeThisClass();
+        context.addOutput(bytecodeEntry);
         return context;
     }
 
     @Override
     public CompilerContext visitEntryPointBlock(KaraffeParser.EntryPointBlockContext ctx) {
-        methodVisitor = classWriter.visitMethod(Opcodes.ACC_PUBLIC + Opcodes.ACC_STATIC, "main", Type.getMethodDescriptor(Type.VOID_TYPE, Type.getType(String[].class)), null, null);
+        bytecodeSupport.startMainMethod();
         super.visitEntryPointBlock(ctx);
-        methodVisitor.visitInsn(Opcodes.RETURN);
-        methodVisitor.visitMaxs(0, 0);
-        methodVisitor.visitEnd();
+        bytecodeSupport.endMethod();
         return context;
     }
 
@@ -97,24 +88,10 @@ public class KaraffeParserVisitor extends KaraffeBaseVisitor<CompilerContext> {
     public CompilerContext visitLiteral(KaraffeParser.LiteralContext ctx) {
         if (ctx.IntegerLiteral() != null) {
             int i = Integer.parseInt(ctx.getText());
-            methodVisitor.visitTypeInsn(Opcodes.NEW, Type.getInternalName(Int.class));
-            methodVisitor.visitInsn(Opcodes.DUP);
-            ConstructorResolver constructorResolver = new ConstructorResolver(Int.class);
-            Constructor<?> constructor = constructorResolver.getConstructor(int.class).orElseThrow(IllegalStateException::new);
-            AbstractInsnNode abstractInsnNode = BytecodeSelectorForNumber.fromInt(i);
-            abstractInsnNode.accept(methodVisitor);
-            methodVisitor.visitMethodInsn(Opcodes.INVOKESPECIAL, Type.getInternalName(Int.class), "<init>", Type.getConstructorDescriptor(constructor), false);
-            typeStack.push(Int.class);
-
+            bytecodeSupport.pushIntLiteral(i);
         } else if (ctx.StringLiteral() != null) {
             String value = ctx.getText().substring(1, ctx.getText().length() - 1);
-            methodVisitor.visitTypeInsn(Opcodes.NEW, Type.getInternalName(karaffe.core.String.class));
-            methodVisitor.visitInsn(Opcodes.DUP);
-            ConstructorResolver constructorResolver = new ConstructorResolver(karaffe.core.String.class);
-            Constructor<?> constructor = constructorResolver.getConstructor(String.class).orElseThrow(IllegalStateException::new);
-            methodVisitor.visitLdcInsn(value);
-            methodVisitor.visitMethodInsn(Opcodes.INVOKESPECIAL, Type.getInternalName(karaffe.core.String.class), "<init>", Type.getConstructorDescriptor(constructor), false);
-            typeStack.push(karaffe.core.String.class);
+            bytecodeSupport.pushStringLiteral(value);
         } else {
             throw new IllegalStateException(ctx.toString());
         }

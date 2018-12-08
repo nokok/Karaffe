@@ -6,7 +6,7 @@ import net.nokok.azm.tree.InsnNode;
 import net.nokok.azm.tree.IntInsnNode;
 import net.nokok.azm.tree.LdcInsnNode;
 
-public class BytecodeSelectorForNumber {
+class BytecodeSelectorForNumber {
 
     public static AbstractInsnNode fromInt(int value) {
         switch (value) {
