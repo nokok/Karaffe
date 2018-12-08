@@ -50,7 +50,7 @@ public class BytecodeSupport {
         if (this.methodVisitor != null) {
             endMethod();
         }
-        Type[] t = (Type[]) parameterMap.values().stream().map(Type::getInternalName).toArray();
+        Type[] t = parameterMap.values().stream().map(Type::getType).toArray(Type[]::new);
         methodVisitor = classWriter.visitMethod(
                 access,
                 methodName,
@@ -61,16 +61,60 @@ public class BytecodeSupport {
     }
 
     public void endMethod() {
+        methodVisitor.visitInsn(Opcodes.RETURN);
         methodVisitor.visitMaxs(0, 0);
         methodVisitor.visitEnd();
     }
 
     public void pushIntLiteral(int i) {
+        methodVisitor.visitTypeInsn(Opcodes.NEW, Type.getInternalName(Int.class));
+        methodVisitor.visitInsn(Opcodes.DUP);
+        ConstructorResolver resolver = new ConstructorResolver(Int.class);
+        Constructor<?> constructor = resolver.getConstructor(int.class).orElseThrow(IllegalStateException::new);
         AbstractInsnNode abstractInsnNode = BytecodeSelectorForNumber.fromInt(i);
         abstractInsnNode.accept(methodVisitor);
+        methodVisitor.visitMethodInsn(Opcodes.INVOKESPECIAL, Type.getInternalName(Int.class), "<init>", Type.getConstructorDescriptor(constructor), false);
     }
 
     public void pushStringLiteral(String value) {
+        methodVisitor.visitTypeInsn(Opcodes.NEW, Type.getInternalName(karaffe.core.String.class));
+        methodVisitor.visitInsn(Opcodes.DUP);
+        ConstructorResolver resolver = new ConstructorResolver(karaffe.core.String.class);
+        Constructor<?> constructor = resolver.getConstructor(java.lang.String.class).orElseThrow(IllegalStateException::new);
         methodVisitor.visitLdcInsn(value);
+        methodVisitor.visitMethodInsn(Opcodes.INVOKESPECIAL, Type.getInternalName(karaffe.core.String.class), "<init>", Type.getConstructorDescriptor(constructor), false);
+    }
+
+    public void invokeInstanceMethod(Method method) {
+        methodVisitor.visitMethodInsn(
+                Opcodes.INVOKEVIRTUAL,
+                Type.getInternalName(method.getDeclaringClass()),
+                Objects.requireNonNull(method.getName()),
+                Type.getMethodDescriptor(method),
+                method.getDeclaringClass().isInterface()
+        );
+    }
+
+
+    public void invokeStaticMethod(Method method) {
+        methodVisitor.visitMethodInsn(
+                Opcodes.INVOKESTATIC,
+                Type.getInternalName(method.getDeclaringClass()),
+                Objects.requireNonNull(method.getName()),
+                Type.getMethodDescriptor(method),
+                method.getDeclaringClass().isInterface()
+        );
+    }
+
+    public void applyPlusOperator(Class<?> owner, Class<?> param) {
+        OperatorResolver resolver = new OperatorResolver(owner);
+        AbstractInsnNode plus = resolver.plus(param);
+        plus.accept(methodVisitor);
+    }
+
+    public void applyMinusOperator(Class<?> owner, Class<?> param) {
+        OperatorResolver resolver = new OperatorResolver(owner);
+        AbstractInsnNode plus = resolver.plus(param);
+        plus.accept(methodVisitor);
     }
 }

@@ -17,7 +17,6 @@ import java.util.Stack;
 public class KaraffeParserVisitor extends KaraffeBaseVisitor<CompilerContext> {
     private BytecodeSupport bytecodeSupport = new BytecodeSupport();
     private CompilerContext context;
-    private MethodVisitor methodVisitor = null;
     private Stack<Class<?>> typeStack = new Stack<>();
 
     public KaraffeParserVisitor(CompilerContext context) {
@@ -45,12 +44,12 @@ public class KaraffeParserVisitor extends KaraffeBaseVisitor<CompilerContext> {
     public CompilerContext visitPrintFunction(KaraffeParser.PrintFunctionContext ctx) {
         super.visitPrintFunction(ctx);
         if (ctx.body == null) {
+            bytecodeSupport.pushStringLiteral("");
             typeStack.push(String.class);
-            methodVisitor.visitLdcInsn("");
         }
         MethodResolver resolver = new MethodResolver(Console.class);
         Method method = resolver.getCompatibleMethod("println", typeStack.pop()).orElseThrow(IllegalStateException::new);
-        methodVisitor.visitMethodInsn(Opcodes.INVOKESTATIC, Type.getInternalName(Console.class), "println", Type.getMethodDescriptor(method), false);
+        bytecodeSupport.invokeStaticMethod(method);
         return context;
     }
 
@@ -68,16 +67,14 @@ public class KaraffeParserVisitor extends KaraffeBaseVisitor<CompilerContext> {
             String msg = String.format("[ERROR]'%s'+'%s' is not applicable at %s:%s in %s", owner.getName(), param.getName(), ctx.op.getLine(), ctx.op.getCharPositionInLine(), sourceName);
             throw new SemanticAnalysisException(msg);
         }
-        OperatorResolver operatorResolver = new OperatorResolver(owner);
         if (ctx.op.getText().equals("+")) {
-            operatorResolver.plus(param).accept(methodVisitor);
-            typeStack.push(owner);
+            bytecodeSupport.applyPlusOperator(owner, param);
         } else if (ctx.op.getText().equals("-")) {
-            operatorResolver.minus(param).accept(methodVisitor);
-            typeStack.push(owner);
+            bytecodeSupport.applyMinusOperator(owner, param);
         } else {
             throw new IllegalStateException(ctx.op.getText());
         }
+        typeStack.push(owner);
         return context;
     }
 
@@ -86,9 +83,11 @@ public class KaraffeParserVisitor extends KaraffeBaseVisitor<CompilerContext> {
         if (ctx.IntegerLiteral() != null) {
             int i = Integer.parseInt(ctx.getText());
             bytecodeSupport.pushIntLiteral(i);
+            typeStack.push(Int.class);
         } else if (ctx.StringLiteral() != null) {
             String value = ctx.getText().substring(1, ctx.getText().length() - 1);
             bytecodeSupport.pushStringLiteral(value);
+            typeStack.push(karaffe.core.String.class);
         } else {
             throw new IllegalStateException(ctx.toString());
         }
