@@ -1,15 +1,12 @@
 package org.karaffe.compiler.visitor;
 
 import karaffe.core.Console;
-import net.nokok.azm.MethodVisitor;
-import net.nokok.azm.Opcodes;
-import net.nokok.azm.Type;
+import karaffe.core.Int;
 import org.karaffe.compiler.SemanticAnalysisException;
 import org.karaffe.compiler.frontend.karaffe.antlr.KaraffeBaseVisitor;
 import org.karaffe.compiler.frontend.karaffe.antlr.KaraffeParser;
 import org.karaffe.compiler.gen.BytecodeSupport;
 import org.karaffe.compiler.resolver.MethodResolver;
-import org.karaffe.compiler.resolver.OperatorResolver;
 import org.karaffe.compiler.util.BytecodeEntry;
 import org.karaffe.compiler.util.CompilerContext;
 

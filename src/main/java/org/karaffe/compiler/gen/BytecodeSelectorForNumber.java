@@ -1,10 +1,11 @@
 package org.karaffe.compiler.gen;
 
-import net.nokok.azm.Opcodes;
-import net.nokok.azm.tree.AbstractInsnNode;
-import net.nokok.azm.tree.InsnNode;
-import net.nokok.azm.tree.IntInsnNode;
-import net.nokok.azm.tree.LdcInsnNode;
+
+import org.objectweb.asm.Opcodes;
+import org.objectweb.asm.tree.AbstractInsnNode;
+import org.objectweb.asm.tree.InsnNode;
+import org.objectweb.asm.tree.IntInsnNode;
+import org.objectweb.asm.tree.LdcInsnNode;
 
 class BytecodeSelectorForNumber {
 

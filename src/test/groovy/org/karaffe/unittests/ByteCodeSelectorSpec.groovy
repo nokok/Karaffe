@@ -1,7 +1,7 @@
 package org.karaffe.unittests
 
-import net.nokok.azm.Opcodes
 import org.karaffe.compiler.gen.BytecodeSelectorForNumber
+import org.objectweb.asm.Opcodes
 import spock.lang.Specification
 import spock.lang.Unroll
 

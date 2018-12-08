@@ -1,12 +1,17 @@
 package org.karaffe.compiler.gen;
 
-import net.nokok.azm.ClassWriter;
-import net.nokok.azm.MethodVisitor;
-import net.nokok.azm.Opcodes;
-import net.nokok.azm.Type;
-import net.nokok.azm.tree.AbstractInsnNode;
+import karaffe.core.Int;
+import org.karaffe.compiler.resolver.ConstructorResolver;
+import org.karaffe.compiler.resolver.OperatorResolver;
 import org.karaffe.compiler.util.BytecodeEntry;
+import org.objectweb.asm.ClassWriter;
+import org.objectweb.asm.MethodVisitor;
+import org.objectweb.asm.Opcodes;
+import org.objectweb.asm.Type;
+import org.objectweb.asm.tree.AbstractInsnNode;
 
+import java.lang.reflect.Constructor;
+import java.lang.reflect.Method;
 import java.nio.file.Paths;
 import java.util.Collections;
 import java.util.Map;

@@ -1,13 +1,13 @@
 package org.karaffe.integration
 
-import net.nokok.azm.ClassReader
-import net.nokok.azm.Opcodes
-import net.nokok.azm.tree.ClassNode
-import net.nokok.azm.tree.analysis.Analyzer
-import net.nokok.azm.tree.analysis.SimpleVerifier
 import org.karaffe.compiler.util.CompilerContext
 import org.karaffe.compiler.KaraffeCompiler
 import org.karaffe.compiler.util.KaraffeSource
+import org.objectweb.asm.ClassReader
+import org.objectweb.asm.Opcodes
+import org.objectweb.asm.tree.ClassNode
+import org.objectweb.asm.tree.analysis.Analyzer
+import org.objectweb.asm.tree.analysis.SimpleVerifier
 import spock.lang.Specification
 
 import java.nio.file.Paths

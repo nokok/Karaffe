@@ -1,11 +1,11 @@
 package org.karaffe.compiler.resolver;
 
-import net.nokok.azm.Opcodes;
-import net.nokok.azm.Type;
-import net.nokok.azm.tree.AbstractInsnNode;
-import net.nokok.azm.tree.InsnNode;
-import net.nokok.azm.tree.MethodInsnNode;
 import karaffe.core.Klass;
+import org.objectweb.asm.Opcodes;
+import org.objectweb.asm.Type;
+import org.objectweb.asm.tree.AbstractInsnNode;
+import org.objectweb.asm.tree.InsnNode;
+import org.objectweb.asm.tree.MethodInsnNode;
 
 import java.lang.reflect.Method;
 import java.util.Objects;
