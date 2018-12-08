@@ -1,7 +1,7 @@
 package org.karaffe.integration
 
-import org.karaffe.compiler.util.CompilerContext
 import org.karaffe.compiler.KaraffeCompiler
+import org.karaffe.compiler.util.CompilerContext
 import org.karaffe.compiler.util.KaraffeSource
 import spock.lang.Specification
 
@@ -13,13 +13,7 @@ class FileCreationSpec extends Specification {
 
     def "Valid SimpleClass.class"() {
         setup:
-        try {
-            Files.delete(Paths.get("SimpleClass.class"))
-        } catch (NoSuchFileException e) {
-            // ignore
-        }
         def context = new CompilerContext()
-        context.parseRawArgs(["--dry-run"] as String[])
         context.addSource(KaraffeSource.fromString("class SimpleClass"))
         def compiler = new KaraffeCompiler(context)
         compiler.run()
@@ -29,16 +23,17 @@ class FileCreationSpec extends Specification {
         context.outputFiles.get(Paths.get("SimpleClass.class")) != null
         context.hasNoOutputText()
         Files.exists(Paths.get("SimpleClass.class"))
+
+        cleanup:
+        try {
+            Files.delete(Paths.get("SimpleClass.class"))
+        } catch (NoSuchFileException e) {
+            // ignore
+        }
     }
 
     def "Invalid Class 1A"() {
         setup:
-        try {
-            Files.delete(Paths.get("A.class"))
-            Files.delete(Paths.get("1A.class"))
-        } catch (NoSuchFileException e) {
-            // ignore
-        }
         def context = new CompilerContext()
         context.parseRawArgs(["--dry-run"] as String[])
         context.addSource(KaraffeSource.fromString("class 1A"))
@@ -51,15 +46,18 @@ class FileCreationSpec extends Specification {
         !context.hasNoOutputText()
         !Files.exists(Paths.get("A.class"))
         !Files.exists(Paths.get("1A.class"))
+
+        cleanup:
+        try {
+            Files.delete(Paths.get("A.class"))
+            Files.delete(Paths.get("1A.class"))
+        } catch (NoSuchFileException e) {
+            // ignore
+        }
     }
 
     def "parse error"() {
         setup:
-        try {
-            Files.delete(Paths.get("Hoge.class"))
-        } catch (NoSuchFileException e) {
-            // ignore
-        }
         def context = new CompilerContext()
         context.addSource(KaraffeSource.fromString("""class Hoge { entrypoint { print("Hello" + 1) }}"""))
         def compiler = new KaraffeCompiler(context)
@@ -70,5 +68,12 @@ class FileCreationSpec extends Specification {
         context.outputFiles.get(Paths.get("A.class")) == null
         context.getOutputText() == "[ERROR]'karaffe.core.String'+'karaffe.core.Int' is not applicable at 1:40 in <unknown>"
         !Files.exists(Paths.get("Hoge.class"))
+
+        cleanup:
+        try {
+            Files.delete(Paths.get("Hoge.class"))
+        } catch (NoSuchFileException e) {
+            // ignore
+        }
     }
 }

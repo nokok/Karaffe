@@ -39,7 +39,7 @@ public class CompilerContext {
             boolean added = false;
             switch (arg) {
             case "--dry-run":
-                added |= this.flags.add(arg);
+                added |= this.flags.add(arg.replace("--", ""));
                 break;
             default:
                 this.addOutputText("Unrecognized option : " + arg);
@@ -73,10 +73,6 @@ public class CompilerContext {
 
     public List<KaraffeSource> getSources() {
         return this.sources;
-    }
-
-    public void addOutputFile(Path target, byte[] content) {
-        this.outputFiles.put(Objects.requireNonNull(target), Objects.requireNonNull(content));
     }
 
     public void addOutput(BytecodeEntry entry) {
