@@ -55,9 +55,9 @@ class ByteCodeSelectorSpec extends Specification {
         BytecodeSelectorForNumber.fromInt(value).opcode == opcodes
 
         where:
-        value             || opcodes
-        -32769            || Opcodes.LDC
-        32768             || Opcodes.LDC
+        value  || opcodes
+        -32769 || Opcodes.LDC
+        32768  || Opcodes.LDC
     }
 
 }
