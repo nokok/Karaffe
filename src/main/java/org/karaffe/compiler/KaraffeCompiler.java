@@ -6,8 +6,8 @@ import org.karaffe.compiler.frontend.karaffe.antlr.KaraffeLexer;
 import org.karaffe.compiler.frontend.karaffe.antlr.KaraffeParser;
 import org.karaffe.compiler.util.CompilerContext;
 import org.karaffe.compiler.util.KaraffeSource;
+import org.karaffe.compiler.visitor.ClassNameListener;
 import org.karaffe.compiler.visitor.KaraffeParserVisitor;
-import org.karaffe.compiler.visitor.WarningVisitor;
 
 import java.io.IOException;
 import java.io.UncheckedIOException;
@@ -30,9 +30,7 @@ public class KaraffeCompiler {
             try {
                 Optional<KaraffeParser.CompilationUnitContext> optParseContext = parse(source);
                 KaraffeParserVisitor parserVisitor = new KaraffeParserVisitor(context);
-                WarningVisitor warningVisitor = new WarningVisitor(context);
                 optParseContext.ifPresent(c -> c.accept(parserVisitor));
-                optParseContext.ifPresent(c -> c.accept(warningVisitor));
             } catch (SemanticAnalysisException e) {
                 // ignore
             }
@@ -59,6 +57,7 @@ public class KaraffeCompiler {
             KaraffeParser parser = new KaraffeParser(commonTokenStream);
             parser.setErrorHandler(new KaraffeParseErrorStrategy());
             parser.removeErrorListeners();
+            parser.addParseListener(new ClassNameListener(context));
             parser.addErrorListener(errorHandler);
             if (errorHandler.hasSyntaxError()) {
                 return Optional.empty();
