@@ -33,8 +33,8 @@ public class KaraffeCompiler {
                 WarningVisitor warningVisitor = new WarningVisitor(context);
                 optParseContext.ifPresent(c -> c.accept(parserVisitor));
                 optParseContext.ifPresent(c -> c.accept(warningVisitor));
-            } catch (KaraffeCompilerRuntimeException e) {
-                context.addOutputText(e.getMessage());
+            } catch (SemanticAnalysisException e) {
+                // ignore
             }
         }
         if (this.context.hasFlag("dry-run")) {

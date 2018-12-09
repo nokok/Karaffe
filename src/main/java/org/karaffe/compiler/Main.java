@@ -1,6 +1,7 @@
 package org.karaffe.compiler;
 
 import karaffe.core.Console;
+import org.karaffe.compiler.report.Report;
 import org.karaffe.compiler.util.CompilerContext;
 
 public class Main {
@@ -10,16 +11,18 @@ public class Main {
     public static void main(String[] args) {
         context.parseRawArgs(args);
         if (context.requireShowUsage()) {
-            context.addOutputText("Usage:");
-            context.addOutputText("  krfc <options> <sources>");
-            return;
+            context.add(Report.newInfoReport("Usage:").withBody("krfc <options> <sources>").build());
+        } else {
+            KaraffeCompiler compiler = new KaraffeCompiler(context);
+            compiler.run();
         }
-        KaraffeCompiler compiler = new KaraffeCompiler(context);
-        compiler.run();
-        Console.print(context.hasOutputText() ? context.getOutputText() + "\n" : "");
+        String outputText = context.getOutputText();
+        if (!outputText.isEmpty()) {
+            Console.println(outputText);
+        }
     }
 
     public static CompilerContext getContext() {
-        return Main.context;
+        return context;
     }
 }

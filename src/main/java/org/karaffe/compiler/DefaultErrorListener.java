@@ -6,7 +6,9 @@ import org.antlr.v4.runtime.RecognitionException;
 import org.antlr.v4.runtime.Recognizer;
 import org.antlr.v4.runtime.atn.ATNConfigSet;
 import org.antlr.v4.runtime.dfa.DFA;
+import org.karaffe.compiler.report.Report;
 import org.karaffe.compiler.util.CompilerContext;
+import org.karaffe.compiler.util.Position;
 
 import java.util.BitSet;
 
@@ -21,7 +23,8 @@ public class DefaultErrorListener implements ANTLRErrorListener {
 
     @Override
     public void syntaxError(Recognizer<?, ?> recognizer, Object offendingSymbol, int line, int charPositionInLine, String msg, RecognitionException e) {
-        context.addOutputText("Syntax Error at " + line + ":" + charPositionInLine + ", " + msg);
+        Position position = new Position(line, charPositionInLine, recognizer);
+        context.add(Report.newErrorReport("Syntax Error").with(position).build());
         this.hasSyntaxError = true;
     }
 

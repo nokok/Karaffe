@@ -1,5 +1,7 @@
 package org.karaffe.compiler.util;
 
+import org.karaffe.compiler.report.Report;
+
 import java.io.IOException;
 import java.io.UncheckedIOException;
 import java.nio.file.Path;
@@ -18,8 +20,9 @@ public class CompilerContext {
     private String[] rawArgs = new String[0];
     private Set<String> flags = new HashSet<>();
     private List<KaraffeSource> sources = new ArrayList<>();
-    private List<String> outputs = new ArrayList<>();
+    private List<Report> reports = new ArrayList<>();
     private Map<Path, byte[]> outputFiles = new HashMap<>();
+    private boolean hasError = false;
 
     public void parseRawArgs(String[] rawArgs) {
         this.rawArgs = Objects.requireNonNull(rawArgs);
@@ -42,32 +45,22 @@ public class CompilerContext {
                 added |= this.flags.add(arg.replace("--", ""));
                 break;
             default:
-                this.addOutputText("Unrecognized option : " + arg);
+                this.add(Report.newErrorReport("Unrecognized option : " + arg).build());
+                this.hasError = true;
                 added = true;
             }
             if (!added) {
-                this.addOutputText("Duplicated flag : " + arg);
+                this.hasError = true;
+                this.add(Report.newErrorReport("Duplicated flag : " + arg).build());
             }
         }
     }
 
-    public void addOutputText(String line) {
-        this.outputs.add(Objects.requireNonNull(line));
+    public boolean hasError() {
+        return this.hasError;
     }
 
-    public String getOutputText() {
-        return String.join("\n", outputs);
-    }
-
-    public boolean hasOutputText() {
-        return !hasNoOutputText();
-    }
-
-    public boolean hasNoOutputText() {
-        return this.outputs.isEmpty();
-    }
-
-    public void addSource(KaraffeSource source) {
+    public void add(KaraffeSource source) {
         this.sources.add(Objects.requireNonNull(source));
     }
 
@@ -75,9 +68,13 @@ public class CompilerContext {
         return this.sources;
     }
 
-    public void addOutput(BytecodeEntry entry) {
+    public void add(BytecodeEntry entry) {
         Objects.requireNonNull(entry);
         this.outputFiles.put(entry.getPath(), entry.getByteCode());
+    }
+
+    public void add(Report report) {
+        this.reports.add(Objects.requireNonNull(report));
     }
 
     public Map<Path, byte[]> getOutputFiles() {
@@ -85,10 +82,28 @@ public class CompilerContext {
     }
 
     public boolean requireShowUsage() {
-        return this.rawArgs.length == 0 && this.getSources().isEmpty();
+        return (this.rawArgs.length == 0 && this.getSources().isEmpty()) || this.hasError;
     }
 
     public boolean hasFlag(String flagName) {
         return this.flags.contains(flagName);
+    }
+
+    public String getOutputText() {
+        List<String> lines = new ArrayList<>();
+        for (Report report : this.reports) {
+            StringBuilder reportText = new StringBuilder();
+            String reportTypeName = String.format("%-5s", report.getReportType().name());
+            reportText.append("[").append(reportTypeName).append("] ").append(report.getHeader());
+            if (report.getPosition().getLine() != -1) {
+                reportText.append(" at ").append(report.getPosition());
+            }
+            lines.add(reportText.toString());
+            reportText.setLength(0);
+            if (report.getBody() != null) {
+                lines.add(reportText.append("[").append(reportTypeName).append("]   ").append(report.getBody()).toString());
+            }
+        }
+        return String.join("\n", lines);
     }
 }

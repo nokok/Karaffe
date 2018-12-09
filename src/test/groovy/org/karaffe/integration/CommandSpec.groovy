@@ -1,7 +1,7 @@
 package org.karaffe.integration
 
-import org.karaffe.compiler.util.CompilerContext
 import org.karaffe.compiler.Main
+import org.karaffe.compiler.util.CompilerContext
 import spock.lang.Specification
 
 class CommandSpec extends Specification {
@@ -10,8 +10,8 @@ class CommandSpec extends Specification {
         def out = Main.getContext().getOutputText()
 
         expect:
-        out == """Usage:
-                 |  krfc <options> <sources>""".stripMargin()
+        out == """[INFO ] Usage:
+                 |[INFO ]   krfc <options> <sources>""".stripMargin()
     }
 
     def "duplicate"() {
@@ -19,8 +19,7 @@ class CommandSpec extends Specification {
         context.parseRawArgs(["--dry-run", "--dry-run"] as String[])
 
         expect:
-        !context.hasNoOutputText()
-        context.getOutputText() == """Duplicated flag : --dry-run"""
+        context.getOutputText() == """[ERROR] Duplicated flag : --dry-run"""
     }
 
     def "unrecognized options"() {
@@ -28,8 +27,7 @@ class CommandSpec extends Specification {
         context.parseRawArgs(["--foo"] as String[])
 
         expect:
-        context.hasOutputText()
-        context.getOutputText() == "Unrecognized option : --foo"
+        context.getOutputText() == "[ERROR] Unrecognized option : --foo"
     }
 
     def "source file"() {
@@ -37,6 +35,6 @@ class CommandSpec extends Specification {
         context.parseRawArgs(["src/test/resources/Main.krf"] as String[])
 
         expect:
-        context.hasNoOutputText()
+        context.getOutputText() == ""
     }
 }

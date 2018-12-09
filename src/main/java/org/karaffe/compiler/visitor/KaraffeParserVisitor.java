@@ -6,9 +6,11 @@ import org.karaffe.compiler.SemanticAnalysisException;
 import org.karaffe.compiler.frontend.karaffe.antlr.KaraffeBaseVisitor;
 import org.karaffe.compiler.frontend.karaffe.antlr.KaraffeParser;
 import org.karaffe.compiler.gen.BytecodeSupport;
+import org.karaffe.compiler.report.Report;
 import org.karaffe.compiler.resolver.MethodResolver;
 import org.karaffe.compiler.util.BytecodeEntry;
 import org.karaffe.compiler.util.CompilerContext;
+import org.karaffe.compiler.util.Position;
 
 import java.lang.reflect.Method;
 import java.util.Objects;
@@ -28,7 +30,7 @@ public class KaraffeParserVisitor extends KaraffeBaseVisitor<CompilerContext> {
         bytecodeSupport.newClassDefinition(ctx.Identifier().getText());
         super.visitClassDef(ctx);
         BytecodeEntry bytecodeEntry = bytecodeSupport.closeThisClass();
-        context.addOutput(bytecodeEntry);
+        context.add(bytecodeEntry);
         return context;
     }
 
@@ -62,10 +64,9 @@ public class KaraffeParserVisitor extends KaraffeBaseVisitor<CompilerContext> {
         ctx.right.accept(this);
         Class<?> param = typeStack.pop();
         Class<?> owner = typeStack.pop();
-        String sourceName = ctx.op.getInputStream().getSourceName();
         if (!owner.equals(param)) {
-            String msg = String.format("[ERROR]'%s'+'%s' is not applicable at %s:%s in %s", owner.getName(), param.getName(), ctx.op.getLine(), ctx.op.getCharPositionInLine(), sourceName);
-            throw new SemanticAnalysisException(msg);
+            this.context.add(Report.newErrorReport(String.format("'%s'+'%s' is not applicable", owner.getName(), param.getName())).with(new Position(ctx.op)).build());
+            throw new SemanticAnalysisException();
         }
         if (ctx.op.getText().equals("+")) {
             bytecodeSupport.applyPlusOperator(owner, param);

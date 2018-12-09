@@ -18,7 +18,7 @@ class BytecodeSpec extends Specification {
         setup:
         def context = new CompilerContext()
         context.parseRawArgs(["--dry-run"] as String[])
-        context.addSource(KaraffeSource.fromString(
+        context.add(KaraffeSource.fromString(
                 """class Main {
                   |  entrypoint {
                   |  }
@@ -47,7 +47,7 @@ class BytecodeSpec extends Specification {
         setup:
         def context = new CompilerContext()
         context.parseRawArgs(["--dry-run"] as String[])
-        context.addSource(KaraffeSource.fromString(
+        context.add(KaraffeSource.fromString(
                 """class Main {
                   |  entrypoint {
                   |    print("Hello World!")
@@ -96,7 +96,7 @@ class BytecodeSpec extends Specification {
         setup:
         def context = new CompilerContext()
         context.parseRawArgs(["--dry-run"] as String[])
-        context.addSource(KaraffeSource.fromString(
+        context.add(KaraffeSource.fromString(
                 """class Main {
                   |  entrypoint {
                   |    print(1 + 2)
@@ -156,7 +156,7 @@ class BytecodeSpec extends Specification {
         setup:
         def context = new CompilerContext()
         context.parseRawArgs(["--dry-run"] as String[])
-        context.addSource(KaraffeSource.fromString(
+        context.add(KaraffeSource.fromString(
                 """class Main {
                   |  entrypoint {
                   |    print(1)
