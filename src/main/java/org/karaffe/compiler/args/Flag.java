@@ -5,12 +5,13 @@ import java.util.Optional;
 public enum Flag {
     DRY_RUN(null, "--dry-run"),
     VERSION(null, "--version"),
+    HELP("-h", "--help"),
     ;
 
     private final String shortName;
     private final String fullName;
 
-    private Flag(String shortName, String fullName) {
+    Flag(String shortName, String fullName) {
         this.shortName = shortName;
         this.fullName = fullName;
     }

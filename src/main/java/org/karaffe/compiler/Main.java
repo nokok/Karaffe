@@ -1,16 +1,24 @@
 package org.karaffe.compiler;
 
 import karaffe.core.Console;
+import org.karaffe.compiler.args.Flag;
 import org.karaffe.compiler.report.Report;
 import org.karaffe.compiler.util.CompilerContext;
 
 public class Main {
 
-    private static CompilerContext context = new CompilerContext();
-
     public static void main(String[] args) {
+        Main main = new Main();
+        main.run(args);
+    }
+
+    private CompilerContext context = new CompilerContext();
+
+    public void run(String[] args) {
         context.parseRawArgs(args);
-        if (context.requireShowUsage()) {
+        if (context.hasFlag(Flag.VERSION)) {
+            context.add(Report.newInfoReport("Karaffe compiler version: 0.1.0").build());
+        } else if (context.requireShowUsage()) {
             context.add(Report.newInfoReport("Usage:").withBody("krfc <options> <sources>").build());
         } else {
             KaraffeCompiler compiler = new KaraffeCompiler(context);
@@ -22,7 +30,7 @@ public class Main {
         }
     }
 
-    public static CompilerContext getContext() {
+    public CompilerContext getContext() {
         return context;
     }
 }
