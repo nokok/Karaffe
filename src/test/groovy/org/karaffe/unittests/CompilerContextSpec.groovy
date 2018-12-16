@@ -1,5 +1,6 @@
 package org.karaffe.unittests
 
+import org.karaffe.compiler.args.Flag
 import org.karaffe.compiler.report.Report
 import org.karaffe.compiler.util.CompilerContext
 import spock.lang.Specification
@@ -11,7 +12,7 @@ class CompilerContextSpec extends Specification {
         context.parseRawArgs(["--dry-run"] as String[])
 
         expect:
-        context.hasFlag("dry-run")
+        context.hasFlag(Flag.DRY_RUN)
     }
 
     def "duplicate flag"() {

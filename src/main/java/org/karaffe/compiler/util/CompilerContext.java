@@ -1,24 +1,20 @@
 package org.karaffe.compiler.util;
 
+import org.karaffe.compiler.args.ArgsParser;
+import org.karaffe.compiler.args.Flag;
+import org.karaffe.compiler.args.Options;
 import org.karaffe.compiler.report.Report;
 
-import java.io.IOException;
-import java.io.UncheckedIOException;
 import java.nio.file.Path;
-import java.nio.file.Paths;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.HashMap;
-import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
 import java.util.Objects;
-import java.util.Set;
-import java.util.Stack;
 
 public class CompilerContext {
     private String[] rawArgs = new String[0];
-    private Set<String> flags = new HashSet<>();
+    private Options options = new Options();
     private List<KaraffeSource> sources = new ArrayList<>();
     private List<Report> reports = new ArrayList<>();
     private Map<Path, byte[]> outputFiles = new HashMap<>();
@@ -26,33 +22,15 @@ public class CompilerContext {
 
     public void parseRawArgs(String[] rawArgs) {
         this.rawArgs = Objects.requireNonNull(rawArgs);
-        Stack<String> argStack = new Stack<>();
-        argStack.addAll(Arrays.asList(rawArgs));
-        while (!argStack.empty()) {
-            String arg = argStack.pop();
-            if (arg.endsWith(".krf")) {
-                try {
-                    this.sources.add(KaraffeSource.fromPath(Paths.get(arg)));
-                } catch (IOException e) {
-                    throw new UncheckedIOException(Paths.get(arg).toAbsolutePath().toString(), e);
-                }
-                continue;
-            }
-
-            boolean added = false;
-            switch (arg) {
-            case "--dry-run":
-                added |= this.flags.add(arg.replace("--", ""));
-                break;
-            default:
-                this.add(Report.newErrorReport("Unrecognized option : " + arg).build());
-                this.hasError = true;
-                added = true;
-            }
-            if (!added) {
-                this.hasError = true;
-                this.add(Report.newErrorReport("Duplicated flag : " + arg).build());
-            }
+        ArgsParser argsParser = new ArgsParser();
+        argsParser.parse(rawArgs).ifPresent(options -> {
+            this.options = options;
+            this.sources.clear();
+            this.options.sourceStream().forEach(sources::add);
+        });
+        this.reports.addAll(argsParser.getReports());
+        if (this.reports.stream().anyMatch(Report::isError)) {
+            this.hasError = true;
         }
     }
 
@@ -85,8 +63,8 @@ public class CompilerContext {
         return (this.rawArgs.length == 0 && this.getSources().isEmpty()) || this.hasError;
     }
 
-    public boolean hasFlag(String flagName) {
-        return this.flags.contains(flagName);
+    public boolean hasFlag(Flag flagName) {
+        return this.options.hasFlag(flagName);
     }
 
     public String getOutputText() {

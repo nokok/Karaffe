@@ -39,6 +39,10 @@ public class Report {
         return new Builder(title, ReportType.INFO);
     }
 
+    public boolean isError() {
+        return this.reportType.equals(ReportType.ERROR);
+    }
+
     @Override
     public String toString() {
         return String.format("[%s] %s at %s", this.reportType.name(), this.header, this.position);

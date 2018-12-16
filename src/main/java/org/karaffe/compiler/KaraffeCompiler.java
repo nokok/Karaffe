@@ -2,6 +2,7 @@ package org.karaffe.compiler;
 
 import org.antlr.v4.runtime.CommonTokenStream;
 import org.antlr.v4.runtime.RecognitionException;
+import org.karaffe.compiler.args.Flag;
 import org.karaffe.compiler.frontend.karaffe.antlr.KaraffeLexer;
 import org.karaffe.compiler.frontend.karaffe.antlr.KaraffeParser;
 import org.karaffe.compiler.util.CompilerContext;
@@ -35,7 +36,7 @@ public class KaraffeCompiler {
                 // ignore
             }
         }
-        if (this.context.hasFlag("dry-run")) {
+        if (this.context.hasFlag(Flag.DRY_RUN)) {
             return;
         }
         for (Map.Entry<Path, byte[]> entry : context.getOutputFiles().entrySet()) {
