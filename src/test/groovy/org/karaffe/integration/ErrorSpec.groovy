@@ -25,6 +25,6 @@ class ErrorSpec extends Specification {
 
         expect:
         context.outputFiles.size() == 0
-        context.outputText == """[ERROR]'karaffe.core.String'+'karaffe.core.Int' is not applicable at 1:45 in Main.krf"""
+        context.outputText == """[ERROR] 'karaffe.core.String'+'karaffe.core.Int' is not applicable at 1:45:Main.krf"""
     }
 }

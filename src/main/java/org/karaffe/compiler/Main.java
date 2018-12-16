@@ -1,25 +1,36 @@
 package org.karaffe.compiler;
 
 import karaffe.core.Console;
+import org.karaffe.compiler.args.Flag;
+import org.karaffe.compiler.report.Report;
 import org.karaffe.compiler.util.CompilerContext;
 
 public class Main {
 
-    private static CompilerContext context = new CompilerContext();
-
     public static void main(String[] args) {
-        context.parseRawArgs(args);
-        if (context.requireShowUsage()) {
-            context.addOutputText("Usage:");
-            context.addOutputText("  krfc <options> <sources>");
-            return;
-        }
-        KaraffeCompiler compiler = new KaraffeCompiler(context);
-        compiler.run();
-        Console.print(context.hasOutputText() ? context.getOutputText() + "\n" : "");
+        Main main = new Main();
+        main.run(args);
     }
 
-    public static CompilerContext getContext() {
-        return Main.context;
+    private CompilerContext context = new CompilerContext();
+
+    public void run(String[] args) {
+        context.parseRawArgs(args);
+        if (context.hasFlag(Flag.VERSION)) {
+            context.add(Report.newInfoReport("Karaffe compiler version: 0.1.0").build());
+        } else if (context.requireShowUsage()) {
+            context.add(Report.newInfoReport("Usage:").withBody("krfc <options> <sources>").build());
+        } else {
+            KaraffeCompiler compiler = new KaraffeCompiler(context);
+            compiler.run();
+        }
+        String outputText = context.getOutputText();
+        if (!outputText.isEmpty()) {
+            Console.println(outputText);
+        }
+    }
+
+    public CompilerContext getContext() {
+        return context;
     }
 }

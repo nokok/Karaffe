@@ -1,7 +1,7 @@
 package org.karaffe.unittests
 
-import net.nokok.azm.Opcodes
-import org.karaffe.compiler.BytecodeSelectorForNumber
+import org.karaffe.compiler.gen.BytecodeSelectorForNumber
+import org.objectweb.asm.Opcodes
 import spock.lang.Specification
 import spock.lang.Unroll
 
@@ -55,9 +55,9 @@ class ByteCodeSelectorSpec extends Specification {
         BytecodeSelectorForNumber.fromInt(value).opcode == opcodes
 
         where:
-        value             || opcodes
-        -32769            || Opcodes.LDC
-        32768             || Opcodes.LDC
+        value  || opcodes
+        -32769 || Opcodes.LDC
+        32768  || Opcodes.LDC
     }
 
 }

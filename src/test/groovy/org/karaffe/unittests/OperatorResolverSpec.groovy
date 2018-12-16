@@ -1,7 +1,7 @@
 package org.karaffe.unittests
 
-import net.nokok.azm.Opcodes
 import org.karaffe.compiler.resolver.OperatorResolver
+import org.objectweb.asm.Opcodes
 import spock.lang.Specification
 import spock.lang.Unroll
 

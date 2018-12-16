@@ -12,7 +12,8 @@ class OperatorSpec extends Specification {
     def "operator applicability #source"() {
         setup:
         def context = new CompilerContext()
-        context.addSource(KaraffeSource.fromString("class Main { entrypoint { print($source)}}"))
+        context.parseRawArgs(["--dry-run"] as String[])
+        context.add(KaraffeSource.fromString("class Main { entrypoint { print($source)}}"))
         def compiler = new KaraffeCompiler(context)
         compiler.run()
 
@@ -23,8 +24,8 @@ class OperatorSpec extends Specification {
         source        || outputText
         "1 + 1"       || ""
         "1 - 1"       || ""
-        '1 + "Hoge"'  || "[ERROR]'karaffe.core.Int'+'karaffe.core.String' is not applicable at 1:34 in <unknown>"
-        '"Hoge" + 1'  || "[ERROR]'karaffe.core.String'+'karaffe.core.Int' is not applicable at 1:39 in <unknown>"
+        '1 + "Hoge"'  || "[ERROR] 'karaffe.core.Int'+'karaffe.core.String' is not applicable at 1:34:<unknown>"
+        '"Hoge" + 1'  || "[ERROR] 'karaffe.core.String'+'karaffe.core.Int' is not applicable at 1:39:<unknown>"
         '"Ho" + "ge"' || ""
     }
 }

@@ -1,4 +1,4 @@
-package org.karaffe.compiler;
+package karaffe.core;
 
 import java.lang.reflect.Method;
 import java.util.Objects;

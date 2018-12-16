@@ -1,6 +1,6 @@
 package org.karaffe.unittests
 
-import org.karaffe.compiler.Klass
+import karaffe.core.Klass
 import spock.lang.Specification
 import spock.lang.Unroll
 

@@ -1,7 +1,7 @@
 package org.karaffe.integration
 
-import org.karaffe.compiler.util.CompilerContext
 import org.karaffe.compiler.KaraffeCompiler
+import org.karaffe.compiler.util.CompilerContext
 import org.karaffe.compiler.util.KaraffeSource
 import spock.lang.Specification
 
@@ -10,7 +10,7 @@ class WarningSpec extends Specification {
         setup:
         def context = new CompilerContext()
         context.parseRawArgs(["--dry-run"] as String[])
-        context.addSource(KaraffeSource.fromString(source))
+        context.add(KaraffeSource.fromString(source))
         def compiler = new KaraffeCompiler(context)
         compiler.run()
 
@@ -20,6 +20,6 @@ class WarningSpec extends Specification {
 
         where:
         source              || size || outputText
-        "class simpleClass" || 1    || "[warning] class name must be PascalCase : simpleClass"
+        "class simpleClass" || 1    || "[WARN ] Class name must be PascalCase : simpleClass at 1:6:<unknown>"
     }
 }
