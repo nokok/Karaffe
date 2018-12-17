@@ -32,6 +32,10 @@ public class BytecodeSupport {
         this.classWriter.visit(Opcodes.V1_8, Opcodes.ACC_PUBLIC, className, null, Type.getInternalName(Object.class), null);
     }
 
+    public <T> void newFieldDefinition(String fieldName, Class<T> type) {
+        this.classWriter.visitField(Opcodes.ACC_PUBLIC, fieldName, Type.getDescriptor(type), null, null);
+    }
+
     public BytecodeEntry closeThisClass() {
         this.classWriter.visitEnd();
         byte[] byteCode = this.classWriter.toByteArray();
@@ -94,7 +98,6 @@ public class BytecodeSupport {
                 method.getDeclaringClass().isInterface()
         );
     }
-
 
     public void invokeStaticMethod(Method method) {
         methodVisitor.visitMethodInsn(
