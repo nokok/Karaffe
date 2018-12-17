@@ -17,24 +17,26 @@ public class KaraffeParser extends Parser {
 	protected static final PredictionContextCache _sharedContextCache =
 		new PredictionContextCache();
 	public static final int
-		T__0=1, T__1=2, T__2=3, ENTRYPOINT=4, CLASS=5, LBRACE=6, RBRACE=7, PLUS=8, 
-		MINUS=9, StringLiteral=10, IntegerLiteral=11, Identifier=12, WS=13;
+		T__0=1, T__1=2, T__2=3, ENTRYPOINT=4, CLASS=5, DEF=6, EQUAL=7, LBRACE=8, 
+		RBRACE=9, PLUS=10, MINUS=11, StringLiteral=12, IntegerLiteral=13, Identifier=14, 
+		WS=15;
 	public static final int
 		RULE_compilationUnit = 0, RULE_classDef = 1, RULE_typeDefBody = 2, RULE_statement = 3, 
-		RULE_entryPointBlock = 4, RULE_expr = 5, RULE_additiveExpr = 6, RULE_primary = 7, 
-		RULE_literal = 8, RULE_printFunction = 9;
+		RULE_entryPointBlock = 4, RULE_varDef = 5, RULE_expr = 6, RULE_additiveExpr = 7, 
+		RULE_primary = 8, RULE_literal = 9, RULE_printFunction = 10;
 	public static final String[] ruleNames = {
 		"compilationUnit", "classDef", "typeDefBody", "statement", "entryPointBlock", 
-		"expr", "additiveExpr", "primary", "literal", "printFunction"
+		"varDef", "expr", "additiveExpr", "primary", "literal", "printFunction"
 	};
 
 	private static final String[] _LITERAL_NAMES = {
-		null, "'print'", "'('", "')'", "'entrypoint'", "'class'", "'{'", "'}'", 
-		"'+'", "'-'"
+		null, "'print'", "'('", "')'", "'entrypoint'", "'class'", "'def'", "'='", 
+		"'{'", "'}'", "'+'", "'-'"
 	};
 	private static final String[] _SYMBOLIC_NAMES = {
-		null, null, null, null, "ENTRYPOINT", "CLASS", "LBRACE", "RBRACE", "PLUS", 
-		"MINUS", "StringLiteral", "IntegerLiteral", "Identifier", "WS"
+		null, null, null, null, "ENTRYPOINT", "CLASS", "DEF", "EQUAL", "LBRACE", 
+		"RBRACE", "PLUS", "MINUS", "StringLiteral", "IntegerLiteral", "Identifier", 
+		"WS"
 	};
 	public static final Vocabulary VOCABULARY = new VocabularyImpl(_LITERAL_NAMES, _SYMBOLIC_NAMES);
 
@@ -119,21 +121,21 @@ public class KaraffeParser extends Parser {
 		try {
 			enterOuterAlt(_localctx, 1);
 			{
-			setState(23);
+			setState(25);
 			_errHandler.sync(this);
 			_la = _input.LA(1);
 			while (_la==CLASS) {
 				{
 				{
-				setState(20);
+				setState(22);
 				classDef();
 				}
 				}
-				setState(25);
+				setState(27);
 				_errHandler.sync(this);
 				_la = _input.LA(1);
 			}
-			setState(26);
+			setState(28);
 			match(EOF);
 			}
 		}
@@ -180,16 +182,16 @@ public class KaraffeParser extends Parser {
 		try {
 			enterOuterAlt(_localctx, 1);
 			{
-			setState(28);
+			setState(30);
 			match(CLASS);
-			setState(29);
-			match(Identifier);
 			setState(31);
+			match(Identifier);
+			setState(33);
 			_errHandler.sync(this);
 			_la = _input.LA(1);
 			if (_la==LBRACE) {
 				{
-				setState(30);
+				setState(32);
 				typeDefBody();
 				}
 			}
@@ -242,23 +244,23 @@ public class KaraffeParser extends Parser {
 		try {
 			enterOuterAlt(_localctx, 1);
 			{
-			setState(33);
+			setState(35);
 			match(LBRACE);
-			setState(37);
+			setState(39);
 			_errHandler.sync(this);
 			_la = _input.LA(1);
-			while (_la==T__0 || _la==ENTRYPOINT) {
+			while ((((_la) & ~0x3f) == 0 && ((1L << _la) & ((1L << T__0) | (1L << ENTRYPOINT) | (1L << DEF))) != 0)) {
 				{
 				{
-				setState(34);
+				setState(36);
 				statement();
 				}
 				}
-				setState(39);
+				setState(41);
 				_errHandler.sync(this);
 				_la = _input.LA(1);
 			}
-			setState(40);
+			setState(42);
 			match(RBRACE);
 			}
 		}
@@ -279,6 +281,9 @@ public class KaraffeParser extends Parser {
 		}
 		public PrintFunctionContext printFunction() {
 			return getRuleContext(PrintFunctionContext.class,0);
+		}
+		public VarDefContext varDef() {
+			return getRuleContext(VarDefContext.class,0);
 		}
 		public StatementContext(ParserRuleContext parent, int invokingState) {
 			super(parent, invokingState);
@@ -303,21 +308,28 @@ public class KaraffeParser extends Parser {
 		StatementContext _localctx = new StatementContext(_ctx, getState());
 		enterRule(_localctx, 6, RULE_statement);
 		try {
-			setState(44);
+			setState(47);
 			_errHandler.sync(this);
 			switch (_input.LA(1)) {
 			case ENTRYPOINT:
 				enterOuterAlt(_localctx, 1);
 				{
-				setState(42);
+				setState(44);
 				entryPointBlock();
 				}
 				break;
 			case T__0:
 				enterOuterAlt(_localctx, 2);
 				{
-				setState(43);
+				setState(45);
 				printFunction();
+				}
+				break;
+			case DEF:
+				enterOuterAlt(_localctx, 3);
+				{
+				setState(46);
+				varDef();
 				}
 				break;
 			default:
@@ -371,26 +383,71 @@ public class KaraffeParser extends Parser {
 		try {
 			enterOuterAlt(_localctx, 1);
 			{
-			setState(46);
+			setState(49);
 			match(ENTRYPOINT);
-			setState(47);
+			setState(50);
 			match(LBRACE);
-			setState(51);
+			setState(54);
 			_errHandler.sync(this);
 			_la = _input.LA(1);
-			while (_la==T__0 || _la==ENTRYPOINT) {
+			while ((((_la) & ~0x3f) == 0 && ((1L << _la) & ((1L << T__0) | (1L << ENTRYPOINT) | (1L << DEF))) != 0)) {
 				{
 				{
-				setState(48);
+				setState(51);
 				statement();
 				}
 				}
-				setState(53);
+				setState(56);
 				_errHandler.sync(this);
 				_la = _input.LA(1);
 			}
-			setState(54);
+			setState(57);
 			match(RBRACE);
+			}
+		}
+		catch (RecognitionException re) {
+			_localctx.exception = re;
+			_errHandler.reportError(this, re);
+			_errHandler.recover(this, re);
+		}
+		finally {
+			exitRule();
+		}
+		return _localctx;
+	}
+
+	public static class VarDefContext extends ParserRuleContext {
+		public TerminalNode DEF() { return getToken(KaraffeParser.DEF, 0); }
+		public TerminalNode Identifier() { return getToken(KaraffeParser.Identifier, 0); }
+		public VarDefContext(ParserRuleContext parent, int invokingState) {
+			super(parent, invokingState);
+		}
+		@Override public int getRuleIndex() { return RULE_varDef; }
+		@Override
+		public void enterRule(ParseTreeListener listener) {
+			if ( listener instanceof KaraffeListener ) ((KaraffeListener)listener).enterVarDef(this);
+		}
+		@Override
+		public void exitRule(ParseTreeListener listener) {
+			if ( listener instanceof KaraffeListener ) ((KaraffeListener)listener).exitVarDef(this);
+		}
+		@Override
+		public <T> T accept(ParseTreeVisitor<? extends T> visitor) {
+			if ( visitor instanceof KaraffeVisitor ) return ((KaraffeVisitor<? extends T>)visitor).visitVarDef(this);
+			else return visitor.visitChildren(this);
+		}
+	}
+
+	public final VarDefContext varDef() throws RecognitionException {
+		VarDefContext _localctx = new VarDefContext(_ctx, getState());
+		enterRule(_localctx, 10, RULE_varDef);
+		try {
+			enterOuterAlt(_localctx, 1);
+			{
+			setState(59);
+			match(DEF);
+			setState(60);
+			match(Identifier);
 			}
 		}
 		catch (RecognitionException re) {
@@ -429,11 +486,11 @@ public class KaraffeParser extends Parser {
 
 	public final ExprContext expr() throws RecognitionException {
 		ExprContext _localctx = new ExprContext(_ctx, getState());
-		enterRule(_localctx, 10, RULE_expr);
+		enterRule(_localctx, 12, RULE_expr);
 		try {
 			enterOuterAlt(_localctx, 1);
 			{
-			setState(56);
+			setState(62);
 			additiveExpr(0);
 			}
 		}
@@ -488,19 +545,19 @@ public class KaraffeParser extends Parser {
 		int _parentState = getState();
 		AdditiveExprContext _localctx = new AdditiveExprContext(_ctx, _parentState);
 		AdditiveExprContext _prevctx = _localctx;
-		int _startState = 12;
-		enterRecursionRule(_localctx, 12, RULE_additiveExpr, _p);
+		int _startState = 14;
+		enterRecursionRule(_localctx, 14, RULE_additiveExpr, _p);
 		int _la;
 		try {
 			int _alt;
 			enterOuterAlt(_localctx, 1);
 			{
 			{
-			setState(59);
+			setState(65);
 			primary();
 			}
 			_ctx.stop = _input.LT(-1);
-			setState(66);
+			setState(72);
 			_errHandler.sync(this);
 			_alt = getInterpreter().adaptivePredict(_input,5,_ctx);
 			while ( _alt!=2 && _alt!=org.antlr.v4.runtime.atn.ATN.INVALID_ALT_NUMBER ) {
@@ -513,9 +570,9 @@ public class KaraffeParser extends Parser {
 					_localctx.left = _prevctx;
 					_localctx.left = _prevctx;
 					pushNewRecursionContext(_localctx, _startState, RULE_additiveExpr);
-					setState(61);
+					setState(67);
 					if (!(precpred(_ctx, 1))) throw new FailedPredicateException(this, "precpred(_ctx, 1)");
-					setState(62);
+					setState(68);
 					((AdditiveExprContext)_localctx).op = _input.LT(1);
 					_la = _input.LA(1);
 					if ( !(_la==PLUS || _la==MINUS) ) {
@@ -526,12 +583,12 @@ public class KaraffeParser extends Parser {
 						_errHandler.reportMatch(this);
 						consume();
 					}
-					setState(63);
+					setState(69);
 					((AdditiveExprContext)_localctx).right = primary();
 					}
 					} 
 				}
-				setState(68);
+				setState(74);
 				_errHandler.sync(this);
 				_alt = getInterpreter().adaptivePredict(_input,5,_ctx);
 			}
@@ -576,23 +633,23 @@ public class KaraffeParser extends Parser {
 
 	public final PrimaryContext primary() throws RecognitionException {
 		PrimaryContext _localctx = new PrimaryContext(_ctx, getState());
-		enterRule(_localctx, 14, RULE_primary);
+		enterRule(_localctx, 16, RULE_primary);
 		try {
-			setState(71);
+			setState(77);
 			_errHandler.sync(this);
 			switch (_input.LA(1)) {
 			case StringLiteral:
 			case IntegerLiteral:
 				enterOuterAlt(_localctx, 1);
 				{
-				setState(69);
+				setState(75);
 				literal();
 				}
 				break;
 			case T__0:
 				enterOuterAlt(_localctx, 2);
 				{
-				setState(70);
+				setState(76);
 				printFunction();
 				}
 				break;
@@ -635,12 +692,12 @@ public class KaraffeParser extends Parser {
 
 	public final LiteralContext literal() throws RecognitionException {
 		LiteralContext _localctx = new LiteralContext(_ctx, getState());
-		enterRule(_localctx, 16, RULE_literal);
+		enterRule(_localctx, 18, RULE_literal);
 		int _la;
 		try {
 			enterOuterAlt(_localctx, 1);
 			{
-			setState(73);
+			setState(79);
 			_la = _input.LA(1);
 			if ( !(_la==StringLiteral || _la==IntegerLiteral) ) {
 			_errHandler.recoverInline(this);
@@ -689,38 +746,38 @@ public class KaraffeParser extends Parser {
 
 	public final PrintFunctionContext printFunction() throws RecognitionException {
 		PrintFunctionContext _localctx = new PrintFunctionContext(_ctx, getState());
-		enterRule(_localctx, 18, RULE_printFunction);
+		enterRule(_localctx, 20, RULE_printFunction);
 		int _la;
 		try {
 			enterOuterAlt(_localctx, 1);
 			{
-			setState(75);
+			setState(81);
 			match(T__0);
-			setState(77); 
+			setState(83); 
 			_errHandler.sync(this);
 			_la = _input.LA(1);
 			do {
 				{
 				{
-				setState(76);
+				setState(82);
 				match(T__1);
 				}
 				}
-				setState(79); 
+				setState(85); 
 				_errHandler.sync(this);
 				_la = _input.LA(1);
 			} while ( _la==T__1 );
-			setState(82);
+			setState(88);
 			_errHandler.sync(this);
 			_la = _input.LA(1);
 			if ((((_la) & ~0x3f) == 0 && ((1L << _la) & ((1L << T__0) | (1L << StringLiteral) | (1L << IntegerLiteral))) != 0)) {
 				{
-				setState(81);
+				setState(87);
 				((PrintFunctionContext)_localctx).body = expr();
 				}
 			}
 
-			setState(84);
+			setState(90);
 			match(T__2);
 			}
 		}
@@ -737,7 +794,7 @@ public class KaraffeParser extends Parser {
 
 	public boolean sempred(RuleContext _localctx, int ruleIndex, int predIndex) {
 		switch (ruleIndex) {
-		case 6:
+		case 7:
 			return additiveExpr_sempred((AdditiveExprContext)_localctx, predIndex);
 		}
 		return true;
@@ -751,28 +808,29 @@ public class KaraffeParser extends Parser {
 	}
 
 	public static final String _serializedATN =
-		"\3\u608b\ua72a\u8133\ub9ed\u417c\u3be7\u7786\u5964\3\17Y\4\2\t\2\4\3\t"+
-		"\3\4\4\t\4\4\5\t\5\4\6\t\6\4\7\t\7\4\b\t\b\4\t\t\t\4\n\t\n\4\13\t\13\3"+
-		"\2\7\2\30\n\2\f\2\16\2\33\13\2\3\2\3\2\3\3\3\3\3\3\5\3\"\n\3\3\4\3\4\7"+
-		"\4&\n\4\f\4\16\4)\13\4\3\4\3\4\3\5\3\5\5\5/\n\5\3\6\3\6\3\6\7\6\64\n\6"+
-		"\f\6\16\6\67\13\6\3\6\3\6\3\7\3\7\3\b\3\b\3\b\3\b\3\b\3\b\7\bC\n\b\f\b"+
-		"\16\bF\13\b\3\t\3\t\5\tJ\n\t\3\n\3\n\3\13\3\13\6\13P\n\13\r\13\16\13Q"+
-		"\3\13\5\13U\n\13\3\13\3\13\3\13\2\3\16\f\2\4\6\b\n\f\16\20\22\24\2\4\3"+
-		"\2\n\13\3\2\f\r\2W\2\31\3\2\2\2\4\36\3\2\2\2\6#\3\2\2\2\b.\3\2\2\2\n\60"+
-		"\3\2\2\2\f:\3\2\2\2\16<\3\2\2\2\20I\3\2\2\2\22K\3\2\2\2\24M\3\2\2\2\26"+
-		"\30\5\4\3\2\27\26\3\2\2\2\30\33\3\2\2\2\31\27\3\2\2\2\31\32\3\2\2\2\32"+
-		"\34\3\2\2\2\33\31\3\2\2\2\34\35\7\2\2\3\35\3\3\2\2\2\36\37\7\7\2\2\37"+
-		"!\7\16\2\2 \"\5\6\4\2! \3\2\2\2!\"\3\2\2\2\"\5\3\2\2\2#\'\7\b\2\2$&\5"+
-		"\b\5\2%$\3\2\2\2&)\3\2\2\2\'%\3\2\2\2\'(\3\2\2\2(*\3\2\2\2)\'\3\2\2\2"+
-		"*+\7\t\2\2+\7\3\2\2\2,/\5\n\6\2-/\5\24\13\2.,\3\2\2\2.-\3\2\2\2/\t\3\2"+
-		"\2\2\60\61\7\6\2\2\61\65\7\b\2\2\62\64\5\b\5\2\63\62\3\2\2\2\64\67\3\2"+
-		"\2\2\65\63\3\2\2\2\65\66\3\2\2\2\668\3\2\2\2\67\65\3\2\2\289\7\t\2\29"+
-		"\13\3\2\2\2:;\5\16\b\2;\r\3\2\2\2<=\b\b\1\2=>\5\20\t\2>D\3\2\2\2?@\f\3"+
-		"\2\2@A\t\2\2\2AC\5\20\t\2B?\3\2\2\2CF\3\2\2\2DB\3\2\2\2DE\3\2\2\2E\17"+
-		"\3\2\2\2FD\3\2\2\2GJ\5\22\n\2HJ\5\24\13\2IG\3\2\2\2IH\3\2\2\2J\21\3\2"+
-		"\2\2KL\t\3\2\2L\23\3\2\2\2MO\7\3\2\2NP\7\4\2\2ON\3\2\2\2PQ\3\2\2\2QO\3"+
-		"\2\2\2QR\3\2\2\2RT\3\2\2\2SU\5\f\7\2TS\3\2\2\2TU\3\2\2\2UV\3\2\2\2VW\7"+
-		"\5\2\2W\25\3\2\2\2\13\31!\'.\65DIQT";
+		"\3\u608b\ua72a\u8133\ub9ed\u417c\u3be7\u7786\u5964\3\21_\4\2\t\2\4\3\t"+
+		"\3\4\4\t\4\4\5\t\5\4\6\t\6\4\7\t\7\4\b\t\b\4\t\t\t\4\n\t\n\4\13\t\13\4"+
+		"\f\t\f\3\2\7\2\32\n\2\f\2\16\2\35\13\2\3\2\3\2\3\3\3\3\3\3\5\3$\n\3\3"+
+		"\4\3\4\7\4(\n\4\f\4\16\4+\13\4\3\4\3\4\3\5\3\5\3\5\5\5\62\n\5\3\6\3\6"+
+		"\3\6\7\6\67\n\6\f\6\16\6:\13\6\3\6\3\6\3\7\3\7\3\7\3\b\3\b\3\t\3\t\3\t"+
+		"\3\t\3\t\3\t\7\tI\n\t\f\t\16\tL\13\t\3\n\3\n\5\nP\n\n\3\13\3\13\3\f\3"+
+		"\f\6\fV\n\f\r\f\16\fW\3\f\5\f[\n\f\3\f\3\f\3\f\2\3\20\r\2\4\6\b\n\f\16"+
+		"\20\22\24\26\2\4\3\2\f\r\3\2\16\17\2]\2\33\3\2\2\2\4 \3\2\2\2\6%\3\2\2"+
+		"\2\b\61\3\2\2\2\n\63\3\2\2\2\f=\3\2\2\2\16@\3\2\2\2\20B\3\2\2\2\22O\3"+
+		"\2\2\2\24Q\3\2\2\2\26S\3\2\2\2\30\32\5\4\3\2\31\30\3\2\2\2\32\35\3\2\2"+
+		"\2\33\31\3\2\2\2\33\34\3\2\2\2\34\36\3\2\2\2\35\33\3\2\2\2\36\37\7\2\2"+
+		"\3\37\3\3\2\2\2 !\7\7\2\2!#\7\20\2\2\"$\5\6\4\2#\"\3\2\2\2#$\3\2\2\2$"+
+		"\5\3\2\2\2%)\7\n\2\2&(\5\b\5\2\'&\3\2\2\2(+\3\2\2\2)\'\3\2\2\2)*\3\2\2"+
+		"\2*,\3\2\2\2+)\3\2\2\2,-\7\13\2\2-\7\3\2\2\2.\62\5\n\6\2/\62\5\26\f\2"+
+		"\60\62\5\f\7\2\61.\3\2\2\2\61/\3\2\2\2\61\60\3\2\2\2\62\t\3\2\2\2\63\64"+
+		"\7\6\2\2\648\7\n\2\2\65\67\5\b\5\2\66\65\3\2\2\2\67:\3\2\2\28\66\3\2\2"+
+		"\289\3\2\2\29;\3\2\2\2:8\3\2\2\2;<\7\13\2\2<\13\3\2\2\2=>\7\b\2\2>?\7"+
+		"\20\2\2?\r\3\2\2\2@A\5\20\t\2A\17\3\2\2\2BC\b\t\1\2CD\5\22\n\2DJ\3\2\2"+
+		"\2EF\f\3\2\2FG\t\2\2\2GI\5\22\n\2HE\3\2\2\2IL\3\2\2\2JH\3\2\2\2JK\3\2"+
+		"\2\2K\21\3\2\2\2LJ\3\2\2\2MP\5\24\13\2NP\5\26\f\2OM\3\2\2\2ON\3\2\2\2"+
+		"P\23\3\2\2\2QR\t\3\2\2R\25\3\2\2\2SU\7\3\2\2TV\7\4\2\2UT\3\2\2\2VW\3\2"+
+		"\2\2WU\3\2\2\2WX\3\2\2\2XZ\3\2\2\2Y[\5\16\b\2ZY\3\2\2\2Z[\3\2\2\2[\\\3"+
+		"\2\2\2\\]\7\5\2\2]\27\3\2\2\2\13\33#)\618JOWZ";
 	public static final ATN _ATN =
 		new ATNDeserializer().deserialize(_serializedATN.toCharArray());
 	static {

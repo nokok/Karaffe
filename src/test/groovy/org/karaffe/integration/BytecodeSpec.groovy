@@ -184,4 +184,5 @@ class BytecodeSpec extends Specification {
         mainMethod.instructions.get(4).opcode == Opcodes.INVOKESTATIC
         mainMethod.instructions.get(5).opcode == Opcodes.RETURN
     }
+
 }

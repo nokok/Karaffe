@@ -58,6 +58,16 @@ public interface KaraffeListener extends ParseTreeListener {
 	 */
 	void exitEntryPointBlock(KaraffeParser.EntryPointBlockContext ctx);
 	/**
+	 * Enter a parse tree produced by {@link KaraffeParser#varDef}.
+	 * @param ctx the parse tree
+	 */
+	void enterVarDef(KaraffeParser.VarDefContext ctx);
+	/**
+	 * Exit a parse tree produced by {@link KaraffeParser#varDef}.
+	 * @param ctx the parse tree
+	 */
+	void exitVarDef(KaraffeParser.VarDefContext ctx);
+	/**
 	 * Enter a parse tree produced by {@link KaraffeParser#expr}.
 	 * @param ctx the parse tree
 	 */
