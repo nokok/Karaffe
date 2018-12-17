@@ -114,7 +114,7 @@ public class BytecodeSupport {
 
     public void applyMinusOperator(Class<?> owner, Class<?> param) {
         OperatorResolver resolver = new OperatorResolver(owner);
-        AbstractInsnNode plus = resolver.plus(param);
+        AbstractInsnNode plus = resolver.minus(param);
         plus.accept(methodVisitor);
     }
 }
