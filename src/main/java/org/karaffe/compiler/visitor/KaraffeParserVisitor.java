@@ -56,6 +56,14 @@ public class KaraffeParserVisitor extends KaraffeBaseVisitor<CompilerContext> {
     }
 
     @Override
+    public CompilerContext visitVarDef(KaraffeParser.VarDefContext ctx) {
+        super.visitVarDef(ctx);
+        String fieldName = ctx.Identifier().getText();
+        bytecodeSupport.newFieldDefinition(fieldName, Int.class);
+        return context;
+    }
+
+    @Override
     public CompilerContext visitAdditiveExpr(KaraffeParser.AdditiveExprContext ctx) {
         if (ctx.op == null) {
             return super.visitAdditiveExpr(ctx);

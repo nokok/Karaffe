@@ -150,4 +150,21 @@ class SyntaxSpec extends Specification {
         "150"   || "150"
     }
 
+    def "field"() {
+        setup:
+        def lexer = new KaraffeLexer(CharStreams.fromString(
+                """class Main {
+                  |  def i
+                  |}""".stripMargin()
+        ))
+        lexer.addErrorListener(DEFULT_ERROR_LISTENER)
+        def parse = new KaraffeParser(new CommonTokenStream(lexer))
+        parse.addErrorListener(DEFULT_ERROR_LISTENER)
+        def context = parse.classDef()
+
+        expect:
+        context != null
+        context.Identifier().getText() == "Main"
+        context.typeDefBody().statement(0)
+    }
 }
