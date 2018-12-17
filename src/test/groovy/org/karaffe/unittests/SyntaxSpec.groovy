@@ -145,6 +145,7 @@ class SyntaxSpec extends Specification {
 
         where:
         literal || expectedText
+        "0"     || "0"
         "1"     || "1"
         "150"   || "150"
     }
