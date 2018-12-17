@@ -19,7 +19,10 @@ public class Main {
         if (context.hasFlag(Flag.VERSION)) {
             context.add(Report.newInfoReport("Karaffe compiler version: 0.1.0").build());
         } else if (context.requireShowUsage()) {
-            context.add(Report.newInfoReport("Usage:").withBody("krfc <options> <sources>").build());
+            context.add(Report
+                    .newInfoReport("Usage:")
+                    .withBody("krfc <options> <sources>")
+                    .build());
         } else {
             KaraffeCompiler compiler = new KaraffeCompiler(context);
             compiler.run();

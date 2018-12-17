@@ -4,6 +4,7 @@ import org.karaffe.compiler.args.ArgsParser;
 import org.karaffe.compiler.args.Flag;
 import org.karaffe.compiler.args.Options;
 import org.karaffe.compiler.report.Report;
+import org.karaffe.compiler.report.ReportFormatter;
 
 import java.nio.file.Path;
 import java.util.ArrayList;
@@ -18,6 +19,9 @@ public class CompilerContext {
     private List<KaraffeSource> sources = new ArrayList<>();
     private List<Report> reports = new ArrayList<>();
     private Map<Path, byte[]> outputFiles = new HashMap<>();
+    private ClassLoader defaultClassLoader = Thread.currentThread().getContextClassLoader();
+    private DynamicClassLoader dynamicClassLoader = new DynamicClassLoader(defaultClassLoader);
+
     private boolean hasError = false;
 
     public void parseRawArgs(String[] rawArgs) {
@@ -48,6 +52,7 @@ public class CompilerContext {
 
     public void add(BytecodeEntry entry) {
         Objects.requireNonNull(entry);
+        this.dynamicClassLoader.define(entry.getPath().getFileName().toString().replace(".class", ""), entry.getByteCode());
         this.outputFiles.put(entry.getPath(), entry.getByteCode());
     }
 
@@ -60,7 +65,7 @@ public class CompilerContext {
     }
 
     public boolean requireShowUsage() {
-        return (this.rawArgs.length == 0 && this.getSources().isEmpty()) || this.hasError;
+        return (this.rawArgs.length == 0 && this.getSources().isEmpty()) || this.hasError || this.hasFlag(Flag.HELP);
     }
 
     public boolean hasFlag(Flag flagName) {
@@ -68,20 +73,11 @@ public class CompilerContext {
     }
 
     public String getOutputText() {
-        List<String> lines = new ArrayList<>();
+        List<String> reportTexts = new ArrayList<>();
+        ReportFormatter formatter = new ReportFormatter();
         for (Report report : this.reports) {
-            StringBuilder reportText = new StringBuilder();
-            String reportTypeName = String.format("%-5s", report.getReportType().name());
-            reportText.append("[").append(reportTypeName).append("] ").append(report.getHeader());
-            if (report.getPosition().getLine() != -1) {
-                reportText.append(" at ").append(report.getPosition());
-            }
-            lines.add(reportText.toString());
-            reportText.setLength(0);
-            if (report.getBody() != null) {
-                lines.add(reportText.append("[").append(reportTypeName).append("]   ").append(report.getBody()).toString());
-            }
+            reportTexts.add(formatter.format(report));
         }
-        return String.join("\n", lines);
+        return String.join("\n", reportTexts);
     }
 }
