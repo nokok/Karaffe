@@ -185,4 +185,25 @@ class BytecodeSpec extends Specification {
         mainMethod.instructions.get(5).opcode == Opcodes.RETURN
     }
 
+    def "field"() {
+        setup:
+        def context = new CompilerContext()
+        context.parseRawArgs(["--dry-run"] as String[])
+        context.add(KaraffeSource.fromString(
+                """class Main {
+                  |  def i
+                  |}""".stripMargin()
+        ))
+        def compiler = new KaraffeCompiler(context)
+        compiler.run()
+        def byteCode = context.outputFiles.get(Paths.get("Main.class"))
+        ClassReader reader = new ClassReader(byteCode)
+        ClassNode classNode = new ClassNode(Opcodes.ASM6)
+        reader.accept(classNode, ClassReader.SKIP_DEBUG)
+
+        expect:
+        classNode.fields != null
+        classNode.fields.get(0).name == "i"
+    }
+
 }

@@ -4,27 +4,33 @@ import org.antlr.v4.runtime.CharStream;
 import org.antlr.v4.runtime.CharStreams;
 
 import java.io.IOException;
-import java.io.UncheckedIOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
+import java.util.Arrays;
 import java.util.List;
 import java.util.Objects;
 
 public class KaraffeSource implements CharSequence {
 
-    private final Path path;
+    private final String sourceName;
     private final String source;
+    private final List<String> lines;
+    private final CharStream charStream;
 
     private KaraffeSource(String source) {
-        this.path = null;
+        this.sourceName = "<unknown>";
         this.source = Objects.requireNonNull(source);
+        this.lines = Arrays.asList(source.split("\r\n|[\n\r\u2028\u2029\u0085]")); //java.util.Scanner#LINE_SEPARATOR_PATTERN
+        this.charStream = CharStreams.fromString(source);
     }
 
     private KaraffeSource(Path path) throws IOException {
         Objects.requireNonNull(path);
         List<String> strings = Files.readAllLines(path);
-        this.path = path;
+        this.sourceName = path.getFileName().toString();
         this.source = strings.stream().reduce((l, r) -> l + "\n" + r).orElse("");
+        this.lines = Arrays.asList(source.split("\r\n|[\n\r\u2028\u2029\u0085]")); //java.util.Scanner#LINE_SEPARATOR_PATTERN
+        this.charStream = CharStreams.fromPath(path);
     }
 
     public static KaraffeSource fromString(String source) {
@@ -33,6 +39,14 @@ public class KaraffeSource implements CharSequence {
 
     public static KaraffeSource fromPath(Path path) throws IOException {
         return new KaraffeSource(path);
+    }
+
+    public String getSourceName() {
+        return this.sourceName;
+    }
+
+    public String getCodeByLine(int line) {
+        return this.lines.get(line - 1);
     }
 
     @Override
@@ -56,14 +70,6 @@ public class KaraffeSource implements CharSequence {
     }
 
     public CharStream asCharStream() {
-        if (this.path == null) {
-            return CharStreams.fromString(this.toString());
-        } else {
-            try {
-                return CharStreams.fromPath(path);
-            } catch (IOException e) {
-                throw new UncheckedIOException(e);
-            }
-        }
+        return this.charStream;
     }
 }

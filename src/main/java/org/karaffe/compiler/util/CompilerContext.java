@@ -12,6 +12,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Objects;
+import java.util.Optional;
 
 public class CompilerContext {
     private String[] rawArgs = new String[0];
@@ -50,6 +51,16 @@ public class CompilerContext {
         return this.sources;
     }
 
+    public Optional<KaraffeSource> getSource(String sourceName) {
+        if (this.sources.isEmpty()) {
+            return Optional.empty();
+        }
+        if (this.sources.size() == 1) {
+            return Optional.of(this.sources.get(0));
+        }
+        return this.sources.stream().filter(s -> s.getSourceName().equals(sourceName)).findFirst();
+    }
+
     public void add(BytecodeEntry entry) {
         Objects.requireNonNull(entry);
         this.dynamicClassLoader.define(entry.getPath().getFileName().toString().replace(".class", ""), entry.getByteCode());
@@ -74,7 +85,7 @@ public class CompilerContext {
 
     public String getOutputText() {
         List<String> reportTexts = new ArrayList<>();
-        ReportFormatter formatter = new ReportFormatter();
+        ReportFormatter formatter = new ReportFormatter(this);
         for (Report report : this.reports) {
             reportTexts.add(formatter.format(report));
         }

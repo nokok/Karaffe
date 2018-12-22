@@ -3,6 +3,7 @@ package org.karaffe.compiler.report;
 import org.karaffe.compiler.util.Position;
 
 import java.util.Objects;
+import java.util.Optional;
 
 public class Report {
 
@@ -15,16 +16,16 @@ public class Report {
         return reportType;
     }
 
-    public Position getPosition() {
-        return position;
+    public Optional<Position> getPosition() {
+        return Optional.ofNullable(position);
     }
 
     public String getHeader() {
         return header;
     }
 
-    public String getBody() {
-        return body;
+    public Optional<String> getBody() {
+        return Optional.ofNullable(body);
     }
 
     public static Report.Builder newErrorReport(String title) {
@@ -77,14 +78,8 @@ public class Report {
                 throw new IllegalStateException("null title");
             }
             report.header = this.title;
-            if (this.position == null) {
-                report.position = new Position(-1, -1, "<unknown>");
-            } else {
-                report.position = this.position;
-            }
-            if (this.body != null) {
-                report.body = this.body;
-            }
+            report.position = this.position;
+            report.body = this.body;
             return report;
         }
 

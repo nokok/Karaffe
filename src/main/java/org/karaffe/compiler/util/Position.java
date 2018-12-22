@@ -11,12 +11,16 @@ public class Position {
     private String sourceName;
 
     public Position(Token token) {
-        this.line = token.getLine();
-        this.column = token.getCharPositionInLine();
-        this.sourceName = token.getInputStream().getSourceName();
+        this(token.getLine(), token.getCharPositionInLine(), token.getInputStream().getSourceName());
     }
 
     public Position(int line, int column, String sourceName) {
+        if (line <= 0) {
+            throw new IllegalArgumentException("Invalid line number : " + line);
+        }
+        if (column < 0) {
+            throw new IllegalArgumentException("Invalid column number : " + column);
+        }
         this.line = line;
         this.column = column;
         this.sourceName = Objects.requireNonNull(sourceName);

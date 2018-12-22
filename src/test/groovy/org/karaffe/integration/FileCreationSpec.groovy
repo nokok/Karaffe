@@ -43,7 +43,9 @@ class FileCreationSpec extends Specification {
         expect:
         context.outputFiles.size() == 0
         context.outputFiles.get(Paths.get("A.class")) == null
-        context.getOutputText() == "[ERROR] Syntax Error at 1:6:<unknown>"
+        context.getOutputText() == """[ERROR] Syntax Error at 1:6:<unknown>
+                                     |class 1A
+                                     |      ^""".stripMargin()
         !Files.exists(Paths.get("A.class"))
         !Files.exists(Paths.get("1A.class"))
 
@@ -66,7 +68,9 @@ class FileCreationSpec extends Specification {
         expect:
         context.outputFiles.size() == 0
         context.outputFiles.get(Paths.get("A.class")) == null
-        context.getOutputText() == "[ERROR] 'karaffe.core.String'+'karaffe.core.Int' is not applicable at 1:40:<unknown>"
+        context.getOutputText() == """[ERROR] 'karaffe.core.String'+'karaffe.core.Int' is not applicable at 1:40:<unknown>
+                                     |class Hoge { entrypoint { print("Hello" + 1) }}
+                                     |                                        ^""".stripMargin()
         !Files.exists(Paths.get("Hoge.class"))
 
         cleanup:

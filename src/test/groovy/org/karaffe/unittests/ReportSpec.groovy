@@ -30,9 +30,10 @@ class ReportSpec extends Specification {
         expect:
         report.reportType == ReportType.ERROR
         report.header == "Title"
-        report.position.line == 1
-        report.position.column == 10
-        report.position.sourceName == "Main.krf"
+        report.position.get().line == 1
+        report.position.get().column == 10
+        report.position.get().sourceName == "Main.krf"
         report.toString() == "[ERROR] Title at 1:10:Main.krf"
     }
+
 }
