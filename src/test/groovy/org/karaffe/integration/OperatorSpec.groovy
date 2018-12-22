@@ -24,8 +24,12 @@ class OperatorSpec extends Specification {
         source        || outputText
         "1 + 1"       || ""
         "1 - 1"       || ""
-        '1 + "Hoge"'  || "[ERROR] 'karaffe.core.Int'+'karaffe.core.String' is not applicable at 1:34:<unknown>"
-        '"Hoge" + 1'  || "[ERROR] 'karaffe.core.String'+'karaffe.core.Int' is not applicable at 1:39:<unknown>"
+        '1 + "Hoge"'  || """[ERROR] 'karaffe.core.Int'+'karaffe.core.String' is not applicable at 1:34:<unknown>
+                           |class Main { entrypoint { print(1 + "Hoge")}}
+                           |                                  ^""".stripMargin()
+        '"Hoge" + 1'  || """[ERROR] 'karaffe.core.String'+'karaffe.core.Int' is not applicable at 1:39:<unknown>
+                           |class Main { entrypoint { print("Hoge" + 1)}}
+                           |                                       ^""".stripMargin()
         '"Ho" + "ge"' || ""
     }
 }
