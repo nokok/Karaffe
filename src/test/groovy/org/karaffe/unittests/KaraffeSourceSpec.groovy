@@ -1,5 +1,6 @@
 package org.karaffe.unittests
 
+import org.karaffe.compiler.Platform
 import org.karaffe.compiler.util.KaraffeSource
 import spock.lang.Specification
 
@@ -36,6 +37,10 @@ class KaraffeSourceSpec extends Specification {
         def p = KaraffeSource.fromPath(Paths.get("src/test/resources/Main.krf"))
 
         expect:
-        p.sourceName == "src/test/resources/Main.krf"
+        if (Platform.isWindows()) {
+            p.sourceName == "src\\test\\resources\\Main.krf"
+        } else {
+            p.sourceName == "src/test/resources/Main.krf"
+        }
     }
 }

@@ -1,6 +1,7 @@
 package org.karaffe.regression
 
 import org.karaffe.compiler.KaraffeCompiler
+import org.karaffe.compiler.Platform
 import org.karaffe.compiler.util.CompilerContext
 import org.karaffe.compiler.util.KaraffeSource
 import spock.lang.Specification
@@ -16,8 +17,15 @@ class MissingSourceInfo extends Specification {
         compiler.run()
 
         expect:
-        context.outputText == """[ERROR] Syntax Error at 1:6:src/test/resources/MissingSourceInfo.krf
+        if (Platform.isWindows()) {
+            assert context.outputText == """[ERROR] Syntax Error at 1:6:src\\test\\resources\\MissingSourceInfo.krf
 class 1
       ^"""
+        } else {
+            assert context.outputText == """[ERROR] Syntax Error at 1:6:src/test/resources/MissingSourceInfo.krf
+class 1
+      ^"""
+        }
+
     }
 }
