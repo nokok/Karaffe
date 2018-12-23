@@ -3,11 +3,16 @@ package org.karaffe.compiler;
 import org.antlr.v4.runtime.CommonTokenStream;
 import org.antlr.v4.runtime.RecognitionException;
 import org.karaffe.compiler.args.Flag;
+import org.karaffe.compiler.args.ParameterName;
 import org.karaffe.compiler.frontend.karaffe.antlr.KaraffeLexer;
 import org.karaffe.compiler.frontend.karaffe.antlr.KaraffeParser;
+import org.karaffe.compiler.report.Report;
+import org.karaffe.compiler.tree.Tree;
+import org.karaffe.compiler.tree.TreeFormatter;
 import org.karaffe.compiler.util.CompilerContext;
 import org.karaffe.compiler.util.KaraffeSource;
 import org.karaffe.compiler.visitor.ClassNameListener;
+import org.karaffe.compiler.visitor.KaraffeASTCreateVisitor;
 import org.karaffe.compiler.visitor.KaraffeParserVisitor;
 
 import java.io.IOException;
@@ -29,8 +34,17 @@ public class KaraffeCompiler {
         List<KaraffeSource> sources = context.getSources();
         for (KaraffeSource source : sources) {
             try {
-                Optional<KaraffeParser.CompilationUnitContext> optParseContext = parse(source);
+                Optional<KaraffeParser.CompilationUnitContext> optParseContext = parse(source).filter(ctx -> ctx.EOF() != null);
                 KaraffeParserVisitor parserVisitor = new KaraffeParserVisitor(context);
+                KaraffeASTCreateVisitor createASTVisitor = new KaraffeASTCreateVisitor(context);
+                Optional<Tree> optTree = optParseContext.map(createASTVisitor::visitCompilationUnit);
+                optTree.ifPresent(tree -> {
+                    this.context.add(source, tree);
+                    TreeFormatter formatter = new TreeFormatter(context);
+                    if (context.getParameter(ParameterName.EMIT).map(p -> p.equalsIgnoreCase("ast")).orElse(false)) {
+                        this.context.add(Report.newInfoReport("AST Info : " + source.getSourceName()).withBody(formatter.format(tree)).build());
+                    }
+                });
                 optParseContext.ifPresent(c -> c.accept(parserVisitor));
             } catch (SemanticAnalysisException e) {
                 // ignore

@@ -30,7 +30,7 @@ class ReportOutputSpec extends Specification {
 
         expect:
         context.getOutputText() == """[ERROR] Title at 3:1:Main.krf
-                                     |[ERROR]   Body""".stripMargin()
+                                     |Body""".stripMargin()
     }
 
     def "reports"() {
@@ -40,8 +40,8 @@ class ReportOutputSpec extends Specification {
 
         expect:
         context.getOutputText() == """[ERROR] Title1 at 3:1:Main.krf
-                                     |[ERROR]   Body
+                                     |Body
                                      |[ERROR] Title2 at 3:1:Main.krf
-                                     |[ERROR]   Body""".stripMargin()
+                                     |Body""".stripMargin()
     }
 }

@@ -12,7 +12,7 @@ class CommandSpec extends Specification {
 
         expect:
         out == """[INFO ] Usage:
-                 |[INFO ]   krfc <options> <sources>""".stripMargin()
+                 |krfc <options> <sources>""".stripMargin()
     }
 
     def "duplicate"() {

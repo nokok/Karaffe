@@ -72,4 +72,18 @@ public class KaraffeSource implements CharSequence {
     public CharStream asCharStream() {
         return this.charStream;
     }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        KaraffeSource that = (KaraffeSource) o;
+        return sourceName.equals(that.sourceName) &&
+                source.equals(that.source);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(sourceName, source);
+    }
 }

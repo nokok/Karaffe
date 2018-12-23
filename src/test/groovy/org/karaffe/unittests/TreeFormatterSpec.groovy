@@ -1,0 +1,77 @@
+package org.karaffe.unittests
+
+import org.karaffe.compiler.tree.NodeType
+import org.karaffe.compiler.tree.Tree
+import org.karaffe.compiler.tree.TreeFormatter
+import org.karaffe.compiler.tree.attr.ModifierAttribute
+import spock.lang.Specification
+
+class TreeFormatterSpec extends Specification {
+    def "singleNode"() {
+        setup:
+        def tree = new Tree(NodeType.CompilationUnit, "A")
+        def formatter = new TreeFormatter()
+        def result = formatter.format(tree)
+
+        expect:
+        result == "CompilationUnit A"
+    }
+
+    def "singleNodeWithAttribute"() {
+        setup:
+        def tree = new Tree(NodeType.CompilationUnit, "B")
+        tree.addAttribute(new ModifierAttribute())
+        def formatter = new TreeFormatter()
+        def result = formatter.format(tree)
+
+        expect:
+        result == """CompilationUnit B [ModifierAttribute]"""
+    }
+
+    def "singleNodeWithChild"() {
+        setup:
+        def tree = new Tree(NodeType.CompilationUnit, "C")
+        tree.addAttribute(new ModifierAttribute())
+        tree.addChild(new Tree(NodeType.Apply, "()"))
+        def formatter = new TreeFormatter()
+        def result = formatter.format(tree)
+
+        expect:
+        result == """CompilationUnit C [ModifierAttribute]
+                    |  Apply ()""".stripMargin()
+    }
+
+    def "singleNodeWithChlidren"() {
+        setup:
+        def tree = new Tree(NodeType.CompilationUnit, "C")
+        tree.addAttribute(new ModifierAttribute())
+        tree.addChild(new Tree(NodeType.Apply, "1"))
+        tree.addChild(new Tree(NodeType.Apply, "2"))
+        def formatter = new TreeFormatter()
+        def result = formatter.format(tree)
+
+        expect:
+        result == """CompilationUnit C [ModifierAttribute]
+                    |  Apply 1
+                    |  Apply 2""".stripMargin()
+    }
+
+    def "nestedChildren"() {
+        setup:
+        def tree = new Tree(NodeType.CompilationUnit, "C")
+        tree.addAttribute(new ModifierAttribute())
+        def child1 = new Tree(NodeType.Apply, "1")
+        child1.addChild(new Tree(NodeType.Select, "c"))
+        tree.addChild(child1)
+        tree.addChild(new Tree(NodeType.Apply, "2"))
+        def formatter = new TreeFormatter()
+        def result = formatter.format(tree)
+
+        expect:
+        result == """CompilationUnit C [ModifierAttribute]
+                    |  Apply 1
+                    |    Select c
+                    |  Apply 2""".stripMargin()
+    }
+
+}

@@ -31,6 +31,6 @@ class CompilerContextSpec extends Specification {
 
         expect:
         ctx.getOutputText() == """[INFO ] Title
-                                 |[INFO ]   Body""".stripMargin()
+                                 |Body""".stripMargin()
     }
 }
