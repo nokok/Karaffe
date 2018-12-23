@@ -1,0 +1,5 @@
+class HelloWorld {
+  entrypoint {
+    print("Hello World")
+  }
+}
