@@ -31,12 +31,12 @@ public class TreeFormatter {
             stringBuilder.append(" ").append(tree.getAttributes());
         }
         if (tree.hasChildren()) {
-            stringBuilder.append(System.lineSeparator());
+            stringBuilder.append("\n");
             stringBuilder.append(
                     tree.getChildren()
                             .stream()
                             .map(child -> format(indentString + "  ", child))
-                            .collect(Collectors.joining(System.lineSeparator())));
+                            .collect(Collectors.joining("\n")));
         }
         return stringBuilder.toString();
     }
