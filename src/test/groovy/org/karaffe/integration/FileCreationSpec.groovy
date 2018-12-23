@@ -34,6 +34,12 @@ class FileCreationSpec extends Specification {
 
     def "Invalid Class 1A"() {
         setup:
+        try {
+            Files.delete(Paths.get("A.class"))
+            Files.delete(Paths.get("1A.class"))
+        } catch (NoSuchFileException e) {
+            // ignore
+        }
         def context = new CompilerContext()
         context.parseRawArgs(["--dry-run"] as String[])
         context.add(KaraffeSource.fromString("class 1A"))
