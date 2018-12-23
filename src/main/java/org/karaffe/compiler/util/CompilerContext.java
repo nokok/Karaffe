@@ -3,8 +3,10 @@ package org.karaffe.compiler.util;
 import org.karaffe.compiler.args.ArgsParser;
 import org.karaffe.compiler.args.Flag;
 import org.karaffe.compiler.args.Options;
+import org.karaffe.compiler.args.ParameterName;
 import org.karaffe.compiler.report.Report;
 import org.karaffe.compiler.report.ReportFormatter;
+import org.karaffe.compiler.tree.Tree;
 
 import java.nio.file.Path;
 import java.util.ArrayList;
@@ -21,6 +23,7 @@ public class CompilerContext {
     private List<Report> reports = new ArrayList<>();
     private Map<Path, byte[]> outputFiles = new HashMap<>();
     private ClassLoader defaultClassLoader = Thread.currentThread().getContextClassLoader();
+    private Map<KaraffeSource, Tree> sourceAstMap = new HashMap<>();
     private DynamicClassLoader dynamicClassLoader = new DynamicClassLoader(defaultClassLoader);
 
     private boolean hasError = false;
@@ -45,6 +48,18 @@ public class CompilerContext {
 
     public void add(KaraffeSource source) {
         this.sources.add(Objects.requireNonNull(source));
+    }
+
+    public void add(KaraffeSource source, Tree ast) {
+        this.sourceAstMap.put(Objects.requireNonNull(source), Objects.requireNonNull(ast));
+    }
+
+    public Tree getAST(KaraffeSource source) {
+        return this.sourceAstMap.get(Objects.requireNonNull(source));
+    }
+
+    public Map<KaraffeSource, Tree> getASTs() {
+        return this.sourceAstMap;
     }
 
     public List<KaraffeSource> getSources() {
@@ -81,6 +96,10 @@ public class CompilerContext {
 
     public boolean hasFlag(Flag flagName) {
         return this.options.hasFlag(flagName);
+    }
+
+    public Optional<String> getParameter(ParameterName parameterName) {
+        return this.options.getParameter(parameterName);
     }
 
     public String getOutputText() {

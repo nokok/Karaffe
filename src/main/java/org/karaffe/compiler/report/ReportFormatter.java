@@ -29,7 +29,7 @@ public class ReportFormatter {
         optPos.ifPresent(position -> reportText.append(" at ").append(position));
         lines.add(reportText.toString());
         reportText.setLength(0);
-        report.getBody().ifPresent(body -> lines.add(reportText.append("[").append(reportTypeName).append("]   ").append(body).toString()));
+        report.getBody().ifPresent(body -> lines.add(reportText.append(body).toString()));
         if (context != null) {
             optPos.ifPresent(
                     pos -> context.getSource(pos.getSourceName()).ifPresent(
