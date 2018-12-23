@@ -3,6 +3,7 @@ package org.karaffe.compiler.util;
 import org.karaffe.compiler.args.ArgsParser;
 import org.karaffe.compiler.args.Flag;
 import org.karaffe.compiler.args.Options;
+import org.karaffe.compiler.args.ParameterName;
 import org.karaffe.compiler.report.Report;
 import org.karaffe.compiler.report.ReportFormatter;
 
@@ -81,6 +82,10 @@ public class CompilerContext {
 
     public boolean hasFlag(Flag flagName) {
         return this.options.hasFlag(flagName);
+    }
+
+    public Optional<String> getParameter(ParameterName parameterName) {
+        return this.options.getParameter(parameterName);
     }
 
     public String getOutputText() {

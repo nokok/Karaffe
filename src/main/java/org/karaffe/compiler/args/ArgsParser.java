@@ -21,11 +21,16 @@ public class ArgsParser {
     private final List<Report> reports = new ArrayList<>();
 
     private final Map<String, Flag> supportedFlags = new HashMap<>();
+    private final Map<String, ParameterName> supportedParameters = new HashMap<>();
 
     public ArgsParser() {
         for (Flag flag : Flag.values()) {
             flag.getShortName().ifPresent(n -> supportedFlags.put(n, flag));
             flag.getFullName().ifPresent(n -> supportedFlags.put(n, flag));
+        }
+        for (ParameterName parameter : ParameterName.values()) {
+            parameter.getShortName().ifPresent(n -> supportedParameters.put(n, parameter));
+            parameter.getFullName().ifPresent(n -> supportedParameters.put(n, parameter));
         }
     }
 
@@ -35,15 +40,30 @@ public class ArgsParser {
             return Optional.of(new Options());
         }
         Set<Flag> recognizedFlags = new HashSet<>();
+        Set<ParameterName> recognizedParameters = new HashSet<>();
+        Map<ParameterName, String> recognizedParameterValues = new HashMap<>();
         Set<KaraffeSource> sourceSet = new HashSet<>();
         for (int i = 0; i < options.length; i++) {
             String c = options[i];
             if (c.startsWith("-")) {
-                boolean containsKey = supportedFlags.containsKey(c);
-                if (containsKey) {
+                boolean containsKeyAtFlag = supportedFlags.containsKey(c);
+                boolean containsKeyAtParameter = supportedParameters.containsKey(c);
+                if (containsKeyAtFlag) {
                     if (!recognizedFlags.add(supportedFlags.get(c))) {
                         this.reports.add(Report.newErrorReport("Duplicated flag : " + c).build());
                     }
+                } else if (containsKeyAtParameter) {
+                    ParameterName parameterName = supportedParameters.get(c);
+                    if (!recognizedParameters.add(parameterName)) {
+                        this.reports.add(Report.newErrorReport("Duplicated parameter : " + c).build());
+                        continue;
+                    }
+                    if (options.length <= i + 1) {
+                        this.reports.add(Report.newErrorReport("Option requires an argument : " + c).build());
+                        continue;
+                    }
+                    String argument = options[++i];
+                    recognizedParameterValues.put(parameterName, argument);
                 } else {
                     this.reports.add(Report.newErrorReport("Unrecognized option : " + c).build());
                 }
@@ -61,7 +81,7 @@ public class ArgsParser {
             }
         }
         if (this.reports.isEmpty()) {
-            return Optional.of(new Options(recognizedFlags, sourceSet));
+            return Optional.of(new Options(recognizedFlags, recognizedParameterValues, sourceSet));
         } else {
             return Optional.empty();
         }
