@@ -24,7 +24,18 @@ class KaraffeSourceSpec extends Specification {
         setup:
         def path = Paths.get("Source.krf")
         Files.write(path, "class Hoge {}".getBytes(), StandardOpenOption.CREATE, StandardOpenOption.TRUNCATE_EXISTING, StandardOpenOption.WRITE)
-        KaraffeSource.fromPath(path)
+        def p = KaraffeSource.fromPath(path)
         Files.delete(path)
+
+        expect:
+        p.sourceName == "Source.krf"
+    }
+
+    def "fromRelativePath"() {
+        setup:
+        def p = KaraffeSource.fromPath(Paths.get("src/test/resources/Main.krf"))
+
+        expect:
+        p.sourceName == "src/test/resources/Main.krf"
     }
 }
