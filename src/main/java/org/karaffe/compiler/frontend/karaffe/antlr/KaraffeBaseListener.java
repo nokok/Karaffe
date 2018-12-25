@@ -16,13 +16,13 @@ public class KaraffeBaseListener implements KaraffeListener {
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
-	@Override public void enterCompilationUnit(KaraffeParser.CompilationUnitContext ctx) { }
+	@Override public void enterSourceFile(KaraffeParser.SourceFileContext ctx) { }
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
-	@Override public void exitCompilationUnit(KaraffeParser.CompilationUnitContext ctx) { }
+	@Override public void exitSourceFile(KaraffeParser.SourceFileContext ctx) { }
 	/**
 	 * {@inheritDoc}
 	 *

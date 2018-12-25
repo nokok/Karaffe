@@ -1,6 +1,6 @@
 grammar Karaffe;
 
-compilationUnit
+sourceFile
   : classDef* EOF
   ;
 

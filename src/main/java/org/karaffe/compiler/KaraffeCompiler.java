@@ -7,7 +7,6 @@ import org.karaffe.compiler.args.ParameterName;
 import org.karaffe.compiler.frontend.karaffe.antlr.KaraffeLexer;
 import org.karaffe.compiler.frontend.karaffe.antlr.KaraffeParser;
 import org.karaffe.compiler.report.Report;
-import org.karaffe.compiler.tree.Tree;
 import org.karaffe.compiler.tree.TreeFormatter;
 import org.karaffe.compiler.util.CompilerContext;
 import org.karaffe.compiler.util.KaraffeSource;
@@ -32,24 +31,24 @@ public class KaraffeCompiler {
 
     public void run() {
         List<KaraffeSource> sources = context.getSources();
+        KaraffeParserVisitor parserVisitor = new KaraffeParserVisitor(context);
+        KaraffeASTCreateVisitor createASTVisitor = new KaraffeASTCreateVisitor(context);
         for (KaraffeSource source : sources) {
             try {
-                Optional<KaraffeParser.CompilationUnitContext> optParseContext = parse(source).filter(ctx -> ctx.EOF() != null);
-                KaraffeParserVisitor parserVisitor = new KaraffeParserVisitor(context);
-                KaraffeASTCreateVisitor createASTVisitor = new KaraffeASTCreateVisitor(context);
-                Optional<Tree> optTree = optParseContext.map(createASTVisitor::visitCompilationUnit);
-                optTree.ifPresent(tree -> {
-                    this.context.add(source, tree);
-                    TreeFormatter formatter = new TreeFormatter(context);
-                    if (context.getParameter(ParameterName.EMIT).map(p -> p.equalsIgnoreCase("ast")).orElse(false)) {
-                        this.context.add(Report.newInfoReport("AST Info : " + source.getSourceName()).withBody(formatter.format(tree)).build());
-                    }
-                });
+                Optional<KaraffeParser.SourceFileContext> optParseContext = parse(source).filter(ctx -> ctx.EOF() != null);
+                optParseContext.ifPresent(createASTVisitor::visitSourceFile);
                 optParseContext.ifPresent(c -> c.accept(parserVisitor));
             } catch (SemanticAnalysisException e) {
                 // ignore
             }
         }
+        this.context.setAST(createASTVisitor.getCompilationUnit());
+
+        if (context.getParameter(ParameterName.EMIT).map(p -> p.equalsIgnoreCase("ast")).orElse(false)) {
+            TreeFormatter formatter = new TreeFormatter(context);
+            this.context.add(Report.newInfoReport("AST Info").withBody(formatter.format(this.context.getCurrentAST())).build());
+        }
+
         if (this.context.hasFlag(Flag.DRY_RUN)) {
             return;
         }
@@ -62,7 +61,7 @@ public class KaraffeCompiler {
         }
     }
 
-    private Optional<KaraffeParser.CompilationUnitContext> parse(KaraffeSource source) {
+    private Optional<KaraffeParser.SourceFileContext> parse(KaraffeSource source) {
         try {
             KaraffeLexer lexer = new KaraffeLexer(source.asCharStream());
             lexer.removeErrorListeners();
@@ -77,7 +76,7 @@ public class KaraffeCompiler {
             if (errorHandler.hasSyntaxError()) {
                 return Optional.empty();
             } else {
-                return Optional.of(parser.compilationUnit());
+                return Optional.of(parser.sourceFile());
             }
         } catch (RecognitionException e) {
             return Optional.empty();

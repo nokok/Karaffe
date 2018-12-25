@@ -8,15 +8,15 @@ import org.antlr.v4.runtime.tree.ParseTreeListener;
  */
 public interface KaraffeListener extends ParseTreeListener {
 	/**
-	 * Enter a parse tree produced by {@link KaraffeParser#compilationUnit}.
+	 * Enter a parse tree produced by {@link KaraffeParser#sourceFile}.
 	 * @param ctx the parse tree
 	 */
-	void enterCompilationUnit(KaraffeParser.CompilationUnitContext ctx);
+	void enterSourceFile(KaraffeParser.SourceFileContext ctx);
 	/**
-	 * Exit a parse tree produced by {@link KaraffeParser#compilationUnit}.
+	 * Exit a parse tree produced by {@link KaraffeParser#sourceFile}.
 	 * @param ctx the parse tree
 	 */
-	void exitCompilationUnit(KaraffeParser.CompilationUnitContext ctx);
+	void exitSourceFile(KaraffeParser.SourceFileContext ctx);
 	/**
 	 * Enter a parse tree produced by {@link KaraffeParser#classDef}.
 	 * @param ctx the parse tree

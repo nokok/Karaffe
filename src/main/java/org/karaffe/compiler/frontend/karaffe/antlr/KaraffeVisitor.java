@@ -11,11 +11,11 @@ import org.antlr.v4.runtime.tree.ParseTreeVisitor;
  */
 public interface KaraffeVisitor<T> extends ParseTreeVisitor<T> {
 	/**
-	 * Visit a parse tree produced by {@link KaraffeParser#compilationUnit}.
+	 * Visit a parse tree produced by {@link KaraffeParser#sourceFile}.
 	 * @param ctx the parse tree
 	 * @return the visitor result
 	 */
-	T visitCompilationUnit(KaraffeParser.CompilationUnitContext ctx);
+	T visitSourceFile(KaraffeParser.SourceFileContext ctx);
 	/**
 	 * Visit a parse tree produced by {@link KaraffeParser#classDef}.
 	 * @param ctx the parse tree

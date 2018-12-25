@@ -3,12 +3,8 @@ package org.karaffe.compiler;
 import karaffe.core.Console;
 import org.karaffe.compiler.args.Flag;
 import org.karaffe.compiler.report.Report;
-import org.karaffe.compiler.tree.Tree;
 import org.karaffe.compiler.tree.TreeFormatter;
 import org.karaffe.compiler.util.CompilerContext;
-import org.karaffe.compiler.util.KaraffeSource;
-
-import java.util.Map;
 
 public class Main {
 
@@ -25,12 +21,8 @@ public class Main {
             if (context == null) {
                 return;
             }
-            Map<KaraffeSource, Tree> astMap = context.getASTs();
-            for (Map.Entry<KaraffeSource, Tree> entry : astMap.entrySet()) {
-                System.out.println(entry.getKey().getSourceName());
-                TreeFormatter treeFormatter = new TreeFormatter();
-                System.out.println(treeFormatter.format(entry.getValue()));
-            }
+            TreeFormatter formatter = new TreeFormatter();
+            System.out.println(formatter.format(context.getCurrentAST()));
             throwable.printStackTrace();
         });
         context.parseRawArgs(args);

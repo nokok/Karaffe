@@ -13,9 +13,9 @@ class ASTSpec extends Specification {
         context.add(source)
         def compiler = new KaraffeCompiler(context)
         compiler.run()
-        def ast = context.getAST(source)
+        def ast = context.getCurrentAST()
 
         expect:
-        ast.toString() == 'CompilationUnit ("<unknown>", [], [DefClass ("A", [], [])])'
+        ast.toString() == 'CompilationUnit ("", [], [SourceFile ("<unknown>", [], [DefClass ("A", [SuperClass java.lang.Object, ModifierAttribute [PUBLIC]], [])])])'
     }
 }

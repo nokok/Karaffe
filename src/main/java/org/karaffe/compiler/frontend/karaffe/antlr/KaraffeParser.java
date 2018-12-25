@@ -21,11 +21,11 @@ public class KaraffeParser extends Parser {
 		RBRACE=9, PLUS=10, MINUS=11, StringLiteral=12, IntegerLiteral=13, Identifier=14, 
 		WS=15;
 	public static final int
-		RULE_compilationUnit = 0, RULE_classDef = 1, RULE_typeDefBody = 2, RULE_statement = 3, 
+		RULE_sourceFile = 0, RULE_classDef = 1, RULE_typeDefBody = 2, RULE_statement = 3, 
 		RULE_entryPointBlock = 4, RULE_varDef = 5, RULE_expr = 6, RULE_additiveExpr = 7, 
 		RULE_primary = 8, RULE_literal = 9, RULE_printFunction = 10;
 	public static final String[] ruleNames = {
-		"compilationUnit", "classDef", "typeDefBody", "statement", "entryPointBlock", 
+		"sourceFile", "classDef", "typeDefBody", "statement", "entryPointBlock", 
 		"varDef", "expr", "additiveExpr", "primary", "literal", "printFunction"
 	};
 
@@ -87,7 +87,7 @@ public class KaraffeParser extends Parser {
 		super(input);
 		_interp = new ParserATNSimulator(this,_ATN,_decisionToDFA,_sharedContextCache);
 	}
-	public static class CompilationUnitContext extends ParserRuleContext {
+	public static class SourceFileContext extends ParserRuleContext {
 		public TerminalNode EOF() { return getToken(KaraffeParser.EOF, 0); }
 		public List<ClassDefContext> classDef() {
 			return getRuleContexts(ClassDefContext.class);
@@ -95,28 +95,28 @@ public class KaraffeParser extends Parser {
 		public ClassDefContext classDef(int i) {
 			return getRuleContext(ClassDefContext.class,i);
 		}
-		public CompilationUnitContext(ParserRuleContext parent, int invokingState) {
+		public SourceFileContext(ParserRuleContext parent, int invokingState) {
 			super(parent, invokingState);
 		}
-		@Override public int getRuleIndex() { return RULE_compilationUnit; }
+		@Override public int getRuleIndex() { return RULE_sourceFile; }
 		@Override
 		public void enterRule(ParseTreeListener listener) {
-			if ( listener instanceof KaraffeListener ) ((KaraffeListener)listener).enterCompilationUnit(this);
+			if ( listener instanceof KaraffeListener ) ((KaraffeListener)listener).enterSourceFile(this);
 		}
 		@Override
 		public void exitRule(ParseTreeListener listener) {
-			if ( listener instanceof KaraffeListener ) ((KaraffeListener)listener).exitCompilationUnit(this);
+			if ( listener instanceof KaraffeListener ) ((KaraffeListener)listener).exitSourceFile(this);
 		}
 		@Override
 		public <T> T accept(ParseTreeVisitor<? extends T> visitor) {
-			if ( visitor instanceof KaraffeVisitor ) return ((KaraffeVisitor<? extends T>)visitor).visitCompilationUnit(this);
+			if ( visitor instanceof KaraffeVisitor ) return ((KaraffeVisitor<? extends T>)visitor).visitSourceFile(this);
 			else return visitor.visitChildren(this);
 		}
 	}
 
-	public final CompilationUnitContext compilationUnit() throws RecognitionException {
-		CompilationUnitContext _localctx = new CompilationUnitContext(_ctx, getState());
-		enterRule(_localctx, 0, RULE_compilationUnit);
+	public final SourceFileContext sourceFile() throws RecognitionException {
+		SourceFileContext _localctx = new SourceFileContext(_ctx, getState());
+		enterRule(_localctx, 0, RULE_sourceFile);
 		int _la;
 		try {
 			enterOuterAlt(_localctx, 1);
