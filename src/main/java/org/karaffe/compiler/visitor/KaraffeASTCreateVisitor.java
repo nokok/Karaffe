@@ -77,7 +77,9 @@ public class KaraffeASTCreateVisitor extends KaraffeBaseVisitor<Tree> {
     public Tree visitPrintFunction(KaraffeParser.PrintFunctionContext ctx) {
         Tree tree = new Tree(NodeType.Apply, "()");
         tree.addChild(new Tree(NodeType.Select, "print"));
-        tree.addChild(ctx.body.accept(this));
+        if (ctx.body != null) {
+            tree.addChild(ctx.body.accept(this));
+        }
         return tree;
     }
 
