@@ -46,13 +46,16 @@ literal
   ;
 
 printFunction
-  : 'print' '(' + body=expr? ')'
+  : PRINT LPAREN body=expr? RPAREN
   ;
 
 ENTRYPOINT: 'entrypoint';
 CLASS: 'class';
+PRINT: 'print';
 DEF: 'def';
 EQUAL: '=';
+LPAREN: '(';
+RPAREN: ')';
 LBRACE: '{';
 RBRACE: '}';
 PLUS: '+';
