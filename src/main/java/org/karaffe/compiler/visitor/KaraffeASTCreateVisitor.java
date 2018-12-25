@@ -11,6 +11,7 @@ import org.karaffe.compiler.tree.attr.ModifierAttribute;
 import org.karaffe.compiler.tree.attr.SuperClass;
 import org.karaffe.compiler.util.CompilerContext;
 import org.karaffe.compiler.util.MethodParameterEntry;
+import org.karaffe.compiler.util.Position;
 
 import java.util.Collections;
 import java.util.List;
@@ -22,7 +23,7 @@ public class KaraffeASTCreateVisitor extends KaraffeBaseVisitor<Tree> {
 
     public KaraffeASTCreateVisitor(CompilerContext context) {
         this.context = context;
-        this.compilationUnit = new Tree(NodeType.CompilationUnit, "");
+        this.compilationUnit = new Tree(NodeType.CompilationUnit, "", null);
     }
 
     public Tree getCompilationUnit() {
@@ -31,7 +32,7 @@ public class KaraffeASTCreateVisitor extends KaraffeBaseVisitor<Tree> {
 
     @Override
     public Tree visitSourceFile(KaraffeParser.SourceFileContext ctx) {
-        Tree tree = new Tree(NodeType.SourceFile, ctx.EOF().getSymbol().getInputStream().getSourceName());
+        Tree tree = new Tree(NodeType.SourceFile, ctx.EOF().getSymbol().getInputStream().getSourceName(), null);
         for (KaraffeParser.ClassDefContext classDefContext : ctx.classDef()) {
             tree.addChild(classDefContext.accept(this));
         }
@@ -41,7 +42,7 @@ public class KaraffeASTCreateVisitor extends KaraffeBaseVisitor<Tree> {
 
     @Override
     public Tree visitClassDef(KaraffeParser.ClassDefContext ctx) {
-        Tree tree = new Tree(NodeType.DefClass, ctx.Identifier().getText());
+        Tree tree = new Tree(NodeType.DefClass, ctx.Identifier().getText(), new Position(ctx.Identifier().getSymbol()));
         tree.addAttribute(new SuperClass() /*java.lang.Object*/);
         tree.addAttribute(new ModifierAttribute(JavaModifier.PUBLIC));
         if (ctx.typeDefBody() != null) {
@@ -56,7 +57,7 @@ public class KaraffeASTCreateVisitor extends KaraffeBaseVisitor<Tree> {
 
     @Override
     public Tree visitEntryPointBlock(KaraffeParser.EntryPointBlockContext ctx) {
-        Tree tree = new Tree(NodeType.DefMethod, "main");
+        Tree tree = new Tree(NodeType.DefMethod, "main", new Position(ctx.ENTRYPOINT().getSymbol()));
         ModifierAttribute modifierAttribute = new ModifierAttribute(JavaModifier.PUBLIC, JavaModifier.STATIC);
         tree.addAttribute(modifierAttribute);
         tree.addAttribute(new MethodSignature(void.class, Collections.singletonList(new MethodParameterEntry("args", String[].class))));
@@ -69,14 +70,14 @@ public class KaraffeASTCreateVisitor extends KaraffeBaseVisitor<Tree> {
 
     @Override
     public Tree visitVarDef(KaraffeParser.VarDefContext ctx) {
-        Tree tree = new Tree(NodeType.DefVar, ctx.Identifier().getText());
+        Tree tree = new Tree(NodeType.DefVar, ctx.Identifier().getText(), new Position(ctx.DEF().getSymbol()));
         return tree;
     }
 
     @Override
     public Tree visitPrintFunction(KaraffeParser.PrintFunctionContext ctx) {
-        Tree tree = new Tree(NodeType.Apply, "()");
-        tree.addChild(new Tree(NodeType.Select, "print"));
+        Tree tree = new Tree(NodeType.Apply, "()", new Position(ctx.LPAREN().getSymbol()));
+        tree.addChild(new Tree(NodeType.Select, "print", new Position(ctx.PRINT().getSymbol())));
         if (ctx.body != null) {
             tree.addChild(ctx.body.accept(this));
         }
@@ -88,8 +89,8 @@ public class KaraffeASTCreateVisitor extends KaraffeBaseVisitor<Tree> {
         if (ctx.op == null) {
             return ctx.primary().accept(this);
         }
-        Tree tree = new Tree(NodeType.Apply, "()");
-        tree.addChild(new Tree(NodeType.Select, ctx.op.getText()));
+        Tree tree = new Tree(NodeType.Apply, "()", new Position(ctx.op));
+        tree.addChild(new Tree(NodeType.Select, ctx.op.getText(), new Position(ctx.op)));
         tree.addChild(ctx.left.accept(this));
         tree.addChild(ctx.right.accept(this));
         return tree;
@@ -99,10 +100,10 @@ public class KaraffeASTCreateVisitor extends KaraffeBaseVisitor<Tree> {
     public Tree visitLiteral(KaraffeParser.LiteralContext ctx) {
         Tree tree;
         if (ctx.IntegerLiteral() != null) {
-            tree = new Tree(NodeType.IntLiteral, ctx.IntegerLiteral().getText());
+            tree = new Tree(NodeType.IntLiteral, ctx.IntegerLiteral().getText(), new Position(ctx.IntegerLiteral().getSymbol()));
             tree.addAttribute(new InferredType(int.class));
         } else if (ctx.StringLiteral() != null) {
-            tree = new Tree(NodeType.StringLiteral, ctx.StringLiteral().getText());
+            tree = new Tree(NodeType.StringLiteral, ctx.StringLiteral().getText(), new Position(ctx.StringLiteral().getSymbol()));
             tree.addAttribute(new InferredType(String.class));
         } else {
             throw new IllegalArgumentException();

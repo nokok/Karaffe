@@ -7,6 +7,6 @@ import spock.lang.Specification
 class TreeSpec extends Specification {
     def "treetoString"() {
         expect:
-        new Tree(NodeType.DefClass, "A").toString() == 'DefClass ("A", [], [])'
+        new Tree(NodeType.DefClass, "A", null).toString() == 'DefClass ("A", [], [])'
     }
 }

@@ -17,9 +17,9 @@ class TypeCheckerSpec extends Specification {
         checker.unify(tree) == result
 
         where:
-        tree                                     || result
-        new Tree(NodeType.IntLiteral, "1")       || new TypeInfo(Int.class)
-        new Tree(NodeType.StringLiteral, "Hoge") || new TypeInfo(karaffe.core.String.class)
+        tree                                           || result
+        new Tree(NodeType.IntLiteral, "1", null)       || new TypeInfo(Int.class)
+        new Tree(NodeType.StringLiteral, "Hoge", null) || new TypeInfo(karaffe.core.String.class)
     }
 
     def "method"() {
@@ -29,8 +29,8 @@ class TypeCheckerSpec extends Specification {
         checker.unify(tree) == result
 
         where:
-        tree                                 || result
-        new Tree(NodeType.DefMethod, "main") || new TypeInfo(Unit.class)
+        tree                                       || result
+        new Tree(NodeType.DefMethod, "main", null) || new TypeInfo(Unit.class)
     }
 
 }
