@@ -4,6 +4,7 @@ import org.karaffe.compiler.frontend.karaffe.antlr.KaraffeBaseVisitor;
 import org.karaffe.compiler.frontend.karaffe.antlr.KaraffeParser;
 import org.karaffe.compiler.tree.NodeType;
 import org.karaffe.compiler.tree.Tree;
+import org.karaffe.compiler.tree.attr.InferredType;
 import org.karaffe.compiler.tree.attr.JavaModifier;
 import org.karaffe.compiler.tree.attr.MethodSignature;
 import org.karaffe.compiler.tree.attr.ModifierAttribute;
@@ -97,8 +98,10 @@ public class KaraffeASTCreateVisitor extends KaraffeBaseVisitor<Tree> {
         Tree tree;
         if (ctx.IntegerLiteral() != null) {
             tree = new Tree(NodeType.IntLiteral, ctx.IntegerLiteral().getText());
+            tree.addAttribute(new InferredType(int.class));
         } else if (ctx.StringLiteral() != null) {
             tree = new Tree(NodeType.StringLiteral, ctx.StringLiteral().getText());
+            tree.addAttribute(new InferredType(String.class));
         } else {
             throw new IllegalArgumentException();
         }

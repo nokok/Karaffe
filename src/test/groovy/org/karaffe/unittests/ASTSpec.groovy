@@ -16,6 +16,6 @@ class ASTSpec extends Specification {
         def ast = context.getCurrentAST()
 
         expect:
-        ast.toString() == 'CompilationUnit ("", [], [SourceFile ("<unknown>", [], [DefClass ("A", [SuperClass java.lang.Object, ModifierAttribute [PUBLIC]], [])])])'
+        ast.toString() == 'CompilationUnit ("", [], [SourceFile ("<unknown>", [], [DefClass ("A", [SuperClass=java.lang.Object, ModifierAttribute=[PUBLIC]], [])])])'
     }
 }
