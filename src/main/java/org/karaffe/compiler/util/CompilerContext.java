@@ -65,10 +65,14 @@ public class CompilerContext {
         return this.sources.stream().filter(s -> s.getSourceName().equals(sourceName)).findFirst();
     }
 
-    public void add(BytecodeEntry entry) {
+    public boolean add(BytecodeEntry entry) {
         Objects.requireNonNull(entry);
-        this.dynamicClassLoader.define(entry.getPath().getFileName().toString().replace(".class", ""), entry.getByteCode());
+        if (this.outputFiles.containsKey(entry.getPath())) {
+            return false;
+        }
         this.outputFiles.put(entry.getPath(), entry.getByteCode());
+        this.dynamicClassLoader.define(entry.getPath().getFileName().toString().replace(".class", ""), entry.getByteCode());
+        return true;
     }
 
     public void add(Report report) {

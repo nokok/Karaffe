@@ -30,7 +30,9 @@ public class KaraffeParserVisitor extends KaraffeBaseVisitor<CompilerContext> {
         bytecodeSupport.newClassDefinition(ctx.Identifier().getText());
         super.visitClassDef(ctx);
         BytecodeEntry bytecodeEntry = bytecodeSupport.closeThisClass();
-        context.add(bytecodeEntry);
+        if (!context.add(bytecodeEntry)) {
+            this.context.add(Report.newErrorReport("Duplicate class : " + ctx.Identifier().getText()).with(new Position(ctx)).build());
+        }
         return context;
     }
 
