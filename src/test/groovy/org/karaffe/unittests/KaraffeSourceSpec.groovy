@@ -1,6 +1,6 @@
 package org.karaffe.unittests
 
-import org.karaffe.compiler.Platform
+import org.karaffe.compiler.platform.Platform
 import org.karaffe.compiler.util.KaraffeSource
 import spock.lang.Specification
 

@@ -38,6 +38,7 @@ public class ReportFormatter {
                                 lines.add(line);
                                 StringBuilder padding = new StringBuilder();
                                 IntStream.range(0, pos.getColumn()).mapToObj(i -> " ").forEach(padding::append);
+                                IntStream.range(pos.getColumn(), pos.getEndColumn()).mapToObj(i -> "~").forEach(padding::append);
                                 padding.append("^");
                                 lines.add(padding.toString());
                             }));

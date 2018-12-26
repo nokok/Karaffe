@@ -1,7 +1,7 @@
 package org.karaffe.regression
 
 import org.karaffe.compiler.KaraffeCompiler
-import org.karaffe.compiler.Platform
+import org.karaffe.compiler.platform.Platform
 import org.karaffe.compiler.util.CompilerContext
 import org.karaffe.compiler.util.KaraffeSource
 import spock.lang.Specification
