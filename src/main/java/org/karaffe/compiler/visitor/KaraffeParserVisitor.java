@@ -27,7 +27,7 @@ public class KaraffeParserVisitor extends KaraffeBaseVisitor<CompilerContext> {
 
     @Override
     public CompilerContext visitClassDef(KaraffeParser.ClassDefContext ctx) {
-        bytecodeSupport.newClassDefinition(ctx.Identifier().getText());
+        bytecodeSupport.newClassDefinition(ctx.Identifier().getText(), ctx.start.getInputStream().getSourceName());
         super.visitClassDef(ctx);
         BytecodeEntry bytecodeEntry = bytecodeSupport.closeThisClass();
         if (!context.add(bytecodeEntry)) {
