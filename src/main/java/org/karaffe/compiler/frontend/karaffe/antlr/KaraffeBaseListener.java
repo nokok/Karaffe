@@ -76,6 +76,18 @@ public class KaraffeBaseListener implements KaraffeListener {
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
+	@Override public void enterInitBlock(KaraffeParser.InitBlockContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
+	@Override public void exitInitBlock(KaraffeParser.InitBlockContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
 	@Override public void enterVarDef(KaraffeParser.VarDefContext ctx) { }
 	/**
 	 * {@inheritDoc}

@@ -15,11 +15,16 @@ typeDefBody
 statement
   : entryPointBlock
   | printFunction
+  | initBlock
   | varDef
   ;
 
 entryPointBlock
   : ENTRYPOINT LBRACE statement* RBRACE
+  ;
+
+initBlock
+  : INIT LBRACE statement* RBRACE
   ;
 
 varDef
@@ -38,6 +43,7 @@ additiveExpr
 primary
   : literal
   | printFunction
+  | THIS
   ;
 
 literal
@@ -51,12 +57,15 @@ printFunction
 
 ENTRYPOINT: 'entrypoint';
 CLASS: 'class';
+INIT: 'init';
+THIS: 'this';
 DEF: 'def';
 EQUAL: '=';
 LBRACE: '{';
 RBRACE: '}';
 PLUS: '+';
 MINUS: '-';
+DOT: '.';
 
 StringLiteral
   : '"' StringChar* '"'
