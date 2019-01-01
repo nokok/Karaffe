@@ -13,6 +13,7 @@ StringLiteral=12
 IntegerLiteral=13
 Identifier=14
 WS=15
+THIS=16
 'print'=1
 '('=2
 ')'=3

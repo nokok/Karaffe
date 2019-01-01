@@ -78,25 +78,15 @@ public interface KaraffeListener extends ParseTreeListener {
 	 */
 	void exitExpr(KaraffeParser.ExprContext ctx);
 	/**
-	 * Enter a parse tree produced by {@link KaraffeParser#additiveExpr}.
+	 * Enter a parse tree produced by {@link KaraffeParser#binaryOperator}.
 	 * @param ctx the parse tree
 	 */
-	void enterAdditiveExpr(KaraffeParser.AdditiveExprContext ctx);
+	void enterBinaryOperator(KaraffeParser.BinaryOperatorContext ctx);
 	/**
-	 * Exit a parse tree produced by {@link KaraffeParser#additiveExpr}.
+	 * Exit a parse tree produced by {@link KaraffeParser#binaryOperator}.
 	 * @param ctx the parse tree
 	 */
-	void exitAdditiveExpr(KaraffeParser.AdditiveExprContext ctx);
-	/**
-	 * Enter a parse tree produced by {@link KaraffeParser#primary}.
-	 * @param ctx the parse tree
-	 */
-	void enterPrimary(KaraffeParser.PrimaryContext ctx);
-	/**
-	 * Exit a parse tree produced by {@link KaraffeParser#primary}.
-	 * @param ctx the parse tree
-	 */
-	void exitPrimary(KaraffeParser.PrimaryContext ctx);
+	void exitBinaryOperator(KaraffeParser.BinaryOperatorContext ctx);
 	/**
 	 * Enter a parse tree produced by {@link KaraffeParser#literal}.
 	 * @param ctx the parse tree

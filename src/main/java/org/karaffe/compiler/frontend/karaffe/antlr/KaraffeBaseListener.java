@@ -100,25 +100,13 @@ public class KaraffeBaseListener implements KaraffeListener {
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
-	@Override public void enterAdditiveExpr(KaraffeParser.AdditiveExprContext ctx) { }
+	@Override public void enterBinaryOperator(KaraffeParser.BinaryOperatorContext ctx) { }
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
-	@Override public void exitAdditiveExpr(KaraffeParser.AdditiveExprContext ctx) { }
-	/**
-	 * {@inheritDoc}
-	 *
-	 * <p>The default implementation does nothing.</p>
-	 */
-	@Override public void enterPrimary(KaraffeParser.PrimaryContext ctx) { }
-	/**
-	 * {@inheritDoc}
-	 *
-	 * <p>The default implementation does nothing.</p>
-	 */
-	@Override public void exitPrimary(KaraffeParser.PrimaryContext ctx) { }
+	@Override public void exitBinaryOperator(KaraffeParser.BinaryOperatorContext ctx) { }
 	/**
 	 * {@inheritDoc}
 	 *

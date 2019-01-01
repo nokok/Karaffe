@@ -63,18 +63,6 @@ public class KaraffeASTCreateVisitor extends KaraffeBaseVisitor<Tree> {
     }
 
     @Override
-    public Tree visitAdditiveExpr(KaraffeParser.AdditiveExprContext ctx) {
-        if (ctx.op == null) {
-            return ctx.primary().accept(this);
-        }
-        Tree tree = new Tree(NodeType.Apply, "()");
-        tree.addChild(new Tree(NodeType.Select, ctx.op.getText()));
-        tree.addChild(ctx.left.accept(this));
-        tree.addChild(ctx.right.accept(this));
-        return tree;
-    }
-
-    @Override
     public Tree visitLiteral(KaraffeParser.LiteralContext ctx) {
         Tree tree;
         if (ctx.IntegerLiteral() != null) {
