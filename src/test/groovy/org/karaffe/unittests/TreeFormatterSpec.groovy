@@ -9,7 +9,7 @@ import spock.lang.Specification
 class TreeFormatterSpec extends Specification {
     def "singleNode"() {
         setup:
-        def tree = new Tree(NodeType.CompilationUnit, "A")
+        def tree = new Tree(NodeType.CompilationUnit, "A", null)
         def formatter = new TreeFormatter()
         def result = formatter.format(tree)
 
@@ -19,7 +19,7 @@ class TreeFormatterSpec extends Specification {
 
     def "singleNodeWithAttribute"() {
         setup:
-        def tree = new Tree(NodeType.CompilationUnit, "B")
+        def tree = new Tree(NodeType.CompilationUnit, "B", null)
         tree.addAttribute(new ModifierAttribute())
         def formatter = new TreeFormatter()
         def result = formatter.format(tree)
@@ -30,9 +30,9 @@ class TreeFormatterSpec extends Specification {
 
     def "singleNodeWithChild"() {
         setup:
-        def tree = new Tree(NodeType.CompilationUnit, "C")
+        def tree = new Tree(NodeType.CompilationUnit, "C", null)
         tree.addAttribute(new ModifierAttribute())
-        tree.addChild(new Tree(NodeType.Apply, "()"))
+        tree.addChild(new Tree(NodeType.Apply, "()", null))
         def formatter = new TreeFormatter()
         def result = formatter.format(tree)
 
@@ -43,10 +43,10 @@ class TreeFormatterSpec extends Specification {
 
     def "singleNodeWithChlidren"() {
         setup:
-        def tree = new Tree(NodeType.CompilationUnit, "C")
+        def tree = new Tree(NodeType.CompilationUnit, "C", null)
         tree.addAttribute(new ModifierAttribute())
-        tree.addChild(new Tree(NodeType.Apply, "1"))
-        tree.addChild(new Tree(NodeType.Apply, "2"))
+        tree.addChild(new Tree(NodeType.Apply, "1", null))
+        tree.addChild(new Tree(NodeType.Apply, "2", null))
         def formatter = new TreeFormatter()
         def result = formatter.format(tree)
 
@@ -58,12 +58,12 @@ class TreeFormatterSpec extends Specification {
 
     def "nestedChildren"() {
         setup:
-        def tree = new Tree(NodeType.CompilationUnit, "C")
+        def tree = new Tree(NodeType.CompilationUnit, "C", null)
         tree.addAttribute(new ModifierAttribute())
-        def child1 = new Tree(NodeType.Apply, "1")
-        child1.addChild(new Tree(NodeType.Select, "c"))
+        def child1 = new Tree(NodeType.Apply, "1", null)
+        child1.addChild(new Tree(NodeType.Select, "c", null))
         tree.addChild(child1)
-        tree.addChild(new Tree(NodeType.Apply, "2"))
+        tree.addChild(new Tree(NodeType.Apply, "2", null))
         def formatter = new TreeFormatter()
         def result = formatter.format(tree)
 

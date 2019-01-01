@@ -39,7 +39,7 @@ class SyntaxSpec extends Specification {
         lexer.addErrorListener(DEFULT_ERROR_LISTENER)
         def parser = new KaraffeParser(new CommonTokenStream(lexer))
         parser.addErrorListener(DEFULT_ERROR_LISTENER)
-        def context = parser.compilationUnit()
+        def context = parser.sourceFile()
 
         expect:
         context != null

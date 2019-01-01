@@ -6,6 +6,7 @@ import org.karaffe.compiler.args.Options;
 import org.karaffe.compiler.args.ParameterName;
 import org.karaffe.compiler.report.Report;
 import org.karaffe.compiler.report.ReportFormatter;
+import org.karaffe.compiler.tree.NodeType;
 import org.karaffe.compiler.tree.Tree;
 
 import java.nio.file.Path;
@@ -23,8 +24,8 @@ public class CompilerContext {
     private List<Report> reports = new ArrayList<>();
     private Map<Path, byte[]> outputFiles = new HashMap<>();
     private ClassLoader defaultClassLoader = Thread.currentThread().getContextClassLoader();
-    private Map<KaraffeSource, Tree> sourceAstMap = new HashMap<>();
     private DynamicClassLoader dynamicClassLoader = new DynamicClassLoader(defaultClassLoader);
+    private Tree currentAST = new Tree(NodeType.Error, "DEFAULT", null);
 
     private boolean hasError = false;
 
@@ -50,18 +51,6 @@ public class CompilerContext {
         this.sources.add(Objects.requireNonNull(source));
     }
 
-    public void add(KaraffeSource source, Tree ast) {
-        this.sourceAstMap.put(Objects.requireNonNull(source), Objects.requireNonNull(ast));
-    }
-
-    public Tree getAST(KaraffeSource source) {
-        return this.sourceAstMap.get(Objects.requireNonNull(source));
-    }
-
-    public Map<KaraffeSource, Tree> getASTs() {
-        return this.sourceAstMap;
-    }
-
     public List<KaraffeSource> getSources() {
         return this.sources;
     }
@@ -76,10 +65,14 @@ public class CompilerContext {
         return this.sources.stream().filter(s -> s.getSourceName().equals(sourceName)).findFirst();
     }
 
-    public void add(BytecodeEntry entry) {
+    public boolean add(BytecodeEntry entry) {
         Objects.requireNonNull(entry);
-        this.dynamicClassLoader.define(entry.getPath().getFileName().toString().replace(".class", ""), entry.getByteCode());
+        if (this.outputFiles.containsKey(entry.getPath())) {
+            return false;
+        }
         this.outputFiles.put(entry.getPath(), entry.getByteCode());
+        this.dynamicClassLoader.define(entry.getPath().getFileName().toString().replace(".class", ""), entry.getByteCode());
+        return true;
     }
 
     public void add(Report report) {
@@ -109,5 +102,13 @@ public class CompilerContext {
             reportTexts.add(formatter.format(report));
         }
         return String.join("\n", reportTexts);
+    }
+
+    public Tree getCurrentAST() {
+        return currentAST;
+    }
+
+    public void setAST(Tree currentAST) {
+        this.currentAST = currentAST;
     }
 }

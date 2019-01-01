@@ -2,18 +2,21 @@ package org.karaffe.compiler.tree;
 
 import org.karaffe.compiler.tree.attr.Attribute;
 import org.karaffe.compiler.tree.attr.Attributes;
+import org.karaffe.compiler.util.Position;
 
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 
 public class Tree {
+    private Position position;
     private NodeType nodeType;
     private String name;
     private Attributes attributes;
     private List<Tree> children;
 
-    public Tree(NodeType nodeType, String name) {
+    public Tree(NodeType nodeType, String name, Position position) {
+        this.position = position;
         this.nodeType = Objects.requireNonNull(nodeType);
         this.name = Objects.requireNonNull(name);
         this.attributes = new Attributes();

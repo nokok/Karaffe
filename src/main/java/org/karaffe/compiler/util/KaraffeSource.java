@@ -18,11 +18,16 @@ public class KaraffeSource implements CharSequence {
     private final CharStream charStream;
 
     private KaraffeSource(String source) {
-        this.sourceName = "<unknown>";
+        this(source, "<unknown>");
+    }
+
+    private KaraffeSource(String source, String virtualSourceName) {
+        this.sourceName = Objects.requireNonNull(virtualSourceName);
         this.source = Objects.requireNonNull(source);
         this.lines = Arrays.asList(source.split("\r\n|[\n\r\u2028\u2029\u0085]")); //java.util.Scanner#LINE_SEPARATOR_PATTERN
-        this.charStream = CharStreams.fromString(source);
+        this.charStream = CharStreams.fromString(source, virtualSourceName);
     }
+
 
     private KaraffeSource(Path path) throws IOException {
         Objects.requireNonNull(path);
@@ -35,6 +40,10 @@ public class KaraffeSource implements CharSequence {
 
     public static KaraffeSource fromString(String source) {
         return new KaraffeSource(source);
+    }
+
+    public static KaraffeSource fromString(String source, String virtualSourceName) {
+        return new KaraffeSource(source, virtualSourceName);
     }
 
     public static KaraffeSource fromPath(Path path) throws IOException {

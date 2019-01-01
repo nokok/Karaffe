@@ -20,6 +20,7 @@ import java.util.Objects;
 public class BytecodeSupport {
 
     private ClassWriter classWriter = null;
+    private String currentFileName = null;
     private MethodVisitor methodVisitor = null;
     private String currentClassName = null;
 
@@ -27,9 +28,11 @@ public class BytecodeSupport {
         this.classWriter = new ClassWriter(ClassWriter.COMPUTE_FRAMES);
     }
 
-    public void newClassDefinition(String className) {
+    public void newClassDefinition(String className, String sourceFileName) {
         this.currentClassName = Objects.requireNonNull(className);
+        this.currentFileName = Objects.requireNonNull(sourceFileName);
         this.classWriter.visit(Opcodes.V1_8, Opcodes.ACC_PUBLIC, className, null, Type.getInternalName(Object.class), null);
+        this.classWriter.visitSource(sourceFileName, null);
     }
 
     public <T> void newFieldDefinition(String fieldName, Class<T> type) {
