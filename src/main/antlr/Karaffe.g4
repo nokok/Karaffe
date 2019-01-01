@@ -16,6 +16,7 @@ statement
   : entryPointBlock
   | printFunction
   | varDef
+  | expr
   ;
 
 entryPointBlock
@@ -27,17 +28,14 @@ varDef
   ;
 
 expr
-  : additiveExpr
-  ;
-
-additiveExpr
-  : primary
-  | left=additiveExpr op=(PLUS | MINUS) right=primary
-  ;
-
-primary
   : literal
-  | printFunction
+  | THIS
+  | left=expr op=binaryOperator right=expr
+  ;
+
+binaryOperator
+  : PLUS
+  | MINUS
   ;
 
 literal
@@ -52,6 +50,7 @@ printFunction
 ENTRYPOINT: 'entrypoint';
 CLASS: 'class';
 PRINT: 'print';
+THIS: 'this';
 DEF: 'def';
 EQUAL: '=';
 LPAREN: '(';

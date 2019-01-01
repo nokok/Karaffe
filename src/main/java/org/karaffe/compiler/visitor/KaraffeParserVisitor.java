@@ -66,30 +66,6 @@ public class KaraffeParserVisitor extends KaraffeBaseVisitor<CompilerContext> {
     }
 
     @Override
-    public CompilerContext visitAdditiveExpr(KaraffeParser.AdditiveExprContext ctx) {
-        if (ctx.op == null) {
-            return super.visitAdditiveExpr(ctx);
-        }
-        ctx.left.accept(this);
-        ctx.right.accept(this);
-        Class<?> param = typeStack.pop();
-        Class<?> owner = typeStack.pop();
-        if (!owner.equals(param)) {
-            this.context.add(Report.newErrorReport(String.format("'%s'+'%s' is not applicable", owner.getName(), param.getName())).with(new Position(ctx.op)).build());
-            throw new SemanticAnalysisException();
-        }
-        if (ctx.op.getText().equals("+")) {
-            bytecodeSupport.applyPlusOperator(owner, param);
-        } else if (ctx.op.getText().equals("-")) {
-            bytecodeSupport.applyMinusOperator(owner, param);
-        } else {
-            throw new IllegalStateException(ctx.op.getText());
-        }
-        typeStack.push(owner);
-        return context;
-    }
-
-    @Override
     public CompilerContext visitLiteral(KaraffeParser.LiteralContext ctx) {
         if (ctx.IntegerLiteral() != null) {
             int i = Integer.parseInt(ctx.getText());
