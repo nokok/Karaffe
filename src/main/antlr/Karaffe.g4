@@ -15,12 +15,17 @@ typeDefBody
 statement
   : entryPointBlock
   | printFunction
+  | initBlock
   | varDef
   | expr
   ;
 
 entryPointBlock
   : ENTRYPOINT LBRACE statement* RBRACE
+  ;
+
+initBlock
+  : INIT LBRACE statement* RBRACE
   ;
 
 varDef
@@ -50,6 +55,7 @@ printFunction
 ENTRYPOINT: 'entrypoint';
 CLASS: 'class';
 PRINT: 'print';
+INIT: 'init';
 THIS: 'this';
 DEF: 'def';
 EQUAL: '=';
@@ -59,6 +65,7 @@ LBRACE: '{';
 RBRACE: '}';
 PLUS: '+';
 MINUS: '-';
+DOT: '.';
 
 StringLiteral
   : '"' StringChar* '"'

@@ -165,6 +165,46 @@ class SyntaxSpec extends Specification {
         expect:
         context != null
         context.Identifier().getText() == "Main"
+        context.typeDefBody().statement(0) != null
+    }
+
+    def "constructor"() {
+        setup:
+        def lexer = new KaraffeLexer(CharStreams.fromString(
+                """class Main {
+                  |  init {
+                  |  }
+                  |}""".stripMargin()
+        ))
+        lexer.addErrorListener(DEFULT_ERROR_LISTENER)
+        def parse = new KaraffeParser(new CommonTokenStream(lexer))
+        parse.addErrorListener(DEFULT_ERROR_LISTENER)
+        def context = parse.classDef()
+
+        expect:
+        context != null
+        context.Identifier().getText() == "Main"
+        context.typeDefBody().statement(0)
+    }
+
+    def "initialize"() {
+        setup:
+        def lexer = new KaraffeLexer(CharStreams.fromString(
+                """class Main {
+                  |  def i
+                  |  init {
+                  |    this.i = 0
+                  |  }
+                  |}""".stripMargin()
+        ))
+        lexer.addErrorListener(DEFULT_ERROR_LISTENER)
+        def parse = new KaraffeParser(new CommonTokenStream(lexer))
+        parse.addErrorListener(DEFULT_ERROR_LISTENER)
+        def context = parse.classDef()
+
+        expect:
+        context != null
+        context.Identifier().getText() == "Main"
         context.typeDefBody().statement(0)
     }
 }

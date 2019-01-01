@@ -42,6 +42,31 @@ class LexerSpec extends Specification {
     }
 
     @Unroll
+    def "keyword is not Identifier #source"() {
+        setup:
+        def lexer = new KaraffeLexer(CharStreams.fromString(source))
+        lexer.removeErrorListeners()
+        lexer.addErrorListener(SyntaxSpec.DEFULT_ERROR_LISTENER)
+        def stream = new CommonTokenStream(lexer)
+        stream.consume()
+        def token = stream.get(0)
+        def tokenText = token.getText()
+
+        expect:
+        tokenText == source
+        token.getType() != KaraffeLexer.Identifier
+
+        where:
+        source << [
+                "entrypoint",
+                "class",
+                "def",
+                "init",
+                "this"
+        ]
+    }
+
+    @Unroll
     def "invalid token Type #source"() {
         setup:
         def lexer = new KaraffeLexer(CharStreams.fromString(source))
