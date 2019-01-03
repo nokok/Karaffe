@@ -63,13 +63,17 @@ public class KaraffeASTCreateVisitor extends KaraffeBaseVisitor<Tree> {
         } else if (ctx.t != null) {
             return new AnonymousTree(NodeType.This, new Position(ctx.t));
         } else if (ctx.op != null) {
-            Tree tree = new Tree(NodeType.Apply, "()", new Position(ctx));
-            Tree operator = new AnonymousTree(NodeType.Select, new Position(ctx.op));
-            operator.addChild(new Tree(NodeType.Identifier, ctx.op.getText(), new Position(ctx.op)));
-            tree.addChild(operator);
-            operator.addChild(ctx.left.accept(this));
-            operator.addChild(ctx.right.accept(this));
-            return tree;
+            Tree apply = new Tree(NodeType.Apply, "()", new Position(ctx));
+            Tree select = new Tree(NodeType.Select, "", new Position(ctx.op));
+            select.addChild(new Tree(NodeType.Identifier, ctx.op.getText(), new Position(ctx.op)));
+            select.addChild(ctx.left.accept(this));
+            apply.addChild(select);
+            Tree arguments = new AnonymousTree(NodeType.Arguments, new Position(ctx.right));
+            Tree argument = new AnonymousTree(NodeType.Argument, new Position(ctx.right));
+            argument.addChild(ctx.right.accept(this));
+            arguments.addChild(argument);
+            apply.addChild(arguments);
+            return apply;
         } else {
             throw new IllegalStateException();
         }
@@ -111,9 +115,16 @@ public class KaraffeASTCreateVisitor extends KaraffeBaseVisitor<Tree> {
         Tree select = new AnonymousTree(NodeType.Select, new Position(ctx));
         select.addChild(new Tree(NodeType.Identifier, "print", new Position(ctx.PRINT().getSymbol())));
         tree.addChild(select);
-        if (ctx.body != null) {
-            select.addChild(ctx.body.accept(this));
+        Tree arguments;
+        if (ctx.body == null) {
+            arguments = new AnonymousTree(NodeType.Arguments, new Position(ctx));
+        } else {
+            arguments = new AnonymousTree(NodeType.Arguments, new Position(ctx.body));
+            Tree argument = new AnonymousTree(NodeType.Argument, new Position(ctx.body));
+            argument.addChild(ctx.body.accept(this));
+            arguments.addChild(argument);
         }
+        tree.addChild(arguments);
         return tree;
     }
 

@@ -54,10 +54,18 @@ public abstract class TreeWalker {
             onTypeName(tree);
         } else if (tree.getNodeType() == NodeType.Body) {
             onBody(tree);
+        } else if (tree.getNodeType() == NodeType.Arguments) {
+            onArguments(tree);
+        } else if (tree.getNodeType() == NodeType.Argument) {
+            onArgument(tree);
         } else {
             throw new IllegalStateException(tree.getNodeType().name());
         }
     }
+
+    abstract void onArgument(Tree tree);
+
+    abstract void onArguments(Tree tree);
 
     abstract void onBody(Tree tree);
 

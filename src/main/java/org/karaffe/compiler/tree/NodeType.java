@@ -20,5 +20,7 @@ public enum NodeType {
     Modifiers,
     TypeName,
     Identifier,
-    Body
+    Body,
+    Arguments,
+    Argument
 }

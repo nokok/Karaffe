@@ -18,7 +18,7 @@ class ASTSpec extends Specification {
         def ast = visitor.visit(result)
 
         expect:
-        ast.toString() == 'SourceFile ("<unknown>", [DefClass ("A", [SuperClass ("", [TypeName ("java.lang.Object", [])]), Modifiers ("", [Modifier ("public", [])])])])'
+        ast.toString() == 'SourceFile ("<unknown>", [DefClass ("A", [SuperClass ("", [TypeName ("java.lang.Object", [])]), Modifiers ("", [Modifier ("public", [])]), Body ("", [])])])'
     }
 
     @Unroll
@@ -36,10 +36,10 @@ class ASTSpec extends Specification {
         where:
         source      || expectAST
         "1"         || 'IntLiteral ("1", [])'
-        "1 + 1"     || 'Apply ("()", [Select ("+", [IntLiteral ("1", []), IntLiteral ("1", [])])])'
-        "1 + 2 + 3" || 'Apply ("()", [Select ("+", [Apply ("()", [Select ("+", [IntLiteral ("1", []), IntLiteral ("2", [])])]), IntLiteral ("3", [])])])' // ((1 + 2) + 3)
-        "1 - 2"     || 'Apply ("()", [Select ("-", [IntLiteral ("1", []), IntLiteral ("2", [])])])'
-        "1 + 2 - 3" || 'Apply ("()", [Select ("-", [Apply ("()", [Select ("+", [IntLiteral ("1", []), IntLiteral ("2", [])])]), IntLiteral ("3", [])])])' // ((1 + 2) + 3)
+        "1 + 1"     || 'Apply ("()", [Select ("", [Identifier ("+", []), IntLiteral ("1", [])]), Arguments ("", [Argument ("", [IntLiteral ("1", [])])])])'
+        "1 + 2 + 3" || 'Apply ("()", [Select ("", [Identifier ("+", []), Apply ("()", [Select ("", [Identifier ("+", []), IntLiteral ("1", [])]), Arguments ("", [Argument ("", [IntLiteral ("2", [])])])])]), Arguments ("", [Argument ("", [IntLiteral ("3", [])])])])' // ((1 + 2) + 3)
+        "1 - 2"     || 'Apply ("()", [Select ("", [Identifier ("-", []), IntLiteral ("1", [])]), Arguments ("", [Argument ("", [IntLiteral ("2", [])])])])'
+        "1 + 2 - 3" || 'Apply ("()", [Select ("", [Identifier ("-", []), Apply ("()", [Select ("", [Identifier ("+", []), IntLiteral ("1", [])]), Arguments ("", [Argument ("", [IntLiteral ("2", [])])])])]), Arguments ("", [Argument ("", [IntLiteral ("3", [])])])])' // ((1 + 2) + 3)
 
     }
 }

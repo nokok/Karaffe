@@ -2,6 +2,7 @@ package org.karaffe.compiler.tree.walker;
 
 import org.karaffe.compiler.tree.Tree;
 
+import static org.karaffe.compiler.tree.NodeType.Arguments;
 import static org.karaffe.compiler.tree.NodeType.Body;
 import static org.karaffe.compiler.tree.NodeType.DefClass;
 import static org.karaffe.compiler.tree.NodeType.Identifier;
@@ -59,11 +60,13 @@ public class TreeSchemaValidator extends TreeWalkerAdapter {
     @Override
     void onApply(Tree tree) {
         assert tree.indexOf(Select) == 0;
+        assert tree.indexOf(Arguments) == 1;
     }
 
     @Override
     void onSelect(Tree tree) {
         assert tree.indexOf(Identifier) == 0;
+        assert tree.getChildren().size() == 1 || tree.getChildren().size() == 2;
     }
 
     @Override

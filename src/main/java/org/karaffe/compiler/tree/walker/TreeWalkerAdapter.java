@@ -4,6 +4,16 @@ import org.karaffe.compiler.tree.Tree;
 
 public abstract class TreeWalkerAdapter extends TreeWalker {
     @Override
+    void onArgument(Tree tree) {
+
+    }
+
+    @Override
+    void onArguments(Tree tree) {
+
+    }
+
+    @Override
     void onBody(Tree tree) {
 
     }
