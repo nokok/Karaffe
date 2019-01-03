@@ -17,9 +17,9 @@ public class KaraffeParser extends Parser {
 	protected static final PredictionContextCache _sharedContextCache =
 		new PredictionContextCache();
 	public static final int
-		ENTRYPOINT=1, CLASS=2, PRINT=3, INIT=4, THIS=5, DEF=6, EQUAL=7, LPAREN=8, 
-		RPAREN=9, LBRACE=10, RBRACE=11, PLUS=12, MINUS=13, DOT=14, StringLiteral=15, 
-		IntegerLiteral=16, Identifier=17, WS=18;
+		ENTRYPOINT=1, CLASS=2, PRINT=3, INIT=4, THIS=5, DEF=6, LPAREN=7, RPAREN=8, 
+		LBRACE=9, RBRACE=10, DOT=11, StringLiteral=12, IntegerLiteral=13, Identifier=14, 
+		WS=15;
 	public static final int
 		RULE_sourceFile = 0, RULE_classDef = 1, RULE_typeDefBody = 2, RULE_statement = 3, 
 		RULE_entryPointBlock = 4, RULE_initBlock = 5, RULE_varDef = 6, RULE_expr = 7, 
@@ -31,12 +31,12 @@ public class KaraffeParser extends Parser {
 
 	private static final String[] _LITERAL_NAMES = {
 		null, "'entrypoint'", "'class'", "'print'", "'init'", "'this'", "'def'", 
-		"'='", "'('", "')'", "'{'", "'}'", "'+'", "'-'", "'.'"
+		"'('", "')'", "'{'", "'}'", "'.'"
 	};
 	private static final String[] _SYMBOLIC_NAMES = {
-		null, "ENTRYPOINT", "CLASS", "PRINT", "INIT", "THIS", "DEF", "EQUAL", 
-		"LPAREN", "RPAREN", "LBRACE", "RBRACE", "PLUS", "MINUS", "DOT", "StringLiteral", 
-		"IntegerLiteral", "Identifier", "WS"
+		null, "ENTRYPOINT", "CLASS", "PRINT", "INIT", "THIS", "DEF", "LPAREN", 
+		"RPAREN", "LBRACE", "RBRACE", "DOT", "StringLiteral", "IntegerLiteral", 
+		"Identifier", "WS"
 	};
 	public static final Vocabulary VOCABULARY = new VocabularyImpl(_LITERAL_NAMES, _SYMBOLIC_NAMES);
 
@@ -554,6 +554,8 @@ public class KaraffeParser extends Parser {
 
 	public static class ExprContext extends ParserRuleContext {
 		public ExprContext left;
+		public LiteralContext lit;
+		public Token t;
 		public BinaryOperatorContext op;
 		public ExprContext right;
 		public LiteralContext literal() {
@@ -610,13 +612,13 @@ public class KaraffeParser extends Parser {
 			case IntegerLiteral:
 				{
 				setState(75);
-				literal();
+				((ExprContext)_localctx).lit = literal();
 				}
 				break;
 			case THIS:
 				{
 				setState(76);
-				match(THIS);
+				((ExprContext)_localctx).t = match(THIS);
 				}
 				break;
 			default:
@@ -663,8 +665,7 @@ public class KaraffeParser extends Parser {
 	}
 
 	public static class BinaryOperatorContext extends ParserRuleContext {
-		public TerminalNode PLUS() { return getToken(KaraffeParser.PLUS, 0); }
-		public TerminalNode MINUS() { return getToken(KaraffeParser.MINUS, 0); }
+		public TerminalNode Identifier() { return getToken(KaraffeParser.Identifier, 0); }
 		public BinaryOperatorContext(ParserRuleContext parent, int invokingState) {
 			super(parent, invokingState);
 		}
@@ -687,20 +688,11 @@ public class KaraffeParser extends Parser {
 	public final BinaryOperatorContext binaryOperator() throws RecognitionException {
 		BinaryOperatorContext _localctx = new BinaryOperatorContext(_ctx, getState());
 		enterRule(_localctx, 16, RULE_binaryOperator);
-		int _la;
 		try {
 			enterOuterAlt(_localctx, 1);
 			{
 			setState(88);
-			_la = _input.LA(1);
-			if ( !(_la==PLUS || _la==MINUS) ) {
-			_errHandler.recoverInline(this);
-			}
-			else {
-				if ( _input.LA(1)==Token.EOF ) matchedEOF = true;
-				_errHandler.reportMatch(this);
-				consume();
-			}
+			match(Identifier);
 			}
 		}
 		catch (RecognitionException re) {
@@ -845,31 +837,31 @@ public class KaraffeParser extends Parser {
 	}
 
 	public static final String _serializedATN =
-		"\3\u608b\ua72a\u8133\ub9ed\u417c\u3be7\u7786\u5964\3\24f\4\2\t\2\4\3\t"+
+		"\3\u608b\ua72a\u8133\ub9ed\u417c\u3be7\u7786\u5964\3\21f\4\2\t\2\4\3\t"+
 		"\3\4\4\t\4\4\5\t\5\4\6\t\6\4\7\t\7\4\b\t\b\4\t\t\t\4\n\t\n\4\13\t\13\4"+
 		"\f\t\f\3\2\7\2\32\n\2\f\2\16\2\35\13\2\3\2\3\2\3\3\3\3\3\3\5\3$\n\3\3"+
 		"\4\3\4\7\4(\n\4\f\4\16\4+\13\4\3\4\3\4\3\5\3\5\3\5\3\5\3\5\5\5\64\n\5"+
 		"\3\6\3\6\3\6\7\69\n\6\f\6\16\6<\13\6\3\6\3\6\3\7\3\7\3\7\7\7C\n\7\f\7"+
 		"\16\7F\13\7\3\7\3\7\3\b\3\b\3\b\3\t\3\t\3\t\5\tP\n\t\3\t\3\t\3\t\3\t\7"+
 		"\tV\n\t\f\t\16\tY\13\t\3\n\3\n\3\13\3\13\3\f\3\f\3\f\5\fb\n\f\3\f\3\f"+
-		"\3\f\2\3\20\r\2\4\6\b\n\f\16\20\22\24\26\2\4\3\2\16\17\3\2\21\22\2f\2"+
-		"\33\3\2\2\2\4 \3\2\2\2\6%\3\2\2\2\b\63\3\2\2\2\n\65\3\2\2\2\f?\3\2\2\2"+
-		"\16I\3\2\2\2\20O\3\2\2\2\22Z\3\2\2\2\24\\\3\2\2\2\26^\3\2\2\2\30\32\5"+
-		"\4\3\2\31\30\3\2\2\2\32\35\3\2\2\2\33\31\3\2\2\2\33\34\3\2\2\2\34\36\3"+
-		"\2\2\2\35\33\3\2\2\2\36\37\7\2\2\3\37\3\3\2\2\2 !\7\4\2\2!#\7\23\2\2\""+
-		"$\5\6\4\2#\"\3\2\2\2#$\3\2\2\2$\5\3\2\2\2%)\7\f\2\2&(\5\b\5\2\'&\3\2\2"+
-		"\2(+\3\2\2\2)\'\3\2\2\2)*\3\2\2\2*,\3\2\2\2+)\3\2\2\2,-\7\r\2\2-\7\3\2"+
-		"\2\2.\64\5\n\6\2/\64\5\26\f\2\60\64\5\f\7\2\61\64\5\16\b\2\62\64\5\20"+
-		"\t\2\63.\3\2\2\2\63/\3\2\2\2\63\60\3\2\2\2\63\61\3\2\2\2\63\62\3\2\2\2"+
-		"\64\t\3\2\2\2\65\66\7\3\2\2\66:\7\f\2\2\679\5\b\5\28\67\3\2\2\29<\3\2"+
-		"\2\2:8\3\2\2\2:;\3\2\2\2;=\3\2\2\2<:\3\2\2\2=>\7\r\2\2>\13\3\2\2\2?@\7"+
-		"\6\2\2@D\7\f\2\2AC\5\b\5\2BA\3\2\2\2CF\3\2\2\2DB\3\2\2\2DE\3\2\2\2EG\3"+
-		"\2\2\2FD\3\2\2\2GH\7\r\2\2H\r\3\2\2\2IJ\7\b\2\2JK\7\23\2\2K\17\3\2\2\2"+
-		"LM\b\t\1\2MP\5\24\13\2NP\7\7\2\2OL\3\2\2\2ON\3\2\2\2PW\3\2\2\2QR\f\3\2"+
-		"\2RS\5\22\n\2ST\5\20\t\4TV\3\2\2\2UQ\3\2\2\2VY\3\2\2\2WU\3\2\2\2WX\3\2"+
-		"\2\2X\21\3\2\2\2YW\3\2\2\2Z[\t\2\2\2[\23\3\2\2\2\\]\t\3\2\2]\25\3\2\2"+
-		"\2^_\7\5\2\2_a\7\n\2\2`b\5\20\t\2a`\3\2\2\2ab\3\2\2\2bc\3\2\2\2cd\7\13"+
-		"\2\2d\27\3\2\2\2\13\33#)\63:DOWa";
+		"\3\f\2\3\20\r\2\4\6\b\n\f\16\20\22\24\26\2\3\3\2\16\17\2f\2\33\3\2\2\2"+
+		"\4 \3\2\2\2\6%\3\2\2\2\b\63\3\2\2\2\n\65\3\2\2\2\f?\3\2\2\2\16I\3\2\2"+
+		"\2\20O\3\2\2\2\22Z\3\2\2\2\24\\\3\2\2\2\26^\3\2\2\2\30\32\5\4\3\2\31\30"+
+		"\3\2\2\2\32\35\3\2\2\2\33\31\3\2\2\2\33\34\3\2\2\2\34\36\3\2\2\2\35\33"+
+		"\3\2\2\2\36\37\7\2\2\3\37\3\3\2\2\2 !\7\4\2\2!#\7\20\2\2\"$\5\6\4\2#\""+
+		"\3\2\2\2#$\3\2\2\2$\5\3\2\2\2%)\7\13\2\2&(\5\b\5\2\'&\3\2\2\2(+\3\2\2"+
+		"\2)\'\3\2\2\2)*\3\2\2\2*,\3\2\2\2+)\3\2\2\2,-\7\f\2\2-\7\3\2\2\2.\64\5"+
+		"\n\6\2/\64\5\26\f\2\60\64\5\f\7\2\61\64\5\16\b\2\62\64\5\20\t\2\63.\3"+
+		"\2\2\2\63/\3\2\2\2\63\60\3\2\2\2\63\61\3\2\2\2\63\62\3\2\2\2\64\t\3\2"+
+		"\2\2\65\66\7\3\2\2\66:\7\13\2\2\679\5\b\5\28\67\3\2\2\29<\3\2\2\2:8\3"+
+		"\2\2\2:;\3\2\2\2;=\3\2\2\2<:\3\2\2\2=>\7\f\2\2>\13\3\2\2\2?@\7\6\2\2@"+
+		"D\7\13\2\2AC\5\b\5\2BA\3\2\2\2CF\3\2\2\2DB\3\2\2\2DE\3\2\2\2EG\3\2\2\2"+
+		"FD\3\2\2\2GH\7\f\2\2H\r\3\2\2\2IJ\7\b\2\2JK\7\20\2\2K\17\3\2\2\2LM\b\t"+
+		"\1\2MP\5\24\13\2NP\7\7\2\2OL\3\2\2\2ON\3\2\2\2PW\3\2\2\2QR\f\3\2\2RS\5"+
+		"\22\n\2ST\5\20\t\4TV\3\2\2\2UQ\3\2\2\2VY\3\2\2\2WU\3\2\2\2WX\3\2\2\2X"+
+		"\21\3\2\2\2YW\3\2\2\2Z[\7\20\2\2[\23\3\2\2\2\\]\t\2\2\2]\25\3\2\2\2^_"+
+		"\7\5\2\2_a\7\t\2\2`b\5\20\t\2a`\3\2\2\2ab\3\2\2\2bc\3\2\2\2cd\7\n\2\2"+
+		"d\27\3\2\2\2\13\33#)\63:DOWa";
 	public static final ATN _ATN =
 		new ATNDeserializer().deserialize(_serializedATN.toCharArray());
 	static {

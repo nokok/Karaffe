@@ -64,26 +64,4 @@ class FileCreationSpec extends Specification {
         }
     }
 
-    def "parse error"() {
-        setup:
-        def context = new CompilerContext()
-        context.add(KaraffeSource.fromString("""class Hoge { entrypoint { print("Hello" + 1) }}"""))
-        def compiler = new KaraffeCompiler(context)
-        compiler.run()
-
-        expect:
-        context.outputFiles.size() == 0
-        context.outputFiles.get(Paths.get("A.class")) == null
-        context.getOutputText() == """[ERROR] 'karaffe.core.String'+'karaffe.core.Int' is not applicable at 1:40:<unknown>
-                                     |class Hoge { entrypoint { print("Hello" + 1) }}
-                                     |                                        ^""".stripMargin()
-        !Files.exists(Paths.get("Hoge.class"))
-
-        cleanup:
-        try {
-            Files.delete(Paths.get("Hoge.class"))
-        } catch (NoSuchFileException e) {
-            // ignore
-        }
-    }
 }

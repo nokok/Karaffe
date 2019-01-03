@@ -33,14 +33,13 @@ varDef
   ;
 
 expr
-  : literal
-  | THIS
+  : lit=literal
+  | t=THIS
   | left=expr op=binaryOperator right=expr
   ;
 
 binaryOperator
-  : PLUS
-  | MINUS
+  : Identifier
   ;
 
 literal
@@ -58,13 +57,10 @@ PRINT: 'print';
 INIT: 'init';
 THIS: 'this';
 DEF: 'def';
-EQUAL: '=';
 LPAREN: '(';
 RPAREN: ')';
 LBRACE: '{';
 RBRACE: '}';
-PLUS: '+';
-MINUS: '-';
 DOT: '.';
 
 StringLiteral
@@ -83,6 +79,23 @@ StringChar
 
 Identifier
   : Letter LetterOrDigit*
+  | OperatorChar+
+  ;
+
+fragment
+OperatorChar
+  : '+'
+  | '-'
+  | '*'
+  | '/'
+  | '%'
+  | '!'
+  | '~'
+  | '&'
+  | '>'
+  | '<'
+  | '='
+  | '^'
   ;
 
 fragment

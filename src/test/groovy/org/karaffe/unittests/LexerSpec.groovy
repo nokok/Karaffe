@@ -31,11 +31,23 @@ class LexerSpec extends Specification {
         "z"          || KaraffeLexer.Identifier
         "HB"         || KaraffeLexer.Identifier
         "H1"         || KaraffeLexer.Identifier
+        "+"          || KaraffeLexer.Identifier
+        "-"          || KaraffeLexer.Identifier
+        "*"          || KaraffeLexer.Identifier
+        "/"          || KaraffeLexer.Identifier
+        "!"          || KaraffeLexer.Identifier
+        "%"          || KaraffeLexer.Identifier
+        "&"          || KaraffeLexer.Identifier
+        ">"          || KaraffeLexer.Identifier
+        "<"          || KaraffeLexer.Identifier
+        "="          || KaraffeLexer.Identifier
+        "^"          || KaraffeLexer.Identifier
+        "~"          || KaraffeLexer.Identifier
+        ">>"         || KaraffeLexer.Identifier
         "1"          || KaraffeLexer.IntegerLiteral
         '"Hello"'    || KaraffeLexer.StringLiteral
         "{"          || KaraffeLexer.LBRACE
         "}"          || KaraffeLexer.RBRACE
-        "+"          || KaraffeLexer.PLUS
         "entrypoint" || KaraffeLexer.ENTRYPOINT
         "class"      || KaraffeLexer.CLASS
         "CLASS"      || KaraffeLexer.Identifier

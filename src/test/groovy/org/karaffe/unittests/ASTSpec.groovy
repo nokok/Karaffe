@@ -5,6 +5,7 @@ import org.antlr.v4.runtime.CommonTokenStream
 import org.karaffe.compiler.KaraffeCompiler
 import org.karaffe.compiler.frontend.karaffe.antlr.KaraffeLexer
 import org.karaffe.compiler.frontend.karaffe.antlr.KaraffeParser
+import org.karaffe.compiler.tree.Tree
 import org.karaffe.compiler.util.CompilerContext
 import org.karaffe.compiler.util.KaraffeSource
 import org.karaffe.compiler.visitor.KaraffeASTCreateVisitor
@@ -14,15 +15,13 @@ import spock.lang.Unroll
 class ASTSpec extends Specification {
     def "simpleClass"() {
         setup:
-        def context = new CompilerContext()
-        def source = KaraffeSource.fromString("class A")
-        context.add(source)
-        def compiler = new KaraffeCompiler(context)
-        compiler.run()
-        def ast = context.getCurrentAST()
+        def parser = new KaraffeParser(new CommonTokenStream(new KaraffeLexer(CharStreams.fromString("class A"))))
+        def result = parser.sourceFile()
+        def visitor = new KaraffeASTCreateVisitor(new CompilerContext())
+        def ast = visitor.visit(result)
 
         expect:
-        ast.toString() == 'CompilationUnit ("", [], [SourceFile ("<unknown>", [], [DefClass ("A", [SuperClass=java.lang.Object, ModifierAttribute=[PUBLIC]], [])])])'
+        ast.toString() == 'SourceFile ("<unknown>", [], [DefClass ("A", [], [])])'
     }
 
     @Unroll
@@ -40,10 +39,10 @@ class ASTSpec extends Specification {
         where:
         source      || expectAST
         "1"         || 'IntLiteral ("1", [], [])'
-        "1 + 1"     || 'Apply ("()", [], [Select ("+", [], []), IntLiteral ("1", [], []), IntLiteral ("1", [], [])])'
-        "1 + 2 + 3" || 'Apply ("()", [], [Select ("+", [], []), Apply ("()", [], [Select ("+", [], []), IntLiteral ("1", [], []), IntLiteral ("2", [], [])]), IntLiteral ("3", [], [])])' // ((1 + 2) + 3)
-        "1 - 2"     || 'Apply ("()", [], [Select ("-", [], []), IntLiteral ("1", [], []), IntLiteral ("2", [], [])])'
-        "1 + 2 - 3" || 'Apply ("()", [], [Select ("-", [], []), Apply ("()", [], [Select ("+", [], []), IntLiteral ("1", [], []), IntLiteral ("2", [], [])]), IntLiteral ("3", [], [])])' // ((1 + 2) + 3)
+        "1 + 1"     || 'Apply ("()", [], [Select ("+", [], [IntLiteral ("1", [], []), IntLiteral ("1", [], [])])])'
+        "1 + 2 + 3" || 'Apply ("()", [], [Select ("+", [], [Apply ("()", [], [Select ("+", [], [IntLiteral ("1", [], []), IntLiteral ("2", [], [])])]), IntLiteral ("3", [], [])])])' // ((1 + 2) + 3)
+        "1 - 2"     || 'Apply ("()", [], [Select ("-", [], [IntLiteral ("1", [], []), IntLiteral ("2", [], [])])])'
+        "1 + 2 - 3" || 'Apply ("()", [], [Select ("-", [], [Apply ("()", [], [Select ("+", [], [IntLiteral ("1", [], []), IntLiteral ("2", [], [])])]), IntLiteral ("3", [], [])])])' // ((1 + 2) + 3)
 
     }
 }
