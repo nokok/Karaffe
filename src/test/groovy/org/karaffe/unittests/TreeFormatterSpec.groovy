@@ -1,8 +1,9 @@
 package org.karaffe.unittests
 
+
 import org.karaffe.compiler.tree.NodeType
 import org.karaffe.compiler.tree.Tree
-import org.karaffe.compiler.tree.TreeFormatter
+import org.karaffe.compiler.tree.formatter.SimpleTreeFormatter
 import org.karaffe.compiler.util.Position
 import spock.lang.Specification
 
@@ -10,7 +11,7 @@ class TreeFormatterSpec extends Specification {
     def "singleNode"() {
         setup:
         def tree = new Tree(NodeType.CompilationUnit, "A", Position.noPos())
-        def formatter = new TreeFormatter()
+        def formatter = new SimpleTreeFormatter()
         def result = formatter.format(tree)
 
         expect:
@@ -22,7 +23,7 @@ class TreeFormatterSpec extends Specification {
         def tree = new Tree(NodeType.CompilationUnit, "C", Position.noPos())
         tree.addChild(new Tree(NodeType.Apply, "1", Position.noPos()))
         tree.addChild(new Tree(NodeType.Apply, "2", Position.noPos()))
-        def formatter = new TreeFormatter()
+        def formatter = new SimpleTreeFormatter()
         def result = formatter.format(tree)
 
         expect:
@@ -38,7 +39,7 @@ class TreeFormatterSpec extends Specification {
         child1.addChild(new Tree(NodeType.Select, "c", Position.noPos()))
         tree.addChild(child1)
         tree.addChild(new Tree(NodeType.Apply, "2", Position.noPos()))
-        def formatter = new TreeFormatter()
+        def formatter = new SimpleTreeFormatter()
         def result = formatter.format(tree)
 
         expect:

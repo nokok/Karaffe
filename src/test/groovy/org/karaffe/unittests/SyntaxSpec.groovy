@@ -193,7 +193,7 @@ class SyntaxSpec extends Specification {
                 """class Main {
                   |  def i
                   |  init {
-                  |    this.i = 0
+                  |    this.i := 0
                   |  }
                   |}""".stripMargin()
         ))
@@ -207,7 +207,6 @@ class SyntaxSpec extends Specification {
         context.Identifier().getText() == "Main"
         context.typeDefBody().statement(0)
     }
-
 
     def "infixOp"() {
         setup:
@@ -230,4 +229,25 @@ class SyntaxSpec extends Specification {
         context.Identifier().getText() == "Main"
         context.typeDefBody().statement(0)
     }
+
+    def "invokeMethod"() {
+        setup:
+        def lexer = new KaraffeLexer(CharStreams.fromString(
+                """class Main {
+                  |  entrypoint {
+                  |    this.hoge()
+                  |  }
+                  |}""".stripMargin()
+        ))
+        lexer.addErrorListener(DEFULT_ERROR_LISTENER)
+        def parse = new KaraffeParser(new CommonTokenStream(lexer))
+        parse.addErrorListener(DEFULT_ERROR_LISTENER)
+        def context = parse.classDef()
+
+        expect:
+        context != null
+        context.Identifier().getText() == "Main"
+        context.typeDefBody().statement(0)
+    }
+
 }

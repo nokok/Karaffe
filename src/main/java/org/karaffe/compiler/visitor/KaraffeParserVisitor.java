@@ -11,8 +11,10 @@ import org.karaffe.compiler.resolver.MethodResolver;
 import org.karaffe.compiler.util.BytecodeEntry;
 import org.karaffe.compiler.util.CompilerContext;
 import org.karaffe.compiler.util.Position;
+import org.objectweb.asm.Opcodes;
 
 import java.lang.reflect.Method;
+import java.util.Collections;
 import java.util.Objects;
 import java.util.Stack;
 
@@ -62,6 +64,14 @@ public class KaraffeParserVisitor extends KaraffeBaseVisitor<CompilerContext> {
         super.visitVarDef(ctx);
         String fieldName = ctx.Identifier().getText();
         bytecodeSupport.newFieldDefinition(fieldName, Int.class);
+        return context;
+    }
+
+    @Override
+    public CompilerContext visitInitBlock(KaraffeParser.InitBlockContext ctx) {
+        bytecodeSupport.startMethod(Opcodes.ACC_PUBLIC, void.class, "<init>", Collections.emptyMap());
+        super.visitInitBlock(ctx);
+        bytecodeSupport.endMethod();
         return context;
     }
 

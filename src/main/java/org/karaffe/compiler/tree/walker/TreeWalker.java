@@ -4,6 +4,7 @@ import org.karaffe.compiler.tree.NodeType;
 import org.karaffe.compiler.tree.Tree;
 
 public abstract class TreeWalker {
+
     public void walk(Tree tree) {
         if (tree == null) {
             onNullTree();
@@ -58,10 +59,34 @@ public abstract class TreeWalker {
             onArguments(tree);
         } else if (tree.getNodeType() == NodeType.Argument) {
             onArgument(tree);
+        } else if (tree.getNodeType() == NodeType.Package) {
+            onPackage(tree);
+        } else if (tree.getNodeType() == NodeType.Module) {
+            onModule(tree);
+        } else if (tree.getNodeType() == NodeType.Constructor) {
+            onConstructor(tree);
+        } else if (tree.getNodeType() == NodeType.Assign) {
+            onAssign(tree);
+        } else if (tree.getNodeType() == NodeType.FlatApply) {
+            onFlatApply(tree);
+        } else if (tree.getNodeType() == NodeType.BinOp) {
+            onBinOp(tree);
         } else {
             throw new IllegalStateException(tree.getNodeType().name());
         }
     }
+
+    abstract void onBinOp(Tree tree);
+
+    abstract void onFlatApply(Tree tree);
+
+    abstract void onAssign(Tree tree);
+
+    abstract void onConstructor(Tree tree);
+
+    abstract void onModule(Tree tree);
+
+    abstract void onPackage(Tree tree);
 
     abstract void onArgument(Tree tree);
 

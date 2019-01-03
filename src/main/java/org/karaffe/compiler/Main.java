@@ -3,7 +3,7 @@ package org.karaffe.compiler;
 import karaffe.core.Console;
 import org.karaffe.compiler.args.Flag;
 import org.karaffe.compiler.report.Report;
-import org.karaffe.compiler.tree.TreeFormatter;
+import org.karaffe.compiler.tree.formatter.SimpleTreeFormatter;
 import org.karaffe.compiler.util.CompilerContext;
 
 public class Main {
@@ -21,7 +21,7 @@ public class Main {
             if (context == null) {
                 return;
             }
-            TreeFormatter formatter = new TreeFormatter();
+            SimpleTreeFormatter formatter = new SimpleTreeFormatter();
             System.out.println(formatter.format(context.getCurrentAST()));
             throwable.printStackTrace();
         });

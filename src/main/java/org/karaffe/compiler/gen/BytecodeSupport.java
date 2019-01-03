@@ -68,6 +68,9 @@ public class BytecodeSupport {
     }
 
     public void endMethod() {
+        if (methodVisitor == null) {
+            return;
+        }
         methodVisitor.visitInsn(Opcodes.RETURN);
         methodVisitor.visitMaxs(0, 0);
         methodVisitor.visitEnd();

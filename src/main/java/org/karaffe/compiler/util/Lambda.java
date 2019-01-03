@@ -16,7 +16,8 @@ public class Lambda {
         try {
             r.run();
         } catch (Exception e) {
-            // ignored
+            System.err.println("ERROR");
+            e.printStackTrace();
         }
     }
 }

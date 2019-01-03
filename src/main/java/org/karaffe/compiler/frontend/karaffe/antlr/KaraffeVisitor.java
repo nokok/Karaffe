@@ -47,6 +47,12 @@ public interface KaraffeVisitor<T> extends ParseTreeVisitor<T> {
 	 */
 	T visitInitBlock(KaraffeParser.InitBlockContext ctx);
 	/**
+	 * Visit a parse tree produced by {@link KaraffeParser#assign}.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	T visitAssign(KaraffeParser.AssignContext ctx);
+	/**
 	 * Visit a parse tree produced by {@link KaraffeParser#varDef}.
 	 * @param ctx the parse tree
 	 * @return the visitor result
@@ -59,11 +65,29 @@ public interface KaraffeVisitor<T> extends ParseTreeVisitor<T> {
 	 */
 	T visitExpr(KaraffeParser.ExprContext ctx);
 	/**
+	 * Visit a parse tree produced by {@link KaraffeParser#opExpr}.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	T visitOpExpr(KaraffeParser.OpExprContext ctx);
+	/**
 	 * Visit a parse tree produced by {@link KaraffeParser#binaryOperator}.
 	 * @param ctx the parse tree
 	 * @return the visitor result
 	 */
 	T visitBinaryOperator(KaraffeParser.BinaryOperatorContext ctx);
+	/**
+	 * Visit a parse tree produced by {@link KaraffeParser#exprList}.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	T visitExprList(KaraffeParser.ExprListContext ctx);
+	/**
+	 * Visit a parse tree produced by {@link KaraffeParser#atom}.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	T visitAtom(KaraffeParser.AtomContext ctx);
 	/**
 	 * Visit a parse tree produced by {@link KaraffeParser#literal}.
 	 * @param ctx the parse tree

@@ -30,17 +30,17 @@ public class DefaultErrorListener implements ANTLRErrorListener {
 
     @Override
     public void reportAmbiguity(Parser recognizer, DFA dfa, int startIndex, int stopIndex, boolean exact, BitSet ambigAlts, ATNConfigSet configs) {
-        throw new IllegalStateException("reportAmbiguity : " + dfa + ", " + startIndex + ", " + stopIndex);
+//        throw new IllegalStateException("reportAmbiguity : " + dfa + ", " + startIndex + ", " + stopIndex);
     }
 
     @Override
     public void reportAttemptingFullContext(Parser recognizer, DFA dfa, int startIndex, int stopIndex, BitSet conflictingAlts, ATNConfigSet configs) {
-        throw new IllegalStateException("reportAttemptingFullContext : " + dfa + ", " + startIndex + ", " + stopIndex);
+//        throw new IllegalStateException("reportAttemptingFullContext : " + dfa + ", " + startIndex + ", " + stopIndex);
     }
 
     @Override
     public void reportContextSensitivity(Parser recognizer, DFA dfa, int startIndex, int stopIndex, int prediction, ATNConfigSet configs) {
-        throw new IllegalStateException("reportContextSensitivity : " + dfa + ", " + startIndex + ", " + stopIndex);
+//        throw new IllegalStateException("reportContextSensitivity : " + dfa + ", " + startIndex + ", " + stopIndex);
     }
 
     public boolean hasSyntaxError() {

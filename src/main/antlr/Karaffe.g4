@@ -17,6 +17,7 @@ statement
   | printFunction
   | initBlock
   | varDef
+  | assign
   | expr
   ;
 
@@ -28,24 +29,50 @@ initBlock
   : INIT LBRACE statement* RBRACE
   ;
 
+assign
+  : target=expr ':=' initializer=expr
+  ;
+
 varDef
   : DEF Identifier
   ;
 
+// Expr
+
 expr
   : lit=literal
   | t=THIS
-  | left=expr op=binaryOperator right=expr
+  | function=expr LPAREN args=exprList? RPAREN
+  | left=expr right=opExpr+
+  | target=expr DOT name=Identifier
+  | LPAREN inExpr=expr RPAREN
+  ;
+
+opExpr
+  : op=binaryOperator right=expr
   ;
 
 binaryOperator
   : Identifier
   ;
 
+exprList
+  : expr (COMMA expr)*
+  ;
+
+atom
+  : lit=literal
+  | t=THIS
+  | idt=Identifier DOT t=THIS
+  | id=Identifier
+  ;
+
 literal
   : StringLiteral
   | IntegerLiteral
   ;
+
+// ====
 
 printFunction
   : PRINT LPAREN body=expr? RPAREN
@@ -62,6 +89,7 @@ RPAREN: ')';
 LBRACE: '{';
 RBRACE: '}';
 DOT: '.';
+COMMA: ',';
 
 StringLiteral
   : '"' StringChar* '"'
@@ -94,8 +122,12 @@ OperatorChar
   | '&'
   | '>'
   | '<'
-  | '='
   | '^'
+  | '|'
+  | '#'
+  | '='
+  | '@'
+  | ':'
   ;
 
 fragment

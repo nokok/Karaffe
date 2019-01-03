@@ -1,31 +1,19 @@
-package org.karaffe.compiler.tree;
+package org.karaffe.compiler.tree.formatter;
 
+import org.karaffe.compiler.tree.Tree;
 import org.karaffe.compiler.util.CompilerContext;
 
 import java.util.Objects;
 import java.util.stream.Collectors;
 
-public class TreeFormatter {
-    private final CompilerContext context;
-    private boolean outputId = false;
-
-    public TreeFormatter() {
-        this.context = null;
-    }
-
-    public TreeFormatter(CompilerContext context) {
-        this.context = Objects.requireNonNull(context);
-    }
-
+public class SimpleTreeFormatter implements TreeFormatter {
+    @Override
     public String format(Tree tree) {
         return format("", tree);
     }
 
     private String format(String indentString, Tree tree) {
         StringBuilder stringBuilder = new StringBuilder();
-        if (outputId) {
-            stringBuilder.append(tree.getNodeId()).append(" ");
-        }
         stringBuilder.append(indentString);
         stringBuilder.append(tree.getNodeType().name());
         if (!tree.getName().isEmpty()) {
@@ -40,12 +28,5 @@ public class TreeFormatter {
                             .collect(Collectors.joining("\n")));
         }
         return stringBuilder.toString();
-    }
-
-    public String formatWithId(Tree tree) {
-        this.outputId = true;
-        String format = this.format(tree);
-        this.outputId = false;
-        return format;
     }
 }

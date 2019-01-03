@@ -7,8 +7,9 @@ import org.karaffe.compiler.args.ParameterName;
 import org.karaffe.compiler.frontend.karaffe.antlr.KaraffeLexer;
 import org.karaffe.compiler.frontend.karaffe.antlr.KaraffeParser;
 import org.karaffe.compiler.report.Report;
-import org.karaffe.compiler.tree.TreeFormatter;
-import org.karaffe.compiler.tree.walker.PrintTreeWalker;
+import org.karaffe.compiler.tree.formatter.FormatType;
+import org.karaffe.compiler.tree.formatter.TreeFormatter;
+import org.karaffe.compiler.tree.walker.FlatApplyWalker;
 import org.karaffe.compiler.tree.walker.TreeSchemaValidator;
 import org.karaffe.compiler.tree.walker.TreeWalker;
 import org.karaffe.compiler.util.CompilerContext;
@@ -51,17 +52,23 @@ public class KaraffeCompiler {
 
         TreeWalker validator = new TreeSchemaValidator();
         validator.walk(this.context.getCurrentAST());
+        TreeWalker exprWalker = new FlatApplyWalker();
+        exprWalker.walk(this.context.getCurrentAST());
 
         context.getParameter(ParameterName.EMIT).map(String::toLowerCase).ifPresent(param -> {
+            FormatType type;
             if (param.equals("ast")) {
-                TreeFormatter formatter = new TreeFormatter(context);
-                this.context.add(Report.newInfoReport("AST Info").withBody(formatter.format(this.context.getCurrentAST())).build());
-            } else if (param.equals("ast-withid")) {
-                TreeFormatter formatter = new TreeFormatter(context);
-                this.context.add(Report.newInfoReport("AST Info").withBody(formatter.formatWithId(this.context.getCurrentAST())).build());
+                type = FormatType.SIMPLE;
+            } else if (param.equals("source")) {
+                type = FormatType.SOURCE;
             } else {
                 this.context.add(Report.newErrorReport("Unrecognized argument(s) : " + param).build());
+                return;
             }
+
+            TreeFormatter formatter = TreeFormatter.fromType(type);
+
+            this.context.add(Report.newInfoReport("AST Info").withBody(formatter.format(this.context.getCurrentAST())).build());
         });
 
         if (context.hasError()) {

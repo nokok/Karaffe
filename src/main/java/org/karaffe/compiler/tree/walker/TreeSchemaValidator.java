@@ -1,5 +1,6 @@
 package org.karaffe.compiler.tree.walker;
 
+import org.karaffe.compiler.tree.NodeType;
 import org.karaffe.compiler.tree.Tree;
 
 import static org.karaffe.compiler.tree.NodeType.Arguments;
@@ -12,6 +13,8 @@ import static org.karaffe.compiler.tree.NodeType.Parameter;
 import static org.karaffe.compiler.tree.NodeType.Parameters;
 import static org.karaffe.compiler.tree.NodeType.ReturnType;
 import static org.karaffe.compiler.tree.NodeType.Select;
+import static org.karaffe.compiler.tree.NodeType.Package;
+import static org.karaffe.compiler.tree.NodeType.Module;
 import static org.karaffe.compiler.tree.NodeType.SourceFile;
 import static org.karaffe.compiler.tree.NodeType.SuperClass;
 import static org.karaffe.compiler.tree.NodeType.TypeName;
@@ -21,6 +24,20 @@ public class TreeSchemaValidator extends TreeWalkerAdapter {
     @Override
     void onCompilationUnit(Tree tree) {
         assert tree.getName().isEmpty();
+        for (Tree child : tree.getChildren()) {
+            assert child.getNodeType().equals(Module);
+        }
+    }
+
+    @Override
+    void onModule(Tree tree) {
+        for (Tree child : tree.getChildren()) {
+            assert child.getNodeType().equals(Package);
+        }
+    }
+
+    @Override
+    void onPackage(Tree tree) {
         for (Tree child : tree.getChildren()) {
             assert child.getNodeType().equals(SourceFile);
         }

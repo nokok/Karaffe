@@ -40,7 +40,6 @@ class LexerSpec extends Specification {
         "&"          || KaraffeLexer.Identifier
         ">"          || KaraffeLexer.Identifier
         "<"          || KaraffeLexer.Identifier
-        "="          || KaraffeLexer.Identifier
         "^"          || KaraffeLexer.Identifier
         "~"          || KaraffeLexer.Identifier
         ">>"         || KaraffeLexer.Identifier
@@ -100,7 +99,6 @@ class LexerSpec extends Specification {
         source      || expectedErrorMessage
         "_"         || "Syntax Error at 1 : 0 , token recognition error at: '_'"
         "HOGE_FUGA" || "Syntax Error at 1 : 4 , token recognition error at: '_'"
-        "100,000"   || "Syntax Error at 1 : 3 , token recognition error at: ','"
     }
 
     @Unroll

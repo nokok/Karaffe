@@ -68,6 +68,16 @@ public interface KaraffeListener extends ParseTreeListener {
 	 */
 	void exitInitBlock(KaraffeParser.InitBlockContext ctx);
 	/**
+	 * Enter a parse tree produced by {@link KaraffeParser#assign}.
+	 * @param ctx the parse tree
+	 */
+	void enterAssign(KaraffeParser.AssignContext ctx);
+	/**
+	 * Exit a parse tree produced by {@link KaraffeParser#assign}.
+	 * @param ctx the parse tree
+	 */
+	void exitAssign(KaraffeParser.AssignContext ctx);
+	/**
 	 * Enter a parse tree produced by {@link KaraffeParser#varDef}.
 	 * @param ctx the parse tree
 	 */
@@ -88,6 +98,16 @@ public interface KaraffeListener extends ParseTreeListener {
 	 */
 	void exitExpr(KaraffeParser.ExprContext ctx);
 	/**
+	 * Enter a parse tree produced by {@link KaraffeParser#opExpr}.
+	 * @param ctx the parse tree
+	 */
+	void enterOpExpr(KaraffeParser.OpExprContext ctx);
+	/**
+	 * Exit a parse tree produced by {@link KaraffeParser#opExpr}.
+	 * @param ctx the parse tree
+	 */
+	void exitOpExpr(KaraffeParser.OpExprContext ctx);
+	/**
 	 * Enter a parse tree produced by {@link KaraffeParser#binaryOperator}.
 	 * @param ctx the parse tree
 	 */
@@ -97,6 +117,26 @@ public interface KaraffeListener extends ParseTreeListener {
 	 * @param ctx the parse tree
 	 */
 	void exitBinaryOperator(KaraffeParser.BinaryOperatorContext ctx);
+	/**
+	 * Enter a parse tree produced by {@link KaraffeParser#exprList}.
+	 * @param ctx the parse tree
+	 */
+	void enterExprList(KaraffeParser.ExprListContext ctx);
+	/**
+	 * Exit a parse tree produced by {@link KaraffeParser#exprList}.
+	 * @param ctx the parse tree
+	 */
+	void exitExprList(KaraffeParser.ExprListContext ctx);
+	/**
+	 * Enter a parse tree produced by {@link KaraffeParser#atom}.
+	 * @param ctx the parse tree
+	 */
+	void enterAtom(KaraffeParser.AtomContext ctx);
+	/**
+	 * Exit a parse tree produced by {@link KaraffeParser#atom}.
+	 * @param ctx the parse tree
+	 */
+	void exitAtom(KaraffeParser.AtomContext ctx);
 	/**
 	 * Enter a parse tree produced by {@link KaraffeParser#literal}.
 	 * @param ctx the parse tree

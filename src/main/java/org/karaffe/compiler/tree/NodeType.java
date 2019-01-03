@@ -22,5 +22,11 @@ public enum NodeType {
     Identifier,
     Body,
     Arguments,
-    Argument
+    Argument,
+    Module,
+    Constructor,
+    Assign,
+    FlatApply,
+    BinOp,
+    Package
 }

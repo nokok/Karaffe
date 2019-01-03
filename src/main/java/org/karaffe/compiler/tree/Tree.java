@@ -55,16 +55,30 @@ public class Tree {
         return this.getChildren().stream().filter(p).findFirst();
     }
 
+    public Optional<Tree> findFirstFromChildren(NodeType nodeType) {
+        return findFirstFromChildren(p -> p.getNodeType().equals(nodeType));
+    }
+
     public boolean hasChildren(NodeType nodeType) {
         return findFirstFromChildren(p -> p.getNodeType().equals(nodeType)).isPresent();
     }
 
     public int indexOf(NodeType nodeType) {
-        return this.getChildren().indexOf(this.findFirstFromChildren(p -> p.getNodeType().equals(nodeType)).orElse(null));
+        return this.getChildren().indexOf(this.findFirstFromChildren(nodeType).orElse(null));
+    }
+
+    public void replaceThis(Tree after) {
+        this.nodeType = after.getNodeType();
+        this.name = after.getName();
+        this.children = after.getChildren();
     }
 
     @Override
     public String toString() {
         return String.format("%s (\"%s\", %s)", this.nodeType.name(), this.name, this.children);
+    }
+
+    public void addAllChildren(List<Tree> children) {
+        this.children.addAll(Objects.requireNonNull(children));
     }
 }
