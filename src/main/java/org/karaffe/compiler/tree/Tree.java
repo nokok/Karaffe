@@ -7,6 +7,8 @@ import org.karaffe.compiler.util.Position;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
+import java.util.Optional;
+import java.util.function.Predicate;
 
 public class Tree {
     private Position position;
@@ -49,6 +51,14 @@ public class Tree {
 
     public boolean hasChildren() {
         return !this.children.isEmpty();
+    }
+
+    public Optional<Tree> findFirstFromChildren(Predicate<Tree> p) {
+        return this.getChildren().stream().filter(p).findFirst();
+    }
+
+    public Optional<Attribute> findFirstFromAttributes(Predicate<Attribute> p) {
+        return this.getAttributes().stream().filter(p).findFirst();
     }
 
     @Override

@@ -3,7 +3,8 @@ package org.karaffe.unittests
 import org.karaffe.compiler.tree.NodeType
 import org.karaffe.compiler.tree.Tree
 import org.karaffe.compiler.tree.TreeFormatter
-import org.karaffe.compiler.tree.attr.ModifierAttribute
+import org.karaffe.compiler.tree.attr.Attribute
+import org.karaffe.compiler.tree.attr.AttributeType
 import spock.lang.Specification
 
 class TreeFormatterSpec extends Specification {
@@ -20,7 +21,7 @@ class TreeFormatterSpec extends Specification {
     def "singleNodeWithAttribute"() {
         setup:
         def tree = new Tree(NodeType.CompilationUnit, "B", null)
-        tree.addAttribute(new ModifierAttribute())
+        tree.addAttribute(new Attribute(AttributeType.Modifier))
         def formatter = new TreeFormatter()
         def result = formatter.format(tree)
 
@@ -31,7 +32,7 @@ class TreeFormatterSpec extends Specification {
     def "singleNodeWithChild"() {
         setup:
         def tree = new Tree(NodeType.CompilationUnit, "C", null)
-        tree.addAttribute(new ModifierAttribute())
+        tree.addAttribute(new Attribute(AttributeType.Modifier))
         tree.addChild(new Tree(NodeType.Apply, "()", null))
         def formatter = new TreeFormatter()
         def result = formatter.format(tree)
@@ -44,7 +45,7 @@ class TreeFormatterSpec extends Specification {
     def "singleNodeWithChlidren"() {
         setup:
         def tree = new Tree(NodeType.CompilationUnit, "C", null)
-        tree.addAttribute(new ModifierAttribute())
+        tree.addAttribute(new Attribute(AttributeType.Modifier))
         tree.addChild(new Tree(NodeType.Apply, "1", null))
         tree.addChild(new Tree(NodeType.Apply, "2", null))
         def formatter = new TreeFormatter()
@@ -59,7 +60,7 @@ class TreeFormatterSpec extends Specification {
     def "nestedChildren"() {
         setup:
         def tree = new Tree(NodeType.CompilationUnit, "C", null)
-        tree.addAttribute(new ModifierAttribute())
+        tree.addAttribute(new Attribute(AttributeType.Modifier))
         def child1 = new Tree(NodeType.Apply, "1", null)
         child1.addChild(new Tree(NodeType.Select, "c", null))
         tree.addChild(child1)

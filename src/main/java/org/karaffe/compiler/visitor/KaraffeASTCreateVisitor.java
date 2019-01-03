@@ -4,14 +4,11 @@ import org.karaffe.compiler.frontend.karaffe.antlr.KaraffeBaseVisitor;
 import org.karaffe.compiler.frontend.karaffe.antlr.KaraffeParser;
 import org.karaffe.compiler.tree.NodeType;
 import org.karaffe.compiler.tree.Tree;
-import org.karaffe.compiler.tree.attr.JavaModifier;
-import org.karaffe.compiler.tree.attr.MethodSignature;
-import org.karaffe.compiler.tree.attr.ModifierAttribute;
+import org.karaffe.compiler.tree.attr.Attribute;
+import org.karaffe.compiler.tree.attr.AttributeType;
 import org.karaffe.compiler.util.CompilerContext;
-import org.karaffe.compiler.util.MethodParameterEntry;
 import org.karaffe.compiler.util.Position;
 
-import java.util.Collections;
 import java.util.List;
 
 public class KaraffeASTCreateVisitor extends KaraffeBaseVisitor<Tree> {
@@ -75,9 +72,10 @@ public class KaraffeASTCreateVisitor extends KaraffeBaseVisitor<Tree> {
     @Override
     public Tree visitEntryPointBlock(KaraffeParser.EntryPointBlockContext ctx) {
         Tree tree = new Tree(NodeType.DefMethod, "main", new Position(ctx));
-        ModifierAttribute modifierAttribute = new ModifierAttribute(JavaModifier.PUBLIC, JavaModifier.STATIC);
-        tree.addAttribute(modifierAttribute);
-        tree.addAttribute(new MethodSignature(void.class, Collections.singletonList(new MethodParameterEntry("args", String[].class))));
+        Attribute attribute = new Attribute(AttributeType.Modifier);
+        Attribute methodSignature = new Attribute(AttributeType.MethodSignature);
+        tree.addAttribute(attribute);
+        tree.addAttribute(methodSignature);
         List<KaraffeParser.StatementContext> statements = ctx.statement();
         for (KaraffeParser.StatementContext statement : statements) {
             tree.addChild(statement.accept(this));

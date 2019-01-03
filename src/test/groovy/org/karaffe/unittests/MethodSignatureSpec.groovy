@@ -1,22 +1,37 @@
 package org.karaffe.unittests
 
-import org.karaffe.compiler.tree.attr.MethodSignature
+import org.karaffe.compiler.tree.attr.Attribute
+import org.karaffe.compiler.tree.attr.AttributeType
 import org.karaffe.compiler.util.MethodParameterEntry
 import spock.lang.Specification
 
 class MethodSignatureSpec extends Specification {
     def "() -> void"() {
+        setup:
+        def attr = new Attribute(AttributeType.MethodSignature)
+        attr.put("returnType", void)
+        attr.put("parameters", [])
+
         expect:
-        new MethodSignature(void).toString() == "MethodSignature=() -> void"
+        attr.toString() == "MethodSignature={returnType=void, parameters=[]}"
     }
 
     def "int -> void"() {
+        setup:
+        def attr = new Attribute(AttributeType.MethodSignature)
+        attr.put("returnType", void)
+        attr.put("parameters", [new MethodParameterEntry("foo", int)])
+
         expect:
-        new MethodSignature(void, [new MethodParameterEntry("foo", int)]).toString() == "MethodSignature=(foo:int) -> void"
+        attr.toString() == "MethodSignature={returnType=void, parameters=[foo:int]}"
     }
 
     def "int, int -> void"() {
+        setup:
+        def attr = new Attribute(AttributeType.MethodSignature)
+        attr.put("returnType", void)
+        attr.put("parameters", [new MethodParameterEntry("foo", int), new MethodParameterEntry("bar", int)])
         expect:
-        new MethodSignature(void, [new MethodParameterEntry("foo", int), new MethodParameterEntry("bar", int)]).toString() == "MethodSignature=(foo:int, bar:int) -> void"
+        attr.toString() == "MethodSignature={returnType=void, parameters=[foo:int, bar:int]}"
     }
 }
