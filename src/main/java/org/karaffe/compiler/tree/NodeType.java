@@ -10,5 +10,6 @@ public enum NodeType {
     IntLiteral,
     StringLiteral,
     Error,
+    This,
     DefClass
 }
