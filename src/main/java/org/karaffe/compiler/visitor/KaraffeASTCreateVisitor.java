@@ -4,11 +4,9 @@ import org.karaffe.compiler.frontend.karaffe.antlr.KaraffeBaseVisitor;
 import org.karaffe.compiler.frontend.karaffe.antlr.KaraffeParser;
 import org.karaffe.compiler.tree.NodeType;
 import org.karaffe.compiler.tree.Tree;
-import org.karaffe.compiler.tree.attr.InferredType;
 import org.karaffe.compiler.tree.attr.JavaModifier;
 import org.karaffe.compiler.tree.attr.MethodSignature;
 import org.karaffe.compiler.tree.attr.ModifierAttribute;
-import org.karaffe.compiler.tree.attr.SuperClass;
 import org.karaffe.compiler.util.CompilerContext;
 import org.karaffe.compiler.util.MethodParameterEntry;
 import org.karaffe.compiler.util.Position;
@@ -43,8 +41,8 @@ public class KaraffeASTCreateVisitor extends KaraffeBaseVisitor<Tree> {
     @Override
     public Tree visitClassDef(KaraffeParser.ClassDefContext ctx) {
         Tree tree = new Tree(NodeType.DefClass, ctx.Identifier().getText(), new Position(ctx));
-        tree.addAttribute(new SuperClass() /*java.lang.Object*/);
-        tree.addAttribute(new ModifierAttribute(JavaModifier.PUBLIC));
+//        tree.addAttribute(new SuperClass() /*java.lang.Object*/);
+//        tree.addAttribute(new ModifierAttribute(JavaModifier.PUBLIC));
         if (ctx.typeDefBody() != null) {
             List<KaraffeParser.StatementContext> statements = ctx.typeDefBody().statement();
             for (KaraffeParser.StatementContext statement : statements) {
@@ -53,6 +51,25 @@ public class KaraffeASTCreateVisitor extends KaraffeBaseVisitor<Tree> {
         }
         super.visitClassDef(ctx);
         return tree;
+    }
+
+    @Override
+    public Tree visitExpr(KaraffeParser.ExprContext ctx) {
+        if (ctx.lit != null) {
+            //literal
+            return ctx.literal().accept(this);
+        } else if (ctx.t != null) {
+            return new Tree(NodeType.This, "this", new Position(ctx.t));
+        } else if (ctx.op != null) {
+            Tree tree = new Tree(NodeType.Apply, "()", new Position(ctx));
+            Tree operator = new Tree(NodeType.Select, ctx.op.getText(), new Position(ctx.op));
+            tree.addChild(operator);
+            operator.addChild(ctx.left.accept(this));
+            operator.addChild(ctx.right.accept(this));
+            return tree;
+        } else {
+            throw new IllegalStateException();
+        }
     }
 
     @Override
@@ -77,9 +94,10 @@ public class KaraffeASTCreateVisitor extends KaraffeBaseVisitor<Tree> {
     @Override
     public Tree visitPrintFunction(KaraffeParser.PrintFunctionContext ctx) {
         Tree tree = new Tree(NodeType.Apply, "()", new Position(ctx));
-        tree.addChild(new Tree(NodeType.Select, "print", new Position(ctx.PRINT().getSymbol())));
+        Tree select = new Tree(NodeType.Select, "print", new Position(ctx.PRINT().getSymbol()));
+        tree.addChild(select);
         if (ctx.body != null) {
-            tree.addChild(ctx.body.accept(this));
+            select.addChild(ctx.body.accept(this));
         }
         return tree;
     }
@@ -88,10 +106,10 @@ public class KaraffeASTCreateVisitor extends KaraffeBaseVisitor<Tree> {
         Tree tree;
         if (ctx.IntegerLiteral() != null) {
             tree = new Tree(NodeType.IntLiteral, ctx.IntegerLiteral().getText(), new Position(ctx));
-            tree.addAttribute(new InferredType(int.class));
+//            tree.addAttribute(new InferredType(int.class));
         } else if (ctx.StringLiteral() != null) {
             tree = new Tree(NodeType.StringLiteral, ctx.StringLiteral().getText(), new Position(ctx));
-            tree.addAttribute(new InferredType(String.class));
+//            tree.addAttribute(new InferredType(String.class));
         } else {
             throw new IllegalArgumentException();
         }
