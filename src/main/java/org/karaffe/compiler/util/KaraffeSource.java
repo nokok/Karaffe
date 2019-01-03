@@ -4,6 +4,7 @@ import org.antlr.v4.runtime.CharStream;
 import org.antlr.v4.runtime.CharStreams;
 
 import java.io.IOException;
+import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.util.Arrays;
@@ -31,7 +32,7 @@ public class KaraffeSource implements CharSequence {
 
     private KaraffeSource(Path path) throws IOException {
         Objects.requireNonNull(path);
-        List<String> strings = Files.readAllLines(path);
+        List<String> strings = Files.readAllLines(path, StandardCharsets.UTF_8);
         this.sourceName = path.toString();
         this.source = strings.stream().reduce((l, r) -> l + "\n" + r).orElse("");
         this.lines = Arrays.asList(source.split("\r\n|[\n\r\u2028\u2029\u0085]")); //java.util.Scanner#LINE_SEPARATOR_PATTERN
