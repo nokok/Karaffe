@@ -20,7 +20,10 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.util.List;
 import java.util.Map;
+import java.util.Objects;
 import java.util.Optional;
+
+import static org.karaffe.compiler.util.Lambda.uncheck;
 
 public class KaraffeCompiler {
     private final CompilerContext context;
@@ -33,21 +36,24 @@ public class KaraffeCompiler {
         List<KaraffeSource> sources = context.getSources();
         KaraffeParserVisitor parserVisitor = new KaraffeParserVisitor(context);
         KaraffeASTCreateVisitor createASTVisitor = new KaraffeASTCreateVisitor(context);
-        for (KaraffeSource source : sources) {
-            try {
-                Optional<KaraffeParser.SourceFileContext> optParseContext = parse(source).filter(ctx -> ctx.EOF() != null);
-                optParseContext.ifPresent(createASTVisitor::visitSourceFile);
-                optParseContext.ifPresent(c -> c.accept(parserVisitor));
-            } catch (SemanticAnalysisException e) {
-                // ignore
-            }
-        }
+        sources.stream()
+                .map(this::parse)
+                .filter(Optional::isPresent).map(Optional::get).filter(ctx -> Objects.nonNull(ctx.EOF()))
+                .forEach(c -> uncheck(() -> {
+                            c.accept(createASTVisitor);
+                            c.accept(parserVisitor);
+                        }
+                ));
         this.context.setAST(createASTVisitor.getCompilationUnit());
 
-        if (context.getParameter(ParameterName.EMIT).map(p -> p.equalsIgnoreCase("ast")).orElse(false)) {
-            TreeFormatter formatter = new TreeFormatter(context);
-            this.context.add(Report.newInfoReport("AST Info").withBody(formatter.format(this.context.getCurrentAST())).build());
-        }
+        context.getParameter(ParameterName.EMIT).map(String::toLowerCase).ifPresent(param -> {
+            if (param.equals("ast")) {
+                TreeFormatter formatter = new TreeFormatter(context);
+                this.context.add(Report.newInfoReport("AST Info").withBody(formatter.format(this.context.getCurrentAST())).build());
+            } else {
+                // TODO
+            }
+        });
 
         if (this.context.hasFlag(Flag.DRY_RUN)) {
             return;
