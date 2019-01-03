@@ -49,6 +49,14 @@ public class Tree {
         return this.getChildren().stream().filter(p).findFirst();
     }
 
+    public boolean hasChildren(NodeType nodeType) {
+        return findFirstFromChildren(p -> p.getNodeType().equals(nodeType)).isPresent();
+    }
+
+    public int indexOf(NodeType nodeType) {
+        return this.getChildren().indexOf(this.findFirstFromChildren(p -> p.getNodeType().equals(nodeType)).orElse(null));
+    }
+
     @Override
     public String toString() {
         return String.format("%s (\"%s\", %s)", this.nodeType.name(), this.name, this.children);

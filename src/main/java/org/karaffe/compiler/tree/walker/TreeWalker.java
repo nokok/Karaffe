@@ -1,5 +1,6 @@
 package org.karaffe.compiler.tree.walker;
 
+import org.karaffe.compiler.tree.NodeType;
 import org.karaffe.compiler.tree.Tree;
 
 public abstract class TreeWalker {
@@ -13,68 +14,52 @@ public abstract class TreeWalker {
                 walk(child);
             }
         }
-        switch (tree.getNodeType()) {
-            case Apply:
-                onApply(tree);
-                break;
-            case CompilationUnit:
-                onCompilationUnit(tree);
-                break;
-            case DefClass:
-                onDefClass(tree);
-                break;
-            case DefMethod:
-                onDefMethod(tree);
-                break;
-            case DefVar:
-                onDefVar(tree);
-                break;
-            case Error:
-                onErrorTree(tree);
-                break;
-            case IntLiteral:
-                onIntLiteral(tree);
-                break;
-            case Select:
-                onSelect(tree);
-                break;
-            case StringLiteral:
-                onStringLiteral(tree);
-                break;
-            case SourceFile:
-                onSourceFile(tree);
-                break;
-            case This:
-                onThis(tree);
-                break;
-            case Modifier:
-                onModifier(tree);
-                break;
-            case Modifiers:
-                onModifiers(tree);
-                break;
-            case SuperClass:
-                onSuperClass(tree);
-                break;
-            case Identifier:
-                onIdentifier(tree);
-                break;
-            case Parameter:
-                onParameter(tree);
-                break;
-            case Parameters:
-                onParameters(tree);
-                break;
-            case ReturnType:
-                onReturnType(tree);
-                break;
-            case TypeName:
-                onType(tree);
-                break;
-            default:
-                throw new IllegalStateException(tree.getNodeType().name());
+        if (tree.getNodeType() == NodeType.Apply) {
+            onApply(tree);
+        } else if (tree.getNodeType() == NodeType.CompilationUnit) {
+            onCompilationUnit(tree);
+        } else if (tree.getNodeType() == NodeType.DefClass) {
+            onDefClass(tree);
+        } else if (tree.getNodeType() == NodeType.DefMethod) {
+            onDefMethod(tree);
+        } else if (tree.getNodeType() == NodeType.DefVar) {
+            onDefVar(tree);
+        } else if (tree.getNodeType() == NodeType.Error) {
+            onErrorTree(tree);
+        } else if (tree.getNodeType() == NodeType.IntLiteral) {
+            onIntLiteral(tree);
+        } else if (tree.getNodeType() == NodeType.Select) {
+            onSelect(tree);
+        } else if (tree.getNodeType() == NodeType.StringLiteral) {
+            onStringLiteral(tree);
+        } else if (tree.getNodeType() == NodeType.SourceFile) {
+            onSourceFile(tree);
+        } else if (tree.getNodeType() == NodeType.This) {
+            onThis(tree);
+        } else if (tree.getNodeType() == NodeType.Modifier) {
+            onModifier(tree);
+        } else if (tree.getNodeType() == NodeType.Modifiers) {
+            onModifiers(tree);
+        } else if (tree.getNodeType() == NodeType.SuperClass) {
+            onSuperClass(tree);
+        } else if (tree.getNodeType() == NodeType.Identifier) {
+            onIdentifier(tree);
+        } else if (tree.getNodeType() == NodeType.Parameter) {
+            onParameter(tree);
+        } else if (tree.getNodeType() == NodeType.Parameters) {
+            onParameters(tree);
+        } else if (tree.getNodeType() == NodeType.ReturnType) {
+            onReturnType(tree);
+        } else if (tree.getNodeType() == NodeType.TypeName) {
+            onTypeName(tree);
+        } else if (tree.getNodeType() == NodeType.Body) {
+            onBody(tree);
+        } else {
+            throw new IllegalStateException(tree.getNodeType().name());
         }
     }
+
+    abstract void onBody(Tree tree);
 
     abstract void onModifiers(Tree tree);
 
@@ -88,7 +73,7 @@ public abstract class TreeWalker {
 
     abstract void onReturnType(Tree tree);
 
-    abstract void onType(Tree tree);
+    abstract void onTypeName(Tree tree);
 
     abstract void onModifier(Tree tree);
 

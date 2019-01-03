@@ -9,6 +9,7 @@ import org.karaffe.compiler.frontend.karaffe.antlr.KaraffeParser;
 import org.karaffe.compiler.report.Report;
 import org.karaffe.compiler.tree.TreeFormatter;
 import org.karaffe.compiler.tree.walker.PrintTreeWalker;
+import org.karaffe.compiler.tree.walker.TreeSchemaValidator;
 import org.karaffe.compiler.tree.walker.TreeWalker;
 import org.karaffe.compiler.util.CompilerContext;
 import org.karaffe.compiler.util.KaraffeSource;
@@ -47,6 +48,9 @@ public class KaraffeCompiler {
                         }
                 ));
         this.context.setAST(createASTVisitor.getCompilationUnit());
+
+        TreeWalker validator = new TreeSchemaValidator();
+        validator.walk(this.context.getCurrentAST());
 
         context.getParameter(ParameterName.EMIT).map(String::toLowerCase).ifPresent(param -> {
             if (param.equals("ast")) {
