@@ -6,9 +6,11 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 import java.util.Optional;
+import java.util.UUID;
 import java.util.function.Predicate;
 
 public class Tree {
+    private String nodeId = UUID.randomUUID().toString();
     private Position position;
     private NodeType nodeType;
     private String name;
@@ -19,6 +21,10 @@ public class Tree {
         this.nodeType = Objects.requireNonNull(nodeType);
         this.name = Objects.requireNonNull(name);
         this.children = new ArrayList<>();
+    }
+
+    public String getNodeId() {
+        return nodeId;
     }
 
     public void addChild(Tree child) {

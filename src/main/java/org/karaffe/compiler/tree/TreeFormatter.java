@@ -7,6 +7,7 @@ import java.util.stream.Collectors;
 
 public class TreeFormatter {
     private final CompilerContext context;
+    private boolean outputId = false;
 
     public TreeFormatter() {
         this.context = null;
@@ -22,6 +23,9 @@ public class TreeFormatter {
 
     private String format(String indentString, Tree tree) {
         StringBuilder stringBuilder = new StringBuilder();
+        if (outputId) {
+            stringBuilder.append(tree.getNodeId()).append(" ");
+        }
         stringBuilder.append(indentString);
         stringBuilder.append(tree.getNodeType().name());
         if (!tree.getName().isEmpty()) {
@@ -36,5 +40,12 @@ public class TreeFormatter {
                             .collect(Collectors.joining("\n")));
         }
         return stringBuilder.toString();
+    }
+
+    public String formatWithId(Tree tree) {
+        this.outputId = true;
+        String format = this.format(tree);
+        this.outputId = false;
+        return format;
     }
 }
