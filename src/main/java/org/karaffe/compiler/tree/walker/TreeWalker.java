@@ -47,8 +47,50 @@ public abstract class TreeWalker {
             case This:
                 onThis(tree);
                 break;
+            case Modifier:
+                onModifier(tree);
+                break;
+            case Modifiers:
+                onModifiers(tree);
+                break;
+            case SuperClass:
+                onSuperClass(tree);
+                break;
+            case Identifier:
+                onIdentifier(tree);
+                break;
+            case Parameter:
+                onParameter(tree);
+                break;
+            case Parameters:
+                onParameters(tree);
+                break;
+            case ReturnType:
+                onReturnType(tree);
+                break;
+            case TypeName:
+                onType(tree);
+                break;
+            default:
+                throw new IllegalStateException(tree.getNodeType().name());
         }
     }
+
+    abstract void onModifiers(Tree tree);
+
+    abstract void onSuperClass(Tree tree);
+
+    abstract void onIdentifier(Tree tree);
+
+    abstract void onParameter(Tree tree);
+
+    abstract void onParameters(Tree tree);
+
+    abstract void onReturnType(Tree tree);
+
+    abstract void onType(Tree tree);
+
+    abstract void onModifier(Tree tree);
 
     abstract void onThis(Tree tree);
 

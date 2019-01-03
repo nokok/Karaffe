@@ -8,6 +8,8 @@ import org.karaffe.compiler.frontend.karaffe.antlr.KaraffeLexer;
 import org.karaffe.compiler.frontend.karaffe.antlr.KaraffeParser;
 import org.karaffe.compiler.report.Report;
 import org.karaffe.compiler.tree.TreeFormatter;
+import org.karaffe.compiler.tree.walker.PrintTreeWalker;
+import org.karaffe.compiler.tree.walker.TreeWalker;
 import org.karaffe.compiler.util.CompilerContext;
 import org.karaffe.compiler.util.KaraffeSource;
 import org.karaffe.compiler.visitor.ClassNameListener;

@@ -25,7 +25,7 @@ public class CompilerContext {
     private Map<Path, byte[]> outputFiles = new HashMap<>();
     private ClassLoader defaultClassLoader = Thread.currentThread().getContextClassLoader();
     private DynamicClassLoader dynamicClassLoader = new DynamicClassLoader(defaultClassLoader);
-    private Tree currentAST = new Tree(NodeType.Error, "DEFAULT", null);
+    private Tree currentAST = new Tree(NodeType.Error, "DEFAULT", Position.noPos());
 
     private boolean hasError = false;
 

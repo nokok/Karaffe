@@ -13,6 +13,8 @@ public class Position {
     private int endColumn;
     private String sourceName;
 
+    private static final Position NO_POS = new Position();
+
     public Position(Token token) {
         this(token.getLine(), token.getCharPositionInLine(), token.getInputStream().getSourceName());
     }
@@ -23,6 +25,10 @@ public class Position {
         this.endLine = ruleContext.stop.getLine();
         this.endColumn = ruleContext.stop.getCharPositionInLine();
         this.sourceName = ruleContext.start.getInputStream().getSourceName();
+    }
+
+    private Position() {
+        this.sourceName = "<unknown>";
     }
 
     public Position(int line, int column, String sourceName) {
@@ -59,6 +65,31 @@ public class Position {
 
     public String getSourceName() {
         return sourceName;
+    }
+
+    public boolean isNoPos() {
+        return this.equals(NO_POS);
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Position position = (Position) o;
+        return line == position.line &&
+                endLine == position.endLine &&
+                column == position.column &&
+                endColumn == position.endColumn &&
+                sourceName.equals(position.sourceName);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(line, endLine, column, endColumn, sourceName);
+    }
+
+    public static Position noPos() {
+        return NO_POS;
     }
 
     @Override

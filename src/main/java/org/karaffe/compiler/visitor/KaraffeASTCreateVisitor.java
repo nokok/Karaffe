@@ -4,8 +4,6 @@ import org.karaffe.compiler.frontend.karaffe.antlr.KaraffeBaseVisitor;
 import org.karaffe.compiler.frontend.karaffe.antlr.KaraffeParser;
 import org.karaffe.compiler.tree.NodeType;
 import org.karaffe.compiler.tree.Tree;
-import org.karaffe.compiler.tree.attr.Attribute;
-import org.karaffe.compiler.tree.attr.AttributeType;
 import org.karaffe.compiler.util.CompilerContext;
 import org.karaffe.compiler.util.Position;
 
@@ -18,7 +16,7 @@ public class KaraffeASTCreateVisitor extends KaraffeBaseVisitor<Tree> {
 
     public KaraffeASTCreateVisitor(CompilerContext context) {
         this.context = context;
-        this.compilationUnit = new Tree(NodeType.CompilationUnit, "", null);
+        this.compilationUnit = new Tree(NodeType.CompilationUnit, "", Position.noPos());
     }
 
     public Tree getCompilationUnit() {
@@ -38,8 +36,12 @@ public class KaraffeASTCreateVisitor extends KaraffeBaseVisitor<Tree> {
     @Override
     public Tree visitClassDef(KaraffeParser.ClassDefContext ctx) {
         Tree tree = new Tree(NodeType.DefClass, ctx.Identifier().getText(), new Position(ctx));
-//        tree.addAttribute(new SuperClass() /*java.lang.Object*/);
-//        tree.addAttribute(new ModifierAttribute(JavaModifier.PUBLIC));
+        Tree superClass = new Tree(NodeType.SuperClass, "", new Position(ctx));
+        superClass.addChild(new Tree(NodeType.TypeName, "java.lang.Object", new Position(ctx)));
+        tree.addChild(superClass);
+        Tree modifiers = new Tree(NodeType.Modifiers, "", new Position(ctx));
+        modifiers.addChild(new Tree(NodeType.Modifier, "public", new Position(ctx)));
+        tree.addChild(modifiers);
         if (ctx.typeDefBody() != null) {
             List<KaraffeParser.StatementContext> statements = ctx.typeDefBody().statement();
             for (KaraffeParser.StatementContext statement : statements) {
@@ -72,10 +74,16 @@ public class KaraffeASTCreateVisitor extends KaraffeBaseVisitor<Tree> {
     @Override
     public Tree visitEntryPointBlock(KaraffeParser.EntryPointBlockContext ctx) {
         Tree tree = new Tree(NodeType.DefMethod, "main", new Position(ctx));
-        Attribute attribute = new Attribute(AttributeType.Modifier);
-        Attribute methodSignature = new Attribute(AttributeType.MethodSignature);
-        tree.addAttribute(attribute);
-        tree.addAttribute(methodSignature);
+        Tree modifiers = new Tree(NodeType.Modifiers, "", new Position(ctx));
+        modifiers.addChild(new Tree(NodeType.Modifier, "public", new Position(ctx)));
+        modifiers.addChild(new Tree(NodeType.Modifier, "static", new Position(ctx)));
+        tree.addChild(modifiers);
+        tree.addChild(new Tree(NodeType.ReturnType, "void", new Position(ctx)));
+        Tree parameters = new Tree(NodeType.Parameters, "", new Position(ctx));
+        Tree args = new Tree(NodeType.Parameter, "args", new Position(ctx));
+        args.addChild(new Tree(NodeType.TypeName, String[].class.getCanonicalName(), new Position(ctx)));
+        parameters.addChild(args);
+        tree.addChild(parameters);
         List<KaraffeParser.StatementContext> statements = ctx.statement();
         for (KaraffeParser.StatementContext statement : statements) {
             tree.addChild(statement.accept(this));

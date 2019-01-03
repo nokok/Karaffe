@@ -4,6 +4,46 @@ import org.karaffe.compiler.tree.Tree;
 
 public abstract class TreeWalkerAdapter extends TreeWalker {
     @Override
+    void onModifiers(Tree tree) {
+
+    }
+
+    @Override
+    void onSuperClass(Tree tree) {
+
+    }
+
+    @Override
+    void onIdentifier(Tree tree) {
+
+    }
+
+    @Override
+    void onParameter(Tree tree) {
+
+    }
+
+    @Override
+    void onParameters(Tree tree) {
+
+    }
+
+    @Override
+    void onReturnType(Tree tree) {
+
+    }
+
+    @Override
+    void onType(Tree tree) {
+
+    }
+
+    @Override
+    void onModifier(Tree tree) {
+
+    }
+
+    @Override
     void onThis(Tree tree) {
 
     }

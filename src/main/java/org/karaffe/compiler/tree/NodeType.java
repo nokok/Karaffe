@@ -11,5 +11,13 @@ public enum NodeType {
     StringLiteral,
     Error,
     This,
-    DefClass
+    DefClass,
+    Modifier,
+    SuperClass,
+    ReturnType,
+    Parameters,
+    Parameter,
+    Modifiers,
+    TypeName,
+    Identifier
 }

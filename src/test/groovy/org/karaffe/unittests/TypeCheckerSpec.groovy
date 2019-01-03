@@ -6,6 +6,7 @@ import org.karaffe.compiler.tree.NodeType
 import org.karaffe.compiler.tree.Tree
 import org.karaffe.compiler.typechecker.TypeChecker
 import org.karaffe.compiler.util.CompilerContext
+import org.karaffe.compiler.util.Position
 import org.karaffe.compiler.util.TypeInfo
 import spock.lang.Specification
 
@@ -17,9 +18,9 @@ class TypeCheckerSpec extends Specification {
         checker.unify(tree) == result
 
         where:
-        tree                                           || result
-        new Tree(NodeType.IntLiteral, "1", null)       || new TypeInfo(Int.class)
-        new Tree(NodeType.StringLiteral, "Hoge", null) || new TypeInfo(karaffe.core.String.class)
+        tree                                                       || result
+        new Tree(NodeType.IntLiteral, "1", Position.noPos())       || new TypeInfo(Int.class)
+        new Tree(NodeType.StringLiteral, "Hoge", Position.noPos()) || new TypeInfo(karaffe.core.String.class)
     }
 
     def "method"() {
@@ -29,8 +30,8 @@ class TypeCheckerSpec extends Specification {
         checker.unify(tree) == result
 
         where:
-        tree                                       || result
-        new Tree(NodeType.DefMethod, "main", null) || new TypeInfo(Unit.class)
+        tree                                                   || result
+        new Tree(NodeType.DefMethod, "main", Position.noPos()) || new TypeInfo(Unit.class)
     }
 
 }

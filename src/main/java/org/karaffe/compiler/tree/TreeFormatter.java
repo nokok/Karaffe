@@ -27,9 +27,6 @@ public class TreeFormatter {
         if (!tree.getName().isEmpty()) {
             stringBuilder.append(" ").append(tree.getName());
         }
-        if (!tree.getAttributes().isEmpty()) {
-            stringBuilder.append(" ").append(tree.getAttributes());
-        }
         if (tree.hasChildren()) {
             stringBuilder.append("\n");
             stringBuilder.append(
