@@ -51,9 +51,13 @@ public class KaraffeCompiler {
                 TreeFormatter formatter = new TreeFormatter(context);
                 this.context.add(Report.newInfoReport("AST Info").withBody(formatter.format(this.context.getCurrentAST())).build());
             } else {
-                // TODO
+                this.context.add(Report.newErrorReport("Unrecognized argument(s) : " + param).build());
             }
         });
+
+        if (context.hasError()) {
+            return;
+        }
 
         if (this.context.hasFlag(Flag.DRY_RUN)) {
             return;
