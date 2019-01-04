@@ -74,3 +74,8 @@ startShadowScripts {
 
 mainClassName = "org.karaffe.compiler.Main"
 
+gradle.projectsEvaluated {
+  tasks.withType(JavaCompile) {
+    options.compilerArgs << "-Xlint:all" << "-Werror"
+  }
+}
