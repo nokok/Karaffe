@@ -10,27 +10,27 @@ import java.util.Objects;
 
 public class TypeChecker {
 
-    private final CompilerContext context;
+  private final CompilerContext context;
 
-    public TypeChecker(CompilerContext context) {
-        this.context = Objects.requireNonNull(context);
-    }
+  public TypeChecker(CompilerContext context) {
+    this.context = Objects.requireNonNull(context);
+  }
 
-    public TypeInfo unify(Tree tree) {
-        switch (tree.getNodeType()) {
-        case IntLiteral:
-            return new TypeInfo(Int.class);
-        case StringLiteral:
-            return new TypeInfo(karaffe.core.String.class);
-        case CompilationUnit:
-        case DefClass:
-        case DefMethod:
-        case DefVar:
-            return new TypeInfo(Unit.class);
-        case Error:
-            return TypeInfo.error();
-        default:
-            throw new IllegalStateException(tree.getNodeType().name());
-        }
+  public TypeInfo unify(Tree tree) {
+    switch (tree.getNodeType()) {
+    case IntLiteral:
+      return new TypeInfo(Int.class);
+    case StringLiteral:
+      return new TypeInfo(karaffe.core.String.class);
+    case CompilationUnit:
+    case DefClass:
+    case DefMethod:
+    case DefVar:
+      return new TypeInfo(Unit.class);
+    case Error:
+      return TypeInfo.error();
+    default:
+      throw new IllegalStateException(tree.getNodeType().name());
     }
+  }
 }

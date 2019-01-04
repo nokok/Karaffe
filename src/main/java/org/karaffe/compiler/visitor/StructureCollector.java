@@ -6,18 +6,18 @@ import org.karaffe.compiler.util.CompilerContext;
 
 public class StructureCollector extends KaraffeBaseVisitor<CompilerContext> {
 
-    @Override
-    public CompilerContext visitClassDef(KaraffeParser.ClassDefContext ctx) {
-        return super.visitClassDef(ctx);
-    }
+  @Override
+  public CompilerContext visitClassDef(KaraffeParser.ClassDefContext ctx) {
+    return super.visitClassDef(ctx);
+  }
 
-    @Override
-    public CompilerContext visitEntryPointBlock(KaraffeParser.EntryPointBlockContext ctx) {
-        return super.visitEntryPointBlock(ctx);
-    }
+  @Override
+  public CompilerContext visitEntryPointBlock(KaraffeParser.EntryPointBlockContext ctx) {
+    return super.visitEntryPointBlock(ctx);
+  }
 
-    @Override
-    public CompilerContext visitVarDef(KaraffeParser.VarDefContext ctx) {
-        return super.visitVarDef(ctx);
-    }
+  @Override
+  public CompilerContext visitVarDef(KaraffeParser.VarDefContext ctx) {
+    return super.visitVarDef(ctx);
+  }
 }

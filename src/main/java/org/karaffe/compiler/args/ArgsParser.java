@@ -18,77 +18,77 @@ import java.util.Set;
 
 public class ArgsParser {
 
-    private final List<Report> reports = new ArrayList<>();
+  private final List<Report> reports = new ArrayList<>();
 
-    private final Map<String, Flag> supportedFlags = new HashMap<>();
-    private final Map<String, ParameterName> supportedParameters = new HashMap<>();
+  private final Map<String, Flag> supportedFlags = new HashMap<>();
+  private final Map<String, ParameterName> supportedParameters = new HashMap<>();
 
-    public ArgsParser() {
-        for (Flag flag : Flag.values()) {
-            flag.getShortName().ifPresent(n -> supportedFlags.put(n, flag));
-            flag.getFullName().ifPresent(n -> supportedFlags.put(n, flag));
-        }
-        for (ParameterName parameter : ParameterName.values()) {
-            parameter.getShortName().ifPresent(n -> supportedParameters.put(n, parameter));
-            parameter.getFullName().ifPresent(n -> supportedParameters.put(n, parameter));
-        }
+  public ArgsParser() {
+    for (Flag flag : Flag.values()) {
+      flag.getShortName().ifPresent(n -> supportedFlags.put(n, flag));
+      flag.getFullName().ifPresent(n -> supportedFlags.put(n, flag));
     }
+    for (ParameterName parameter : ParameterName.values()) {
+      parameter.getShortName().ifPresent(n -> supportedParameters.put(n, parameter));
+      parameter.getFullName().ifPresent(n -> supportedParameters.put(n, parameter));
+    }
+  }
 
-    public Optional<Options> parse(String[] options) {
-        Objects.requireNonNull(options);
-        if (options.length == 0) {
-            return Optional.of(new Options());
-        }
-        Set<Flag> recognizedFlags = new HashSet<>();
-        Set<ParameterName> recognizedParameters = new HashSet<>();
-        Map<ParameterName, String> recognizedParameterValues = new HashMap<>();
-        Set<KaraffeSource> sourceSet = new HashSet<>();
-        for (int i = 0; i < options.length; i++) {
-            String c = options[i];
-            if (c.startsWith("-")) {
-                boolean containsKeyAtFlag = supportedFlags.containsKey(c);
-                boolean containsKeyAtParameter = supportedParameters.containsKey(c);
-                if (containsKeyAtFlag) {
-                    if (!recognizedFlags.add(supportedFlags.get(c))) {
-                        this.reports.add(Report.newErrorReport("Duplicated flag : " + c).build());
-                    }
-                } else if (containsKeyAtParameter) {
-                    ParameterName parameterName = supportedParameters.get(c);
-                    if (!recognizedParameters.add(parameterName)) {
-                        this.reports.add(Report.newErrorReport("Duplicated parameter : " + c).build());
-                        continue;
-                    }
-                    if (options.length <= i + 1) {
-                        this.reports.add(Report.newErrorReport("Option requires an argument : " + c).build());
-                        continue;
-                    }
-                    String argument = options[++i];
-                    recognizedParameterValues.put(parameterName, argument);
-                } else {
-                    this.reports.add(Report.newErrorReport("Unrecognized option : " + c).build());
-                }
-            } else {
-                Path filePath = Paths.get(c);
-                if (Files.exists(filePath)) {
-                    try {
-                        sourceSet.add(KaraffeSource.fromPath(filePath));
-                    } catch (IOException e) {
-                        this.reports.add(Report.newErrorReport(e.getMessage()).build());
-                    }
-                } else {
-                    this.reports.add(Report.newErrorReport("File not found : " + c).build());
-                }
-            }
-        }
-        if (this.reports.isEmpty()) {
-            return Optional.of(new Options(recognizedFlags, recognizedParameterValues, sourceSet));
+  public Optional<Options> parse(String[] options) {
+    Objects.requireNonNull(options);
+    if (options.length == 0) {
+      return Optional.of(new Options());
+    }
+    Set<Flag> recognizedFlags = new HashSet<>();
+    Set<ParameterName> recognizedParameters = new HashSet<>();
+    Map<ParameterName, String> recognizedParameterValues = new HashMap<>();
+    Set<KaraffeSource> sourceSet = new HashSet<>();
+    for (int i = 0; i < options.length; i++) {
+      String c = options[i];
+      if (c.startsWith("-")) {
+        boolean containsKeyAtFlag = supportedFlags.containsKey(c);
+        boolean containsKeyAtParameter = supportedParameters.containsKey(c);
+        if (containsKeyAtFlag) {
+          if (!recognizedFlags.add(supportedFlags.get(c))) {
+            this.reports.add(Report.newErrorReport("Duplicated flag : " + c).build());
+          }
+        } else if (containsKeyAtParameter) {
+          ParameterName parameterName = supportedParameters.get(c);
+          if (!recognizedParameters.add(parameterName)) {
+            this.reports.add(Report.newErrorReport("Duplicated parameter : " + c).build());
+            continue;
+          }
+          if (options.length <= i + 1) {
+            this.reports.add(Report.newErrorReport("Option requires an argument : " + c).build());
+            continue;
+          }
+          String argument = options[++i];
+          recognizedParameterValues.put(parameterName, argument);
         } else {
-            return Optional.empty();
+          this.reports.add(Report.newErrorReport("Unrecognized option : " + c).build());
         }
-
+      } else {
+        Path filePath = Paths.get(c);
+        if (Files.exists(filePath)) {
+          try {
+            sourceSet.add(KaraffeSource.fromPath(filePath));
+          } catch (IOException e) {
+            this.reports.add(Report.newErrorReport(e.getMessage()).build());
+          }
+        } else {
+          this.reports.add(Report.newErrorReport("File not found : " + c).build());
+        }
+      }
+    }
+    if (this.reports.isEmpty()) {
+      return Optional.of(new Options(recognizedFlags, recognizedParameterValues, sourceSet));
+    } else {
+      return Optional.empty();
     }
 
-    public List<Report> getReports() {
-        return reports;
-    }
+  }
+
+  public List<Report> getReports() {
+    return reports;
+  }
 }

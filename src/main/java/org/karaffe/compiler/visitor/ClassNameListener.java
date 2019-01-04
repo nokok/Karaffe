@@ -10,20 +10,20 @@ import java.util.Objects;
 
 public class ClassNameListener extends KaraffeBaseListener {
 
-    private CompilerContext context;
+  private CompilerContext context;
 
-    public ClassNameListener(CompilerContext context) {
-        this.context = Objects.requireNonNull(context);
-    }
+  public ClassNameListener(CompilerContext context) {
+    this.context = Objects.requireNonNull(context);
+  }
 
-    @Override
-    public void exitClassDef(KaraffeParser.ClassDefContext ctx) {
-        if (ctx.Identifier() == null) {
-            return;
-        }
-        String className = ctx.Identifier().getText();
-        if (Character.isLowerCase(className.charAt(0))) {
-            this.context.add(Report.newWarningReport("Class name must be PascalCase : " + className).with(new Position(ctx.Identifier().getSymbol())).build());
-        }
+  @Override
+  public void exitClassDef(KaraffeParser.ClassDefContext ctx) {
+    if (ctx.Identifier() == null) {
+      return;
     }
+    String className = ctx.Identifier().getText();
+    if (Character.isLowerCase(className.charAt(0))) {
+      this.context.add(Report.newWarningReport("Class name must be PascalCase : " + className).with(new Position(ctx.Identifier().getSymbol())).build());
+    }
+  }
 }
