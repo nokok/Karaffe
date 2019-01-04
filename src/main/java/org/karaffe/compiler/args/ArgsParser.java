@@ -1,6 +1,7 @@
 package org.karaffe.compiler.args;
 
 import org.karaffe.compiler.report.Report;
+import org.karaffe.compiler.report.ReportCode;
 import org.karaffe.compiler.util.KaraffeSource;
 
 import java.io.IOException;
@@ -50,22 +51,22 @@ public class ArgsParser {
         boolean containsKeyAtParameter = supportedParameters.containsKey(c);
         if (containsKeyAtFlag) {
           if (!recognizedFlags.add(supportedFlags.get(c))) {
-            this.reports.add(Report.newErrorReport("Duplicated flag : " + c).build());
+            this.reports.add(Report.newReport(ReportCode.ERR_DUPLICATE_FLAG).withVariable(c).build());
           }
         } else if (containsKeyAtParameter) {
           ParameterName parameterName = supportedParameters.get(c);
           if (!recognizedParameters.add(parameterName)) {
-            this.reports.add(Report.newErrorReport("Duplicated parameter : " + c).build());
+            this.reports.add(Report.newReport(ReportCode.ERR_DUPLICATE_PARAMETER).withVariable(c).build());
             continue;
           }
           if (options.length <= i + 1) {
-            this.reports.add(Report.newErrorReport("Option requires an argument : " + c).build());
+            this.reports.add(Report.newReport(ReportCode.ERR_OPTION_REQUIRES_ARGUMENT).withVariable(c).build());
             continue;
           }
           String argument = options[++i];
           recognizedParameterValues.put(parameterName, argument);
         } else {
-          this.reports.add(Report.newErrorReport("Unrecognized option : " + c).build());
+          this.reports.add(Report.newReport(ReportCode.ERR_UNRECOGNIZED_ARGUMENT).withVariable(c).build());
         }
       } else {
         Path filePath = Paths.get(c);
@@ -73,10 +74,10 @@ public class ArgsParser {
           try {
             sourceSet.add(KaraffeSource.fromPath(filePath));
           } catch (IOException e) {
-            this.reports.add(Report.newErrorReport(e.getMessage()).build());
+            this.reports.add(Report.newReport(ReportCode.ERR_IO_EXCEPTION).withVariable(e.getLocalizedMessage()).build());
           }
         } else {
-          this.reports.add(Report.newErrorReport("File not found : " + c).build());
+          this.reports.add(Report.newReport(ReportCode.ERR_FILE_NOT_FOUND).withVariable(c).build());
         }
       }
     }

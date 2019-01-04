@@ -2,6 +2,7 @@ package org.karaffe.compiler.report;
 
 import org.karaffe.compiler.util.Position;
 
+import java.text.MessageFormat;
 import java.util.Objects;
 import java.util.Optional;
 
@@ -12,14 +13,21 @@ public class Report {
   private String header;
   private String body;
 
+  public static Report.Builder newReport(ReportCode reportCode) {
+    return new Builder(reportCode.toTitleName(), reportCode.toReportType());
+  }
+
+  @Deprecated
   public static Report.Builder newErrorReport(String title) {
     return new Builder(title, ReportType.ERROR);
   }
 
+  @Deprecated
   public static Report.Builder newWarningReport(String title) {
     return new Builder(title, ReportType.WARN);
   }
 
+  @Deprecated
   public static Report.Builder newInfoReport(String title) {
     return new Builder(title, ReportType.INFO);
   }
@@ -50,7 +58,7 @@ public class Report {
   }
 
   public static class Builder {
-    private final String title;
+    private String title;
     private final ReportType reportType;
     private Position position = null;
     private String body;
@@ -85,6 +93,11 @@ public class Report {
 
     public Builder withBody(String body) {
       this.body = Objects.requireNonNull(body);
+      return this;
+    }
+
+    public Builder withVariable(Object... vars) {
+      this.title = MessageFormat.format(this.title, vars);
       return this;
     }
   }

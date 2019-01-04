@@ -3,6 +3,7 @@ package org.karaffe.compiler;
 import karaffe.core.Console;
 import org.karaffe.compiler.args.Flag;
 import org.karaffe.compiler.report.Report;
+import org.karaffe.compiler.report.ReportCode;
 import org.karaffe.compiler.tree.formatter.SimpleTreeFormatter;
 import org.karaffe.compiler.util.CompilerContext;
 
@@ -27,12 +28,9 @@ public class Main {
     });
     context.parseRawArgs(args);
     if (context.hasFlag(Flag.VERSION)) {
-      context.add(Report.newInfoReport("Karaffe compiler version: 0.1.0").build());
+      context.add(Report.newReport(ReportCode.INFO_COMPILER_VERSION).withVariable("0.1.0").build());
     } else if (context.requireShowUsage()) {
-      context.add(Report
-                  .newInfoReport("Usage:")
-                  .withBody("krfc <options> <sources>")
-                  .build());
+      context.add(Report.newReport(ReportCode.INFO_USAGE) /*.withVariable(supportedOptions)*/.withBody("krfc <options> <sources>").build());
     } else {
       KaraffeCompiler compiler = new KaraffeCompiler(context);
       compiler.run();

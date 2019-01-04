@@ -7,6 +7,7 @@ import org.karaffe.compiler.args.ParameterName;
 import org.karaffe.compiler.frontend.karaffe.antlr.KaraffeLexer;
 import org.karaffe.compiler.frontend.karaffe.antlr.KaraffeParser;
 import org.karaffe.compiler.report.Report;
+import org.karaffe.compiler.report.ReportCode;
 import org.karaffe.compiler.tree.formatter.FormatType;
 import org.karaffe.compiler.tree.formatter.TreeFormatter;
 import org.karaffe.compiler.tree.walker.FlatApplyWalker;
@@ -41,13 +42,13 @@ public class KaraffeCompiler {
     KaraffeParserVisitor parserVisitor = new KaraffeParserVisitor(context);
     KaraffeASTCreateVisitor createASTVisitor = new KaraffeASTCreateVisitor(context);
     sources.stream()
-    .map(this::parse)
-    .filter(Optional::isPresent).map(Optional::get).filter(ctx -> Objects.nonNull(ctx.EOF()))
-    .forEach(c -> uncheck(() -> {
-      c.accept(createASTVisitor);
-      c.accept(parserVisitor);
-    }
-    ));
+      .map(this::parse)
+      .filter(Optional::isPresent).map(Optional::get).filter(ctx -> Objects.nonNull(ctx.EOF()))
+      .forEach(c -> uncheck(() -> {
+          c.accept(createASTVisitor);
+          c.accept(parserVisitor);
+        }
+      ));
     this.context.setAST(createASTVisitor.getCompilationUnit());
 
     TreeWalker validator = new TreeSchemaValidator();
@@ -62,13 +63,13 @@ public class KaraffeCompiler {
       } else if (param.equals("source")) {
         type = FormatType.SOURCE;
       } else {
-        this.context.add(Report.newErrorReport("Unrecognized argument(s) : " + param).build());
+        this.context.add(Report.newReport(ReportCode.ERR_UNRECOGNIZED_ARGUMENT).withVariable(param).build());
         return;
       }
 
       TreeFormatter formatter = TreeFormatter.fromType(type);
 
-      this.context.add(Report.newInfoReport("AST Info").withBody(formatter.format(this.context.getCurrentAST())).build());
+      this.context.add(Report.newReport(ReportCode.INFO_AST).withBody(formatter.format(this.context.getCurrentAST())).build());
     });
 
     if (context.hasError()) {

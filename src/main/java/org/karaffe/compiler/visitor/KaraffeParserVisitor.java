@@ -6,6 +6,7 @@ import org.karaffe.compiler.frontend.karaffe.antlr.KaraffeBaseVisitor;
 import org.karaffe.compiler.frontend.karaffe.antlr.KaraffeParser;
 import org.karaffe.compiler.gen.BytecodeSupport;
 import org.karaffe.compiler.report.Report;
+import org.karaffe.compiler.report.ReportCode;
 import org.karaffe.compiler.resolver.MethodResolver;
 import org.karaffe.compiler.util.BytecodeEntry;
 import org.karaffe.compiler.util.CompilerContext;
@@ -32,7 +33,7 @@ public class KaraffeParserVisitor extends KaraffeBaseVisitor<CompilerContext> {
     super.visitClassDef(ctx);
     BytecodeEntry bytecodeEntry = bytecodeSupport.closeThisClass();
     if (!context.add(bytecodeEntry)) {
-      this.context.add(Report.newErrorReport("Duplicate class : " + ctx.Identifier().getText()).with(new Position(ctx)).build());
+      this.context.add(Report.newReport(ReportCode.ERR_DUPLICATE_CLASS_DECLARATION).withVariable(ctx.Identifier().getText()).with(new Position(ctx)).build());
     }
     return context;
   }
