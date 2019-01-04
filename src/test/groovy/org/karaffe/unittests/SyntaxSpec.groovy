@@ -18,17 +18,14 @@ class SyntaxSpec extends Specification {
 
         @Override
         void reportAmbiguity(Parser recognizer, DFA dfa, int startIndex, int stopIndex, boolean exact, BitSet ambigAlts, ATNConfigSet configs) {
-            throw new RuntimeException("reportAmbiguity : $dfa , $startIndex, $stopIndex")
         }
 
         @Override
         void reportAttemptingFullContext(Parser recognizer, DFA dfa, int startIndex, int stopIndex, BitSet conflictingAlts, ATNConfigSet configs) {
-            throw new RuntimeException("reportAttemptingFullContext : $dfa , $startIndex, $stopIndex")
         }
 
         @Override
         void reportContextSensitivity(Parser recognizer, DFA dfa, int startIndex, int stopIndex, int prediction, ATNConfigSet configs) {
-            throw new RuntimeException("reportContextSensitivity : $dfa , $startIndex, $stopIndex")
         }
     }
 
