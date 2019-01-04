@@ -1,41 +1,17 @@
 package org.karaffe.unittests
 
-import org.antlr.v4.runtime.*
-import org.antlr.v4.runtime.atn.ATNConfigSet
-import org.antlr.v4.runtime.dfa.DFA
-import org.karaffe.compiler.frontend.karaffe.antlr.KaraffeLexer
-import org.karaffe.compiler.frontend.karaffe.antlr.KaraffeParser
+
 import spock.lang.Specification
 import spock.lang.Unroll
 
+import static org.karaffe.util.Util.getParser
+
 class SyntaxSpec extends Specification {
 
-  public static final ANTLRErrorListener DEFULT_ERROR_LISTENER = new ANTLRErrorListener() {
-    @Override
-    void syntaxError(Recognizer<?, ?> recognizer, Object offendingSymbol, int line, int charPositionInLine, String msg, RecognitionException e) {
-      throw new RuntimeException("Syntax Error at $line : $charPositionInLine , $msg")
-    }
-
-    @Override
-    void reportAmbiguity(Parser recognizer, DFA dfa, int startIndex, int stopIndex, boolean exact, BitSet ambigAlts, ATNConfigSet configs) {
-    }
-
-    @Override
-    void reportAttemptingFullContext(Parser recognizer, DFA dfa, int startIndex, int stopIndex, BitSet conflictingAlts, ATNConfigSet configs) {
-    }
-
-    @Override
-    void reportContextSensitivity(Parser recognizer, DFA dfa, int startIndex, int stopIndex, int prediction, ATNConfigSet configs) {
-    }
-  }
 
   def "empty source"() {
     setup:
-    def source = ""
-    def lexer = new KaraffeLexer(CharStreams.fromString(source))
-    lexer.addErrorListener(DEFULT_ERROR_LISTENER)
-    def parser = new KaraffeParser(new CommonTokenStream(lexer))
-    parser.addErrorListener(DEFULT_ERROR_LISTENER)
+    def parser = getParser("")
     def context = parser.sourceFile()
 
     expect:
@@ -44,10 +20,7 @@ class SyntaxSpec extends Specification {
 
   def "classDef"() {
     setup:
-    def lexer = new KaraffeLexer(CharStreams.fromString("class A"))
-    lexer.addErrorListener(DEFULT_ERROR_LISTENER)
-    def parse = new KaraffeParser(new CommonTokenStream(lexer))
-    parse.addErrorListener(DEFULT_ERROR_LISTENER)
+    def parse = getParser("class A")
     def context = parse.classDef()
 
     expect:
@@ -57,10 +30,7 @@ class SyntaxSpec extends Specification {
 
   def "classDef2"() {
     setup:
-    def lexer = new KaraffeLexer(CharStreams.fromString("class A {}"))
-    lexer.addErrorListener(DEFULT_ERROR_LISTENER)
-    def parse = new KaraffeParser(new CommonTokenStream(lexer))
-    parse.addErrorListener(DEFULT_ERROR_LISTENER)
+    def parse = getParser("class A {}")
     def context = parse.classDef()
 
     expect:
@@ -70,15 +40,10 @@ class SyntaxSpec extends Specification {
 
   def "entryPoint"() {
     setup:
-    def lexer = new KaraffeLexer(CharStreams.fromString(
-      """class Main {
+    def parse = getParser("""class Main {
                   |  entrypoint {
                   |  }
-                  |}""".stripMargin()
-    ))
-    lexer.addErrorListener(DEFULT_ERROR_LISTENER)
-    def parse = new KaraffeParser(new CommonTokenStream(lexer))
-    parse.addErrorListener(DEFULT_ERROR_LISTENER)
+                  |}""".stripMargin())
     def context = parse.classDef()
 
     expect:
@@ -88,10 +53,7 @@ class SyntaxSpec extends Specification {
   }
 
   def "nullExpr"() {
-    def lexer = new KaraffeLexer(CharStreams.fromString("print()"))
-    lexer.addErrorListener(DEFULT_ERROR_LISTENER)
-    def parse = new KaraffeParser(new CommonTokenStream(lexer))
-    parse.addErrorListener(DEFULT_ERROR_LISTENER)
+    def parse = getParser("print()")
     def context = parse.printFunction()
 
     expect:
@@ -101,10 +63,7 @@ class SyntaxSpec extends Specification {
 
   @Unroll
   def "stringLiteral #literal"() {
-    def lexer = new KaraffeLexer(CharStreams.fromString(literal))
-    lexer.addErrorListener(DEFULT_ERROR_LISTENER)
-    def parse = new KaraffeParser(new CommonTokenStream(lexer))
-    parse.addErrorListener(DEFULT_ERROR_LISTENER)
+    def parse = getParser(literal)
     def context = parse.literal()
 
     expect:
@@ -125,10 +84,7 @@ class SyntaxSpec extends Specification {
 
   @Unroll
   def "intLiteral #literal"() {
-    def lexer = new KaraffeLexer(CharStreams.fromString(literal))
-    lexer.addErrorListener(DEFULT_ERROR_LISTENER)
-    def parse = new KaraffeParser(new CommonTokenStream(lexer))
-    parse.addErrorListener(DEFULT_ERROR_LISTENER)
+    def parse = getParser(literal)
     def context = parse.literal()
 
     expect:
@@ -149,14 +105,9 @@ class SyntaxSpec extends Specification {
 
   def "field"() {
     setup:
-    def lexer = new KaraffeLexer(CharStreams.fromString(
-      """class Main {
+    def parse = getParser("""class Main {
                   |  def i
-                  |}""".stripMargin()
-    ))
-    lexer.addErrorListener(DEFULT_ERROR_LISTENER)
-    def parse = new KaraffeParser(new CommonTokenStream(lexer))
-    parse.addErrorListener(DEFULT_ERROR_LISTENER)
+                  |}""".stripMargin())
     def context = parse.classDef()
 
     expect:
@@ -167,15 +118,10 @@ class SyntaxSpec extends Specification {
 
   def "constructor"() {
     setup:
-    def lexer = new KaraffeLexer(CharStreams.fromString(
-      """class Main {
+    def parse = getParser("""class Main {
                   |  init {
                   |  }
-                  |}""".stripMargin()
-    ))
-    lexer.addErrorListener(DEFULT_ERROR_LISTENER)
-    def parse = new KaraffeParser(new CommonTokenStream(lexer))
-    parse.addErrorListener(DEFULT_ERROR_LISTENER)
+                  |}""".stripMargin())
     def context = parse.classDef()
 
     expect:
@@ -186,17 +132,12 @@ class SyntaxSpec extends Specification {
 
   def "initialize"() {
     setup:
-    def lexer = new KaraffeLexer(CharStreams.fromString(
-      """class Main {
+    def parse = getParser("""class Main {
                   |  def i
                   |  init {
                   |    this.i := 0
                   |  }
-                  |}""".stripMargin()
-    ))
-    lexer.addErrorListener(DEFULT_ERROR_LISTENER)
-    def parse = new KaraffeParser(new CommonTokenStream(lexer))
-    parse.addErrorListener(DEFULT_ERROR_LISTENER)
+                  |}""".stripMargin())
     def context = parse.classDef()
 
     expect:
@@ -207,18 +148,13 @@ class SyntaxSpec extends Specification {
 
   def "infixOp"() {
     setup:
-    def lexer = new KaraffeLexer(CharStreams.fromString(
-      """class Main {
+    def parse = getParser("""class Main {
                   |  def i
                   |  init {
                   |    1 + 1
                   |    1 plus 1
                   |  }
-                  |}""".stripMargin()
-    ))
-    lexer.addErrorListener(DEFULT_ERROR_LISTENER)
-    def parse = new KaraffeParser(new CommonTokenStream(lexer))
-    parse.addErrorListener(DEFULT_ERROR_LISTENER)
+                  |}""".stripMargin())
     def context = parse.classDef()
 
     expect:
@@ -229,16 +165,11 @@ class SyntaxSpec extends Specification {
 
   def "invokeMethod"() {
     setup:
-    def lexer = new KaraffeLexer(CharStreams.fromString(
-      """class Main {
+    def parse = getParser("""class Main {
                   |  entrypoint {
                   |    this.hoge()
                   |  }
-                  |}""".stripMargin()
-    ))
-    lexer.addErrorListener(DEFULT_ERROR_LISTENER)
-    def parse = new KaraffeParser(new CommonTokenStream(lexer))
-    parse.addErrorListener(DEFULT_ERROR_LISTENER)
+                  |}""".stripMargin())
     def context = parse.classDef()
 
     expect:
@@ -249,16 +180,11 @@ class SyntaxSpec extends Specification {
 
   def "simpleInvoke"() {
     setup:
-    def lexer = new KaraffeLexer(CharStreams.fromString(
-      """class Main {
+    def parse = getParser("""class Main {
                   |  entrypoint {
                   |    doSomething()
                   |  }
-                  |}""".stripMargin()
-    ))
-    lexer.addErrorListener(DEFULT_ERROR_LISTENER)
-    def parse = new KaraffeParser(new CommonTokenStream(lexer))
-    parse.addErrorListener(DEFULT_ERROR_LISTENER)
+                  |}""".stripMargin())
     def context = parse.classDef()
 
     expect:
