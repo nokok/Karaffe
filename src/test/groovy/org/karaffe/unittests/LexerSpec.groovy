@@ -3,6 +3,7 @@ package org.karaffe.unittests
 import org.antlr.v4.runtime.CharStreams
 import org.antlr.v4.runtime.CommonTokenStream
 import org.karaffe.compiler.frontend.karaffe.antlr.KaraffeLexer
+import org.karaffe.util.Util
 import spock.lang.Specification
 import spock.lang.Unroll
 
@@ -13,7 +14,7 @@ class LexerSpec extends Specification {
     setup:
     def lexer = new KaraffeLexer(CharStreams.fromString(source))
     lexer.removeErrorListeners()
-    lexer.addErrorListener(SyntaxSpec.DEFULT_ERROR_LISTENER)
+    lexer.addErrorListener(Util.DEFULT_ERROR_LISTENER)
     def stream = new CommonTokenStream(lexer)
     stream.consume()
     def token = stream.get(0)
@@ -57,7 +58,7 @@ class LexerSpec extends Specification {
     setup:
     def lexer = new KaraffeLexer(CharStreams.fromString(source))
     lexer.removeErrorListeners()
-    lexer.addErrorListener(SyntaxSpec.DEFULT_ERROR_LISTENER)
+    lexer.addErrorListener(Util.DEFULT_ERROR_LISTENER)
     def stream = new CommonTokenStream(lexer)
     stream.consume()
     def token = stream.get(0)
@@ -82,7 +83,7 @@ class LexerSpec extends Specification {
     setup:
     def lexer = new KaraffeLexer(CharStreams.fromString(source))
     lexer.removeErrorListeners()
-    lexer.addErrorListener(SyntaxSpec.DEFULT_ERROR_LISTENER)
+    lexer.addErrorListener(Util.DEFULT_ERROR_LISTENER)
     def stream = new CommonTokenStream(lexer)
     String errorMessage = ""
     try {
@@ -106,7 +107,7 @@ class LexerSpec extends Specification {
     setup:
     def lexer = new KaraffeLexer(CharStreams.fromString(source))
     lexer.removeErrorListeners()
-    lexer.addErrorListener(SyntaxSpec.DEFULT_ERROR_LISTENER)
+    lexer.addErrorListener(Util.DEFULT_ERROR_LISTENER)
     def stream = new CommonTokenStream(lexer)
     stream.consume()
     def token = stream.get(0)
