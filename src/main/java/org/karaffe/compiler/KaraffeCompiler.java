@@ -11,6 +11,7 @@ import org.karaffe.compiler.report.ReportCode;
 import org.karaffe.compiler.tree.formatter.FormatType;
 import org.karaffe.compiler.tree.formatter.TreeFormatter;
 import org.karaffe.compiler.tree.walker.FlatApplyWalker;
+import org.karaffe.compiler.tree.walker.NameValidator;
 import org.karaffe.compiler.tree.walker.TreeSchemaValidator;
 import org.karaffe.compiler.tree.walker.TreeWalker;
 import org.karaffe.compiler.util.CompilerContext;
@@ -55,6 +56,8 @@ public class KaraffeCompiler {
     validator.walk(this.context.getCurrentAST());
     TreeWalker exprWalker = new FlatApplyWalker();
     exprWalker.walk(this.context.getCurrentAST());
+    TreeWalker nameValidator = new NameValidator(context);
+    nameValidator.walk(this.context.getCurrentAST());
 
     context.getParameter(ParameterName.EMIT).map(String::toLowerCase).ifPresent(param -> {
       FormatType type;
@@ -98,7 +101,6 @@ public class KaraffeCompiler {
       KaraffeParser parser = new KaraffeParser(commonTokenStream);
       parser.setErrorHandler(new KaraffeParseErrorStrategy());
       parser.removeErrorListeners();
-      parser.addParseListener(new ClassNameListener(context));
       parser.addErrorListener(errorHandler);
       if (errorHandler.hasSyntaxError()) {
         return Optional.empty();

@@ -12,8 +12,10 @@ public enum ReportCode {
   ERR_OPTION_REQUIRES_ARGUMENT("option_requires_argument"),
   ERR_DUPLICATE_PARAMETER("duplicate_parameter"),
   ERR_DUPLICATE_FLAG("duplicate_flag"),
+  ERR_NAME_VALIDATION_FAILED("name_validation_failed"),
 
   WARN_CLASSNAME_IS_NOT_PASCALCASE("classname_is_not_pascalcase"),
+  WARN_NAME_VALIDATION("name_validation_warning"),
 
   INFO_COMPILER_VERSION("compiler_version"),
   INFO_USAGE("usage"),

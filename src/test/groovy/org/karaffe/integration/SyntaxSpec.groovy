@@ -30,4 +30,20 @@ class SyntaxSpec extends Specification {
       "class A",
     ]
   }
+
+  @Unroll
+  def "invalid"() {
+    setup:
+    def context = runTest(source)
+
+    expect:
+    context.hasError()
+    context.outputText == errorMessage
+
+    where:
+    source    || errorMessage
+    "class +" || '''[ERROR] Name validation failed : ERR_INVALID_JAVA_IDENTIFIER at 1:0:Main.krf
+                    |class +
+                    |~~~~~~^'''.stripMargin()
+  }
 }
