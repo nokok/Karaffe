@@ -247,4 +247,24 @@ class SyntaxSpec extends Specification {
         context.typeDefBody().statement(0)
     }
 
+    def "simpleInvoke"() {
+        setup:
+        def lexer = new KaraffeLexer(CharStreams.fromString(
+            """class Main {
+                  |  entrypoint {
+                  |    doSomething()
+                  |  }
+                  |}""".stripMargin()
+        ))
+        lexer.addErrorListener(DEFULT_ERROR_LISTENER)
+        def parse = new KaraffeParser(new CommonTokenStream(lexer))
+        parse.addErrorListener(DEFULT_ERROR_LISTENER)
+        def context = parse.classDef()
+
+        expect:
+        context != null
+        context.Identifier().getText() == "Main"
+        context.typeDefBody().statement(0)
+    }
+
 }

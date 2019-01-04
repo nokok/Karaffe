@@ -41,6 +41,7 @@ varDef
 
 expr
   : lit=literal
+  | id=Identifier
   | t=THIS
   | function=expr LPAREN args=exprList? RPAREN
   | left=expr right=opExpr+
@@ -125,7 +126,6 @@ OperatorChar
   | '^'
   | '|'
   | '#'
-  | '='
   | '@'
   | ':'
   ;
