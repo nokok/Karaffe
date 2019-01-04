@@ -1,4 +1,4 @@
-package org.karaffe.integration
+package org.karaffe.unittests
 
 import org.karaffe.compiler.report.Report
 import org.karaffe.compiler.util.CompilerContext
