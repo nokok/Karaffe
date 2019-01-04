@@ -8,119 +8,119 @@ import spock.lang.Unroll
 
 class LexerSpec extends Specification {
 
-    @Unroll
-    def "token Type #source"() {
-        setup:
-        def lexer = new KaraffeLexer(CharStreams.fromString(source))
-        lexer.removeErrorListeners()
-        lexer.addErrorListener(SyntaxSpec.DEFULT_ERROR_LISTENER)
-        def stream = new CommonTokenStream(lexer)
-        stream.consume()
-        def token = stream.get(0)
-        def tokenText = token.getText()
+  @Unroll
+  def "token Type #source"() {
+    setup:
+    def lexer = new KaraffeLexer(CharStreams.fromString(source))
+    lexer.removeErrorListeners()
+    lexer.addErrorListener(SyntaxSpec.DEFULT_ERROR_LISTENER)
+    def stream = new CommonTokenStream(lexer)
+    stream.consume()
+    def token = stream.get(0)
+    def tokenText = token.getText()
 
-        expect:
-        tokenText == source
-        token.getType() == tokenType
+    expect:
+    tokenText == source
+    token.getType() == tokenType
 
-        where:
-        source       || tokenType
-        "A"          || KaraffeLexer.Identifier
-        "Hello"      || KaraffeLexer.Identifier
-        "a"          || KaraffeLexer.Identifier
-        "z"          || KaraffeLexer.Identifier
-        "HB"         || KaraffeLexer.Identifier
-        "H1"         || KaraffeLexer.Identifier
-        "+"          || KaraffeLexer.Identifier
-        "-"          || KaraffeLexer.Identifier
-        "*"          || KaraffeLexer.Identifier
-        "/"          || KaraffeLexer.Identifier
-        "!"          || KaraffeLexer.Identifier
-        "%"          || KaraffeLexer.Identifier
-        "&"          || KaraffeLexer.Identifier
-        ">"          || KaraffeLexer.Identifier
-        "<"          || KaraffeLexer.Identifier
-        "^"          || KaraffeLexer.Identifier
-        "~"          || KaraffeLexer.Identifier
-        ">>"         || KaraffeLexer.Identifier
-        "1"          || KaraffeLexer.IntegerLiteral
-        '"Hello"'    || KaraffeLexer.StringLiteral
-        "{"          || KaraffeLexer.LBRACE
-        "}"          || KaraffeLexer.RBRACE
-        "entrypoint" || KaraffeLexer.ENTRYPOINT
-        "class"      || KaraffeLexer.CLASS
-        "CLASS"      || KaraffeLexer.Identifier
+    where:
+    source       || tokenType
+    "A"          || KaraffeLexer.Identifier
+    "Hello"      || KaraffeLexer.Identifier
+    "a"          || KaraffeLexer.Identifier
+    "z"          || KaraffeLexer.Identifier
+    "HB"         || KaraffeLexer.Identifier
+    "H1"         || KaraffeLexer.Identifier
+    "+"          || KaraffeLexer.Identifier
+    "-"          || KaraffeLexer.Identifier
+    "*"          || KaraffeLexer.Identifier
+    "/"          || KaraffeLexer.Identifier
+    "!"          || KaraffeLexer.Identifier
+    "%"          || KaraffeLexer.Identifier
+    "&"          || KaraffeLexer.Identifier
+    ">"          || KaraffeLexer.Identifier
+    "<"          || KaraffeLexer.Identifier
+    "^"          || KaraffeLexer.Identifier
+    "~"          || KaraffeLexer.Identifier
+    ">>"         || KaraffeLexer.Identifier
+    "1"          || KaraffeLexer.IntegerLiteral
+    '"Hello"'    || KaraffeLexer.StringLiteral
+    "{"          || KaraffeLexer.LBRACE
+    "}"          || KaraffeLexer.RBRACE
+    "entrypoint" || KaraffeLexer.ENTRYPOINT
+    "class"      || KaraffeLexer.CLASS
+    "CLASS"      || KaraffeLexer.Identifier
+  }
+
+  @Unroll
+  def "keyword is not Identifier #source"() {
+    setup:
+    def lexer = new KaraffeLexer(CharStreams.fromString(source))
+    lexer.removeErrorListeners()
+    lexer.addErrorListener(SyntaxSpec.DEFULT_ERROR_LISTENER)
+    def stream = new CommonTokenStream(lexer)
+    stream.consume()
+    def token = stream.get(0)
+    def tokenText = token.getText()
+
+    expect:
+    tokenText == source
+    token.getType() != KaraffeLexer.Identifier
+
+    where:
+    source << [
+      "entrypoint",
+      "class",
+      "def",
+      "init",
+      "this"
+    ]
+  }
+
+  @Unroll
+  def "invalid token Type #source"() {
+    setup:
+    def lexer = new KaraffeLexer(CharStreams.fromString(source))
+    lexer.removeErrorListeners()
+    lexer.addErrorListener(SyntaxSpec.DEFULT_ERROR_LISTENER)
+    def stream = new CommonTokenStream(lexer)
+    String errorMessage = ""
+    try {
+      stream.consume()
+      assert false: "assertion failed ${source}"
+    } catch (RuntimeException e) {
+      errorMessage = e.getMessage()
     }
 
-    @Unroll
-    def "keyword is not Identifier #source"() {
-        setup:
-        def lexer = new KaraffeLexer(CharStreams.fromString(source))
-        lexer.removeErrorListeners()
-        lexer.addErrorListener(SyntaxSpec.DEFULT_ERROR_LISTENER)
-        def stream = new CommonTokenStream(lexer)
-        stream.consume()
-        def token = stream.get(0)
-        def tokenText = token.getText()
+    expect:
+    errorMessage == expectedErrorMessage
 
-        expect:
-        tokenText == source
-        token.getType() != KaraffeLexer.Identifier
+    where:
+    source      || expectedErrorMessage
+    "_"         || "Syntax Error at 1 : 0 , token recognition error at: '_'"
+    "HOGE_FUGA" || "Syntax Error at 1 : 4 , token recognition error at: '_'"
+  }
 
-        where:
-        source << [
-                "entrypoint",
-                "class",
-                "def",
-                "init",
-                "this"
-        ]
-    }
+  @Unroll
+  def "test StringLiteral #source"() {
+    setup:
+    def lexer = new KaraffeLexer(CharStreams.fromString(source))
+    lexer.removeErrorListeners()
+    lexer.addErrorListener(SyntaxSpec.DEFULT_ERROR_LISTENER)
+    def stream = new CommonTokenStream(lexer)
+    stream.consume()
+    def token = stream.get(0)
+    def tokenText = token.getText()
 
-    @Unroll
-    def "invalid token Type #source"() {
-        setup:
-        def lexer = new KaraffeLexer(CharStreams.fromString(source))
-        lexer.removeErrorListeners()
-        lexer.addErrorListener(SyntaxSpec.DEFULT_ERROR_LISTENER)
-        def stream = new CommonTokenStream(lexer)
-        String errorMessage = ""
-        try {
-            stream.consume()
-            assert false: "assertion failed ${source}"
-        } catch (RuntimeException e) {
-            errorMessage = e.getMessage()
-        }
+    expect:
+    tokenText == source
+    token.getType() == KaraffeLexer.StringLiteral
 
-        expect:
-        errorMessage == expectedErrorMessage
-
-        where:
-        source      || expectedErrorMessage
-        "_"         || "Syntax Error at 1 : 0 , token recognition error at: '_'"
-        "HOGE_FUGA" || "Syntax Error at 1 : 4 , token recognition error at: '_'"
-    }
-
-    @Unroll
-    def "test StringLiteral #source"() {
-        setup:
-        def lexer = new KaraffeLexer(CharStreams.fromString(source))
-        lexer.removeErrorListeners()
-        lexer.addErrorListener(SyntaxSpec.DEFULT_ERROR_LISTENER)
-        def stream = new CommonTokenStream(lexer)
-        stream.consume()
-        def token = stream.get(0)
-        def tokenText = token.getText()
-
-        expect:
-        tokenText == source
-        token.getType() == KaraffeLexer.StringLiteral
-
-        where:
-        source << [
-                '""',
-                '"1234"',
-                '"Hello"'
-        ]
-    }
+    where:
+    source << [
+      '""',
+      '"1234"',
+      '"Hello"'
+    ]
+  }
 }

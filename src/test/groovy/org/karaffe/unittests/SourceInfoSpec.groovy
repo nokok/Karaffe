@@ -11,22 +11,22 @@ import spock.lang.Specification
 import java.nio.file.Paths
 
 class SourceInfoSpec extends Specification {
-    def "test"() {
-        setup:
-        def context = new CompilerContext()
-        context.parseRawArgs(["--dry-run"] as String[])
-        context.add(KaraffeSource.fromString(
-                """class Main {
+  def "test"() {
+    setup:
+    def context = new CompilerContext()
+    context.parseRawArgs(["--dry-run"] as String[])
+    context.add(KaraffeSource.fromString(
+      """class Main {
                   |}""".stripMargin()
-                , "/foo/bar/baz/Main.krf"))
-        def compiler = new KaraffeCompiler(context)
-        compiler.run()
-        def byteCode = context.outputFiles.get(Paths.get("Main.class"))
-        ClassReader reader = new ClassReader(byteCode)
-        ClassNode classNode = new ClassNode(Opcodes.ASM6)
-        reader.accept(classNode, ClassReader.EXPAND_FRAMES)
+      , "/foo/bar/baz/Main.krf"))
+    def compiler = new KaraffeCompiler(context)
+    compiler.run()
+    def byteCode = context.outputFiles.get(Paths.get("Main.class"))
+    ClassReader reader = new ClassReader(byteCode)
+    ClassNode classNode = new ClassNode(Opcodes.ASM6)
+    reader.accept(classNode, ClassReader.EXPAND_FRAMES)
 
-        expect:
-        classNode.sourceFile == "/foo/bar/baz/Main.krf"
-    }
+    expect:
+    classNode.sourceFile == "/foo/bar/baz/Main.krf"
+  }
 }

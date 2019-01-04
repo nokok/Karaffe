@@ -6,38 +6,38 @@ import spock.lang.Specification
 import spock.lang.Unroll
 
 class CommandLineArgsSpec extends Specification {
-    def "parse empty"() {
-        setup:
-        def parser = new ArgsParser()
-        def optOption = parser.parse([] as String[])
+  def "parse empty"() {
+    setup:
+    def parser = new ArgsParser()
+    def optOption = parser.parse([] as String[])
 
-        expect:
-        optOption.isPresent()
-        optOption.get().isEmpty()
-    }
+    expect:
+    optOption.isPresent()
+    optOption.get().isEmpty()
+  }
 
-    def "illegal head"() {
-        setup:
-        def parser = new ArgsParser()
-        def optOption = parser.parse(["-"] as String[])
+  def "illegal head"() {
+    setup:
+    def parser = new ArgsParser()
+    def optOption = parser.parse(["-"] as String[])
 
-        expect:
-        !optOption.isPresent()
-    }
+    expect:
+    !optOption.isPresent()
+  }
 
-    @Unroll
-    def "flags #input"() {
-        setup:
-        def parser = new ArgsParser()
-        def optOption = parser.parse([input] as String[])
+  @Unroll
+  def "flags #input"() {
+    setup:
+    def parser = new ArgsParser()
+    def optOption = parser.parse([input] as String[])
 
-        expect:
-        optOption.isPresent()
-        optOption.get().hasFlag(flag)
+    expect:
+    optOption.isPresent()
+    optOption.get().hasFlag(flag)
 
-        where:
-        input       || flag
-        "--dry-run" || Flag.DRY_RUN
-        "--version" || Flag.VERSION
-    }
+    where:
+    input       || flag
+    "--dry-run" || Flag.DRY_RUN
+    "--version" || Flag.VERSION
+  }
 }

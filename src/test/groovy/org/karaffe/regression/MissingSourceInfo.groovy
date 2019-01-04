@@ -9,23 +9,23 @@ import spock.lang.Specification
 import java.nio.file.Paths
 
 class MissingSourceInfo extends Specification {
-    def "reg1"() {
-        setup:
-        def context = new CompilerContext()
-        context.add(KaraffeSource.fromPath(Paths.get("src/test/resources/MissingSourceInfo.krf")))
-        def compiler = new KaraffeCompiler(context)
-        compiler.run()
+  def "reg1"() {
+    setup:
+    def context = new CompilerContext()
+    context.add(KaraffeSource.fromPath(Paths.get("src/test/resources/MissingSourceInfo.krf")))
+    def compiler = new KaraffeCompiler(context)
+    compiler.run()
 
-        expect:
-        if (Platform.isWindows()) {
-            assert context.outputText == """[ERROR] Syntax Error at 1:6:src\\test\\resources\\MissingSourceInfo.krf
+    expect:
+    if (Platform.isWindows()) {
+      assert context.outputText == """[ERROR] Syntax Error at 1:6:src\\test\\resources\\MissingSourceInfo.krf
 class 1
       ^"""
-        } else {
-            assert context.outputText == """[ERROR] Syntax Error at 1:6:src/test/resources/MissingSourceInfo.krf
+    } else {
+      assert context.outputText == """[ERROR] Syntax Error at 1:6:src/test/resources/MissingSourceInfo.krf
 class 1
       ^"""
-        }
-
     }
+
+  }
 }

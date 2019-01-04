@@ -11,57 +11,57 @@ import java.nio.file.Paths
 
 class FileCreationSpec extends Specification {
 
-    def "Valid SimpleClass.class"() {
-        setup:
-        def context = new CompilerContext()
-        context.add(KaraffeSource.fromString("class SimpleClass"))
-        def compiler = new KaraffeCompiler(context)
-        compiler.run()
+  def "Valid SimpleClass.class"() {
+    setup:
+    def context = new CompilerContext()
+    context.add(KaraffeSource.fromString("class SimpleClass"))
+    def compiler = new KaraffeCompiler(context)
+    compiler.run()
 
-        expect:
-        context.outputFiles.size() == 1
-        context.outputFiles.get(Paths.get("SimpleClass.class")) != null
-        context.getOutputText() == ""
-        Files.exists(Paths.get("SimpleClass.class"))
+    expect:
+    context.outputFiles.size() == 1
+    context.outputFiles.get(Paths.get("SimpleClass.class")) != null
+    context.getOutputText() == ""
+    Files.exists(Paths.get("SimpleClass.class"))
 
-        cleanup:
-        try {
-            Files.delete(Paths.get("SimpleClass.class"))
-        } catch (NoSuchFileException e) {
-            // ignore
-        }
+    cleanup:
+    try {
+      Files.delete(Paths.get("SimpleClass.class"))
+    } catch (NoSuchFileException e) {
+      // ignore
     }
+  }
 
-    def "Invalid Class 1A"() {
-        setup:
-        try {
-            Files.delete(Paths.get("A.class"))
-            Files.delete(Paths.get("1A.class"))
-        } catch (NoSuchFileException e) {
-            // ignore
-        }
-        def context = new CompilerContext()
-        context.parseRawArgs(["--dry-run"] as String[])
-        context.add(KaraffeSource.fromString("class 1A"))
-        def compiler = new KaraffeCompiler(context)
-        compiler.run()
+  def "Invalid Class 1A"() {
+    setup:
+    try {
+      Files.delete(Paths.get("A.class"))
+      Files.delete(Paths.get("1A.class"))
+    } catch (NoSuchFileException e) {
+      // ignore
+    }
+    def context = new CompilerContext()
+    context.parseRawArgs(["--dry-run"] as String[])
+    context.add(KaraffeSource.fromString("class 1A"))
+    def compiler = new KaraffeCompiler(context)
+    compiler.run()
 
-        expect:
-        context.outputFiles.size() == 0
-        context.outputFiles.get(Paths.get("A.class")) == null
-        context.getOutputText() == """[ERROR] Syntax Error at 1:6:<unknown>
+    expect:
+    context.outputFiles.size() == 0
+    context.outputFiles.get(Paths.get("A.class")) == null
+    context.getOutputText() == """[ERROR] Syntax Error at 1:6:<unknown>
                                      |class 1A
                                      |      ^""".stripMargin()
-        !Files.exists(Paths.get("A.class"))
-        !Files.exists(Paths.get("1A.class"))
+    !Files.exists(Paths.get("A.class"))
+    !Files.exists(Paths.get("1A.class"))
 
-        cleanup:
-        try {
-            Files.delete(Paths.get("A.class"))
-            Files.delete(Paths.get("1A.class"))
-        } catch (NoSuchFileException e) {
-            // ignore
-        }
+    cleanup:
+    try {
+      Files.delete(Paths.get("A.class"))
+      Files.delete(Paths.get("1A.class"))
+    } catch (NoSuchFileException e) {
+      // ignore
     }
+  }
 
 }
