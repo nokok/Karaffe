@@ -33,7 +33,7 @@ class ClassFormatErrorSpec extends Specification {
     compiler.run()
 
     expect:
-    !context.hasError()
+    context.hasError()
     context.outputText == """[ERROR] Duplicate class : A at 1:0:<unknown>
                                 |class A
                                 |~~~~~~^""".stripMargin()

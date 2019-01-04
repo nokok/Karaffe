@@ -22,6 +22,6 @@ class InvalidEntrypoint extends Specification {
     compiler.run()
 
     expect:
-    !context.hasError()
+    context.hasError()
   }
 }

@@ -77,6 +77,9 @@ public class CompilerContext {
 
   public void add(Report report) {
     this.reports.add(Objects.requireNonNull(report));
+    if (report.isError()) {
+      this.hasError = true;
+    }
   }
 
   public Map<Path, byte[]> getOutputFiles() {
