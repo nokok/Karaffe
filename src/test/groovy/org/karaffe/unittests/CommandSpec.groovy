@@ -20,7 +20,7 @@ class CommandSpec extends Specification {
     context.parseRawArgs(["--dry-run", "--dry-run"] as String[])
 
     expect:
-    context.getOutputText() == """[ERROR] Duplicated flag : --dry-run"""
+    context.getOutputText() == """[ERROR] Duplicate flag : --dry-run"""
   }
 
   def "unrecognized options"() {
