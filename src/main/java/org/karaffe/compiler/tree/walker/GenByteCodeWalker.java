@@ -3,6 +3,7 @@ package org.karaffe.compiler.tree.walker;
 import org.karaffe.compiler.gen.BytecodeSupport;
 import org.karaffe.compiler.tree.NodeType;
 import org.karaffe.compiler.tree.Tree;
+import org.objectweb.asm.Opcodes;
 
 import java.util.LinkedHashMap;
 import java.util.Map;
@@ -26,7 +27,7 @@ public class GenByteCodeWalker extends TreeWalkerAdapter {
   public void onDefMethod(Tree tree) {
     bytecodeSupport.endMethod();
     Tree modifiers = tree.findFirstFromChildren(NodeType.Modifiers).orElseThrow(IllegalStateException::new);
-    int access = 0;
+    int access = Opcodes.ACC_PUBLIC;
     for (Tree modifierTree : modifiers.getChildren()) {
       String name = modifierTree.getName();
     }
