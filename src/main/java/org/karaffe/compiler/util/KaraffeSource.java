@@ -71,7 +71,7 @@ public class KaraffeSource implements CharSequence {
 
   @Override
   public CharSequence subSequence(int start, int end) {
-    return this.subSequence(start, end);
+    return this.source.subSequence(start, end);
   }
 
   @Override
