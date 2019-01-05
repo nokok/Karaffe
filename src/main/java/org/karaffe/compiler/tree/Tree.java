@@ -16,6 +16,18 @@ public class Tree {
   private String name;
   private List<Tree> children;
 
+  public Tree(NodeType nodeType) {
+    this(nodeType, "", Position.noPos());
+  }
+
+  public Tree(NodeType nodeType, String name) {
+    this(nodeType, name, Position.noPos());
+  }
+
+  public Tree(NodeType nodeType, Position position) {
+    this(nodeType, "", position);
+  }
+
   public Tree(NodeType nodeType, String name, Position position) {
     this.position = Objects.requireNonNull(position);
     this.nodeType = Objects.requireNonNull(nodeType);

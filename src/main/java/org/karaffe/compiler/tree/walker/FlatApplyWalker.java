@@ -1,6 +1,5 @@
 package org.karaffe.compiler.tree.walker;
 
-import org.karaffe.compiler.tree.AnonymousTree;
 import org.karaffe.compiler.tree.NodeType;
 import org.karaffe.compiler.tree.Tree;
 
@@ -78,11 +77,11 @@ public class FlatApplyWalker extends TreeWalkerAdapter {
         Tree right = vm.pop();
         Tree left = vm.pop();
         Tree apply = new Tree(NodeType.Apply, "()", t.getPosition());
-        Tree select = new AnonymousTree(NodeType.Select, t.getPosition());
+        Tree select = new Tree(NodeType.Select, t.getPosition());
         select.addChild(t);
         select.addChild(left);
-        Tree arguments = new AnonymousTree(NodeType.Arguments, right.getPosition());
-        Tree argument = new AnonymousTree(NodeType.Argument, right.getPosition());
+        Tree arguments = new Tree(NodeType.Arguments, right.getPosition());
+        Tree argument = new Tree(NodeType.Argument, right.getPosition());
         argument.addChild(right);
         arguments.addChild(argument);
         apply.addChild(select);
