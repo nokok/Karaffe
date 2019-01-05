@@ -3,6 +3,12 @@ package org.karaffe.compiler.tree.walker;
 import org.karaffe.compiler.tree.Tree;
 
 public abstract class TreeWalkerAdapter extends TreeWalker {
+
+  @Override
+  void onEveryTree(Tree tree) {
+
+  }
+
   @Override
   public void onBinOp(Tree tree) {
 

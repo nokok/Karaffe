@@ -10,6 +10,7 @@ public abstract class TreeWalker {
       onNullTree();
       return;
     }
+    onEveryTree(tree);
     if (tree.hasChildren()) {
       for (Tree child : tree.getChildren()) {
         walk(child);
@@ -75,6 +76,8 @@ public abstract class TreeWalker {
       throw new IllegalStateException(tree.getNodeType().name());
     }
   }
+
+  abstract void onEveryTree(Tree tree);
 
   abstract void onBinOp(Tree tree);
 
