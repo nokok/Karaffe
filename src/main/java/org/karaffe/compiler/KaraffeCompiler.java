@@ -16,7 +16,6 @@ import org.karaffe.compiler.tree.walker.TreeSchemaValidator;
 import org.karaffe.compiler.tree.walker.TreeWalker;
 import org.karaffe.compiler.util.CompilerContext;
 import org.karaffe.compiler.util.KaraffeSource;
-import org.karaffe.compiler.visitor.ClassNameListener;
 import org.karaffe.compiler.visitor.KaraffeASTCreateVisitor;
 import org.karaffe.compiler.visitor.KaraffeParserVisitor;
 
