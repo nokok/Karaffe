@@ -177,4 +177,9 @@ public class TreeSchemaValidator extends TreeWalkerAdapter {
   public void onBody(Tree tree) {
     assert tree.getName().isEmpty();
   }
+
+  @Override
+  public void onNullTree() {
+    assert false;
+  }
 }
