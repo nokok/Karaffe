@@ -1,5 +1,6 @@
 package org.karaffe.compiler.tree;
 
+import org.karaffe.compiler.tree.query.TreeQuery;
 import org.karaffe.compiler.util.Position;
 
 import java.util.ArrayList;
@@ -12,6 +13,7 @@ import java.util.function.Predicate;
 public class Tree {
   private String nodeId = UUID.randomUUID().toString();
   private Position position;
+  private Tree parent;
   private NodeType nodeType;
   private String name;
   private List<Tree> children;
@@ -39,8 +41,17 @@ public class Tree {
     return nodeId;
   }
 
+  public Tree getParent() {
+    return parent;
+  }
+
+  public void setParent(Tree parent) {
+    this.parent = parent;
+  }
+
   public void addChild(Tree child) {
     this.children.add(Objects.requireNonNull(child));
+    child.setParent(this);
   }
 
   public NodeType getNodeType() {
@@ -69,6 +80,16 @@ public class Tree {
 
   public Optional<Tree> findFirstFromChildren(NodeType nodeType) {
     return findFirstFromChildren(p -> p.getNodeType().equals(nodeType));
+  }
+
+  public Optional<Tree> dig(NodeType... simpleQuery) {
+    TreeQuery treeQuery = TreeQuery.buildFrom(simpleQuery);
+    return treeQuery.executeChildren(this);
+  }
+
+  public Optional<Tree> climb(NodeType simpleQuery) {
+    TreeQuery treeQuery = TreeQuery.buildFrom(simpleQuery);
+    return treeQuery.executeParent(this);
   }
 
   public boolean hasChildren(NodeType nodeType) {
