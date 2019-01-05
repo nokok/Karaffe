@@ -4,6 +4,7 @@ import org.karaffe.compiler.tree.Tree;
 
 import static org.karaffe.compiler.tree.NodeType.Arguments;
 import static org.karaffe.compiler.tree.NodeType.Body;
+import static org.karaffe.compiler.tree.NodeType.CompilationUnit;
 import static org.karaffe.compiler.tree.NodeType.DefClass;
 import static org.karaffe.compiler.tree.NodeType.Identifier;
 import static org.karaffe.compiler.tree.NodeType.Modifier;
@@ -19,6 +20,11 @@ import static org.karaffe.compiler.tree.NodeType.SuperClass;
 import static org.karaffe.compiler.tree.NodeType.TypeName;
 
 public class TreeSchemaValidator extends TreeWalkerAdapter {
+
+  @Override
+  void onEveryTree(Tree tree) {
+    assert tree.getNodeType() == CompilationUnit || tree.getParent() != null;
+  }
 
   @Override
   public void onCompilationUnit(Tree tree) {
