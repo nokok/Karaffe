@@ -6,6 +6,9 @@ import org.karaffe.compiler.report.Report;
 import org.karaffe.compiler.report.ReportCode;
 import org.karaffe.compiler.tree.formatter.SimpleTreeFormatter;
 import org.karaffe.compiler.util.CompilerContext;
+import org.karaffe.compiler.util.KaraffeSource;
+
+import java.util.Scanner;
 
 public class Main {
 
@@ -32,6 +35,14 @@ public class Main {
     } else if (context.requireShowUsage()) {
       context.add(Report.newReport(ReportCode.INFO_USAGE) /*.withVariable(supportedOptions)*/.withBody("krfc <options> <sources>").build());
     } else {
+      if (context.hasFlag(Flag.STDIN)) {
+        Scanner scanner = new Scanner(System.in);
+        StringBuilder sourceCode = new StringBuilder();
+        while (scanner.hasNextLine()) {
+          sourceCode.append(scanner.nextLine()).append("\n");
+        }
+        context.add(KaraffeSource.fromString(sourceCode.toString(), "<stdin>"));
+      }
       KaraffeCompiler compiler = new KaraffeCompiler(context);
       compiler.run();
     }

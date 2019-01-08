@@ -5,6 +5,7 @@ import java.util.Optional;
 public enum Flag {
   DRY_RUN(null, "--dry-run"),
   VERSION(null, "--version"),
+  STDIN("-", null),
   HELP("-h", "--help"),
   ;
 
