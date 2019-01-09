@@ -41,6 +41,10 @@ public class Tree {
     return nodeId;
   }
 
+  public String getName() {
+    return this.name;
+  }
+
   public Tree getParent() {
     return parent;
   }
@@ -56,10 +60,6 @@ public class Tree {
 
   public NodeType getNodeType() {
     return nodeType;
-  }
-
-  public String getName() {
-    return name;
   }
 
   public List<Tree> getChildren() {
@@ -102,8 +102,10 @@ public class Tree {
 
   public void replaceThis(Tree after) {
     this.nodeType = after.getNodeType();
-    this.name = after.getName();
     this.children = after.getChildren();
+    if (this.position.isNoPos() && !after.position.isNoPos()) {
+      this.position = after.getPosition();
+    }
   }
 
   @Override

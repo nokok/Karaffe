@@ -76,7 +76,7 @@ public class FlatApplyWalker extends TreeWalkerAdapter {
       if (t.getNodeType() == NodeType.BinOp) {
         Tree right = vm.pop();
         Tree left = vm.pop();
-        Tree apply = new Tree(NodeType.Apply, "()", t.getPosition());
+        Tree apply = new Tree(NodeType.Apply, t.getPosition());
         Tree select = new Tree(NodeType.Select, t.getPosition());
         select.addChild(t);
         select.addChild(left);

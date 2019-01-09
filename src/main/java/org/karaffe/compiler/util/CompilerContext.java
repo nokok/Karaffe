@@ -18,14 +18,16 @@ import java.util.Objects;
 import java.util.Optional;
 
 public class CompilerContext {
+
+  private final ClassLoader defaultClassLoader = Thread.currentThread().getContextClassLoader();
+  private final DynamicClassLoader dynamicClassLoader = new DynamicClassLoader(defaultClassLoader);
+
   private String[] rawArgs = new String[0];
   private Options options = new Options();
   private List<KaraffeSource> sources = new ArrayList<>();
   private List<Report> reports = new ArrayList<>();
   private Map<Path, byte[]> outputFiles = new HashMap<>();
-  private ClassLoader defaultClassLoader = Thread.currentThread().getContextClassLoader();
-  private DynamicClassLoader dynamicClassLoader = new DynamicClassLoader(defaultClassLoader);
-  private Tree currentAST = new Tree(NodeType.Error, "DEFAULT", Position.noPos());
+  private Tree currentAST = new Tree(NodeType.Error, Position.noPos());
 
   private boolean hasError = false;
 
@@ -87,7 +89,7 @@ public class CompilerContext {
   }
 
   public boolean requireShowUsage() {
-    return (this.rawArgs.length == 0 && this.getSources().isEmpty()) || this.hasError || this.hasFlag(Flag.HELP);
+    return (this.rawArgs.length == 0 || this.getSources().isEmpty()) || this.hasError || this.hasFlag(Flag.HELP);
   }
 
   public boolean hasFlag(Flag flagName) {

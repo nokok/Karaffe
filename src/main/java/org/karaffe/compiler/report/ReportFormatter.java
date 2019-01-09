@@ -32,16 +32,16 @@ public class ReportFormatter {
     report.getBody().ifPresent(body -> lines.add(reportText.append(body).toString()));
     if (context != null) {
       optPos.ifPresent(
-      pos -> context.getSource(pos.getSourceName()).ifPresent(
-      source -> {
-        String line = source.getCodeByLine(pos.getLine());
-        lines.add(line);
-        StringBuilder padding = new StringBuilder();
-        IntStream.range(0, pos.getColumn()).mapToObj(i -> " ").forEach(padding::append);
-        IntStream.range(pos.getColumn(), pos.getEndColumn()).mapToObj(i -> "~").forEach(padding::append);
-        padding.append("^");
-        lines.add(padding.toString());
-      }));
+        pos -> context.getSource(pos.getSourceName()).ifPresent(
+          source -> {
+            String line = source.getCodeByLine(pos.getLine());
+            lines.add(line);
+            StringBuilder padding = new StringBuilder();
+            IntStream.range(0, pos.getColumn()).mapToObj(i -> " ").forEach(padding::append);
+            IntStream.range(pos.getColumn(), pos.getEndColumn()).mapToObj(i -> "~").forEach(padding::append);
+            padding.append("^");
+            lines.add(padding.toString());
+          }));
     }
     return String.join("\n", lines);
   }

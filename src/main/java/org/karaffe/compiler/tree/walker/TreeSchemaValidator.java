@@ -5,7 +5,6 @@ import org.karaffe.compiler.tree.Tree;
 import static org.karaffe.compiler.tree.NodeType.Arguments;
 import static org.karaffe.compiler.tree.NodeType.Body;
 import static org.karaffe.compiler.tree.NodeType.CompilationUnit;
-import static org.karaffe.compiler.tree.NodeType.DefClass;
 import static org.karaffe.compiler.tree.NodeType.Identifier;
 import static org.karaffe.compiler.tree.NodeType.Modifier;
 import static org.karaffe.compiler.tree.NodeType.Modifiers;
@@ -23,7 +22,8 @@ public class TreeSchemaValidator extends TreeWalkerAdapter {
 
   @Override
   void onEveryTree(Tree tree) {
-    assert tree.getNodeType() == CompilationUnit || tree.getParent() != null;
+    assert tree.getNodeType() == CompilationUnit || tree.getParent() != null : tree.toString();
+    assert tree.getName().isEmpty() || tree.getChildren().isEmpty() : tree.getNodeType() + ":" + tree.getName();
   }
 
   @Override
@@ -76,10 +76,9 @@ public class TreeSchemaValidator extends TreeWalkerAdapter {
 
   @Override
   public void onSourceFile(Tree tree) {
-    assert !tree.getName().isEmpty();
-    for (Tree child : tree.getChildren()) {
-      assert child.getNodeType().equals(DefClass);
-    }
+    assert tree.getName().isEmpty();
+    assert tree.indexOf(Identifier) == 0;
+    //assert tree.getChildren().stream().skip(1).allMatch(p -> p.getNodeType() == DefClass);
   }
 
   @Override
@@ -101,9 +100,10 @@ public class TreeSchemaValidator extends TreeWalkerAdapter {
 
   @Override
   public void onParameter(Tree tree) {
-    assert !tree.getName().isEmpty();
-    assert tree.indexOf(TypeName) == 0;
-    assert tree.getChildren().size() == 1;
+    assert tree.getName().isEmpty();
+    assert tree.indexOf(Identifier) == 0;
+    assert tree.indexOf(TypeName) == 1;
+    assert tree.getChildren().size() == 2;
   }
 
   @Override
@@ -138,24 +138,29 @@ public class TreeSchemaValidator extends TreeWalkerAdapter {
 
   @Override
   public void onDefVar(Tree tree) {
-    assert !tree.getName().isEmpty();
+    assert tree.getName().isEmpty();
+    assert tree.indexOf(Identifier) == 0;
   }
 
   @Override
   public void onDefMethod(Tree tree) {
-    assert tree.indexOf(Modifiers) == 0;
-    assert tree.indexOf(ReturnType) == 1;
-    assert tree.indexOf(Parameters) == 2;
-    assert tree.indexOf(Body) == 3;
-    assert tree.getChildren().size() == 4;
+    assert tree.getName().isEmpty();
+    assert tree.indexOf(Identifier) == 0;
+    assert tree.indexOf(Modifiers) == 1;
+    assert tree.indexOf(ReturnType) == 2;
+    assert tree.indexOf(Parameters) == 3;
+    assert tree.indexOf(Body) == 4;
+    assert tree.getChildren().size() == 5;
   }
 
   @Override
   public void onDefClass(Tree tree) {
-    assert tree.indexOf(SuperClass) == 0;
-    assert tree.indexOf(Modifiers) == 1;
-    assert tree.indexOf(Body) == 2;
-    assert tree.getChildren().size() == 3;
+    assert tree.getName().isEmpty();
+    assert tree.indexOf(Identifier) == 0;
+    assert tree.indexOf(SuperClass) == 1;
+    assert tree.indexOf(Modifiers) == 2;
+    assert tree.indexOf(Body) == 3;
+    assert tree.getChildren().size() == 4;
   }
 
   @Override

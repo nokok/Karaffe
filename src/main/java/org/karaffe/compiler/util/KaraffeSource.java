@@ -89,7 +89,7 @@ public class KaraffeSource implements CharSequence {
     if (o == null || getClass() != o.getClass()) return false;
     KaraffeSource that = (KaraffeSource) o;
     return sourceName.equals(that.sourceName) &&
-           source.equals(that.source);
+      source.equals(that.source);
   }
 
   @Override

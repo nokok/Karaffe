@@ -2,6 +2,7 @@ package org.karaffe.compiler.tree.walker;
 
 import org.karaffe.compiler.report.Report;
 import org.karaffe.compiler.report.ReportCode;
+import org.karaffe.compiler.tree.NodeType;
 import org.karaffe.compiler.tree.Tree;
 import org.karaffe.compiler.util.ClassNameValidator;
 import org.karaffe.compiler.util.CompilerContext;
@@ -20,7 +21,7 @@ public class NameValidator extends TreeWalkerAdapter {
 
   @Override
   public void onDefClass(Tree tree) {
-    String name = tree.getName();
+    String name = tree.dig(NodeType.Identifier).map(Tree::getName).orElse("");
     NameValidationResult result = classNameValidator.validate(name);
     if (result.isError()) {
       this.context.add(Report.newReport(ReportCode.ERR_NAME_VALIDATION_FAILED).withVariable(result).with(tree.getPosition()).build());

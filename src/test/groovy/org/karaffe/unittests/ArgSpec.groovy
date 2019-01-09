@@ -4,22 +4,27 @@ import org.karaffe.compiler.args.ArgsParser
 import org.karaffe.compiler.args.Flag
 import org.karaffe.compiler.args.ParameterName
 import spock.lang.Specification
+import spock.lang.Unroll
 
 class ArgSpec extends Specification {
-  def "flagConfiguration"() {
-    setup:
-    def flags = Flag.values()
 
+  @Unroll
+  def "flagConfiguration"() {
     expect:
-    for (flag in flags) {
-      flag.fullName.ifPresent({ fullName ->
-        assert fullName.startsWith("--")
-      })
-      flag.shortName.ifPresent({ shortName ->
-        assert shortName.startsWith("-")
+    flag.fullName.ifPresent({ fullName ->
+      assert fullName.startsWith("--")
+    })
+    flag.shortName.ifPresent({ shortName ->
+      assert shortName.startsWith("-")
+
+      // krfc -
+      if (shortName.length() > 1) {
         assert shortName.charAt(1) != '-'.toCharacter()
-      })
-    }
+      }
+    })
+
+    where:
+    flag << Arrays.asList(Flag.values())
   }
 
   def "parameterConfiguration"() {

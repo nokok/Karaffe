@@ -17,7 +17,6 @@ import org.karaffe.compiler.tree.walker.TreeWalker;
 import org.karaffe.compiler.util.CompilerContext;
 import org.karaffe.compiler.util.KaraffeSource;
 import org.karaffe.compiler.visitor.KaraffeASTCreateVisitor;
-import org.karaffe.compiler.visitor.KaraffeParserVisitor;
 
 import java.io.IOException;
 import java.io.UncheckedIOException;
@@ -39,16 +38,11 @@ public class KaraffeCompiler {
 
   public void run() {
     List<KaraffeSource> sources = context.getSources();
-    KaraffeParserVisitor parserVisitor = new KaraffeParserVisitor(context);
     KaraffeASTCreateVisitor createASTVisitor = new KaraffeASTCreateVisitor(context);
     sources.stream()
       .map(this::parse)
       .filter(Optional::isPresent).map(Optional::get).filter(ctx -> Objects.nonNull(ctx.EOF()))
-      .forEach(c -> uncheck(() -> {
-          c.accept(createASTVisitor);
-          c.accept(parserVisitor);
-        }
-      ));
+      .forEach(c -> uncheck(() -> c.accept(createASTVisitor)));
     this.context.setAST(createASTVisitor.getCompilationUnit());
 
     TreeWalker validator = new TreeSchemaValidator();

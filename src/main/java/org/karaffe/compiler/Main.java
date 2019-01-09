@@ -8,6 +8,8 @@ import org.karaffe.compiler.tree.formatter.SimpleTreeFormatter;
 import org.karaffe.compiler.util.CompilerContext;
 import org.karaffe.compiler.util.KaraffeSource;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Scanner;
 
 public class Main {
@@ -37,11 +39,11 @@ public class Main {
     } else {
       if (context.hasFlag(Flag.STDIN)) {
         Scanner scanner = new Scanner(System.in);
-        StringBuilder sourceCode = new StringBuilder();
+        List<String> lines = new ArrayList<>();
         while (scanner.hasNextLine()) {
-          sourceCode.append(scanner.nextLine()).append("\n");
+          lines.add(scanner.nextLine());
         }
-        context.add(KaraffeSource.fromString(sourceCode.toString(), "<stdin>"));
+        context.add(KaraffeSource.fromString(String.join("\n", lines), "<stdin>"));
       }
       KaraffeCompiler compiler = new KaraffeCompiler(context);
       compiler.run();

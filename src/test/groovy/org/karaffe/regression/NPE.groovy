@@ -22,4 +22,16 @@ class NPE extends Specification {
     expect:
     context.hasError()
   }
+
+  def "2"() {
+    when:
+    def context = new CompilerContext()
+    context.parseRawArgs("-", "--emit", "ast")
+    context.add(KaraffeSource.fromString("class\n"))
+    def compiler = new KaraffeCompiler(context)
+    compiler.run()
+
+    then:
+    notThrown(NullPointerException)
+  }
 }
