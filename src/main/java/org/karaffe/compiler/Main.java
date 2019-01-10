@@ -1,12 +1,11 @@
 package org.karaffe.compiler;
 
-import karaffe.core.Console;
-import org.karaffe.compiler.util.args.Flag;
-import org.karaffe.compiler.util.report.Report;
-import org.karaffe.compiler.util.report.ReportCode;
 import org.karaffe.compiler.tree.formatter.SimpleTreeFormatter;
 import org.karaffe.compiler.util.CompilerContext;
 import org.karaffe.compiler.util.KaraffeSource;
+import org.karaffe.compiler.util.args.Flag;
+import org.karaffe.compiler.util.report.Report;
+import org.karaffe.compiler.util.report.ReportCode;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -50,7 +49,7 @@ public class Main {
     }
     String outputText = context.getOutputText();
     if (!outputText.isEmpty()) {
-      Console.println(outputText);
+      System.out.println(outputText);
     }
   }
 

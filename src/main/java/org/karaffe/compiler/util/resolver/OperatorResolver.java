@@ -1,6 +1,5 @@
 package org.karaffe.compiler.util.resolver;
 
-import karaffe.core.Klass;
 import org.objectweb.asm.Opcodes;
 import org.objectweb.asm.Type;
 import org.objectweb.asm.tree.AbstractInsnNode;
@@ -15,9 +14,6 @@ public class OperatorResolver {
 
   public OperatorResolver(Class<?> ownerClass) {
     this.ownerClass = Objects.requireNonNull(ownerClass);
-    if (!new Klass(this.ownerClass).isArithmeticOperatorApplicable()) {
-      throw new IllegalArgumentException();
-    }
   }
 
   public AbstractInsnNode plus(Class<?> param) {

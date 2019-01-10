@@ -1,7 +1,5 @@
 package org.karaffe.compiler.frontend.karaffe.typechecker;
 
-import karaffe.core.Int;
-import karaffe.core.Unit;
 import org.karaffe.compiler.tree.Tree;
 import org.karaffe.compiler.util.CompilerContext;
 import org.karaffe.compiler.util.TypeInfo;
@@ -19,14 +17,14 @@ public class TypeChecker {
   public TypeInfo unify(Tree tree) {
     switch (tree.getNodeType()) {
     case IntLiteral:
-      return new TypeInfo(Int.class);
+      return new TypeInfo(int.class);
     case StringLiteral:
-      return new TypeInfo(karaffe.core.String.class);
+      return new TypeInfo(String.class);
     case CompilationUnit:
     case DefClass:
     case DefMethod:
     case DefVar:
-      return new TypeInfo(Unit.class);
+      return new TypeInfo(Void.class);
     case Error:
       return TypeInfo.error();
     default:

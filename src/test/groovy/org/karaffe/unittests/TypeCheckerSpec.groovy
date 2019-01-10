@@ -1,7 +1,6 @@
 package org.karaffe.unittests
 
-import karaffe.core.Int
-import karaffe.core.Unit
+
 import org.karaffe.compiler.frontend.karaffe.typechecker.TypeChecker
 import org.karaffe.compiler.tree.NodeType
 import org.karaffe.compiler.tree.Tree
@@ -19,8 +18,8 @@ class TypeCheckerSpec extends Specification {
 
     where:
     tree                                                       || result
-    new Tree(NodeType.IntLiteral, "1", Position.noPos())       || new TypeInfo(Int.class)
-    new Tree(NodeType.StringLiteral, "Hoge", Position.noPos()) || new TypeInfo(karaffe.core.String.class)
+    new Tree(NodeType.IntLiteral, "1", Position.noPos())       || new TypeInfo(int)
+    new Tree(NodeType.StringLiteral, "Hoge", Position.noPos()) || new TypeInfo(String)
   }
 
   def "method"() {
@@ -31,7 +30,7 @@ class TypeCheckerSpec extends Specification {
 
     where:
     tree                                                   || result
-    new Tree(NodeType.DefMethod, "main", Position.noPos()) || new TypeInfo(Unit.class)
+    new Tree(NodeType.DefMethod, "main", Position.noPos()) || new TypeInfo(Void)
   }
 
 }
