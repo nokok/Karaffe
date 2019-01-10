@@ -3,8 +3,6 @@ package org.karaffe.compiler.visitor;
 import org.antlr.v4.runtime.tree.TerminalNode;
 import org.karaffe.compiler.frontend.karaffe.antlr.KaraffeBaseVisitor;
 import org.karaffe.compiler.frontend.karaffe.antlr.KaraffeParser;
-import org.karaffe.compiler.report.Report;
-import org.karaffe.compiler.report.ReportCode;
 import org.karaffe.compiler.tree.NodeType;
 import org.karaffe.compiler.tree.Tree;
 import org.karaffe.compiler.util.CompilerContext;
@@ -55,7 +53,6 @@ public class KaraffeASTCreateVisitor extends KaraffeBaseVisitor<Tree> {
     Tree tree = new Tree(NodeType.DefClass, new Position(ctx));
     TerminalNode identifier = ctx.Identifier();
     if (identifier == null) {
-      context.add(Report.newReport(ReportCode.ERR_SYNTAX).with(new Position(ctx)).build());
       return new Tree(NodeType.Error);
     }
     tree.addChild(new Tree(Identifier, identifier.getText(), new Position(identifier.getSymbol())));

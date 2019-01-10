@@ -45,6 +45,8 @@ class SyntaxSpec extends Specification {
     "class +" || '''[ERROR] Name validation failed : ERR_INVALID_JAVA_IDENTIFIER at 1:0:Main.krf
                     |class +
                     |~~~~~~^'''.stripMargin()
-    "class"   || ''
+    "class"   || '''[ERROR] Syntax Error at 1:5:Main.krf
+                    |class
+                    |     ^'''.stripMargin()
   }
 }
