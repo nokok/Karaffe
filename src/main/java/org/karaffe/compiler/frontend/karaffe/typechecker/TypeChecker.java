@@ -1,4 +1,4 @@
-package org.karaffe.compiler.typechecker;
+package org.karaffe.compiler.frontend.karaffe.typechecker;
 
 import karaffe.core.Int;
 import karaffe.core.Unit;

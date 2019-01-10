@@ -5,17 +5,17 @@ import org.karaffe.compiler.tree.Tree;
 public abstract class TreeWalkerAdapter extends TreeWalker {
 
   @Override
-  void onException(Tree tree, Exception e) {
+  public void onException(Tree tree, Exception e) {
 
   }
 
   @Override
-  void onArrayTypeName(Tree tree) {
+  public void onArrayTypeName(Tree tree) {
 
   }
 
   @Override
-  void onEveryTree(Tree tree) {
+  public void onEveryTree(Tree tree) {
 
   }
 

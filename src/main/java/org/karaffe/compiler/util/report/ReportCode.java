@@ -1,4 +1,4 @@
-package org.karaffe.compiler.report;
+package org.karaffe.compiler.util.report;
 
 import java.util.ResourceBundle;
 

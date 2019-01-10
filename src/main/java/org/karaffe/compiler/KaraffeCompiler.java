@@ -2,21 +2,24 @@ package org.karaffe.compiler;
 
 import org.antlr.v4.runtime.CommonTokenStream;
 import org.antlr.v4.runtime.RecognitionException;
-import org.karaffe.compiler.args.Flag;
-import org.karaffe.compiler.args.ParameterName;
+import org.karaffe.compiler.frontend.karaffe.DefaultErrorListener;
+import org.karaffe.compiler.frontend.karaffe.KaraffeParseErrorStrategy;
+import org.karaffe.compiler.util.args.Flag;
+import org.karaffe.compiler.util.args.ParameterName;
+import org.karaffe.compiler.frontend.Frontend;
 import org.karaffe.compiler.frontend.karaffe.antlr.KaraffeLexer;
 import org.karaffe.compiler.frontend.karaffe.antlr.KaraffeParser;
-import org.karaffe.compiler.report.Report;
-import org.karaffe.compiler.report.ReportCode;
+import org.karaffe.compiler.util.report.Report;
+import org.karaffe.compiler.util.report.ReportCode;
 import org.karaffe.compiler.tree.formatter.FormatType;
 import org.karaffe.compiler.tree.formatter.TreeFormatter;
-import org.karaffe.compiler.tree.walker.FlatApplyWalker;
-import org.karaffe.compiler.tree.walker.NameValidator;
-import org.karaffe.compiler.tree.walker.TreeSchemaValidator;
+import org.karaffe.compiler.frontend.karaffe.walker.FlatApplyWalker;
+import org.karaffe.compiler.frontend.karaffe.walker.NameValidator;
+import org.karaffe.compiler.frontend.karaffe.walker.TreeSchemaValidator;
 import org.karaffe.compiler.tree.walker.TreeWalker;
 import org.karaffe.compiler.util.CompilerContext;
 import org.karaffe.compiler.util.KaraffeSource;
-import org.karaffe.compiler.visitor.KaraffeASTCreateVisitor;
+import org.karaffe.compiler.frontend.karaffe.visitor.KaraffeASTCreateVisitor;
 
 import java.io.IOException;
 import java.io.UncheckedIOException;
@@ -29,28 +32,36 @@ import java.util.Optional;
 
 import static org.karaffe.compiler.util.Lambda.uncheck;
 
-public class KaraffeCompiler {
+public class KaraffeCompiler implements Runnable {
   private final CompilerContext context;
 
   public KaraffeCompiler(CompilerContext context) {
     this.context = context;
   }
 
+  @Override
   public void run() {
+    CompilerContext currentContext = this.context;
     List<KaraffeSource> sources = context.getSources();
+    Frontend frontend = Frontend.getFrontend(currentContext);
+    currentContext = frontend.execute();
+    if (currentContext.hasError()) {
+      return;
+    }
+
     KaraffeASTCreateVisitor createASTVisitor = new KaraffeASTCreateVisitor(context);
     sources.stream()
       .map(this::parse)
       .filter(Optional::isPresent).map(Optional::get).filter(ctx -> Objects.nonNull(ctx.EOF()))
       .forEach(c -> uncheck(() -> c.accept(createASTVisitor)));
-    this.context.setAST(createASTVisitor.getCompilationUnit());
+    this.context.setUntypedTree(createASTVisitor.getCompilationUnit());
 
     TreeWalker validator = new TreeSchemaValidator();
-    validator.walk(this.context.getCurrentAST());
+    validator.walk(this.context.getUntypedTree());
     TreeWalker exprWalker = new FlatApplyWalker();
-    exprWalker.walk(this.context.getCurrentAST());
+    exprWalker.walk(this.context.getUntypedTree());
     TreeWalker nameValidator = new NameValidator(context);
-    nameValidator.walk(this.context.getCurrentAST());
+    nameValidator.walk(this.context.getUntypedTree());
 
     context.getParameter(ParameterName.EMIT).map(String::toLowerCase).ifPresent(param -> {
       FormatType type;
@@ -65,7 +76,7 @@ public class KaraffeCompiler {
 
       TreeFormatter formatter = TreeFormatter.fromType(type);
 
-      this.context.add(Report.newReport(ReportCode.INFO_AST).withBody(formatter.format(this.context.getCurrentAST())).build());
+      this.context.add(Report.newReport(ReportCode.INFO_AST).withBody(formatter.format(this.context.getUntypedTree())).build());
     });
 
     if (context.hasError()) {

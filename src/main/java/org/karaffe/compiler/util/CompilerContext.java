@@ -1,11 +1,11 @@
 package org.karaffe.compiler.util;
 
-import org.karaffe.compiler.args.ArgsParser;
-import org.karaffe.compiler.args.Flag;
-import org.karaffe.compiler.args.Options;
-import org.karaffe.compiler.args.ParameterName;
-import org.karaffe.compiler.report.Report;
-import org.karaffe.compiler.report.ReportFormatter;
+import org.karaffe.compiler.util.args.ArgsParser;
+import org.karaffe.compiler.util.args.Flag;
+import org.karaffe.compiler.util.args.Options;
+import org.karaffe.compiler.util.args.ParameterName;
+import org.karaffe.compiler.util.report.Report;
+import org.karaffe.compiler.util.report.ReportFormatter;
 import org.karaffe.compiler.tree.NodeType;
 import org.karaffe.compiler.tree.Tree;
 
@@ -27,7 +27,7 @@ public class CompilerContext {
   private List<KaraffeSource> sources = new ArrayList<>();
   private List<Report> reports = new ArrayList<>();
   private Map<Path, byte[]> outputFiles = new HashMap<>();
-  private Tree currentAST = new Tree(NodeType.Error, Position.noPos());
+  private Tree untypedTree = new Tree(NodeType.Error, Position.noPos());
 
   private boolean hasError = false;
 
@@ -109,11 +109,11 @@ public class CompilerContext {
     return String.join("\n", reportTexts);
   }
 
-  public Tree getCurrentAST() {
-    return currentAST;
+  public Tree getUntypedTree() {
+    return untypedTree;
   }
 
-  public void setAST(Tree currentAST) {
-    this.currentAST = currentAST;
+  public void setUntypedTree(Tree untypedTree) {
+    this.untypedTree = untypedTree;
   }
 }

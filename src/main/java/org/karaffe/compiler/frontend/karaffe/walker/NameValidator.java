@@ -1,7 +1,8 @@
-package org.karaffe.compiler.tree.walker;
+package org.karaffe.compiler.frontend.karaffe.walker;
 
-import org.karaffe.compiler.report.Report;
-import org.karaffe.compiler.report.ReportCode;
+import org.karaffe.compiler.tree.walker.TreeWalkerAdapter;
+import org.karaffe.compiler.util.report.Report;
+import org.karaffe.compiler.util.report.ReportCode;
 import org.karaffe.compiler.tree.NodeType;
 import org.karaffe.compiler.tree.Tree;
 import org.karaffe.compiler.util.ClassNameValidator;

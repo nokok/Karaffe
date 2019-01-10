@@ -1,4 +1,4 @@
-package org.karaffe.compiler.resolver;
+package org.karaffe.compiler.util.resolver;
 
 import java.lang.reflect.Method;
 import java.util.Objects;

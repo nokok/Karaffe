@@ -1,4 +1,4 @@
-package org.karaffe.compiler.report;
+package org.karaffe.compiler.util.report;
 
 import org.karaffe.compiler.util.CompilerContext;
 import org.karaffe.compiler.util.Position;

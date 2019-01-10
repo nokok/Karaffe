@@ -1,7 +1,8 @@
-package org.karaffe.compiler.tree.walker;
+package org.karaffe.compiler.frontend.karaffe.walker;
 
 import org.karaffe.compiler.tree.NodeType;
 import org.karaffe.compiler.tree.Tree;
+import org.karaffe.compiler.tree.walker.TreeWalkerAdapter;
 
 import java.util.ArrayDeque;
 import java.util.HashMap;

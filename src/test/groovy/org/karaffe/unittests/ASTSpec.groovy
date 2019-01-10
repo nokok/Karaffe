@@ -4,9 +4,9 @@ import org.antlr.v4.runtime.CharStreams
 import org.antlr.v4.runtime.CommonTokenStream
 import org.karaffe.compiler.frontend.karaffe.antlr.KaraffeLexer
 import org.karaffe.compiler.frontend.karaffe.antlr.KaraffeParser
-import org.karaffe.compiler.tree.walker.FlatApplyWalker
+import org.karaffe.compiler.frontend.karaffe.visitor.KaraffeASTCreateVisitor
+import org.karaffe.compiler.frontend.karaffe.walker.FlatApplyWalker
 import org.karaffe.compiler.util.CompilerContext
-import org.karaffe.compiler.visitor.KaraffeASTCreateVisitor
 import spock.lang.Specification
 import spock.lang.Unroll
 

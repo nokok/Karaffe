@@ -1,4 +1,4 @@
-package org.karaffe.compiler.visitor;
+package org.karaffe.compiler.frontend.karaffe.visitor;
 
 import org.antlr.v4.runtime.tree.TerminalNode;
 import org.karaffe.compiler.frontend.karaffe.antlr.KaraffeBaseVisitor;

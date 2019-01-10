@@ -1,4 +1,4 @@
-package org.karaffe.compiler;
+package org.karaffe.compiler.frontend.karaffe;
 
 import org.antlr.v4.runtime.DefaultErrorStrategy;
 import org.antlr.v4.runtime.InputMismatchException;

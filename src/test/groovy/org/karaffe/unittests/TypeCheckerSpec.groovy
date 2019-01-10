@@ -2,9 +2,9 @@ package org.karaffe.unittests
 
 import karaffe.core.Int
 import karaffe.core.Unit
+import org.karaffe.compiler.frontend.karaffe.typechecker.TypeChecker
 import org.karaffe.compiler.tree.NodeType
 import org.karaffe.compiler.tree.Tree
-import org.karaffe.compiler.typechecker.TypeChecker
 import org.karaffe.compiler.util.CompilerContext
 import org.karaffe.compiler.util.Position
 import org.karaffe.compiler.util.TypeInfo

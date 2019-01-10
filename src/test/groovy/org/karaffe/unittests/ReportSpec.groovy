@@ -1,8 +1,8 @@
 package org.karaffe.unittests
 
-import org.karaffe.compiler.report.Report
-import org.karaffe.compiler.report.ReportType
 import org.karaffe.compiler.util.Position
+import org.karaffe.compiler.util.report.Report
+import org.karaffe.compiler.util.report.ReportType
 import spock.lang.Specification
 import spock.lang.Unroll
 

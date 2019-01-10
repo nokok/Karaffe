@@ -1,6 +1,6 @@
 package org.karaffe.unittests
 
-import org.karaffe.compiler.resolver.MethodResolver
+import org.karaffe.compiler.util.resolver.MethodResolver
 import spock.lang.Specification
 import spock.lang.Unroll
 

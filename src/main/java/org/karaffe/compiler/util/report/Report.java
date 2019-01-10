@@ -1,4 +1,4 @@
-package org.karaffe.compiler.report;
+package org.karaffe.compiler.util.report;
 
 import org.karaffe.compiler.util.Position;
 
@@ -96,8 +96,8 @@ public class Report {
       return this;
     }
 
-    public Builder withVariable(Object... vars) {
-      this.title = MessageFormat.format(this.title, vars);
+    public Builder withVariable(Object obj, Object... vars) {
+      this.title = MessageFormat.format(this.title, obj, vars);
       return this;
     }
   }

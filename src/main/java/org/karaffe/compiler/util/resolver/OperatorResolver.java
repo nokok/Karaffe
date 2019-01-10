@@ -1,4 +1,4 @@
-package org.karaffe.compiler.resolver;
+package org.karaffe.compiler.util.resolver;
 
 import karaffe.core.Klass;
 import org.objectweb.asm.Opcodes;

@@ -1,15 +1,18 @@
-package org.karaffe.compiler.args;
+package org.karaffe.compiler.util.args;
 
 import java.util.Optional;
 
-public enum ParameterName {
-  EMIT(null, "--emit"),
+public enum Flag {
+  DRY_RUN(null, "--dry-run"),
+  VERSION(null, "--version"),
+  STDIN("-", null),
+  HELP("-h", "--help"),
   ;
 
   private final String shortName;
   private final String fullName;
 
-  ParameterName(String shortName, String fullName) {
+  Flag(String shortName, String fullName) {
     this.shortName = shortName;
     this.fullName = fullName;
   }

@@ -1,7 +1,7 @@
 package org.karaffe.unittests
 
-import org.karaffe.compiler.args.ArgsParser
-import org.karaffe.compiler.args.Flag
+import org.karaffe.compiler.util.args.ArgsParser
+import org.karaffe.compiler.util.args.Flag
 import spock.lang.Specification
 import spock.lang.Unroll
 

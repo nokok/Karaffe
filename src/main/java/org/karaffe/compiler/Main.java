@@ -1,9 +1,9 @@
 package org.karaffe.compiler;
 
 import karaffe.core.Console;
-import org.karaffe.compiler.args.Flag;
-import org.karaffe.compiler.report.Report;
-import org.karaffe.compiler.report.ReportCode;
+import org.karaffe.compiler.util.args.Flag;
+import org.karaffe.compiler.util.report.Report;
+import org.karaffe.compiler.util.report.ReportCode;
 import org.karaffe.compiler.tree.formatter.SimpleTreeFormatter;
 import org.karaffe.compiler.util.CompilerContext;
 import org.karaffe.compiler.util.KaraffeSource;
@@ -28,7 +28,7 @@ public class Main {
         return;
       }
       SimpleTreeFormatter formatter = new SimpleTreeFormatter();
-      System.out.println(formatter.format(context.getCurrentAST()));
+      System.out.println(formatter.format(context.getUntypedTree()));
       throwable.printStackTrace();
     });
     context.parseRawArgs(args);

@@ -1,6 +1,7 @@
-package org.karaffe.compiler.tree.walker;
+package org.karaffe.compiler.frontend.karaffe.walker;
 
 import org.karaffe.compiler.tree.Tree;
+import org.karaffe.compiler.tree.walker.TreeWalkerAdapter;
 
 import static org.karaffe.compiler.tree.NodeType.Arguments;
 import static org.karaffe.compiler.tree.NodeType.ArrayTypeName;
@@ -22,7 +23,7 @@ import static org.karaffe.compiler.tree.NodeType.TypeName;
 public class TreeSchemaValidator extends TreeWalkerAdapter {
 
   @Override
-  void onEveryTree(Tree tree) {
+  public void onEveryTree(Tree tree) {
     assert tree.getNodeType() == CompilationUnit || tree.getParent() != null : tree.toString();
     assert tree.getName().isEmpty() || tree.getChildren().isEmpty() : tree.getNodeType() + ":" + tree.getName();
   }
@@ -56,7 +57,7 @@ public class TreeSchemaValidator extends TreeWalkerAdapter {
   }
 
   @Override
-  void onArrayTypeName(Tree tree) {
+  public void onArrayTypeName(Tree tree) {
     assert !tree.getName().isEmpty();
     assert !tree.hasChildren();
   }

@@ -1,4 +1,4 @@
-package org.karaffe.compiler.platform;
+package org.karaffe.compiler.util;
 
 public final class Platform {
   public static boolean isWindows() {

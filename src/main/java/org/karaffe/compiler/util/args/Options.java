@@ -1,4 +1,4 @@
-package org.karaffe.compiler.args;
+package org.karaffe.compiler.util.args;
 
 import org.karaffe.compiler.util.KaraffeSource;
 

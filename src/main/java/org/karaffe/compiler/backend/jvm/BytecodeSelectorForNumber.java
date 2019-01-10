@@ -1,4 +1,4 @@
-package org.karaffe.compiler.gen;
+package org.karaffe.compiler.backend.jvm;
 
 
 import org.objectweb.asm.Opcodes;

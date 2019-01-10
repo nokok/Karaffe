@@ -1,8 +1,8 @@
-package org.karaffe.compiler.gen;
+package org.karaffe.compiler.backend.jvm;
 
 import karaffe.core.Int;
-import org.karaffe.compiler.resolver.ConstructorResolver;
-import org.karaffe.compiler.resolver.OperatorResolver;
+import org.karaffe.compiler.util.resolver.ConstructorResolver;
+import org.karaffe.compiler.util.resolver.OperatorResolver;
 import org.karaffe.compiler.util.BytecodeEntry;
 import org.objectweb.asm.ClassWriter;
 import org.objectweb.asm.MethodVisitor;

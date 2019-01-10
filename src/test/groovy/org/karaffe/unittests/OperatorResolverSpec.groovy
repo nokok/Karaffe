@@ -1,6 +1,6 @@
 package org.karaffe.unittests
 
-import org.karaffe.compiler.resolver.OperatorResolver
+import org.karaffe.compiler.util.resolver.OperatorResolver
 import org.objectweb.asm.Opcodes
 import spock.lang.Specification
 import spock.lang.Unroll

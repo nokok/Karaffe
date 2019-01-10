@@ -1,6 +1,6 @@
 package org.karaffe.unittests
 
-import org.karaffe.compiler.report.ReportCode
+import org.karaffe.compiler.util.report.ReportCode
 import spock.lang.Specification
 import spock.lang.Unroll
 

@@ -1,7 +1,7 @@
 package org.karaffe.unittests
 
-import org.karaffe.compiler.args.Flag
-import org.karaffe.compiler.report.Report
+import org.karaffe.compiler.util.args.Flag
+import org.karaffe.compiler.util.report.Report
 import org.karaffe.compiler.util.CompilerContext
 import spock.lang.Specification
 

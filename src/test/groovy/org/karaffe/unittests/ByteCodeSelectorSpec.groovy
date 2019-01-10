@@ -1,6 +1,6 @@
 package org.karaffe.unittests
 
-import org.karaffe.compiler.gen.BytecodeSelectorForNumber
+import org.karaffe.compiler.backend.jvm.BytecodeSelectorForNumber
 import org.objectweb.asm.Opcodes
 import spock.lang.Specification
 import spock.lang.Unroll

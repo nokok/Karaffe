@@ -1,7 +1,7 @@
-package org.karaffe.compiler.args;
+package org.karaffe.compiler.util.args;
 
-import org.karaffe.compiler.report.Report;
-import org.karaffe.compiler.report.ReportCode;
+import org.karaffe.compiler.util.report.Report;
+import org.karaffe.compiler.util.report.ReportCode;
 import org.karaffe.compiler.util.KaraffeSource;
 
 import java.io.IOException;
@@ -64,6 +64,9 @@ public class ArgsParser {
             continue;
           }
           String argument = options[++i];
+          if (!parameterName.isSupportedArg(argument)) {
+            this.reports.add(Report.newReport(ReportCode.ERR_UNRECOGNIZED_ARGUMENT).withVariable(argument).build());
+          }
           recognizedParameterValues.put(parameterName, argument);
         } else {
           this.reports.add(Report.newReport(ReportCode.ERR_UNRECOGNIZED_ARGUMENT).withVariable(c).build());
