@@ -16,15 +16,6 @@ class CommandLineArgsSpec extends Specification {
     optOption.get().isEmpty()
   }
 
-  def "illegal head"() {
-    setup:
-    def parser = new ArgsParser()
-    def optOption = parser.parse(["-"] as String[])
-
-    expect:
-    !optOption.isPresent()
-  }
-
   @Unroll
   def "flags #input"() {
     setup:

@@ -20,6 +20,6 @@ class ReflectionSpec extends Specification {
     def decls = mirror.decls()
 
     expect:
-    decls.size() == 12
+    decls.size() == 10
   }
 }
