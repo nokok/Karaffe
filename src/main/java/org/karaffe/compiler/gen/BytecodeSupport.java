@@ -19,7 +19,7 @@ import java.util.Objects;
 
 public class BytecodeSupport {
 
-  private ClassWriter classWriter = null;
+  private ClassWriter classWriter;
   private String currentFileName = null;
   private MethodVisitor methodVisitor = null;
   private String currentClassName = null;

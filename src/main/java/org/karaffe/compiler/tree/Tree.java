@@ -7,11 +7,9 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 import java.util.Optional;
-import java.util.UUID;
 import java.util.function.Predicate;
 
 public class Tree {
-  private String nodeId = UUID.randomUUID().toString();
   private Position position;
   private Tree parent;
   private NodeType nodeType;
@@ -37,10 +35,6 @@ public class Tree {
     this.children = new ArrayList<>();
   }
 
-  public String getNodeId() {
-    return nodeId;
-  }
-
   public String getName() {
     return this.name;
   }
@@ -49,7 +43,7 @@ public class Tree {
     return parent;
   }
 
-  public void setParent(Tree parent) {
+  private void setParent(Tree parent) {
     this.parent = parent;
   }
 
