@@ -3,6 +3,7 @@ package org.karaffe.compiler.tree.walker;
 import org.karaffe.compiler.tree.Tree;
 
 import static org.karaffe.compiler.tree.NodeType.Arguments;
+import static org.karaffe.compiler.tree.NodeType.ArrayTypeName;
 import static org.karaffe.compiler.tree.NodeType.Body;
 import static org.karaffe.compiler.tree.NodeType.CompilationUnit;
 import static org.karaffe.compiler.tree.NodeType.Identifier;
@@ -55,6 +56,12 @@ public class TreeSchemaValidator extends TreeWalkerAdapter {
   }
 
   @Override
+  void onArrayTypeName(Tree tree) {
+    assert !tree.getName().isEmpty();
+    assert !tree.hasChildren();
+  }
+
+  @Override
   public void onModifier(Tree tree) {
     String name = tree.getName();
     assert !name.isEmpty();
@@ -88,7 +95,7 @@ public class TreeSchemaValidator extends TreeWalkerAdapter {
 
   @Override
   public void onReturnType(Tree tree) {
-    assert tree.indexOf(TypeName) == 0;
+    assert tree.indexOf(TypeName) == 0 || tree.indexOf(ArrayTypeName) == 0;
     assert tree.getChildren().size() == 1;
   }
 
@@ -102,7 +109,7 @@ public class TreeSchemaValidator extends TreeWalkerAdapter {
   public void onParameter(Tree tree) {
     assert tree.getName().isEmpty();
     assert tree.indexOf(Identifier) == 0;
-    assert tree.indexOf(TypeName) == 1;
+    assert tree.indexOf(TypeName) == 1 || tree.indexOf(ArrayTypeName) == 1;
     assert tree.getChildren().size() == 2;
   }
 

@@ -83,6 +83,8 @@ public abstract class TreeWalker {
       onFlatApply(tree);
     } else if (tree.getNodeType() == NodeType.BinOp) {
       onBinOp(tree);
+    } else if (tree.getNodeType() == NodeType.ArrayTypeName) {
+      onArrayTypeName(tree);
     } else {
       throw new IllegalStateException(tree.getNodeType().name());
     }
@@ -93,6 +95,8 @@ public abstract class TreeWalker {
   }
 
   abstract void onException(Tree tree, Exception e);
+
+  abstract void onArrayTypeName(Tree tree);
 
   abstract void onEveryTree(Tree tree);
 

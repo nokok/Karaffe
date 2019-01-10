@@ -10,6 +10,11 @@ public abstract class TreeWalkerAdapter extends TreeWalker {
   }
 
   @Override
+  void onArrayTypeName(Tree tree) {
+
+  }
+
+  @Override
   void onEveryTree(Tree tree) {
 
   }
