@@ -5,6 +5,11 @@ import org.karaffe.compiler.tree.Tree;
 public abstract class TreeWalkerAdapter extends TreeWalker {
 
   @Override
+  void onException(Tree tree, Exception e) {
+
+  }
+
+  @Override
   void onEveryTree(Tree tree) {
 
   }

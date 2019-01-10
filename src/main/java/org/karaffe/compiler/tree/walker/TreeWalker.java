@@ -5,7 +5,18 @@ import org.karaffe.compiler.tree.Tree;
 
 public abstract class TreeWalker {
 
-  public void walk(Tree tree) {
+  public final void walk(Tree tree) {
+    try {
+      walk1(tree);
+    } catch (TreeWalkCancellationException e) {
+      // ignore
+    } catch (RuntimeException e) {
+      onException(tree, e);
+      throw e;
+    }
+  }
+
+  private void walk1(Tree tree) {
     if (tree == null) {
       onNullTree();
       return;
@@ -13,7 +24,7 @@ public abstract class TreeWalker {
     onEveryTree(tree);
     if (tree.hasChildren()) {
       for (Tree child : tree.getChildren()) {
-        walk(child);
+        walk1(child);
       }
     }
     if (tree.getNodeType() == NodeType.Apply) {
@@ -76,6 +87,12 @@ public abstract class TreeWalker {
       throw new IllegalStateException(tree.getNodeType().name());
     }
   }
+
+  protected final void bailout() {
+    throw new TreeWalkCancellationException();
+  }
+
+  abstract void onException(Tree tree, Exception e);
 
   abstract void onEveryTree(Tree tree);
 
