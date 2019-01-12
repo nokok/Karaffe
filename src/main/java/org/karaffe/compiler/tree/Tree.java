@@ -1,6 +1,7 @@
 package org.karaffe.compiler.tree;
 
 import org.karaffe.compiler.tree.query.TreeQuery;
+import org.karaffe.compiler.tree.processor.Processor;
 import org.karaffe.compiler.util.Position;
 
 import java.util.ArrayList;
@@ -102,8 +103,8 @@ public class Tree {
     }
   }
 
-  public <R> R applyRule(Rule<R> rule) {
-    return rule.apply(this);
+  public <R> R applyProcessor(Processor<R> processor) {
+    return processor.apply(this);
   }
 
   @Override
