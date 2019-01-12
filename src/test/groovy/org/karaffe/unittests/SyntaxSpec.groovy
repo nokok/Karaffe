@@ -54,11 +54,12 @@ class SyntaxSpec extends Specification {
 
   def "nullExpr"() {
     def parse = getParser("print()")
-    def context = parse.printFunction()
+    def context = parse.expr()
 
     expect:
     context != null
-    context.expr() == null
+    context.function != null
+    context.args == null
   }
 
   @Unroll
@@ -106,7 +107,7 @@ class SyntaxSpec extends Specification {
   def "field"() {
     setup:
     def parse = getParser("""class Main {
-                  |  def i
+                  |  def i Int
                   |}""".stripMargin())
     def context = parse.classDef()
 
@@ -133,7 +134,7 @@ class SyntaxSpec extends Specification {
   def "initialize"() {
     setup:
     def parse = getParser("""class Main {
-                  |  def i
+                  |  def i Int
                   |  init {
                   |    this.i := 0
                   |  }
@@ -149,7 +150,7 @@ class SyntaxSpec extends Specification {
   def "infixOp"() {
     setup:
     def parse = getParser("""class Main {
-                  |  def i
+                  |  def i Int
                   |  init {
                   |    1 + 1
                   |    1 plus 1

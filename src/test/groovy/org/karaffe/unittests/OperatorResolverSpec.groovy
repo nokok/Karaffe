@@ -24,21 +24,6 @@ class OperatorResolverSpec extends Specification {
   }
 
   @Unroll
-  def "invalid plusOperator #source to #type"() {
-    when:
-    new OperatorResolver(source)
-
-    then:
-    thrown(type)
-
-    where:
-    source  || type
-    boolean || IllegalArgumentException
-    char    || IllegalArgumentException
-    null    || NullPointerException
-  }
-
-  @Unroll
   def "plus #sourceClass + #paramClass = #selectedOpCode"() {
     setup:
     def resolver = new OperatorResolver(sourceClass)

@@ -191,7 +191,7 @@ class BytecodeSpec extends Specification {
     context.parseRawArgs(["--dry-run"] as String[])
     context.add(KaraffeSource.fromString(
       """class Main {
-                  |  def i
+                  |  def i Int
                   |}""".stripMargin()
     ))
     def compiler = new KaraffeCompiler(context)

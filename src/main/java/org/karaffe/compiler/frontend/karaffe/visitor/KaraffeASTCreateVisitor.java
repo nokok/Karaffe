@@ -12,10 +12,12 @@ import java.util.List;
 
 import static org.karaffe.compiler.tree.NodeType.Argument;
 import static org.karaffe.compiler.tree.NodeType.Arguments;
+import static org.karaffe.compiler.tree.NodeType.Binding;
 import static org.karaffe.compiler.tree.NodeType.Body;
 import static org.karaffe.compiler.tree.NodeType.Identifier;
 import static org.karaffe.compiler.tree.NodeType.Modifiers;
 import static org.karaffe.compiler.tree.NodeType.Parameters;
+import static org.karaffe.compiler.tree.NodeType.TypeName;
 
 public class KaraffeASTCreateVisitor extends KaraffeBaseVisitor<Tree> {
 
@@ -136,7 +138,7 @@ public class KaraffeASTCreateVisitor extends KaraffeBaseVisitor<Tree> {
     Tree parameters = new Tree(NodeType.Parameters, new Position(ctx));
     Tree args = new Tree(NodeType.Parameter, new Position(ctx));
     args.addChild(new Tree(Identifier, "args", new Position(ctx)));
-    args.addChild(new Tree(NodeType.TypeName, String[].class.getCanonicalName(), new Position(ctx)));
+    args.addChild(new Tree(NodeType.ArrayTypeName, "java.lang.String", new Position(ctx)));
     parameters.addChild(args);
     tree.addChild(parameters);
     List<KaraffeParser.StatementContext> statements = ctx.statement();
@@ -151,7 +153,12 @@ public class KaraffeASTCreateVisitor extends KaraffeBaseVisitor<Tree> {
   @Override
   public Tree visitVarDef(KaraffeParser.VarDefContext ctx) {
     Tree tree = new Tree(NodeType.DefVar, new Position(ctx));
-    tree.addChild(new Tree(Identifier, ctx.Identifier().getText(), new Position(ctx.Identifier().getSymbol())));
+    Tree binding = ctx.binding().accept(this);
+    binding.dig(Identifier).ifPresent(tree::addChild);
+    binding.dig(TypeName).ifPresent(tree::addChild);
+    if (ctx.initializer != null) {
+      ctx.initializer.accept(this);
+    }
     return tree;
   }
 
@@ -200,5 +207,20 @@ public class KaraffeASTCreateVisitor extends KaraffeBaseVisitor<Tree> {
   public Tree visitBinaryOperator(KaraffeParser.BinaryOperatorContext ctx) {
     Tree op = new Tree(NodeType.BinOp, ctx.getText(), new Position(ctx));
     return op;
+  }
+
+  @Override
+  public Tree visitBinding(KaraffeParser.BindingContext ctx) {
+    Tree tree = new Tree(Binding, new Position(ctx));
+    tree.addChild(new Tree(Identifier, ctx.Identifier().getText(), new Position(ctx.Identifier().getSymbol())));
+    tree.addChild(ctx.typeName().accept(this));
+    return tree;
+  }
+
+  @Override
+  public Tree visitTypeName(KaraffeParser.TypeNameContext ctx) {
+    String typeName = ctx.getText();
+    Tree tree = new Tree(TypeName, typeName, new Position(ctx));
+    return tree;
   }
 }

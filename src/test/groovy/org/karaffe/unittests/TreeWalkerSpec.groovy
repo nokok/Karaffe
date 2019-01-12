@@ -4,6 +4,7 @@ import org.karaffe.compiler.tree.NodeType
 import org.karaffe.compiler.tree.Tree
 import org.karaffe.compiler.tree.walker.TreeWalkerAdapter
 import spock.lang.Specification
+import spock.lang.Unroll
 
 class TreeWalkerSpec extends Specification {
 
@@ -68,5 +69,20 @@ class TreeWalkerSpec extends Specification {
 
     expect:
     count == 1
+  }
+
+  @Unroll
+  def "testImpl"() {
+    setup:
+    def walker = new TreeWalkerAdapter() {}
+
+    when:
+    walker.walk(new Tree(nodeType))
+
+    then:
+    notThrown(IllegalStateException)
+
+    where:
+    nodeType << Arrays.asList(NodeType.values())
   }
 }

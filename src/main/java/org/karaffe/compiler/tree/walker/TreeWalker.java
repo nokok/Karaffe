@@ -85,6 +85,8 @@ public abstract class TreeWalker {
       onBinOp(tree);
     } else if (tree.getNodeType() == NodeType.ArrayTypeName) {
       onArrayTypeName(tree);
+    } else if (tree.getNodeType() == NodeType.Binding) {
+      onBinding(tree);
     } else {
       throw new IllegalStateException(tree.getNodeType().name());
     }
@@ -94,67 +96,69 @@ public abstract class TreeWalker {
     throw new TreeWalkCancellationException();
   }
 
-  abstract void onException(Tree tree, Exception e);
+  public abstract void onException(Tree tree, Exception e);
 
-  abstract void onArrayTypeName(Tree tree);
+  public abstract void onBinding(Tree tree);
 
-  abstract void onEveryTree(Tree tree);
+  public abstract void onArrayTypeName(Tree tree);
 
-  abstract void onBinOp(Tree tree);
+  public abstract void onEveryTree(Tree tree);
 
-  abstract void onFlatApply(Tree tree);
+  public abstract void onBinOp(Tree tree);
 
-  abstract void onAssign(Tree tree);
+  public abstract void onFlatApply(Tree tree);
 
-  abstract void onConstructor(Tree tree);
+  public abstract void onAssign(Tree tree);
 
-  abstract void onModule(Tree tree);
+  public abstract void onConstructor(Tree tree);
 
-  abstract void onPackage(Tree tree);
+  public abstract void onModule(Tree tree);
 
-  abstract void onArgument(Tree tree);
+  public abstract void onPackage(Tree tree);
 
-  abstract void onArguments(Tree tree);
+  public abstract void onArgument(Tree tree);
 
-  abstract void onBody(Tree tree);
+  public abstract void onArguments(Tree tree);
 
-  abstract void onModifiers(Tree tree);
+  public abstract void onBody(Tree tree);
 
-  abstract void onSuperClass(Tree tree);
+  public abstract void onModifiers(Tree tree);
 
-  abstract void onIdentifier(Tree tree);
+  public abstract void onSuperClass(Tree tree);
 
-  abstract void onParameter(Tree tree);
+  public abstract void onIdentifier(Tree tree);
 
-  abstract void onParameters(Tree tree);
+  public abstract void onParameter(Tree tree);
 
-  abstract void onReturnType(Tree tree);
+  public abstract void onParameters(Tree tree);
 
-  abstract void onTypeName(Tree tree);
+  public abstract void onReturnType(Tree tree);
 
-  abstract void onModifier(Tree tree);
+  public abstract void onTypeName(Tree tree);
 
-  abstract void onThis(Tree tree);
+  public abstract void onModifier(Tree tree);
 
-  abstract void onSourceFile(Tree tree);
+  public abstract void onThis(Tree tree);
 
-  abstract void onStringLiteral(Tree tree);
+  public abstract void onSourceFile(Tree tree);
 
-  abstract void onSelect(Tree tree);
+  public abstract void onStringLiteral(Tree tree);
 
-  abstract void onIntLiteral(Tree tree);
+  public abstract void onSelect(Tree tree);
 
-  abstract void onErrorTree(Tree tree);
+  public abstract void onIntLiteral(Tree tree);
 
-  abstract void onDefVar(Tree tree);
+  public abstract void onErrorTree(Tree tree);
 
-  abstract void onDefMethod(Tree tree);
+  public abstract void onDefVar(Tree tree);
 
-  abstract void onDefClass(Tree tree);
+  public abstract void onDefMethod(Tree tree);
 
-  abstract void onCompilationUnit(Tree tree);
+  public abstract void onDefClass(Tree tree);
 
-  abstract void onApply(Tree tree);
+  public abstract void onCompilationUnit(Tree tree);
 
-  abstract void onNullTree();
+  public abstract void onApply(Tree tree);
+
+  public abstract void onNullTree();
 }

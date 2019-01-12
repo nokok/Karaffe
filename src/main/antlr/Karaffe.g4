@@ -29,11 +29,19 @@ initBlock
   ;
 
 assign
-  : target=expr ':=' initializer=expr
+  : target=expr BIND initializer=expr
   ;
 
 varDef
-  : DEF Identifier
+  : DEF binding (BIND initializer=expr)?
+  ;
+
+binding
+  : Identifier typeName
+  ;
+
+typeName
+  : Identifier
   ;
 
 // Expr
@@ -70,6 +78,7 @@ CLASS: 'class';
 INIT: 'init';
 THIS: 'this';
 DEF: 'def';
+BIND: ':=';
 LPAREN: '(';
 RPAREN: ')';
 LBRACE: '{';
@@ -99,6 +108,7 @@ Identifier
 fragment
 OperatorChar
   : '+'
+  | '='
   | '-'
   | '*'
   | '/'
