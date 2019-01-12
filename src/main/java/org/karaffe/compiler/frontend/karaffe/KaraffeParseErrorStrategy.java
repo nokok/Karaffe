@@ -19,6 +19,8 @@ public class KaraffeParseErrorStrategy extends DefaultErrorStrategy {
     TokenStream input = recognizer.getInputStream();
     if (input.index() < input.size() - 1) {
       recognizer.consume();
+    } else {
+      throw new InputMismatchException(recognizer);
     }
   }
 
