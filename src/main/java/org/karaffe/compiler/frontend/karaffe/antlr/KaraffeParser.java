@@ -17,9 +17,16 @@ public class KaraffeParser extends Parser {
 	protected static final PredictionContextCache _sharedContextCache =
 		new PredictionContextCache();
 	public static final int
-		ENTRYPOINT=1, CLASS=2, INIT=3, THIS=4, DEF=5, BIND=6, LPAREN=7, RPAREN=8, 
-		LBRACE=9, RBRACE=10, DOT=11, COMMA=12, StringLiteral=13, IntegerLiteral=14, 
-		Identifier=15, WS=16;
+		ENTRYPOINT=1, IMPLEMENTS=2, INTERFACE=3, PROTECTED=4, ABSTRACT=5, CONTINUE=6, 
+		DELEGATE=7, INTERNAL=8, OVERRIDE=9, DEFAULT=10, EXTENDS=11, FINALLY=12, 
+		PACKAGE=13, PRIVATE=14, EXPORT=15, EXTEND=16, IMPORT=17, MODULE=18, NAMEOF=19, 
+		PUBLIC=20, RETURN=21, SEALED=22, STATIC=23, THROWS=24, TYPEOF=25, ALIAS=26, 
+		ASYNC=27, AWAIT=28, BREAK=29, CATCH=30, CLASS=31, FALSE=32, FINAL=33, 
+		MACRO=34, MATCH=35, MIXIN=36, SUPER=37, THROW=38, TRAIT=39, WHILE=40, 
+		YIELD=41, CASE=42, ELSE=43, ENUM=44, FUNC=45, INIT=46, LAZY=47, NULL=48, 
+		THIS=49, TRUE=50, DEF=51, FOR=52, NEW=53, TRY=54, AS=55, DO=56, IF=57, 
+		IN=58, IS=59, BIND=60, LPAREN=61, RPAREN=62, LBRACE=63, RBRACE=64, DOT=65, 
+		COMMA=66, StringLiteral=67, IntegerLiteral=68, Identifier=69, WS=70;
 	public static final int
 		RULE_sourceFile = 0, RULE_classDef = 1, RULE_typeDefBody = 2, RULE_statement = 3, 
 		RULE_entryPointBlock = 4, RULE_initBlock = 5, RULE_assign = 6, RULE_varDef = 7, 
@@ -32,11 +39,26 @@ public class KaraffeParser extends Parser {
 	};
 
 	private static final String[] _LITERAL_NAMES = {
-		null, "'entrypoint'", "'class'", "'init'", "'this'", "'def'", "':='", 
-		"'('", "')'", "'{'", "'}'", "'.'", "','"
+		null, "'entrypoint'", "'implements'", "'interface'", "'protected'", "'abstract'", 
+		"'continue'", "'delegate'", "'internal'", "'override'", "'default'", "'extends'", 
+		"'finally'", "'package'", "'private'", "'export'", "'extend'", "'import'", 
+		"'module'", "'nameof'", "'public'", "'return'", "'sealed'", "'static'", 
+		"'throws'", "'typeof'", "'alias'", "'async'", "'await'", "'break'", "'catch'", 
+		"'class'", "'false'", "'final'", "'macro'", "'match'", "'mixin'", "'super'", 
+		"'throw'", "'trait'", "'while'", "'yield'", "'case'", "'else'", "'enum'", 
+		"'func'", "'init'", "'lazy'", "'null'", "'this'", "'true'", "'def'", "'for'", 
+		"'new'", "'try'", "'as'", "'do'", "'if'", "'in'", "'is'", "':='", "'('", 
+		"')'", "'{'", "'}'", "'.'", "','"
 	};
 	private static final String[] _SYMBOLIC_NAMES = {
-		null, "ENTRYPOINT", "CLASS", "INIT", "THIS", "DEF", "BIND", "LPAREN", 
+		null, "ENTRYPOINT", "IMPLEMENTS", "INTERFACE", "PROTECTED", "ABSTRACT", 
+		"CONTINUE", "DELEGATE", "INTERNAL", "OVERRIDE", "DEFAULT", "EXTENDS", 
+		"FINALLY", "PACKAGE", "PRIVATE", "EXPORT", "EXTEND", "IMPORT", "MODULE", 
+		"NAMEOF", "PUBLIC", "RETURN", "SEALED", "STATIC", "THROWS", "TYPEOF", 
+		"ALIAS", "ASYNC", "AWAIT", "BREAK", "CATCH", "CLASS", "FALSE", "FINAL", 
+		"MACRO", "MATCH", "MIXIN", "SUPER", "THROW", "TRAIT", "WHILE", "YIELD", 
+		"CASE", "ELSE", "ENUM", "FUNC", "INIT", "LAZY", "NULL", "THIS", "TRUE", 
+		"DEF", "FOR", "NEW", "TRY", "AS", "DO", "IF", "IN", "IS", "BIND", "LPAREN", 
 		"RPAREN", "LBRACE", "RBRACE", "DOT", "COMMA", "StringLiteral", "IntegerLiteral", 
 		"Identifier", "WS"
 	};
@@ -251,7 +273,7 @@ public class KaraffeParser extends Parser {
 			setState(47);
 			_errHandler.sync(this);
 			_la = _input.LA(1);
-			while ((((_la) & ~0x3f) == 0 && ((1L << _la) & ((1L << ENTRYPOINT) | (1L << INIT) | (1L << THIS) | (1L << DEF) | (1L << LPAREN) | (1L << StringLiteral) | (1L << IntegerLiteral) | (1L << Identifier))) != 0)) {
+			while ((((_la) & ~0x3f) == 0 && ((1L << _la) & ((1L << ENTRYPOINT) | (1L << INIT) | (1L << THIS) | (1L << DEF) | (1L << LPAREN))) != 0) || ((((_la - 67)) & ~0x3f) == 0 && ((1L << (_la - 67)) & ((1L << (StringLiteral - 67)) | (1L << (IntegerLiteral - 67)) | (1L << (Identifier - 67)))) != 0)) {
 				{
 				{
 				setState(44);
@@ -410,7 +432,7 @@ public class KaraffeParser extends Parser {
 			setState(64);
 			_errHandler.sync(this);
 			_la = _input.LA(1);
-			while ((((_la) & ~0x3f) == 0 && ((1L << _la) & ((1L << ENTRYPOINT) | (1L << INIT) | (1L << THIS) | (1L << DEF) | (1L << LPAREN) | (1L << StringLiteral) | (1L << IntegerLiteral) | (1L << Identifier))) != 0)) {
+			while ((((_la) & ~0x3f) == 0 && ((1L << _la) & ((1L << ENTRYPOINT) | (1L << INIT) | (1L << THIS) | (1L << DEF) | (1L << LPAREN))) != 0) || ((((_la - 67)) & ~0x3f) == 0 && ((1L << (_la - 67)) & ((1L << (StringLiteral - 67)) | (1L << (IntegerLiteral - 67)) | (1L << (Identifier - 67)))) != 0)) {
 				{
 				{
 				setState(61);
@@ -479,7 +501,7 @@ public class KaraffeParser extends Parser {
 			setState(74);
 			_errHandler.sync(this);
 			_la = _input.LA(1);
-			while ((((_la) & ~0x3f) == 0 && ((1L << _la) & ((1L << ENTRYPOINT) | (1L << INIT) | (1L << THIS) | (1L << DEF) | (1L << LPAREN) | (1L << StringLiteral) | (1L << IntegerLiteral) | (1L << Identifier))) != 0)) {
+			while ((((_la) & ~0x3f) == 0 && ((1L << _la) & ((1L << ENTRYPOINT) | (1L << INIT) | (1L << THIS) | (1L << DEF) | (1L << LPAREN))) != 0) || ((((_la - 67)) & ~0x3f) == 0 && ((1L << (_la - 67)) & ((1L << (StringLiteral - 67)) | (1L << (IntegerLiteral - 67)) | (1L << (Identifier - 67)))) != 0)) {
 				{
 				{
 				setState(71);
@@ -839,7 +861,7 @@ public class KaraffeParser extends Parser {
 						setState(107);
 						_errHandler.sync(this);
 						_la = _input.LA(1);
-						if ((((_la) & ~0x3f) == 0 && ((1L << _la) & ((1L << THIS) | (1L << LPAREN) | (1L << StringLiteral) | (1L << IntegerLiteral) | (1L << Identifier))) != 0)) {
+						if (((((_la - 49)) & ~0x3f) == 0 && ((1L << (_la - 49)) & ((1L << (THIS - 49)) | (1L << (LPAREN - 49)) | (1L << (StringLiteral - 49)) | (1L << (IntegerLiteral - 49)) | (1L << (Identifier - 49)))) != 0)) {
 							{
 							setState(106);
 							((ExprContext)_localctx).args = exprList();
@@ -1147,42 +1169,42 @@ public class KaraffeParser extends Parser {
 	}
 
 	public static final String _serializedATN =
-		"\3\u608b\ua72a\u8133\ub9ed\u417c\u3be7\u7786\u5964\3\22\u008e\4\2\t\2"+
-		"\4\3\t\3\4\4\t\4\4\5\t\5\4\6\t\6\4\7\t\7\4\b\t\b\4\t\t\t\4\n\t\n\4\13"+
-		"\t\13\4\f\t\f\4\r\t\r\4\16\t\16\4\17\t\17\4\20\t\20\3\2\7\2\"\n\2\f\2"+
-		"\16\2%\13\2\3\2\3\2\3\3\3\3\3\3\5\3,\n\3\3\4\3\4\7\4\60\n\4\f\4\16\4\63"+
-		"\13\4\3\4\3\4\3\5\3\5\3\5\3\5\3\5\5\5<\n\5\3\6\3\6\3\6\7\6A\n\6\f\6\16"+
-		"\6D\13\6\3\6\3\6\3\7\3\7\3\7\7\7K\n\7\f\7\16\7N\13\7\3\7\3\7\3\b\3\b\3"+
-		"\b\3\b\3\t\3\t\3\t\3\t\5\tZ\n\t\3\n\3\n\3\n\3\13\3\13\3\f\3\f\3\f\3\f"+
-		"\3\f\3\f\3\f\3\f\5\fi\n\f\3\f\3\f\3\f\5\fn\n\f\3\f\3\f\3\f\6\fs\n\f\r"+
-		"\f\16\ft\3\f\3\f\3\f\7\fz\n\f\f\f\16\f}\13\f\3\r\3\r\3\r\3\16\3\16\3\17"+
+		"\3\u608b\ua72a\u8133\ub9ed\u417c\u3be7\u7786\u5964\3H\u008e\4\2\t\2\4"+
+		"\3\t\3\4\4\t\4\4\5\t\5\4\6\t\6\4\7\t\7\4\b\t\b\4\t\t\t\4\n\t\n\4\13\t"+
+		"\13\4\f\t\f\4\r\t\r\4\16\t\16\4\17\t\17\4\20\t\20\3\2\7\2\"\n\2\f\2\16"+
+		"\2%\13\2\3\2\3\2\3\3\3\3\3\3\5\3,\n\3\3\4\3\4\7\4\60\n\4\f\4\16\4\63\13"+
+		"\4\3\4\3\4\3\5\3\5\3\5\3\5\3\5\5\5<\n\5\3\6\3\6\3\6\7\6A\n\6\f\6\16\6"+
+		"D\13\6\3\6\3\6\3\7\3\7\3\7\7\7K\n\7\f\7\16\7N\13\7\3\7\3\7\3\b\3\b\3\b"+
+		"\3\b\3\t\3\t\3\t\3\t\5\tZ\n\t\3\n\3\n\3\n\3\13\3\13\3\f\3\f\3\f\3\f\3"+
+		"\f\3\f\3\f\3\f\5\fi\n\f\3\f\3\f\3\f\5\fn\n\f\3\f\3\f\3\f\6\fs\n\f\r\f"+
+		"\16\ft\3\f\3\f\3\f\7\fz\n\f\f\f\16\f}\13\f\3\r\3\r\3\r\3\16\3\16\3\17"+
 		"\3\17\3\17\7\17\u0087\n\17\f\17\16\17\u008a\13\17\3\20\3\20\3\20\2\3\26"+
-		"\21\2\4\6\b\n\f\16\20\22\24\26\30\32\34\36\2\3\3\2\17\20\2\u0091\2#\3"+
-		"\2\2\2\4(\3\2\2\2\6-\3\2\2\2\b;\3\2\2\2\n=\3\2\2\2\fG\3\2\2\2\16Q\3\2"+
-		"\2\2\20U\3\2\2\2\22[\3\2\2\2\24^\3\2\2\2\26h\3\2\2\2\30~\3\2\2\2\32\u0081"+
+		"\21\2\4\6\b\n\f\16\20\22\24\26\30\32\34\36\2\3\3\2EF\2\u0091\2#\3\2\2"+
+		"\2\4(\3\2\2\2\6-\3\2\2\2\b;\3\2\2\2\n=\3\2\2\2\fG\3\2\2\2\16Q\3\2\2\2"+
+		"\20U\3\2\2\2\22[\3\2\2\2\24^\3\2\2\2\26h\3\2\2\2\30~\3\2\2\2\32\u0081"+
 		"\3\2\2\2\34\u0083\3\2\2\2\36\u008b\3\2\2\2 \"\5\4\3\2! \3\2\2\2\"%\3\2"+
 		"\2\2#!\3\2\2\2#$\3\2\2\2$&\3\2\2\2%#\3\2\2\2&\'\7\2\2\3\'\3\3\2\2\2()"+
-		"\7\4\2\2)+\7\21\2\2*,\5\6\4\2+*\3\2\2\2+,\3\2\2\2,\5\3\2\2\2-\61\7\13"+
-		"\2\2.\60\5\b\5\2/.\3\2\2\2\60\63\3\2\2\2\61/\3\2\2\2\61\62\3\2\2\2\62"+
-		"\64\3\2\2\2\63\61\3\2\2\2\64\65\7\f\2\2\65\7\3\2\2\2\66<\5\n\6\2\67<\5"+
-		"\f\7\28<\5\20\t\29<\5\16\b\2:<\5\26\f\2;\66\3\2\2\2;\67\3\2\2\2;8\3\2"+
-		"\2\2;9\3\2\2\2;:\3\2\2\2<\t\3\2\2\2=>\7\3\2\2>B\7\13\2\2?A\5\b\5\2@?\3"+
-		"\2\2\2AD\3\2\2\2B@\3\2\2\2BC\3\2\2\2CE\3\2\2\2DB\3\2\2\2EF\7\f\2\2F\13"+
-		"\3\2\2\2GH\7\5\2\2HL\7\13\2\2IK\5\b\5\2JI\3\2\2\2KN\3\2\2\2LJ\3\2\2\2"+
-		"LM\3\2\2\2MO\3\2\2\2NL\3\2\2\2OP\7\f\2\2P\r\3\2\2\2QR\5\26\f\2RS\7\b\2"+
-		"\2ST\5\26\f\2T\17\3\2\2\2UV\7\7\2\2VY\5\22\n\2WX\7\b\2\2XZ\5\26\f\2YW"+
-		"\3\2\2\2YZ\3\2\2\2Z\21\3\2\2\2[\\\7\21\2\2\\]\5\24\13\2]\23\3\2\2\2^_"+
-		"\7\21\2\2_\25\3\2\2\2`a\b\f\1\2ab\7\t\2\2bc\5\26\f\2cd\7\n\2\2di\3\2\2"+
-		"\2ei\5\36\20\2fi\7\6\2\2gi\7\21\2\2h`\3\2\2\2he\3\2\2\2hf\3\2\2\2hg\3"+
-		"\2\2\2i{\3\2\2\2jk\f\t\2\2km\7\t\2\2ln\5\34\17\2ml\3\2\2\2mn\3\2\2\2n"+
-		"o\3\2\2\2oz\7\n\2\2pr\f\b\2\2qs\5\30\r\2rq\3\2\2\2st\3\2\2\2tr\3\2\2\2"+
-		"tu\3\2\2\2uz\3\2\2\2vw\f\7\2\2wx\7\r\2\2xz\7\21\2\2yj\3\2\2\2yp\3\2\2"+
-		"\2yv\3\2\2\2z}\3\2\2\2{y\3\2\2\2{|\3\2\2\2|\27\3\2\2\2}{\3\2\2\2~\177"+
-		"\5\32\16\2\177\u0080\5\26\f\2\u0080\31\3\2\2\2\u0081\u0082\7\21\2\2\u0082"+
-		"\33\3\2\2\2\u0083\u0088\5\26\f\2\u0084\u0085\7\16\2\2\u0085\u0087\5\26"+
-		"\f\2\u0086\u0084\3\2\2\2\u0087\u008a\3\2\2\2\u0088\u0086\3\2\2\2\u0088"+
-		"\u0089\3\2\2\2\u0089\35\3\2\2\2\u008a\u0088\3\2\2\2\u008b\u008c\t\2\2"+
-		"\2\u008c\37\3\2\2\2\17#+\61;BLYhmty{\u0088";
+		"\7!\2\2)+\7G\2\2*,\5\6\4\2+*\3\2\2\2+,\3\2\2\2,\5\3\2\2\2-\61\7A\2\2."+
+		"\60\5\b\5\2/.\3\2\2\2\60\63\3\2\2\2\61/\3\2\2\2\61\62\3\2\2\2\62\64\3"+
+		"\2\2\2\63\61\3\2\2\2\64\65\7B\2\2\65\7\3\2\2\2\66<\5\n\6\2\67<\5\f\7\2"+
+		"8<\5\20\t\29<\5\16\b\2:<\5\26\f\2;\66\3\2\2\2;\67\3\2\2\2;8\3\2\2\2;9"+
+		"\3\2\2\2;:\3\2\2\2<\t\3\2\2\2=>\7\3\2\2>B\7A\2\2?A\5\b\5\2@?\3\2\2\2A"+
+		"D\3\2\2\2B@\3\2\2\2BC\3\2\2\2CE\3\2\2\2DB\3\2\2\2EF\7B\2\2F\13\3\2\2\2"+
+		"GH\7\60\2\2HL\7A\2\2IK\5\b\5\2JI\3\2\2\2KN\3\2\2\2LJ\3\2\2\2LM\3\2\2\2"+
+		"MO\3\2\2\2NL\3\2\2\2OP\7B\2\2P\r\3\2\2\2QR\5\26\f\2RS\7>\2\2ST\5\26\f"+
+		"\2T\17\3\2\2\2UV\7\65\2\2VY\5\22\n\2WX\7>\2\2XZ\5\26\f\2YW\3\2\2\2YZ\3"+
+		"\2\2\2Z\21\3\2\2\2[\\\7G\2\2\\]\5\24\13\2]\23\3\2\2\2^_\7G\2\2_\25\3\2"+
+		"\2\2`a\b\f\1\2ab\7?\2\2bc\5\26\f\2cd\7@\2\2di\3\2\2\2ei\5\36\20\2fi\7"+
+		"\63\2\2gi\7G\2\2h`\3\2\2\2he\3\2\2\2hf\3\2\2\2hg\3\2\2\2i{\3\2\2\2jk\f"+
+		"\t\2\2km\7?\2\2ln\5\34\17\2ml\3\2\2\2mn\3\2\2\2no\3\2\2\2oz\7@\2\2pr\f"+
+		"\b\2\2qs\5\30\r\2rq\3\2\2\2st\3\2\2\2tr\3\2\2\2tu\3\2\2\2uz\3\2\2\2vw"+
+		"\f\7\2\2wx\7C\2\2xz\7G\2\2yj\3\2\2\2yp\3\2\2\2yv\3\2\2\2z}\3\2\2\2{y\3"+
+		"\2\2\2{|\3\2\2\2|\27\3\2\2\2}{\3\2\2\2~\177\5\32\16\2\177\u0080\5\26\f"+
+		"\2\u0080\31\3\2\2\2\u0081\u0082\7G\2\2\u0082\33\3\2\2\2\u0083\u0088\5"+
+		"\26\f\2\u0084\u0085\7D\2\2\u0085\u0087\5\26\f\2\u0086\u0084\3\2\2\2\u0087"+
+		"\u008a\3\2\2\2\u0088\u0086\3\2\2\2\u0088\u0089\3\2\2\2\u0089\35\3\2\2"+
+		"\2\u008a\u0088\3\2\2\2\u008b\u008c\t\2\2\2\u008c\37\3\2\2\2\17#+\61;B"+
+		"LYhmty{\u0088";
 	public static final ATN _ATN =
 		new ATNDeserializer().deserialize(_serializedATN.toCharArray());
 	static {
