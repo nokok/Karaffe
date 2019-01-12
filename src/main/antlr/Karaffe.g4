@@ -14,7 +14,6 @@ typeDefBody
 
 statement
   : entryPointBlock
-  | printFunction
   | initBlock
   | varDef
   | assign
@@ -40,13 +39,13 @@ varDef
 // Expr
 
 expr
-  : lit=literal
-  | id=Identifier
-  | t=THIS
-  | function=expr LPAREN args=exprList? RPAREN
+  : function=expr LPAREN args=exprList? RPAREN
   | left=expr right=opExpr+
   | target=expr DOT name=Identifier
   | LPAREN inExpr=expr RPAREN
+  | lit=literal
+  | t=THIS
+  | id=Identifier
   ;
 
 opExpr
@@ -61,27 +60,13 @@ exprList
   : expr (COMMA expr)*
   ;
 
-atom
-  : lit=literal
-  | t=THIS
-  | idt=Identifier DOT t=THIS
-  | id=Identifier
-  ;
-
 literal
   : StringLiteral
   | IntegerLiteral
   ;
 
-// ====
-
-printFunction
-  : PRINT LPAREN body=expr? RPAREN
-  ;
-
 ENTRYPOINT: 'entrypoint';
 CLASS: 'class';
-PRINT: 'print';
 INIT: 'init';
 THIS: 'this';
 DEF: 'def';

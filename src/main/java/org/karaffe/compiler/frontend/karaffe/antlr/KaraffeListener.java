@@ -128,16 +128,6 @@ public interface KaraffeListener extends ParseTreeListener {
 	 */
 	void exitExprList(KaraffeParser.ExprListContext ctx);
 	/**
-	 * Enter a parse tree produced by {@link KaraffeParser#atom}.
-	 * @param ctx the parse tree
-	 */
-	void enterAtom(KaraffeParser.AtomContext ctx);
-	/**
-	 * Exit a parse tree produced by {@link KaraffeParser#atom}.
-	 * @param ctx the parse tree
-	 */
-	void exitAtom(KaraffeParser.AtomContext ctx);
-	/**
 	 * Enter a parse tree produced by {@link KaraffeParser#literal}.
 	 * @param ctx the parse tree
 	 */
@@ -147,14 +137,4 @@ public interface KaraffeListener extends ParseTreeListener {
 	 * @param ctx the parse tree
 	 */
 	void exitLiteral(KaraffeParser.LiteralContext ctx);
-	/**
-	 * Enter a parse tree produced by {@link KaraffeParser#printFunction}.
-	 * @param ctx the parse tree
-	 */
-	void enterPrintFunction(KaraffeParser.PrintFunctionContext ctx);
-	/**
-	 * Exit a parse tree produced by {@link KaraffeParser#printFunction}.
-	 * @param ctx the parse tree
-	 */
-	void exitPrintFunction(KaraffeParser.PrintFunctionContext ctx);
 }
