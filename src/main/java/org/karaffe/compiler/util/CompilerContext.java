@@ -1,13 +1,13 @@
 package org.karaffe.compiler.util;
 
+import org.karaffe.compiler.tree.NodeType;
+import org.karaffe.compiler.tree.Tree;
 import org.karaffe.compiler.util.args.ArgsParser;
 import org.karaffe.compiler.util.args.Flag;
 import org.karaffe.compiler.util.args.Options;
 import org.karaffe.compiler.util.args.ParameterName;
 import org.karaffe.compiler.util.report.Report;
 import org.karaffe.compiler.util.report.ReportFormatter;
-import org.karaffe.compiler.tree.NodeType;
-import org.karaffe.compiler.tree.Tree;
 
 import java.nio.file.Path;
 import java.util.ArrayList;

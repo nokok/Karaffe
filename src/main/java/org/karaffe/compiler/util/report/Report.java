@@ -17,17 +17,14 @@ public class Report {
     return new Builder(reportCode.toTitleName(), reportCode.toReportType());
   }
 
-  @Deprecated
   public static Report.Builder newErrorReport(String title) {
     return new Builder(title, ReportType.ERROR);
   }
 
-  @Deprecated
   public static Report.Builder newWarningReport(String title) {
     return new Builder(title, ReportType.WARN);
   }
 
-  @Deprecated
   public static Report.Builder newInfoReport(String title) {
     return new Builder(title, ReportType.INFO);
   }

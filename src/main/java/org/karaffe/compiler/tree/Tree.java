@@ -102,6 +102,10 @@ public class Tree {
     }
   }
 
+  public <R> R applyRule(Rule<R> rule) {
+    return rule.apply(this);
+  }
+
   @Override
   public String toString() {
     return String.format("%s (\"%s\", %s)", this.nodeType.name(), this.name, this.children);

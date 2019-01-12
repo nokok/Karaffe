@@ -155,25 +155,6 @@ public class KaraffeASTCreateVisitor extends KaraffeBaseVisitor<Tree> {
     return tree;
   }
 
-  @Override
-  public Tree visitPrintFunction(KaraffeParser.PrintFunctionContext ctx) {
-    Tree tree = new Tree(NodeType.Apply, new Position(ctx));
-    Tree select = new Tree(NodeType.Select, new Position(ctx));
-    select.addChild(new Tree(NodeType.Identifier, "print", new Position(ctx.PRINT().getSymbol())));
-    tree.addChild(select);
-    Tree arguments;
-    if (ctx.body == null) {
-      arguments = new Tree(Arguments, new Position(ctx));
-    } else {
-      arguments = new Tree(Arguments, new Position(ctx.body));
-      Tree argument = new Tree(NodeType.Argument, new Position(ctx.body));
-      argument.addChild(ctx.body.accept(this));
-      arguments.addChild(argument);
-    }
-    tree.addChild(arguments);
-    return tree;
-  }
-
   public Tree visitLiteral(KaraffeParser.LiteralContext ctx) {
     Tree tree;
     if (ctx.IntegerLiteral() != null) {

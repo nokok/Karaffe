@@ -13,6 +13,10 @@ public enum ReportCode {
   ERR_DUPLICATE_PARAMETER("duplicate_parameter"),
   ERR_DUPLICATE_FLAG("duplicate_flag"),
   ERR_NAME_VALIDATION_FAILED("name_validation_failed"),
+  ERR_CLASS_NOT_FOUND("class_not_found"),
+  ERR_INVALID_INHERITANCE_UNEXPECTED_INTERFACE("invalid_inheritance.unexpected_interface"),
+  ERR_INVALID_INHERITANCE_FINAL_CLASS("invalid_inheritance.final_class"),
+  ERR_INVALID_INHERITANCE_ARRAY_TYPE("invalid_inheritance.array_type"),
 
   WARN_CLASSNAME_IS_NOT_PASCALCASE("classname_is_not_pascalcase"),
   WARN_NAME_VALIDATION("name_validation_warning"),
