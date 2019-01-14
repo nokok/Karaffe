@@ -29,11 +29,11 @@ initBlock
   ;
 
 assign
-  : target=expr BIND initializer=expr
+  : target=expr '=' initializer=expr
   ;
 
 varDef
-  : DEF binding (BIND initializer=expr)?
+  : DEF binding ('=' initializer=expr)?
   ;
 
 binding
@@ -132,7 +132,6 @@ DO: 'do';
 IF: 'if';
 IN: 'in';
 IS: 'is';
-BIND: ':=';
 LPAREN: '(';
 RPAREN: ')';
 LBRACE: '{';
@@ -157,6 +156,8 @@ StringChar
 Identifier
   : Letter LetterOrDigit*
   | OperatorChar+
+  | '...'
+  | '..<'
   ;
 
 fragment
