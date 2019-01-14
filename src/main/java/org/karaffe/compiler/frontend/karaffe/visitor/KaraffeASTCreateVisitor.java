@@ -18,6 +18,7 @@ import static org.karaffe.compiler.tree.NodeType.Identifier;
 import static org.karaffe.compiler.tree.NodeType.Modifiers;
 import static org.karaffe.compiler.tree.NodeType.Parameters;
 import static org.karaffe.compiler.tree.NodeType.TypeName;
+import static org.karaffe.compiler.tree.NodeType.VarName;
 
 public class KaraffeASTCreateVisitor extends KaraffeBaseVisitor<Tree> {
 
@@ -117,7 +118,7 @@ public class KaraffeASTCreateVisitor extends KaraffeBaseVisitor<Tree> {
       apply.addChild(arguments);
       return apply;
     } else if (ctx.id != null) {
-      Tree id = new Tree(Identifier, ctx.id.getText(), new Position(ctx));
+      Tree id = new Tree(VarName, ctx.id.getText(), new Position(ctx));
       return id;
     } else {
       throw new IllegalStateException();
@@ -125,6 +126,7 @@ public class KaraffeASTCreateVisitor extends KaraffeBaseVisitor<Tree> {
   }
 
   @Override
+
   public Tree visitEntryPointBlock(KaraffeParser.EntryPointBlockContext ctx) {
     Tree tree = new Tree(NodeType.DefMethod, new Position(ctx));
     tree.addChild(new Tree(Identifier, "main", new Position(ctx)));
@@ -156,8 +158,10 @@ public class KaraffeASTCreateVisitor extends KaraffeBaseVisitor<Tree> {
     Tree binding = ctx.binding().accept(this);
     binding.dig(Identifier).ifPresent(tree::addChild);
     binding.dig(TypeName).ifPresent(tree::addChild);
-    if (ctx.initializer != null) {
-      ctx.initializer.accept(this);
+    if (ctx.expr() != null) {
+      Tree body = new Tree(Body, new Position(ctx.expr()));
+      body.addChild(ctx.expr().accept(this));
+      tree.addChild(body);
     }
     return tree;
   }
@@ -182,7 +186,7 @@ public class KaraffeASTCreateVisitor extends KaraffeBaseVisitor<Tree> {
 
   @Override
   public Tree visitInitBlock(KaraffeParser.InitBlockContext ctx) {
-    Tree constructor = new Tree(NodeType.Constructor, new Position(ctx));
+    Tree constructor = new Tree(NodeType.DefConstructor, new Position(ctx));
     Tree modifiers = new Tree(Modifiers, new Position(ctx));
     Tree parameters = new Tree(Parameters, new Position(ctx));
     Tree body = new Tree(Body, new Position(ctx));
