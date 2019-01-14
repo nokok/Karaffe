@@ -2,7 +2,7 @@ package org.karaffe.unittests
 
 import org.karaffe.compiler.tree.NodeType
 import org.karaffe.compiler.tree.Tree
-import org.karaffe.compiler.tree.walker.TreeWalkerAdapter
+import org.karaffe.compiler.tree.walker.TreeWalker
 import spock.lang.Specification
 import spock.lang.Unroll
 
@@ -21,7 +21,7 @@ class TreeWalkerSpec extends Specification {
 
   def "walk order"() {
     setup:
-    def walker = new TreeWalkerAdapter() {
+    def walker = new TreeWalker() {
       @Override
       void onApply(Tree tree) {
 
@@ -43,7 +43,7 @@ class TreeWalkerSpec extends Specification {
   def "bailout"() {
     setup:
     def count = 0
-    def walker = new TreeWalkerAdapter() {
+    def walker = new TreeWalker() {
       @Override
       void onApply(Tree tree) {
         assert false
@@ -74,7 +74,7 @@ class TreeWalkerSpec extends Specification {
   @Unroll
   def "testImpl"() {
     setup:
-    def walker = new TreeWalkerAdapter() {}
+    def walker = new TreeWalker() {}
 
     when:
     walker.walk(new Tree(nodeType))

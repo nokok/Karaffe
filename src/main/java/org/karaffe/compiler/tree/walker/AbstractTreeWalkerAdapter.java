@@ -2,7 +2,11 @@ package org.karaffe.compiler.tree.walker;
 
 import org.karaffe.compiler.tree.Tree;
 
-public abstract class TreeWalkerAdapter extends TreeWalker {
+public class AbstractTreeWalkerAdapter extends AbstractTreeWalker {
+  @Override
+  public void onVarName(Tree tree) {
+
+  }
 
   @Override
   public void onException(Tree tree, Exception e) {

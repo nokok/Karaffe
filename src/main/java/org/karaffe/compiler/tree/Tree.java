@@ -1,7 +1,7 @@
 package org.karaffe.compiler.tree;
 
-import org.karaffe.compiler.tree.query.TreeQuery;
 import org.karaffe.compiler.tree.processor.Processor;
+import org.karaffe.compiler.tree.query.TreeQuery;
 import org.karaffe.compiler.util.Position;
 
 import java.util.ArrayList;
@@ -80,6 +80,11 @@ public class Tree {
   public Optional<Tree> dig(NodeType... simpleQuery) {
     TreeQuery treeQuery = TreeQuery.buildFrom(simpleQuery);
     return treeQuery.executeChildren(this);
+  }
+
+  public Tree forceDig(NodeType... simpleQuery) {
+    TreeQuery treeQuery = TreeQuery.buildFrom(simpleQuery);
+    return treeQuery.executeChildren(this).orElseThrow(IllegalStateException::new);
   }
 
   public Optional<Tree> climb(NodeType simpleQuery) {
