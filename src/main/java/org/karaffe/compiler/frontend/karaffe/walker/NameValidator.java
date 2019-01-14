@@ -1,17 +1,17 @@
 package org.karaffe.compiler.frontend.karaffe.walker;
 
-import org.karaffe.compiler.tree.walker.TreeWalkerAdapter;
-import org.karaffe.compiler.util.report.Report;
-import org.karaffe.compiler.util.report.ReportCode;
 import org.karaffe.compiler.tree.NodeType;
 import org.karaffe.compiler.tree.Tree;
+import org.karaffe.compiler.tree.walker.TreeWalker;
 import org.karaffe.compiler.util.ClassNameValidator;
 import org.karaffe.compiler.util.CompilerContext;
 import org.karaffe.compiler.util.NameValidationResult;
+import org.karaffe.compiler.util.report.Report;
+import org.karaffe.compiler.util.report.ReportCode;
 
 import java.util.Objects;
 
-public class NameValidator extends TreeWalkerAdapter {
+public class NameValidator extends TreeWalker {
 
   private final ClassNameValidator classNameValidator = new ClassNameValidator();
   private CompilerContext context;

@@ -12,7 +12,7 @@ public enum NodeType {
   BinOp,
   Binding,
   Body,
-  Constructor,
+  DefConstructor,
   DefClass,
   DefMethod,
   DefVar,
@@ -28,13 +28,22 @@ public enum NodeType {
   Select,
   SuperClass,
   This,
-  TypeName,
+
   StringLiteral,
   IntLiteral,
-  
+
+  // Reference
+  TypeName,
+  VarName,
+
+  // TypedTree
+  TypedTree,
+  PackageName,
+  ClassName,
+  PrimitiveTypeName,
+
   // misc
 
   Error,
-
   ;
 }

@@ -66,10 +66,14 @@ public abstract class AbstractTreeWalker {
       onArrayTypeName(tree);
     } else if (tree.getNodeType() == NodeType.Binding) {
       onBinding(tree);
+    } else if (tree.getNodeType() == NodeType.VarName) {
+      onVarName(tree);
     } else {
       throw new IllegalStateException(tree.getNodeType().name());
     }
   }
+
+  public abstract void onVarName(Tree tree);
 
   public abstract void onException(Tree tree, Exception e);
 

@@ -2,7 +2,7 @@ package org.karaffe.compiler.tree.walker;
 
 import org.karaffe.compiler.tree.Tree;
 
-public abstract class TreeWalker extends AbstractTreeWalker {
+public abstract class TreeWalker extends AbstractTreeWalkerAdapter {
 
   public final void walk(Tree tree) {
     try {

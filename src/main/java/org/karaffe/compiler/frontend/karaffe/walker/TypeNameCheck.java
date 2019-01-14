@@ -2,7 +2,7 @@ package org.karaffe.compiler.frontend.karaffe.walker;
 
 import org.karaffe.compiler.tree.NodeType;
 import org.karaffe.compiler.tree.Tree;
-import org.karaffe.compiler.tree.walker.TreeWalkerAdapter;
+import org.karaffe.compiler.tree.walker.TreeWalker;
 import org.karaffe.compiler.util.CompilerContext;
 import org.karaffe.compiler.util.report.Report;
 import org.karaffe.compiler.util.report.ReportCode;
@@ -10,7 +10,7 @@ import org.karaffe.compiler.util.report.ReportCode;
 import java.lang.reflect.Modifier;
 import java.util.Optional;
 
-public class TypeNameCheck extends TreeWalkerAdapter {
+public class TypeNameCheck extends TreeWalker {
   private final CompilerContext context;
 
   public TypeNameCheck(CompilerContext context) {

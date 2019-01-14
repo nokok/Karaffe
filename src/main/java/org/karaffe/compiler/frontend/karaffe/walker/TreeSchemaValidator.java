@@ -1,7 +1,7 @@
 package org.karaffe.compiler.frontend.karaffe.walker;
 
 import org.karaffe.compiler.tree.Tree;
-import org.karaffe.compiler.tree.walker.TreeWalkerAdapter;
+import org.karaffe.compiler.tree.walker.TreeWalker;
 
 import static org.karaffe.compiler.tree.NodeType.Arguments;
 import static org.karaffe.compiler.tree.NodeType.ArrayTypeName;
@@ -19,8 +19,9 @@ import static org.karaffe.compiler.tree.NodeType.Select;
 import static org.karaffe.compiler.tree.NodeType.SourceFile;
 import static org.karaffe.compiler.tree.NodeType.SuperClass;
 import static org.karaffe.compiler.tree.NodeType.TypeName;
+import static org.karaffe.compiler.tree.NodeType.VarName;
 
-public class TreeSchemaValidator extends TreeWalkerAdapter {
+public class TreeSchemaValidator extends TreeWalker {
 
   @Override
   public void onEveryTree(Tree tree) {
@@ -123,7 +124,7 @@ public class TreeSchemaValidator extends TreeWalkerAdapter {
 
   @Override
   public void onApply(Tree tree) {
-    assert tree.indexOf(Select) == 0 || tree.indexOf(Identifier) == 0 : tree.toString();
+    assert tree.indexOf(Select) == 0 || tree.indexOf(VarName) == 0 : tree.toString();
     assert tree.indexOf(Arguments) == 1 : tree.toString();
     assert tree.getChildren().size() == 2 : tree.toString();
   }
@@ -203,6 +204,12 @@ public class TreeSchemaValidator extends TreeWalkerAdapter {
     assert tree.indexOf(Modifiers) == 0 : tree.toString();
     assert tree.indexOf(Parameters) == 1 : tree.toString();
     assert tree.indexOf(Body) == 2 : tree.toString();
+  }
+
+  @Override
+  public void onVarName(Tree tree) {
+    assert !tree.getName().isEmpty();
+    assert tree.getChildren().isEmpty();
   }
 
   @Override
