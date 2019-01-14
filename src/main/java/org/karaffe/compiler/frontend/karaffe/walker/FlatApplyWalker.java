@@ -2,32 +2,90 @@ package org.karaffe.compiler.frontend.karaffe.walker;
 
 import org.karaffe.compiler.tree.NodeType;
 import org.karaffe.compiler.tree.Tree;
-import org.karaffe.compiler.tree.walker.TreeWalkerAdapter;
+import org.karaffe.compiler.tree.walker.TreeWalker;
 
 import java.util.ArrayDeque;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 import java.util.Stack;
 
-public class FlatApplyWalker extends TreeWalkerAdapter {
+public class FlatApplyWalker extends TreeWalker {
 
-  private final int HIGHEST_PRECEDENCE = 10;
-  private final int LOWEST_PRECEDENCE = 1000;
-  private Map<String, Integer> operatorPrecedences = new HashMap<>();
+  private final int HIGHEST_PRECEDENCE = 0;
+  private final int LOWEST_PRECEDENCE = Integer.MAX_VALUE;
+  private Map<String, Integer> builtInOperators = new HashMap<>();
+  private Set<String> rightAssoc = new HashSet<>();
+  private Set<String> noAssoc = new HashSet<>();
+  private Map<String, Integer> userDefinedOperators = new HashMap<>();
 
   public FlatApplyWalker() {
-    operatorPrecedences.put("*", 100);
-    operatorPrecedences.put("/", 100);
-    operatorPrecedences.put("%", 100);
-    operatorPrecedences.put("+", 120);
-    operatorPrecedences.put("-", 120);
-    operatorPrecedences.put("!", 130);
-    operatorPrecedences.put(">", 140);
-    operatorPrecedences.put("<", 140);
-    operatorPrecedences.put("&", 150);
-    operatorPrecedences.put("^", 160);
-    operatorPrecedences.put("|", 170);
+    builtInOperators.put("<<", 100);
+    noAssoc.add("<<");
+    builtInOperators.put(">>", 100);
+    noAssoc.add(">>");
+
+    builtInOperators.put("*", 200);
+    builtInOperators.put("/", 200);
+    builtInOperators.put("%", 200);
+    builtInOperators.put("&", 200);
+
+    builtInOperators.put("+", 300);
+    builtInOperators.put("-", 300);
+    builtInOperators.put("|", 300);
+    builtInOperators.put("^", 300);
+
+    builtInOperators.put("..<", 400);
+    noAssoc.add("..<");
+    builtInOperators.put("...", 400);
+    noAssoc.add("...");
+
+    builtInOperators.put("is", 500);
+    builtInOperators.put("as", 500);
+    builtInOperators.put("as?", 500);
+    builtInOperators.put("as!", 500);
+
+    builtInOperators.put("<", 600);
+    builtInOperators.put("<=", 600);
+    builtInOperators.put(">", 600);
+    builtInOperators.put(">=", 600);
+    builtInOperators.put("==", 600);
+    builtInOperators.put("!=", 600);
+    builtInOperators.put("===", 600);
+    builtInOperators.put("!==", 600);
+
+    builtInOperators.put("&&", 700);
+
+    builtInOperators.put("||", 800);
+
+    builtInOperators.put("@", 850);
+    builtInOperators.put(":", 850);
+    builtInOperators.put("#", 850);
+
+    builtInOperators.put("=", 900);
+    rightAssoc.add("=");
+    builtInOperators.put("*=", 900);
+    rightAssoc.add("*=");
+    builtInOperators.put("/=", 900);
+    rightAssoc.add("/=");
+    builtInOperators.put("%=", 900);
+    rightAssoc.add("%=");
+    builtInOperators.put("+=", 900);
+    rightAssoc.add("+=");
+    builtInOperators.put("-=", 900);
+    rightAssoc.add("-=");
+    builtInOperators.put("<<=", 900);
+    rightAssoc.add("<<=");
+    builtInOperators.put(">>=", 900);
+    rightAssoc.add(">>=");
+    builtInOperators.put("&=", 900);
+    rightAssoc.add("&=");
+    builtInOperators.put("|=", 900);
+    rightAssoc.add("|=");
+    builtInOperators.put("^=", 900);
+    rightAssoc.add("^=");
   }
 
   @Override
@@ -53,7 +111,11 @@ public class FlatApplyWalker extends TreeWalkerAdapter {
           break;
         }
         Tree o2 = stack.peek();
-        if (isHigherOrEqualsPriority(o2.getName(), node.getName())) {
+        if (isHigherOrEqualsPriority(o2.getName(), node.getName()) && isLeftAssoc(node.getName())) {
+          stack.push(node);
+        } else if (isNoAssoc(node.getName())) {
+          stack.push(node);
+        } else if (isRightAssoc(node.getName())) {
           stack.push(node);
         } else {
           while (!stack.empty()) {
@@ -95,9 +157,24 @@ public class FlatApplyWalker extends TreeWalkerAdapter {
     tree.replaceThis(vm.pop());
   }
 
+  private boolean isLeftAssoc(String op) {
+    if (isRightAssoc(op)) {
+      return false;
+    }
+    return !isNoAssoc(op);
+  }
+
+  private boolean isRightAssoc(String op) {
+    return rightAssoc.contains(op);
+  }
+
+  private boolean isNoAssoc(String op) {
+    return noAssoc.contains(op);
+  }
+
   private boolean isHigherOrEqualsPriority(String peek, String expr) {
-    Integer i1 = operatorPrecedences.get(peek.substring(0, 1));
-    Integer i2 = operatorPrecedences.get(expr.substring(0, 1));
+    Integer i1 = builtInOperators.get(peek);
+    Integer i2 = builtInOperators.get(expr);
     if (i1 == null && Character.isAlphabetic(peek.charAt(0))) {
       i1 = LOWEST_PRECEDENCE;
     } else if (i1 == null) {
