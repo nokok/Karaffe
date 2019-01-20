@@ -2,6 +2,7 @@ package org.karaffe.unittests
 
 import org.karaffe.compiler.tree.NodeType
 import org.karaffe.compiler.tree.Tree
+import org.karaffe.compiler.tree.TreeFactory
 import org.karaffe.compiler.tree.walker.TreeWalker
 import spock.lang.Specification
 import spock.lang.Unroll
@@ -11,9 +12,9 @@ class TreeWalkerSpec extends Specification {
   private Tree tree
 
   def setup() {
-    def apply = new Tree(NodeType.Apply)
-    def a = new Tree(NodeType.Identifier, "A")
-    def b = new Tree(NodeType.Identifier, "B")
+    def apply = TreeFactory.newTree(NodeType.Apply)
+    def a = TreeFactory.newTree(NodeType.Identifier, "A")
+    def b = TreeFactory.newTree(NodeType.Identifier, "B")
     apply.addChild(a)
     apply.addChild(b)
     this.tree = apply
@@ -55,9 +56,9 @@ class TreeWalkerSpec extends Specification {
         bailout()
       }
     }
-    def apply = new Tree(NodeType.Apply)
-    def a = new Tree(NodeType.Identifier, "A")
-    def b = new Tree(NodeType.Identifier, "B")
+    def apply = TreeFactory.newTree(NodeType.Apply)
+    def a = TreeFactory.newTree(NodeType.Identifier, "A")
+    def b = TreeFactory.newTree(NodeType.Identifier, "B")
     apply.addChild(a)
     apply.addChild(b)
 
@@ -77,7 +78,7 @@ class TreeWalkerSpec extends Specification {
     def walker = new TreeWalker() {}
 
     when:
-    walker.walk(new Tree(nodeType))
+    walker.walk(TreeFactory.newTree(nodeType))
 
     then:
     notThrown(IllegalStateException)

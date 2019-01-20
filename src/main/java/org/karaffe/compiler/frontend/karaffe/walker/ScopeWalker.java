@@ -3,6 +3,7 @@ package org.karaffe.compiler.frontend.karaffe.walker;
 import org.karaffe.compiler.frontend.karaffe.util.Scope;
 import org.karaffe.compiler.tree.NodeType;
 import org.karaffe.compiler.tree.Tree;
+import org.karaffe.compiler.tree.TreeFactory;
 import org.karaffe.compiler.tree.walker.TopdownTreeWalker;
 import org.karaffe.compiler.util.CompilerContext;
 
@@ -18,9 +19,9 @@ public class ScopeWalker extends TopdownTreeWalker {
   public ScopeWalker(CompilerContext context) {
     this.context = context;
     this.scopes.push(rootScope);
-    rootScope.add("java.lang.Object", new Tree(NodeType.TypeName));
-    rootScope.add("int", new Tree(NodeType.TypeName));
-    rootScope.add("void", new Tree(NodeType.TypeName));
+    rootScope.add("java.lang.Object", TreeFactory.newTree(NodeType.TypeName));
+    rootScope.add("int", TreeFactory.newTree(NodeType.TypeName));
+    rootScope.add("void", TreeFactory.newTree(NodeType.TypeName));
   }
 
   private void createName(String name, Tree tree) {

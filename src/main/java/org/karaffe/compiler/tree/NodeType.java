@@ -37,7 +37,6 @@ public enum NodeType {
   VarName,
 
   // TypedTree
-  TypedTree,
   PackageName,
   ClassName,
   PrimitiveTypeName,

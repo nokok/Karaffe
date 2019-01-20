@@ -2,6 +2,7 @@ package org.karaffe.compiler.frontend.karaffe.walker;
 
 import org.karaffe.compiler.tree.NodeType;
 import org.karaffe.compiler.tree.Tree;
+import org.karaffe.compiler.tree.TreeFactory;
 import org.karaffe.compiler.tree.walker.TreeWalker;
 
 import java.util.ArrayDeque;
@@ -139,12 +140,12 @@ public class FlatApplyWalker extends TreeWalker {
       if (t.getNodeType() == NodeType.BinOp) {
         Tree right = vm.pop();
         Tree left = vm.pop();
-        Tree apply = new Tree(NodeType.Apply, t.getPosition());
-        Tree select = new Tree(NodeType.Select, t.getPosition());
+        Tree apply = TreeFactory.newTree(NodeType.Apply, t.getPosition());
+        Tree select = TreeFactory.newTree(NodeType.Select, t.getPosition());
         select.addChild(t);
         select.addChild(left);
-        Tree arguments = new Tree(NodeType.Arguments, right.getPosition());
-        Tree argument = new Tree(NodeType.Argument, right.getPosition());
+        Tree arguments = TreeFactory.newTree(NodeType.Arguments, right.getPosition());
+        Tree argument = TreeFactory.newTree(NodeType.Argument, right.getPosition());
         argument.addChild(right);
         arguments.addChild(argument);
         apply.addChild(select);

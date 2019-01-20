@@ -2,6 +2,7 @@ package org.karaffe.compiler.util;
 
 import org.karaffe.compiler.tree.NodeType;
 import org.karaffe.compiler.tree.Tree;
+import org.karaffe.compiler.tree.TreeFactory;
 import org.karaffe.compiler.util.args.ArgsParser;
 import org.karaffe.compiler.util.args.Flag;
 import org.karaffe.compiler.util.args.Options;
@@ -27,7 +28,7 @@ public class CompilerContext {
   private List<KaraffeSource> sources = new ArrayList<>();
   private List<Report> reports = new ArrayList<>();
   private Map<Path, byte[]> outputFiles = new HashMap<>();
-  private Tree untypedTree = new Tree(NodeType.Error, Position.noPos());
+  private Tree untypedTree = TreeFactory.newTree(NodeType.Error, Position.noPos());
 
   private boolean hasError = false;
 

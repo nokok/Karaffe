@@ -5,6 +5,7 @@ import org.karaffe.compiler.frontend.karaffe.antlr.KaraffeBaseVisitor;
 import org.karaffe.compiler.frontend.karaffe.antlr.KaraffeParser;
 import org.karaffe.compiler.tree.NodeType;
 import org.karaffe.compiler.tree.Tree;
+import org.karaffe.compiler.tree.TreeFactory;
 import org.karaffe.compiler.util.CompilerContext;
 import org.karaffe.compiler.util.Position;
 
@@ -24,12 +25,12 @@ public class KaraffeASTCreateVisitor extends KaraffeBaseVisitor<Tree> {
 
   private final CompilerContext context;
   private final Tree compilationUnit;
-  private Tree moduleTree = new Tree(NodeType.Module, Position.noPos());
-  private Tree packageTree = new Tree(NodeType.Package, Position.noPos());
+  private Tree moduleTree = TreeFactory.newTree(NodeType.Module, Position.noPos());
+  private Tree packageTree = TreeFactory.newTree(NodeType.Package, Position.noPos());
 
   public KaraffeASTCreateVisitor(CompilerContext context) {
     this.context = context;
-    this.compilationUnit = new Tree(NodeType.CompilationUnit, Position.noPos());
+    this.compilationUnit = TreeFactory.newTree(NodeType.CompilationUnit, Position.noPos());
   }
 
   public Tree getCompilationUnit() {
@@ -40,9 +41,9 @@ public class KaraffeASTCreateVisitor extends KaraffeBaseVisitor<Tree> {
 
   @Override
   public Tree visitSourceFile(KaraffeParser.SourceFileContext ctx) {
-    Tree tree = new Tree(NodeType.SourceFile, new Position(ctx));
+    Tree tree = TreeFactory.newTree(NodeType.SourceFile, new Position(ctx));
     String sourceName = ctx.EOF().getSymbol().getInputStream().getSourceName();
-    tree.addChild(new Tree(Identifier, sourceName, new Position(ctx)));
+    tree.addChild(TreeFactory.newTree(Identifier, sourceName, new Position(ctx)));
     for (KaraffeParser.ClassDefContext classDefContext : ctx.classDef()) {
       Tree contextTree = classDefContext.accept(this);
       tree.addChild(contextTree);
@@ -53,19 +54,19 @@ public class KaraffeASTCreateVisitor extends KaraffeBaseVisitor<Tree> {
 
   @Override
   public Tree visitClassDef(KaraffeParser.ClassDefContext ctx) {
-    Tree tree = new Tree(NodeType.DefClass, new Position(ctx));
+    Tree tree = TreeFactory.newTree(NodeType.DefClass, new Position(ctx));
     TerminalNode identifier = ctx.Identifier();
     if (identifier == null) {
-      return new Tree(NodeType.Error);
+      return TreeFactory.newTree(NodeType.Error);
     }
-    tree.addChild(new Tree(Identifier, identifier.getText(), new Position(identifier.getSymbol())));
-    Tree superClass = new Tree(NodeType.SuperClass, new Position(ctx));
-    superClass.addChild(new Tree(NodeType.TypeName, "java.lang.Object", new Position(ctx)));
+    tree.addChild(TreeFactory.newTree(Identifier, identifier.getText(), new Position(identifier.getSymbol())));
+    Tree superClass = TreeFactory.newTree(NodeType.SuperClass, new Position(ctx));
+    superClass.addChild(TreeFactory.newTree(NodeType.TypeName, "java.lang.Object", new Position(ctx)));
     tree.addChild(superClass);
-    Tree modifiers = new Tree(NodeType.Modifiers, new Position(ctx));
-    modifiers.addChild(new Tree(NodeType.Modifier, "public", new Position(ctx)));
+    Tree modifiers = TreeFactory.newTree(NodeType.Modifiers, new Position(ctx));
+    modifiers.addChild(TreeFactory.newTree(NodeType.Modifier, "public", new Position(ctx)));
     tree.addChild(modifiers);
-    Tree body = new Tree(NodeType.Body, new Position(ctx));
+    Tree body = TreeFactory.newTree(NodeType.Body, new Position(ctx));
     if (ctx.typeDefBody() != null) {
       List<KaraffeParser.StatementContext> statements = ctx.typeDefBody().statement();
       for (KaraffeParser.StatementContext statement : statements) {
@@ -83,9 +84,9 @@ public class KaraffeASTCreateVisitor extends KaraffeBaseVisitor<Tree> {
       //literal
       return ctx.literal().accept(this);
     } else if (ctx.t != null) {
-      return new Tree(NodeType.This, new Position(ctx.t));
+      return TreeFactory.newTree(NodeType.This, new Position(ctx.t));
     } else if (ctx.left != null) {
-      Tree tmpApply = new Tree(NodeType.FlatApply, new Position(ctx));
+      Tree tmpApply = TreeFactory.newTree(NodeType.FlatApply, new Position(ctx));
       tmpApply.addChild(ctx.left.accept(this));
       for (KaraffeParser.OpExprContext opExprContext : ctx.opExpr()) {
         tmpApply.addChild(opExprContext.op.accept(this));
@@ -100,17 +101,17 @@ public class KaraffeASTCreateVisitor extends KaraffeBaseVisitor<Tree> {
     } else if (ctx.target != null) {
       Tree targetTree = ctx.target.accept(this);
       String name = ctx.name.getText();
-      Tree select = new Tree(NodeType.Select, new Position(ctx));
-      select.addChild(new Tree(NodeType.Identifier, name, new Position(ctx.name)));
+      Tree select = TreeFactory.newTree(NodeType.Select, new Position(ctx));
+      select.addChild(TreeFactory.newTree(NodeType.Identifier, name, new Position(ctx.name)));
       select.addChild(targetTree);
       return select;
     } else if (ctx.function != null) {
-      Tree apply = new Tree(NodeType.Apply, new Position(ctx));
+      Tree apply = TreeFactory.newTree(NodeType.Apply, new Position(ctx));
       apply.addChild(ctx.function.accept(this));
-      Tree arguments = new Tree(Arguments, new Position(ctx));
+      Tree arguments = TreeFactory.newTree(Arguments, new Position(ctx));
       if (ctx.args != null) {
         for (KaraffeParser.ExprContext exprContext : ctx.args.expr()) {
-          Tree arg = new Tree(Argument, new Position(exprContext));
+          Tree arg = TreeFactory.newTree(Argument, new Position(exprContext));
           arg.addChild(exprContext.accept(this));
           arguments.addChild(arg);
         }
@@ -118,7 +119,7 @@ public class KaraffeASTCreateVisitor extends KaraffeBaseVisitor<Tree> {
       apply.addChild(arguments);
       return apply;
     } else if (ctx.id != null) {
-      Tree id = new Tree(VarName, ctx.id.getText(), new Position(ctx));
+      Tree id = TreeFactory.newTree(VarName, ctx.id.getText(), new Position(ctx));
       return id;
     } else {
       throw new IllegalStateException();
@@ -128,23 +129,23 @@ public class KaraffeASTCreateVisitor extends KaraffeBaseVisitor<Tree> {
   @Override
 
   public Tree visitEntryPointBlock(KaraffeParser.EntryPointBlockContext ctx) {
-    Tree tree = new Tree(NodeType.DefMethod, new Position(ctx));
-    tree.addChild(new Tree(Identifier, "main", new Position(ctx)));
-    Tree modifiers = new Tree(NodeType.Modifiers, new Position(ctx));
-    modifiers.addChild(new Tree(NodeType.Modifier, "public", new Position(ctx)));
-    modifiers.addChild(new Tree(NodeType.Modifier, "static", new Position(ctx)));
+    Tree tree = TreeFactory.newTree(NodeType.DefMethod, new Position(ctx));
+    tree.addChild(TreeFactory.newTree(Identifier, "main", new Position(ctx)));
+    Tree modifiers = TreeFactory.newTree(NodeType.Modifiers, new Position(ctx));
+    modifiers.addChild(TreeFactory.newTree(NodeType.Modifier, "public", new Position(ctx)));
+    modifiers.addChild(TreeFactory.newTree(NodeType.Modifier, "static", new Position(ctx)));
     tree.addChild(modifiers);
-    Tree returnType = new Tree(NodeType.ReturnType, new Position(ctx));
-    returnType.addChild(new Tree(NodeType.TypeName, "void", new Position(ctx)));
+    Tree returnType = TreeFactory.newTree(NodeType.ReturnType, new Position(ctx));
+    returnType.addChild(TreeFactory.newTree(NodeType.TypeName, "void", new Position(ctx)));
     tree.addChild(returnType);
-    Tree parameters = new Tree(NodeType.Parameters, new Position(ctx));
-    Tree args = new Tree(NodeType.Parameter, new Position(ctx));
-    args.addChild(new Tree(Identifier, "args", new Position(ctx)));
-    args.addChild(new Tree(NodeType.ArrayTypeName, "java.lang.String", new Position(ctx)));
+    Tree parameters = TreeFactory.newTree(NodeType.Parameters, new Position(ctx));
+    Tree args = TreeFactory.newTree(NodeType.Parameter, new Position(ctx));
+    args.addChild(TreeFactory.newTree(Identifier, "args", new Position(ctx)));
+    args.addChild(TreeFactory.newTree(NodeType.ArrayTypeName, "java.lang.String", new Position(ctx)));
     parameters.addChild(args);
     tree.addChild(parameters);
     List<KaraffeParser.StatementContext> statements = ctx.statement();
-    Tree body = new Tree(NodeType.Body, new Position(ctx));
+    Tree body = TreeFactory.newTree(NodeType.Body, new Position(ctx));
     for (KaraffeParser.StatementContext statement : statements) {
       body.addChild(statement.accept(this));
     }
@@ -154,12 +155,12 @@ public class KaraffeASTCreateVisitor extends KaraffeBaseVisitor<Tree> {
 
   @Override
   public Tree visitVarDef(KaraffeParser.VarDefContext ctx) {
-    Tree tree = new Tree(NodeType.DefVar, new Position(ctx));
+    Tree tree = TreeFactory.newTree(NodeType.DefVar, new Position(ctx));
     Tree binding = ctx.binding().accept(this);
     binding.dig(Identifier).ifPresent(tree::addChild);
     binding.dig(TypeName).ifPresent(tree::addChild);
     if (ctx.expr() != null) {
-      Tree body = new Tree(Body, new Position(ctx.expr()));
+      Tree body = TreeFactory.newTree(Body, new Position(ctx.expr()));
       body.addChild(ctx.expr().accept(this));
       tree.addChild(body);
     }
@@ -169,9 +170,9 @@ public class KaraffeASTCreateVisitor extends KaraffeBaseVisitor<Tree> {
   public Tree visitLiteral(KaraffeParser.LiteralContext ctx) {
     Tree tree;
     if (ctx.IntegerLiteral() != null) {
-      tree = new Tree(NodeType.IntLiteral, ctx.IntegerLiteral().getText(), new Position(ctx));
+      tree = TreeFactory.newTree(NodeType.IntLiteral, ctx.IntegerLiteral().getText(), new Position(ctx));
     } else if (ctx.StringLiteral() != null) {
-      tree = new Tree(NodeType.StringLiteral, ctx.StringLiteral().getText(), new Position(ctx));
+      tree = TreeFactory.newTree(NodeType.StringLiteral, ctx.StringLiteral().getText(), new Position(ctx));
 //            tree.addAttribute(new InferredType(String.class));
     } else {
       throw new IllegalArgumentException();
@@ -181,15 +182,15 @@ public class KaraffeASTCreateVisitor extends KaraffeBaseVisitor<Tree> {
 
   @Override
   public Tree visitExprList(KaraffeParser.ExprListContext ctx) {
-    return new Tree(NodeType.Error, new Position(ctx));
+    return TreeFactory.newTree(NodeType.Error, new Position(ctx));
   }
 
   @Override
   public Tree visitInitBlock(KaraffeParser.InitBlockContext ctx) {
-    Tree constructor = new Tree(NodeType.DefConstructor, new Position(ctx));
-    Tree modifiers = new Tree(Modifiers, new Position(ctx));
-    Tree parameters = new Tree(Parameters, new Position(ctx));
-    Tree body = new Tree(Body, new Position(ctx));
+    Tree constructor = TreeFactory.newTree(NodeType.DefConstructor, new Position(ctx));
+    Tree modifiers = TreeFactory.newTree(Modifiers, new Position(ctx));
+    Tree parameters = TreeFactory.newTree(Parameters, new Position(ctx));
+    Tree body = TreeFactory.newTree(Body, new Position(ctx));
     for (KaraffeParser.StatementContext statementContext : ctx.statement()) {
       body.addChild(statementContext.accept(this));
     }
@@ -201,7 +202,7 @@ public class KaraffeASTCreateVisitor extends KaraffeBaseVisitor<Tree> {
 
   @Override
   public Tree visitAssign(KaraffeParser.AssignContext ctx) {
-    Tree assign = new Tree(NodeType.Assign, new Position(ctx));
+    Tree assign = TreeFactory.newTree(NodeType.Assign, new Position(ctx));
     assign.addChild(ctx.target.accept(this));
     assign.addChild(ctx.initializer.accept(this));
     return assign;
@@ -209,14 +210,14 @@ public class KaraffeASTCreateVisitor extends KaraffeBaseVisitor<Tree> {
 
   @Override
   public Tree visitBinaryOperator(KaraffeParser.BinaryOperatorContext ctx) {
-    Tree op = new Tree(NodeType.BinOp, ctx.getText(), new Position(ctx));
+    Tree op = TreeFactory.newTree(NodeType.BinOp, ctx.getText(), new Position(ctx));
     return op;
   }
 
   @Override
   public Tree visitBinding(KaraffeParser.BindingContext ctx) {
-    Tree tree = new Tree(Binding, new Position(ctx));
-    tree.addChild(new Tree(Identifier, ctx.Identifier().getText(), new Position(ctx.Identifier().getSymbol())));
+    Tree tree = TreeFactory.newTree(Binding, new Position(ctx));
+    tree.addChild(TreeFactory.newTree(Identifier, ctx.Identifier().getText(), new Position(ctx.Identifier().getSymbol())));
     tree.addChild(ctx.typeName().accept(this));
     return tree;
   }
@@ -224,7 +225,7 @@ public class KaraffeASTCreateVisitor extends KaraffeBaseVisitor<Tree> {
   @Override
   public Tree visitTypeName(KaraffeParser.TypeNameContext ctx) {
     String typeName = ctx.getText();
-    Tree tree = new Tree(TypeName, typeName, new Position(ctx));
+    Tree tree = TreeFactory.newTree(TypeName, typeName, new Position(ctx));
     return tree;
   }
 }

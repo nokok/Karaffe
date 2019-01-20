@@ -1,8 +1,7 @@
 package org.karaffe.unittests
 
-
 import org.karaffe.compiler.tree.NodeType
-import org.karaffe.compiler.tree.Tree
+import org.karaffe.compiler.tree.TreeFactory
 import org.karaffe.compiler.tree.formatter.SimpleTreeFormatter
 import org.karaffe.compiler.util.Position
 import spock.lang.Specification
@@ -10,7 +9,7 @@ import spock.lang.Specification
 class TreeFormatterSpec extends Specification {
   def "singleNode"() {
     setup:
-    def tree = new Tree(NodeType.CompilationUnit, "A", Position.noPos())
+    def tree = TreeFactory.newTree(NodeType.CompilationUnit, "A", Position.noPos())
     def formatter = new SimpleTreeFormatter()
     def result = formatter.format(tree)
 
@@ -20,9 +19,9 @@ class TreeFormatterSpec extends Specification {
 
   def "singleNodeWithChlidren"() {
     setup:
-    def tree = new Tree(NodeType.CompilationUnit, "C", Position.noPos())
-    tree.addChild(new Tree(NodeType.Apply, "1", Position.noPos()))
-    tree.addChild(new Tree(NodeType.Apply, "2", Position.noPos()))
+    def tree = TreeFactory.newTree(NodeType.CompilationUnit, "C", Position.noPos())
+    tree.addChild(TreeFactory.newTree(NodeType.Apply, "1", Position.noPos()))
+    tree.addChild(TreeFactory.newTree(NodeType.Apply, "2", Position.noPos()))
     def formatter = new SimpleTreeFormatter()
     def result = formatter.format(tree)
 
@@ -34,11 +33,11 @@ class TreeFormatterSpec extends Specification {
 
   def "nestedChildren"() {
     setup:
-    def tree = new Tree(NodeType.CompilationUnit, "C", Position.noPos())
-    def child1 = new Tree(NodeType.Apply, "1", Position.noPos())
-    child1.addChild(new Tree(NodeType.Select, "c", Position.noPos()))
+    def tree = TreeFactory.newTree(NodeType.CompilationUnit, "C", Position.noPos())
+    def child1 = TreeFactory.newTree(NodeType.Apply, "1", Position.noPos())
+    child1.addChild(TreeFactory.newTree(NodeType.Select, "c", Position.noPos()))
     tree.addChild(child1)
-    tree.addChild(new Tree(NodeType.Apply, "2", Position.noPos()))
+    tree.addChild(TreeFactory.newTree(NodeType.Apply, "2", Position.noPos()))
     def formatter = new SimpleTreeFormatter()
     def result = formatter.format(tree)
 
