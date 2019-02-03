@@ -1,7 +1,7 @@
 package org.karaffe.unittests
 
-import org.karaffe.compiler.util.Platform
 import org.karaffe.compiler.util.KaraffeSource
+import org.karaffe.compiler.util.Platform
 import spock.lang.Specification
 
 import java.nio.CharBuffer

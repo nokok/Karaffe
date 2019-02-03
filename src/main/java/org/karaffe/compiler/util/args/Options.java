@@ -56,8 +56,8 @@ public class Options {
     if (o == null || getClass() != o.getClass()) return false;
     Options options = (Options) o;
     return flags.equals(options.flags) &&
-           parameterValues.equals(options.parameterValues) &&
-           sources.equals(options.sources);
+      parameterValues.equals(options.parameterValues) &&
+      sources.equals(options.sources);
   }
 
   @Override
@@ -68,9 +68,9 @@ public class Options {
   @Override
   public String toString() {
     return "Options{" +
-           "flags=" + flags +
-           ", parameterValues=" + parameterValues +
-           ", sources=" + sources +
-           '}';
+      "flags=" + flags +
+      ", parameterValues=" + parameterValues +
+      ", sources=" + sources +
+      '}';
   }
 }

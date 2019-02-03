@@ -11,5 +11,5 @@ public interface TreeFormatter {
     }
   }
 
-  public String format(Tree tree);
+  String format(Tree tree);
 }

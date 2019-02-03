@@ -1,8 +1,8 @@
 package org.karaffe.unittests
 
-import org.karaffe.compiler.util.report.Report
 import org.karaffe.compiler.util.CompilerContext
 import org.karaffe.compiler.util.Position
+import org.karaffe.compiler.util.report.Report
 import spock.lang.Specification
 
 class ReportOutputSpec extends Specification {

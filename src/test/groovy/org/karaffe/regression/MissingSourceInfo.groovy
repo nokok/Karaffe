@@ -1,9 +1,9 @@
 package org.karaffe.regression
 
 import org.karaffe.compiler.KaraffeCompiler
-import org.karaffe.compiler.util.Platform
 import org.karaffe.compiler.util.CompilerContext
 import org.karaffe.compiler.util.KaraffeSource
+import org.karaffe.compiler.util.Platform
 import spock.lang.Specification
 
 import java.nio.file.Paths

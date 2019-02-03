@@ -13,10 +13,6 @@ class SimpleTree implements Tree {
     this.nodeType = Objects.requireNonNull(nodeType);
   }
 
-  void setParent(Tree tree) {
-    this.parent = Objects.requireNonNull(tree);
-  }
-
   @Override
   public NodeType getNodeType() {
     return this.nodeType;
@@ -51,6 +47,10 @@ class SimpleTree implements Tree {
   @Override
   public Tree getParent() {
     return parent;
+  }
+
+  void setParent(Tree tree) {
+    this.parent = Objects.requireNonNull(tree);
   }
 
   @Override

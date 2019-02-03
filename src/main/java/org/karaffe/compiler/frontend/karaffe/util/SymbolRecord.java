@@ -23,6 +23,14 @@ public class SymbolRecord {
     this.type = Objects.requireNonNull(type);
   }
 
+  public static SymbolRecord get(KaraffeModifierType modifier, SymbolType symbolType, Position position, String name, Tree type) {
+    return new SymbolRecord(Collections.singletonList(modifier), symbolType, position, name, type);
+  }
+
+  public static SymbolRecord get(List<KaraffeModifierType> modifiers, SymbolType symbolType, Position position, String name, Tree type) {
+    return new SymbolRecord(modifiers, symbolType, position, name, type);
+  }
+
   public List<KaraffeModifierType> getModifiers() {
     return modifiers;
   }
@@ -58,14 +66,6 @@ public class SymbolRecord {
   @Override
   public int hashCode() {
     return Objects.hash(modifiers, symbolType, position, name, type);
-  }
-
-  public static SymbolRecord get(KaraffeModifierType modifier, SymbolType symbolType, Position position, String name, Tree type) {
-    return new SymbolRecord(Collections.singletonList(modifier), symbolType, position, name, type);
-  }
-
-  public static SymbolRecord get(List<KaraffeModifierType> modifiers, SymbolType symbolType, Position position, String name, Tree type) {
-    return new SymbolRecord(modifiers, symbolType, position, name, type);
   }
 
   @Override

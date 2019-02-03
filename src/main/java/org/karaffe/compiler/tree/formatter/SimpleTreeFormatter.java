@@ -20,10 +20,10 @@ public class SimpleTreeFormatter implements TreeFormatter {
     if (tree.hasChildren()) {
       stringBuilder.append("\n");
       stringBuilder.append(
-      tree.getChildren()
-      .stream()
-      .map(child -> format(indentString + "  ", child))
-      .collect(Collectors.joining("\n")));
+        tree.getChildren()
+          .stream()
+          .map(child -> format(indentString + "  ", child))
+          .collect(Collectors.joining("\n")));
     }
     return stringBuilder.toString();
   }

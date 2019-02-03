@@ -26,7 +26,7 @@ class Util {
     }
   }
 
-  public static KaraffeParser getParser(String source) {
+  static KaraffeParser getParser(String source) {
     def lexer = new KaraffeLexer(CharStreams.fromString(source))
     lexer.addErrorListener(DEFULT_ERROR_LISTENER)
     def parse = new KaraffeParser(new CommonTokenStream(lexer))

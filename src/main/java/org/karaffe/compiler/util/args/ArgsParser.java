@@ -1,8 +1,8 @@
 package org.karaffe.compiler.util.args;
 
+import org.karaffe.compiler.util.KaraffeSource;
 import org.karaffe.compiler.util.report.Report;
 import org.karaffe.compiler.util.report.ReportCode;
-import org.karaffe.compiler.util.KaraffeSource;
 
 import java.io.IOException;
 import java.nio.file.Files;

@@ -31,8 +31,8 @@ public enum ReportCode {
   INFO_AST("emit_ast"),
   ;
 
-  private final String errorKey;
   private static final ResourceBundle bundle = ResourceBundle.getBundle("Message");
+  private final String errorKey;
 
   ReportCode(String errorKey) {
     this.errorKey = errorKey;

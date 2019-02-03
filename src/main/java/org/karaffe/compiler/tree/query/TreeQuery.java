@@ -13,6 +13,10 @@ public class TreeQuery {
     this.paths = paths;
   }
 
+  public static TreeQuery buildFrom(NodeType... simpleQuery) {
+    return new TreeQuery(simpleQuery);
+  }
+
   public Optional<Tree> executeChildren(Tree tree) {
     Tree currentTree = tree;
     try {
@@ -37,9 +41,5 @@ public class TreeQuery {
         return Optional.of(currentTree);
       }
     }
-  }
-
-  public static TreeQuery buildFrom(NodeType... simpleQuery) {
-    return new TreeQuery(simpleQuery);
   }
 }

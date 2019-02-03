@@ -80,10 +80,10 @@ public class Position {
     if (o == null || getClass() != o.getClass()) return false;
     Position position = (Position) o;
     return line == position.line &&
-           endLine == position.endLine &&
-           column == position.column &&
-           endColumn == position.endColumn &&
-           sourceName.equals(position.sourceName);
+      endLine == position.endLine &&
+      column == position.column &&
+      endColumn == position.endColumn &&
+      sourceName.equals(position.sourceName);
   }
 
   @Override

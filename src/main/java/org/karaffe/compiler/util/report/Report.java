@@ -55,8 +55,8 @@ public class Report {
   }
 
   public static class Builder {
-    private String title;
     private final ReportType reportType;
+    private String title;
     private Position position = null;
     private String body;
 
