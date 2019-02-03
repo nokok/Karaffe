@@ -6,6 +6,7 @@ public enum ReportCode {
   ERR_UNKNOWN("unknown"),
   ERR_SYNTAX("syntax"),
   ERR_DUPLICATE_CLASS_DECLARATION("duplicate_class_declaration"),
+  ERR_DUPLICATE_DECLARATION("duplicate_declaration"),
   ERR_UNRECOGNIZED_ARGUMENT("unrecognized_argument"),
   ERR_FILE_NOT_FOUND("file_not_found"),
   ERR_IO_EXCEPTION("io_exception"),
@@ -17,6 +18,10 @@ public enum ReportCode {
   ERR_INVALID_INHERITANCE_UNEXPECTED_INTERFACE("invalid_inheritance.unexpected_interface"),
   ERR_INVALID_INHERITANCE_FINAL_CLASS("invalid_inheritance.final_class"),
   ERR_INVALID_INHERITANCE_ARRAY_TYPE("invalid_inheritance.array_type"),
+  ERR_SYMBOL_NOT_FOUND_CLASS("symbol_not_found.class"),
+  ERR_SYMBOL_NOT_FOUND_METHOD("symbol_not_found.method"),
+  ERR_SYMBOL_NOT_FOUND("symbol_not_found.other"),
+  ERR_SHADOWING_DISABLED("disabled_shadowing"),
 
   WARN_CLASSNAME_IS_NOT_PASCALCASE("classname_is_not_pascalcase"),
   WARN_NAME_VALIDATION("name_validation_warning"),
