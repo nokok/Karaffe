@@ -33,4 +33,37 @@ class ErrorSpec extends Specification {
                             |class A { def i }
                             |                ^""".stripMargin()
   }
+
+  def "duplicate"() {
+    setup:
+    def context = new CompilerContext()
+    context.add(KaraffeSource.fromString("class A\nclass A"))
+    def compiler = new KaraffeCompiler(context)
+    compiler.run()
+
+    expect:
+    context.outputFiles.size() == 0
+    context.outputText == """[ERROR] Duplicate declaration at 2:0:<unknown>
+                            |class A
+                            |~~~~~~^""".stripMargin()
+  }
+
+  def "shadowing"() {
+    setup:
+    def context = new CompilerContext()
+    context.add(KaraffeSource.fromString("""class A {
+                                            |  def i Int = 0
+                                            |  init {
+                                            |    def i Int = 0
+                                            |  }
+                                            }""".stripMargin()))
+    def compiler = new KaraffeCompiler(context)
+    compiler.run()
+
+    expect:
+    context.outputFiles.size() == 0
+    context.outputText == """[ERROR] Shadowing is disabled at 4:4:<unknown>
+                            |    def i Int = 0
+                            |    ~~~~~~~~~~~~^""".stripMargin()
+  }
 }

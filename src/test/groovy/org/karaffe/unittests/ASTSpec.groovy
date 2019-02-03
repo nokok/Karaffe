@@ -19,7 +19,7 @@ class ASTSpec extends Specification {
     def ast = visitor.visit(result)
 
     expect:
-    ast.toString() == 'SourceFile ("", [Identifier ("<unknown>", []), DefClass ("", [Identifier ("A", []), SuperClass ("", [TypeName ("java.lang.Object", [])]), Modifiers ("", [Modifier ("public", [])]), Body ("", [])])])'
+    ast.toString() == 'SourceFile ("", [Identifier ("<unknown>", []), DefClass ("", [Identifier ("A", []), SuperClass ("", [TypeName ("Object", [])]), Modifiers ("", [Modifier ("public", [])]), Body ("", [])])])'
   }
 
   @Unroll
