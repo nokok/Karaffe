@@ -16,6 +16,7 @@ import static org.karaffe.compiler.tree.NodeType.Arguments;
 import static org.karaffe.compiler.tree.NodeType.Binding;
 import static org.karaffe.compiler.tree.NodeType.Body;
 import static org.karaffe.compiler.tree.NodeType.Identifier;
+import static org.karaffe.compiler.tree.NodeType.Modifier;
 import static org.karaffe.compiler.tree.NodeType.Modifiers;
 import static org.karaffe.compiler.tree.NodeType.Parameters;
 import static org.karaffe.compiler.tree.NodeType.TypeName;
@@ -61,7 +62,7 @@ public class KaraffeASTCreateVisitor extends KaraffeBaseVisitor<Tree> {
     }
     tree.addChild(TreeFactory.newTree(Identifier, identifier.getText(), new Position(identifier.getSymbol())));
     Tree superClass = TreeFactory.newTree(NodeType.SuperClass, new Position(ctx));
-    superClass.addChild(TreeFactory.newTree(NodeType.TypeName, "java.lang.Object", new Position(ctx)));
+    superClass.addChild(TreeFactory.newTree(NodeType.TypeName, "Object", new Position(ctx)));
     tree.addChild(superClass);
     Tree modifiers = TreeFactory.newTree(NodeType.Modifiers, new Position(ctx));
     modifiers.addChild(TreeFactory.newTree(NodeType.Modifier, "public", new Position(ctx)));
@@ -136,7 +137,7 @@ public class KaraffeASTCreateVisitor extends KaraffeBaseVisitor<Tree> {
     modifiers.addChild(TreeFactory.newTree(NodeType.Modifier, "static", new Position(ctx)));
     tree.addChild(modifiers);
     Tree returnType = TreeFactory.newTree(NodeType.ReturnType, new Position(ctx));
-    returnType.addChild(TreeFactory.newTree(NodeType.TypeName, "void", new Position(ctx)));
+    returnType.addChild(TreeFactory.newTree(NodeType.TypeName, "Unit", new Position(ctx)));
     tree.addChild(returnType);
     Tree parameters = TreeFactory.newTree(NodeType.Parameters, new Position(ctx));
     Tree args = TreeFactory.newTree(NodeType.Parameter, new Position(ctx));
@@ -189,6 +190,7 @@ public class KaraffeASTCreateVisitor extends KaraffeBaseVisitor<Tree> {
   public Tree visitInitBlock(KaraffeParser.InitBlockContext ctx) {
     Tree constructor = TreeFactory.newTree(NodeType.DefConstructor, new Position(ctx));
     Tree modifiers = TreeFactory.newTree(Modifiers, new Position(ctx));
+    modifiers.addChild(TreeFactory.newTree(Modifier, "public"));
     Tree parameters = TreeFactory.newTree(Parameters, new Position(ctx));
     Tree body = TreeFactory.newTree(Body, new Position(ctx));
     for (KaraffeParser.StatementContext statementContext : ctx.statement()) {
