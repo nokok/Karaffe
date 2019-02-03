@@ -39,6 +39,8 @@ public enum NodeType {
   // TypedTree
   PackageName,
   ClassName,
+  FieldName,
+  MethodName,
   PrimitiveTypeName,
 
   // misc

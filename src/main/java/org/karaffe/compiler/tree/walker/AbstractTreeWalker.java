@@ -68,10 +68,30 @@ public abstract class AbstractTreeWalker {
       onBinding(tree);
     } else if (tree.getNodeType() == NodeType.VarName) {
       onVarName(tree);
+    } else if (tree.getNodeType() == NodeType.PrimitiveTypeName) {
+      onPrimitiveTypeName(tree);
+    } else if (tree.getNodeType() == NodeType.PackageName) {
+      onPackageName(tree);
+    } else if (tree.getNodeType() == NodeType.ClassName) {
+      onClassName(tree);
+    } else if (tree.getNodeType() == NodeType.FieldName) {
+      onFieldName(tree);
+    } else if (tree.getNodeType() == NodeType.MethodName) {
+      onMethodName(tree);
     } else {
       throw new IllegalStateException(tree.getNodeType().name());
     }
   }
+
+  public abstract void onFieldName(Tree tree);
+
+  public abstract void onMethodName(Tree tree);
+
+  public abstract void onPackageName(Tree tree);
+
+  public abstract void onClassName(Tree tree);
+
+  public abstract void onPrimitiveTypeName(Tree tree);
 
   public abstract void onVarName(Tree tree);
 

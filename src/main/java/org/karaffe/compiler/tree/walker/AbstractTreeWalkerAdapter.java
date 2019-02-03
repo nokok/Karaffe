@@ -4,6 +4,31 @@ import org.karaffe.compiler.tree.Tree;
 
 public class AbstractTreeWalkerAdapter extends AbstractTreeWalker {
   @Override
+  public void onFieldName(Tree tree) {
+
+  }
+
+  @Override
+  public void onMethodName(Tree tree) {
+
+  }
+
+  @Override
+  public void onPackageName(Tree tree) {
+
+  }
+
+  @Override
+  public void onClassName(Tree tree) {
+
+  }
+
+  @Override
+  public void onPrimitiveTypeName(Tree tree) {
+
+  }
+
+  @Override
   public void onVarName(Tree tree) {
 
   }
