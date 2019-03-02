@@ -23,12 +23,12 @@ public class Main {
   public void run(String[] args) {
     Thread.setDefaultUncaughtExceptionHandler((thread, throwable) -> {
       System.out.println("===ERROR===");
+      throwable.printStackTrace();
       if (context == null) {
         return;
       }
       SimpleTreeFormatter formatter = new SimpleTreeFormatter();
       System.out.println(formatter.format(context.getUntypedTree()));
-      throwable.printStackTrace();
     });
     context.parseRawArgs(args);
     if (context.hasFlag(Flag.VERSION)) {
