@@ -10,5 +10,5 @@ public interface Frontend {
 
   String getName();
 
-  CompilerContext execute();
+  void execute();
 }

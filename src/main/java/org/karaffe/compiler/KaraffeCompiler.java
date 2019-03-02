@@ -1,5 +1,6 @@
 package org.karaffe.compiler;
 
+import org.karaffe.compiler.backend.Backend;
 import org.karaffe.compiler.frontend.Frontend;
 import org.karaffe.compiler.tree.formatter.FormatType;
 import org.karaffe.compiler.tree.formatter.TreeFormatter;
@@ -25,7 +26,7 @@ public class KaraffeCompiler implements Runnable {
   @Override
   public void run() {
     Frontend frontend = Frontend.getFrontend(context);
-    CompilerContext context = frontend.execute();
+    frontend.execute();
 
     if (context.hasError()) {
       return;
@@ -46,6 +47,13 @@ public class KaraffeCompiler implements Runnable {
 
       this.context.add(Report.newReport(ReportCode.INFO_AST).withBody(formatter.format(this.context.getUntypedTree())).build());
     });
+
+    Backend backend = Backend.getBackend(context);
+    backend.execute();
+
+    if (context.hasError()) {
+      return;
+    }
 
     if (this.context.hasFlag(Flag.DRY_RUN)) {
       return;

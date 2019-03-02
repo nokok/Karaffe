@@ -43,7 +43,7 @@ public class KaraffeFrontend implements Frontend {
   }
 
   @Override
-  public CompilerContext execute() {
+  public void execute() {
     List<KaraffeSource> sources = context.getSources();
     KaraffeASTCreateVisitor astCreateVisitor = new KaraffeASTCreateVisitor(context);
     Stream<Optional<KaraffeParser.SourceFileContext>> antlrContextStream = sources.stream()
@@ -55,7 +55,6 @@ public class KaraffeFrontend implements Frontend {
     Tree untypedAST = astCreateVisitor.getCompilationUnit();
     this.context.setUntypedTree(untypedAST);
     this.untypedTreeWalkers.forEach(w -> w.walk(untypedAST));
-    return this.context;
   }
 
   private Optional<KaraffeParser.SourceFileContext> parse(KaraffeSource source) {
