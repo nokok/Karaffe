@@ -36,7 +36,9 @@ class SimpleTree implements Tree {
 
   @Override
   public void addAllChildren(List<Tree> children) {
-    this.children.addAll(Objects.requireNonNull(children));
+    for (Tree tree : children) {
+      this.addChild(tree);
+    }
   }
 
   @Override
