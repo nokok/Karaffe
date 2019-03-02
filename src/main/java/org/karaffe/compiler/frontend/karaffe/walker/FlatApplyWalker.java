@@ -96,6 +96,7 @@ public class FlatApplyWalker extends TreeWalker {
     Stack<Tree> stack = new Stack<>();
     for (Tree node : exprs) {
       switch (node.getNodeType()) {
+      case Block:
       case IntLiteral:
       case This:
       case StringLiteral:

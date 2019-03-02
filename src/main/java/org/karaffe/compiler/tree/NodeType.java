@@ -12,6 +12,7 @@ public enum NodeType {
   BinOp,
   Binding,
   Body,
+  Block,
   DefConstructor,
   DefClass,
   DefMethod,

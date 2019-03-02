@@ -14,6 +14,7 @@ import java.util.List;
 import static org.karaffe.compiler.tree.NodeType.Argument;
 import static org.karaffe.compiler.tree.NodeType.Arguments;
 import static org.karaffe.compiler.tree.NodeType.Binding;
+import static org.karaffe.compiler.tree.NodeType.Block;
 import static org.karaffe.compiler.tree.NodeType.Body;
 import static org.karaffe.compiler.tree.NodeType.Identifier;
 import static org.karaffe.compiler.tree.NodeType.Modifier;
@@ -122,6 +123,9 @@ public class KaraffeASTCreateVisitor extends KaraffeBaseVisitor<Tree> {
     } else if (ctx.id != null) {
       Tree id = TreeFactory.newTree(VarName, ctx.id.getText(), new Position(ctx));
       return id;
+    } else if (ctx.inExpr != null) {
+      Tree block = TreeFactory.newTree(Block, ctx.inExpr.accept(this));
+      return block;
     } else {
       throw new IllegalStateException();
     }
