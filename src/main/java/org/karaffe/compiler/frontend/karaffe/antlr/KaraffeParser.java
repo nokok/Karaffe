@@ -17,16 +17,17 @@ public class KaraffeParser extends Parser {
 	protected static final PredictionContextCache _sharedContextCache =
 		new PredictionContextCache();
 	public static final int
-		T__0=1, ENTRYPOINT=2, IMPLEMENTS=3, INTERFACE=4, PROTECTED=5, ABSTRACT=6, 
-		CONTINUE=7, DELEGATE=8, INTERNAL=9, OVERRIDE=10, DEFAULT=11, EXTENDS=12, 
-		FINALLY=13, PACKAGE=14, PRIVATE=15, EXPORT=16, EXTEND=17, IMPORT=18, MODULE=19, 
-		NAMEOF=20, PUBLIC=21, RETURN=22, SEALED=23, STATIC=24, THROWS=25, TYPEOF=26, 
-		ALIAS=27, ASYNC=28, AWAIT=29, BREAK=30, CATCH=31, CLASS=32, FALSE=33, 
-		FINAL=34, MACRO=35, MATCH=36, MIXIN=37, SUPER=38, THROW=39, TRAIT=40, 
-		WHILE=41, YIELD=42, CASE=43, ELSE=44, ENUM=45, FUNC=46, INIT=47, LAZY=48, 
-		NULL=49, THIS=50, TRUE=51, DEF=52, FOR=53, NEW=54, TRY=55, AS=56, DO=57, 
-		IF=58, IN=59, IS=60, LPAREN=61, RPAREN=62, LBRACE=63, RBRACE=64, DOT=65, 
-		COMMA=66, StringLiteral=67, IntegerLiteral=68, Identifier=69, WS=70;
+		T__0=1, ENTRYPOINT=2, IMPLEMENTS=3, INTERFACE=4, NAMESPACE=5, PROTECTED=6, 
+		ABSTRACT=7, CONTINUE=8, DELEGATE=9, INTERNAL=10, OVERRIDE=11, DEFAULT=12, 
+		EXTENDS=13, FINALLY=14, PACKAGE=15, PRIVATE=16, EXPORT=17, EXTEND=18, 
+		IMPORT=19, MODULE=20, NAMEOF=21, PUBLIC=22, RETURN=23, SEALED=24, STATIC=25, 
+		THROWS=26, TYPEOF=27, ALIAS=28, ASYNC=29, AWAIT=30, BREAK=31, CATCH=32, 
+		CLASS=33, FALSE=34, FINAL=35, MACRO=36, MATCH=37, MIXIN=38, SUPER=39, 
+		THROW=40, TRAIT=41, WHILE=42, YIELD=43, CASE=44, ELSE=45, ENUM=46, FUNC=47, 
+		INIT=48, LAZY=49, NULL=50, THIS=51, TRUE=52, DEF=53, FOR=54, NEW=55, TRY=56, 
+		AS=57, DO=58, IF=59, IN=60, IS=61, LPAREN=62, RPAREN=63, LBRACE=64, RBRACE=65, 
+		DOT=66, COMMA=67, StringLiteral=68, IntegerLiteral=69, Identifier=70, 
+		WS=71;
 	public static final int
 		RULE_sourceFile = 0, RULE_classDef = 1, RULE_typeDefBody = 2, RULE_statement = 3, 
 		RULE_entryPointBlock = 4, RULE_initBlock = 5, RULE_assign = 6, RULE_varDef = 7, 
@@ -39,27 +40,27 @@ public class KaraffeParser extends Parser {
 	};
 
 	private static final String[] _LITERAL_NAMES = {
-		null, "'='", "'entrypoint'", "'implements'", "'interface'", "'protected'", 
-		"'abstract'", "'continue'", "'delegate'", "'internal'", "'override'", 
-		"'default'", "'extends'", "'finally'", "'package'", "'private'", "'export'", 
-		"'extend'", "'import'", "'module'", "'nameof'", "'public'", "'return'", 
-		"'sealed'", "'static'", "'throws'", "'typeof'", "'alias'", "'async'", 
-		"'await'", "'break'", "'catch'", "'class'", "'false'", "'final'", "'macro'", 
-		"'match'", "'mixin'", "'super'", "'throw'", "'trait'", "'while'", "'yield'", 
-		"'case'", "'else'", "'enum'", "'func'", "'init'", "'lazy'", "'null'", 
-		"'this'", "'true'", "'def'", "'for'", "'new'", "'try'", "'as'", "'do'", 
-		"'if'", "'in'", "'is'", "'('", "')'", "'{'", "'}'", "'.'", "','"
+		null, "'='", "'entrypoint'", "'implements'", "'interface'", "'namespace'", 
+		"'protected'", "'abstract'", "'continue'", "'delegate'", "'internal'", 
+		"'override'", "'default'", "'extends'", "'finally'", "'package'", "'private'", 
+		"'export'", "'extend'", "'import'", "'module'", "'nameof'", "'public'", 
+		"'return'", "'sealed'", "'static'", "'throws'", "'typeof'", "'alias'", 
+		"'async'", "'await'", "'break'", "'catch'", "'class'", "'false'", "'final'", 
+		"'macro'", "'match'", "'mixin'", "'super'", "'throw'", "'trait'", "'while'", 
+		"'yield'", "'case'", "'else'", "'enum'", "'func'", "'init'", "'lazy'", 
+		"'null'", "'this'", "'true'", "'def'", "'for'", "'new'", "'try'", "'as'", 
+		"'do'", "'if'", "'in'", "'is'", "'('", "')'", "'{'", "'}'", "'.'", "','"
 	};
 	private static final String[] _SYMBOLIC_NAMES = {
-		null, null, "ENTRYPOINT", "IMPLEMENTS", "INTERFACE", "PROTECTED", "ABSTRACT", 
-		"CONTINUE", "DELEGATE", "INTERNAL", "OVERRIDE", "DEFAULT", "EXTENDS", 
-		"FINALLY", "PACKAGE", "PRIVATE", "EXPORT", "EXTEND", "IMPORT", "MODULE", 
-		"NAMEOF", "PUBLIC", "RETURN", "SEALED", "STATIC", "THROWS", "TYPEOF", 
-		"ALIAS", "ASYNC", "AWAIT", "BREAK", "CATCH", "CLASS", "FALSE", "FINAL", 
-		"MACRO", "MATCH", "MIXIN", "SUPER", "THROW", "TRAIT", "WHILE", "YIELD", 
-		"CASE", "ELSE", "ENUM", "FUNC", "INIT", "LAZY", "NULL", "THIS", "TRUE", 
-		"DEF", "FOR", "NEW", "TRY", "AS", "DO", "IF", "IN", "IS", "LPAREN", "RPAREN", 
-		"LBRACE", "RBRACE", "DOT", "COMMA", "StringLiteral", "IntegerLiteral", 
+		null, null, "ENTRYPOINT", "IMPLEMENTS", "INTERFACE", "NAMESPACE", "PROTECTED", 
+		"ABSTRACT", "CONTINUE", "DELEGATE", "INTERNAL", "OVERRIDE", "DEFAULT", 
+		"EXTENDS", "FINALLY", "PACKAGE", "PRIVATE", "EXPORT", "EXTEND", "IMPORT", 
+		"MODULE", "NAMEOF", "PUBLIC", "RETURN", "SEALED", "STATIC", "THROWS", 
+		"TYPEOF", "ALIAS", "ASYNC", "AWAIT", "BREAK", "CATCH", "CLASS", "FALSE", 
+		"FINAL", "MACRO", "MATCH", "MIXIN", "SUPER", "THROW", "TRAIT", "WHILE", 
+		"YIELD", "CASE", "ELSE", "ENUM", "FUNC", "INIT", "LAZY", "NULL", "THIS", 
+		"TRUE", "DEF", "FOR", "NEW", "TRY", "AS", "DO", "IF", "IN", "IS", "LPAREN", 
+		"RPAREN", "LBRACE", "RBRACE", "DOT", "COMMA", "StringLiteral", "IntegerLiteral", 
 		"Identifier", "WS"
 	};
 	public static final Vocabulary VOCABULARY = new VocabularyImpl(_LITERAL_NAMES, _SYMBOLIC_NAMES);
@@ -273,7 +274,7 @@ public class KaraffeParser extends Parser {
 			setState(47);
 			_errHandler.sync(this);
 			_la = _input.LA(1);
-			while ((((_la) & ~0x3f) == 0 && ((1L << _la) & ((1L << ENTRYPOINT) | (1L << INIT) | (1L << THIS) | (1L << DEF) | (1L << LPAREN))) != 0) || ((((_la - 67)) & ~0x3f) == 0 && ((1L << (_la - 67)) & ((1L << (StringLiteral - 67)) | (1L << (IntegerLiteral - 67)) | (1L << (Identifier - 67)))) != 0)) {
+			while ((((_la) & ~0x3f) == 0 && ((1L << _la) & ((1L << ENTRYPOINT) | (1L << INIT) | (1L << THIS) | (1L << DEF) | (1L << LPAREN))) != 0) || ((((_la - 68)) & ~0x3f) == 0 && ((1L << (_la - 68)) & ((1L << (StringLiteral - 68)) | (1L << (IntegerLiteral - 68)) | (1L << (Identifier - 68)))) != 0)) {
 				{
 				{
 				setState(44);
@@ -432,7 +433,7 @@ public class KaraffeParser extends Parser {
 			setState(64);
 			_errHandler.sync(this);
 			_la = _input.LA(1);
-			while ((((_la) & ~0x3f) == 0 && ((1L << _la) & ((1L << ENTRYPOINT) | (1L << INIT) | (1L << THIS) | (1L << DEF) | (1L << LPAREN))) != 0) || ((((_la - 67)) & ~0x3f) == 0 && ((1L << (_la - 67)) & ((1L << (StringLiteral - 67)) | (1L << (IntegerLiteral - 67)) | (1L << (Identifier - 67)))) != 0)) {
+			while ((((_la) & ~0x3f) == 0 && ((1L << _la) & ((1L << ENTRYPOINT) | (1L << INIT) | (1L << THIS) | (1L << DEF) | (1L << LPAREN))) != 0) || ((((_la - 68)) & ~0x3f) == 0 && ((1L << (_la - 68)) & ((1L << (StringLiteral - 68)) | (1L << (IntegerLiteral - 68)) | (1L << (Identifier - 68)))) != 0)) {
 				{
 				{
 				setState(61);
@@ -501,7 +502,7 @@ public class KaraffeParser extends Parser {
 			setState(74);
 			_errHandler.sync(this);
 			_la = _input.LA(1);
-			while ((((_la) & ~0x3f) == 0 && ((1L << _la) & ((1L << ENTRYPOINT) | (1L << INIT) | (1L << THIS) | (1L << DEF) | (1L << LPAREN))) != 0) || ((((_la - 67)) & ~0x3f) == 0 && ((1L << (_la - 67)) & ((1L << (StringLiteral - 67)) | (1L << (IntegerLiteral - 67)) | (1L << (Identifier - 67)))) != 0)) {
+			while ((((_la) & ~0x3f) == 0 && ((1L << _la) & ((1L << ENTRYPOINT) | (1L << INIT) | (1L << THIS) | (1L << DEF) | (1L << LPAREN))) != 0) || ((((_la - 68)) & ~0x3f) == 0 && ((1L << (_la - 68)) & ((1L << (StringLiteral - 68)) | (1L << (IntegerLiteral - 68)) | (1L << (Identifier - 68)))) != 0)) {
 				{
 				{
 				setState(71);
@@ -859,7 +860,7 @@ public class KaraffeParser extends Parser {
 						setState(107);
 						_errHandler.sync(this);
 						_la = _input.LA(1);
-						if (((((_la - 50)) & ~0x3f) == 0 && ((1L << (_la - 50)) & ((1L << (THIS - 50)) | (1L << (LPAREN - 50)) | (1L << (StringLiteral - 50)) | (1L << (IntegerLiteral - 50)) | (1L << (Identifier - 50)))) != 0)) {
+						if (((((_la - 51)) & ~0x3f) == 0 && ((1L << (_la - 51)) & ((1L << (THIS - 51)) | (1L << (LPAREN - 51)) | (1L << (StringLiteral - 51)) | (1L << (IntegerLiteral - 51)) | (1L << (Identifier - 51)))) != 0)) {
 							{
 							setState(106);
 							((ExprContext)_localctx).args = exprList();
@@ -1167,7 +1168,7 @@ public class KaraffeParser extends Parser {
 	}
 
 	public static final String _serializedATN =
-		"\3\u608b\ua72a\u8133\ub9ed\u417c\u3be7\u7786\u5964\3H\u008e\4\2\t\2\4"+
+		"\3\u608b\ua72a\u8133\ub9ed\u417c\u3be7\u7786\u5964\3I\u008e\4\2\t\2\4"+
 		"\3\t\3\4\4\t\4\4\5\t\5\4\6\t\6\4\7\t\7\4\b\t\b\4\t\t\t\4\n\t\n\4\13\t"+
 		"\13\4\f\t\f\4\r\t\r\4\16\t\16\4\17\t\17\4\20\t\20\3\2\7\2\"\n\2\f\2\16"+
 		"\2%\13\2\3\2\3\2\3\3\3\3\3\3\5\3,\n\3\3\4\3\4\7\4\60\n\4\f\4\16\4\63\13"+
@@ -1177,29 +1178,29 @@ public class KaraffeParser extends Parser {
 		"\f\3\f\3\f\3\f\5\fi\n\f\3\f\3\f\3\f\5\fn\n\f\3\f\3\f\3\f\6\fs\n\f\r\f"+
 		"\16\ft\3\f\3\f\3\f\7\fz\n\f\f\f\16\f}\13\f\3\r\3\r\3\r\3\16\3\16\3\17"+
 		"\3\17\3\17\7\17\u0087\n\17\f\17\16\17\u008a\13\17\3\20\3\20\3\20\2\3\26"+
-		"\21\2\4\6\b\n\f\16\20\22\24\26\30\32\34\36\2\3\3\2EF\2\u0091\2#\3\2\2"+
+		"\21\2\4\6\b\n\f\16\20\22\24\26\30\32\34\36\2\3\3\2FG\2\u0091\2#\3\2\2"+
 		"\2\4(\3\2\2\2\6-\3\2\2\2\b;\3\2\2\2\n=\3\2\2\2\fG\3\2\2\2\16Q\3\2\2\2"+
 		"\20U\3\2\2\2\22[\3\2\2\2\24^\3\2\2\2\26h\3\2\2\2\30~\3\2\2\2\32\u0081"+
 		"\3\2\2\2\34\u0083\3\2\2\2\36\u008b\3\2\2\2 \"\5\4\3\2! \3\2\2\2\"%\3\2"+
 		"\2\2#!\3\2\2\2#$\3\2\2\2$&\3\2\2\2%#\3\2\2\2&\'\7\2\2\3\'\3\3\2\2\2()"+
-		"\7\"\2\2)+\7G\2\2*,\5\6\4\2+*\3\2\2\2+,\3\2\2\2,\5\3\2\2\2-\61\7A\2\2"+
-		".\60\5\b\5\2/.\3\2\2\2\60\63\3\2\2\2\61/\3\2\2\2\61\62\3\2\2\2\62\64\3"+
-		"\2\2\2\63\61\3\2\2\2\64\65\7B\2\2\65\7\3\2\2\2\66<\5\n\6\2\67<\5\f\7\2"+
+		"\7#\2\2)+\7H\2\2*,\5\6\4\2+*\3\2\2\2+,\3\2\2\2,\5\3\2\2\2-\61\7B\2\2."+
+		"\60\5\b\5\2/.\3\2\2\2\60\63\3\2\2\2\61/\3\2\2\2\61\62\3\2\2\2\62\64\3"+
+		"\2\2\2\63\61\3\2\2\2\64\65\7C\2\2\65\7\3\2\2\2\66<\5\n\6\2\67<\5\f\7\2"+
 		"8<\5\20\t\29<\5\16\b\2:<\5\26\f\2;\66\3\2\2\2;\67\3\2\2\2;8\3\2\2\2;9"+
-		"\3\2\2\2;:\3\2\2\2<\t\3\2\2\2=>\7\4\2\2>B\7A\2\2?A\5\b\5\2@?\3\2\2\2A"+
-		"D\3\2\2\2B@\3\2\2\2BC\3\2\2\2CE\3\2\2\2DB\3\2\2\2EF\7B\2\2F\13\3\2\2\2"+
-		"GH\7\61\2\2HL\7A\2\2IK\5\b\5\2JI\3\2\2\2KN\3\2\2\2LJ\3\2\2\2LM\3\2\2\2"+
-		"MO\3\2\2\2NL\3\2\2\2OP\7B\2\2P\r\3\2\2\2QR\5\26\f\2RS\7\3\2\2ST\5\26\f"+
-		"\2T\17\3\2\2\2UV\7\66\2\2VY\5\22\n\2WX\7\3\2\2XZ\5\26\f\2YW\3\2\2\2YZ"+
-		"\3\2\2\2Z\21\3\2\2\2[\\\7G\2\2\\]\5\24\13\2]\23\3\2\2\2^_\7G\2\2_\25\3"+
-		"\2\2\2`a\b\f\1\2ab\7?\2\2bc\5\26\f\2cd\7@\2\2di\3\2\2\2ei\5\36\20\2fi"+
-		"\7\64\2\2gi\7G\2\2h`\3\2\2\2he\3\2\2\2hf\3\2\2\2hg\3\2\2\2i{\3\2\2\2j"+
-		"k\f\t\2\2km\7?\2\2ln\5\34\17\2ml\3\2\2\2mn\3\2\2\2no\3\2\2\2oz\7@\2\2"+
+		"\3\2\2\2;:\3\2\2\2<\t\3\2\2\2=>\7\4\2\2>B\7B\2\2?A\5\b\5\2@?\3\2\2\2A"+
+		"D\3\2\2\2B@\3\2\2\2BC\3\2\2\2CE\3\2\2\2DB\3\2\2\2EF\7C\2\2F\13\3\2\2\2"+
+		"GH\7\62\2\2HL\7B\2\2IK\5\b\5\2JI\3\2\2\2KN\3\2\2\2LJ\3\2\2\2LM\3\2\2\2"+
+		"MO\3\2\2\2NL\3\2\2\2OP\7C\2\2P\r\3\2\2\2QR\5\26\f\2RS\7\3\2\2ST\5\26\f"+
+		"\2T\17\3\2\2\2UV\7\67\2\2VY\5\22\n\2WX\7\3\2\2XZ\5\26\f\2YW\3\2\2\2YZ"+
+		"\3\2\2\2Z\21\3\2\2\2[\\\7H\2\2\\]\5\24\13\2]\23\3\2\2\2^_\7H\2\2_\25\3"+
+		"\2\2\2`a\b\f\1\2ab\7@\2\2bc\5\26\f\2cd\7A\2\2di\3\2\2\2ei\5\36\20\2fi"+
+		"\7\65\2\2gi\7H\2\2h`\3\2\2\2he\3\2\2\2hf\3\2\2\2hg\3\2\2\2i{\3\2\2\2j"+
+		"k\f\t\2\2km\7@\2\2ln\5\34\17\2ml\3\2\2\2mn\3\2\2\2no\3\2\2\2oz\7A\2\2"+
 		"pr\f\b\2\2qs\5\30\r\2rq\3\2\2\2st\3\2\2\2tr\3\2\2\2tu\3\2\2\2uz\3\2\2"+
-		"\2vw\f\7\2\2wx\7C\2\2xz\7G\2\2yj\3\2\2\2yp\3\2\2\2yv\3\2\2\2z}\3\2\2\2"+
+		"\2vw\f\7\2\2wx\7D\2\2xz\7H\2\2yj\3\2\2\2yp\3\2\2\2yv\3\2\2\2z}\3\2\2\2"+
 		"{y\3\2\2\2{|\3\2\2\2|\27\3\2\2\2}{\3\2\2\2~\177\5\32\16\2\177\u0080\5"+
-		"\26\f\2\u0080\31\3\2\2\2\u0081\u0082\7G\2\2\u0082\33\3\2\2\2\u0083\u0088"+
-		"\5\26\f\2\u0084\u0085\7D\2\2\u0085\u0087\5\26\f\2\u0086\u0084\3\2\2\2"+
+		"\26\f\2\u0080\31\3\2\2\2\u0081\u0082\7H\2\2\u0082\33\3\2\2\2\u0083\u0088"+
+		"\5\26\f\2\u0084\u0085\7E\2\2\u0085\u0087\5\26\f\2\u0086\u0084\3\2\2\2"+
 		"\u0087\u008a\3\2\2\2\u0088\u0086\3\2\2\2\u0088\u0089\3\2\2\2\u0089\35"+
 		"\3\2\2\2\u008a\u0088\3\2\2\2\u008b\u008c\t\2\2\2\u008c\37\3\2\2\2\17#"+
 		"+\61;BLYhmty{\u0088";

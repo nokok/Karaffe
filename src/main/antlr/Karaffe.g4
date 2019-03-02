@@ -76,6 +76,7 @@ literal
 ENTRYPOINT: 'entrypoint';
 IMPLEMENTS: 'implements';
 INTERFACE: 'interface';
+NAMESPACE: 'namespace';
 PROTECTED: 'protected';
 ABSTRACT: 'abstract';
 CONTINUE: 'continue';
