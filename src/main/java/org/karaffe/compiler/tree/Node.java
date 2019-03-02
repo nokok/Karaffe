@@ -3,6 +3,7 @@ package org.karaffe.compiler.tree;
 import java.util.List;
 import java.util.Optional;
 import java.util.function.Predicate;
+import java.util.stream.Collectors;
 
 public interface Node extends Positioned {
 
@@ -22,6 +23,14 @@ public interface Node extends Positioned {
 
   default Optional<Tree> findFirstFromChildren(NodeType nodeType) {
     return findFirstFromChildren(p -> p.getNodeType().equals(nodeType));
+  }
+
+  default List<Tree> findAllFromChildren(Predicate<Tree> p) {
+    return this.getChildren().stream().filter(p).collect(Collectors.toList());
+  }
+
+  default List<Tree> findAllFromChildren(NodeType nodeType) {
+    return findAllFromChildren(p -> p.getNodeType().equals(nodeType));
   }
 
   default boolean hasChildren(NodeType nodeType) {
