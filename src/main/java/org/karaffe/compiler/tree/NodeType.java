@@ -44,7 +44,7 @@ public enum NodeType {
   PrimitiveTypeName,
 
   // misc
-
+  TAC,
   Error,
   ;
 }
