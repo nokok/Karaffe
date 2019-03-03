@@ -56,6 +56,11 @@ public class KaraffeSource implements CharSequence {
   }
 
   public String getCodeByLine(int line) {
+    if (this.lines.size() /*0 numbering*/ == line - 1 /*1 numbering*/) {
+      return "<EOF>";
+    } else if (this.lines.size() > line) {
+      throw new IllegalArgumentException(this.lines.size() + " vs " + line);
+    }
     return this.lines.get(line - 1);
   }
 
