@@ -16,7 +16,7 @@ The Karaffe is a new programming language, **currently under active development.
 
 # Requirements
 
-[JDK 1.8+](http://www.oracle.com/technetwork/java/javase/downloads/jdk8-downloads-2133151.html) required.
+JDK 1.9+ required.
 
 # Build
 
