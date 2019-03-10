@@ -3,7 +3,7 @@ package org.karaffe.compiler;
 import org.karaffe.compiler.backend.Backend;
 import org.karaffe.compiler.frontend.Frontend;
 import org.karaffe.compiler.tree.formatter.FormatType;
-import org.karaffe.compiler.tree.formatter.TreeFormatter;
+import org.karaffe.compiler.tree.formatter.InternalStateFormatter;
 import org.karaffe.compiler.util.CompilerContext;
 import org.karaffe.compiler.util.args.Flag;
 import org.karaffe.compiler.util.args.ParameterName;
@@ -42,10 +42,8 @@ public class KaraffeCompiler implements Runnable {
         this.context.add(Report.newReport(ReportCode.ERR_UNRECOGNIZED_ARGUMENT).withVariable(param).build());
         return;
       }
-
-      TreeFormatter formatter = TreeFormatter.fromType(type);
-
-      this.context.add(Report.newReport(ReportCode.INFO_AST).withBody(formatter.format(this.context.getUntypedTree())).build());
+      InternalStateFormatter formatter = InternalStateFormatter.fromType(type);
+      this.context.add(Report.newReport(ReportCode.INFO_AST).withBody(formatter.format(this.context)).build());
     });
 
     Backend backend = Backend.getBackend(context);

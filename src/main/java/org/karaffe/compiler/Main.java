@@ -28,7 +28,7 @@ public class Main {
         return;
       }
       SimpleTreeFormatter formatter = new SimpleTreeFormatter();
-      System.out.println(formatter.format(context.getUntypedTree()));
+      System.out.println(formatter.format(context));
     });
     context.parseRawArgs(args);
     if (context.hasFlag(Flag.VERSION)) {

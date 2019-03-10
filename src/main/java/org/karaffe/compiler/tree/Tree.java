@@ -1,7 +1,5 @@
 package org.karaffe.compiler.tree;
 
-import org.karaffe.compiler.tree.formatter.FormatType;
-import org.karaffe.compiler.tree.formatter.TreeFormatter;
 import org.karaffe.compiler.tree.processor.Processor;
 import org.karaffe.compiler.tree.query.TreeQuery;
 
@@ -32,8 +30,7 @@ public interface Tree extends Term {
     Tree parent = this.getParent();
     int index = parent.getChildren().indexOf(this);
     if (index == -1) {
-      TreeFormatter treeFormatter = TreeFormatter.fromType(FormatType.SIMPLE);
-      throw new IllegalStateException(treeFormatter.format(tree) + "\nvs\n" + treeFormatter.format(this));
+      throw new IllegalStateException();
     }
     parent.getChildren().add(index, tree);
   }
@@ -42,8 +39,7 @@ public interface Tree extends Term {
     Tree parent = this.getParent();
     int index = parent.getChildren().indexOf(this);
     if (index == -1) {
-      TreeFormatter treeFormatter = TreeFormatter.fromType(FormatType.SIMPLE);
-      throw new IllegalStateException(treeFormatter.format(tree) + "\nvs\n" + treeFormatter.format(this));
+      throw new IllegalStateException();
     }
     parent.getChildren().add(index + 1, tree);
   }

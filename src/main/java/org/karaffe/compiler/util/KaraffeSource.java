@@ -17,6 +17,7 @@ public class KaraffeSource implements CharSequence {
   private final String source;
   private final List<String> lines;
   private final CharStream charStream;
+  private String concreteSyntaxTree = null;
 
   private KaraffeSource(String source) {
     this(source, "<unknown>");
@@ -100,5 +101,13 @@ public class KaraffeSource implements CharSequence {
   @Override
   public int hashCode() {
     return Objects.hash(sourceName, source);
+  }
+
+  public void setConcreteSyntaxTree(String tree) {
+    this.concreteSyntaxTree = tree;
+  }
+
+  public String getConcreteSyntaxTree() {
+    return this.concreteSyntaxTree;
   }
 }

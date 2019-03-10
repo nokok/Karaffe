@@ -28,7 +28,7 @@ public enum ReportCode {
 
   INFO_COMPILER_VERSION("compiler_version"),
   INFO_USAGE("usage"),
-  INFO_AST("emit_ast"),
+  INFO_AST("emit_internal"),
   ;
 
   private static final ResourceBundle bundle = ResourceBundle.getBundle("Message");

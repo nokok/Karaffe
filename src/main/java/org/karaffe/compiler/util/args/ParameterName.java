@@ -5,7 +5,7 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 public enum ParameterName {
-  EMIT(null, "--emit", "ast"),
+  EMIT(null, "--emit", "ast|source"),
   ;
 
   private final String shortName;

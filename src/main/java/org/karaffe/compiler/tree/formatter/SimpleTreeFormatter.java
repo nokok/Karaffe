@@ -1,13 +1,14 @@
 package org.karaffe.compiler.tree.formatter;
 
 import org.karaffe.compiler.tree.Tree;
+import org.karaffe.compiler.util.CompilerContext;
 
 import java.util.stream.Collectors;
 
-public class SimpleTreeFormatter implements TreeFormatter {
+public class SimpleTreeFormatter implements InternalStateFormatter {
   @Override
-  public String format(Tree tree) {
-    return format("", tree);
+  public String format(CompilerContext context) {
+    return format("", context.getUntypedTree());
   }
 
   private String format(String indentString, Tree tree) {
