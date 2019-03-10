@@ -3,6 +3,7 @@ package org.karaffe.unittests
 import org.karaffe.compiler.tree.NodeType
 import org.karaffe.compiler.tree.TreeFactory
 import org.karaffe.compiler.tree.formatter.SimpleTreeFormatter
+import org.karaffe.compiler.util.CompilerContext
 import org.karaffe.compiler.util.Position
 import spock.lang.Specification
 
@@ -11,7 +12,9 @@ class TreeFormatterSpec extends Specification {
     setup:
     def tree = TreeFactory.newTree(NodeType.CompilationUnit, "A", Position.noPos())
     def formatter = new SimpleTreeFormatter()
-    def result = formatter.format(tree)
+    def context = new CompilerContext()
+    context.setUntypedTree(tree)
+    def result = formatter.format(context)
 
     expect:
     result == "CompilationUnit A"
@@ -23,7 +26,9 @@ class TreeFormatterSpec extends Specification {
     tree.addChild(TreeFactory.newTree(NodeType.Apply, "1", Position.noPos()))
     tree.addChild(TreeFactory.newTree(NodeType.Apply, "2", Position.noPos()))
     def formatter = new SimpleTreeFormatter()
-    def result = formatter.format(tree)
+    def context = new CompilerContext()
+    context.setUntypedTree(tree)
+    def result = formatter.format(context)
 
     expect:
     result == """CompilationUnit C
@@ -39,7 +44,9 @@ class TreeFormatterSpec extends Specification {
     tree.addChild(child1)
     tree.addChild(TreeFactory.newTree(NodeType.Apply, "2", Position.noPos()))
     def formatter = new SimpleTreeFormatter()
-    def result = formatter.format(tree)
+    def context = new CompilerContext()
+    context.setUntypedTree(tree)
+    def result = formatter.format(context)
 
     expect:
     result == """CompilationUnit C

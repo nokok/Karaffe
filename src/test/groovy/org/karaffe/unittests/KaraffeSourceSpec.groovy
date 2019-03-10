@@ -43,4 +43,14 @@ class KaraffeSourceSpec extends Specification {
       p.sourceName == "src/test/resources/Main.krf"
     }
   }
+
+  def "testGetCodeByLine"() {
+    setup:
+    def s = KaraffeSource.fromString("0\n1")
+
+    expect:
+    s.getCodeByLine(1) == "0"
+    s.getCodeByLine(2) == "1"
+    s.getCodeByLine(3) == "<EOF>"
+  }
 }

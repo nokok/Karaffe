@@ -5,39 +5,39 @@ sourceFile
   ;
 
 classDef
-  : CLASS Identifier typeDefBody?
+  : CLASS Identifier nl? typeDefBody? nl?
   ;
 
 typeDefBody
-  : LBRACE statement* RBRACE
+  : LBRACE nl? statement* RBRACE nl?
   ;
 
 statement
-  : entryPointBlock
-  | initBlock
-  | varDef
-  | assign
-  | expr
+  : entryPointBlock nl?
+  | initBlock nl?
+  | varDef nl?
+  | assign nl?
+  | expr nl?
   ;
 
 entryPointBlock
-  : ENTRYPOINT LBRACE statement* RBRACE
+  : ENTRYPOINT LBRACE nl? statement* RBRACE nl?
   ;
 
 initBlock
-  : INIT LBRACE statement* RBRACE
+  : INIT LBRACE nl? statement* RBRACE nl?
   ;
 
 assign
-  : target=expr '=' initializer=expr
+  : target=expr '=' initializer=expr nl?
   ;
 
 varDef
-  : DEF binding ('=' initializer=expr)?
+  : DEF binding ('=' initializer=expr)? nl?
   ;
 
 binding
-  : Identifier typeName
+  : Identifier typeName nl?
   ;
 
 typeName
@@ -47,13 +47,13 @@ typeName
 // Expr
 
 expr
-  : function=expr LPAREN args=exprList? RPAREN
-  | left=expr right=opExpr+
-  | target=expr DOT name=Identifier
-  | LPAREN inExpr=expr RPAREN
+  : id=Identifier
   | lit=literal
   | t=THIS
-  | id=Identifier
+  | function=expr LPAREN args=exprList? RPAREN nl?
+  | left=expr right=opExpr+ nl?
+  | target=expr DOT name=Identifier nl?
+  | LPAREN inExpr=expr RPAREN nl?
   ;
 
 opExpr
@@ -71,6 +71,15 @@ exprList
 literal
   : StringLiteral
   | IntegerLiteral
+  ;
+
+nl
+  : newLine+
+  ;
+
+newLine
+  : '\n'
+  | ';'
   ;
 
 ENTRYPOINT: 'entrypoint';
@@ -139,6 +148,7 @@ LBRACE: '{';
 RBRACE: '}';
 DOT: '.';
 COMMA: ',';
+SEMI: ';';
 
 StringLiteral
   : '"' StringChar* '"'
@@ -193,6 +203,6 @@ LetterOrDigit
   ;
 
 WS
-  : [ \t\r\n]+ -> skip
+  : [ \t]+ -> skip
   ;
 

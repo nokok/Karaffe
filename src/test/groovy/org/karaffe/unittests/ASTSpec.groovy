@@ -45,4 +45,19 @@ class ASTSpec extends Specification {
     "1 + 2 - 3" || 'Apply ("", [Select ("", [BinOp ("-", []), Apply ("", [Select ("", [BinOp ("+", []), IntLiteral ("1", [])]), Arguments ("", [Argument ("", [IntLiteral ("2", [])])])])]), Arguments ("", [Argument ("", [IntLiteral ("3", [])])])])' // ((1 + 2) + 3)
 
   }
+
+  def "expr"() {
+    setup:
+    def source1 = '''entrypoint {
+                   |  def a String = "Hello World"
+                   |  println(a)
+                   |}'''.stripMargin()
+    def parser1 = new KaraffeParser(new CommonTokenStream(new KaraffeLexer(CharStreams.fromString(source1))))
+    def context1 = parser1.entryPointBlock()
+    def visitor1 = new KaraffeASTCreateVisitor(new CompilerContext())
+    def ast1 = visitor1.visit(context1)
+
+    expect:
+    ast1.toString() == 'DefMethod ("", [Identifier ("main", []), Modifiers ("", [Modifier ("public", []), Modifier ("static", [])]), ReturnType ("", [TypeName ("Unit", [])]), Parameters ("", [Parameter ("", [Identifier ("args", []), ArrayTypeName ("java.lang.String", [])])]), Body ("", [DefVar ("", [Identifier ("a", []), TypeName ("String", []), Body ("", [StringLiteral (""Hello World"", [])])]), Apply ("", [VarName ("println", []), Arguments ("", [Argument ("", [VarName ("a", [])])])])])])'
+  }
 }

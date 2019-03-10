@@ -100,4 +100,16 @@ public interface KaraffeVisitor<T> extends ParseTreeVisitor<T> {
 	 * @return the visitor result
 	 */
 	T visitLiteral(KaraffeParser.LiteralContext ctx);
+	/**
+	 * Visit a parse tree produced by {@link KaraffeParser#nl}.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	T visitNl(KaraffeParser.NlContext ctx);
+	/**
+	 * Visit a parse tree produced by {@link KaraffeParser#newLine}.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	T visitNewLine(KaraffeParser.NewLineContext ctx);
 }
