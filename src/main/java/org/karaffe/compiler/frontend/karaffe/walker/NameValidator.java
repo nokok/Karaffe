@@ -22,7 +22,7 @@ public class NameValidator extends TreeWalker {
 
   @Override
   public void onDefClass(Tree tree) {
-    String name = tree.dig(NodeType.Identifier).map(Tree::getName).orElse("");
+    String name = tree.dig(NodeType.Identifier).map(Tree::getName).orElseThrow();
     NameValidationResult result = classNameValidator.validate(name);
     if (result.isError()) {
       this.context.add(Report.newReport(ReportCode.ERR_NAME_VALIDATION_FAILED).withVariable(result).with(tree.getPosition()).build());
