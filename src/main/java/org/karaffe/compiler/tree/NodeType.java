@@ -48,4 +48,12 @@ public enum NodeType {
   TAC,
   Error,
   ;
+
+  public Tree create() {
+    return TreeFactory.newTree(this);
+  }
+
+  public Tree create(String name) {
+    return TreeFactory.newTree(this, name);
+  }
 }

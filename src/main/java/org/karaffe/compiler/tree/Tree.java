@@ -43,4 +43,11 @@ public interface Tree extends Term {
     }
     parent.getChildren().add(index + 1, tree);
   }
+
+  default Tree in(Tree... trees) {
+    for (Tree tree : trees) {
+      this.addChild(tree);
+    }
+    return this;
+  }
 }
