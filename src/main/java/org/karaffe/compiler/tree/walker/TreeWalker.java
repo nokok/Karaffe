@@ -2,6 +2,9 @@ package org.karaffe.compiler.tree.walker;
 
 import org.karaffe.compiler.tree.Tree;
 
+import java.util.ArrayList;
+import java.util.List;
+
 public abstract class TreeWalker extends AbstractTreeWalkerAdapter {
 
   public final void walk(Tree tree) {
@@ -22,8 +25,9 @@ public abstract class TreeWalker extends AbstractTreeWalkerAdapter {
     }
     onEveryTree(tree);
     if (tree.hasChildren()) {
-      for (Tree child : tree.getChildren()) {
-        walk1(child);
+      List<Tree> children = new ArrayList<>(tree.getChildren());
+      for (int i = 0; i < children.size(); i++) {
+        walk1(children.get(i));
       }
     }
     invokeEventMethod(tree);
