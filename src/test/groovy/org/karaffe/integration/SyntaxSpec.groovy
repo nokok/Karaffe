@@ -18,7 +18,7 @@ class SyntaxSpec extends Specification {
   }
 
   @Unroll
-  def "simple"() {
+  def "simple #source"() {
     setup:
     def context = runTest(source)
 
@@ -32,7 +32,7 @@ class SyntaxSpec extends Specification {
   }
 
   @Unroll
-  def "invalid"() {
+  def "invalid #source"() {
     setup:
     def context = runTest(source)
 
