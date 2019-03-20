@@ -51,6 +51,6 @@ class MakeTACWalkerSpec extends Specification {
     expect:
     before != after
     before == 'Body ("", [Apply ("", [VarName ("println", []), Arguments ("", [Argument ("", [IntLiteral ("1", [])])])])])'
-    after == 'Body ("", [DefVar ("", [Identifier ("$0", []), TypeName ("__ANY__", []), IntLiteral ("1", [])]), Apply ("", [VarName ("println", []), Arguments ("", [Argument ("", [Identifier ("$0", [])])])])])'
+    after == 'Body ("", [DefVar ("", [Identifier ("$0", []), TypeName ("__ANY__", []), IntLiteral ("1", [])]), Apply ("", [VarName ("println", []), Arguments ("", [Argument ("", [VarName ("$0", [])])])])])'
   }
 }

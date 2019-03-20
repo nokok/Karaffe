@@ -14,6 +14,7 @@ import static org.karaffe.compiler.tree.NodeType.Arguments;
 import static org.karaffe.compiler.tree.NodeType.DefVar;
 import static org.karaffe.compiler.tree.NodeType.Identifier;
 import static org.karaffe.compiler.tree.NodeType.TypeName;
+import static org.karaffe.compiler.tree.NodeType.VarName;
 
 public class MakeTACWalker extends TreeWalker {
   private final NumGen numGen = new NumGen();
@@ -27,15 +28,15 @@ public class MakeTACWalker extends TreeWalker {
     List<Tree> names = new ArrayList<>();
     List<Tree> generated = new ArrayList<>();
     for (Tree originalArg : originalArgs) {
-      Tree generatedName = Identifier.create("$" + numGen.next());
+      String generatedName = "$" + numGen.next();
       Tree generatedDefVar =
         DefVar.create().in(
-          generatedName,
+          Identifier.create(generatedName),
           TypeName.create("__ANY__"),
           originalArg.getChildren().get(0)
         );
       generated.add(generatedDefVar);
-      names.add(Argument.create().in(generatedName));
+      names.add(Argument.create().in(VarName.create(generatedName)));
     }
     Tree newArgs = Arguments.create().in(names.toArray(new Tree[]{}));
     tree.replaceThis(Apply.create().in(
