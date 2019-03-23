@@ -142,14 +142,12 @@ public class FlatApplyWalker extends TreeWalker {
         Tree right = vm.pop();
         Tree left = vm.pop();
         Tree apply = TreeFactory.newTree(NodeType.Apply, t.getPosition());
-        Tree select = TreeFactory.newTree(NodeType.Select, t.getPosition());
-        select.addChild(t);
-        select.addChild(left);
         Tree arguments = TreeFactory.newTree(NodeType.Arguments, right.getPosition());
         Tree argument = TreeFactory.newTree(NodeType.Argument, right.getPosition());
         argument.addChild(right);
         arguments.addChild(argument);
-        apply.addChild(select);
+        apply.addChild(left);
+        apply.addChild(t);
         apply.addChild(arguments);
         vm.push(apply);
       } else {

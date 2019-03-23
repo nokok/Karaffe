@@ -5,6 +5,7 @@ import org.karaffe.compiler.tree.walker.TreeWalker;
 
 import static org.karaffe.compiler.tree.NodeType.Arguments;
 import static org.karaffe.compiler.tree.NodeType.ArrayTypeName;
+import static org.karaffe.compiler.tree.NodeType.BinOp;
 import static org.karaffe.compiler.tree.NodeType.Body;
 import static org.karaffe.compiler.tree.NodeType.CompilationUnit;
 import static org.karaffe.compiler.tree.NodeType.Identifier;
@@ -15,7 +16,6 @@ import static org.karaffe.compiler.tree.NodeType.Package;
 import static org.karaffe.compiler.tree.NodeType.Parameter;
 import static org.karaffe.compiler.tree.NodeType.Parameters;
 import static org.karaffe.compiler.tree.NodeType.ReturnType;
-import static org.karaffe.compiler.tree.NodeType.Select;
 import static org.karaffe.compiler.tree.NodeType.SourceFile;
 import static org.karaffe.compiler.tree.NodeType.SuperClass;
 import static org.karaffe.compiler.tree.NodeType.TypeName;
@@ -124,9 +124,9 @@ public class TreeSchemaValidator extends TreeWalker {
 
   @Override
   public void onApply(Tree tree) {
-    assert tree.indexOf(Select) == 0 || tree.indexOf(VarName) == 0 : tree.toString();
-    assert tree.indexOf(Arguments) == 1 : tree.toString();
-    assert tree.getChildren().size() == 2 : tree.toString();
+    assert tree.indexOf(BinOp) == 1 || tree.indexOf(VarName) == 1 : tree.toString();
+    assert tree.indexOf(Arguments) == 2 : tree.toString();
+    assert tree.getChildren().size() == 3 : tree.toString();
   }
 
   @Override

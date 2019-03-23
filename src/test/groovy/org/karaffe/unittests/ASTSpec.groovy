@@ -39,10 +39,10 @@ class ASTSpec extends Specification {
     where:
     source      || expectAST
     "1"         || 'IntLiteral ("1", [])'
-    "1 + 1"     || 'Apply ("", [Select ("", [BinOp ("+", []), IntLiteral ("1", [])]), Arguments ("", [Argument ("", [IntLiteral ("1", [])])])])'
-    "1 + 2 + 3" || 'Apply ("", [Select ("", [BinOp ("+", []), Apply ("", [Select ("", [BinOp ("+", []), IntLiteral ("1", [])]), Arguments ("", [Argument ("", [IntLiteral ("2", [])])])])]), Arguments ("", [Argument ("", [IntLiteral ("3", [])])])])' // ((1 + 2) + 3)
-    "1 - 2"     || 'Apply ("", [Select ("", [BinOp ("-", []), IntLiteral ("1", [])]), Arguments ("", [Argument ("", [IntLiteral ("2", [])])])])'
-    "1 + 2 - 3" || 'Apply ("", [Select ("", [BinOp ("-", []), Apply ("", [Select ("", [BinOp ("+", []), IntLiteral ("1", [])]), Arguments ("", [Argument ("", [IntLiteral ("2", [])])])])]), Arguments ("", [Argument ("", [IntLiteral ("3", [])])])])' // ((1 + 2) + 3)
+    "1 + 1"     || 'Apply ("", [IntLiteral ("1", []), BinOp ("+", []), Arguments ("", [Argument ("", [IntLiteral ("1", [])])])])'
+    "1 + 2 + 3" || 'Apply ("", [Apply ("", [IntLiteral ("1", []), BinOp ("+", []), Arguments ("", [Argument ("", [IntLiteral ("2", [])])])]), BinOp ("+", []), Arguments ("", [Argument ("", [IntLiteral ("3", [])])])])' // ((1 + 2) + 3)
+    "1 - 2"     || 'Apply ("", [IntLiteral ("1", []), BinOp ("-", []), Arguments ("", [Argument ("", [IntLiteral ("2", [])])])])'
+    "1 + 2 - 3" || 'Apply ("", [Apply ("", [IntLiteral ("1", []), BinOp ("+", []), Arguments ("", [Argument ("", [IntLiteral ("2", [])])])]), BinOp ("-", []), Arguments ("", [Argument ("", [IntLiteral ("3", [])])])])' // ((1 + 2) + 3)
 
   }
 
