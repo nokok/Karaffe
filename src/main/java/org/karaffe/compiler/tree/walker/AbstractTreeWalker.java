@@ -107,7 +107,9 @@ public abstract class AbstractTreeWalker {
 
   public abstract void onVarName(Tree tree);
 
-  public abstract void onException(Tree tree, Exception e);
+  public void onException(Tree tree, Exception e) {
+    throw new TreeWalkCancellationException(tree.toString(), e);
+  }
 
   public abstract void onBinding(Tree tree);
 

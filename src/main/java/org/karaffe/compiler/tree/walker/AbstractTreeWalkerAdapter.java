@@ -49,11 +49,6 @@ public class AbstractTreeWalkerAdapter extends AbstractTreeWalker {
   }
 
   @Override
-  public void onException(Tree tree, Exception e) {
-
-  }
-
-  @Override
   public void onBinding(Tree tree) {
 
   }
