@@ -82,10 +82,14 @@ public abstract class AbstractTreeWalker {
       onTAC(tree);
     } else if (tree.getNodeType() == NodeType.Block) {
       onBlock(tree);
+    } else if (tree.getNodeType() == NodeType.Empty) {
+      onEmpty(tree);
     } else {
       throw new IllegalStateException(tree.getNodeType().name());
     }
   }
+
+  public abstract void onEmpty(Tree tree);
 
   public abstract void onBlock(Tree tree);
 

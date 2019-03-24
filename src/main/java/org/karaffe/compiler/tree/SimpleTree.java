@@ -32,6 +32,9 @@ class SimpleTree implements Tree {
   public void replaceThis(Tree after) {
     this.nodeType = after.getNodeType();
     this.children = after.getChildren();
+    for (Tree child : children) {
+      ((SimpleTree) child).setParent(this);
+    }
   }
 
   @Override

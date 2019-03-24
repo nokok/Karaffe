@@ -3,6 +3,7 @@ package org.karaffe.compiler.tree;
 import org.karaffe.compiler.tree.processor.Processor;
 import org.karaffe.compiler.tree.query.TreeQuery;
 
+import java.util.Objects;
 import java.util.Optional;
 
 public interface Tree extends Term {
@@ -44,9 +45,10 @@ public interface Tree extends Term {
     parent.getChildren().add(index + 1, tree);
   }
 
-  default Tree in(Tree... trees) {
+  default Tree in(Tree t, Tree... trees) {
+    this.addChild(Objects.requireNonNull(t));
     for (Tree tree : trees) {
-      this.addChild(tree);
+      this.addChild(Objects.requireNonNull(tree));
     }
     return this;
   }

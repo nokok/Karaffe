@@ -1,6 +1,5 @@
 package org.karaffe.compiler.frontend.karaffe.walker;
 
-import org.karaffe.compiler.tree.NodeType;
 import org.karaffe.compiler.tree.Tree;
 import org.karaffe.compiler.tree.walker.TreeWalker;
 import org.karaffe.compiler.util.NumGen;
@@ -12,6 +11,7 @@ import static org.karaffe.compiler.tree.NodeType.Apply;
 import static org.karaffe.compiler.tree.NodeType.Argument;
 import static org.karaffe.compiler.tree.NodeType.Arguments;
 import static org.karaffe.compiler.tree.NodeType.DefVar;
+import static org.karaffe.compiler.tree.NodeType.Empty;
 import static org.karaffe.compiler.tree.NodeType.Identifier;
 import static org.karaffe.compiler.tree.NodeType.TypeName;
 import static org.karaffe.compiler.tree.NodeType.VarName;
@@ -21,28 +21,37 @@ public class MakeTACWalker extends TreeWalker {
 
   @Override
   public void onApply(Tree tree) {
-    List<Tree> originalArgs = new ArrayList<>(tree.dig(NodeType.Arguments).filter(a -> a.hasChildren(NodeType.Argument)).map(a -> a.findAllFromChildren(NodeType.Argument)).orElseGet(ArrayList::new));
-    if (originalArgs.isEmpty()) {
+    Tree originalTarget = tree.getChildren().get(0);
+    Tree originalOperator = tree.getChildren().get(1);
+    Tree originalArgs = tree.getChildren().get(2);
+    if (originalTarget.getNodeType() == Empty) {
       return;
     }
-    List<Tree> names = new ArrayList<>();
-    List<Tree> generated = new ArrayList<>();
-    for (Tree originalArg : originalArgs) {
-      String generatedName = "$" + numGen.next();
-      Tree generatedDefVar =
-        DefVar.create().in(
-          Identifier.create(generatedName),
-          TypeName.create("__ANY__"),
-          originalArg.getChildren().get(0)
-        );
-      generated.add(generatedDefVar);
-      names.add(Argument.create().in(VarName.create(generatedName)));
+    String generatedName = "$" + numGen.next();
+    Tree defVar = DefVar.create().in(
+      Identifier.create(generatedName),
+      TypeName.create("__ANY__"),
+      originalTarget
+    );
+    tree.insertBefore(defVar);
+    List<Tree> newArgs = new ArrayList<>();
+    for (Tree arg : originalArgs.getChildren()) {
+      String g = "$" + numGen.next();
+      Tree aDefVar = DefVar.create().in(
+        Identifier.create(g),
+        TypeName.create("__ANY__"),
+        arg
+      );
+      tree.insertBefore(aDefVar);
+      newArgs.add(Argument.create().in(Identifier.create(g)));
     }
-    Tree newArgs = Arguments.create().in(names.toArray(new Tree[]{}));
+    Tree args = Arguments.create();
+    newArgs.forEach(args::addChild);
     tree.replaceThis(Apply.create().in(
-      tree.getChildren().get(0),
-      newArgs
+      VarName.create(generatedName),
+      originalOperator,
+      args
     ));
-    generated.forEach(tree::insertBefore);
   }
+
 }

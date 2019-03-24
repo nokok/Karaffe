@@ -17,16 +17,19 @@ class MakeTACWalkerSpec extends Specification {
       }
     }
     def tree =
-      NodeType.Apply.create().in(
-        NodeType.VarName.create("println"),
-        NodeType.Arguments.create()
+      NodeType.Block.create().in(
+        NodeType.Apply.create().in(
+          NodeType.Empty.create(),
+          NodeType.VarName.create("println"),
+          NodeType.Arguments.create()
+        )
       )
     def before = tree.toString()
     walker.walk(tree)
     def after = tree.toString()
 
     expect:
-    before == after
+    after == before
     i == 1
   }
 
@@ -36,6 +39,7 @@ class MakeTACWalkerSpec extends Specification {
     def tree =
       NodeType.Body.create().in(
         NodeType.Apply.create().in(
+          NodeType.Empty.create(),
           NodeType.VarName.create("println"),
           NodeType.Arguments.create().in(
             NodeType.Argument.create().in(
@@ -49,8 +53,6 @@ class MakeTACWalkerSpec extends Specification {
     def after = tree.toString()
 
     expect:
-    before != after
-    before == 'Body ("", [Apply ("", [VarName ("println", []), Arguments ("", [Argument ("", [IntLiteral ("1", [])])])])])'
-    after == 'Body ("", [DefVar ("", [Identifier ("$0", []), TypeName ("__ANY__", []), IntLiteral ("1", [])]), Apply ("", [VarName ("println", []), Arguments ("", [Argument ("", [VarName ("$0", [])])])])])'
+    before == after
   }
 }

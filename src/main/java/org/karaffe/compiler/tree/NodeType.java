@@ -46,6 +46,7 @@ public enum NodeType {
 
   // misc
   TAC,
+  Empty,
   Error,
   ;
 

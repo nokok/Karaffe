@@ -16,10 +16,12 @@ import static org.karaffe.compiler.tree.NodeType.Arguments;
 import static org.karaffe.compiler.tree.NodeType.Binding;
 import static org.karaffe.compiler.tree.NodeType.Block;
 import static org.karaffe.compiler.tree.NodeType.Body;
+import static org.karaffe.compiler.tree.NodeType.Empty;
 import static org.karaffe.compiler.tree.NodeType.Identifier;
 import static org.karaffe.compiler.tree.NodeType.Modifier;
 import static org.karaffe.compiler.tree.NodeType.Modifiers;
 import static org.karaffe.compiler.tree.NodeType.Parameters;
+import static org.karaffe.compiler.tree.NodeType.Select;
 import static org.karaffe.compiler.tree.NodeType.TypeName;
 import static org.karaffe.compiler.tree.NodeType.VarName;
 
@@ -109,7 +111,14 @@ public class KaraffeASTCreateVisitor extends KaraffeBaseVisitor<Tree> {
       return select;
     } else if (ctx.function != null) {
       Tree apply = TreeFactory.newTree(NodeType.Apply, new Position(ctx));
-      apply.addChild(ctx.function.accept(this));
+      Tree f = ctx.function.accept(this);
+      if (f.getNodeType() == Select) {
+        apply.addChild(f.getChildren().get(1));
+        apply.addChild(f.getChildren().get(0));
+      } else {
+        apply.addChild(Empty.create());
+        apply.addChild(f);
+      }
       Tree arguments = TreeFactory.newTree(Arguments, new Position(ctx));
       if (ctx.args != null) {
         for (KaraffeParser.ExprContext exprContext : ctx.args.expr()) {

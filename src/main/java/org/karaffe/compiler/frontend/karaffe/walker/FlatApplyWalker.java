@@ -23,6 +23,7 @@ public class FlatApplyWalker extends TreeWalker {
   private Map<String, Integer> userDefinedOperators = new HashMap<>();
 
   public FlatApplyWalker() {
+    builtInOperators.put(".", 50);
     builtInOperators.put("<<", 100);
     noAssoc.add("<<");
     builtInOperators.put(">>", 100);
@@ -101,6 +102,7 @@ public class FlatApplyWalker extends TreeWalker {
       case This:
       case StringLiteral:
       case Apply:
+      case VarName:
       case Select:
         q.add(node);
         break;

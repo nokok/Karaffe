@@ -216,4 +216,9 @@ public class TreeSchemaValidator extends TreeWalker {
   public void onNullTree() {
     assert false;
   }
+
+  @Override
+  public void onEmpty(Tree tree) {
+    assert tree.getChildren().isEmpty() : tree.toString();
+  }
 }

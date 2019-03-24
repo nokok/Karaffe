@@ -58,6 +58,6 @@ class ASTSpec extends Specification {
     def ast1 = visitor1.visit(context1)
 
     expect:
-    ast1.toString() == 'DefMethod ("", [Identifier ("main", []), Modifiers ("", [Modifier ("public", []), Modifier ("static", [])]), ReturnType ("", [TypeName ("Unit", [])]), Parameters ("", [Parameter ("", [Identifier ("args", []), ArrayTypeName ("java.lang.String", [])])]), Body ("", [DefVar ("", [Identifier ("a", []), TypeName ("String", []), Body ("", [StringLiteral (""Hello World"", [])])]), Apply ("", [VarName ("println", []), Arguments ("", [Argument ("", [VarName ("a", [])])])])])])'
+    ast1.toString() == 'DefMethod ("", [Identifier ("main", []), Modifiers ("", [Modifier ("public", []), Modifier ("static", [])]), ReturnType ("", [TypeName ("Unit", [])]), Parameters ("", [Parameter ("", [Identifier ("args", []), ArrayTypeName ("java.lang.String", [])])]), Body ("", [DefVar ("", [Identifier ("a", []), TypeName ("String", []), Body ("", [StringLiteral (""Hello World"", [])])]), Apply ("", [Empty ("", []), VarName ("println", []), Arguments ("", [Argument ("", [VarName ("a", [])])])])])])'
   }
 }
