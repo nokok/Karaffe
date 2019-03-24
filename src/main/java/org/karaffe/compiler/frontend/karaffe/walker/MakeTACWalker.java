@@ -21,7 +21,7 @@ public class MakeTACWalker extends TreeWalker {
 
   @Override
   public void onApply(Tree tree) {
-    Tree originalTarget = tree.getChildren().get(0);
+    Tree originalTarget = unwrap(tree.getChildren().get(0));
     Tree originalOperator = tree.getChildren().get(1);
     Tree originalArgs = tree.getChildren().get(2);
     if (originalTarget.getNodeType() == Empty) {
@@ -40,10 +40,10 @@ public class MakeTACWalker extends TreeWalker {
       Tree aDefVar = DefVar.create().in(
         Identifier.create(g),
         TypeName.create("__ANY__"),
-        arg
+        unwrap(arg)
       );
       tree.insertBefore(aDefVar);
-      newArgs.add(Argument.create().in(Identifier.create(g)));
+      newArgs.add(Argument.create().in(VarName.create(g)));
     }
     Tree args = Arguments.create();
     newArgs.forEach(args::addChild);
@@ -52,6 +52,15 @@ public class MakeTACWalker extends TreeWalker {
       originalOperator,
       args
     ));
+  }
+
+  private Tree unwrap(Tree tree) {
+    switch (tree.getNodeType()) {
+    case Argument:
+      return tree.getChildren().get(0);
+    default:
+      return tree;
+    }
   }
 
 }
