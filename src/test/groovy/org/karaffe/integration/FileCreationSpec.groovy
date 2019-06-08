@@ -10,7 +10,7 @@ import java.nio.file.NoSuchFileException
 import java.nio.file.Paths
 
 class FileCreationSpec extends Specification {
-
+/*
   def "Valid SimpleClass.class"() {
     setup:
     def context = new CompilerContext()
@@ -63,5 +63,7 @@ class FileCreationSpec extends Specification {
       // ignore
     }
   }
+
+ */
 
 }

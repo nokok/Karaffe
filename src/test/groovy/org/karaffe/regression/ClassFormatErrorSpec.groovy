@@ -6,6 +6,7 @@ import org.karaffe.compiler.util.KaraffeSource
 import spock.lang.Specification
 
 class ClassFormatErrorSpec extends Specification {
+
   /**
    * java.lang.LinkageError: loader (instance of  org/karaffe/compiler/util/DynamicClassLoader): attempted  duplicate class definition for name: "A"
    *
@@ -24,6 +25,8 @@ class ClassFormatErrorSpec extends Specification {
    * 	at org.karaffe.compiler.KaraffeCompiler.run(KaraffeCompiler.java:40)
    * 	at org.karaffe.regression.ClassFormatErrorSpec.test(ClassFormatErrorSpec.groovy:33)
    */
+
+  /*
   def "test"() {
     setup:
     def context = new CompilerContext()
@@ -38,4 +41,6 @@ class ClassFormatErrorSpec extends Specification {
                                 |class A
                                 |~~~~~~^""".stripMargin()
   }
+
+  */
 }

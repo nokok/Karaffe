@@ -6,6 +6,7 @@ import org.karaffe.compiler.util.KaraffeSource
 import spock.lang.Specification
 
 class WarningSpec extends Specification {
+  /*
   def "naming"() {
     setup:
     def context = new CompilerContext()
@@ -24,4 +25,5 @@ class WarningSpec extends Specification {
                                       |class simpleClass
                                       |~~~~~~^""".stripMargin()
   }
+   */
 }

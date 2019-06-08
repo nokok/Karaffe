@@ -6,6 +6,7 @@ import org.karaffe.compiler.util.KaraffeSource
 import spock.lang.Specification
 
 class ErrorSpec extends Specification {
+  /*
   def "class 1"() {
     setup:
     def context = new CompilerContext()
@@ -66,4 +67,5 @@ class ErrorSpec extends Specification {
                             |    def i Int = 0
                             |    ~~~~~~~~~~~~^""".stripMargin()
   }
+   */
 }

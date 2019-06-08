@@ -11,6 +11,8 @@ import spock.lang.Specification
 import java.nio.file.Paths
 
 class SourceInfoSpec extends Specification {
+
+  /*
   def "test"() {
     setup:
     def context = new CompilerContext()
@@ -29,4 +31,6 @@ class SourceInfoSpec extends Specification {
     expect:
     classNode.sourceFile == "/foo/bar/baz/Main.krf"
   }
+
+   */
 }

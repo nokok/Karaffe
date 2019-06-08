@@ -9,6 +9,7 @@ import spock.lang.Specification
 import java.nio.file.Paths
 
 class MissingSourceInfo extends Specification {
+  /*
   def "reg1"() {
     setup:
     def context = new CompilerContext()
@@ -28,4 +29,5 @@ class 1
     }
 
   }
+  */
 }

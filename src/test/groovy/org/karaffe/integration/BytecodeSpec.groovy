@@ -14,6 +14,7 @@ import java.nio.file.Paths
 
 class BytecodeSpec extends Specification {
 
+/*
   def "entrypoint"() {
     setup:
     def context = new CompilerContext()
@@ -205,5 +206,5 @@ class BytecodeSpec extends Specification {
     classNode.fields != null
     classNode.fields.get(0).name == "i"
   }
-
+*/
 }
