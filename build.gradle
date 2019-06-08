@@ -89,3 +89,12 @@ gradle.projectsEvaluated {
     options.compilerArgs << "-Xlint:all" << "-Werror"
   }
 }
+
+compileJava {
+  doFirst {
+    options.compilerArgs = [
+      "--module-path", classpath.asPath
+    ]
+    classpath = files()
+  }
+}
