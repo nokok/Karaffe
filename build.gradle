@@ -20,7 +20,7 @@ repositories {
     jcenter()
 }
 
-def asmVersion = '7.0'
+def asmVersion = '7.1'
 
 dependencies {
     antlr "org.antlr:antlr4:4.7.1"
