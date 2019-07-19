@@ -16,8 +16,11 @@ The Karaffe is a new programming language, **currently under active development.
 
 # Requirements
 
-JDK 1.9+ required.
+JDK 11+ required.
 
-# Build
+# How to build
 
-TODO
+```
+$ ./gradlew build
+$ ./build/install/Karaffe/bin/krfc
+```
