@@ -1,19 +1,11 @@
 package org.karaffe.compiler;
 
+import org.karaffe.compiler.util.StartupEnv;
+import org.karaffe.compiler.phase.Phases;
 import org.karaffe.compiler.tree.formatter.SimpleTreeFormatter;
 import org.karaffe.compiler.util.CompilerContext;
-import org.karaffe.compiler.util.KaraffeSource;
-import org.karaffe.compiler.util.args.Flag;
-import org.karaffe.compiler.util.report.Report;
-import org.karaffe.compiler.util.report.ReportCode;
-
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Scanner;
 
 public class Main {
-
-  private CompilerContext context = new CompilerContext();
 
   public static void main(String[] args) {
     Main main = new Main();
@@ -21,6 +13,8 @@ public class Main {
   }
 
   public void run(String[] args) {
+    StartupEnv env = StartupEnv.create(args, System.getenv());
+    CompilerContext context = CompilerContext.createInitialContext(env);
     Thread.setDefaultUncaughtExceptionHandler((thread, throwable) -> {
       System.out.println("===ERROR===");
       throwable.printStackTrace();
@@ -30,30 +24,9 @@ public class Main {
       SimpleTreeFormatter formatter = new SimpleTreeFormatter();
       System.out.println(formatter.format(context));
     });
-    context.parseRawArgs(args);
-    if (context.hasFlag(Flag.VERSION)) {
-      context.add(Report.newReport(ReportCode.INFO_COMPILER_VERSION).withVariable("0.1.0").build());
-    } else if (context.requireShowUsage()) {
-      context.add(Report.newReport(ReportCode.INFO_USAGE) /*.withVariable(supportedOptions)*/.withBody("krfc <options> <sources>").build());
-    } else {
-      if (context.hasFlag(Flag.STDIN)) {
-        Scanner scanner = new Scanner(System.in);
-        List<String> lines = new ArrayList<>();
-        while (scanner.hasNextLine()) {
-          lines.add(scanner.nextLine());
-        }
-        context.add(KaraffeSource.fromString(String.join("\n", lines), "<stdin>"));
-      }
-      KaraffeCompiler compiler = new KaraffeCompiler(context);
-      compiler.run();
-    }
-    String outputText = context.getOutputText();
-    if (!outputText.isEmpty()) {
-      System.out.println(outputText);
-    }
+
+    Phases phases = Phases.createPhasesFromContext(context);
+    phases.executeAll();
   }
 
-  public CompilerContext getContext() {
-    return context;
-  }
 }

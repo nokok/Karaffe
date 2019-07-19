@@ -32,18 +32,24 @@ public class CompilerContext {
 
   private boolean hasError = false;
 
-  public void parseRawArgs(String[] rawArgs) {
-    this.rawArgs = Objects.requireNonNull(rawArgs);
-    ArgsParser argsParser = new ArgsParser();
-    argsParser.parse(rawArgs).ifPresent(options -> {
-      this.options = options;
-      this.sources.clear();
-      this.options.sourceStream().forEach(sources::add);
+  private CompilerContext() {
+
+  }
+
+  public static CompilerContext createInitialContext() {
+    return new CompilerContext();
+  }
+
+  public static CompilerContext createInitialContext(StartupEnv env) {
+    CompilerContext compilerContext = new CompilerContext();
+    compilerContext.rawArgs = env.getCommandLineArgs();
+    ArgsParser parser = new ArgsParser();
+    parser.parse(compilerContext.rawArgs).ifPresent(o -> {
+      compilerContext.options = o;
+      o.sourceStream().forEach(compilerContext.sources::add);
     });
-    this.reports.addAll(argsParser.getReports());
-    if (this.reports.stream().anyMatch(Report::isError)) {
-      this.hasError = true;
-    }
+    compilerContext.reports.addAll(parser.getReports());
+    return compilerContext;
   }
 
   public boolean hasError() {
@@ -89,25 +95,12 @@ public class CompilerContext {
     return outputFiles;
   }
 
-  public boolean requireShowUsage() {
-    return (this.rawArgs.length == 0 || this.getSources().isEmpty()) || this.hasError || this.hasFlag(Flag.HELP);
-  }
-
   public boolean hasFlag(Flag flagName) {
     return this.options.hasFlag(flagName);
   }
 
   public Optional<String> getParameter(ParameterName parameterName) {
     return this.options.getParameter(parameterName);
-  }
-
-  public String getOutputText() {
-    List<String> reportTexts = new ArrayList<>();
-    ReportFormatter formatter = new ReportFormatter(this);
-    for (Report report : this.reports) {
-      reportTexts.add(formatter.format(report));
-    }
-    return String.join("\n", reportTexts);
   }
 
   public Tree getUntypedTree() {
