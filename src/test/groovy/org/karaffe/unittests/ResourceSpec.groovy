@@ -27,6 +27,6 @@ class ResourceSpec extends Specification {
   def "resourceBundle JP"() {
     def resource = ResourceBundle.getBundle("Message", Locale.JAPAN)
     expect:
-    resource.getString("unknown") != "Unknown Error"
+    resource.getString("compiler_internal.unknown") != "Unknown Error"
   }
 }

@@ -32,36 +32,8 @@ public class KaraffeCompiler implements Runnable {
       return;
     }
 
-    context.getParameter(ParameterName.EMIT).map(String::toLowerCase).ifPresent(param -> {
-      FormatType type;
-      if (param.equals("ast")) {
-        type = FormatType.SIMPLE;
-      } else if (param.equals("source")) {
-        type = FormatType.SOURCE;
-      } else {
-        this.context.add(Report.newReport(ReportCode.ERR_UNRECOGNIZED_ARGUMENT).withVariable(param).build());
-        return;
-      }
-      InternalStateFormatter formatter = InternalStateFormatter.fromType(type);
-      this.context.add(Report.newReport(ReportCode.INFO_AST).withBody(formatter.format(this.context)).build());
-    });
-
     Backend backend = Backend.getBackend(context);
     backend.execute();
 
-    if (context.hasError()) {
-      return;
-    }
-
-    if (this.context.hasFlag(Flag.DRY_RUN)) {
-      return;
-    }
-    for (Map.Entry<Path, byte[]> entry : context.getOutputFiles().entrySet()) {
-      try {
-        Files.write(entry.getKey(), entry.getValue());
-      } catch (IOException e) {
-        throw new UncheckedIOException(e);
-      }
-    }
   }
 }
