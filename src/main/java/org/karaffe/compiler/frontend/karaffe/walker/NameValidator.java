@@ -25,9 +25,9 @@ public class NameValidator extends TreeWalker {
     String name = tree.dig(NodeType.Identifier).map(Tree::getName).orElseThrow();
     NameValidationResult result = classNameValidator.validate(name);
     if (result.isError()) {
-      this.context.add(Report.newReport(ReportCode.ERR_NAME_VALIDATION_FAILED).withVariable(result).with(tree.getPosition()).build());
+//      this.context.add(Report.newReport(ReportCode.ERR_NAME_VALIDATION_FAILED).withVariable(result).with(tree.getPosition()).build());
     } else if (result.isWarn()) {
-      this.context.add(Report.newReport(ReportCode.WARN_NAME_VALIDATION).withVariable(result).with(tree.getPosition()).build());
+//      this.context.add(Report.newReport(ReportCode.WARN_NAME_VALIDATION).withVariable(result).with(tree.getPosition()).build());
     }
   }
 }

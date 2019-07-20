@@ -1,29 +1,51 @@
 package org.karaffe.compiler.util.report;
 
 import java.util.ResourceBundle;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 public enum ReportCode {
-  ERR_SYNTAX("frontend.syntax_error"),
-  ERR_NAME_VALIDATION_FAILED("frontend.name_validation_failed"),
-  ERR_CLASS_NOT_FOUND("frontend.not_found.class"),
-  ERR_INVALID_INHERITANCE_UNEXPECTED_INTERFACE("frontend.invalid_inheritance.unexpected_interface"),
-  ERR_INVALID_INHERITANCE_FINAL_CLASS("frontend.invalid_inheritance.final_class"),
-  ERR_INVALID_INHERITANCE_ARRAY_TYPE("frontend.invalid_inheritance.array_type"),
-
-  WARN_NAME_VALIDATION("frontend.name_validation_warning"),
-
-  INFO_COMPILER_VERSION("compiler_internal.version"),
+  ERR_FRONTEND_SYNTAX
+    (true, true, "frontend.syntax_error"),
+  INFO_COMPILER_INTERNAL_VERSION
+    (false, false, "compiler_internal.version"),
   ;
 
+  private static final Pattern variablePattern = Pattern.compile("\\{[0-9]+\\}");
   private static final ResourceBundle bundle = ResourceBundle.getBundle("Message");
   private final String errorKey;
+  private final boolean requireBody;
+  private final boolean requirePosition;
 
-  ReportCode(String errorKey) {
+  ReportCode(boolean requirePosition, boolean requireBody, String errorKey) {
     this.errorKey = errorKey;
+    this.requireBody = requireBody;
+    this.requirePosition = requirePosition;
   }
 
-  public String toTitleName() {
+  public String toReportHeader() {
     return bundle.getString(errorKey);
+  }
+
+  public boolean isRequireVariable() {
+    return toReportHeader().contains("{0}");
+  }
+
+  public int getVarCount() {
+    Matcher matcher = variablePattern.matcher(this.toReportHeader());
+    int count = 0;
+    while (matcher.find()) {
+      count++;
+    }
+    return count;
+  }
+
+  public boolean isRequireBody() {
+    return requireBody;
+  }
+
+  public boolean isRequirePosition() {
+    return requirePosition;
   }
 
   public ReportType toReportType() {

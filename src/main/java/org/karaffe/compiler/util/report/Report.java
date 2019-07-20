@@ -14,19 +14,7 @@ public class Report {
   private String body;
 
   public static Report.Builder newReport(ReportCode reportCode) {
-    return new Builder(reportCode.toTitleName(), reportCode.toReportType());
-  }
-
-  public static Report.Builder newErrorReport(String title) {
-    return new Builder(title, ReportType.ERROR);
-  }
-
-  public static Report.Builder newWarningReport(String title) {
-    return new Builder(title, ReportType.WARN);
-  }
-
-  public static Report.Builder newInfoReport(String title) {
-    return new Builder(title, ReportType.INFO);
+    return new Builder(reportCode);
   }
 
   public ReportType getReportType() {
@@ -55,17 +43,13 @@ public class Report {
   }
 
   public static class Builder {
-    private final ReportType reportType;
+    private final ReportCode reportCode;
     private String title;
     private Position position = null;
     private String body;
 
-    private Builder(String title, ReportType reportType) {
-      this.title = Objects.requireNonNull(title);
-      this.reportType = Objects.requireNonNull(reportType);
-      if (this.title.trim().isEmpty()) {
-        throw new IllegalArgumentException("empty title");
-      }
+    private Builder(ReportCode reportCode) {
+      this.reportCode = Objects.requireNonNull(reportCode);
     }
 
     public Builder with(Position position) {
@@ -75,14 +59,8 @@ public class Report {
 
     public Report build() {
       Report report = new Report();
-      if (this.reportType == null) {
-        throw new IllegalStateException("null reportType");
-      }
-      report.reportType = this.reportType;
-      if (this.title == null) {
-        throw new IllegalStateException("null title");
-      }
-      report.header = this.title;
+      report.reportType = reportCode.toReportType();
+      report.header = reportCode.toReportHeader();
       report.position = this.position;
       report.body = this.body;
       return report;

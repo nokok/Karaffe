@@ -27,7 +27,7 @@ public class DefaultErrorListener implements ANTLRErrorListener {
   @Override
   public void syntaxError(Recognizer<?, ?> recognizer, Object offendingSymbol, int line, int charPositionInLine, String msg, RecognitionException e) {
     Position position = new Position(line, charPositionInLine, recognizer);
-    context.add(Report.newReport(ReportCode.ERR_SYNTAX).with(position).build());
+    context.add(Report.newReport(ReportCode.ERR_FRONTEND_SYNTAX).with(position).build());
     this.hasSyntaxError = true;
   }
 
@@ -59,7 +59,7 @@ public class DefaultErrorListener implements ANTLRErrorListener {
     } else {
       lastErrorPosition = position;
     }
-    context.add(Report.newReport(ReportCode.ERR_SYNTAX).with(position).build());
+    context.add(Report.newReport(ReportCode.ERR_FRONTEND_SYNTAX).with(position).build());
     this.hasSyntaxError = true;
   }
 

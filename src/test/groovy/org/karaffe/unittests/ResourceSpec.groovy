@@ -8,7 +8,7 @@ class ResourceSpec extends Specification {
   @Unroll
   def "properties #code"() {
     when:
-    code.toTitleName()
+    code.toReportHeader()
 
     then:
     notThrown(MissingResourceException)

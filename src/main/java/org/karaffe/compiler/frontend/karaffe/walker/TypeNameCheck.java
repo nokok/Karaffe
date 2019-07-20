@@ -20,7 +20,7 @@ public class TypeNameCheck extends TreeWalker {
   @Override
   public void onSuperClass(Tree tree) {
     tree.dig(NodeType.ArrayTypeName, NodeType.Identifier).ifPresent(c -> {
-      this.context.add(Report.newReport(ReportCode.ERR_INVALID_INHERITANCE_ARRAY_TYPE).with(tree.getPosition()).build());
+//      this.context.add(Report.newReport(ReportCode.ERR_INVALID_INHERITANCE_ARRAY_TYPE).with(tree.getPosition()).build());
     });
     Optional<Tree> typeName = tree.dig(NodeType.TypeName, NodeType.Identifier);
     typeName.map(Tree::getName).ifPresent(className -> {
@@ -29,15 +29,15 @@ public class TypeNameCheck extends TreeWalker {
         Optional<Tree> superClass = tree.climb(NodeType.SuperClass);
         superClass.ifPresent(s -> {
           if (clazz.isInterface()) {
-            this.context.add(Report.newReport(ReportCode.ERR_INVALID_INHERITANCE_UNEXPECTED_INTERFACE).with(tree.getPosition()).build());
+//            this.context.add(Report.newReport(ReportCode.ERR_INVALID_INHERITANCE_UNEXPECTED_INTERFACE).with(tree.getPosition()).build());
           }
           int modifiers = clazz.getModifiers();
           if (Modifier.isFinal(modifiers)) {
-            this.context.add(Report.newReport(ReportCode.ERR_INVALID_INHERITANCE_FINAL_CLASS).with(tree.getPosition()).build());
+//            this.context.add(Report.newReport(ReportCode.ERR_INVALID_INHERITANCE_FINAL_CLASS).with(tree.getPosition()).build());
           }
         });
       } catch (ClassNotFoundException e) {
-        this.context.add(Report.newReport(ReportCode.ERR_CLASS_NOT_FOUND).withVariable(className).build());
+//        this.context.add(Report.newReport(ReportCode.ERR_CLASS_NOT_FOUND).withVariable(className).build());
       }
     });
   }
