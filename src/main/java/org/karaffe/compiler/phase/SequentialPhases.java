@@ -20,9 +20,9 @@ public class SequentialPhases implements MutablePhases {
   }
 
   @Override
-  public void executeAll() {
+  public void executeAll(CompilerContext context) {
     for (Phase phase : phases) {
-      phase.execute();
+      phase.execute(context);
     }
   }
 

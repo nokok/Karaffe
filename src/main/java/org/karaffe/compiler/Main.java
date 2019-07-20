@@ -26,7 +26,7 @@ public class Main {
     });
 
     Phases phases = Phases.createPhasesFromContext(context);
-    phases.executeAll();
+    phases.executeAll(context);
   }
 
 }

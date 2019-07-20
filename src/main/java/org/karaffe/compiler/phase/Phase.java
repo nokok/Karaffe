@@ -1,5 +1,10 @@
 package org.karaffe.compiler.phase;
 
+import org.karaffe.compiler.util.CompilerContext;
+
 public interface Phase {
-  void execute();
+
+  String getName();
+
+  void execute(CompilerContext context);
 }

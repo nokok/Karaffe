@@ -2,6 +2,7 @@ package org.karaffe.unittests
 
 import org.karaffe.compiler.phase.Phase
 import org.karaffe.compiler.phase.SequentialPhases
+import org.karaffe.compiler.util.CompilerContext
 import spock.lang.Specification
 
 class PhaseSpec extends Specification {
@@ -10,15 +11,24 @@ class PhaseSpec extends Specification {
     private int value = 0
 
     @Override
-    void execute() { this.value = 1 }
+    String getName() {
+      return null
+    }
 
+    @Override
+    void execute(CompilerContext context) { this.value = 1 }
   }
 
   class Phase2 implements Phase {
     private int value = 0
 
     @Override
-    void execute() { this.value = 2 }
+    String getName() {
+      return null
+    }
+
+    @Override
+    void execute(CompilerContext context) { this.value = 2 }
   }
 
   def "testSequentialPhases"() {
