@@ -8,22 +8,15 @@ import org.karaffe.compiler.util.args.Flag;
 import org.karaffe.compiler.util.args.Options;
 import org.karaffe.compiler.util.args.ParameterName;
 import org.karaffe.compiler.util.report.Report;
-import org.karaffe.compiler.util.report.ReportFormatter;
 
 import java.nio.file.Path;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.Objects;
-import java.util.Optional;
+import java.util.*;
 
 public class CompilerContext {
 
   private final ClassLoader defaultClassLoader = Thread.currentThread().getContextClassLoader();
   private final DynamicClassLoader dynamicClassLoader = new DynamicClassLoader(defaultClassLoader);
 
-  private String[] rawArgs = new String[0];
   private Options options = new Options();
   private List<KaraffeSource> sources = new ArrayList<>();
   private List<Report> reports = new ArrayList<>();
@@ -42,13 +35,8 @@ public class CompilerContext {
 
   public static CompilerContext createInitialContext(StartupEnv env) {
     CompilerContext compilerContext = new CompilerContext();
-    compilerContext.rawArgs = env.getCommandLineArgs();
     ArgsParser parser = new ArgsParser();
-    parser.parse(compilerContext.rawArgs).ifPresent(o -> {
-      compilerContext.options = o;
-      o.sourceStream().forEach(compilerContext.sources::add);
-    });
-    compilerContext.reports.addAll(parser.getReports());
+    compilerContext.options = parser.parse(env);
     return compilerContext;
   }
 
@@ -91,16 +79,20 @@ public class CompilerContext {
     }
   }
 
+  public List<Report> getReports() {
+    return new ArrayList<>(this.reports);
+  }
+
   public Map<Path, byte[]> getOutputFiles() {
     return outputFiles;
   }
 
   public boolean hasFlag(Flag flagName) {
-    return this.options.hasFlag(flagName);
+    return false; // TODO
   }
 
   public Optional<String> getParameter(ParameterName parameterName) {
-    return this.options.getParameter(parameterName);
+    return Optional.empty();// TODO
   }
 
   public Tree getUntypedTree() {
