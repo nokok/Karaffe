@@ -2,6 +2,9 @@ package org.karaffe.compiler.util.args;
 
 import org.karaffe.compiler.util.StartupEnv;
 
+import java.util.HashSet;
+import java.util.Set;
+
 public class ArgsParser {
 
   public Options parse(StartupEnv env) {
@@ -9,22 +12,14 @@ public class ArgsParser {
   }
 
   public Options parse(String[] args) {
-    boolean help = false;
-    boolean version = false;
-    boolean debugInfo = false;
-    for (String arg : args) {
-      if (arg.equals("--help")) {
-        help = true;
-        continue;
-      }
-      if (arg.equals("--version")) {
-        version = true;
-        continue;
-      }
-      if (arg.equals("-g")) {
-        debugInfo = true;
+    Set<Flag> flags = new HashSet<>();
+    for (Flag flag : Flag.values()) {
+      for (String arg : args) {
+        if (flag.is(arg)) {
+          flags.add(flag);
+        }
       }
     }
-    return new Options(help, version, debugInfo);
+    return new Options(flags);
   }
 }

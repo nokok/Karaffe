@@ -10,7 +10,12 @@ import org.karaffe.compiler.util.args.ParameterName;
 import org.karaffe.compiler.util.report.Report;
 
 import java.nio.file.Path;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+import java.util.Objects;
+import java.util.Optional;
 
 public class CompilerContext {
 
@@ -87,8 +92,8 @@ public class CompilerContext {
     return outputFiles;
   }
 
-  public boolean hasFlag(Flag flagName) {
-    return false; // TODO
+  public boolean hasFlag(Flag flag) {
+    return options.hasFlag(flag);
   }
 
   public Optional<String> getParameter(ParameterName parameterName) {
