@@ -73,7 +73,7 @@ public class Report {
       }
       Report report = new Report();
       report.reportType = reportCode.toReportType();
-      report.header = reportCode.toReportHeader();
+      report.header = this.header;
       report.position = this.position;
       report.body = this.body;
       return report;
