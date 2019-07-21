@@ -2,6 +2,7 @@ package org.karaffe.unittests
 
 import org.karaffe.compiler.phase.Phase
 import org.karaffe.compiler.phase.SequentialPhases
+import org.karaffe.compiler.phase.util.ShowVersionPhase
 import org.karaffe.compiler.util.CompilerContext
 import spock.lang.Specification
 
@@ -43,5 +44,17 @@ class PhaseSpec extends Specification {
     expect:
     ph1.value == 1
     ph2.value == 2
+  }
+
+  def "testShowVersionPhase"() {
+    setup:
+    def ctx = CompilerContext.createInitialContext()
+    def p = new ShowVersionPhase()
+
+    expect:
+    ctx.reports.size() == 0
+    p.execute(ctx)
+    ctx.reports.size() == 1
+
   }
 }

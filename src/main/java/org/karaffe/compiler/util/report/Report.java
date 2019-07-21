@@ -44,12 +44,13 @@ public class Report {
 
   public static class Builder {
     private final ReportCode reportCode;
-    private String title;
+    private String header;
     private Position position = null;
-    private String body;
+    private String body = null;
 
     private Builder(ReportCode reportCode) {
       this.reportCode = Objects.requireNonNull(reportCode);
+      this.header = reportCode.toReportHeader();
     }
 
     public Builder with(Position position) {
@@ -58,6 +59,18 @@ public class Report {
     }
 
     public Report build() {
+      if (this.reportCode.isRequireBody() && (this.body == null || this.body.isBlank())) {
+        throw new IllegalStateException("body required");
+      }
+      if (this.reportCode.isRequirePosition() && (this.position == null || this.position.isNoPos())) {
+        throw new IllegalStateException("position required");
+      }
+      if (this.header == null) {
+        throw new IllegalStateException("header required");
+      }
+      if (this.header.contains("{0}")) {
+        throw new IllegalStateException("illegal variables : " + this.header);
+      }
       Report report = new Report();
       report.reportType = reportCode.toReportType();
       report.header = reportCode.toReportHeader();
@@ -72,7 +85,7 @@ public class Report {
     }
 
     public Builder withVariable(Object obj, Object... vars) {
-      this.title = MessageFormat.format(this.title, obj, vars);
+      this.header = MessageFormat.format(this.header, obj, vars);
       return this;
     }
   }

@@ -6,5 +6,9 @@ public interface Phase {
 
   String getName();
 
+  default void execute() {
+    execute(CompilerContext.createInitialContext());
+  }
+
   void execute(CompilerContext context);
 }

@@ -6,7 +6,7 @@ import java.util.regex.Pattern;
 
 public enum ReportCode {
   ERR_FRONTEND_SYNTAX
-    (true, true, "frontend.syntax_error"),
+    (true, false, "frontend.syntax_error"),
   INFO_COMPILER_INTERNAL_VERSION
     (false, false, "compiler_internal.version"),
   ;

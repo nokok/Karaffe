@@ -17,7 +17,7 @@ class ReportCodeSpec extends Specification {
     where:
 
     source                                    || varCount || requireBody || requirePosition
-    ReportCode.ERR_FRONTEND_SYNTAX            || 0        || true        || true
+    ReportCode.ERR_FRONTEND_SYNTAX            || 0        || false       || true
     ReportCode.INFO_COMPILER_INTERNAL_VERSION || 1        || false       || false
   }
 }
