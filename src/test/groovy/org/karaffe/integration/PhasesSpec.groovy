@@ -15,4 +15,13 @@ class PhasesSpec extends Specification {
     expect:
     phases.getPhase("show-version").isPresent()
   }
+
+  def "reporting"() {
+    setup:
+    def ctx = CompilerContext.createInitialContext(StartupEnv.create([] as String[], [:]))
+    def phases = Phases.createPhasesFromContext(ctx)
+
+    expect:
+    phases.getPhase("reporting").isPresent()
+  }
 }

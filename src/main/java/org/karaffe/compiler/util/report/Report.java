@@ -37,6 +37,14 @@ public class Report {
     return this.reportType.equals(ReportType.ERROR);
   }
 
+  public boolean hasPosition() {
+    return !(this.position == null || this.position.isNoPos());
+  }
+
+  public boolean hasBody() {
+    return !(this.body == null || this.body.isBlank());
+  }
+
   @Override
   public String toString() {
     return String.format("[%s] %s at %s", this.reportType.name(), this.header, this.position);

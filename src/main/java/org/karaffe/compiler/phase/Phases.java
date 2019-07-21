@@ -1,5 +1,6 @@
 package org.karaffe.compiler.phase;
 
+import org.karaffe.compiler.phase.util.ReportingPhase;
 import org.karaffe.compiler.phase.util.ShowVersionPhase;
 import org.karaffe.compiler.util.CompilerContext;
 import org.karaffe.compiler.util.args.Flag;
@@ -12,6 +13,7 @@ public interface Phases extends Iterable<Phase> {
     if (context.hasFlag(Flag.VERSION)) {
       phases.add(new ShowVersionPhase());
     }
+    phases.add(new ReportingPhase());
     return phases;
   }
 
