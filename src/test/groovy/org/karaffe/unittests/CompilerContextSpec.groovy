@@ -6,7 +6,7 @@ import spock.lang.Specification
 
 class CompilerContextSpec extends Specification {
 
-   def "createContext"() {
+  def "createContext"() {
     def env = StartupEnv.create([] as String[], [:])
     def ctx = CompilerContext.createInitialContext(env)
 
