@@ -3,6 +3,7 @@ package org.karaffe.compiler.util.args;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Optional;
+import java.util.ResourceBundle;
 
 public enum Flag {
   VERSION("--version"),
@@ -10,6 +11,7 @@ public enum Flag {
   DEBUG("-g"),
   VERBOSE("-v");
 
+  private static final ResourceBundle bundle = ResourceBundle.getBundle("Message");
   private final List<String> args;
 
   Flag(String... args) {
@@ -27,6 +29,10 @@ public enum Flag {
       }
     }
     return Optional.empty();
+  }
+
+  public String getDescription() {
+    return bundle.getString("usage." + this.name().toLowerCase());
   }
 
   @Override
