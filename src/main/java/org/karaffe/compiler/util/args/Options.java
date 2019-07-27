@@ -14,8 +14,12 @@ public class Options {
     this.flags = new HashSet<>(0);
   }
 
-  public Options(Set<Flag> flags) {
+  Options(Set<Flag> flags) {
     this.flags = Objects.requireNonNull(flags);
+  }
+
+  public boolean isInvalid() {
+    return false;
   }
 
   @Override
