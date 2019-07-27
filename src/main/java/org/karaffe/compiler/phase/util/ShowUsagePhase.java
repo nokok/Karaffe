@@ -32,8 +32,18 @@ public class ShowUsagePhase implements Phase {
   @Override
   public void execute(CompilerContext context) {
     StringBuilder stringBuilder = new StringBuilder();
+
+    int maxWidthLeft = 0;
     for (Flag flag : supportedFlags) {
-      stringBuilder.append(flag.toFullString()).append(System.lineSeparator());
+      maxWidthLeft = Math.max(flag.toFullString().length(), maxWidthLeft);
+    }
+
+    maxWidthLeft += 2;
+
+    String formatText = "%-" + maxWidthLeft + "s";
+
+    for (Flag flag : supportedFlags) {
+      stringBuilder.append(String.format(formatText, flag.toFullString())).append(flag.getDescription()).append(System.lineSeparator());
     }
     context.add(Report.newReport(ReportCode.INFO_COMPILER_INTERNAL_USAGE).withBody(stringBuilder.toString()).build());
   }
