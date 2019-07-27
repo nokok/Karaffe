@@ -12,7 +12,7 @@ import java.util.Optional;
 public interface Phases extends Iterable<Phase> {
   static Phases createPhasesFromContext(CompilerContext context) {
     MutablePhases phases = new SequentialPhases();
-    if (context.hasInvalidArgs()) {
+    if (context.hasInvalidArgs() || context.hasFlag(Flag.HELP)) {
       phases.add(new ShowUsagePhase(Flag.values(), ParameterName.values()));
     }
     if (context.hasFlag(Flag.VERSION)) {
