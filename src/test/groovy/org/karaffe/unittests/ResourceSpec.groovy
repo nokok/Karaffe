@@ -16,17 +16,4 @@ class ResourceSpec extends Specification {
     where:
     code << Arrays.asList(ReportCode.values())
   }
-/*
-  def "resourceBundle US"() {
-    def resource = ResourceBundle.getBundle("Message", Locale.US)
-    expect:
-    resource.getString("unknown") == "Unknown Error"
-  }
-
-*/
-  def "resourceBundle JP"() {
-    def resource = ResourceBundle.getBundle("Message", Locale.JAPAN)
-    expect:
-    resource.getString("compiler_internal.unknown") != "Unknown Error"
-  }
 }

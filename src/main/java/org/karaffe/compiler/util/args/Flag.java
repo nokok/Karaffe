@@ -7,7 +7,8 @@ import java.util.Optional;
 public enum Flag {
   VERSION("--version"),
   HELP("--help", "-h"),
-  DEBUG("-g");
+  DEBUG("-g"),
+  VERBOSE("-v");
 
   private final List<String> args;
 
@@ -31,5 +32,9 @@ public enum Flag {
   @Override
   public String toString() {
     return this.args.get(0);
+  }
+
+  public String toFullString() {
+    return String.join(",", this.args);
   }
 }

@@ -2,9 +2,12 @@ package org.karaffe.unittests
 
 import org.karaffe.compiler.phase.Phase
 import org.karaffe.compiler.phase.SequentialPhases
+import org.karaffe.compiler.phase.util.ShowReportsPhase
+import org.karaffe.compiler.phase.util.ShowUsagePhase
 import org.karaffe.compiler.phase.util.ShowVersionPhase
 import org.karaffe.compiler.util.CompilerContext
 import spock.lang.Specification
+import spock.lang.Unroll
 
 class PhaseSpec extends Specification {
 
@@ -56,5 +59,17 @@ class PhaseSpec extends Specification {
     p.execute(ctx)
     ctx.reports.size() == 1
 
+  }
+
+  @Unroll
+  def "testPhaseName #name"() {
+    expect:
+    phase.getName() == name
+
+    where:
+    phase                  || name
+    new ShowVersionPhase() || "show-version"
+    new ShowUsagePhase()   || "show-usage"
+    new ShowReportsPhase() || "show-reports"
   }
 }

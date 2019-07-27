@@ -21,6 +21,7 @@ class ArgSpec extends Specification {
     ["--help"]    || "Options{--help}"
     ["--version"] || "Options{--version}"
     ["-g"]        || "Options{-g}"
+    ["-v"]        || "Options{-v}"
     ["-version"]  || "InvalidOptions{-version}"
     ["-help"]     || "InvalidOptions{-help}"
   }

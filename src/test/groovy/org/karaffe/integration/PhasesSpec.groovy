@@ -22,6 +22,6 @@ class PhasesSpec extends Specification {
     def phases = Phases.createPhasesFromContext(ctx)
 
     expect:
-    phases.getPhase("reporting").isPresent()
+    phases.getPhase("show-reports").isPresent()
   }
 }

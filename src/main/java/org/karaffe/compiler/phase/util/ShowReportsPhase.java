@@ -4,23 +4,21 @@ import org.karaffe.compiler.phase.Phase;
 import org.karaffe.compiler.util.CompilerContext;
 import org.karaffe.compiler.util.report.Report;
 
-public class ReportingPhase implements Phase {
+public class ShowReportsPhase implements Phase {
   @Override
   public String getName() {
-    return "reporting";
+    return "show-reports";
   }
 
   @Override
   public void execute(CompilerContext context) {
     for (Report report : context.getReports()) {
       if (report.hasPosition()) {
-        System.out.println(report.getHeader() + " at " + report.getPosition());
+        context.writeLine(report.getHeader() + " at " + report.getPosition());
       } else {
-        System.out.println(report.getHeader());
+        context.writeLine(report.getHeader());
       }
-      if (report.hasBody()) {
-        System.out.println(report.getBody());
-      }
+      report.getBody().ifPresent(context::writeLine);
     }
   }
 }

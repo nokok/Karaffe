@@ -9,6 +9,8 @@ public enum ReportCode {
     (true, false, "frontend.syntax_error"),
   INFO_COMPILER_INTERNAL_VERSION
     (false, false, "compiler_internal.version"),
+  INFO_COMPILER_INTERNAL_USAGE
+    (false, true, "compiler_internal.usage"),
   ;
 
   private static final Pattern variablePattern = Pattern.compile("\\{[0-9]+\\}");

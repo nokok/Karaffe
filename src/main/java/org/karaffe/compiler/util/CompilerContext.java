@@ -9,6 +9,7 @@ import org.karaffe.compiler.util.args.Options;
 import org.karaffe.compiler.util.args.ParameterName;
 import org.karaffe.compiler.util.report.Report;
 
+import java.io.PrintStream;
 import java.nio.file.Path;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -28,6 +29,9 @@ public class CompilerContext {
   private Map<Path, byte[]> outputFiles = new HashMap<>();
   private Tree untypedTree = TreeFactory.newTree(NodeType.Error, Position.noPos());
 
+  private PrintStream stdOut;
+  private PrintStream stdOutDebug;
+
   private boolean hasError = false;
 
   private CompilerContext() {
@@ -42,6 +46,12 @@ public class CompilerContext {
     CompilerContext compilerContext = new CompilerContext();
     ArgsParser parser = new ArgsParser();
     compilerContext.options = parser.parse(env);
+    compilerContext.stdOut = System.out;
+    if (compilerContext.options.hasFlag(Flag.VERBOSE)) {
+      compilerContext.stdOutDebug = System.out;
+    } else {
+      compilerContext.stdOutDebug = new NopPrintStream();
+    }
     return compilerContext;
   }
 
@@ -92,6 +102,10 @@ public class CompilerContext {
     return outputFiles;
   }
 
+  public boolean hasInvalidArgs() {
+    return this.options.isInvalid();
+  }
+
   public boolean hasFlag(Flag flag) {
     return options.hasFlag(flag);
   }
@@ -106,5 +120,13 @@ public class CompilerContext {
 
   public void setUntypedTree(Tree untypedTree) {
     this.untypedTree = untypedTree;
+  }
+
+  public void writeLine(Object object) {
+    this.stdOut.println(object);
+  }
+
+  public void writeDebug(Object object) {
+    this.stdOutDebug.println(object);
   }
 }
