@@ -34,7 +34,7 @@ public class KaraffeSource implements CharSequence {
   private KaraffeSource(Path path) throws IOException {
     Objects.requireNonNull(path);
     List<String> strings = Files.readAllLines(path, StandardCharsets.UTF_8);
-    this.sourceName = path.toString();
+    this.sourceName = path.toString().replace("\\", "/");
     this.source = strings.stream().reduce((l, r) -> l + "\n" + r).orElse("");
     this.lines = Arrays.asList(source.split("\r\n|[\n\r\u2028\u2029\u0085]")); //java.util.Scanner#LINE_SEPARATOR_PATTERN
     this.charStream = CharStreams.fromPath(path);
