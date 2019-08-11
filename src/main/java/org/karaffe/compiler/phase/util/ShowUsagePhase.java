@@ -40,8 +40,9 @@ public class ShowUsagePhase implements Phase {
 
     maxWidthLeft += 2;
 
-    String formatText = "%-" + maxWidthLeft + "s";
+    String formatText = "  %-" + maxWidthLeft + "s";
 
+    stringBuilder.append("(options) : ").append(System.lineSeparator());
     for (Flag flag : supportedFlags) {
       stringBuilder.append(String.format(formatText, flag.toFullString())).append(flag.getDescription()).append(System.lineSeparator());
     }
