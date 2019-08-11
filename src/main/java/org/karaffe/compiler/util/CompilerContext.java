@@ -102,6 +102,10 @@ public class CompilerContext {
     return outputFiles;
   }
 
+  public boolean isEmptyArgs() {
+    return this.options.isEmpty();
+  }
+
   public boolean hasInvalidArgs() {
     return this.options.isInvalid();
   }

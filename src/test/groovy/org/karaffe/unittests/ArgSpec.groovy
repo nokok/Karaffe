@@ -27,4 +27,13 @@ class ArgSpec extends Specification {
     ["-help"]     || "InvalidOptions{-help}"
   }
 
+  def "isEmpty"() {
+    setup:
+    def parser = new ArgsParser()
+    def opt = parser.parse([] as String[])
+
+    expect:
+    opt.isEmpty()
+  }
+
 }

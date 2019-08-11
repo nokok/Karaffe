@@ -22,6 +22,10 @@ public class Options {
     return false;
   }
 
+  public boolean isEmpty() {
+    return this.flags.isEmpty();
+  }
+
   @Override
   public String toString() {
     List<String> options = new ArrayList<>();
