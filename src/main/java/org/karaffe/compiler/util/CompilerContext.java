@@ -24,7 +24,6 @@ public class CompilerContext {
   private final DynamicClassLoader dynamicClassLoader = new DynamicClassLoader(defaultClassLoader);
 
   private Options options = new Options();
-  private List<KaraffeSource> sources = new ArrayList<>();
   private List<Report> reports = new ArrayList<>();
   private Map<Path, byte[]> outputFiles = new HashMap<>();
   private Tree untypedTree = TreeFactory.newTree(NodeType.Error, Position.noPos());
@@ -59,22 +58,19 @@ public class CompilerContext {
     return this.hasError;
   }
 
-  public void add(KaraffeSource source) {
-    this.sources.add(Objects.requireNonNull(source));
+  public boolean hasSourceFile() {
+    return !this.getSourceFiles().isEmpty();
   }
 
-  public List<KaraffeSource> getSources() {
-    return this.sources;
+  public List<KaraffeSource> getSourceFiles() {
+    return new ArrayList<>(this.options.getSources());
   }
 
   public Optional<KaraffeSource> getSource(String sourceName) {
-    if (this.sources.isEmpty()) {
+    if (!this.hasSourceFile()) {
       return Optional.empty();
     }
-    if (this.sources.size() == 1) {
-      return Optional.of(this.sources.get(0));
-    }
-    return this.sources.stream().filter(s -> s.getSourceName().equals(sourceName)).findFirst();
+    return this.getSourceFiles().stream().filter(s -> s.getSourceName().equals(sourceName)).findFirst();
   }
 
   public boolean add(BytecodeEntry entry) {

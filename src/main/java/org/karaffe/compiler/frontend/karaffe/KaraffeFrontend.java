@@ -46,7 +46,7 @@ public class KaraffeFrontend implements Frontend {
 
   @Override
   public void execute() {
-    List<KaraffeSource> sources = context.getSources();
+    List<KaraffeSource> sources = context.getSourceFiles();
     KaraffeASTCreateVisitor astCreateVisitor = new KaraffeASTCreateVisitor(context);
     Stream<Optional<KaraffeParser.SourceFileContext>> antlrContextStream = sources.stream()
       .map(this::parse);

@@ -16,15 +16,17 @@ class ArgSpec extends Specification {
     opt.toString() == output
 
     where:
-    input         || output
-    []            || "Options{}"
-    ["--help"]    || "Options{--help}"
-    ["-h"]        || "Options{--help}"
-    ["--version"] || "Options{--version}"
-    ["-g"]        || "Options{-g}"
-    ["-v"]        || "Options{-v}"
-    ["-version"]  || "InvalidOptions{-version}"
-    ["-help"]     || "InvalidOptions{-help}"
+    input                           || output
+    []                              || "Options{}"
+    ["--help"]                      || "Options{--help}"
+    ["-h"]                          || "Options{--help}"
+    ["--version"]                   || "Options{--version}"
+    ["-g"]                          || "Options{-g}"
+    ["-v"]                          || "Options{-v}"
+    ["src/test/resources/Main.krf"] || "Options{src/test/resources/Main.krf}"
+    ["-version"]                    || "InvalidOptions{-version}"
+    ["-help"]                       || "InvalidOptions{-help}"
+    ["Main.krf"]                    || "InvalidOptions{Main.krf}"
   }
 
   def "isEmpty"() {
