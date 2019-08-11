@@ -1,5 +1,6 @@
 package org.karaffe.compiler.phase;
 
+import org.karaffe.compiler.phase.frontend.karaffe.KaraffeFrontend;
 import org.karaffe.compiler.phase.util.ShowReportsPhase;
 import org.karaffe.compiler.phase.util.ShowUsagePhase;
 import org.karaffe.compiler.phase.util.ShowVersionPhase;
@@ -17,6 +18,9 @@ public class DefaultPhasesFactory implements PhasesFactory {
     }
     if (ctx.hasFlag(Flag.VERSION)) {
       phases.add(new ShowVersionPhase());
+    }
+    if (ctx.hasSourceFile()) {
+      phases.addAll(new KaraffeFrontend());
     }
     phases.add(new ShowReportsPhase());
     return phases;

@@ -2,6 +2,7 @@ package org.karaffe.unittests
 
 import org.karaffe.compiler.phase.Phase
 import org.karaffe.compiler.phase.SequentialPhases
+import org.karaffe.compiler.phase.frontend.karaffe.KaraffeParsePhase
 import org.karaffe.compiler.phase.util.ShowReportsPhase
 import org.karaffe.compiler.phase.util.ShowUsagePhase
 import org.karaffe.compiler.phase.util.ShowVersionPhase
@@ -67,9 +68,10 @@ class PhaseSpec extends Specification {
     phase.getName() == name
 
     where:
-    phase                  || name
-    new ShowVersionPhase() || "show-version"
-    new ShowUsagePhase()   || "show-usage"
-    new ShowReportsPhase() || "show-reports"
+    phase                   || name
+    new ShowVersionPhase()  || "show-version"
+    new ShowUsagePhase()    || "show-usage"
+    new ShowReportsPhase()  || "show-reports"
+    new KaraffeParsePhase() || "frontend-karaffe-parser"
   }
 }
