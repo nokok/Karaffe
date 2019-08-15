@@ -28,6 +28,8 @@ public class CompilerContext {
   private Map<Path, byte[]> outputFiles = new HashMap<>();
   private Tree untypedTree = TreeFactory.newTree(NodeType.Error, Position.noPos());
 
+  private Map<String, Object> stateStore = new HashMap<>();
+
   private PrintStream stdOut;
   private PrintStream stdOutDebug;
 
@@ -128,5 +130,13 @@ public class CompilerContext {
 
   public void writeDebug(Object object) {
     this.stdOutDebug.println(object);
+  }
+
+  public void set(String key, Object value) {
+    this.stateStore.put(Objects.requireNonNull(key), Objects.requireNonNull(value));
+  }
+
+  public <T> T get(String key) {
+    return (T) this.stateStore.get(key);
   }
 }
