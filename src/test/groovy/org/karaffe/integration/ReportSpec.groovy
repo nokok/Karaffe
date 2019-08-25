@@ -17,4 +17,14 @@ class ReportSpec extends Specification {
     ctx.getReports().size() == 1
     ctx.getReports().get(0).getHeader() == "Karaffe compiler version: " + CompilerConstants.VERSION
   }
+
+  def "fileNotFound"() {
+    def ctx = CompilerContext.createInitialContext(StartupEnv.create(["Invalid.krf"] as String[], [:]))
+    def phases = Phases.createPhasesFromContext(ctx)
+    phases.executeAll(ctx)
+
+    expect:
+    ctx.getReports().size() == 1
+    ctx.getReports().get(0).getHeader() == "FileNotFound : Invalid.krf"
+  }
 }

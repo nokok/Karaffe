@@ -26,7 +26,7 @@ class ArgSpec extends Specification {
     ["src/test/resources/Main.krf"] || "Options{src/test/resources/Main.krf}"
     ["-version"]                    || "InvalidOptions{-version}"
     ["-help"]                       || "InvalidOptions{-help}"
-    ["Main.krf"]                    || "InvalidOptions{Main.krf}"
+    ["Main.krf"]                    || "FileNotFound{Main.krf}"
   }
 
   def "isEmpty"() {

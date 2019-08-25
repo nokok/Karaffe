@@ -26,7 +26,7 @@ public class ArgsParser {
           try {
             sources.add(KaraffeSource.fromPath(Paths.get(arg)));
           } catch (IOException e) {
-            return new InvalidOptions(arg);
+            return new FileNotFound(arg);
           }
         } else {
           return new InvalidOptions(arg);

@@ -7,6 +7,8 @@ import java.util.regex.Pattern;
 public enum ReportCode {
   ERR_FRONTEND_SYNTAX
     (true, false, "frontend.syntax_error"),
+  ERR_IO_FILE_NOT_FOUND(
+    false, false, "io.file_not_found"),
   INFO_COMPILER_INTERNAL_VERSION
     (false, false, "compiler_internal.version"),
   INFO_COMPILER_INTERNAL_USAGE

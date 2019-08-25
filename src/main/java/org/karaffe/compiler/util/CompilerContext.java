@@ -4,10 +4,12 @@ import org.karaffe.compiler.tree.NodeType;
 import org.karaffe.compiler.tree.Tree;
 import org.karaffe.compiler.tree.TreeFactory;
 import org.karaffe.compiler.util.args.ArgsParser;
+import org.karaffe.compiler.util.args.FileNotFound;
 import org.karaffe.compiler.util.args.Flag;
 import org.karaffe.compiler.util.args.Options;
 import org.karaffe.compiler.util.args.ParameterName;
 import org.karaffe.compiler.util.report.Report;
+import org.karaffe.compiler.util.report.ReportCode;
 
 import java.io.PrintStream;
 import java.nio.file.Path;
@@ -47,6 +49,10 @@ public class CompilerContext {
     CompilerContext compilerContext = new CompilerContext();
     ArgsParser parser = new ArgsParser();
     compilerContext.options = parser.parse(env);
+    if(!compilerContext.options.isValidFiles()) {
+      FileNotFound f = (FileNotFound) compilerContext.options;
+      compilerContext.add(Report.newReport(ReportCode.ERR_IO_FILE_NOT_FOUND).withVariable(f.getFileName()).build());
+    }
     compilerContext.stdOut = System.out;
     if (compilerContext.options.hasFlag(Flag.VERBOSE)) {
       compilerContext.stdOutDebug = System.out;
@@ -136,6 +142,7 @@ public class CompilerContext {
     this.stateStore.put(Objects.requireNonNull(key), Objects.requireNonNull(value));
   }
 
+  @SuppressWarnings("unchecked")
   public <T> T get(String key) {
     return (T) this.stateStore.get(key);
   }

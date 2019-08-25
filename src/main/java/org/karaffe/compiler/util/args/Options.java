@@ -27,6 +27,10 @@ public class Options {
     return false;
   }
 
+  public boolean isValidFiles() {
+    return true;
+  }
+
   public boolean isEmpty() {
     return this.flags.isEmpty() && this.sources.isEmpty();
   }
