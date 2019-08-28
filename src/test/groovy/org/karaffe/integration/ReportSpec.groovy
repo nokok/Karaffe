@@ -24,7 +24,7 @@ class ReportSpec extends Specification {
     phases.executeAll(ctx)
 
     expect:
-    ctx.getReports().size() == 1
-    ctx.getReports().get(0).getHeader() == "FileNotFound : Invalid.krf"
+    ctx.getReports().size() == 2
+    ctx.getReports().get(0).getHeader() == "file not found: Invalid.krf"
   }
 }

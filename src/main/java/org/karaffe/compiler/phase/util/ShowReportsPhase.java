@@ -24,7 +24,7 @@ public class ShowReportsPhase implements Phase {
       }
       String title;
       if (report.hasPosition()) {
-        title = report.getHeader() + " at " + report.getPosition();
+        title = report.getHeader() + " at " + report.getPosition().orElseThrow();
       } else {
         title = report.getHeader();
       }

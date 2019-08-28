@@ -32,13 +32,16 @@ public class CompilerContext {
 
   private Map<String, Object> stateStore = new HashMap<>();
 
+  private StringBuilder out = new StringBuilder();
   private PrintStream stdOut;
   private PrintStream stdOutDebug;
 
   private boolean hasError = false;
 
   private CompilerContext() {
-
+    this.stdOut = System.out;
+    this.stdOutDebug = System.out;
+    this.options = new Options();
   }
 
   public static CompilerContext createInitialContext() {
@@ -49,7 +52,7 @@ public class CompilerContext {
     CompilerContext compilerContext = new CompilerContext();
     ArgsParser parser = new ArgsParser();
     compilerContext.options = parser.parse(env);
-    if(!compilerContext.options.isValidFiles()) {
+    if (compilerContext.options instanceof FileNotFound) {
       FileNotFound f = (FileNotFound) compilerContext.options;
       compilerContext.add(Report.newReport(ReportCode.ERR_IO_FILE_NOT_FOUND).withVariable(f.getFileName()).build());
     }
@@ -131,6 +134,7 @@ public class CompilerContext {
   }
 
   public void writeLine(Object object) {
+    this.out.append(object).append(System.lineSeparator());
     this.stdOut.println(object);
   }
 
