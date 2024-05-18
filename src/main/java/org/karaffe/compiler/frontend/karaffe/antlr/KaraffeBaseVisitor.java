@@ -1,4 +1,4 @@
-// Generated from Karaffe.g4 by ANTLR 4.7.1
+// Generated from Karaffe.g4 by ANTLR 4.13.1
 package org.karaffe.compiler.frontend.karaffe.antlr;
 import org.antlr.v4.runtime.tree.AbstractParseTreeVisitor;
 
@@ -10,6 +10,7 @@ import org.antlr.v4.runtime.tree.AbstractParseTreeVisitor;
  * @param <T> The return type of the visit operation. Use {@link Void} for
  * operations with no return type.
  */
+@SuppressWarnings("CheckReturnValue")
 public class KaraffeBaseVisitor<T> extends AbstractParseTreeVisitor<T> implements KaraffeVisitor<T> {
 	/**
 	 * {@inheritDoc}
