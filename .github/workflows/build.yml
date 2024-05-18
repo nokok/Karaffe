@@ -1,7 +1,9 @@
 name: build
 
 on:
-  pull_request
+  pull_request:
+    paths-ignore:
+      - '*.md'
 
 jobs:
   build:
