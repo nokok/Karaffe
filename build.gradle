@@ -29,7 +29,7 @@ repositories {
 def asmVersion = '7.3.1'
 
 dependencies {
-    antlr "org.antlr:antlr4:4.7.1"
+    antlr "org.antlr:antlr4:4.13.1"
     implementation group: 'org.ow2.asm', name: 'asm', version: asmVersion
     implementation group: 'org.ow2.asm', name: 'asm-commons', version: asmVersion
     implementation group: 'org.ow2.asm', name: 'asm-util', version: asmVersion
