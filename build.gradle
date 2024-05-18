@@ -46,8 +46,10 @@ test {
 }
 
 gradle.projectsEvaluated {
-    tasks.withType(JavaCompile) {
+    tasks.withType(JavaCompile).tap {
+      configureEach {
         options.compilerArgs << "-Xlint"
+      }
     }
 }
 
@@ -62,10 +64,11 @@ generateGrammarSource {
     outputDirectory = file("${projectDir}/build/tmp_antlr")
 }
 
-task filter(type: Copy, dependsOn: generateGrammarSource) {
-    from file("${projectDir}/build/tmp_antlr")
-    into file("${projectDir}/src/main/java/org/karaffe/compiler/frontend/karaffe/antlr")
-    filter(FixCrLfFilter, eol:FixCrLfFilter.CrLf.newInstance("lf"))
+tasks.register('filter', Copy) {
+  dependsOn generateGrammarSource
+  from file("${projectDir}/build/tmp_antlr")
+  into file("${projectDir}/src/main/java/org/karaffe/compiler/frontend/karaffe/antlr")
+  filter(FixCrLfFilter, eol: FixCrLfFilter.CrLf.newInstance("lf"))
 }
 
 compileJava.dependsOn filter
@@ -94,8 +97,10 @@ sourceSets {
 }
 
 gradle.projectsEvaluated {
-  tasks.withType(JavaCompile) {
-    options.compilerArgs << "-Xlint:all" << "-Werror"
+  tasks.withType(JavaCompile).tap {
+    configureEach {
+      options.compilerArgs << "-Xlint:all" << "-Werror"
+    }
   }
 }
 
