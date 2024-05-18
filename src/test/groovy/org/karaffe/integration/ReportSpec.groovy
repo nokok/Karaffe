@@ -7,6 +7,10 @@ import org.karaffe.compiler.util.StartupEnv
 import spock.lang.Specification
 
 class ReportSpec extends Specification {
+  def "setup"() {
+    Locale.setDefault(Locale.US)
+  }
+
   def "compilerVersion"() {
     setup:
     def ctx = CompilerContext.createInitialContext(StartupEnv.create(["--version"] as String[], [:]))
