@@ -1,0 +1,19 @@
+name: build
+
+on:
+  pull_request
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    steps:
+      - name: checkout
+        uses: actions/checkout@v4
+      - name: setup java
+        uses: actions/setup-java@v4
+        with:
+          distribution: oracle
+          java-version: 21
+      - name: build
+        run: ./gradlew clean build --no-daemon --refresh-dependencies

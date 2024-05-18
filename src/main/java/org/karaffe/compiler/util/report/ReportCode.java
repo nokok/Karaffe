@@ -1,5 +1,6 @@
 package org.karaffe.compiler.util.report;
 
+import java.util.Locale;
 import java.util.ResourceBundle;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -16,7 +17,7 @@ public enum ReportCode {
   ;
 
   private static final Pattern variablePattern = Pattern.compile("\\{[0-9]+\\}");
-  private static final ResourceBundle bundle = ResourceBundle.getBundle("Message");
+  private static final ResourceBundle bundle = ResourceBundle.getBundle("Message", Locale.getDefault());
   private final String errorKey;
   private final boolean requireBody;
   private final boolean requirePosition;
