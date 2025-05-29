@@ -7,7 +7,7 @@ import org.objectweb.asm.tree.InsnNode;
 import org.objectweb.asm.tree.IntInsnNode;
 import org.objectweb.asm.tree.LdcInsnNode;
 
-class BytecodeSelectorForNumber {
+public class BytecodeSelectorForNumber {
 
   public static AbstractInsnNode fromInt(int value) {
     switch (value) {
