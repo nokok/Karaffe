@@ -99,6 +99,23 @@ sourceSets {
   }
 }
 
+tasks.withType(GroovyCompile).configureEach { compileTask ->
+    if (compileTask.name.equals('compileTestGroovy')) {
+        def testGroovyClasspathConfig = project.configurations.detachedConfiguration(
+            project.dependencies.create('org.apache.groovy:groovy:4.0.21'),
+            project.dependencies.create('org.apache.groovy:groovy-test:4.0.21')
+        )
+
+        compileTask.groovyClasspath = testGroovyClasspathConfig
+        if (compileTask.options.hasProperty('groovyOptions') && compileTask.options.groovyOptions.hasProperty('targetBytecodeVersion')) {
+            compileTask.options.groovyOptions.targetBytecodeVersion = JavaLanguageVersion.of(24).toString()
+        } else {
+             compileTask.options.forkOptions.jvmArgs += ['-Dgroovy.target.bytecode=24']
+        }
+
+    }
+}
+
 gradle.projectsEvaluated {
   tasks.withType(JavaCompile).tap {
     configureEach {
