@@ -14,12 +14,12 @@ tasks.withType(JavaCompile).configureEach { options.encoding = 'UTF-8' }
 
 java {
     toolchain {
-        languageVersion = JavaLanguageVersion.of(21)
+        languageVersion = JavaLanguageVersion.of(24)
     }
 }
 
-sourceCompatibility = '21'
-targetCompatibility = '21'
+sourceCompatibility = '24'
+targetCompatibility = '24'
 
 repositories {
     mavenCentral()
@@ -44,6 +44,7 @@ test {
     testLogging {
         events 'passed', 'failed', 'skipped'
     }
+    jvmArgs '--enable-native-access=ALL-UNNAMED'
 }
 
 gradle.projectsEvaluated {
