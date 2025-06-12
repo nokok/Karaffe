@@ -4,23 +4,22 @@ plugins {
     id 'com.github.johnrengelman.shadow' version '8.1.1'
     id 'java'
     id 'application'
-    id 'groovy'
     id 'antlr'
 }
 
 group 'net.nokok'
 version '0.1'
 
-tasks.withType(AbstractCompile)*.options*.encoding = tasks.withType(GroovyCompile)*.groovyOptions*.encoding = 'UTF-8'
+tasks.withType(JavaCompile).configureEach { options.encoding = 'UTF-8' }
 
 java {
     toolchain {
-        languageVersion = JavaLanguageVersion.of(24)
+        languageVersion = JavaLanguageVersion.of(21)
     }
 }
 
-sourceCompatibility = '24'
-targetCompatibility = '24'
+sourceCompatibility = '21'
+targetCompatibility = '21'
 
 repositories {
     mavenCentral()
@@ -35,17 +34,16 @@ dependencies {
     implementation group: 'org.ow2.asm', name: 'asm-util', version: asmVersion
     implementation group: 'org.ow2.asm', name: 'asm-tree', version: asmVersion
     implementation group: 'org.ow2.asm', name: 'asm-analysis', version: asmVersion
-    testImplementation group: 'org.spockframework', name: 'spock-core', version: '2.4-M6-groovy-4.0'
-    testImplementation group: 'junit', name: 'junit', version: '4.13.2'
-    testImplementation 'org.apache.groovy:groovy:4.0.27'
-    testImplementation 'org.apache.groovy:groovy-test:4.0.27'
+    testImplementation 'org.junit.jupiter:junit-jupiter-api:5.10.0'
+    testRuntimeOnly 'org.junit.jupiter:junit-jupiter-engine:5.10.0'
+    testImplementation 'org.junit.jupiter:junit-jupiter-params:5.10.0'
 }
 
 test {
+    useJUnitPlatform()
     testLogging {
         events 'passed', 'failed', 'skipped'
     }
-    jvmArgs '--enable-native-access=ALL-UNNAMED'
 }
 
 gradle.projectsEvaluated {
