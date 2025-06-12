@@ -15,12 +15,12 @@ tasks.withType(AbstractCompile)*.options*.encoding = tasks.withType(GroovyCompil
 
 java {
     toolchain {
-        languageVersion = JavaLanguageVersion.of(21)
+        languageVersion = JavaLanguageVersion.of(24)
     }
 }
 
-sourceCompatibility = '21'
-targetCompatibility = '21'
+sourceCompatibility = '24'
+targetCompatibility = '24'
 
 repositories {
     mavenCentral()
