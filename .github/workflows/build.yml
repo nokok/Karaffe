@@ -16,6 +16,6 @@ jobs:
         uses: actions/setup-java@v4
         with:
           distribution: oracle
-          java-version: 24
+          java-version: 21
       - name: build
-        run: ./gradlew clean build --no-daemon --refresh-dependencies
+        run: ./gradlew clean build --no-daemon --refresh-dependencies --stacktrace

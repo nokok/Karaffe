@@ -15,15 +15,15 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 class MethodResolverTest {
 
     public static class Base {
-        void doSomething() {
+        public void doSomething() {
         }
     }
 
     public static class Derived extends Base {
-        void doSomething2() {
+        public void doSomething2() {
         }
 
-        void number(Number i) {
+        public void number(Number i) {
         }
     }
 
