@@ -26,7 +26,7 @@ repositories {
     mavenCentral()
 }
 
-def asmVersion = '9.7'
+def asmVersion = '9.10.1'
 
 dependencies {
     antlr "org.antlr:antlr4:4.13.1"
