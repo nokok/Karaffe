@@ -37,8 +37,8 @@ dependencies {
     implementation group: 'org.ow2.asm', name: 'asm-analysis', version: asmVersion
     testImplementation group: 'org.spockframework', name: 'spock-core', version: '2.4-M6-groovy-4.0'
     testImplementation group: 'junit', name: 'junit', version: '4.13.2'
-    testImplementation 'org.apache.groovy:groovy:4.0.27'
-    testImplementation 'org.apache.groovy:groovy-test:4.0.27'
+    testImplementation 'org.apache.groovy:groovy:4.0.33'
+    testImplementation 'org.apache.groovy:groovy-test:4.0.33'
 }
 
 test {
